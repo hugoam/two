@@ -9,7 +9,7 @@
 
 #include <AL/al.h>
 
-namespace mud
+namespace two
 {
 #define NUM_BUFFERS 3
 

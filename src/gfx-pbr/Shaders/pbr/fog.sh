@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_FOG
-#define MUD_SHADER_FOG
+#ifndef TWO_SHADER_FOG
+#define TWO_SHADER_FOG
 
  #include "common.sh"
 

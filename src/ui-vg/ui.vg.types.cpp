@@ -2,8 +2,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui-vg;
+#ifdef TWO_MODULES
+module two.ui-vg;
 #else
 #include <ui-vg/Types.h>
 #include <ui-vg/Api.h>
@@ -11,7 +11,7 @@ module mud.ui-vg;
 //#include <ecs/Proto.h>
 #endif
 
-namespace mud
+namespace two
 {
     // Exported types
     

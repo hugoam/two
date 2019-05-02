@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_GI
-#define MUD_SHADER_GI
+#ifndef TWO_SHADER_GI
+#define TWO_SHADER_GI
 
 #include <common.sh>
 

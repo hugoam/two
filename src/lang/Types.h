@@ -5,11 +5,11 @@
 #include <stl/vector.h>
 #include <lang/Forward.h>
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <type/Type.h>
 #endif
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <infra/Types.h>
 #include <type/Types.h>
 #include <pool/Types.h>
@@ -17,34 +17,34 @@
 #endif
 
 
-namespace mud
+namespace two
 {
     // Exported types
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::Language>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::Language>();
     
     
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::Script>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::ScriptError>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::TextScript>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::Interpreter>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::ScriptClass>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::LuaInterpreter>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::StreamBranch>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::Stream>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::Valve>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::Pipe>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::Process>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessInput>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessOutput>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessValue>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessCreate>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessCallable>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessScript>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessFunction>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessMethod>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessGetMember>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessSetMember>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::ProcessDisplay>();
-    export_ template <> MUD_LANG_EXPORT Type& type<mud::WrenInterpreter>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::Script>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ScriptError>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::TextScript>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::Interpreter>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ScriptClass>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::LuaInterpreter>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::StreamBranch>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::Stream>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::Valve>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::Pipe>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::Process>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::VisualScript>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessInput>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessOutput>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessValue>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessCreate>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessCallable>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessScript>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessFunction>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessMethod>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessGetMember>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessSetMember>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessDisplay>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::WrenInterpreter>();
 }

@@ -1,15 +1,15 @@
--- mud library
+-- two library
 -- meshopt 3rdparty module
 
-meshopt = mud_dep(nil, "meshopt")
+meshopt = two_dep(nil, "meshopt")
     kind "StaticLib"
     
     includedirs {
-        path.join(MUD_3RDPARTY_DIR, "meshoptimizer", "src"),
+        path.join(TWO_3RDPARTY_DIR, "meshoptimizer", "src"),
     }
     
     files {
-        path.join(MUD_3RDPARTY_DIR, "meshoptimizer", "src/**.cpp"),
+        path.join(TWO_3RDPARTY_DIR, "meshoptimizer", "src/**.cpp"),
     }
 
     configuration {}

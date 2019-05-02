@@ -4,12 +4,12 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <math/Colour.h>
 #endif
 #include <geom/Forward.h>
 
-namespace mud
+namespace two
 {
 	using cstring = const char*;
 
@@ -22,7 +22,7 @@ namespace mud
 		Highest
 	};
 
-	export_ struct refl_ MUD_GEOM_EXPORT Symbol
+	export_ struct refl_ TWO_GEOM_EXPORT Symbol
 	{
 	public:
 		constr_ Symbol(Colour fill = Colour(1.f), Colour outline = Colour(0.f, 0.f), bool overlay = false, bool double_sided = false, SymbolDetail detail = SymbolDetail::Medium);

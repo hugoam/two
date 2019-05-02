@@ -4,15 +4,15 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/string.h>
 #include <lang/Script.h>
 #endif
 #include <ui/Section.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_UIO_EXPORT ScriptEditor
+	export_ class refl_ TWO_UIO_EXPORT ScriptEditor
 	{
 	public:
 		ScriptEditor();
@@ -32,8 +32,8 @@ namespace mud
 		VisualScript& create_visual(const string& name, Signature signature = {});
 	};
 
-	export_ MUD_UIO_EXPORT void script_edit_output(Widget& parent, Interpreter& interpreter);
-	export_ MUD_UIO_EXPORT Section& script_edit_code(Widget& parent, TextScript& script);
-	export_ MUD_UIO_EXPORT Section& script_edit(Widget& parent, TextScript& script);
-	export_ MUD_UIO_EXPORT void script_editor(Widget& parent, ScriptEditor& editor);
+	export_ TWO_UIO_EXPORT void script_edit_output(Widget& parent, Interpreter& interpreter);
+	export_ TWO_UIO_EXPORT Section& script_edit_code(Widget& parent, TextScript& script);
+	export_ TWO_UIO_EXPORT Section& script_edit(Widget& parent, TextScript& script);
+	export_ TWO_UIO_EXPORT void script_editor(Widget& parent, ScriptEditor& editor);
 }

@@ -2,25 +2,25 @@
 
 #include <obj/Config.h>
 
-export module mud.procgen.gfx;
+export module two.procgen.gfx;
 export import std.core;
 export import std.io;
 export import std.threading;
 export import std.regex;
 
 export import json11;
-export import mud.infra;
-export import mud.tree;
-export import mud.obj;
-export import mud.srlz;
-export import mud.math;
-export import mud.geom;
-export import mud.procgen;
-export import mud.ctx;
-export import mud.ui;
-export import mud.uio;
-export import mud.gfx;
-export import mud.gfx.ui;
+export import two.infra;
+export import two.tree;
+export import two.obj;
+export import two.srlz;
+export import two.math;
+export import two.geom;
+export import two.procgen;
+export import two.ctx;
+export import two.ui;
+export import two.uio;
+export import two.gfx;
+export import two.gfx.ui;
 
 #include <procgen-gfx/Api.h>
 

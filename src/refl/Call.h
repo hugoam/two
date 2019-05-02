@@ -9,9 +9,9 @@
 #include <refl/Forward.h>
 #include <refl/Method.h>
 
-namespace mud
+namespace two
 {
-	export_ struct refl_ MUD_REFL_EXPORT Call
+	export_ struct refl_ TWO_REFL_EXPORT Call
 	{
 	public:
 		constr_ Call();

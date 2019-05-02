@@ -7,7 +7,7 @@
 #include <stl/stddef.h>
 #include <cassert>
 
-namespace mud
+namespace two
 {
 	template <class T, size_t Count>
 	class StealQueue

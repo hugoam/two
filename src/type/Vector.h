@@ -11,13 +11,13 @@
 #include <type/TypeOf.h>
 //#include <type/Types.h>
 
-namespace mud // export_ namespace mud// @todo evaluate export at namespace level ?
+namespace two // export_ namespace two// @todo evaluate export at namespace level ?
 {
 #if 1
 	export_ template <class T>
 	struct Typed<span<T>>
 	{
-		static inline Type& type() { static string name = "span<" + string(mud::type<type_class<T>>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
+		static inline Type& type() { static string name = "span<" + string(two::type<type_class<T>>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
 	};
 	
 	export_ template <>
@@ -29,7 +29,7 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 	export_ template <class T>
 	struct Typed<vector<T>>
 	{
-		static inline Type& type() { static string name = "vector<" + string(mud::type<type_class<T>>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
+		static inline Type& type() { static string name = "vector<" + string(two::type<type_class<T>>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
 	};
 	
 	export_ template <>

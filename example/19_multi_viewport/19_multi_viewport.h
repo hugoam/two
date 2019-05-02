@@ -6,6 +6,6 @@
 
 #include <frame/Forward.h>
 
-using namespace mud;
+using namespace two;
 
 void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar);

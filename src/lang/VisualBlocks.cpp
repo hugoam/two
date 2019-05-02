@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.lang;
+#ifdef TWO_MODULES
+module two.lang;
 #else
 #include <type/Indexer.h>
 #include <refl/System.h>
@@ -14,7 +14,7 @@ module mud.lang;
 #include <lang/VisualBlocks.h>
 #endif
 
-namespace mud
+namespace two
 {
 	ProcessValue::ProcessValue(VisualScript& script, const Var& value)
 		: Process(script, value == Ref() ? "Ref" : type(value).m_name, type<ProcessValue>())
@@ -30,7 +30,7 @@ namespace mud
 	{}
 
 	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, const Constructor& constructor)
-		: Process(script, meta(type).m_name, mud::type<ProcessCreate>())
+		: Process(script, meta(type).m_name, two::type<ProcessCreate>())
 		, m_object_type(type)
 		, m_injector(constructor)
 		, m_output(*this, "output", OUTPUT_VALVE, is_struct(type) ? meta(type).m_empty_var : Var(meta(type).m_empty_ref), false, is_struct(type) ? false : true)

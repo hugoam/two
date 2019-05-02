@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx-edit;
+#ifdef TWO_MODULES
+module two.gfx-edit;
 #else
 #include <infra/ToString.h>
 #include <stl/algorithm.h>
@@ -52,7 +52,7 @@ module mud.gfx-edit;
 #include <gfx-edit/GfxEdit.h>
 #endif
 
-namespace mud
+namespace two
 {
 	void animation_edit(Widget& parent, Mime& animated)
 	{

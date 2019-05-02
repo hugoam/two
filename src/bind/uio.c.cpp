@@ -10,7 +10,7 @@
 #include <ui/Api.h>
 #include <uio/Api.h>
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
 #define DECL EMSCRIPTEN_KEEPALIVE
 #else
@@ -21,64 +21,64 @@
 extern "C" {
 	
 	// ScriptEditor
-	mud::Type* DECL mud_ScriptEditor__type() {
-		return &mud::type<mud::ScriptEditor>();
+	two::Type* DECL two_ScriptEditor__type() {
+		return &two::type<two::ScriptEditor>();
 	}
-	void DECL mud_ScriptEditor__destroy(mud::ScriptEditor* self) {
+	void DECL two_ScriptEditor__destroy(two::ScriptEditor* self) {
 		delete self;
 	}
-	bool DECL mud_object_edit_inline_2(mud::Widget* parent, void* object, mud::Type* object_type) {
-		return mud::object_edit_inline(*parent, { object, *object_type });
+	bool DECL two_object_edit_inline_2(two::Widget* parent, void* object, two::Type* object_type) {
+		return two::object_edit_inline(*parent, { object, *object_type });
 	}
-	bool DECL mud_object_edit_rows_2(mud::Widget* parent, void* object, mud::Type* object_type) {
-		return mud::object_edit_rows(*parent, { object, *object_type });
+	bool DECL two_object_edit_rows_2(two::Widget* parent, void* object, two::Type* object_type) {
+		return two::object_edit_rows(*parent, { object, *object_type });
 	}
-	bool DECL mud_object_edit_columns_2(mud::Widget* parent, void* object, mud::Type* object_type) {
-		return mud::object_edit_columns(*parent, { object, *object_type });
+	bool DECL two_object_edit_columns_2(two::Widget* parent, void* object, two::Type* object_type) {
+		return two::object_edit_columns(*parent, { object, *object_type });
 	}
-	bool DECL mud_object_edit_table_2(mud::Widget* parent, void* object, mud::Type* object_type) {
-		return mud::object_edit_table(*parent, { object, *object_type });
+	bool DECL two_object_edit_table_2(two::Widget* parent, void* object, two::Type* object_type) {
+		return two::object_edit_table(*parent, { object, *object_type });
 	}
-	bool DECL mud_object_edit_expandbox_2(mud::Widget* parent, void* object, mud::Type* object_type) {
-		return mud::object_edit_expandbox(*parent, { object, *object_type });
+	bool DECL two_object_edit_expandbox_2(two::Widget* parent, void* object, two::Type* object_type) {
+		return two::object_edit_expandbox(*parent, { object, *object_type });
 	}
-	bool DECL mud_object_edit_2(mud::Widget* parent, void* object, mud::Type* object_type) {
-		return mud::object_edit(*parent, { object, *object_type });
+	bool DECL two_object_edit_2(two::Widget* parent, void* object, two::Type* object_type) {
+		return two::object_edit(*parent, { object, *object_type });
 	}
-	bool DECL mud_object_edit_3(mud::Widget* parent, void* object, mud::Type* object_type, mud::EditorHint hint) {
-		return mud::object_edit(*parent, { object, *object_type }, hint);
+	bool DECL two_object_edit_3(two::Widget* parent, void* object, two::Type* object_type, two::EditorHint hint) {
+		return two::object_edit(*parent, { object, *object_type }, hint);
 	}
-	bool DECL mud_entity_edit_2(mud::Widget* parent, mud::Entity* entity) {
-		return mud::entity_edit(*parent, *entity);
+	bool DECL two_entity_edit_2(two::Widget* parent, two::Entity* entity) {
+		return two::entity_edit(*parent, *entity);
 	}
-	bool DECL mud_entity_edit_3(mud::Widget* parent, mud::Entity* entity, mud::EditorHint hint) {
-		return mud::entity_edit(*parent, *entity, hint);
+	bool DECL two_entity_edit_3(two::Widget* parent, two::Entity* entity, two::EditorHint hint) {
+		return two::entity_edit(*parent, *entity, hint);
 	}
-	bool DECL mud_inspector_1(mud::Widget* parent) {
-		return mud::inspector(*parent);
+	bool DECL two_inspector_1(two::Widget* parent) {
+		return two::inspector(*parent);
 	}
-	bool DECL mud_inspector_2(mud::Widget* parent, void* object, mud::Type* object_type) {
-		return mud::inspector(*parent, { object, *object_type });
+	bool DECL two_inspector_2(two::Widget* parent, void* object, two::Type* object_type) {
+		return two::inspector(*parent, { object, *object_type });
 	}
 	// EditNestMode
-	mud::EditNestMode DECL mud_EditNestMode_Inline() {
-		return mud::EditNestMode::Inline;
+	two::EditNestMode DECL two_EditNestMode_Inline() {
+		return two::EditNestMode::Inline;
 	}
-	mud::EditNestMode DECL mud_EditNestMode_Modal() {
-		return mud::EditNestMode::Modal;
+	two::EditNestMode DECL two_EditNestMode_Modal() {
+		return two::EditNestMode::Modal;
 	}
-	mud::EditNestMode DECL mud_EditNestMode_Embed() {
-		return mud::EditNestMode::Embed;
+	two::EditNestMode DECL two_EditNestMode_Embed() {
+		return two::EditNestMode::Embed;
 	}
 	// EditorHint
-	mud::EditorHint DECL mud_EditorHint_Table() {
-		return mud::EditorHint::Table;
+	two::EditorHint DECL two_EditorHint_Table() {
+		return two::EditorHint::Table;
 	}
-	mud::EditorHint DECL mud_EditorHint_Rows() {
-		return mud::EditorHint::Rows;
+	two::EditorHint DECL two_EditorHint_Rows() {
+		return two::EditorHint::Rows;
 	}
-	mud::EditorHint DECL mud_EditorHint_Inline() {
-		return mud::EditorHint::Inline;
+	two::EditorHint DECL two_EditorHint_Inline() {
+		return two::EditorHint::Inline;
 	}
 	
 }

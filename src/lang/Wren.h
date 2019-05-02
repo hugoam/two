@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/string.h>
 #include <stl/memory.h>
 #include <stl/map.h>
@@ -12,7 +12,7 @@
 #include <lang/Forward.h>
 #include <lang/Script.h>
 
-namespace mud
+namespace two
 {
 	class WrenContext;
 
@@ -22,7 +22,7 @@ namespace mud
 		string bind;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT WrenInterpreter final : public Interpreter
+	export_ class refl_ TWO_LANG_EXPORT WrenInterpreter final : public Interpreter
 	{
 	public:
 		WrenInterpreter(bool import_symbols);

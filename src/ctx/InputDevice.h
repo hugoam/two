@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <math/Vec.h>
 #endif
@@ -12,9 +12,9 @@
 #include <ctx/KeyCode.h>
 #include <ctx/InputDispatcher.h>
 
-namespace mud
+namespace two
 {
-	export_ class MUD_CTX_EXPORT InputDevice
+	export_ class TWO_CTX_EXPORT InputDevice
 	{
 	public:
 		InputDevice(EventDispatcher& dispatcher);
@@ -22,7 +22,7 @@ namespace mud
 		EventDispatcher& m_dispatcher;
 	};
 
-	export_ class refl_ MUD_CTX_EXPORT Keyboard : public InputDevice
+	export_ class refl_ TWO_CTX_EXPORT Keyboard : public InputDevice
 	{
 	public:
 		Keyboard(EventDispatcher& dispatcher);
@@ -47,7 +47,7 @@ namespace mud
 		vector<KeyEvent> m_events;
 	};
 
-	export_ class MUD_CTX_EXPORT MouseButton : public InputDevice
+	export_ class TWO_CTX_EXPORT MouseButton : public InputDevice
 	{
 	public:
 		MouseButton(Mouse& mouse, DeviceType deviceType);
@@ -70,7 +70,7 @@ namespace mud
 		MouseEvent m_pressed_event = {};
 	};
 
-	export_ class refl_ MUD_CTX_EXPORT Mouse : public InputDevice
+	export_ class refl_ TWO_CTX_EXPORT Mouse : public InputDevice
 	{
 	public:
 		Mouse(EventDispatcher& dispatcher, Keyboard& keyboard);

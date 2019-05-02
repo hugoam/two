@@ -10,11 +10,11 @@
 #include <refl/Method.h>
 #include <refl/Member.h>
 
-namespace mud
+namespace two
 {
 	export_ using cstring = const char*;
 
-	export_ class refl_ MUD_REFL_EXPORT Class
+	export_ class refl_ TWO_REFL_EXPORT Class
 	{
 	public:
 		Class(Type& type);
@@ -102,7 +102,7 @@ namespace mud
 	{
 		Ref target = object;
 		if(object.m_type != m_object_type && g_class[type(object).m_id])
-			target = mud::cls(object).upcast(object, *m_object_type);
+			target = two::cls(object).upcast(object, *m_object_type);
 		return target;
 	}
 

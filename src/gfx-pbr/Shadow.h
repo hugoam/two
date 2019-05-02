@@ -2,7 +2,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/map.h>
 #include <math/Vec.hpp>
 #include <gfx/Renderer.h>
@@ -12,7 +12,7 @@
 #include <gfx-pbr/Forward.h>
 #include <gfx-pbr/ShadowAtlas.h>
 
-namespace mud
+namespace two
 {
 	enum ShaderOptionShadow : unsigned int
 	{
@@ -64,9 +64,9 @@ namespace mud
 		Texture m_depth;
 	};
 
-	export_ MUD_GFX_PBR_EXPORT void pass_shadowmaps(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_PBR_EXPORT void pass_shadowmaps(GfxSystem& gfx, Render& render);
 
-	export_ MUD_GFX_PBR_EXPORT void pass_shadow(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_PBR_EXPORT void pass_shadow(GfxSystem& gfx, Render& render);
 
 	export_ struct LightBounds
 	{
@@ -74,7 +74,7 @@ namespace mud
 		vec3 max = { -9000.0f, -9000.0f, -9000.0f };
 	};
 
-	export_ struct refl_ MUD_GFX_PBR_EXPORT LightShadow
+	export_ struct refl_ TWO_GFX_PBR_EXPORT LightShadow
 	{
 		Light* m_light = nullptr;
 
@@ -96,23 +96,23 @@ namespace mud
 		vector<Item*> m_items;
 	};
 
-	export_ struct refl_ MUD_GFX_PBR_EXPORT CSMSlice : public LightShadow, public FrustumSlice
+	export_ struct refl_ TWO_GFX_PBR_EXPORT CSMSlice : public LightShadow, public FrustumSlice
 	{};
 
-	export_ struct refl_ MUD_GFX_PBR_EXPORT CSMShadow
+	export_ struct refl_ TWO_GFX_PBR_EXPORT CSMShadow
 	{
 		Light* m_light;
 
 		vector<CSMSlice> m_slices;
 	};
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 	constexpr size_t c_max_shadows = 8;
 #else
 	constexpr size_t c_max_shadows = 32;
 #endif
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT BlockShadow : public DrawBlock
+	export_ class refl_ TWO_GFX_PBR_EXPORT BlockShadow : public DrawBlock
 	{
 	public:
 		BlockShadow(GfxSystem& gfx, BlockDepth& block_depth, BlockLight& block_light);
@@ -156,7 +156,7 @@ namespace mud
 
 		} u_shadow;
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 		ShadowFilterMode m_pcf_level = PCF_HARD; // @todo can't get true pcf working on WebGL so far
 #else
 		ShadowFilterMode m_pcf_level = PCF_5;

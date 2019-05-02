@@ -7,7 +7,7 @@
 #include <snd/Sound.h>
 #include <snd/SharedBuffer.h>
 
-namespace mud
+namespace two
 {
 	class StaticSound : public Sound
 	{

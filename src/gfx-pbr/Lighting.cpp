@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.pbr;
+#ifdef TWO_MODULES
+module two.gfx.pbr;
 #else
 #include <stl/algorithm.h>
 #include <infra/ToString.h>
@@ -30,7 +30,7 @@ module mud.gfx.pbr;
 
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 	GpuState<Radiance> GpuState<Radiance>::me;
 	GpuState<Skylight> GpuState<Skylight>::me;
@@ -223,7 +223,7 @@ namespace mud
 #include <gfx/Gfx.h>
 #include <geom/ShapesComplex.h>
 #include <geom/Symbol.h>
-namespace mud
+namespace two
 {
 	void debug_draw_light_clusters(Gnode& parent, Viewport& viewport, Camera& camera)
 	{

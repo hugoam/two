@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 
@@ -10,7 +10,7 @@
 #define DYNAMIC 1
 #define PAD 0.f
 
-using namespace mud;
+using namespace two;
 
 void xx_geom_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {

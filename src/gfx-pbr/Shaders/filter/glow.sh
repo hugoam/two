@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_GLOW
-#define MUD_SHADER_GLOW
+#ifndef TWO_SHADER_GLOW
+#define TWO_SHADER_GLOW
 
 #include <filter/filter.sh>
 

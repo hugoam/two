@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.geom;
+#ifdef TWO_MODULES
+module two.geom;
 #else
 #include <geom/Geom.hpp>
 #include <math/Axes.h>
@@ -18,7 +18,7 @@ module mud.geom;
 
 #include <cassert>
 
-namespace mud
+namespace two
 {
 	uint16_t circle_subdiv(uint lod) { return uint16_t(6 + 12 * lod); }
 

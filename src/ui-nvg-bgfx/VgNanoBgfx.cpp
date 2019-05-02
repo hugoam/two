@@ -10,7 +10,7 @@
 #define NANOVG_NULL_IMPLEMENTATION
 #include <nanovg_null.h>
 
-namespace mud
+namespace two
 {
 	VgNanoBgfx::VgNanoBgfx(cstring resource_path)
 		: VgNano(resource_path)

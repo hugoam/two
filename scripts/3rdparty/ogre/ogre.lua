@@ -1,4 +1,4 @@
--- mud library
+-- two library
 -- ogre library
 
 os.mkdir(path.join(BUILD_DIR, "ogre"))

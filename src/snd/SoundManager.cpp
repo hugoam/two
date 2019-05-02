@@ -22,7 +22,7 @@
 #include <cstdio>
 #include <cstring>
 
-namespace mud
+namespace two
 {
 #define QUEUE_LIST_SIZE 64
 

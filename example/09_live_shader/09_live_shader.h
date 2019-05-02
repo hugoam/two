@@ -6,6 +6,6 @@
 
 #include <frame/Forward.h>
 
-using namespace mud;
+using namespace two;
 
 void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar);

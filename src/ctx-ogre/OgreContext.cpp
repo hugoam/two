@@ -22,7 +22,7 @@
 
 #include <OgreBuildSettings.h>
 
-namespace mud
+namespace two
 {
 	class UiPassProvider : public Ogre::CompositorPassProvider
 	{
@@ -136,7 +136,7 @@ namespace mud
 		params["hidden"] = "true";
 		params["gamma"] = "true";
 
-		m_hiddenWindow = m_ogreRoot->createRenderWindow("mudHidden", 1, 1, false, &params);
+		m_hiddenWindow = m_ogreRoot->createRenderWindow("twoHidden", 1, 1, false, &params);
 	}
 
 	void OgreRenderSystem::setupUiWorkspace()

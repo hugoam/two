@@ -2,25 +2,25 @@
 
 #include <geom/Types.h>
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <refl/Meta.h>
 #include <refl/Enum.h>
 #include <infra/StringOps.h>
 #endif
 
-namespace mud
+namespace two
 {
-	export_ template <> inline void to_value(const string& str, mud::CatmullType& val) { val = mud::CatmullType(enu<mud::CatmullType>().value(str.c_str())); };
-	export_ template <> inline void to_string(const mud::CatmullType& val, string& str) { str = enu<mud::CatmullType>().name(uint32_t(val)); };
+	export_ template <> inline void to_value(const string& str, two::CatmullType& val) { val = two::CatmullType(enu<two::CatmullType>().value(str.c_str())); };
+	export_ template <> inline void to_string(const two::CatmullType& val, string& str) { str = enu<two::CatmullType>().name(uint32_t(val)); };
 	
-	export_ template <> inline void to_value(const string& str, mud::DrawMode& val) { val = mud::DrawMode(enu<mud::DrawMode>().value(str.c_str())); };
-	export_ template <> inline void to_string(const mud::DrawMode& val, string& str) { str = enu<mud::DrawMode>().name(uint32_t(val)); };
+	export_ template <> inline void to_value(const string& str, two::DrawMode& val) { val = two::DrawMode(enu<two::DrawMode>().value(str.c_str())); };
+	export_ template <> inline void to_string(const two::DrawMode& val, string& str) { str = enu<two::DrawMode>().name(uint32_t(val)); };
 	
-	export_ template <> inline void to_value(const string& str, mud::PrimitiveType& val) { val = mud::PrimitiveType(enu<mud::PrimitiveType>().value(str.c_str())); };
-	export_ template <> inline void to_string(const mud::PrimitiveType& val, string& str) { str = enu<mud::PrimitiveType>().name(uint32_t(val)); };
+	export_ template <> inline void to_value(const string& str, two::PrimitiveType& val) { val = two::PrimitiveType(enu<two::PrimitiveType>().value(str.c_str())); };
+	export_ template <> inline void to_string(const two::PrimitiveType& val, string& str) { str = enu<two::PrimitiveType>().name(uint32_t(val)); };
 	
-	export_ template <> inline void to_value(const string& str, mud::SymbolDetail& val) { val = mud::SymbolDetail(enu<mud::SymbolDetail>().value(str.c_str())); };
-	export_ template <> inline void to_string(const mud::SymbolDetail& val, string& str) { str = enu<mud::SymbolDetail>().name(uint32_t(val)); };
+	export_ template <> inline void to_value(const string& str, two::SymbolDetail& val) { val = two::SymbolDetail(enu<two::SymbolDetail>().value(str.c_str())); };
+	export_ template <> inline void to_string(const two::SymbolDetail& val, string& str) { str = enu<two::SymbolDetail>().name(uint32_t(val)); };
 	
 	
 }

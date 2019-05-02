@@ -7,7 +7,7 @@
 
 #include <AL/al.h>
 
-namespace mud
+namespace two
 {
 	StaticSound::StaticSound(SoundImplementer& manager, SoundCallback callback)
 		: Sound(manager, callback)

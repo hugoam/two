@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.tool;
+#ifdef TWO_MODULES
+module two.tool;
 #else
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
@@ -26,7 +26,7 @@ module mud.tool;
 #include <gfx-ui/Viewer.h>
 #endif
 
-namespace mud
+namespace two
 {
 	Tool::Tool(ToolContext& context, cstring name, Type& type)
 		: m_type(type)
@@ -136,7 +136,7 @@ namespace mud
 			gizmo->draw_gizmo(self, &*gizmo == m_current);
 		}
 
-#ifdef MUD_DEBUG_TRANSFORM_POINTS
+#ifdef TWO_DEBUG_TRANSFORM_POINTS
 		Gnode& start = gfx::node(parent, m_grab_start);
 		gfx::shape(start, Sphere(0.1f), Symbol(Colour::Pink, Colour::None, true));
 

@@ -2,15 +2,15 @@
 
 #include <obj/Config.h>
 
-export module mud.refl;
+export module two.refl;
 export import std.core;
 export import std.io;
 export import std.threading;
 export import std.regex;
 
-export import mud.infra;
-export import mud.obj;
-export import mud.pool;
+export import two.infra;
+export import two.obj;
+export import two.pool;
 
 #include <refl/Api.h>
 

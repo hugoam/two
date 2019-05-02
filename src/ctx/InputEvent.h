@@ -4,13 +4,13 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <math/Vec.h>
 #endif
 #include <ctx/Forward.h>
 #include <ctx/KeyCode.h>
 
-namespace mud
+namespace two
 {
 	export_ enum class refl_ InputMod : uint8_t
 	{
@@ -58,7 +58,7 @@ namespace mud
 		Count = 12
 	};
 
-	export_ struct refl_ MUD_CTX_EXPORT InputEvent
+	export_ struct refl_ TWO_CTX_EXPORT InputEvent
 	{
 		attr_ DeviceType m_deviceType = DeviceType::None;
 		attr_ EventType m_eventType = EventType::None;
@@ -78,7 +78,7 @@ namespace mud
 		//bool operator==(const InputEvent& other) const { UNUSED(other); return false; }
 	};
 
-	export_ struct refl_ MUD_CTX_EXPORT MouseEvent : public InputEvent
+	export_ struct refl_ TWO_CTX_EXPORT MouseEvent : public InputEvent
 	{
 		attr_ vec2 m_pos = { 0.f, 0.f };
 		attr_ vec2 m_relative = { 0.f, 0.f };
@@ -112,7 +112,7 @@ namespace mud
 		//bool operator==(const MouseEvent& other) const { UNUSED(other); return false; }
 	};
 
-	export_ struct refl_ MUD_CTX_EXPORT KeyEvent : public InputEvent
+	export_ struct refl_ TWO_CTX_EXPORT KeyEvent : public InputEvent
 	{
 		attr_ Key m_code;
 		attr_ char m_char;

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <type/Any.h>
 #include <refl/Class.h>
@@ -14,9 +14,9 @@
 #include <lang/Forward.h>
 #include <lang/VisualScript.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_LANG_EXPORT ProcessValue : public Process
+	export_ class refl_ TWO_LANG_EXPORT ProcessValue : public Process
 	{
 	public:
 		constr_ ProcessValue(VisualScript& script, const Var& value);
@@ -25,7 +25,7 @@ namespace mud
 		Valve m_output;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT ProcessCreate : public Process
+	export_ class refl_ TWO_LANG_EXPORT ProcessCreate : public Process
 	{
 	public:
 		constr_ ProcessCreate(VisualScript& script, Type& type, const Constructor& constructor);
@@ -45,7 +45,7 @@ namespace mud
 		vector<Ref> m_persistent_objects;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT ProcessCallable : public Process
+	export_ class refl_ TWO_LANG_EXPORT ProcessCallable : public Process
 	{
 	public:
 		constr_ ProcessCallable(VisualScript& script, Callable& callable);
@@ -62,7 +62,7 @@ namespace mud
 		object<Valve> m_result;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT ProcessScript : public ProcessCallable
+	export_ class refl_ TWO_LANG_EXPORT ProcessScript : public ProcessCallable
 	{
 	public:
 		constr_ ProcessScript(VisualScript& script, VisualScript& target);
@@ -70,7 +70,7 @@ namespace mud
 		VisualScript& m_target;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT ProcessFunction : public ProcessCallable
+	export_ class refl_ TWO_LANG_EXPORT ProcessFunction : public ProcessCallable
 	{
 	public:
 		constr_ ProcessFunction(VisualScript& script, Function& function);
@@ -78,7 +78,7 @@ namespace mud
 		Function& m_function;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT ProcessMethod : public ProcessCallable
+	export_ class refl_ TWO_LANG_EXPORT ProcessMethod : public ProcessCallable
 	{
 	public:
 		constr_ ProcessMethod(VisualScript& script, Method& method);
@@ -89,7 +89,7 @@ namespace mud
 		Valve m_object;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT ProcessGetMember : public Process
+	export_ class refl_ TWO_LANG_EXPORT ProcessGetMember : public Process
 	{
 	public:
 		constr_ ProcessGetMember(VisualScript& script, Member& member);
@@ -101,7 +101,7 @@ namespace mud
 		Valve m_output;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT ProcessSetMember : public Process
+	export_ class refl_ TWO_LANG_EXPORT ProcessSetMember : public Process
 	{
 	public:
 		constr_ ProcessSetMember(VisualScript& script, Member& member);
@@ -114,7 +114,7 @@ namespace mud
 		Valve m_output_object;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT ProcessDisplay : public Process
+	export_ class refl_ TWO_LANG_EXPORT ProcessDisplay : public Process
 	{
 	public:
 		ProcessDisplay(VisualScript& script);
@@ -144,6 +144,6 @@ namespace mud
 	void VisualScript::set(T_Member mem, span<Valve*> params, Process* flow, span<StreamModifier> modifiers) { this->node<ProcessSetMember>(member(mem)).pipe(params, flow, modifiers); }
 
 	template <class T_Method>
-	Valve* VisualScript::method(T_Method meth, span<Valve*> params, Process* flow, span<StreamModifier> modifiers) { return this->node<ProcessMethod>(mud::method(meth)).pipe(params, flow, modifiers); }
+	Valve* VisualScript::method(T_Method meth, span<Valve*> params, Process* flow, span<StreamModifier> modifiers) { return this->node<ProcessMethod>(two::method(meth)).pipe(params, flow, modifiers); }
 
 }

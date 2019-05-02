@@ -8,9 +8,9 @@
 #include <gfx/Forward.h>
 #include <gfx/Frustum.h>
 
-namespace mud
+namespace two
 {
-	export_ struct refl_ MUD_GFX_EXPORT ClusteredFrustum : public Frustum
+	export_ struct refl_ TWO_GFX_EXPORT ClusteredFrustum : public Frustum
 	{
 		uint16_t m_subdiv_x = 0;
 		uint16_t m_subdiv_y = 0;
@@ -40,6 +40,6 @@ namespace mud
 		void recompute(const mat4& projection, const vec2& clip_size);
 	};
 
-	export_ MUD_GFX_EXPORT void compute_frustum_subdiv(ClusteredFrustum& frustum, vec2 clip_size, size_t slices = 16);
-	export_ MUD_GFX_EXPORT void compute_frustum_subdiv_square(ClusteredFrustum& frustum, vec2 clip_size, size_t slices = 16, size_t max_clusters = 8192);
+	export_ TWO_GFX_EXPORT void compute_frustum_subdiv(ClusteredFrustum& frustum, vec2 clip_size, size_t slices = 16);
+	export_ TWO_GFX_EXPORT void compute_frustum_subdiv_square(ClusteredFrustum& frustum, vec2 clip_size, size_t slices = 16, size_t max_clusters = 8192);
 }

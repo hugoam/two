@@ -6,8 +6,8 @@
 
 #include <gfx/Renderer.h>
 
-namespace mud
+namespace two
 {
-	export_ MUD_GFX_EXPORT void pass_resolve(GfxSystem& gfx, Render& render);
-	export_ MUD_GFX_EXPORT void pass_effects(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_EXPORT void pass_resolve(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_EXPORT void pass_effects(GfxSystem& gfx, Render& render);
 }

@@ -10,7 +10,7 @@
 #include <math/Vec.h>
 #include <math/Colour.h>
 
-namespace mud
+namespace two
 {
 	export_ using cstring = const char*;
 
@@ -20,7 +20,7 @@ namespace mud
 		Hue = 1
 	};
 
-	export_ struct refl_ MUD_MATH_EXPORT Palette
+	export_ struct refl_ TWO_MATH_EXPORT Palette
 	{
 	public:
 		constr_ Palette(Spectrum spectrum, size_t steps);
@@ -39,7 +39,7 @@ namespace mud
 		vector<Colour> m_colours;
 	};
 
-	export_ struct refl_ MUD_MATH_EXPORT Image256
+	export_ struct refl_ TWO_MATH_EXPORT Image256
 	{
 	public:
 		constr_ Image256(const uvec2& size = uvec2(0U), const Palette& palette = Palette());

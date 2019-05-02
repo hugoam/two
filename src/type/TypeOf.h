@@ -7,7 +7,7 @@
 #include <stl/traits.h>
 #include <type/Forward.h>
 
-namespace mud
+namespace two
 {
 	class Type;
 

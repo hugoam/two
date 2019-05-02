@@ -7,11 +7,11 @@
 #include <math/Forward.h>
 #include <ui/Forward.h>
 
-#ifndef MUD_UI_VG_EXPORT
-#define MUD_UI_VG_EXPORT MUD_IMPORT
+#ifndef TWO_UI_VG_EXPORT
+#define TWO_UI_VG_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
     class VgVg;
 }

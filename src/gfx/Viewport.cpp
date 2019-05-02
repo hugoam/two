@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <bgfx/bgfx.h>
 
@@ -22,7 +22,7 @@ module mud.gfx;
 
 //#define NO_OCCLUSION_CULLING
 
-namespace mud
+namespace two
 {
 	GridECS s_viewer_ecs;
 	GridECS* g_viewer_ecs = &s_viewer_ecs;

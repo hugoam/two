@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.pbr;
+#ifdef TWO_MODULES
+module two.gfx.pbr;
 #else
 #include <ecs/ECS.hpp>
 #include <pool/ObjectPool.hpp>
@@ -21,7 +21,7 @@ module mud.gfx.pbr;
 #define DEPTH_PASS 0
 #define DEBUG_GBUFFERS 0
 
-namespace mud
+namespace two
 {
 namespace gfx
 {
@@ -222,7 +222,7 @@ namespace gfx
 		// this (and below) seems to cause a memory corruption in emscripten
 		//construct<TBuffer<Tonemap>>(type<Tonemap>());
 
-#ifndef MUD_PLATFORM_EMSCRIPTEN
+#ifndef TWO_PLATFORM_EMSCRIPTEN
 		g_viewer_ecs->init<Tonemap, BCS, Glow, DofBlur>();
 #endif
 	}

@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.ui;
+#ifdef TWO_MODULES
+module two.gfx.ui;
 #else
 #include <ctx/InputDevice.h>
 #include <gfx/Camera.h>
@@ -14,7 +14,7 @@ module mud.gfx.ui;
 #include <gfx-ui/SpaceSheet.h>
 #endif
 
-namespace mud
+namespace two
 {
 	SpaceViewport::SpaceViewport(Widget* parent, void* identity, Scene& scene)
 		: Viewer(parent, identity, scene)

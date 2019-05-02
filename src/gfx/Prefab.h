@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 //#include <refl/Method.h>
 #include <geom/Aabb.h>
@@ -14,9 +14,9 @@
 #include <gfx/Item.h>
 #include <gfx/Importer.h>
 
-namespace mud
+namespace two
 {
-#ifdef MUD_PREFABNODE
+#ifdef TWO_PREFABNODE
 	export_ enum class refl_ PrefabType : unsigned int
 	{
 		None,
@@ -27,7 +27,7 @@ namespace mud
 		Light
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT PrefabNode
+	export_ struct refl_ TWO_GFX_EXPORT PrefabNode
 	{
 		PrefabNode();
 
@@ -41,13 +41,13 @@ namespace mud
 	};
 #endif
 
-	export_ class refl_ MUD_GFX_EXPORT Prefab
+	export_ class refl_ TWO_GFX_EXPORT Prefab
 	{
 	public:
 		Prefab(const string& name);
 
 		attr_ string m_name;
-#ifdef MUD_PREFABNODE
+#ifdef TWO_PREFABNODE
 		attr_ PrefabNode m_node;
 #endif
 
@@ -62,6 +62,6 @@ namespace mud
 		vector<Animation*> m_anims;
 	};
 
-	export_ MUD_GFX_EXPORT Prefab& import_prefab(GfxSystem& gfx, ModelFormat format, const string& name, const ImportConfig& config);
-	export_ MUD_GFX_EXPORT void destroy_prefab(GfxSystem& gfx, Prefab& prefab);
+	export_ TWO_GFX_EXPORT Prefab& import_prefab(GfxSystem& gfx, ModelFormat format, const string& name, const ImportConfig& config);
+	export_ TWO_GFX_EXPORT void destroy_prefab(GfxSystem& gfx, Prefab& prefab);
 }

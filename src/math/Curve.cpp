@@ -4,13 +4,13 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.math;
+#ifdef TWO_MODULES
+module two.math;
 #else
 #include <math/Curve.h>
 #endif
 
-namespace mud
+namespace two
 {
 	template <class T>
 	ValueCurve<T>::ValueCurve() {}
@@ -29,11 +29,11 @@ namespace mud
 		return lerp(m_keys[key], m_keys[key + 1], ttmod);
 	}
 
-	template struct MUD_MATH_EXPORT ValueCurve<vec3>;
-	template struct MUD_MATH_EXPORT ValueCurve<quat>;
-	template struct MUD_MATH_EXPORT ValueCurve<float>;
-	template struct MUD_MATH_EXPORT ValueCurve<uint32_t>;
-	template struct MUD_MATH_EXPORT ValueCurve<Colour>;
+	template struct TWO_MATH_EXPORT ValueCurve<vec3>;
+	template struct TWO_MATH_EXPORT ValueCurve<quat>;
+	template struct TWO_MATH_EXPORT ValueCurve<float>;
+	template struct TWO_MATH_EXPORT ValueCurve<uint32_t>;
+	template struct TWO_MATH_EXPORT ValueCurve<Colour>;
 
 	template <class T>
 	ValueTrack<T>::ValueTrack() {}
@@ -76,9 +76,9 @@ namespace mud
 			return lerp(m_min_curve.sample_curve(t), m_max_curve.sample_curve(t), seed);
 	}
 
-	template struct MUD_MATH_EXPORT ValueTrack<vec3>;
-	template struct MUD_MATH_EXPORT ValueTrack<quat>;
-	template struct MUD_MATH_EXPORT ValueTrack<float>;
-	template struct MUD_MATH_EXPORT ValueTrack<uint32_t>;
-	template struct MUD_MATH_EXPORT ValueTrack<Colour>;
+	template struct TWO_MATH_EXPORT ValueTrack<vec3>;
+	template struct TWO_MATH_EXPORT ValueTrack<quat>;
+	template struct TWO_MATH_EXPORT ValueTrack<float>;
+	template struct TWO_MATH_EXPORT ValueTrack<uint32_t>;
+	template struct TWO_MATH_EXPORT ValueTrack<Colour>;
 }

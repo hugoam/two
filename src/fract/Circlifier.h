@@ -1,15 +1,15 @@
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <math/Grid.h>
 #include <geom/Shape.h>
 #endif
 #include <fract/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ class MUD_FRACT_EXPORT Pixircle
+	export_ class TWO_FRACT_EXPORT Pixircle
 	{
 	public:
 		Pixircle() : radius(0), culled(false) {}
@@ -22,7 +22,7 @@ namespace mud
 		bool culled;
 	};
 
-	export_ class refl_ MUD_FRACT_EXPORT Circlifier
+	export_ class refl_ TWO_FRACT_EXPORT Circlifier
 	{
 	public:
 		constr_ Circlifier(Image256& image);

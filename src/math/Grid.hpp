@@ -7,7 +7,7 @@
 #include <math/Forward.h>
 #include <math/Grid.h>
 
-namespace mud
+namespace two
 {
 	inline GridDim::GridDim() {}
 	inline GridDim::GridDim(int period, size_t limit, int increment, size_t modulo, size_t divide)

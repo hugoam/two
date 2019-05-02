@@ -1,4 +1,4 @@
--- mud toolchain
+-- two toolchain
 -- cpp20 modules
 
 if not cxxmodule then
@@ -6,7 +6,7 @@ if not cxxmodule then
     end
 end
 
-function mud_modules(m)
+function two_modules(m)
     if not _OPTIONS["cpp-modules"] then
         return
     end
@@ -38,7 +38,7 @@ function mud_modules(m)
     end
 end
 
-function mud_mxx(cpps, m)
+function two_mxx(cpps, m)
     if not _OPTIONS["cpp-modules"] then
         return
     end
@@ -46,7 +46,7 @@ function mud_mxx(cpps, m)
     local cxxmodules = {}
 
     for _, cpp in ipairs(cpps) do
-        local relcpp = path.getrelative(MUD_DIR, cpp)
+        local relcpp = path.getrelative(TWO_DIR, cpp)
         print("module for " .. relcpp .. " = " .. m.dotname)
         cxxmodules[relcpp] = m.dotname
     end

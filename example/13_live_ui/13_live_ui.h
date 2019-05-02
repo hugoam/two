@@ -6,6 +6,6 @@
 
 #include <frame/Forward.h>
 
-using namespace mud;
+using namespace two;
 
 void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar);

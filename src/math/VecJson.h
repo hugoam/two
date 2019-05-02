@@ -4,28 +4,28 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <srlz/Serial.h>
 #endif
 #include <math/Colour.h>
 #include <math/Vec.h>
 
-#ifdef MUD_META_GENERATOR
+#ifdef TWO_META_GENERATOR
 namespace glm
 {
 	struct vec3; struct quat; struct mat4;
 }
 #endif
 
-namespace mud
+namespace two
 {
-	export_ MUD_MATH_EXPORT void from_json(const Json& j, vec3& vec);
-	export_ MUD_MATH_EXPORT void from_json(const Json& j, quat& quat);
-	export_ MUD_MATH_EXPORT void from_json(const Json& j, mat4& mat);
+	export_ TWO_MATH_EXPORT void from_json(const Json& j, vec3& vec);
+	export_ TWO_MATH_EXPORT void from_json(const Json& j, quat& quat);
+	export_ TWO_MATH_EXPORT void from_json(const Json& j, mat4& mat);
 }
 
-namespace mud
+namespace two
 {
-	export_ MUD_MATH_EXPORT void from_json(const Json& j, Colour& col);
-	export_ MUD_MATH_EXPORT void to_json(const Colour& col, Json& json);
+	export_ TWO_MATH_EXPORT void from_json(const Json& j, Colour& col);
+	export_ TWO_MATH_EXPORT void to_json(const Colour& col, Json& json);
 }

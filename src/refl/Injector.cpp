@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.refl;
+#ifdef TWO_MODULES
+module two.refl;
 #else
 #include <type/Types.h>
 //#include <ecs/Proto.h>
@@ -15,17 +15,17 @@ module mud.refl;
 #include <pool/ObjectPool.h>
 #endif
 
-namespace mud
+namespace two
 {
 	Injector::Injector(const Constructor& constructor)
 		: Call(constructor)
 		, m_object_type(*constructor.m_object_type)
 		, m_constructor(constructor)
-#ifdef MUD_ECS_PROTO
+#ifdef TWO_ECS_PROTO
 		, m_proto(is<Prototype>(type) ? &as<Prototype>(type) : nullptr)
 #endif
 	{
-#ifdef MUD_ECS_PROTO
+#ifdef TWO_ECS_PROTO
 		if(m_proto && &constructor == &cls(type).m_constructors[int(ConstructorIndex::ProtoParts)])
 		{
 			// we are a combined constructor
@@ -78,7 +78,7 @@ namespace mud
 		pool.destroy(object);
 	}
 
-#ifdef MUD_ECS_PROTO
+#ifdef TWO_ECS_PROTO
 	span<Var> Injector::args(Type& type)
 	{
 		size_t index = m_partIndex[m_proto->part_index(type)];
@@ -88,7 +88,7 @@ namespace mud
 
 	Creator::Creator(Type& type)
 		: m_type(type)
-#ifdef MUD_ECS_PROTO
+#ifdef TWO_ECS_PROTO
 		, m_construct(cls(type).m_prototypes.size() > 0)
 		, m_prototype(m_construct ? cls(type).m_prototypes[0] : nullptr)
 #else

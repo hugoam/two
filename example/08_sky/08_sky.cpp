@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 
@@ -12,7 +12,7 @@
 
 #include <bx/math.h>
 
-using namespace mud;
+using namespace two;
 
 // Represents color. Color-space depends on context.
 // In the code below, used to represent color in XYZ, and RGB color-space
@@ -39,7 +39,7 @@ private:
 
 // Controls sun position according to time, month, and observer's latitude.
 // Sun position computation based on Earth's orbital elements: https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html
-export_ class MUD_GFX_EXPORT SunController
+export_ class TWO_GFX_EXPORT SunController
 {
 public:
 	SunController() {}
@@ -59,7 +59,7 @@ public:
 // Renders a screen-space grid of triangles.
 // Because of performance reasons, and because sky color is smooth, sky color is computed in vertex shader.
 // 32x32 is a reasonable size for the grid to have smooth enough colors.
-export_ struct MUD_GFX_EXPORT ProceduralSky
+export_ struct TWO_GFX_EXPORT ProceduralSky
 {
 	void init(GfxSystem& gfx, ivec2 vertex_count);
 	void shutdown();
@@ -74,7 +74,7 @@ export_ struct MUD_GFX_EXPORT ProceduralSky
 	bool m_preventBanding;
 };
 
-export_ struct MUD_GFX_EXPORT PerezSky
+export_ struct TWO_GFX_EXPORT PerezSky
 {
 	struct SkyUniform
 	{
@@ -487,7 +487,7 @@ void pump(Shell& app, ShellWindow& window)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
 	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }

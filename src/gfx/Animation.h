@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/string.h>
 #include <stl/vector.h>
 #include <type/Var.h>
@@ -12,7 +12,7 @@
 #endif
 #include <gfx/Forward.h>
 
-namespace mud
+namespace two
 {
 	export_ enum class refl_ AnimTarget : unsigned int
 	{
@@ -30,7 +30,7 @@ namespace mud
 		Cubic
 	};
 
-	export_ struct MUD_GFX_EXPORT AnimCursor
+	export_ struct TWO_GFX_EXPORT AnimCursor
 	{
 		AnimCursor() {}
 		float m_time = 0.f;
@@ -44,7 +44,7 @@ namespace mud
 		char mem[32]; // need to be able to store vector<float>
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT AnimTrack
+	export_ class refl_ TWO_GFX_EXPORT AnimTrack
 	{
 	public:
 		struct Key
@@ -84,7 +84,7 @@ namespace mud
 		Value value(AnimCursor& cursor, bool forward) const;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Animation
+	export_ class refl_ TWO_GFX_EXPORT Animation
 	{
 	public:
 		explicit Animation(cstring name);

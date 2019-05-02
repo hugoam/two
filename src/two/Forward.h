@@ -13,7 +13,7 @@
 #include <gfx-ui/Forward.h>
 #include <tool/Forward.h>
 
-namespace mud
+namespace two
 {
 	class Shell;
 }

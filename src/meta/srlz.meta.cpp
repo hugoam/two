@@ -1,7 +1,7 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.srlz;
+#ifdef TWO_MODULES
+module two.srlz;
 #else
 #include <refl/Module.h>
 #include <meta/infra.meta.h>
@@ -10,17 +10,17 @@ module mud.srlz;
 #include <meta/srlz.meta.h>
 #endif
 
-namespace mud
+namespace two
 {
-	mud_srlz::mud_srlz()
-		: Module("mud::srlz", { &mud_infra::m(), &mud_type::m(), &mud_refl::m() })
+	two_srlz::two_srlz()
+		: Module("two::srlz", { &two_infra::m(), &two_type::m(), &two_refl::m() })
 	{}
 }
 
-#ifdef MUD_SRLZ_MODULE
+#ifdef TWO_SRLZ_MODULE
 extern "C"
 Module& getModule()
 {
-	return mud_srlz::m();
+	return two_srlz::m();
 }
 #endif

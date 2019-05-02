@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <math/Vec.h>
 #include <math/Curve.h>
@@ -17,7 +17,7 @@
 
 #include <bgfx/bgfx.h>
 
-namespace mud
+namespace two
 {
 	struct Particle
 	{
@@ -49,7 +49,7 @@ namespace mud
 	};
 
 	// alternate names: spout, flux, jet
-	export_ struct refl_ MUD_GFX_EXPORT Flow
+	export_ struct refl_ TWO_GFX_EXPORT Flow
 	{
 		Flow();
 		Flow(const string& name);
@@ -101,7 +101,7 @@ namespace mud
 	};
 
 	// alternate names: jet, flow, surge, spray
-	export_ struct refl_ MUD_GFX_EXPORT Flare : public Flow
+	export_ struct refl_ TWO_GFX_EXPORT Flare : public Flow
 	{
 	public:
 		Flare(Node3* node = nullptr, ShapeVar shape = {}, uint32_t max_particles = 1024);
@@ -127,12 +127,12 @@ namespace mud
 		uint32_t m_max;
 	};
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 	template <class T>
 	class TPool;
 #endif
 
-	export_ class MUD_GFX_EXPORT ParticleSystem
+	export_ class TWO_GFX_EXPORT ParticleSystem
 	{
 	public:
 		ParticleSystem(GfxSystem& gfx, TPool<Flare>& emitters);
@@ -153,7 +153,7 @@ namespace mud
 		uint32_t m_num = 0;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT BlockParticles : public GfxBlock
+	export_ class refl_ TWO_GFX_EXPORT BlockParticles : public GfxBlock
 	{
 	public:
 		BlockParticles(GfxSystem& gfx);
@@ -173,5 +173,5 @@ namespace mud
 		void remove_sprite(Sprite& image);
 	};
 
-	export_ MUD_GFX_EXPORT void pass_particles(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_EXPORT void pass_particles(GfxSystem& gfx, Render& render);
 }

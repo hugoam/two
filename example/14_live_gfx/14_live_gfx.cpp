@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <lang/Api.h>
 #include <uio/Api.h>
@@ -6,7 +6,7 @@
 
 #include <14_live_gfx/14_live_gfx.h>
 
-using namespace mud;
+using namespace two;
 
 static TextScript& create_wren_script(WrenInterpreter& interpreter)
 {
@@ -84,7 +84,7 @@ WrenInterpreter& create_wren()
 {
 	static WrenInterpreter wren = { true };
 	string init =
-		"import \"mud\" for Vec3, Quat, Colour, Cube, Symbol, SymbolDetail, Gfx\n"
+		"import \"two\" for Vec3, Quat, Colour, Cube, Symbol, SymbolDetail, Gfx\n"
 		"var n = null\n";
 	wren.call(init.c_str());
 	return wren;
@@ -140,7 +140,7 @@ void pump(Shell& app, ShellWindow& window)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
 	System::instance().load_modules({ &mud_gfx::m() });
 	app.m_gfx.init_pipeline(pipeline_minimal);
 	app.run(pump);

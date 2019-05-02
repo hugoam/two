@@ -9,7 +9,7 @@
 
 #include <AL/al.h>
 
-namespace mud
+namespace two
 {
 	SharedBuffer::SharedBuffer(const string& filename, SoundManager& manager)
 		: m_al_buffer(AL_NONE)

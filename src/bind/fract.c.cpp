@@ -4,7 +4,7 @@
 #include <geom/Api.h>
 #include <fract/Api.h>
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
 #define DECL EMSCRIPTEN_KEEPALIVE
 #else
@@ -15,118 +15,118 @@
 extern "C" {
 	
 	// Circlifier
-	mud::Type* DECL mud_Circlifier__type() {
-		return &mud::type<mud::Circlifier>();
+	two::Type* DECL two_Circlifier__type() {
+		return &two::type<two::Circlifier>();
 	}
-	mud::Circlifier* DECL mud_Circlifier__construct_1(mud::Image256* image) {
-		return new mud::Circlifier(*image);
+	two::Circlifier* DECL two_Circlifier__construct_1(two::Image256* image) {
+		return new two::Circlifier(*image);
 	}
-	void DECL mud_Circlifier__destroy(mud::Circlifier* self) {
+	void DECL two_Circlifier__destroy(two::Circlifier* self) {
 		delete self;
 	}
 	// Pattern
-	mud::Type* DECL mud_Pattern__type() {
-		return &mud::type<mud::Pattern>();
+	two::Type* DECL two_Pattern__type() {
+		return &two::type<two::Pattern>();
 	}
-	mud::Pattern* DECL mud_Pattern__construct_0() {
-		return new mud::Pattern();
+	two::Pattern* DECL two_Pattern__construct_0() {
+		return new two::Pattern();
 	}
-	mud::Pattern* DECL mud_Pattern__construct_2(mud::Palette* palette, mud::PatternSampling sampling) {
-		return new mud::Pattern(*palette, sampling);
+	two::Pattern* DECL two_Pattern__construct_2(two::Palette* palette, two::PatternSampling sampling) {
+		return new two::Pattern(*palette, sampling);
 	}
-	mud::Pattern* DECL mud_Pattern__construct_3(mud::Palette* palette, mud::PatternSampling sampling, float precision) {
-		return new mud::Pattern(*palette, sampling, precision);
+	two::Pattern* DECL two_Pattern__construct_3(two::Palette* palette, two::PatternSampling sampling, float precision) {
+		return new two::Pattern(*palette, sampling, precision);
 	}
-	mud::Pattern* DECL mud_Pattern__construct_4(mud::Palette* palette, mud::PatternSampling sampling, float precision, size_t step) {
-		return new mud::Pattern(*palette, sampling, precision, step);
+	two::Pattern* DECL two_Pattern__construct_4(two::Palette* palette, two::PatternSampling sampling, float precision, size_t step) {
+		return new two::Pattern(*palette, sampling, precision, step);
 	}
-	void DECL mud_Pattern__destroy(mud::Pattern* self) {
+	void DECL two_Pattern__destroy(two::Pattern* self) {
 		delete self;
 	}
 	// FractTab
-	mud::Type* DECL mud_FractTab__type() {
-		return &mud::type<mud::FractTab>();
+	two::Type* DECL two_FractTab__type() {
+		return &two::type<two::FractTab>();
 	}
-	mud::FractTab* DECL mud_FractTab__construct_0() {
-		return new mud::FractTab();
+	two::FractTab* DECL two_FractTab__construct_0() {
+		return new two::FractTab();
 	}
-	void DECL mud_FractTab__destroy(mud::FractTab* self) {
+	void DECL two_FractTab__destroy(two::FractTab* self) {
 		delete self;
 	}
 	// Fract
-	mud::Type* DECL mud_Fract__type() {
-		return &mud::type<mud::Fract>();
+	two::Type* DECL two_Fract__type() {
+		return &two::type<two::Fract>();
 	}
-	mud::Fract* DECL mud_Fract__construct_0() {
-		return new mud::Fract();
+	two::Fract* DECL two_Fract__construct_0() {
+		return new two::Fract();
 	}
-	mud::Fract* DECL mud_Fract__construct_1(size_t num_tabs) {
-		return new mud::Fract(num_tabs);
+	two::Fract* DECL two_Fract__construct_1(size_t num_tabs) {
+		return new two::Fract(num_tabs);
 	}
-	void DECL mud_Fract_generate_0(mud::Fract* self) {
+	void DECL two_Fract_generate_0(two::Fract* self) {
 		self->generate();
 	}
-	void DECL mud_Fract_generate_1(mud::Fract* self, size_t num_tabs) {
+	void DECL two_Fract_generate_1(two::Fract* self, size_t num_tabs) {
 		self->generate(num_tabs);
 	}
-	void DECL mud_Fract_regen_0(mud::Fract* self) {
+	void DECL two_Fract_regen_0(two::Fract* self) {
 		self->regen();
 	}
-	void DECL mud_Fract_render_4(mud::Fract* self, const mud::Rect* rect, const mud::Pattern* pattern, const mud::uvec2* resolution, mud::Image256* output_image) {
+	void DECL two_Fract_render_4(two::Fract* self, const two::Rect* rect, const two::Pattern* pattern, const two::uvec2* resolution, two::Image256* output_image) {
 		self->render(*rect, *pattern, *resolution, *output_image);
 	}
-	void DECL mud_Fract_render_whole_3(mud::Fract* self, const mud::Pattern* pattern, const mud::uvec2* resolution, mud::Image256* output_image) {
+	void DECL two_Fract_render_whole_3(two::Fract* self, const two::Pattern* pattern, const two::uvec2* resolution, two::Image256* output_image) {
 		self->render_whole(*pattern, *resolution, *output_image);
 	}
-	size_t DECL mud_Fract__get_nutabs(mud::Fract* self) {
+	size_t DECL two_Fract__get_nutabs(two::Fract* self) {
 		return self->m_num_tabs;
 	}
-	void DECL mud_Fract__set_nutabs(mud::Fract* self, size_t value) {
+	void DECL two_Fract__set_nutabs(two::Fract* self, size_t value) {
 		self->m_num_tabs = value;
 	}
-	void DECL mud_Fract__destroy(mud::Fract* self) {
+	void DECL two_Fract__destroy(two::Fract* self) {
 		delete self;
 	}
 	// FractSample
-	mud::Type* DECL mud_FractSample__type() {
-		return &mud::type<mud::FractSample>();
+	two::Type* DECL two_FractSample__type() {
+		return &two::type<two::FractSample>();
 	}
-	mud::FractSample* DECL mud_FractSample__construct_3(mud::Fract* fract, const mud::Rect* rect, mud::uvec2* resolution) {
-		return new mud::FractSample(*fract, *rect, *resolution);
+	two::FractSample* DECL two_FractSample__construct_3(two::Fract* fract, const two::Rect* rect, two::uvec2* resolution) {
+		return new two::FractSample(*fract, *rect, *resolution);
 	}
-	void DECL mud_FractSample_render_2(mud::FractSample* self, const mud::Pattern* pattern, mud::Image256* outputImage) {
+	void DECL two_FractSample_render_2(two::FractSample* self, const two::Pattern* pattern, two::Image256* outputImage) {
 		self->render(*pattern, *outputImage);
 	}
-	mud::Fract* DECL mud_FractSample__get_fract(mud::FractSample* self) {
+	two::Fract* DECL two_FractSample__get_fract(two::FractSample* self) {
 		return &self->m_fract;
 	}
-	mud::Rect* DECL mud_FractSample__get_rect(mud::FractSample* self) {
+	two::Rect* DECL two_FractSample__get_rect(two::FractSample* self) {
 		return &self->m_rect;
 	}
-	void DECL mud_FractSample__set_rect(mud::FractSample* self, mud::Rect* value) {
+	void DECL two_FractSample__set_rect(two::FractSample* self, two::Rect* value) {
 		self->m_rect = *value;
 	}
-	mud::uvec2* DECL mud_FractSample__get_resolution(mud::FractSample* self) {
+	two::uvec2* DECL two_FractSample__get_resolution(two::FractSample* self) {
 		return &self->m_resolution;
 	}
-	void DECL mud_FractSample__set_resolution(mud::FractSample* self, mud::uvec2* value) {
+	void DECL two_FractSample__set_resolution(two::FractSample* self, two::uvec2* value) {
 		self->m_resolution = *value;
 	}
-	void DECL mud_FractSample__destroy(mud::FractSample* self) {
+	void DECL two_FractSample__destroy(two::FractSample* self) {
 		delete self;
 	}
-	void DECL mud_generate_fract_3(mud::uvec2* resolution, const mud::Pattern* pattern, mud::Image256* output_image) {
-		mud::generate_fract(*resolution, *pattern, *output_image);
+	void DECL two_generate_fract_3(two::uvec2* resolution, const two::Pattern* pattern, two::Image256* output_image) {
+		two::generate_fract(*resolution, *pattern, *output_image);
 	}
 	// PatternSampling
-	mud::PatternSampling DECL mud_PatternSampling_X() {
-		return mud::PatternSampling::X;
+	two::PatternSampling DECL two_PatternSampling_X() {
+		return two::PatternSampling::X;
 	}
-	mud::PatternSampling DECL mud_PatternSampling_XY() {
-		return mud::PatternSampling::XY;
+	two::PatternSampling DECL two_PatternSampling_XY() {
+		return two::PatternSampling::XY;
 	}
-	mud::PatternSampling DECL mud_PatternSampling_Depth() {
-		return mud::PatternSampling::Depth;
+	two::PatternSampling DECL two_PatternSampling_Depth() {
+		return two::PatternSampling::Depth;
 	}
 	
 }

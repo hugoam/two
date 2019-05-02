@@ -2,14 +2,14 @@
 
 #include <obj/Config.h>
 
-export module mud.snd;
+export module two.snd;
 export import std.core;
 export import std.io;
 export import std.threading;
 export import std.regex;
 
-export import mud.obj;
-export import mud.math;
+export import two.obj;
+export import two.math;
 
 #include <snd/Api.h>
 

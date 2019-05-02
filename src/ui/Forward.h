@@ -7,13 +7,13 @@
 #include <math/Forward.h>
 #include <ctx/Forward.h>
 
-#ifndef MUD_UI_EXPORT
-#define MUD_UI_EXPORT MUD_IMPORT
+#ifndef TWO_UI_EXPORT
+#define TWO_UI_EXPORT TWO_IMPORT
 #endif
 
-#undef MUD_UI_DRAW_CACHE
+#undef TWO_UI_DRAW_CACHE
 
-namespace mud
+namespace two
 {
 namespace ui
 {
@@ -41,7 +41,7 @@ namespace ui
 }
 }
 
-namespace mud
+namespace two
 {
     enum class Axis : unsigned int;
     enum class FlowAxis : unsigned int;
@@ -123,7 +123,7 @@ namespace mud
     class Styler;
 }
 
-#ifdef MUD_META_GENERATOR
+#ifdef TWO_META_GENERATOR
 #include <stl/vector.h>
 #include <stl/span.h>
 #include <ui/Style/Style.h>
@@ -134,7 +134,7 @@ namespace stl
 	export_ extern template struct refl_ span_ span<cstring>;
 
 	//export_ extern template class refl_ seque_ vector<string>;
-	export_ extern template class refl_ seque_ vector<mud::Space>;
-	export_ extern template class refl_ seque_ vector<mud::Subskin>;
+	export_ extern template class refl_ seque_ vector<two::Space>;
+	export_ extern template class refl_ seque_ vector<two::Subskin>;
 }
 #endif

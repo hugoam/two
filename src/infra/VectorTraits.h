@@ -8,7 +8,7 @@
 #include <infra/Config.h>
 #include <infra/TypeTraits.h>
 
-namespace mud
+namespace two
 {
 	template <class T>
 	constexpr bool is_comparable<vector<T>> = is_comparable<T>;

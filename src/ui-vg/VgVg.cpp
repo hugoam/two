@@ -3,19 +3,19 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <cmath>
 #include <cfloat>
 #endif
 
-#ifdef MUD_MODULES
+#ifdef TWO_MODULES
 #define _GLIBCXX_TYPE_TRAITS
 #endif
 #include <vg/vg.h>
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.ui.vg;
+#ifdef TWO_MODULES
+module two.ui.vg;
 #else
 #include <stb_image.h>
 #include <stb_truetype.h>
@@ -36,7 +36,7 @@ namespace vg
 	bool checkIntersectScissor(Context* ctx, float x, float y, float w, float h);
 }
 
-namespace mud
+namespace two
 {
 	inline vg::Color vgColour(const Colour& colour)
 	{
@@ -140,7 +140,7 @@ namespace mud
 
 	bool VgVg::clipped(const vec4& rect)
 	{
-#ifdef MUD_UI_DRAW_CACHE
+#ifdef TWO_UI_DRAW_CACHE
 		UNUSED(rect);
 		return false;
 #else
@@ -376,7 +376,7 @@ namespace mud
 		vg::popState(m_vg);
 	}
 
-#ifdef MUD_UI_DRAW_CACHE
+#ifdef TWO_UI_DRAW_CACHE
 	vg::CommandListHandle VgVg::layer_cache(Layer& layer)
 	{
 		if(layer.d_handle == SIZE_MAX)

@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_LIGHT
-#define MUD_SHADER_LIGHT
+#ifndef TWO_SHADER_LIGHT
+#define TWO_SHADER_LIGHT
 
 #include <common.sh>
 #include <convert.sh>

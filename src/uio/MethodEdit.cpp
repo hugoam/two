@@ -3,12 +3,12 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <stl/string.h>
 #endif
 
-#ifdef MUD_MODULES
-module mud.uio;
+#ifdef TWO_MODULES
+module two.uio;
 #else
 #include <tree/Graph.hpp>
 #include <refl/Meta.h>
@@ -22,7 +22,7 @@ module mud.uio;
 
 #include <cstring>
 
-namespace mud
+namespace two
 {
 	struct CallableEditState : public NodeState
 	{

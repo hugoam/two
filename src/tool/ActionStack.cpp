@@ -4,15 +4,15 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.tool;
+#ifdef TWO_MODULES
+module two.tool;
 #else
 #include <stl/algorithm.h>
 #include <tool/Types.h>
 #include <tool/ActionStack.h>
 #endif
 
-namespace mud
+namespace two
 {
 	ActionStack::ActionStack()
 		: m_done()

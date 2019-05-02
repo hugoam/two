@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.fract;
+#ifdef TWO_MODULES
+module two.fract;
 #else
 #include <infra/Sort.h>
 #include <math/Grid.hpp>
@@ -15,7 +15,7 @@ module mud.fract;
 #include <fract/Circlifier.h>
 #endif
 
-namespace mud
+namespace two
 {
 	Circlifier::Circlifier(Image256& image)
 		: m_image(image)

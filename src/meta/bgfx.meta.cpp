@@ -1,7 +1,7 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.bgfx;
+#ifdef TWO_MODULES
+module two.bgfx;
 #else
 #include <cstddef>
 #include <stl/new.h>
@@ -20,12 +20,12 @@ module mud.bgfx;
 
 #include <bgfx/Api.h>
 
-using namespace mud;
+using namespace two;
 
 
-namespace mud
+namespace two
 {
-	void mud_bgfx_meta(Module& m)
+	void two_bgfx_meta(Module& m)
 	{
 	UNUSED(m);
 	
@@ -35,13 +35,13 @@ namespace mud
 	
 	// Sequences
 	
-	// mud::BgfxSystem
+	// two::BgfxSystem
 	{
-		Type& t = type<mud::BgfxSystem>();
-		static Meta meta = { t, &namspc({ "mud" }), "BgfxSystem", sizeof(mud::BgfxSystem), TypeClass::Object };
+		Type& t = type<two::BgfxSystem>();
+		static Meta meta = { t, &namspc({ "two" }), "BgfxSystem", sizeof(two::BgfxSystem), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::RenderSystem>() };
-		static size_t bases_offsets[] = { base_offset<mud::BgfxSystem, mud::RenderSystem>() };
+		static Type* bases[] = { &type<two::RenderSystem>() };
+		static size_t bases_offsets[] = { base_offset<two::BgfxSystem, two::RenderSystem>() };
 		// defaults
 		static uint32_t frame_default = 1;
 		static float time_default = 0.f;
@@ -51,10 +51,10 @@ namespace mud
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::BgfxSystem, m_frame), type<uint32_t>(), "frame", &frame_default, Member::Value, nullptr },
-			{ t, offsetof(mud::BgfxSystem, m_time), type<float>(), "time", &time_default, Member::Value, nullptr },
-			{ t, offsetof(mud::BgfxSystem, m_frame_time), type<float>(), "frame_time", &frame_time_default, Member::Value, nullptr },
-			{ t, offsetof(mud::BgfxSystem, m_delta_time), type<float>(), "delta_time", &delta_time_default, Member::Value, nullptr }
+			{ t, offsetof(two::BgfxSystem, m_frame), type<uint32_t>(), "frame", &frame_default, Member::Value, nullptr },
+			{ t, offsetof(two::BgfxSystem, m_time), type<float>(), "time", &time_default, Member::Value, nullptr },
+			{ t, offsetof(two::BgfxSystem, m_frame_time), type<float>(), "frame_time", &frame_time_default, Member::Value, nullptr },
+			{ t, offsetof(two::BgfxSystem, m_delta_time), type<float>(), "delta_time", &delta_time_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -62,24 +62,24 @@ namespace mud
 	}
 	
 	
-		m.m_types.push_back(&type<mud::BgfxSystem>());
+		m.m_types.push_back(&type<two::BgfxSystem>());
 	}
 }
 
-namespace mud
+namespace two
 {
-	mud_bgfx::mud_bgfx()
-		: Module("mud::bgfx", { &mud_infra::m(), &mud_type::m(), &mud_math::m(), &mud_ctx::m() })
+	two_bgfx::two_bgfx()
+		: Module("two::bgfx", { &two_infra::m(), &two_type::m(), &two_math::m(), &two_ctx::m() })
 	{
 		// setup reflection meta data
-		mud_bgfx_meta(*this);
+		two_bgfx_meta(*this);
 	}
 }
 
-#ifdef MUD_BGFX_MODULE
+#ifdef TWO_BGFX_MODULE
 extern "C"
 Module& getModule()
 {
-	return mud_bgfx::m();
+	return two_bgfx::m();
 }
 #endif

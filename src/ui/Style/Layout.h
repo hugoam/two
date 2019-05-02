@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <stl/string.h>
 #include <math/Colour.h>
@@ -12,9 +12,9 @@
 #endif
 #include <ui/Frame/Dim.h>
 
-namespace mud
+namespace two
 {
-	export_ struct refl_ MUD_UI_EXPORT Layout
+	export_ struct refl_ TWO_UI_EXPORT Layout
 	{
 	public:
 		constr_ Layout() {}

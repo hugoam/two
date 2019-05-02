@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <stb_rect_pack.h>
 #include <stb_image.h>
@@ -17,7 +17,7 @@ module mud.ui;
 
 #include <cstring>
 
-namespace mud
+namespace two
 {
 	void load_folder_images(vector<Image>& images, const string& path, const string& subfolder)
 	{

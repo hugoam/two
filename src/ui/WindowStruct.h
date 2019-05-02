@@ -9,9 +9,9 @@
 #include <ui/DockStruct.h>
 #include <ui/Window.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_UI_EXPORT Window : public Dockable
+	export_ class refl_ TWO_UI_EXPORT Window : public Dockable
 	{
 	public:
 		Window(Widget* parent, void* identity)

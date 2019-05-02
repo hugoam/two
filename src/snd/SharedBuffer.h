@@ -8,7 +8,7 @@
 #include <snd/SoundFileBuffer.h>
 #include <snd/OggFileBuffer.h>
 
-namespace mud
+namespace two
 {
 	class SharedBuffer
 	{

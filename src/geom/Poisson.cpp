@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.geom;
+#ifdef TWO_MODULES
+module two.geom;
 #else
 #include <math/Axis.h>
 #include <math/Math.h>
@@ -16,7 +16,7 @@ module mud.geom;
 #include <geom/Shapes.h>
 #endif
 
-namespace mud
+namespace two
 {
 	Poisson::Poisson(vec2 size, float maxRadius)
 		: Distribution()

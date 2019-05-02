@@ -1,17 +1,17 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.jobs;
+#ifdef TWO_MODULES
+module two.jobs;
 #else
 #include <jobs/Types.h>
 #include <jobs/Api.h>
 #include <type/Vector.h>
 #endif
 
-namespace mud
+namespace two
 {
     // Exported types
     
     
-    template <> MUD_JOBS_EXPORT Type& type<mud::JobSystem>() { static Type ty("JobSystem", sizeof(mud::JobSystem)); return ty; }
+    template <> TWO_JOBS_EXPORT Type& type<two::JobSystem>() { static Type ty("JobSystem", sizeof(two::JobSystem)); return ty; }
 }

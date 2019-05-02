@@ -15,7 +15,7 @@
 #include <gfx-edit/Api.h>
 #include <tool/Api.h>
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
 #define DECL EMSCRIPTEN_KEEPALIVE
 #else
@@ -26,347 +26,347 @@
 extern "C" {
 	
 	// EditorAction
-	mud::Type* DECL mud_EditorAction__type() {
-		return &mud::type<mud::EditorAction>();
+	two::Type* DECL two_EditorAction__type() {
+		return &two::type<two::EditorAction>();
 	}
-	void DECL mud_EditorAction__destroy(mud::EditorAction* self) {
+	void DECL two_EditorAction__destroy(two::EditorAction* self) {
 		delete self;
 	}
 	// ToolContext
-	mud::Type* DECL mud_ToolContext__type() {
-		return &mud::type<mud::ToolContext>();
+	two::Type* DECL two_ToolContext__type() {
+		return &two::type<two::ToolContext>();
 	}
-	mud::ToolContext* DECL mud_ToolContext__construct_0() {
-		return new mud::ToolContext();
+	two::ToolContext* DECL two_ToolContext__construct_0() {
+		return new two::ToolContext();
 	}
-	void DECL mud_ToolContext__destroy(mud::ToolContext* self) {
+	void DECL two_ToolContext__destroy(two::ToolContext* self) {
 		delete self;
 	}
 	// ToolOption
-	mud::Type* DECL mud_ToolOption__type() {
-		return &mud::type<mud::ToolOption>();
+	two::Type* DECL two_ToolOption__type() {
+		return &two::type<two::ToolOption>();
 	}
-	void DECL mud_ToolOption__destroy(mud::ToolOption* self) {
+	void DECL two_ToolOption__destroy(two::ToolOption* self) {
 		delete self;
 	}
 	// Tool
-	mud::Type* DECL mud_Tool__type() {
-		return &mud::type<mud::Tool>();
+	two::Type* DECL two_Tool__type() {
+		return &two::type<two::Tool>();
 	}
-	mud::Type* DECL mud_Tool__get_type(mud::Tool* self) {
+	two::Type* DECL two_Tool__get_type(two::Tool* self) {
 		return &self->m_type;
 	}
-	mud::ToolContext* DECL mud_Tool__get_context(mud::Tool* self) {
+	two::ToolContext* DECL two_Tool__get_context(two::Tool* self) {
 		return &self->m_context;
 	}
-	const char* DECL mud_Tool__get_name(mud::Tool* self) {
+	const char* DECL two_Tool__get_name(two::Tool* self) {
 		return self->m_name.c_str();
 	}
-	void DECL mud_Tool__set_name(mud::Tool* self, const char* value) {
+	void DECL two_Tool__set_name(two::Tool* self, const char* value) {
 		self->m_name = value;
 	}
-	mud::ToolState DECL mud_Tool__get_state(mud::Tool* self) {
+	two::ToolState DECL two_Tool__get_state(two::Tool* self) {
 		return self->m_state;
 	}
-	void DECL mud_Tool__set_state(mud::Tool* self, mud::ToolState value) {
+	void DECL two_Tool__set_state(two::Tool* self, two::ToolState value) {
 		self->m_state = value;
 	}
-	void DECL mud_Tool__destroy(mud::Tool* self) {
+	void DECL two_Tool__destroy(two::Tool* self) {
 		delete self;
 	}
 	// ViewportTool
-	mud::Type* DECL mud_ViewportTool__type() {
-		return &mud::type<mud::ViewportTool>();
+	two::Type* DECL two_ViewportTool__type() {
+		return &two::type<two::ViewportTool>();
 	}
-	void DECL mud_ViewportTool__destroy(mud::ViewportTool* self) {
+	void DECL two_ViewportTool__destroy(two::ViewportTool* self) {
 		delete self;
 	}
 	// SpatialTool
-	mud::Type* DECL mud_SpatialTool__type() {
-		return &mud::type<mud::SpatialTool>();
+	two::Type* DECL two_SpatialTool__type() {
+		return &two::type<two::SpatialTool>();
 	}
-	void DECL mud_SpatialTool__destroy(mud::SpatialTool* self) {
+	void DECL two_SpatialTool__destroy(two::SpatialTool* self) {
 		delete self;
 	}
 	// Gizmo
-	mud::Type* DECL mud_Gizmo__type() {
-		return &mud::type<mud::Gizmo>();
+	two::Type* DECL two_Gizmo__type() {
+		return &two::type<two::Gizmo>();
 	}
-	void DECL mud_Gizmo__destroy(mud::Gizmo* self) {
+	void DECL two_Gizmo__destroy(two::Gizmo* self) {
 		delete self;
 	}
 	// TransformAction
-	mud::Type* DECL mud_TransformAction__type() {
-		return &mud::type<mud::TransformAction>();
+	two::Type* DECL two_TransformAction__type() {
+		return &two::type<two::TransformAction>();
 	}
-	void DECL mud_TransformAction__destroy(mud::TransformAction* self) {
+	void DECL two_TransformAction__destroy(two::TransformAction* self) {
 		delete self;
 	}
 	// TransformTool
-	mud::Type* DECL mud_TransformTool__type() {
-		return &mud::type<mud::TransformTool>();
+	two::Type* DECL two_TransformTool__type() {
+		return &two::type<two::TransformTool>();
 	}
-	void DECL mud_TransformTool__destroy(mud::TransformTool* self) {
+	void DECL two_TransformTool__destroy(two::TransformTool* self) {
 		delete self;
 	}
 	// TransformGizmo
-	mud::Type* DECL mud_TransformGizmo__type() {
-		return &mud::type<mud::TransformGizmo>();
+	two::Type* DECL two_TransformGizmo__type() {
+		return &two::type<two::TransformGizmo>();
 	}
-	void DECL mud_TransformGizmo__destroy(mud::TransformGizmo* self) {
+	void DECL two_TransformGizmo__destroy(two::TransformGizmo* self) {
 		delete self;
 	}
 	// UndoTool
-	mud::Type* DECL mud_UndoTool__type() {
-		return &mud::type<mud::UndoTool>();
+	two::Type* DECL two_UndoTool__type() {
+		return &two::type<two::UndoTool>();
 	}
-	void DECL mud_UndoTool__destroy(mud::UndoTool* self) {
+	void DECL two_UndoTool__destroy(two::UndoTool* self) {
 		delete self;
 	}
 	// RedoTool
-	mud::Type* DECL mud_RedoTool__type() {
-		return &mud::type<mud::RedoTool>();
+	two::Type* DECL two_RedoTool__type() {
+		return &two::type<two::RedoTool>();
 	}
-	void DECL mud_RedoTool__destroy(mud::RedoTool* self) {
+	void DECL two_RedoTool__destroy(two::RedoTool* self) {
 		delete self;
 	}
 	// Brush
-	mud::Type* DECL mud_Brush__type() {
-		return &mud::type<mud::Brush>();
+	two::Type* DECL two_Brush__type() {
+		return &two::type<two::Brush>();
 	}
-	void DECL mud_Brush__destroy(mud::Brush* self) {
+	void DECL two_Brush__destroy(two::Brush* self) {
 		delete self;
 	}
 	// PlaneSnapOption
-	mud::Type* DECL mud_PlaneSnapOption__type() {
-		return &mud::type<mud::PlaneSnapOption>();
+	two::Type* DECL two_PlaneSnapOption__type() {
+		return &two::type<two::PlaneSnapOption>();
 	}
-	void DECL mud_PlaneSnapOption__destroy(mud::PlaneSnapOption* self) {
+	void DECL two_PlaneSnapOption__destroy(two::PlaneSnapOption* self) {
 		delete self;
 	}
 	// WorldSnapOption
-	mud::Type* DECL mud_WorldSnapOption__type() {
-		return &mud::type<mud::WorldSnapOption>();
+	two::Type* DECL two_WorldSnapOption__type() {
+		return &two::type<two::WorldSnapOption>();
 	}
-	void DECL mud_WorldSnapOption__destroy(mud::WorldSnapOption* self) {
+	void DECL two_WorldSnapOption__destroy(two::WorldSnapOption* self) {
 		delete self;
 	}
 	// PlaceBrush
-	mud::Type* DECL mud_PlaceBrush__type() {
-		return &mud::type<mud::PlaceBrush>();
+	two::Type* DECL two_PlaceBrush__type() {
+		return &two::type<two::PlaceBrush>();
 	}
-	mud::PlaceBrush* DECL mud_PlaceBrush__construct_1(mud::ToolContext* context) {
-		return new mud::PlaceBrush(*context);
+	two::PlaceBrush* DECL two_PlaceBrush__construct_1(two::ToolContext* context) {
+		return new two::PlaceBrush(*context);
 	}
-	mud::Creator* DECL mud_PlaceBrush__get_creator(mud::PlaceBrush* self) {
+	two::Creator* DECL two_PlaceBrush__get_creator(two::PlaceBrush* self) {
 		return &self->m_creator;
 	}
-	void DECL mud_PlaceBrush__destroy(mud::PlaceBrush* self) {
+	void DECL two_PlaceBrush__destroy(two::PlaceBrush* self) {
 		delete self;
 	}
 	// CircleBrush
-	mud::Type* DECL mud_CircleBrush__type() {
-		return &mud::type<mud::CircleBrush>();
+	two::Type* DECL two_CircleBrush__type() {
+		return &two::type<two::CircleBrush>();
 	}
-	mud::CircleBrush* DECL mud_CircleBrush__construct_1(mud::ToolContext* context) {
-		return new mud::CircleBrush(*context);
+	two::CircleBrush* DECL two_CircleBrush__construct_1(two::ToolContext* context) {
+		return new two::CircleBrush(*context);
 	}
-	mud::Creator* DECL mud_CircleBrush__get_creator(mud::CircleBrush* self) {
+	two::Creator* DECL two_CircleBrush__get_creator(two::CircleBrush* self) {
 		return &self->m_creator;
 	}
-	float DECL mud_CircleBrush__get_radius(mud::CircleBrush* self) {
+	float DECL two_CircleBrush__get_radius(two::CircleBrush* self) {
 		return self->m_radius;
 	}
-	void DECL mud_CircleBrush__set_radius(mud::CircleBrush* self, float value) {
+	void DECL two_CircleBrush__set_radius(two::CircleBrush* self, float value) {
 		self->m_radius = value;
 	}
-	float DECL mud_CircleBrush__get_maxSpotRadius(mud::CircleBrush* self) {
+	float DECL two_CircleBrush__get_maxSpotRadius(two::CircleBrush* self) {
 		return self->m_maxSpotRadius;
 	}
-	void DECL mud_CircleBrush__set_maxSpotRadius(mud::CircleBrush* self, float value) {
+	void DECL two_CircleBrush__set_maxSpotRadius(two::CircleBrush* self, float value) {
 		self->m_maxSpotRadius = value;
 	}
-	void DECL mud_CircleBrush__destroy(mud::CircleBrush* self) {
+	void DECL two_CircleBrush__destroy(two::CircleBrush* self) {
 		delete self;
 	}
 	// ScriptedBrush
-	mud::Type* DECL mud_ScriptedBrush__type() {
-		return &mud::type<mud::ScriptedBrush>();
+	two::Type* DECL two_ScriptedBrush__type() {
+		return &two::type<two::ScriptedBrush>();
 	}
-	mud::ScriptedBrush* DECL mud_ScriptedBrush__construct_2(mud::ToolContext* context, mud::Script* script) {
-		return new mud::ScriptedBrush(*context, *script);
+	two::ScriptedBrush* DECL two_ScriptedBrush__construct_2(two::ToolContext* context, two::Script* script) {
+		return new two::ScriptedBrush(*context, *script);
 	}
-	mud::Call* DECL mud_ScriptedBrush__get_call(mud::ScriptedBrush* self) {
+	two::Call* DECL two_ScriptedBrush__get_call(two::ScriptedBrush* self) {
 		return &self->m_call;
 	}
-	void DECL mud_ScriptedBrush__set_call(mud::ScriptedBrush* self, mud::Call* value) {
+	void DECL two_ScriptedBrush__set_call(two::ScriptedBrush* self, two::Call* value) {
 		self->m_call = *value;
 	}
-	void DECL mud_ScriptedBrush__destroy(mud::ScriptedBrush* self) {
+	void DECL two_ScriptedBrush__destroy(two::ScriptedBrush* self) {
 		delete self;
 	}
 	// TranslateAction
-	mud::Type* DECL mud_TranslateAction__type() {
-		return &mud::type<mud::TranslateAction>();
+	two::Type* DECL two_TranslateAction__type() {
+		return &two::type<two::TranslateAction>();
 	}
-	void DECL mud_TranslateAction__destroy(mud::TranslateAction* self) {
+	void DECL two_TranslateAction__destroy(two::TranslateAction* self) {
 		delete self;
 	}
 	// TranslateTool
-	mud::Type* DECL mud_TranslateTool__type() {
-		return &mud::type<mud::TranslateTool>();
+	two::Type* DECL two_TranslateTool__type() {
+		return &two::type<two::TranslateTool>();
 	}
-	void DECL mud_TranslateTool__destroy(mud::TranslateTool* self) {
+	void DECL two_TranslateTool__destroy(two::TranslateTool* self) {
 		delete self;
 	}
 	// RotateAction
-	mud::Type* DECL mud_RotateAction__type() {
-		return &mud::type<mud::RotateAction>();
+	two::Type* DECL two_RotateAction__type() {
+		return &two::type<two::RotateAction>();
 	}
-	void DECL mud_RotateAction__destroy(mud::RotateAction* self) {
+	void DECL two_RotateAction__destroy(two::RotateAction* self) {
 		delete self;
 	}
 	// RotateTool
-	mud::Type* DECL mud_RotateTool__type() {
-		return &mud::type<mud::RotateTool>();
+	two::Type* DECL two_RotateTool__type() {
+		return &two::type<two::RotateTool>();
 	}
-	void DECL mud_RotateTool__destroy(mud::RotateTool* self) {
+	void DECL two_RotateTool__destroy(two::RotateTool* self) {
 		delete self;
 	}
 	// ScaleAction
-	mud::Type* DECL mud_ScaleAction__type() {
-		return &mud::type<mud::ScaleAction>();
+	two::Type* DECL two_ScaleAction__type() {
+		return &two::type<two::ScaleAction>();
 	}
-	void DECL mud_ScaleAction__destroy(mud::ScaleAction* self) {
+	void DECL two_ScaleAction__destroy(two::ScaleAction* self) {
 		delete self;
 	}
 	// ScaleTool
-	mud::Type* DECL mud_ScaleTool__type() {
-		return &mud::type<mud::ScaleTool>();
+	two::Type* DECL two_ScaleTool__type() {
+		return &two::type<two::ScaleTool>();
 	}
-	void DECL mud_ScaleTool__destroy(mud::ScaleTool* self) {
+	void DECL two_ScaleTool__destroy(two::ScaleTool* self) {
 		delete self;
 	}
 	// CopyAction
-	mud::Type* DECL mud_CopyAction__type() {
-		return &mud::type<mud::CopyAction>();
+	two::Type* DECL two_CopyAction__type() {
+		return &two::type<two::CopyAction>();
 	}
-	void DECL mud_CopyAction__destroy(mud::CopyAction* self) {
+	void DECL two_CopyAction__destroy(two::CopyAction* self) {
 		delete self;
 	}
 	// CopyTool
-	mud::Type* DECL mud_CopyTool__type() {
-		return &mud::type<mud::CopyTool>();
+	two::Type* DECL two_CopyTool__type() {
+		return &two::type<two::CopyTool>();
 	}
-	void DECL mud_CopyTool__destroy(mud::CopyTool* self) {
+	void DECL two_CopyTool__destroy(two::CopyTool* self) {
 		delete self;
 	}
 	// ViewAction
-	mud::Type* DECL mud_ViewAction__type() {
-		return &mud::type<mud::ViewAction>();
+	two::Type* DECL two_ViewAction__type() {
+		return &two::type<two::ViewAction>();
 	}
-	void DECL mud_ViewAction__destroy(mud::ViewAction* self) {
+	void DECL two_ViewAction__destroy(two::ViewAction* self) {
 		delete self;
 	}
 	// FrameViewTool
-	mud::Type* DECL mud_FrameViewTool__type() {
-		return &mud::type<mud::FrameViewTool>();
+	two::Type* DECL two_FrameViewTool__type() {
+		return &two::type<two::FrameViewTool>();
 	}
-	void DECL mud_FrameViewTool__destroy(mud::FrameViewTool* self) {
+	void DECL two_FrameViewTool__destroy(two::FrameViewTool* self) {
 		delete self;
 	}
 	// ViewTool
-	mud::Type* DECL mud_ViewTool__type() {
-		return &mud::type<mud::ViewTool>();
+	two::Type* DECL two_ViewTool__type() {
+		return &two::type<two::ViewTool>();
 	}
-	void DECL mud_ViewTool__destroy(mud::ViewTool* self) {
+	void DECL two_ViewTool__destroy(two::ViewTool* self) {
 		delete self;
 	}
 	// Selection
-	mud::Type* DECL mud_Selection__type() {
-		return &mud::type<mud::Selection>();
+	two::Type* DECL two_Selection__type() {
+		return &two::type<two::Selection>();
 	}
-	mud::Selection* DECL mud_Selection__construct_0() {
-		return new mud::Selection();
+	two::Selection* DECL two_Selection__construct_0() {
+		return new two::Selection();
 	}
-	void DECL mud_Selection__destroy(mud::Selection* self) {
+	void DECL two_Selection__destroy(two::Selection* self) {
 		delete self;
 	}
 	// EditContext
-	mud::Type* DECL mud_EditContext__type() {
-		return &mud::type<mud::EditContext>();
+	two::Type* DECL two_EditContext__type() {
+		return &two::type<two::EditContext>();
 	}
-	mud::UndoTool* DECL mud_EditContext__get_undo_tool(mud::EditContext* self) {
+	two::UndoTool* DECL two_EditContext__get_undo_tool(two::EditContext* self) {
 		return &self->m_undo_tool;
 	}
-	mud::RedoTool* DECL mud_EditContext__get_redo_tool(mud::EditContext* self) {
+	two::RedoTool* DECL two_EditContext__get_redo_tool(two::EditContext* self) {
 		return &self->m_redo_tool;
 	}
-	mud::Plane* DECL mud_EditContext__get_work_plane(mud::EditContext* self) {
+	two::Plane* DECL two_EditContext__get_work_plane(two::EditContext* self) {
 		return &self->m_work_plane;
 	}
-	void DECL mud_EditContext__set_work_plane(mud::EditContext* self, mud::Plane* value) {
+	void DECL two_EditContext__set_work_plane(two::EditContext* self, two::Plane* value) {
 		self->m_work_plane = *value;
 	}
-	mud::TranslateTool* DECL mud_EditContext__get_translate_tool(mud::EditContext* self) {
+	two::TranslateTool* DECL two_EditContext__get_translate_tool(two::EditContext* self) {
 		return &self->m_translate_tool;
 	}
-	mud::RotateTool* DECL mud_EditContext__get_rotate_tool(mud::EditContext* self) {
+	two::RotateTool* DECL two_EditContext__get_rotate_tool(two::EditContext* self) {
 		return &self->m_rotate_tool;
 	}
-	mud::ScaleTool* DECL mud_EditContext__get_scale_tool(mud::EditContext* self) {
+	two::ScaleTool* DECL two_EditContext__get_scale_tool(two::EditContext* self) {
 		return &self->m_scale_tool;
 	}
-	mud::Viewer* DECL mud_EditContext__get_viewer(mud::EditContext* self) {
+	two::Viewer* DECL two_EditContext__get_viewer(two::EditContext* self) {
 		return self->m_viewer;
 	}
-	void DECL mud_EditContext__set_viewer(mud::EditContext* self, mud::Viewer* value) {
+	void DECL two_EditContext__set_viewer(two::EditContext* self, two::Viewer* value) {
 		self->m_viewer = value;
 	}
-	mud::ViewportTool* DECL mud_EditContext__get_tool(mud::EditContext* self) {
+	two::ViewportTool* DECL two_EditContext__get_tool(two::EditContext* self) {
 		return self->m_tool;
 	}
-	void DECL mud_EditContext__set_tool(mud::EditContext* self, mud::ViewportTool* value) {
+	void DECL two_EditContext__set_tool(two::EditContext* self, two::ViewportTool* value) {
 		self->m_tool = value;
 	}
-	mud::SpatialTool* DECL mud_EditContext__get_spatial_tool(mud::EditContext* self) {
+	two::SpatialTool* DECL two_EditContext__get_spatial_tool(two::EditContext* self) {
 		return self->m_spatial_tool;
 	}
-	void DECL mud_EditContext__set_spatial_tool(mud::EditContext* self, mud::SpatialTool* value) {
+	void DECL two_EditContext__set_spatial_tool(two::EditContext* self, two::SpatialTool* value) {
 		self->m_spatial_tool = value;
 	}
-	mud::Brush* DECL mud_EditContext__get_brush(mud::EditContext* self) {
+	two::Brush* DECL two_EditContext__get_brush(two::EditContext* self) {
 		return self->m_brush;
 	}
-	void DECL mud_EditContext__set_brush(mud::EditContext* self, mud::Brush* value) {
+	void DECL two_EditContext__set_brush(two::EditContext* self, two::Brush* value) {
 		self->m_brush = value;
 	}
-	void DECL mud_EditContext__destroy(mud::EditContext* self) {
+	void DECL two_EditContext__destroy(two::EditContext* self) {
 		delete self;
 	}
 	// WorkPlaneAction
-	mud::Type* DECL mud_WorkPlaneAction__type() {
-		return &mud::type<mud::WorkPlaneAction>();
+	two::Type* DECL two_WorkPlaneAction__type() {
+		return &two::type<two::WorkPlaneAction>();
 	}
-	void DECL mud_WorkPlaneAction__destroy(mud::WorkPlaneAction* self) {
+	void DECL two_WorkPlaneAction__destroy(two::WorkPlaneAction* self) {
 		delete self;
 	}
 	// WorkPlaneTool
-	mud::Type* DECL mud_WorkPlaneTool__type() {
-		return &mud::type<mud::WorkPlaneTool>();
+	two::Type* DECL two_WorkPlaneTool__type() {
+		return &two::type<two::WorkPlaneTool>();
 	}
-	void DECL mud_WorkPlaneTool__destroy(mud::WorkPlaneTool* self) {
+	void DECL two_WorkPlaneTool__destroy(two::WorkPlaneTool* self) {
 		delete self;
 	}
 	// ToolState
-	mud::ToolState DECL mud_ToolState_Inactive() {
-		return mud::ToolState::Inactive;
+	two::ToolState DECL two_ToolState_Inactive() {
+		return two::ToolState::Inactive;
 	}
-	mud::ToolState DECL mud_ToolState_Done() {
-		return mud::ToolState::Done;
+	two::ToolState DECL two_ToolState_Done() {
+		return two::ToolState::Done;
 	}
-	mud::ToolState DECL mud_ToolState_Active() {
-		return mud::ToolState::Active;
+	two::ToolState DECL two_ToolState_Active() {
+		return two::ToolState::Active;
 	}
 	
 }

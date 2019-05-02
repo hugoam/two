@@ -1,7 +1,7 @@
 #define HEADER_ONLY 0
 
 #if !HEADER_ONLY
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #else
 #ifdef _MSC_VER
@@ -15,26 +15,26 @@
 #undef FAR
 #endif
 
-#include <mud/infra.cpp>
-#include <mud/pool.cpp>
-#include <mud/jobs.cpp>
-#include <mud/type.cpp>
-#include <mud/ecs.cpp>
-#include <mud/math.cpp>
-#include <mud/geom.cpp>
-#include <mud/bgfx.cpp>
-#include <mud/gfx.cpp>
-#include <mud/ctx.cpp>
-#include <mud/ui.cpp>
-#include <mud/gfx.ui.cpp>
-#include <mud/ctx.glfw.cpp>
-#include <mud/ui.vg.cpp>
-#include <mud/frame.cpp>
+#include <two/infra.cpp>
+#include <two/pool.cpp>
+#include <two/jobs.cpp>
+#include <two/type.cpp>
+#include <two/ecs.cpp>
+#include <two/math.cpp>
+#include <two/geom.cpp>
+#include <two/bgfx.cpp>
+#include <two/gfx.cpp>
+#include <two/ctx.cpp>
+#include <two/ui.cpp>
+#include <two/gfx.ui.cpp>
+#include <two/ctx.glfw.cpp>
+#include <two/ui.vg.cpp>
+#include <two/frame.cpp>
 #endif
 
 #include <00_cube/00_cube.h>
 
-using namespace mud;
+using namespace two;
 
 void speed_key(Widget& widget, vec3& speed, Key key, vec3 speed_offset)
 {
@@ -86,7 +86,7 @@ void pump(Shell& app, ShellWindow& window)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
 	app.m_gfx.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }

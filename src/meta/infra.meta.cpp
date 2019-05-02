@@ -1,23 +1,23 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.infra;
+#ifdef TWO_MODULES
+module two.infra;
 #else
 #include <refl/Module.h>
 #include <meta/infra.meta.h>
 #endif
 
-namespace mud
+namespace two
 {
-	mud_infra::mud_infra()
-		: Module("mud::infra", {  })
+	two_infra::two_infra()
+		: Module("two::infra", {  })
 	{}
 }
 
-#ifdef MUD_INFRA_MODULE
+#ifdef TWO_INFRA_MODULE
 extern "C"
 Module& getModule()
 {
-	return mud_infra::m();
+	return two_infra::m();
 }
 #endif

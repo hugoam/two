@@ -3,15 +3,15 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <string>
 #include <vector>
 #include <map>
 #include <cstring>
 #endif
 
-#ifdef MUD_MODULES
-module mud.srlz;
+#ifdef TWO_MODULES
+module two.srlz;
 #else
 #include <json11.hpp>
 
@@ -30,11 +30,11 @@ module mud.srlz;
 #include <srlz/Serial.hpp>
 #endif
 
-#define MUD_DEBUG_SERIAL 0
+#define TWO_DEBUG_SERIAL 0
 #define NO_HUMAN_READABLE
 #define NO_PACK_DEFAULT
 
-namespace mud
+namespace two
 {
 	void parse_json_file(const string& path, Json& data)
 	{
@@ -228,7 +228,7 @@ namespace mud
 		{
 			auto unpack_member = [&](const Member& member, const Json& member_value)
 			{
-#if MUD_DEBUG_SERIAL
+#if TWO_DEBUG_SERIAL
 				printf("[debug] unpacking member %s :: %s\n", type(value).m_name, member.m_name);
 #endif
 				if(is_abstract(*member.m_type))
@@ -260,7 +260,7 @@ namespace mud
 			for(size_t index = 0; index < size; ++index)
 			{
 				const Param& param = construct.m_callable->m_params[index + 1];
-#ifdef MUD_DEBUG_SERIAL
+#ifdef TWO_DEBUG_SERIAL
 				printf("[debug] unpacking param %s :: %s\n", type(value).m_name, param.m_name);
 #endif
 				const Json& json_field = json_value.is_array() ? json_value[index]

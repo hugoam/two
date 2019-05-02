@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.pbr;
+#ifdef TWO_MODULES
+module two.gfx.pbr;
 #else
 #include <math/Vec.hpp>
 #include <gfx/RenderTarget.h>
@@ -24,7 +24,7 @@ module mud.gfx.pbr;
 
 #define MAX_GLOW_LEVELS 7
 
-namespace mud
+namespace two
 {
 	GpuState<Glow> GpuState<Glow>::me;
 

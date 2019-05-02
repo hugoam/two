@@ -76,7 +76,7 @@ namespace stl
 		T* release() noexcept
 		{
 			T* result = nullptr;
-			mud::swap(result, m_ptr);
+			two::swap(result, m_ptr);
 			return result;
 		}
 
@@ -107,7 +107,7 @@ namespace stl
 
 #endif
 
-namespace mud
+namespace two
 {
 	export_ template <class T>
 	using unique = stl::unique_ptr<T>;

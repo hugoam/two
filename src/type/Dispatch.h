@@ -7,7 +7,7 @@
 #include <type/Ref.h>
 #include <type/Type.h>
 
-namespace mud
+namespace two
 {
 	export_ template <class T_Return, class... Args>
 	class Dispatch

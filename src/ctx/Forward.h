@@ -6,13 +6,13 @@
 #include <type/Forward.h>
 #include <math/Forward.h>
 
-#ifndef MUD_CTX_EXPORT
-#define MUD_CTX_EXPORT MUD_IMPORT
+#ifndef TWO_CTX_EXPORT
+#define TWO_CTX_EXPORT TWO_IMPORT
 #endif
 
 #include <stdint.h>
 
-namespace mud
+namespace two
 {
     enum class Key : uint16_t;
     enum MouseButtonCode : unsigned int;

@@ -2,16 +2,16 @@
 
 #include <obj/Config.h>
 
-export module mud.ui.vg;
+export module two.ui.vg;
 export import std.core;
 export import std.io;
 export import std.threading;
 export import std.regex;
 
-export import mud.infra;
-export import mud.obj;
-export import mud.math;
-export import mud.ui;
+export import two.infra;
+export import two.obj;
+export import two.math;
+export import two.ui;
 
 #include <ui-vg/Api.h>
 

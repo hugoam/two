@@ -10,7 +10,7 @@
 #include <math/Forward.h>
 //#include <math/Math.h>
 
-namespace mud
+namespace two
 {
 	export_ template <class T>
 	struct refl_ StatDef
@@ -67,7 +67,7 @@ namespace mud
 	export_ extern template struct Stat<float>;
 
 #if 0
-	export_ struct refl_ MUD_MATH_EXPORT Ratio : public Stat<float>
+	export_ struct refl_ TWO_MATH_EXPORT Ratio : public Stat<float>
 	{
 	public:
 		constr_ Ratio(float value = 0.f);
@@ -79,7 +79,7 @@ namespace mud
 		const StatDef<float>& def() const { static StatDef<float> df = { 0.f, 1.f, 0.01f }; return df; }
 	};
 
-	export_ struct refl_ MUD_MATH_EXPORT Gauge : public Stat<float>
+	export_ struct refl_ TWO_MATH_EXPORT Gauge : public Stat<float>
 	{
 	public:
 		constr_ Gauge(float value = 0.f);

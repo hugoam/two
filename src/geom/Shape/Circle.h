@@ -8,34 +8,34 @@
 #include <geom/Shape/ProcShape.h>
 #include <geom/Shapes.h>
 
-namespace mud
+namespace two
 {
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const ArcLine& arc);
-	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const ArcLine& arc, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const ArcLine& arc);
+	export_ TWO_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const ArcLine& arc, MeshAdapter& writer);
 
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const ArcLine& arc);
-	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const ArcLine& arc, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const ArcLine& arc);
+	export_ TWO_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const ArcLine& arc, MeshAdapter& writer);
 
-	MUD_GEOM_EXPORT uint16_t circle_vertices(const ProcShape& shape, const vec3& position, vec2 radius, SignedAxis axis, bool lines, MeshAdapter& writer, bool outward_normals = false);
+	TWO_GEOM_EXPORT uint16_t circle_vertices(const ProcShape& shape, const vec3& position, vec2 radius, SignedAxis axis, bool lines, MeshAdapter& writer, bool outward_normals = false);
 
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Circle& circle);
-	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Circle& circle, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Circle& circle);
+	export_ TWO_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Circle& circle, MeshAdapter& writer);
 
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Circle& circle);
-	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Circle& circle, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Circle& circle);
+	export_ TWO_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Circle& circle, MeshAdapter& writer);
 
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Ellipsis& ellipsis);
-	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Ellipsis& ellipsis, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Ellipsis& ellipsis);
+	export_ TWO_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Ellipsis& ellipsis, MeshAdapter& writer);
 
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Ellipsis& ellipsis);
-	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Ellipsis& ellipsis, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Ellipsis& ellipsis);
+	export_ TWO_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Ellipsis& ellipsis, MeshAdapter& writer);
 
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Torus& torus);
-	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Torus& torus, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Torus& torus);
+	export_ TWO_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Torus& torus, MeshAdapter& writer);
 
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Torus& torus);
-	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Torus& torus, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Torus& torus);
+	export_ TWO_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Torus& torus, MeshAdapter& writer);
 
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const TorusKnot& torus);
-	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const TorusKnot& torus, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const TorusKnot& torus);
+	export_ TWO_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const TorusKnot& torus, MeshAdapter& writer);
 }

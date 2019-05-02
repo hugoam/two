@@ -4,16 +4,16 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <math/Vec.h>
 #endif
 #include <gfx/Forward.h>
 #include <gfx/Animation.h>
 #include <gfx/Skeleton.h>
 
-namespace mud
+namespace two
 {
-	export_ struct refl_ MUD_GFX_EXPORT AnimNode
+	export_ struct refl_ TWO_GFX_EXPORT AnimNode
 	{
 		attr_ vec3 m_position = vec3(0.f);
 		attr_ quat m_rotation = ZeroQuat;
@@ -21,7 +21,7 @@ namespace mud
 		attr_ mat4 m_transform;
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT AnimPlay
+	export_ struct refl_ TWO_GFX_EXPORT AnimPlay
 	{
 		AnimPlay() {}
 		AnimPlay(const Animation& animation, bool loop, float speed, bool transient, span<AnimNode> nodes, Rig* rig = nullptr);
@@ -56,7 +56,7 @@ namespace mud
 		vector<Track> m_tracks;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Mime
+	export_ class refl_ TWO_GFX_EXPORT Mime
 	{
 	public:
 		constr_ Mime();

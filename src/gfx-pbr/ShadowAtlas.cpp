@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.pbr;
+#ifdef TWO_MODULES
+module two.gfx.pbr;
 #else
 #include <stl/algorithm.h>
 #include <geom/Geom.hpp>
@@ -22,7 +22,7 @@ module mud.gfx.pbr;
 
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 	ShadowAtlas::ShadowAtlas(uint16_t size, uint8_t num_slices)
 		: m_side(size)

@@ -1,4 +1,4 @@
--- mud library
+-- two library
 -- fiber 3rdparty module
 
 local canary = ""
@@ -30,12 +30,12 @@ local asm_table = {
     osx = "gas.S",
 }
 
-fcontext = mud_dep(nil, "fcontext")
+fcontext = two_dep(nil, "fcontext")
     kind "StaticLib"
 
     files {
-        path.join(MUD_3RDPARTY_DIR, "fiber", "third_party", "boost_context", "include/**.h"),
-        path.join(MUD_3RDPARTY_DIR, "fiber", "third_party", "boost_context", "src/**.cpp"),
+        path.join(TWO_3RDPARTY_DIR, "fiber", "third_party", "boost_context", "include/**.h"),
+        path.join(TWO_3RDPARTY_DIR, "fiber", "third_party", "boost_context", "src/**.cpp"),
     }
     
     for _, os in ipairs({ "windows", "linux", "osx" }) do
@@ -48,8 +48,8 @@ fcontext = mud_dep(nil, "fcontext")
         
         configuration { os, arch }
             files {
-                path.join(MUD_3RDPARTY_DIR, "fiber", "third_party", "boost_context", "asm/jump_" .. canary .. arch_table[arch] .. "_" .. os_table[os] .. "_" .. abi_table[os] .. "_" .. asm_table[os]),
-                path.join(MUD_3RDPARTY_DIR, "fiber", "third_party", "boost_context", "asm/make_" .. canary .. arch_table[arch] .. "_" .. os_table[os] .. "_" .. abi_table[os] .. "_" .. asm_table[os]),
+                path.join(TWO_3RDPARTY_DIR, "fiber", "third_party", "boost_context", "asm/jump_" .. canary .. arch_table[arch] .. "_" .. os_table[os] .. "_" .. abi_table[os] .. "_" .. asm_table[os]),
+                path.join(TWO_3RDPARTY_DIR, "fiber", "third_party", "boost_context", "asm/make_" .. canary .. arch_table[arch] .. "_" .. os_table[os] .. "_" .. abi_table[os] .. "_" .. asm_table[os]),
             }
     end
     end
@@ -63,24 +63,24 @@ fcontext = mud_dep(nil, "fcontext")
 
 function uses_ftl()
     includedirs {
-        path.join(MUD_3RDPARTY_DIR, "fiber", "include"),
-        path.join(MUD_3RDPARTY_DIR, "fiber", "third_party", "boost_context", "include"),
+        path.join(TWO_3RDPARTY_DIR, "fiber", "include"),
+        path.join(TWO_3RDPARTY_DIR, "fiber", "third_party", "boost_context", "include"),
     }
 end
 
-ftl = mud_dep(nil, "ftl", false, uses_ftl)
+ftl = two_dep(nil, "ftl", false, uses_ftl)
     kind "StaticLib"
     
     includedirs {
-        path.join(MUD_SRC_DIR),
-        path.join(MUD_3RDPARTY_DIR, "fiber", "include"),
-        path.join(MUD_3RDPARTY_DIR, "fiber", "source"),
-        path.join(MUD_3RDPARTY_DIR, "fiber", "third_party", "boost_context", "include"),
+        path.join(TWO_SRC_DIR),
+        path.join(TWO_3RDPARTY_DIR, "fiber", "include"),
+        path.join(TWO_3RDPARTY_DIR, "fiber", "source"),
+        path.join(TWO_3RDPARTY_DIR, "fiber", "third_party", "boost_context", "include"),
     }
     
     files {
-        path.join(MUD_3RDPARTY_DIR, "fiber",  "include/**.h"),
-        path.join(MUD_3RDPARTY_DIR, "fiber",  "source/**.cpp"),
+        path.join(TWO_3RDPARTY_DIR, "fiber",  "include/**.h"),
+        path.join(TWO_3RDPARTY_DIR, "fiber",  "source/**.cpp"),
     }
     
     defines {

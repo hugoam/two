@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_COMPOSITING
-#define MUD_SHADER_COMPOSITING
+#ifndef TWO_SHADER_COMPOSITING
+#define TWO_SHADER_COMPOSITING
 
 #include <common.sh>
 

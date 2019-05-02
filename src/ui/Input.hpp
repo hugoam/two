@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/traits.h>
 #include <infra/ToString.h>
 #include <infra/ToValue.h>
@@ -16,7 +16,7 @@
 #include <ui/Edit/TypeIn.h>
 #include <ui/Style/Styles.h>
 
-namespace mud
+namespace two
 {
 namespace ui
 {

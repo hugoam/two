@@ -4,11 +4,10 @@
 
 #pragma once
 
-/* mud */
 #include <bgfx/Config.h>
 #include <ui-nanovg/VgNano.h>
 
-namespace mud
+namespace two
 {
 	class VgNanoGl : public VgNano
 	{

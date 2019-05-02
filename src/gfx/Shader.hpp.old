@@ -8,7 +8,7 @@
 #include <gfx/Program.h>
 #include <stdint.h>
 
-namespace mud
+namespace two
 {
 	enum ShaderOption : unsigned int
 	{
@@ -21,7 +21,7 @@ namespace mud
 		CLUSTERED
 	};
 
-	export_ struct MUD_GFX_EXPORT ShaderVersion
+	export_ struct TWO_GFX_EXPORT ShaderVersion
 	{
 		ShaderVersion() {}
 		ShaderVersion(const Program* program) : m_program(program) {}

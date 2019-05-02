@@ -4,12 +4,12 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <type/Any.h>
 #endif
 #include <srlz/Serial.h>
 
-namespace mud
+namespace two
 {
 	export_ template <class T>
 	T unpackt(const Json& data)

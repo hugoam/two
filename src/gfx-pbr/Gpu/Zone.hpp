@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.pbr;
+#ifdef TWO_MODULES
+module two.gfx.pbr;
 #else
 #include <math/Vec.hpp>
 #include <gfx/Scene.h>
@@ -18,7 +18,7 @@ module mud.gfx.pbr;
 
 #define PAD 1.f
 
-namespace mud
+namespace two
 {
 #if !ZONES_LIGHTS_BUFFER
 	template <>

@@ -6,7 +6,7 @@
 
 #include <infra/Config.h>
 
-namespace mud
+namespace two
 {
 	export_ template <class T>
 	class Global

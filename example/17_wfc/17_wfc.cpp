@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-obj/Api.h>
@@ -8,7 +8,7 @@
 
 #include <17_wfc/17_wfc.h>
 
-using namespace mud;
+using namespace two;
 
 WaveTileset& create_tileset(Shell& app)
 {
@@ -71,7 +71,7 @@ void pump(Shell& app, ShellWindow& window)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
 	app.m_gfx.add_resource_path("examples/17_wfc");
 	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);

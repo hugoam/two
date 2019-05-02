@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/algorithm.h>
 #include <stl/table.h>
@@ -22,7 +22,7 @@ module mud.gfx;
 #include <cassert>
 #include <algorithm>
 
-namespace mud
+namespace two
 {
 	static table<AnimTarget, Type*> s_target_types = { &type<vec3>(), &type<quat>(), &type<vec3>(), &type<vector<float>>() };
 

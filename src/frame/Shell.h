@@ -13,7 +13,7 @@
 
 #define GLOBAL_VG 0
 
-namespace mud
+namespace two
 {
 	struct refl_ ShellContext
 	{

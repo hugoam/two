@@ -4,15 +4,15 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <ui/Edit/Lang.h>
 #endif
 
 #include <stl/hash_base.hpp>
 
-namespace mud
+namespace two
 {
 	template <class T, size_t N>
 	constexpr size_t size(T(&)[N]) { return N; }

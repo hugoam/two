@@ -2,7 +2,7 @@
 
 #include <obj/Config.h>
 
-export module mud.ui.nanovg;
+export module two.ui.nanovg;
 export import std.core;
 export import std.io;
 export import std.threading;

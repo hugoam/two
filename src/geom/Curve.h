@@ -9,7 +9,7 @@
 #include <math/Math.h>
 #include <geom/Forward.h>
 
-namespace mud
+namespace two
 {
 	class refl_ Curve2
 	{

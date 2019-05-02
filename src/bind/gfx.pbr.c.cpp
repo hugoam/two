@@ -5,7 +5,7 @@
 #include <gfx/Api.h>
 #include <gfx-pbr/Api.h>
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
 #define DECL EMSCRIPTEN_KEEPALIVE
 #else
@@ -16,534 +16,534 @@
 extern "C" {
 	
 	// BlockLight
-	mud::Type* DECL mud_BlockLight__type() {
-		return &mud::type<mud::BlockLight>();
+	two::Type* DECL two_BlockLight__type() {
+		return &two::type<two::BlockLight>();
 	}
-	void DECL mud_BlockLight__destroy(mud::BlockLight* self) {
+	void DECL two_BlockLight__destroy(two::BlockLight* self) {
 		delete self;
 	}
 	// LightmapItem
-	mud::Type* DECL mud_LightmapItem__type() {
-		return &mud::type<mud::LightmapItem>();
+	two::Type* DECL two_LightmapItem__type() {
+		return &two::type<two::LightmapItem>();
 	}
-	void DECL mud_LightmapItem__destroy(mud::LightmapItem* self) {
+	void DECL two_LightmapItem__destroy(two::LightmapItem* self) {
 		delete self;
 	}
 	// Lightmap
-	mud::Type* DECL mud_Lightmap__type() {
-		return &mud::type<mud::Lightmap>();
+	two::Type* DECL two_Lightmap__type() {
+		return &two::type<two::Lightmap>();
 	}
-	void DECL mud_Lightmap__destroy(mud::Lightmap* self) {
+	void DECL two_Lightmap__destroy(two::Lightmap* self) {
 		delete self;
 	}
 	// LightmapAtlas
-	mud::Type* DECL mud_LightmapAtlas__type() {
-		return &mud::type<mud::LightmapAtlas>();
+	two::Type* DECL two_LightmapAtlas__type() {
+		return &two::type<two::LightmapAtlas>();
 	}
-	void DECL mud_LightmapAtlas__destroy(mud::LightmapAtlas* self) {
+	void DECL two_LightmapAtlas__destroy(two::LightmapAtlas* self) {
 		delete self;
 	}
 	// BlockLightmap
-	mud::Type* DECL mud_BlockLightmap__type() {
-		return &mud::type<mud::BlockLightmap>();
+	two::Type* DECL two_BlockLightmap__type() {
+		return &two::type<two::BlockLightmap>();
 	}
-	void DECL mud_BlockLightmap__destroy(mud::BlockLightmap* self) {
+	void DECL two_BlockLightmap__destroy(two::BlockLightmap* self) {
 		delete self;
 	}
 	// BlockGeometry
-	mud::Type* DECL mud_BlockGeometry__type() {
-		return &mud::type<mud::BlockGeometry>();
+	two::Type* DECL two_BlockGeometry__type() {
+		return &two::type<two::BlockGeometry>();
 	}
-	void DECL mud_BlockGeometry__destroy(mud::BlockGeometry* self) {
+	void DECL two_BlockGeometry__destroy(two::BlockGeometry* self) {
 		delete self;
 	}
 	// BlockRadiance
-	mud::Type* DECL mud_BlockRadiance__type() {
-		return &mud::type<mud::BlockRadiance>();
+	two::Type* DECL two_BlockRadiance__type() {
+		return &two::type<two::BlockRadiance>();
 	}
-	void DECL mud_BlockRadiance__destroy(mud::BlockRadiance* self) {
+	void DECL two_BlockRadiance__destroy(two::BlockRadiance* self) {
 		delete self;
 	}
 	// CubeTarget
-	mud::Type* DECL mud_CubeTarget__type() {
-		return &mud::type<mud::CubeTarget>();
+	two::Type* DECL two_CubeTarget__type() {
+		return &two::type<two::CubeTarget>();
 	}
-	mud::CubeTarget* DECL mud_CubeTarget__construct_0() {
-		return new mud::CubeTarget();
+	two::CubeTarget* DECL two_CubeTarget__construct_0() {
+		return new two::CubeTarget();
 	}
-	void DECL mud_CubeTarget_create_1(mud::CubeTarget* self, uint32_t size) {
+	void DECL two_CubeTarget_create_1(two::CubeTarget* self, uint32_t size) {
 		self->create(size);
 	}
-	mud::FrameBuffer* DECL mud_CubeTarget_side_1(mud::CubeTarget* self, size_t i) {
+	two::FrameBuffer* DECL two_CubeTarget_side_1(two::CubeTarget* self, size_t i) {
 		return &self->side(i);
 	}
-	mud::Texture* DECL mud_CubeTarget__get_cubemap(mud::CubeTarget* self) {
+	two::Texture* DECL two_CubeTarget__get_cubemap(two::CubeTarget* self) {
 		return &self->m_cubemap;
 	}
-	mud::Texture* DECL mud_CubeTarget__get_depth(mud::CubeTarget* self) {
+	two::Texture* DECL two_CubeTarget__get_depth(two::CubeTarget* self) {
 		return &self->m_depth;
 	}
-	uint32_t DECL mud_CubeTarget__get_size(mud::CubeTarget* self) {
+	uint32_t DECL two_CubeTarget__get_size(two::CubeTarget* self) {
 		return self->m_size;
 	}
-	void DECL mud_CubeTarget__set_size(mud::CubeTarget* self, uint32_t value) {
+	void DECL two_CubeTarget__set_size(two::CubeTarget* self, uint32_t value) {
 		self->m_size = value;
 	}
-	void DECL mud_CubeTarget__destroy(mud::CubeTarget* self) {
+	void DECL two_CubeTarget__destroy(two::CubeTarget* self) {
 		delete self;
 	}
 	// CubeCamera
-	mud::Type* DECL mud_CubeCamera__type() {
-		return &mud::type<mud::CubeCamera>();
+	two::Type* DECL two_CubeCamera__type() {
+		return &two::type<two::CubeCamera>();
 	}
-	mud::CubeCamera* DECL mud_CubeCamera__construct_0() {
-		return new mud::CubeCamera();
+	two::CubeCamera* DECL two_CubeCamera__construct_0() {
+		return new two::CubeCamera();
 	}
-	mud::CubeCamera* DECL mud_CubeCamera__construct_4(mud::Scene* scene, float near, float far, uint32_t size) {
-		return new mud::CubeCamera(*scene, near, far, size);
+	two::CubeCamera* DECL two_CubeCamera__construct_4(two::Scene* scene, float near, float far, uint32_t size) {
+		return new two::CubeCamera(*scene, near, far, size);
 	}
-	mud::Render* DECL mud_CubeCamera_render_3(mud::CubeCamera* self, mud::GfxSystem* gfx, mud::Render* render, mud::SignedAxis axis) {
-		static mud::Render temp;
+	two::Render* DECL two_CubeCamera_render_3(two::CubeCamera* self, two::GfxSystem* gfx, two::Render* render, two::SignedAxis axis) {
+		static two::Render temp;
 		return (temp = self->render(*gfx, *render, axis), &temp);
 	}
-	mud::CubeTarget* DECL mud_CubeCamera__get_cubemap(mud::CubeCamera* self) {
+	two::CubeTarget* DECL two_CubeCamera__get_cubemap(two::CubeCamera* self) {
 		return &self->m_cubemap;
 	}
-	mud::uvec2* DECL mud_CubeCamera__get_size(mud::CubeCamera* self) {
+	two::uvec2* DECL two_CubeCamera__get_size(two::CubeCamera* self) {
 		return &self->m_size;
 	}
-	void DECL mud_CubeCamera__set_size(mud::CubeCamera* self, mud::uvec2* value) {
+	void DECL two_CubeCamera__set_size(two::CubeCamera* self, two::uvec2* value) {
 		self->m_size = *value;
 	}
-	void DECL mud_CubeCamera__destroy(mud::CubeCamera* self) {
+	void DECL two_CubeCamera__destroy(two::CubeCamera* self) {
 		delete self;
 	}
 	// ReflectionProbe
-	mud::Type* DECL mud_ReflectionProbe__type() {
-		return &mud::type<mud::ReflectionProbe>();
+	two::Type* DECL two_ReflectionProbe__type() {
+		return &two::type<two::ReflectionProbe>();
 	}
-	mud::Node3* DECL mud_ReflectionProbe__get_node(mud::ReflectionProbe* self) {
+	two::Node3* DECL two_ReflectionProbe__get_node(two::ReflectionProbe* self) {
 		return &self->m_node;
 	}
-	bool DECL mud_ReflectionProbe__get_visible(mud::ReflectionProbe* self) {
+	bool DECL two_ReflectionProbe__get_visible(two::ReflectionProbe* self) {
 		return self->m_visible;
 	}
-	void DECL mud_ReflectionProbe__set_visible(mud::ReflectionProbe* self, bool value) {
+	void DECL two_ReflectionProbe__set_visible(two::ReflectionProbe* self, bool value) {
 		self->m_visible = value;
 	}
-	float DECL mud_ReflectionProbe__get_intensity(mud::ReflectionProbe* self) {
+	float DECL two_ReflectionProbe__get_intensity(two::ReflectionProbe* self) {
 		return self->m_intensity;
 	}
-	void DECL mud_ReflectionProbe__set_intensity(mud::ReflectionProbe* self, float value) {
+	void DECL two_ReflectionProbe__set_intensity(two::ReflectionProbe* self, float value) {
 		self->m_intensity = value;
 	}
-	mud::vec3* DECL mud_ReflectionProbe__get_extents(mud::ReflectionProbe* self) {
+	two::vec3* DECL two_ReflectionProbe__get_extents(two::ReflectionProbe* self) {
 		return &self->m_extents;
 	}
-	void DECL mud_ReflectionProbe__set_extents(mud::ReflectionProbe* self, mud::vec3* value) {
+	void DECL two_ReflectionProbe__set_extents(two::ReflectionProbe* self, two::vec3* value) {
 		self->m_extents = *value;
 	}
-	bool DECL mud_ReflectionProbe__get_shadows(mud::ReflectionProbe* self) {
+	bool DECL two_ReflectionProbe__get_shadows(two::ReflectionProbe* self) {
 		return self->m_shadows;
 	}
-	void DECL mud_ReflectionProbe__set_shadows(mud::ReflectionProbe* self, bool value) {
+	void DECL two_ReflectionProbe__set_shadows(two::ReflectionProbe* self, bool value) {
 		self->m_shadows = value;
 	}
-	bool DECL mud_ReflectionProbe__get_dirty(mud::ReflectionProbe* self) {
+	bool DECL two_ReflectionProbe__get_dirty(two::ReflectionProbe* self) {
 		return self->m_dirty;
 	}
-	void DECL mud_ReflectionProbe__set_dirty(mud::ReflectionProbe* self, bool value) {
+	void DECL two_ReflectionProbe__set_dirty(two::ReflectionProbe* self, bool value) {
 		self->m_dirty = value;
 	}
-	void DECL mud_ReflectionProbe__destroy(mud::ReflectionProbe* self) {
+	void DECL two_ReflectionProbe__destroy(two::ReflectionProbe* self) {
 		delete self;
 	}
 	// BlockReflection
-	mud::Type* DECL mud_BlockReflection__type() {
-		return &mud::type<mud::BlockReflection>();
+	two::Type* DECL two_BlockReflection__type() {
+		return &two::type<two::BlockReflection>();
 	}
-	void DECL mud_BlockReflection__destroy(mud::BlockReflection* self) {
+	void DECL two_BlockReflection__destroy(two::BlockReflection* self) {
 		delete self;
 	}
 	// LightShadow
-	mud::Type* DECL mud_LightShadow__type() {
-		return &mud::type<mud::LightShadow>();
+	two::Type* DECL two_LightShadow__type() {
+		return &two::type<two::LightShadow>();
 	}
-	mud::LightShadow* DECL mud_LightShadow__construct_0() {
-		return new mud::LightShadow();
+	two::LightShadow* DECL two_LightShadow__construct_0() {
+		return new two::LightShadow();
 	}
-	void DECL mud_LightShadow__destroy(mud::LightShadow* self) {
+	void DECL two_LightShadow__destroy(two::LightShadow* self) {
 		delete self;
 	}
 	// CSMSlice
-	mud::Type* DECL mud_CSMSlice__type() {
-		return &mud::type<mud::CSMSlice>();
+	two::Type* DECL two_CSMSlice__type() {
+		return &two::type<two::CSMSlice>();
 	}
-	mud::CSMSlice* DECL mud_CSMSlice__construct_0() {
-		return new mud::CSMSlice();
+	two::CSMSlice* DECL two_CSMSlice__construct_0() {
+		return new two::CSMSlice();
 	}
-	void DECL mud_CSMSlice__destroy(mud::CSMSlice* self) {
+	void DECL two_CSMSlice__destroy(two::CSMSlice* self) {
 		delete self;
 	}
 	// CSMShadow
-	mud::Type* DECL mud_CSMShadow__type() {
-		return &mud::type<mud::CSMShadow>();
+	two::Type* DECL two_CSMShadow__type() {
+		return &two::type<two::CSMShadow>();
 	}
-	mud::CSMShadow* DECL mud_CSMShadow__construct_0() {
-		return new mud::CSMShadow();
+	two::CSMShadow* DECL two_CSMShadow__construct_0() {
+		return new two::CSMShadow();
 	}
-	void DECL mud_CSMShadow__destroy(mud::CSMShadow* self) {
+	void DECL two_CSMShadow__destroy(two::CSMShadow* self) {
 		delete self;
 	}
 	// BlockShadow
-	mud::Type* DECL mud_BlockShadow__type() {
-		return &mud::type<mud::BlockShadow>();
+	two::Type* DECL two_BlockShadow__type() {
+		return &two::type<two::BlockShadow>();
 	}
-	void DECL mud_BlockShadow__destroy(mud::BlockShadow* self) {
+	void DECL two_BlockShadow__destroy(two::BlockShadow* self) {
 		delete self;
 	}
 	// GIProbe
-	mud::Type* DECL mud_GIProbe__type() {
-		return &mud::type<mud::GIProbe>();
+	two::Type* DECL two_GIProbe__type() {
+		return &two::type<two::GIProbe>();
 	}
-	void DECL mud_GIProbe__destroy(mud::GIProbe* self) {
+	void DECL two_GIProbe__destroy(two::GIProbe* self) {
 		delete self;
 	}
 	// BlockGITrace
-	mud::Type* DECL mud_BlockGITrace__type() {
-		return &mud::type<mud::BlockGITrace>();
+	two::Type* DECL two_BlockGITrace__type() {
+		return &two::type<two::BlockGITrace>();
 	}
-	void DECL mud_BlockGITrace__destroy(mud::BlockGITrace* self) {
+	void DECL two_BlockGITrace__destroy(two::BlockGITrace* self) {
 		delete self;
 	}
 	// BlockGIBake
-	mud::Type* DECL mud_BlockGIBake__type() {
-		return &mud::type<mud::BlockGIBake>();
+	two::Type* DECL two_BlockGIBake__type() {
+		return &two::type<two::BlockGIBake>();
 	}
-	void DECL mud_BlockGIBake__destroy(mud::BlockGIBake* self) {
+	void DECL two_BlockGIBake__destroy(two::BlockGIBake* self) {
 		delete self;
 	}
 	// BlockBlur
-	mud::Type* DECL mud_BlockBlur__type() {
-		return &mud::type<mud::BlockBlur>();
+	two::Type* DECL two_BlockBlur__type() {
+		return &two::type<two::BlockBlur>();
 	}
-	void DECL mud_BlockBlur__destroy(mud::BlockBlur* self) {
+	void DECL two_BlockBlur__destroy(two::BlockBlur* self) {
 		delete self;
 	}
 	// DofParams
-	mud::Type* DECL mud_DofParams__type() {
-		return &mud::type<mud::DofParams>();
+	two::Type* DECL two_DofParams__type() {
+		return &two::type<two::DofParams>();
 	}
-	mud::DofParams* DECL mud_DofParams__construct_0() {
-		return new mud::DofParams();
+	two::DofParams* DECL two_DofParams__construct_0() {
+		return new two::DofParams();
 	}
-	float DECL mud_DofParams__get_distance(mud::DofParams* self) {
+	float DECL two_DofParams__get_distance(two::DofParams* self) {
 		return self->m_distance;
 	}
-	void DECL mud_DofParams__set_distance(mud::DofParams* self, float value) {
+	void DECL two_DofParams__set_distance(two::DofParams* self, float value) {
 		self->m_distance = value;
 	}
-	float DECL mud_DofParams__get_transition(mud::DofParams* self) {
+	float DECL two_DofParams__get_transition(two::DofParams* self) {
 		return self->m_transition;
 	}
-	void DECL mud_DofParams__set_transition(mud::DofParams* self, float value) {
+	void DECL two_DofParams__set_transition(two::DofParams* self, float value) {
 		self->m_transition = value;
 	}
-	float DECL mud_DofParams__get_radius(mud::DofParams* self) {
+	float DECL two_DofParams__get_radius(two::DofParams* self) {
 		return self->m_radius;
 	}
-	void DECL mud_DofParams__set_radius(mud::DofParams* self, float value) {
+	void DECL two_DofParams__set_radius(two::DofParams* self, float value) {
 		self->m_radius = value;
 	}
-	void DECL mud_DofParams__destroy(mud::DofParams* self) {
+	void DECL two_DofParams__destroy(two::DofParams* self) {
 		delete self;
 	}
 	// DofBlur
-	mud::Type* DECL mud_DofBlur__type() {
-		return &mud::type<mud::DofBlur>();
+	two::Type* DECL two_DofBlur__type() {
+		return &two::type<two::DofBlur>();
 	}
-	mud::DofBlur* DECL mud_DofBlur__construct_0() {
-		return new mud::DofBlur();
+	two::DofBlur* DECL two_DofBlur__construct_0() {
+		return new two::DofBlur();
 	}
-	bool DECL mud_DofBlur__get_enabled(mud::DofBlur* self) {
+	bool DECL two_DofBlur__get_enabled(two::DofBlur* self) {
 		return self->m_enabled;
 	}
-	void DECL mud_DofBlur__set_enabled(mud::DofBlur* self, bool value) {
+	void DECL two_DofBlur__set_enabled(two::DofBlur* self, bool value) {
 		self->m_enabled = value;
 	}
-	mud::DofParams* DECL mud_DofBlur__get_far(mud::DofBlur* self) {
+	two::DofParams* DECL two_DofBlur__get_far(two::DofBlur* self) {
 		return &self->m_far;
 	}
-	void DECL mud_DofBlur__set_far(mud::DofBlur* self, mud::DofParams* value) {
+	void DECL two_DofBlur__set_far(two::DofBlur* self, two::DofParams* value) {
 		self->m_far = *value;
 	}
-	mud::DofParams* DECL mud_DofBlur__get_near(mud::DofBlur* self) {
+	two::DofParams* DECL two_DofBlur__get_near(two::DofBlur* self) {
 		return &self->m_near;
 	}
-	void DECL mud_DofBlur__set_near(mud::DofBlur* self, mud::DofParams* value) {
+	void DECL two_DofBlur__set_near(two::DofBlur* self, two::DofParams* value) {
 		self->m_near = *value;
 	}
-	float DECL mud_DofBlur__get_max_coc_radius(mud::DofBlur* self) {
+	float DECL two_DofBlur__get_max_coc_radius(two::DofBlur* self) {
 		return self->m_max_coc_radius;
 	}
-	void DECL mud_DofBlur__set_max_coc_radius(mud::DofBlur* self, float value) {
+	void DECL two_DofBlur__set_max_coc_radius(two::DofBlur* self, float value) {
 		self->m_max_coc_radius = value;
 	}
-	void DECL mud_DofBlur__destroy(mud::DofBlur* self) {
+	void DECL two_DofBlur__destroy(two::DofBlur* self) {
 		delete self;
 	}
 	// BlockDofBlur
-	mud::Type* DECL mud_BlockDofBlur__type() {
-		return &mud::type<mud::BlockDofBlur>();
+	two::Type* DECL two_BlockDofBlur__type() {
+		return &two::type<two::BlockDofBlur>();
 	}
-	void DECL mud_BlockDofBlur__destroy(mud::BlockDofBlur* self) {
+	void DECL two_BlockDofBlur__destroy(two::BlockDofBlur* self) {
 		delete self;
 	}
 	// Glow
-	mud::Type* DECL mud_Glow__type() {
-		return &mud::type<mud::Glow>();
+	two::Type* DECL two_Glow__type() {
+		return &two::type<two::Glow>();
 	}
-	mud::Glow* DECL mud_Glow__construct_0() {
-		return new mud::Glow();
+	two::Glow* DECL two_Glow__construct_0() {
+		return new two::Glow();
 	}
-	bool DECL mud_Glow__get_enabled(mud::Glow* self) {
+	bool DECL two_Glow__get_enabled(two::Glow* self) {
 		return self->m_enabled;
 	}
-	void DECL mud_Glow__set_enabled(mud::Glow* self, bool value) {
+	void DECL two_Glow__set_enabled(two::Glow* self, bool value) {
 		self->m_enabled = value;
 	}
-	mud::vec4* DECL mud_Glow__get_levels_1_4(mud::Glow* self) {
+	two::vec4* DECL two_Glow__get_levels_1_4(two::Glow* self) {
 		return &self->m_levels_1_4;
 	}
-	void DECL mud_Glow__set_levels_1_4(mud::Glow* self, mud::vec4* value) {
+	void DECL two_Glow__set_levels_1_4(two::Glow* self, two::vec4* value) {
 		self->m_levels_1_4 = *value;
 	}
-	mud::vec4* DECL mud_Glow__get_levels_5_8(mud::Glow* self) {
+	two::vec4* DECL two_Glow__get_levels_5_8(two::Glow* self) {
 		return &self->m_levels_5_8;
 	}
-	void DECL mud_Glow__set_levels_5_8(mud::Glow* self, mud::vec4* value) {
+	void DECL two_Glow__set_levels_5_8(two::Glow* self, two::vec4* value) {
 		self->m_levels_5_8 = *value;
 	}
-	float DECL mud_Glow__get_intensity(mud::Glow* self) {
+	float DECL two_Glow__get_intensity(two::Glow* self) {
 		return self->m_intensity;
 	}
-	void DECL mud_Glow__set_intensity(mud::Glow* self, float value) {
+	void DECL two_Glow__set_intensity(two::Glow* self, float value) {
 		self->m_intensity = value;
 	}
-	float DECL mud_Glow__get_bloom(mud::Glow* self) {
+	float DECL two_Glow__get_bloom(two::Glow* self) {
 		return self->m_bloom;
 	}
-	void DECL mud_Glow__set_bloom(mud::Glow* self, float value) {
+	void DECL two_Glow__set_bloom(two::Glow* self, float value) {
 		self->m_bloom = value;
 	}
-	float DECL mud_Glow__get_bleed_threshold(mud::Glow* self) {
+	float DECL two_Glow__get_bleed_threshold(two::Glow* self) {
 		return self->m_bleed_threshold;
 	}
-	void DECL mud_Glow__set_bleed_threshold(mud::Glow* self, float value) {
+	void DECL two_Glow__set_bleed_threshold(two::Glow* self, float value) {
 		self->m_bleed_threshold = value;
 	}
-	float DECL mud_Glow__get_bleed_scale(mud::Glow* self) {
+	float DECL two_Glow__get_bleed_scale(two::Glow* self) {
 		return self->m_bleed_scale;
 	}
-	void DECL mud_Glow__set_bleed_scale(mud::Glow* self, float value) {
+	void DECL two_Glow__set_bleed_scale(two::Glow* self, float value) {
 		self->m_bleed_scale = value;
 	}
-	bool DECL mud_Glow__get_bicubic_filter(mud::Glow* self) {
+	bool DECL two_Glow__get_bicubic_filter(two::Glow* self) {
 		return self->m_bicubic_filter;
 	}
-	void DECL mud_Glow__set_bicubic_filter(mud::Glow* self, bool value) {
+	void DECL two_Glow__set_bicubic_filter(two::Glow* self, bool value) {
 		self->m_bicubic_filter = value;
 	}
-	void DECL mud_Glow__destroy(mud::Glow* self) {
+	void DECL two_Glow__destroy(two::Glow* self) {
 		delete self;
 	}
 	// BlockGlow
-	mud::Type* DECL mud_BlockGlow__type() {
-		return &mud::type<mud::BlockGlow>();
+	two::Type* DECL two_BlockGlow__type() {
+		return &two::type<two::BlockGlow>();
 	}
-	void DECL mud_BlockGlow__destroy(mud::BlockGlow* self) {
+	void DECL two_BlockGlow__destroy(two::BlockGlow* self) {
 		delete self;
 	}
 	// BCS
-	mud::Type* DECL mud_BCS__type() {
-		return &mud::type<mud::BCS>();
+	two::Type* DECL two_BCS__type() {
+		return &two::type<two::BCS>();
 	}
-	mud::BCS* DECL mud_BCS__construct_0() {
-		return new mud::BCS();
+	two::BCS* DECL two_BCS__construct_0() {
+		return new two::BCS();
 	}
-	bool DECL mud_BCS__get_enabled(mud::BCS* self) {
+	bool DECL two_BCS__get_enabled(two::BCS* self) {
 		return self->m_enabled;
 	}
-	void DECL mud_BCS__set_enabled(mud::BCS* self, bool value) {
+	void DECL two_BCS__set_enabled(two::BCS* self, bool value) {
 		self->m_enabled = value;
 	}
-	float DECL mud_BCS__get_brightness(mud::BCS* self) {
+	float DECL two_BCS__get_brightness(two::BCS* self) {
 		return self->m_brightness;
 	}
-	void DECL mud_BCS__set_brightness(mud::BCS* self, float value) {
+	void DECL two_BCS__set_brightness(two::BCS* self, float value) {
 		self->m_brightness = value;
 	}
-	float DECL mud_BCS__get_contrast(mud::BCS* self) {
+	float DECL two_BCS__get_contrast(two::BCS* self) {
 		return self->m_contrast;
 	}
-	void DECL mud_BCS__set_contrast(mud::BCS* self, float value) {
+	void DECL two_BCS__set_contrast(two::BCS* self, float value) {
 		self->m_contrast = value;
 	}
-	float DECL mud_BCS__get_saturation(mud::BCS* self) {
+	float DECL two_BCS__get_saturation(two::BCS* self) {
 		return self->m_saturation;
 	}
-	void DECL mud_BCS__set_saturation(mud::BCS* self, float value) {
+	void DECL two_BCS__set_saturation(two::BCS* self, float value) {
 		self->m_saturation = value;
 	}
-	void DECL mud_BCS__destroy(mud::BCS* self) {
+	void DECL two_BCS__destroy(two::BCS* self) {
 		delete self;
 	}
 	// Tonemap
-	mud::Type* DECL mud_Tonemap__type() {
-		return &mud::type<mud::Tonemap>();
+	two::Type* DECL two_Tonemap__type() {
+		return &two::type<two::Tonemap>();
 	}
-	mud::Tonemap* DECL mud_Tonemap__construct_0() {
-		return new mud::Tonemap();
+	two::Tonemap* DECL two_Tonemap__construct_0() {
+		return new two::Tonemap();
 	}
-	mud::TonemapMode DECL mud_Tonemap__get_mode(mud::Tonemap* self) {
+	two::TonemapMode DECL two_Tonemap__get_mode(two::Tonemap* self) {
 		return self->m_mode;
 	}
-	void DECL mud_Tonemap__set_mode(mud::Tonemap* self, mud::TonemapMode value) {
+	void DECL two_Tonemap__set_mode(two::Tonemap* self, two::TonemapMode value) {
 		self->m_mode = value;
 	}
-	bool DECL mud_Tonemap__get_enabled(mud::Tonemap* self) {
+	bool DECL two_Tonemap__get_enabled(two::Tonemap* self) {
 		return self->m_enabled;
 	}
-	void DECL mud_Tonemap__set_enabled(mud::Tonemap* self, bool value) {
+	void DECL two_Tonemap__set_enabled(two::Tonemap* self, bool value) {
 		self->m_enabled = value;
 	}
-	float DECL mud_Tonemap__get_exposure(mud::Tonemap* self) {
+	float DECL two_Tonemap__get_exposure(two::Tonemap* self) {
 		return self->m_exposure;
 	}
-	void DECL mud_Tonemap__set_exposure(mud::Tonemap* self, float value) {
+	void DECL two_Tonemap__set_exposure(two::Tonemap* self, float value) {
 		self->m_exposure = value;
 	}
-	float DECL mud_Tonemap__get_white_point(mud::Tonemap* self) {
+	float DECL two_Tonemap__get_white_point(two::Tonemap* self) {
 		return self->m_white_point;
 	}
-	void DECL mud_Tonemap__set_white_point(mud::Tonemap* self, float value) {
+	void DECL two_Tonemap__set_white_point(two::Tonemap* self, float value) {
 		self->m_white_point = value;
 	}
-	void DECL mud_Tonemap__destroy(mud::Tonemap* self) {
+	void DECL two_Tonemap__destroy(two::Tonemap* self) {
 		delete self;
 	}
 	// BlockTonemap
-	mud::Type* DECL mud_BlockTonemap__type() {
-		return &mud::type<mud::BlockTonemap>();
+	two::Type* DECL two_BlockTonemap__type() {
+		return &two::type<two::BlockTonemap>();
 	}
-	void DECL mud_BlockTonemap__destroy(mud::BlockTonemap* self) {
+	void DECL two_BlockTonemap__destroy(two::BlockTonemap* self) {
 		delete self;
 	}
-	void DECL mud_begin_pbr_render_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::begin_pbr_render(*gfx, *render);
+	void DECL two_begin_pbr_render_2(two::GfxSystem* gfx, two::Render* render) {
+		two::begin_pbr_render(*gfx, *render);
 	}
-	void DECL mud_pass_gi_probes_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::pass_gi_probes(*gfx, *render);
+	void DECL two_pass_gi_probes_2(two::GfxSystem* gfx, two::Render* render) {
+		two::pass_gi_probes(*gfx, *render);
 	}
-	void DECL mud_pass_shadowmaps_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::pass_shadowmaps(*gfx, *render);
+	void DECL two_pass_shadowmaps_2(two::GfxSystem* gfx, two::Render* render) {
+		two::pass_shadowmaps(*gfx, *render);
 	}
-	void DECL mud_pass_shadow_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::pass_shadow(*gfx, *render);
+	void DECL two_pass_shadow_2(two::GfxSystem* gfx, two::Render* render) {
+		two::pass_shadow(*gfx, *render);
 	}
-	void DECL mud_pass_opaque_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::pass_opaque(*gfx, *render);
+	void DECL two_pass_opaque_2(two::GfxSystem* gfx, two::Render* render) {
+		two::pass_opaque(*gfx, *render);
 	}
-	void DECL mud_pass_alpha_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::pass_alpha(*gfx, *render);
+	void DECL two_pass_alpha_2(two::GfxSystem* gfx, two::Render* render) {
+		two::pass_alpha(*gfx, *render);
 	}
-	void DECL mud_pass_geometry_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::pass_geometry(*gfx, *render);
+	void DECL two_pass_geometry_2(two::GfxSystem* gfx, two::Render* render) {
+		two::pass_geometry(*gfx, *render);
 	}
-	void DECL mud_pass_lights_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::pass_lights(*gfx, *render);
+	void DECL two_pass_lights_2(two::GfxSystem* gfx, two::Render* render) {
+		two::pass_lights(*gfx, *render);
 	}
-	void DECL mud_pass_voxel_gi_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::pass_voxel_gi(*gfx, *render);
+	void DECL two_pass_voxel_gi_2(two::GfxSystem* gfx, two::Render* render) {
+		two::pass_voxel_gi(*gfx, *render);
 	}
-	void DECL mud_pass_lightmap_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::pass_lightmap(*gfx, *render);
+	void DECL two_pass_lightmap_2(two::GfxSystem* gfx, two::Render* render) {
+		two::pass_lightmap(*gfx, *render);
 	}
-	void DECL mud_pass_begin_post_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::pass_begin_post(*gfx, *render);
+	void DECL two_pass_begin_post_2(two::GfxSystem* gfx, two::Render* render) {
+		two::pass_begin_post(*gfx, *render);
 	}
-	void DECL mud_pass_post_auto_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::pass_post_auto(*gfx, *render);
+	void DECL two_pass_post_auto_2(two::GfxSystem* gfx, two::Render* render) {
+		two::pass_post_auto(*gfx, *render);
 	}
-	void DECL mud_pass_post_effects_6(mud::GfxSystem* gfx, mud::Render* render, mud::DofBlur* dof, mud::Glow* glow, mud::Tonemap* tonemap, mud::BCS* bcs) {
-		mud::pass_post_effects(*gfx, *render, *dof, *glow, *tonemap, *bcs);
+	void DECL two_pass_post_effects_6(two::GfxSystem* gfx, two::Render* render, two::DofBlur* dof, two::Glow* glow, two::Tonemap* tonemap, two::BCS* bcs) {
+		two::pass_post_effects(*gfx, *render, *dof, *glow, *tonemap, *bcs);
 	}
-	void DECL mud_render_pbr_forward_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::render_pbr_forward(*gfx, *render);
+	void DECL two_render_pbr_forward_2(two::GfxSystem* gfx, two::Render* render) {
+		two::render_pbr_forward(*gfx, *render);
 	}
-	void DECL mud_render_pbr_deferred_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::render_pbr_deferred(*gfx, *render);
+	void DECL two_render_pbr_deferred_2(two::GfxSystem* gfx, two::Render* render) {
+		two::render_pbr_deferred(*gfx, *render);
 	}
-	void DECL mud_render_shadow_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::render_shadow(*gfx, *render);
+	void DECL two_render_shadow_2(two::GfxSystem* gfx, two::Render* render) {
+		two::render_shadow(*gfx, *render);
 	}
-	void DECL mud_render_voxel_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::render_voxel(*gfx, *render);
+	void DECL two_render_voxel_2(two::GfxSystem* gfx, two::Render* render) {
+		two::render_voxel(*gfx, *render);
 	}
-	void DECL mud_render_lightmap_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::render_lightmap(*gfx, *render);
+	void DECL two_render_lightmap_2(two::GfxSystem* gfx, two::Render* render) {
+		two::render_lightmap(*gfx, *render);
 	}
-	void DECL mud_render_reflection_2(mud::GfxSystem* gfx, mud::Render* render) {
-		mud::render_reflection(*gfx, *render);
+	void DECL two_render_reflection_2(two::GfxSystem* gfx, two::Render* render) {
+		two::render_reflection(*gfx, *render);
 	}
-	void DECL mud_pipeline_pbr_2(mud::GfxSystem* gfx, mud::Renderer* pipeline) {
-		mud::pipeline_pbr(*gfx, *pipeline);
+	void DECL two_pipeline_pbr_2(two::GfxSystem* gfx, two::Renderer* pipeline) {
+		two::pipeline_pbr(*gfx, *pipeline);
 	}
-	void DECL mud_pipeline_pbr_3(mud::GfxSystem* gfx, mud::Renderer* pipeline, bool deferred) {
-		mud::pipeline_pbr(*gfx, *pipeline, deferred);
+	void DECL two_pipeline_pbr_3(two::GfxSystem* gfx, two::Renderer* pipeline, bool deferred) {
+		two::pipeline_pbr(*gfx, *pipeline, deferred);
 	}
-	void DECL mud_gfx_setup_pipeline_pbr_1(mud::GfxSystem* gfx) {
-		mud::gfx::setup_pipeline_pbr(*gfx);
+	void DECL two_gfx_setup_pipeline_pbr_1(two::GfxSystem* gfx) {
+		two::gfx::setup_pipeline_pbr(*gfx);
 	}
-	mud::GIProbe* DECL mud_gfx_gi_probe_3(mud::Gnode* parent, uint16_t subdiv, const mud::vec3* extents) {
-		return &mud::gfx::gi_probe(*parent, subdiv, *extents);
+	two::GIProbe* DECL two_gfx_gi_probe_3(two::Gnode* parent, uint16_t subdiv, const two::vec3* extents) {
+		return &two::gfx::gi_probe(*parent, subdiv, *extents);
 	}
-	mud::LightmapAtlas* DECL mud_gfx_lightmap_2(mud::Gnode* parent, uint32_t resolution) {
-		return &mud::gfx::lightmap(*parent, resolution);
+	two::LightmapAtlas* DECL two_gfx_lightmap_2(two::Gnode* parent, uint32_t resolution) {
+		return &two::gfx::lightmap(*parent, resolution);
 	}
-	mud::LightmapAtlas* DECL mud_gfx_lightmap_3(mud::Gnode* parent, uint32_t resolution, float density) {
-		return &mud::gfx::lightmap(*parent, resolution, density);
+	two::LightmapAtlas* DECL two_gfx_lightmap_3(two::Gnode* parent, uint32_t resolution, float density) {
+		return &two::gfx::lightmap(*parent, resolution, density);
 	}
-	mud::LightmapAtlas* DECL mud_gfx_lightmap_4(mud::Gnode* parent, uint32_t resolution, float density, const char* save_path) {
-		return &mud::gfx::lightmap(*parent, resolution, density, save_path);
+	two::LightmapAtlas* DECL two_gfx_lightmap_4(two::Gnode* parent, uint32_t resolution, float density, const char* save_path) {
+		return &two::gfx::lightmap(*parent, resolution, density, save_path);
 	}
-	void DECL mud_pass_dofblur_3(mud::GfxSystem* gfx, mud::Render* render, const mud::DofBlur* blur) {
-		mud::pass_dofblur(*gfx, *render, *blur);
+	void DECL two_pass_dofblur_3(two::GfxSystem* gfx, two::Render* render, const two::DofBlur* blur) {
+		two::pass_dofblur(*gfx, *render, *blur);
 	}
-	void DECL mud_pass_glow_3(mud::GfxSystem* gfx, mud::Render* render, mud::Glow* glow) {
-		mud::pass_glow(*gfx, *render, *glow);
+	void DECL two_pass_glow_3(two::GfxSystem* gfx, two::Render* render, two::Glow* glow) {
+		two::pass_glow(*gfx, *render, *glow);
 	}
-	void DECL mud_pass_tonemap_4(mud::GfxSystem* gfx, mud::Render* render, mud::Tonemap* tonemap, mud::BCS* bcs) {
-		mud::pass_tonemap(*gfx, *render, *tonemap, *bcs);
+	void DECL two_pass_tonemap_4(two::GfxSystem* gfx, two::Render* render, two::Tonemap* tonemap, two::BCS* bcs) {
+		two::pass_tonemap(*gfx, *render, *tonemap, *bcs);
 	}
 	// TonemapMode
-	mud::TonemapMode DECL mud_TonemapMode_Linear() {
-		return mud::TonemapMode::Linear;
+	two::TonemapMode DECL two_TonemapMode_Linear() {
+		return two::TonemapMode::Linear;
 	}
-	mud::TonemapMode DECL mud_TonemapMode_Reinhardt() {
-		return mud::TonemapMode::Reinhardt;
+	two::TonemapMode DECL two_TonemapMode_Reinhardt() {
+		return two::TonemapMode::Reinhardt;
 	}
-	mud::TonemapMode DECL mud_TonemapMode_Filmic() {
-		return mud::TonemapMode::Filmic;
+	two::TonemapMode DECL two_TonemapMode_Filmic() {
+		return two::TonemapMode::Filmic;
 	}
-	mud::TonemapMode DECL mud_TonemapMode_ACES() {
-		return mud::TonemapMode::ACES;
+	two::TonemapMode DECL two_TonemapMode_ACES() {
+		return two::TonemapMode::ACES;
 	}
-	mud::TonemapMode DECL mud_TonemapMode_Cineon() {
-		return mud::TonemapMode::Cineon;
+	two::TonemapMode DECL two_TonemapMode_Cineon() {
+		return two::TonemapMode::Cineon;
 	}
-	mud::TonemapMode DECL mud_TonemapMode_Uncharted2() {
-		return mud::TonemapMode::Uncharted2;
+	two::TonemapMode DECL two_TonemapMode_Uncharted2() {
+		return two::TonemapMode::Uncharted2;
 	}
 	
 }

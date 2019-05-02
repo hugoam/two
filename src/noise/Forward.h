@@ -7,11 +7,11 @@
 #include <math/Forward.h>
 #include <geom/Forward.h>
 
-#ifndef MUD_NOISE_EXPORT
-#define MUD_NOISE_EXPORT MUD_IMPORT
+#ifndef TWO_NOISE_EXPORT
+#define TWO_NOISE_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
     class Noise;
 }

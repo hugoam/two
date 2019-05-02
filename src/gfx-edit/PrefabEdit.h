@@ -6,7 +6,7 @@
 
 #include <gfx-edit/Forward.h>
 
-namespace mud
+namespace two
 {
-	MUD_GFX_EDIT_EXPORT void prefab_edit(Widget& parent, GfxSystem& gfx, PrefabNode& node, PrefabNode*& selected);
+	TWO_GFX_EDIT_EXPORT void prefab_edit(Widget& parent, GfxSystem& gfx, PrefabNode& node, PrefabNode*& selected);
 }

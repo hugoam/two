@@ -3,12 +3,12 @@
 #include <gfx/Assets.h>
 #include <gfx/Asset.hpp>
 
-namespace mud
+namespace two
 {
-	template class MUD_GFX_EXPORT AssetStore<Texture>;
-	template class MUD_GFX_EXPORT AssetStore<Program>;
-	template class MUD_GFX_EXPORT AssetStore<Material>;
-	template class MUD_GFX_EXPORT AssetStore<Model>;
-	template class MUD_GFX_EXPORT AssetStore<Flow>;
-	template class MUD_GFX_EXPORT AssetStore<Prefab>;
+	template class TWO_GFX_EXPORT AssetStore<Texture>;
+	template class TWO_GFX_EXPORT AssetStore<Program>;
+	template class TWO_GFX_EXPORT AssetStore<Material>;
+	template class TWO_GFX_EXPORT AssetStore<Model>;
+	template class TWO_GFX_EXPORT AssetStore<Flow>;
+	template class TWO_GFX_EXPORT AssetStore<Prefab>;
 }

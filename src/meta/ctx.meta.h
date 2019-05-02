@@ -1,29 +1,29 @@
 #pragma once
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <refl/Module.h>
 #endif
 
 #include <ctx/Forward.h>
 //#include <ctx/Types.h>
 
-#ifndef MUD_CTX_REFL_EXPORT
-#define MUD_CTX_REFL_EXPORT MUD_IMPORT
+#ifndef TWO_CTX_REFL_EXPORT
+#define TWO_CTX_REFL_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
-	export_ class MUD_CTX_REFL_EXPORT mud_ctx : public mud::Module
+	export_ class TWO_CTX_REFL_EXPORT two_ctx : public two::Module
 	{
 	private:
-		mud_ctx();
+		two_ctx();
 		
 	public:
-		static mud_ctx& m() { static mud_ctx instance; return instance; }
+		static two_ctx& m() { static two_ctx instance; return instance; }
 	};
 }
 
-#ifdef MUD_CTX_MODULE
+#ifdef TWO_CTX_MODULE
 extern "C"
-MUD_CTX_REFL_EXPORT Module& getModule();
+TWO_CTX_REFL_EXPORT Module& getModule();
 #endif

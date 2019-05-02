@@ -8,7 +8,7 @@
 #include <ecs/Entity.h>
 #include <uio/Forward.h>
 
-namespace mud
+namespace two
 {
 	export_ enum class refl_ EditNestMode : unsigned int
 	{
@@ -17,7 +17,7 @@ namespace mud
 		Embed
 	};
 
-	struct MUD_UIO_EXPORT EditSpec
+	struct TWO_UIO_EXPORT EditSpec
 	{
 		EditSpec() {}
 		EditSpec(Class& cls);
@@ -25,7 +25,7 @@ namespace mud
 		EditNestMode m_nest_mode[2] = { EditNestMode::Inline, EditNestMode::Inline };
 	};
 
-	export_ extern MUD_UIO_EXPORT vector<EditSpec> g_edit_specs;
+	export_ extern TWO_UIO_EXPORT vector<EditSpec> g_edit_specs;
 	
 	export_ enum class refl_ EditorHint : unsigned int
 	{
@@ -34,26 +34,26 @@ namespace mud
 		Inline
 	};
 
-	export_ MUD_UIO_EXPORT func_ bool object_edit_inline(Widget& parent, Ref object);
-	export_ MUD_UIO_EXPORT func_ bool object_edit_rows(Widget& parent, Ref object);
-	export_ MUD_UIO_EXPORT func_ bool object_edit_columns(Widget& parent, Ref object);
-	export_ MUD_UIO_EXPORT func_ bool object_edit_table(Widget& parent, Ref object);
-	export_ MUD_UIO_EXPORT func_ bool object_edit_expandbox(Widget& parent, Ref object);
-	export_ MUD_UIO_EXPORT func_ bool object_edit(Widget& parent, Ref object, EditorHint hint = EditorHint::Table);
+	export_ TWO_UIO_EXPORT func_ bool object_edit_inline(Widget& parent, Ref object);
+	export_ TWO_UIO_EXPORT func_ bool object_edit_rows(Widget& parent, Ref object);
+	export_ TWO_UIO_EXPORT func_ bool object_edit_columns(Widget& parent, Ref object);
+	export_ TWO_UIO_EXPORT func_ bool object_edit_table(Widget& parent, Ref object);
+	export_ TWO_UIO_EXPORT func_ bool object_edit_expandbox(Widget& parent, Ref object);
+	export_ TWO_UIO_EXPORT func_ bool object_edit(Widget& parent, Ref object, EditorHint hint = EditorHint::Table);
 
-	export_ MUD_UIO_EXPORT func_ bool entity_edit(Widget& parent, Entity entity, EditorHint hint = EditorHint::Table);
+	export_ TWO_UIO_EXPORT func_ bool entity_edit(Widget& parent, Entity entity, EditorHint hint = EditorHint::Table);
 
-	export_ MUD_UIO_EXPORT func_ bool inspector(Widget& parent, Ref object);
-	export_ MUD_UIO_EXPORT func_ bool inspector(Widget& parent, Entity entity);
-	export_ MUD_UIO_EXPORT func_ bool inspector(Widget& parent);
-	export_ MUD_UIO_EXPORT func_ void multi_inspector(Widget& parent, Type& type, vector<Var>& objects, size_t& selected);
+	export_ TWO_UIO_EXPORT func_ bool inspector(Widget& parent, Ref object);
+	export_ TWO_UIO_EXPORT func_ bool inspector(Widget& parent, Entity entity);
+	export_ TWO_UIO_EXPORT func_ bool inspector(Widget& parent);
+	export_ TWO_UIO_EXPORT func_ void multi_inspector(Widget& parent, Type& type, vector<Var>& objects, size_t& selected);
 
-	export_ MUD_UIO_EXPORT func_ void multi_object_edit(Widget& parent, Type& type, vector<Ref> objects);
+	export_ TWO_UIO_EXPORT func_ void multi_object_edit(Widget& parent, Type& type, vector<Ref> objects);
 
 	template <class T_Object>
 	T_Object* deref(unique<T_Object>& element) { return element.get(); }
 
-#ifdef MUD_MEMORY_TRACKING
+#ifdef TWO_MEMORY_TRACKING
 	template <class T_Object>
 	T_Object* deref(object<T_Object>& element) { return element.get(); }
 #endif

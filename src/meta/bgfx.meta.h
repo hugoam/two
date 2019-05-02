@@ -1,29 +1,29 @@
 #pragma once
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <refl/Module.h>
 #endif
 
 #include <bgfx/Forward.h>
 //#include <bgfx/Types.h>
 
-#ifndef MUD_BGFX_REFL_EXPORT
-#define MUD_BGFX_REFL_EXPORT MUD_IMPORT
+#ifndef TWO_BGFX_REFL_EXPORT
+#define TWO_BGFX_REFL_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
-	export_ class MUD_BGFX_REFL_EXPORT mud_bgfx : public mud::Module
+	export_ class TWO_BGFX_REFL_EXPORT two_bgfx : public two::Module
 	{
 	private:
-		mud_bgfx();
+		two_bgfx();
 		
 	public:
-		static mud_bgfx& m() { static mud_bgfx instance; return instance; }
+		static two_bgfx& m() { static two_bgfx instance; return instance; }
 	};
 }
 
-#ifdef MUD_BGFX_MODULE
+#ifdef TWO_BGFX_MODULE
 extern "C"
-MUD_BGFX_REFL_EXPORT Module& getModule();
+TWO_BGFX_REFL_EXPORT Module& getModule();
 #endif

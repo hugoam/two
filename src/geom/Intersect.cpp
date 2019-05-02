@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.geom;
+#ifdef TWO_MODULES
+module two.geom;
 #else
 #include <math/Axes.h>
 #include <geom/Types.h>
@@ -18,7 +18,7 @@ module mud.geom;
 
 #include <stl/swap.h>
 
-namespace mud
+namespace two
 {
 	float ray_aabb_intersection_dist(const vec3& bmin, const vec3& bmax, const Ray& ray)
 	{

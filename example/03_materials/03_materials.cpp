@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 #include <refl/Api.h>
@@ -7,7 +7,7 @@
 
 #include <03_materials/03_materials.h>
 
-using namespace mud;
+using namespace two;
 
 Material& phong_white(GfxSystem& gfx, const string& name)
 {
@@ -234,7 +234,7 @@ void pump(Shell& app, ShellWindow& window)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
 	System::instance().load_modules({ &mud_gfx::m() });
 	app.m_gfx.add_resource_path("examples/03_materials");
 	app.m_gfx.init_pipeline(pipeline_pbr);

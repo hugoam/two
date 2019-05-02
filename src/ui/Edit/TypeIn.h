@@ -14,7 +14,7 @@
 #include <ui/Frame/Caption.h>
 #include <ui/Style/Paint.h>
 
-namespace mud
+namespace two
 {
 	enum class CodePalette : unsigned char
 	{
@@ -45,7 +45,7 @@ namespace mud
 		Click
 	};
 
-	export_ class refl_ MUD_UI_EXPORT TextEdit : public Widget
+	export_ class refl_ TWO_UI_EXPORT TextEdit : public Widget
 	{
 	public:
 		class Action
@@ -203,13 +203,13 @@ namespace mud
 
 namespace ui
 {
-	MUD_UI_EXPORT bool filter(const string& filter, const string& value);
+	TWO_UI_EXPORT bool filter(const string& filter, const string& value);
 
-	export_ MUD_UI_EXPORT func_ TextEdit& text_box(Widget& parent, Style& style, string& text, bool editor = false, size_t lines = 1, const string& allowed_chars = "");
-	export_ MUD_UI_EXPORT func_ TextEdit& type_in(Widget& parent, string& text, size_t lines = 1, const string& allowed_chars = "");
-	export_ MUD_UI_EXPORT func_ TextEdit& text_edit(Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
-	export_ MUD_UI_EXPORT func_ TextEdit& code_edit(Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
+	export_ TWO_UI_EXPORT func_ TextEdit& text_box(Widget& parent, Style& style, string& text, bool editor = false, size_t lines = 1, const string& allowed_chars = "");
+	export_ TWO_UI_EXPORT func_ TextEdit& type_in(Widget& parent, string& text, size_t lines = 1, const string& allowed_chars = "");
+	export_ TWO_UI_EXPORT func_ TextEdit& text_edit(Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
+	export_ TWO_UI_EXPORT func_ TextEdit& code_edit(Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
 
-	export_ MUD_UI_EXPORT string auto_indent(TextEdit& edit);
+	export_ TWO_UI_EXPORT string auto_indent(TextEdit& edit);
 }
 }

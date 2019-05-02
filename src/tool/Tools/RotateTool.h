@@ -4,16 +4,16 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <math/Vec.h>
 #endif
 #include <tool/Forward.h>
 #include <tool/Tool.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_TOOL_EXPORT RotateAction : public TransformAction
+	export_ class refl_ TWO_TOOL_EXPORT RotateAction : public TransformAction
 	{
 	public:
 		RotateAction(span<Transform*> targets, const vec3& axis);
@@ -28,7 +28,7 @@ namespace mud
 		float m_angle;
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT RotateTool final : public TransformTool
+	export_ class refl_ TWO_TOOL_EXPORT RotateTool final : public TransformTool
 	{
 	public:
 		RotateTool(ToolContext& context);

@@ -6,11 +6,11 @@
 #include <gfx/Forward.h>
 #include <gfx-ui/Forward.h>
 
-#ifndef MUD_FRAME_EXPORT
-#define MUD_FRAME_EXPORT MUD_IMPORT
+#ifndef TWO_FRAME_EXPORT
+#define TWO_FRAME_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
 	struct ShellContext;
 	class ShellWindow;

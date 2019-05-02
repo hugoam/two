@@ -10,7 +10,7 @@
 #   pragma GCC system_header
 #endif
 
-namespace mud
+namespace two
 {
 	export_ template <class T>
 	constexpr bool is_object_pointer = is_pointer<T>;// && !is_function_pointer<T>;

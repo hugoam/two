@@ -4,15 +4,15 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <math/Vec.h>
 #endif
 #include <ui/Forward.h>
 #include <ui/Frame/Dim.h>
 
-namespace mud
+namespace two
 {
-	export_ struct refl_ MUD_UI_EXPORT UiRect
+	export_ struct refl_ TWO_UI_EXPORT UiRect
 	{
 		attr_ vec2 m_position = vec2(0.f);
 		attr_ vec2 m_size = vec2(0.f);

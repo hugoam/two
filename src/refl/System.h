@@ -8,17 +8,17 @@
 #include <refl/Forward.h>
 #include <refl/Namespace.h>
 
-namespace mud
+namespace two
 {
 	export_ using cstring = const char*;
 	export_ using FunctionPointer = void* (*)();
 	
-	export_ MUD_REFL_EXPORT Module* load_module(cstring path);
-	export_ MUD_REFL_EXPORT void unload_module(Module& m);
-	export_ MUD_REFL_EXPORT void reload_module(Module& m);
-	export_ MUD_REFL_EXPORT FunctionPointer module_function(Module& module, cstring name);
+	export_ TWO_REFL_EXPORT Module* load_module(cstring path);
+	export_ TWO_REFL_EXPORT void unload_module(Module& m);
+	export_ TWO_REFL_EXPORT void reload_module(Module& m);
+	export_ TWO_REFL_EXPORT FunctionPointer module_function(Module& module, cstring name);
 
-	export_ class refl_ MUD_REFL_EXPORT System
+	export_ class refl_ TWO_REFL_EXPORT System
 	{
 	public:
 		System();

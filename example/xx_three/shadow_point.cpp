@@ -1,10 +1,10 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 
 #include <xx_three/xx_three.h>
 
-using namespace mud;
+using namespace two;
 
 #define IMMEDIATE 0
 

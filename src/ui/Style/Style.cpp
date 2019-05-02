@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <stl/algorithm.h>
 #include <infra/StringConvert.h>
@@ -21,9 +21,9 @@ module mud.ui;
 
 #include <cstdio>
 
-namespace mud
+namespace two
 {
-	template <> inline void to_string(const mud::WidgetState& val, string& str)
+	template <> inline void to_string(const two::WidgetState& val, string& str)
 	{
 		if(val == NOSTATE) str = "NOSTATE";
 		else if(val == CREATED) str = "CREATED";

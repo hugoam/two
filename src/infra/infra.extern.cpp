@@ -1,6 +1,6 @@
 #ifndef USE_STL
-#ifdef MUD_MODULES
-module mud.infra;
+#ifdef TWO_MODULES
+module two.infra;
 #else
 #include <stl/vector.hpp>
 #include <infra/Api.h>
@@ -8,8 +8,8 @@ module mud.infra;
 
 namespace stl
 {
-	using namespace mud;
-	template class MUD_INFRA_EXPORT vector<string>;
-	template class MUD_INFRA_EXPORT vector<uchar>;
+	using namespace two;
+	template class TWO_INFRA_EXPORT vector<string>;
+	template class TWO_INFRA_EXPORT vector<uchar>;
 }
 #endif

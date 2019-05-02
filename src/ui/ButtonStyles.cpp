@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <ui/Button.h>
 #include <ui/Scrollbar.h>
@@ -15,7 +15,7 @@ module mud.ui;
 #include <ui/Style/Skin.h>
 #endif
 
-namespace mud
+namespace two
 {
 namespace ui
 {

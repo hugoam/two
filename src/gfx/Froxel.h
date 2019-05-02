@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <stl/span.h>
 #include <geom/Geom.h>
@@ -13,7 +13,7 @@
 #include <gfx/Buffer.h>
 #include <gfx/FrustumCluster.h>
 
-#if defined MUD_UNIFORM_BLOCKS
+#if defined TWO_UNIFORM_BLOCKS
 #include <gfx/Uniform.h>
 #endif
 
@@ -22,7 +22,7 @@ namespace bgfx
 	struct Encoder;
 }
 
-namespace mud
+namespace two
 {
 	constexpr uint32_t CONFIG_MAX_LIGHT_COUNT = 256;
 	constexpr uint32_t CONFIG_MAX_LIGHT_INDEX = CONFIG_MAX_LIGHT_COUNT - 1;
@@ -61,7 +61,7 @@ namespace mud
 	// clusters are not used, so we can store more.
 	static constexpr uint32_t CLUSTER_BUFFER_ENTRY_COUNT_MAX = 8192;
 
-	class MUD_GFX_EXPORT Froxelizer
+	class TWO_GFX_EXPORT Froxelizer
 	{
 	public:
 		Froxelizer(GfxSystem& gfx);

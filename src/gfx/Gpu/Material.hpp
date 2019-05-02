@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <math/Vec.hpp>
 #include <gfx/Material.h>
@@ -17,7 +17,7 @@ module mud.gfx;
 
 #define PAD 0.f
 
-namespace mud
+namespace two
 {
 #if !MATERIALS_BUFFER
 	template <>

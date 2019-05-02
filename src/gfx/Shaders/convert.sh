@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_CONVERT
-#define MUD_SHADER_CONVERT
+#ifndef TWO_SHADER_CONVERT
+#define TWO_SHADER_CONVERT
 
 vec3 convertRGB2XYZ(vec3 _rgb)
 {
@@ -120,4 +120,4 @@ vec3 adjustHue(vec3 _rgb, float _hue)
 	return convertYIQ2RGB(vec3(yiq.x, len*cos(angle), len*sin(angle) ) );
 }
 
-#endif // MUD_SHADER_CONVERT
+#endif // TWO_SHADER_CONVERT

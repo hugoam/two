@@ -1,7 +1,7 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.type;
+#ifdef TWO_MODULES
+module two.type;
 #else
 #include <cstddef>
 #include <stl/new.h>
@@ -18,27 +18,27 @@ module mud.type;
 
 #include <type/Api.h>
 
-using namespace mud;
+using namespace two;
 
 size_t stl_vector_stl_string__size(void* vec) { return (*static_cast<stl::vector<stl::string>*>(vec)).size(); }
 void* stl_vector_stl_string__at(void* vec, size_t i) { return &(*static_cast<stl::vector<stl::string>*>(vec))[i]; }
 void stl_vector_stl_string__push(void* vec) { (*static_cast<stl::vector<stl::string>*>(vec)).emplace_back(); }
 void stl_vector_stl_string__add(void* vec, void* value) { (*static_cast<stl::vector<stl::string>*>(vec)).push_back(*static_cast<stl::string*>(value)); }
 void stl_vector_stl_string__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<stl::string>*>(vec)), *static_cast<stl::string*>(value)); }
-size_t stl_vector_mud_Ref__size(void* vec) { return (*static_cast<stl::vector<mud::Ref>*>(vec)).size(); }
-void* stl_vector_mud_Ref__at(void* vec, size_t i) { return &(*static_cast<stl::vector<mud::Ref>*>(vec))[i]; }
-void stl_vector_mud_Ref__push(void* vec) { (*static_cast<stl::vector<mud::Ref>*>(vec)).emplace_back(); }
-void stl_vector_mud_Ref__add(void* vec, void* value) { (*static_cast<stl::vector<mud::Ref>*>(vec)).push_back(*static_cast<mud::Ref*>(value)); }
-void stl_vector_mud_Ref__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<mud::Ref>*>(vec)), *static_cast<mud::Ref*>(value)); }
-void mud_Ref__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::Ref(  ); }
-void mud_Ref__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::Ref( static_cast<void**>(args[0]), *static_cast<mud::Type*>(args[1]) ); }
-void mud_Ref__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::Ref((*static_cast<mud::Ref*>(other))); }
-void mud_Index_indexer(void* object, span<void*> args, void*& result) { result = &(*static_cast<mud::Index*>(object)).indexer(*static_cast<mud::Type*>(args[0])); }
-void mud_indexed_0(span<void*> args, void*& result) { (*static_cast<mud::Ref*>(result)) = mud::indexed(*static_cast<mud::Type*>(args[0]), *static_cast<uint32_t*>(args[1])); }
+size_t stl_vector_two_Ref__size(void* vec) { return (*static_cast<stl::vector<two::Ref>*>(vec)).size(); }
+void* stl_vector_two_Ref__at(void* vec, size_t i) { return &(*static_cast<stl::vector<two::Ref>*>(vec))[i]; }
+void stl_vector_two_Ref__push(void* vec) { (*static_cast<stl::vector<two::Ref>*>(vec)).emplace_back(); }
+void stl_vector_two_Ref__add(void* vec, void* value) { (*static_cast<stl::vector<two::Ref>*>(vec)).push_back(*static_cast<two::Ref*>(value)); }
+void stl_vector_two_Ref__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<two::Ref>*>(vec)), *static_cast<two::Ref*>(value)); }
+void two_Ref__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::Ref(  ); }
+void two_Ref__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Ref( static_cast<void**>(args[0]), *static_cast<two::Type*>(args[1]) ); }
+void two_Ref__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Ref((*static_cast<two::Ref*>(other))); }
+void two_Index_indexer(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::Index*>(object)).indexer(*static_cast<two::Type*>(args[0])); }
+void two_indexed_0(span<void*> args, void*& result) { (*static_cast<two::Ref*>(result)) = two::indexed(*static_cast<two::Type*>(args[0]), *static_cast<uint32_t*>(args[1])); }
 
-namespace mud
+namespace two
 {
-	void mud_type_meta(Module& m)
+	void two_type_meta(Module& m)
 	{
 	UNUSED(m);
 	
@@ -201,84 +201,84 @@ namespace mud
 		g_sequence[t.m_id] = &sequence;
 	}
 	{
-		Type& t = type<stl::vector<mud::Ref>>();
-		static Meta meta = { t, &namspc({ "stl" }), "vector<mud::Ref>", sizeof(stl::vector<mud::Ref>), TypeClass::Sequence };
+		Type& t = type<stl::vector<two::Ref>>();
+		static Meta meta = { t, &namspc({ "stl" }), "vector<two::Ref>", sizeof(stl::vector<two::Ref>), TypeClass::Sequence };
 		static Class cls = { t };
-		static Iterable iterable = { &type<mud::Ref>(),
-		                             stl_vector_mud_Ref__size,
-		                             stl_vector_mud_Ref__at};
+		static Iterable iterable = { &type<two::Ref>(),
+		                             stl_vector_two_Ref__size,
+		                             stl_vector_two_Ref__at};
 		g_iterable[t.m_id] = &iterable;
-		static Sequence sequence = { stl_vector_mud_Ref__push,
-		                             stl_vector_mud_Ref__add,
-		                             stl_vector_mud_Ref__remove };
+		static Sequence sequence = { stl_vector_two_Ref__push,
+		                             stl_vector_two_Ref__add,
+		                             stl_vector_two_Ref__remove };
 		g_sequence[t.m_id] = &sequence;
 	}
 	
-	// mud::Ref
+	// two::Ref
 	{
-		Type& t = type<mud::Ref>();
-		static Meta meta = { t, &namspc({ "mud" }), "Ref", sizeof(mud::Ref), TypeClass::Struct };
+		Type& t = type<two::Ref>();
+		static Meta meta = { t, &namspc({ "two" }), "Ref", sizeof(two::Ref), TypeClass::Struct };
 		// bases
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_Ref__construct_0, {} },
-			{ t, mud_Ref__construct_1, { { "value", type<void*>(), Param::Nullable }, { "type", type<mud::Type>(),  } } }
+			{ t, two_Ref__construct_0, {} },
+			{ t, two_Ref__construct_1, { { "value", type<void*>(), Param::Nullable }, { "type", type<two::Type>(),  } } }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
-			{ t, mud_Ref__copy_construct }
+			{ t, two_Ref__copy_construct }
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Ref, m_type), type<mud::Type>(), "type", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::Ref, m_value), type<void*>(), "value", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr }
+			{ t, offsetof(two::Ref, m_type), type<two::Type>(), "type", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::Ref, m_value), type<void*>(), "value", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
 	}
-	// mud::Type
+	// two::Type
 	{
-		Type& t = type<mud::Type>();
-		static Meta meta = { t, &namspc({ "mud" }), "Type", sizeof(mud::Type), TypeClass::Object };
+		Type& t = type<two::Type>();
+		static Meta meta = { t, &namspc({ "two" }), "Type", sizeof(two::Type), TypeClass::Object };
 		// bases
 		// defaults
-		static mud::Type* base_default = nullptr;
+		static two::Type* base_default = nullptr;
 		// constructors
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Type, m_id), type<uint32_t>(), "id", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Type, m_name), type<const char*>(), "name", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::Type, m_size), type<size_t>(), "size", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Type, m_base), type<mud::Type>(), "base", base_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
+			{ t, offsetof(two::Type, m_id), type<uint32_t>(), "id", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Type, m_name), type<const char*>(), "name", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::Type, m_size), type<size_t>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Type, m_base), type<two::Type>(), "base", base_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
 	}
-	// mud::Indexer
+	// two::Indexer
 	{
-		Type& t = type<mud::Indexer>();
-		static Meta meta = { t, &namspc({ "mud" }), "Indexer", sizeof(mud::Indexer), TypeClass::Object };
+		Type& t = type<two::Indexer>();
+		static Meta meta = { t, &namspc({ "two" }), "Indexer", sizeof(two::Indexer), TypeClass::Object };
 		// bases
 		// defaults
 		// constructors
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Indexer, m_type), type<mud::Type>(), "type", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(mud::Indexer, m_objects), type<stl::vector<mud::Ref>>(), "objects", nullptr, Member::NonMutable, nullptr }
+			{ t, offsetof(two::Indexer, m_type), type<two::Type>(), "type", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::Indexer, m_objects), type<stl::vector<two::Ref>>(), "objects", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
 	}
-	// mud::Index
+	// two::Index
 	{
-		Type& t = type<mud::Index>();
-		static Meta meta = { t, &namspc({ "mud" }), "Index", sizeof(mud::Index), TypeClass::Object };
+		Type& t = type<two::Index>();
+		static Meta meta = { t, &namspc({ "two" }), "Index", sizeof(two::Index), TypeClass::Object };
 		// bases
 		// defaults
 		// constructors
@@ -286,18 +286,18 @@ namespace mud
 		// members
 		// methods
 		static Method methods[] = {
-			{ t, "indexer", Address(), mud_Index_indexer, { { "type", type<mud::Type>(),  } }, { &type<mud::Indexer>(), QualType::None } }
+			{ t, "indexer", Address(), two_Index_indexer, { { "type", type<two::Type>(),  } }, { &type<two::Indexer>(), QualType::None } }
 		};
 		// static members
 		static Static statics[] = {
-			{ t, "me", Ref(&mud::Index::me) }
+			{ t, "me", Ref(&two::Index::me) }
 		};
 		static Class cls = { t, {}, {}, {}, {}, {}, methods, statics, };
 	}
-	// mud::Var
+	// two::Var
 	{
-		Type& t = type<mud::Var>();
-		static Meta meta = { t, &namspc({ "mud" }), "Var", sizeof(mud::Var), TypeClass::Object };
+		Type& t = type<two::Var>();
+		static Meta meta = { t, &namspc({ "two" }), "Var", sizeof(two::Var), TypeClass::Object };
 		// bases
 		// defaults
 		// constructors
@@ -307,10 +307,10 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
-	// mud::Prototype
+	// two::Prototype
 	{
-		Type& t = type<mud::Prototype>();
-		static Meta meta = { t, &namspc({ "mud" }), "Prototype", sizeof(mud::Prototype), TypeClass::Object };
+		Type& t = type<two::Prototype>();
+		static Meta meta = { t, &namspc({ "two" }), "Prototype", sizeof(two::Prototype), TypeClass::Object };
 		// bases
 		// defaults
 		// constructors
@@ -341,35 +341,35 @@ namespace mud
 		m.m_types.push_back(&type<const char*>());
 		m.m_types.push_back(&type<stl::string>());
 		m.m_types.push_back(&type<stl::vector<stl::string>>());
-		m.m_types.push_back(&type<stl::vector<mud::Ref>>());
-		m.m_types.push_back(&type<mud::Ref>());
-		m.m_types.push_back(&type<mud::Type>());
-		m.m_types.push_back(&type<mud::Indexer>());
-		m.m_types.push_back(&type<mud::Index>());
-		m.m_types.push_back(&type<mud::Var>());
-		m.m_types.push_back(&type<mud::Prototype>());
+		m.m_types.push_back(&type<stl::vector<two::Ref>>());
+		m.m_types.push_back(&type<two::Ref>());
+		m.m_types.push_back(&type<two::Type>());
+		m.m_types.push_back(&type<two::Indexer>());
+		m.m_types.push_back(&type<two::Index>());
+		m.m_types.push_back(&type<two::Var>());
+		m.m_types.push_back(&type<two::Prototype>());
 		m.m_types.push_back(&type<void>());
 		{
-			static Function f = { &namspc({ "mud" }), "indexed", funcptr<mud::Ref(*)(const mud::Type&, uint32_t)>(mud::indexed), mud_indexed_0, { { "type", type<mud::Type>(),  }, { "id", type<uint32_t>(),  } }, { &type<mud::Ref>(), QualType::None } };
+			static Function f = { &namspc({ "two" }), "indexed", funcptr<two::Ref(*)(const two::Type&, uint32_t)>(two::indexed), two_indexed_0, { { "type", type<two::Type>(),  }, { "id", type<uint32_t>(),  } }, { &type<two::Ref>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 	}
 }
 
-namespace mud
+namespace two
 {
-	mud_type::mud_type()
-		: Module("mud::type", { &mud_infra::m() })
+	two_type::two_type()
+		: Module("two::type", { &two_infra::m() })
 	{
 		// setup reflection meta data
-		mud_type_meta(*this);
+		two_type_meta(*this);
 	}
 }
 
-#ifdef MUD_TYPE_MODULE
+#ifdef TWO_TYPE_MODULE
 extern "C"
 Module& getModule()
 {
-	return mud_type::m();
+	return two_type::m();
 }
 #endif

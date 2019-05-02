@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 
@@ -10,7 +10,7 @@
 
 //#include <meta/gfx/Convert.h>
 
-using namespace mud;
+using namespace two;
 
 #define CLUSTERED 1
 #define DEBUG_CLUSTERED 0
@@ -70,7 +70,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 #endif
 {
 	UNUSED(app);
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 	g_time += 0.02f;
 #else
 	g_time += 0.01f;
@@ -176,7 +176,7 @@ void pump(Shell& app, ShellWindow& window)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
 	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }

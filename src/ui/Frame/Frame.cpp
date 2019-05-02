@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <infra/StringOps.h>
 #include <math/Vec.hpp>
@@ -20,7 +20,7 @@ module mud.ui;
 
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 	template struct v2<bool>;
 	template struct v2<size_t>;
@@ -287,7 +287,7 @@ namespace mud
 		m_solver->reset();
 		m_solver->m_size = m_size;
 
-		mud::relayout(solvers);
+		two::relayout(solvers);
 	}
 
 	void Frame::sync_solver(FrameSolver& solver)

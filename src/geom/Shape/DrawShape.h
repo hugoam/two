@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <infra/Global.h>
 #include <type/Dispatch.h>
 #include <type/DispatchDecl.h>
@@ -13,9 +13,9 @@
 #include <geom/Shape/ProcShape.h>
 #include <geom/Shape/CompoundShape.h>
 
-namespace mud
+namespace two
 {
-	export_ struct MUD_GEOM_EXPORT DispatchDrawProcShape : public Global<DispatchDrawProcShape>
+	export_ struct TWO_GEOM_EXPORT DispatchDrawProcShape : public Global<DispatchDrawProcShape>
 	{
 		DispatchDrawProcShape();
 

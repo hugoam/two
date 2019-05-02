@@ -11,11 +11,11 @@
 #include <gfx/Forward.h>
 #include <gltf/Forward.h>
 
-#ifndef MUD_GFX_GLTF_EXPORT
-#define MUD_GFX_GLTF_EXPORT MUD_IMPORT
+#ifndef TWO_GFX_GLTF_EXPORT
+#define TWO_GFX_GLTF_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
 	class ImporterGltf;
 }

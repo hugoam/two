@@ -4,14 +4,14 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <type/Ref.h>
 #endif
 #include <uio/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ MUD_UIO_EXPORT void structure_node(Widget& parent, Ref object, vector<Ref>& selection);
-	export_ MUD_UIO_EXPORT void structure_view(Widget& parent, Ref object, vector<Ref>& selection);
+	export_ TWO_UIO_EXPORT void structure_node(Widget& parent, Ref object, vector<Ref>& selection);
+	export_ TWO_UIO_EXPORT void structure_view(Widget& parent, Ref object, vector<Ref>& selection);
 }

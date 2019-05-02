@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.tool;
+#ifdef TWO_MODULES
+module two.tool;
 #else
 #include <type/Any.h>
 #include <tree/Graph.hpp>
@@ -21,7 +21,7 @@ module mud.tool;
 #include <tool/Brush.h>
 #endif
 
-namespace mud
+namespace two
 {
 	Brush::Brush(ToolContext& context, cstring name, Type& type)
 		: SpatialTool(context, name, type)

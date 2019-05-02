@@ -15,11 +15,11 @@
 #include <gfx/Forward.h>
 #include <gfx-ui/Forward.h>
 
-#ifndef MUD_WFC_GFX_EXPORT
-#define MUD_WFC_GFX_EXPORT MUD_IMPORT
+#ifndef TWO_WFC_GFX_EXPORT
+#define TWO_WFC_GFX_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {    
     struct TileModel;
     class WfcBlock;

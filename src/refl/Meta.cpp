@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.refl;
+#ifdef TWO_MODULES
+module two.refl;
 #else
 #include <stl/algorithm.h>
 #include <infra/ToString.h>
@@ -22,7 +22,7 @@ module mud.refl;
 #include <cstring>
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 	vector<Meta*> g_meta = vector<Meta*>(c_max_types);
 	vector<Class*> g_class = vector<Class*>(c_max_types);

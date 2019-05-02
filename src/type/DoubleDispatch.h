@@ -8,9 +8,9 @@
 #include <type/Ref.h>
 #include <type/Type.h>
 
-namespace mud
+namespace two
 {
-	export_ class MUD_TYPE_EXPORT DoubleDispatch
+	export_ class TWO_TYPE_EXPORT DoubleDispatch
 	{
 	public:
 		DoubleDispatch()

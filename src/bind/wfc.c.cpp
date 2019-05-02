@@ -5,7 +5,7 @@
 #include <geom/Api.h>
 #include <wfc/Api.h>
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
 #define DECL EMSCRIPTEN_KEEPALIVE
 #else
@@ -16,127 +16,127 @@
 extern "C" {
 	
 	// Tile
-	mud::Type* DECL mud_Tile__type() {
-		return &mud::type<mud::Tile>();
+	two::Type* DECL two_Tile__type() {
+		return &two::type<two::Tile>();
 	}
-	mud::Tile* DECL mud_Tile__construct_0() {
-		return new mud::Tile();
+	two::Tile* DECL two_Tile__construct_0() {
+		return new two::Tile();
 	}
-	uint32_t DECL mud_Tile__get_index(mud::Tile* self) {
+	uint32_t DECL two_Tile__get_index(two::Tile* self) {
 		return self->m_index;
 	}
-	void DECL mud_Tile__set_index(mud::Tile* self, uint32_t value) {
+	void DECL two_Tile__set_index(two::Tile* self, uint32_t value) {
 		self->m_index = value;
 	}
-	const char* DECL mud_Tile__get_name(mud::Tile* self) {
+	const char* DECL two_Tile__get_name(two::Tile* self) {
 		return self->m_name.c_str();
 	}
-	void DECL mud_Tile__set_name(mud::Tile* self, const char* value) {
+	void DECL two_Tile__set_name(two::Tile* self, const char* value) {
 		self->m_name = value;
 	}
-	char DECL mud_Tile__get_symmetry(mud::Tile* self) {
+	char DECL two_Tile__get_symmetry(two::Tile* self) {
 		return self->m_symmetry;
 	}
-	void DECL mud_Tile__set_symmetry(mud::Tile* self, char value) {
+	void DECL two_Tile__set_symmetry(two::Tile* self, char value) {
 		self->m_symmetry = value;
 	}
-	int DECL mud_Tile__get_cardinality(mud::Tile* self) {
+	int DECL two_Tile__get_cardinality(two::Tile* self) {
 		return self->m_cardinality;
 	}
-	void DECL mud_Tile__set_cardinality(mud::Tile* self, int value) {
+	void DECL two_Tile__set_cardinality(two::Tile* self, int value) {
 		self->m_cardinality = value;
 	}
-	int DECL mud_Tile__get_profile(mud::Tile* self) {
+	int DECL two_Tile__get_profile(two::Tile* self) {
 		return self->m_profile;
 	}
-	void DECL mud_Tile__set_profile(mud::Tile* self, int value) {
+	void DECL two_Tile__set_profile(two::Tile* self, int value) {
 		self->m_profile = value;
 	}
-	void DECL mud_Tile__destroy(mud::Tile* self) {
+	void DECL two_Tile__destroy(two::Tile* self) {
 		delete self;
 	}
 	// Tileset
-	mud::Type* DECL mud_Tileset__type() {
-		return &mud::type<mud::Tileset>();
+	two::Type* DECL two_Tileset__type() {
+		return &two::type<two::Tileset>();
 	}
-	mud::Tileset* DECL mud_Tileset__construct_0() {
-		return new mud::Tileset();
+	two::Tileset* DECL two_Tileset__construct_0() {
+		return new two::Tileset();
 	}
-	const char* DECL mud_Tileset__get_name(mud::Tileset* self) {
+	const char* DECL two_Tileset__get_name(two::Tileset* self) {
 		return self->m_name.c_str();
 	}
-	void DECL mud_Tileset__set_name(mud::Tileset* self, const char* value) {
+	void DECL two_Tileset__set_name(two::Tileset* self, const char* value) {
 		self->m_name = value;
 	}
-	mud::vec3* DECL mud_Tileset__get_tile_size(mud::Tileset* self) {
+	two::vec3* DECL two_Tileset__get_tile_size(two::Tileset* self) {
 		return &self->m_tile_size;
 	}
-	void DECL mud_Tileset__set_tile_size(mud::Tileset* self, mud::vec3* value) {
+	void DECL two_Tileset__set_tile_size(two::Tileset* self, two::vec3* value) {
 		self->m_tile_size = *value;
 	}
-	mud::vec3* DECL mud_Tileset__get_tile_scale(mud::Tileset* self) {
+	two::vec3* DECL two_Tileset__get_tile_scale(two::Tileset* self) {
 		return &self->m_tile_scale;
 	}
-	void DECL mud_Tileset__set_tile_scale(mud::Tileset* self, mud::vec3* value) {
+	void DECL two_Tileset__set_tile_scale(two::Tileset* self, two::vec3* value) {
 		self->m_tile_scale = *value;
 	}
-	uint16_t DECL mud_Tileset__get_nutiles(mud::Tileset* self) {
+	uint16_t DECL two_Tileset__get_nutiles(two::Tileset* self) {
 		return self->m_num_tiles;
 	}
-	void DECL mud_Tileset__set_nutiles(mud::Tileset* self, uint16_t value) {
+	void DECL two_Tileset__set_nutiles(two::Tileset* self, uint16_t value) {
 		self->m_num_tiles = value;
 	}
-	void DECL mud_Tileset__destroy(mud::Tileset* self) {
+	void DECL two_Tileset__destroy(two::Tileset* self) {
 		delete self;
 	}
 	// Wave
-	mud::Type* DECL mud_Wave__type() {
-		return &mud::type<mud::Wave>();
+	two::Type* DECL two_Wave__type() {
+		return &two::type<two::Wave>();
 	}
-	mud::Wave* DECL mud_Wave__construct_0() {
-		return new mud::Wave();
+	two::Wave* DECL two_Wave__construct_0() {
+		return new two::Wave();
 	}
-	mud::Result DECL mud_Wave_solve_1(mud::Wave* self, size_t limit) {
+	two::Result DECL two_Wave_solve_1(two::Wave* self, size_t limit) {
 		return self->solve(limit);
 	}
-	void DECL mud_Wave__destroy(mud::Wave* self) {
+	void DECL two_Wave__destroy(two::Wave* self) {
 		delete self;
 	}
 	// WaveTileset
-	mud::Type* DECL mud_WaveTileset__type() {
-		return &mud::type<mud::WaveTileset>();
+	two::Type* DECL two_WaveTileset__type() {
+		return &two::type<two::WaveTileset>();
 	}
-	mud::WaveTileset* DECL mud_WaveTileset__construct_0() {
-		return new mud::WaveTileset();
+	two::WaveTileset* DECL two_WaveTileset__construct_0() {
+		return new two::WaveTileset();
 	}
-	void DECL mud_WaveTileset__destroy(mud::WaveTileset* self) {
+	void DECL two_WaveTileset__destroy(two::WaveTileset* self) {
 		delete self;
 	}
 	// TileWave
-	mud::Type* DECL mud_TileWave__type() {
-		return &mud::type<mud::TileWave>();
+	two::Type* DECL two_TileWave__type() {
+		return &two::type<two::TileWave>();
 	}
-	mud::TileWave* DECL mud_TileWave__construct_5(mud::WaveTileset* tileset, uint16_t width, uint16_t height, uint16_t depth, bool periodic) {
-		return new mud::TileWave(*tileset, width, height, depth, periodic);
+	two::TileWave* DECL two_TileWave__construct_5(two::WaveTileset* tileset, uint16_t width, uint16_t height, uint16_t depth, bool periodic) {
+		return new two::TileWave(*tileset, width, height, depth, periodic);
 	}
-	void DECL mud_TileWave__destroy(mud::TileWave* self) {
+	void DECL two_TileWave__destroy(two::TileWave* self) {
 		delete self;
 	}
-	void DECL mud_parse_json_tileset_3(const char* path, const char* subset, mud::Tileset* outputTileset) {
-		mud::parse_json_tileset(path, subset, *outputTileset);
+	void DECL two_parse_json_tileset_3(const char* path, const char* subset, two::Tileset* outputTileset) {
+		two::parse_json_tileset(path, subset, *outputTileset);
 	}
-	void DECL mud_parse_json_wave_tileset_3(const char* path, const char* subset, mud::WaveTileset* outputTileset) {
-		mud::parse_json_wave_tileset(path, subset, *outputTileset);
+	void DECL two_parse_json_wave_tileset_3(const char* path, const char* subset, two::WaveTileset* outputTileset) {
+		two::parse_json_wave_tileset(path, subset, *outputTileset);
 	}
 	// Result
-	mud::Result DECL mud_Result_kSuccess() {
-		return mud::kSuccess;
+	two::Result DECL two_Result_kSuccess() {
+		return two::kSuccess;
 	}
-	mud::Result DECL mud_Result_kFail() {
-		return mud::kFail;
+	two::Result DECL two_Result_kFail() {
+		return two::kFail;
 	}
-	mud::Result DECL mud_Result_kUnfinished() {
-		return mud::kUnfinished;
+	two::Result DECL two_Result_kUnfinished() {
+		return two::kUnfinished;
 	}
 	
 }

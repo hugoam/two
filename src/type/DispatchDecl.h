@@ -8,7 +8,7 @@
 #include <type/DoubleDispatch.h>
 #include <type/RefVal.h>
 
-namespace mud
+namespace two
 {
 	export_ template <class T, class T_Function, class T_Return, class... Args>
 	void dispatch_branch(Dispatch<T_Return, Args...>& dispatch, T_Function func)

@@ -13,11 +13,11 @@
 #include <ctx/Forward.h>
 #include <ui/Forward.h>
 
-#ifndef MUD_UIO_EXPORT
-#define MUD_UIO_EXPORT MUD_IMPORT
+#ifndef TWO_UIO_EXPORT
+#define TWO_UIO_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
     enum class EditNestMode : unsigned int;
     enum class EditorHint : unsigned int;
@@ -32,9 +32,9 @@ namespace mud
     class DispatchInput;
 }
 
-#ifdef MUD_META_GENERATOR
+#ifdef TWO_META_GENERATOR
 namespace stl
 {
-	export_ extern template class refl_ seque_ vector<mud::Var>;
+	export_ extern template class refl_ seque_ vector<two::Var>;
 }
 #endif

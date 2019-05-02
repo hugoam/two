@@ -2,11 +2,11 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <gfx/Renderer.h>
 #endif
 #include <gfx-pbr/Forward.h>
 
-namespace mud
+namespace two
 {
 }

@@ -8,14 +8,14 @@
 #include <stl/stddef.h>
 #include <math/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ struct refl_ array_  MUD_MATH_EXPORT ColourHSL
+	export_ struct refl_ array_  TWO_MATH_EXPORT ColourHSL
 	{
 		attr_ float h; attr_ float s; attr_ float l; attr_ float a;
 	};
 
-	export_ struct refl_ array_  MUD_MATH_EXPORT Colour
+	export_ struct refl_ array_  TWO_MATH_EXPORT Colour
 	{
 		constr_ Colour();
 		constr_ explicit Colour(float v, float a = 1.f);
@@ -69,26 +69,26 @@ namespace mud
 		attr_ static Colour None;
 	};
 
-	export_ MUD_MATH_EXPORT func_ Colour rgb(uint32_t colour);
-	export_ MUD_MATH_EXPORT func_ Colour rgba(uint32_t colour);
-	export_ MUD_MATH_EXPORT func_ Colour abgr(uint32_t colour);
+	export_ TWO_MATH_EXPORT func_ Colour rgb(uint32_t colour);
+	export_ TWO_MATH_EXPORT func_ Colour rgba(uint32_t colour);
+	export_ TWO_MATH_EXPORT func_ Colour abgr(uint32_t colour);
 
-	export_ MUD_MATH_EXPORT func_ Colour hsv(float h, float s, float v);
-	export_ MUD_MATH_EXPORT func_ Colour hsl(float h, float s, float l);
+	export_ TWO_MATH_EXPORT func_ Colour hsv(float h, float s, float v);
+	export_ TWO_MATH_EXPORT func_ Colour hsl(float h, float s, float l);
 	export_ inline Colour hsl(const ColourHSL& col) { return hsl(col.h, col.s, col.l); }
 
-	export_ MUD_MATH_EXPORT func_ uint32_t to_rgba(const Colour& colour);
-	export_ MUD_MATH_EXPORT func_ uint32_t to_abgr(const Colour& colour);
-	export_ MUD_MATH_EXPORT func_ uint32_t to_abgr(float r, float g, float b, float a = 1.f);
-	export_ MUD_MATH_EXPORT func_ Colour to_linear(const Colour& colour);
-	export_ MUD_MATH_EXPORT func_ Colour to_gamma(const Colour& colour);
-	export_ MUD_MATH_EXPORT func_ Colour to_srgb(const Colour& colour);
+	export_ TWO_MATH_EXPORT func_ uint32_t to_rgba(const Colour& colour);
+	export_ TWO_MATH_EXPORT func_ uint32_t to_abgr(const Colour& colour);
+	export_ TWO_MATH_EXPORT func_ uint32_t to_abgr(float r, float g, float b, float a = 1.f);
+	export_ TWO_MATH_EXPORT func_ Colour to_linear(const Colour& colour);
+	export_ TWO_MATH_EXPORT func_ Colour to_gamma(const Colour& colour);
+	export_ TWO_MATH_EXPORT func_ Colour to_srgb(const Colour& colour);
 
-	export_ MUD_MATH_EXPORT func_ ColourHSL to_hsl(float r, float g, float b);
-	export_ MUD_MATH_EXPORT func_ ColourHSL to_hsl(const Colour& colour);
+	export_ TWO_MATH_EXPORT func_ ColourHSL to_hsl(float r, float g, float b);
+	export_ TWO_MATH_EXPORT func_ ColourHSL to_hsl(const Colour& colour);
 
-	export_ MUD_MATH_EXPORT func_ ColourHSL to_hsla(const Colour& colour);
-	export_ MUD_MATH_EXPORT func_ Colour to_rgba(const ColourHSL& colour);
+	export_ TWO_MATH_EXPORT func_ ColourHSL to_hsla(const Colour& colour);
+	export_ TWO_MATH_EXPORT func_ Colour to_rgba(const ColourHSL& colour);
 
 	inline Colour saturation(const Colour& colour, float amount)
 	{

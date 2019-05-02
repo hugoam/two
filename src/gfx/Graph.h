@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <pool/Pool.h>
 #include <tree/Graph.h>
 #ifdef _MSC_VER
@@ -15,7 +15,7 @@
 #include <gfx/Node3.h>
 #include <gfx/Light.h>
 
-namespace mud
+namespace two
 {
 	class SoundManager;
 	class Sound;
@@ -24,7 +24,7 @@ namespace mud
 	export_ extern template class Graph<Gnode>;
 #endif
 
-	export_ class refl_ MUD_GFX_EXPORT Gnode : public Graph<Gnode>
+	export_ class refl_ TWO_GFX_EXPORT Gnode : public Graph<Gnode>
 	{
 	public:
 		Gnode();
@@ -58,5 +58,5 @@ namespace mud
 	export_ extern template class refl_ TPool<Light>;
 	export_ extern template class refl_ TPool<Flare>;
 
-	export_ MUD_GFX_EXPORT void debug_tree(Gnode& node, size_t index = 0, size_t depth = 0);
+	export_ TWO_GFX_EXPORT void debug_tree(Gnode& node, size_t index = 0, size_t depth = 0);
 }

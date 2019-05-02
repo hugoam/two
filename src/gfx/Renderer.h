@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/memory.h>
 #include <stl/span.h>
 #include <stl/vector.h>
@@ -28,20 +28,20 @@
 
 #define ZONES_LIGHTS_BUFFER 0
 
-namespace mud
+namespace two
 {
 #define TEXTURE_CLAMP  BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
 #define TEXTURE_CLAMP3 BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_W_CLAMP
 #define TEXTURE_POINT  BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 // webgl doesn't usually support sampling depth textures with filtering on
 #define TEXTURE_DEPTH TEXTURE_POINT
 #else
 #define TEXTURE_DEPTH 0
 #endif
 
-	MUD_GFX_EXPORT const bgfx::VertexDecl& vertex_decl(uint32_t vertex_format);
+	TWO_GFX_EXPORT const bgfx::VertexDecl& vertex_decl(uint32_t vertex_format);
 
 	export_ enum class refl_ TextureSampler : unsigned int
 	{
@@ -135,7 +135,7 @@ namespace mud
 	passes are the unit of renderer work
 	both are orthogonal
 	*/
-	export_ struct refl_ MUD_GFX_EXPORT Pass
+	export_ struct refl_ TWO_GFX_EXPORT Pass
 	{
 		attr_ string m_name;
 		attr_ RenderTarget* m_target = nullptr;
@@ -150,7 +150,7 @@ namespace mud
 		attr_ uint8_t m_index = 0;
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT RenderFrame
+	export_ struct refl_ TWO_GFX_EXPORT RenderFrame
 	{
 		attr_ uint32_t m_frame;
 		attr_ float m_time;
@@ -164,7 +164,7 @@ namespace mud
 
 	using RenderFunc = void(*)(GfxSystem&, Render&);
 
-	export_ struct refl_ MUD_GFX_EXPORT Render
+	export_ struct refl_ TWO_GFX_EXPORT Render
 	{
 		constr_ Render() {}
 		constr_ Render(Shading shading, Viewport& viewport, RenderTarget& target, RenderFrame& frame);
@@ -222,7 +222,7 @@ namespace mud
 		static const uint8_t s_debug_pass_id = 245;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT GfxBlock : public ShaderBlock
+	export_ class refl_ TWO_GFX_EXPORT GfxBlock : public ShaderBlock
 	{
 	public:
 		GfxBlock(GfxSystem& gfx, Type& type);
@@ -243,7 +243,7 @@ namespace mud
 		bool m_draw_block = false;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT DrawBlock : public GfxBlock
+	export_ class refl_ TWO_GFX_EXPORT DrawBlock : public GfxBlock
 	{
 	public:
 		DrawBlock(GfxSystem& gfx, Type& type) : GfxBlock(gfx, type) { m_draw_block = true; }
@@ -253,7 +253,7 @@ namespace mud
 		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const = 0;
 	};
 
-	export_ struct MUD_GFX_EXPORT DrawElement
+	export_ struct TWO_GFX_EXPORT DrawElement
 	{
 		DrawElement() {}
 		DrawElement(Item& item, const Program& program, const ModelElem& model, const Material& material, const Skin* skin, uint64_t sort_key);
@@ -271,14 +271,14 @@ namespace mud
 		void set_program(const Program& program);
 	};
 
-	export_ struct MUD_GFX_EXPORT DrawCluster
+	export_ struct TWO_GFX_EXPORT DrawCluster
 	{
 		ProgramVersion m_shader_version = {};
 		uint64_t m_bgfx_state = 0;
 		span<Light*> m_lights = {};
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Renderer
+	export_ class refl_ TWO_GFX_EXPORT Renderer
 	{
 	public:
 		Renderer(GfxSystem& gfx);

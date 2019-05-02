@@ -4,13 +4,13 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <gfx/Light.h>
 #endif
 
-namespace mud
+namespace two
 {
 	//static uint32_t s_light_index = 0;
 
@@ -35,7 +35,7 @@ namespace mud
 		{
 			m_shadow_flags = CSM_Stabilize;
 			m_shadow_bias = 0.1f;
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 			m_shadow_num_splits = 2;
 #else
 			m_shadow_num_splits = 4;

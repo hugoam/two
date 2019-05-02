@@ -4,13 +4,13 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <type/Ref.h>
 #endif
 #include <math/Forward.h>
 #include <math/Vec.hpp>
 
-namespace mud
+namespace two
 {
 	inline quat lerp(const quat& a, const quat& b, float c)
 	{
@@ -99,7 +99,7 @@ namespace mud
 		return to_colour(va + (vb - va) * c);
 	}
 
-	export_ MUD_MATH_EXPORT void interpolate(Ref result, Ref a, Ref b, float t);
+	export_ TWO_MATH_EXPORT void interpolate(Ref result, Ref a, Ref b, float t);
 	export_ inline void interpolate_cubic(Ref result, Ref a, Ref b, Ref d, Ref e, float t) { UNUSED(e); UNUSED(d); return interpolate(result, a, b, t); }
 	//export_ inline Var interpolate_cubic(Ref a, Ref b, Ref d, Ref e, float t) { UNUSED(e); UNUSED(d); return interpolate(a, b, t); }
 }

@@ -8,7 +8,7 @@
 #include <ctx/Forward.h>
 #include <ctx/InputEvent.h>
 
-namespace mud
+namespace two
 {
 	export_ struct ModalControl
 	{
@@ -17,7 +17,7 @@ namespace mud
 		uint32_t m_mask = 0;
 	};
 
-	export_ class refl_ MUD_CTX_EXPORT ControlNode
+	export_ class refl_ TWO_CTX_EXPORT ControlNode
 	{
 	public:
 		virtual ControlNode* control_event(InputEvent& event) = 0;

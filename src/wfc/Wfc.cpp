@@ -3,13 +3,13 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <cmath>
 #include <cfloat>
 #endif
 
-#ifdef MUD_MODULES
-module mud.wfc;
+#ifdef TWO_MODULES
+module two.wfc;
 #else
 #include <stl/limits.h>
 #include <infra/ToString.h>
@@ -18,7 +18,7 @@ module mud.wfc;
 #include <wfc/Wfc.h>
 #endif
 
-namespace mud
+namespace two
 {
 	double calc_sum(span<double> a)
 	{

@@ -8,6 +8,6 @@
 #include <refl/Class.h>
 #include <refl/Iterable.h>
 
-namespace mud
+namespace two
 {
 }

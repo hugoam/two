@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 
@@ -7,7 +7,7 @@
 #include <infra/Vector.h>
 #include <stl/vector.hpp>
 
-using namespace mud;
+using namespace two;
 
 #define SPHERE 1
 #define AXES 0

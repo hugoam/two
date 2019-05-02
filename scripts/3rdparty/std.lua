@@ -1,4 +1,4 @@
--- mud library
+-- two library
 -- std module
 
 function std_module(name)
@@ -7,17 +7,17 @@ project("std_" .. name)
     kind "StaticLib"
     
     includedirs {
-        path.join(MUD_SRC_DIR),
-        path.join(MUD_SRC_DIR, "3rdparty"),
+        path.join(TWO_SRC_DIR),
+        path.join(TWO_SRC_DIR, "3rdparty"),
     }
     
     files {
-        path.join(MUD_SRC_DIR, "3rdparty/std", "**.h"),
-        path.join(MUD_SRC_DIR, "3rdparty/std", "std.cpp"),
-        path.join(MUD_SRC_DIR, "3rdparty/std", "std." .. name  .. ".mxx"),
+        path.join(TWO_SRC_DIR, "3rdparty/std", "**.h"),
+        path.join(TWO_SRC_DIR, "3rdparty/std", "std.cpp"),
+        path.join(TWO_SRC_DIR, "3rdparty/std", "std." .. name  .. ".mxx"),
     }
     
-    return mud_dep("std", name, true)
+    return two_dep("std", name, true)
 end
 
 std = {}

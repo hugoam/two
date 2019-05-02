@@ -19,7 +19,7 @@ namespace stl
 	template class unordered_set<string>;
 }
 
-namespace mud
+namespace two
 {
 	class Amalgamator
 	{
@@ -232,7 +232,7 @@ namespace mud
 	};
 }
 
-using namespace mud;
+using namespace two;
 
 int main(int argc, char *argv[])
 {
@@ -244,8 +244,8 @@ int main(int argc, char *argv[])
 		"//  See the attached LICENSE.txt file or https://www.gnu.org/licenses/gpl-3.0.en.html.",
 	};
 
-	string mudsrc  = "d:/Documents/Programmation/toy/mud/src";
-	string muddist = "d:/Documents/Programmation/toy/mud/dist";
+	string twosrc  = "d:/Documents/Programmation/toy/two/src";
+	string twodist = "d:/Documents/Programmation/toy/two/dist";
 	string toysrc  = "d:/Documents/Programmation/toy/src";
 	string toydist = "d:/Documents/Programmation/toy/dist";
 
@@ -253,13 +253,13 @@ int main(int argc, char *argv[])
 	amalgamator.m_filter = filter;
 
 	for(string module : { "infra", "jobs", "type", "tree", "pool", "refl", "ecs", "srlz", "math", "geom", "noise", "wfc", "fract", "lang", "ctx", "ui", "uio", "snd" })
-		amalgamator.add(mudsrc, muddist, "mud", module, module);
+		amalgamator.add(twosrc, twodist, "two", module, module);
 	for(string module : { "ctx-glfw", "ctx-wasm", "ctx-win" })
-		amalgamator.add(mudsrc, muddist, "mud", module, module);
+		amalgamator.add(twosrc, twodist, "two", module, module);
 	for(string module : { "ui-vg", "ui-nvg" })
-		amalgamator.add(mudsrc, muddist, "mud", module, module);
+		amalgamator.add(twosrc, twodist, "two", module, module);
 	for(string module : { "bgfx", "gfx", "gltf", "gfx-pbr", "gfx-obj", "gfx-gltf", "gfx-ui", "gfx-edit", "tool", "wfc-gfx", "frame" })
-		amalgamator.add(mudsrc, muddist, "mud", module, module);
+		amalgamator.add(twosrc, twodist, "two", module, module);
 	for(string module : { "util", "core", "visu", "block", "edit", "shell" })
 		amalgamator.add(toysrc, toydist, "toy", module, module);
 

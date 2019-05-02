@@ -12,7 +12,7 @@
 
 #include <stdint.h>
 
-namespace mud
+namespace two
 {
 	export_ using cstring = const char*;
 
@@ -24,7 +24,7 @@ namespace mud
 	export_ using MethodFunc = void(*)(void*, span<void*>, void*&);
 	export_ using FunctionFunc = void(*)(span<void*>, void*&);
 
-	export_ struct refl_ MUD_REFL_EXPORT QualType
+	export_ struct refl_ TWO_REFL_EXPORT QualType
 	{
 		enum Flags
 		{
@@ -43,9 +43,9 @@ namespace mud
 		bool operator!=(const QualType& other) const;
 	};
 
-	export_ extern MUD_REFL_EXPORT const QualType g_qvoid;
+	export_ extern TWO_REFL_EXPORT const QualType g_qvoid;
 
-	export_ class refl_ MUD_REFL_EXPORT Param
+	export_ class refl_ TWO_REFL_EXPORT Param
 	{
 	public:
 		enum Flags
@@ -75,7 +75,7 @@ namespace mud
 		bool output() const { return (m_flags & Output) != 0; }
 	};
 
-	export_ class refl_ MUD_REFL_EXPORT Signature
+	export_ class refl_ TWO_REFL_EXPORT Signature
 	{
 	public:
 		Signature(span<Param> params = {}, QualType return_type = g_qvoid);
@@ -85,7 +85,7 @@ namespace mud
 	};
 
 	
-	export_ class refl_ MUD_REFL_EXPORT Callable
+	export_ class refl_ TWO_REFL_EXPORT Callable
 	{
 	public:
 		Callable();
@@ -112,7 +112,7 @@ namespace mud
 		//bool checkArgs(span<Var> args) const; // { for(const Param& param : m_params) if(!type(args[param.m_index]).is(type(param.m_value))) return false; return true; }
 	};
 
-	export_ class refl_ MUD_REFL_EXPORT Function final : public Callable
+	export_ class refl_ TWO_REFL_EXPORT Function final : public Callable
 	{
 	public:
 		Function();
@@ -125,7 +125,7 @@ namespace mud
 		FunctionFunc m_call;
 	};
 
-	export_ struct refl_ MUD_REFL_EXPORT Operator
+	export_ struct refl_ TWO_REFL_EXPORT Operator
 	{
 		attr_ Function* m_function;
 		attr_ Type* m_type;
@@ -134,9 +134,9 @@ namespace mud
 		explicit operator bool() { return m_function != nullptr; }
 	};
 
-	export_ MUD_REFL_EXPORT Operator as_operator(Function& function);
+	export_ TWO_REFL_EXPORT Operator as_operator(Function& function);
 
-	export_ class refl_ MUD_REFL_EXPORT Method final : public Callable
+	export_ class refl_ TWO_REFL_EXPORT Method final : public Callable
 	{
 	public:
 		Method();
@@ -156,7 +156,7 @@ namespace mud
 		ProtoParts = 1
 	};
 
-	export_ class refl_ MUD_REFL_EXPORT Constructor final : public Callable
+	export_ class refl_ TWO_REFL_EXPORT Constructor final : public Callable
 	{
 	public:
 		Constructor();
@@ -170,7 +170,7 @@ namespace mud
 		ConstructorFunc m_call;
 	};
 
-	export_ class refl_ MUD_REFL_EXPORT CopyConstructor final : public Callable
+	export_ class refl_ TWO_REFL_EXPORT CopyConstructor final : public Callable
 	{
 	public:
 		CopyConstructor();
@@ -182,7 +182,7 @@ namespace mud
 		CopyConstructorFunc m_call;
 	};
 
-	export_ class refl_ MUD_REFL_EXPORT Destructor final: public Callable
+	export_ class refl_ TWO_REFL_EXPORT Destructor final: public Callable
 	{
 	public:
 		Destructor();

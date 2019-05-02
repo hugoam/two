@@ -8,7 +8,7 @@
 #include <pool/VecPool.h>
 #include <type/TypeUtils.h>
 
-namespace mud
+namespace two
 {
 	template <class T>
 	VecPool<T>::VecPool(size_t size)

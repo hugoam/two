@@ -1,7 +1,7 @@
--- mud engine
--- mud ctx ogre module
+-- two engine
+-- two ctx ogre module
 
-function mud_ctx_ogre()
+function two_ctx_ogre()
     removeflags {
         "NoRTTI",
         "NoExceptions",
@@ -10,7 +10,7 @@ function mud_ctx_ogre()
     includedirs {
         path.join(BUILD_DIR, "ogre"),
         path.join(OGRE_DIR, "OgreMain", "include"),
-        path.join(MUD_3RDPARTY_DIR, "OIS", "includes"),
+        path.join(TWO_3RDPARTY_DIR, "OIS", "includes"),
     }
     
     links {
@@ -28,8 +28,8 @@ function mud_ctx_ogre()
     configuration {}    
 end
 
-mud.ctx.ogre = mud_module("mud", "ctx-ogre", MUD_SRC_DIR, "ctx-ogre", mud_ctx_ogre, nil, false, { mud.math, mud.ctx })
+two.ctx.ogre = two_module("two", "ctx-ogre", TWO_SRC_DIR, "ctx-ogre", two_ctx_ogre, nil, false, { two.math, two.ctx })
 
-function mud_ctx_backend()
-    return mud.ctx.ogre
+function two_ctx_backend()
+    return two.ctx.ogre
 end

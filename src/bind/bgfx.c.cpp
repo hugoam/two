@@ -4,7 +4,7 @@
 #include <ctx/Api.h>
 #include <bgfx/Api.h>
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
 #define DECL EMSCRIPTEN_KEEPALIVE
 #else
@@ -15,34 +15,34 @@
 extern "C" {
 	
 	// BgfxSystem
-	mud::Type* DECL mud_BgfxSystem__type() {
-		return &mud::type<mud::BgfxSystem>();
+	two::Type* DECL two_BgfxSystem__type() {
+		return &two::type<two::BgfxSystem>();
 	}
-	uint32_t DECL mud_BgfxSystem__get_frame(mud::BgfxSystem* self) {
+	uint32_t DECL two_BgfxSystem__get_frame(two::BgfxSystem* self) {
 		return self->m_frame;
 	}
-	void DECL mud_BgfxSystem__set_frame(mud::BgfxSystem* self, uint32_t value) {
+	void DECL two_BgfxSystem__set_frame(two::BgfxSystem* self, uint32_t value) {
 		self->m_frame = value;
 	}
-	float DECL mud_BgfxSystem__get_time(mud::BgfxSystem* self) {
+	float DECL two_BgfxSystem__get_time(two::BgfxSystem* self) {
 		return self->m_time;
 	}
-	void DECL mud_BgfxSystem__set_time(mud::BgfxSystem* self, float value) {
+	void DECL two_BgfxSystem__set_time(two::BgfxSystem* self, float value) {
 		self->m_time = value;
 	}
-	float DECL mud_BgfxSystem__get_frame_time(mud::BgfxSystem* self) {
+	float DECL two_BgfxSystem__get_frame_time(two::BgfxSystem* self) {
 		return self->m_frame_time;
 	}
-	void DECL mud_BgfxSystem__set_frame_time(mud::BgfxSystem* self, float value) {
+	void DECL two_BgfxSystem__set_frame_time(two::BgfxSystem* self, float value) {
 		self->m_frame_time = value;
 	}
-	float DECL mud_BgfxSystem__get_delta_time(mud::BgfxSystem* self) {
+	float DECL two_BgfxSystem__get_delta_time(two::BgfxSystem* self) {
 		return self->m_delta_time;
 	}
-	void DECL mud_BgfxSystem__set_delta_time(mud::BgfxSystem* self, float value) {
+	void DECL two_BgfxSystem__set_delta_time(two::BgfxSystem* self, float value) {
 		self->m_delta_time = value;
 	}
-	void DECL mud_BgfxSystem__destroy(mud::BgfxSystem* self) {
+	void DECL two_BgfxSystem__destroy(two::BgfxSystem* self) {
 		delete self;
 	}
 	

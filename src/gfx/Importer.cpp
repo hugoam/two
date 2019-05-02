@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <infra/File.h>
 #include <geom/Geom.h>
@@ -18,7 +18,7 @@ module mud.gfx;
 #include <gfx/GfxSystem.h>
 #endif
 
-namespace mud
+namespace two
 {
 	Import::Import(GfxSystem& gfx, const string& filepath, const ImportConfig& config)
 		: m_gfx(gfx), m_config(config)

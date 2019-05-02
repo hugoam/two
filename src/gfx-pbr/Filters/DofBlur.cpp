@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.pbr;
+#ifdef TWO_MODULES
+module two.gfx.pbr;
 #else
 #include <gfx/RenderTarget.h>
 #include <gfx/Asset.h>
@@ -18,7 +18,7 @@ module mud.gfx.pbr;
 #include <gfx-pbr/Gpu/DofBlur.hpp>
 #endif
 
-namespace mud
+namespace two
 {
 	GpuState<DofBlur> GpuState<DofBlur>::me;
 

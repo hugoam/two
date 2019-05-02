@@ -4,21 +4,21 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <stl/table.h>
 #endif
 #include <ui/Frame/Frame.h>
 #include <ui/Style/Layout.h>
 
-namespace mud
+namespace two
 {
 	using SolverVector = vector<FrameSolver*>;
 
 	void collect_solvers(Frame& frame, SolverVector& solvers, DirtyLayout dirtyTop);
 	void relayout(SolverVector& solvers);
 
-	export_ class refl_ MUD_UI_EXPORT FrameSolver : public UiRect
+	export_ class refl_ TWO_UI_EXPORT FrameSolver : public UiRect
 	{
 	public:
 		FrameSolver();
@@ -111,7 +111,7 @@ namespace mud
 		size_t d_count = 0;
 	};
 
-	export_ class refl_ MUD_UI_EXPORT RowSolver : public FrameSolver
+	export_ class refl_ TWO_UI_EXPORT RowSolver : public FrameSolver
 	{
 	public:
 		RowSolver();
@@ -129,7 +129,7 @@ namespace mud
 		float positionSequence(FrameSolver& frame, float space);
 	};
 
-	export_ class MUD_UI_EXPORT CustomSolver : public RowSolver
+	export_ class TWO_UI_EXPORT CustomSolver : public RowSolver
 	{
 	public:
 		CustomSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
@@ -143,7 +143,7 @@ namespace mud
 		vector<unique<FrameSolver>> m_solvers;
 	};
 
-	export_ class refl_ MUD_UI_EXPORT TableSolver : public CustomSolver
+	export_ class refl_ TWO_UI_EXPORT TableSolver : public CustomSolver
 	{
 	public:
 		TableSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);
@@ -155,7 +155,7 @@ namespace mud
 		virtual FrameSolver* grid() { return this; }
 	};
 
-	export_ class refl_ MUD_UI_EXPORT LineSolver : public RowSolver
+	export_ class refl_ TWO_UI_EXPORT LineSolver : public RowSolver
 	{
 	public:
 		LineSolver(FrameSolver* solver, Space space);
@@ -165,7 +165,7 @@ namespace mud
 		Layout d_layout;
 	};
 
-	export_ class refl_ MUD_UI_EXPORT GridSolver : public CustomSolver
+	export_ class refl_ TWO_UI_EXPORT GridSolver : public CustomSolver
 	{
 	public:
 		GridSolver(FrameSolver* solver, Layout* layout, Frame* frame = nullptr);

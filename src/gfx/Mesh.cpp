@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/map.h>
 #include <stl/table.h>
@@ -22,7 +22,7 @@ module mud.gfx;
 #include <cstdio>
 #include <cstring>
 
-namespace mud
+namespace two
 {
 	bgfx::VertexDecl create_vertex_decl(uint32_t vertex_format)
 	{
@@ -35,7 +35,7 @@ namespace mud
 			printf("[warning] half vertex attribute not supported but used by texcoords\n");
 
 		bool normalize_indices = false;
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 		normalize_indices = true;
 #endif
 

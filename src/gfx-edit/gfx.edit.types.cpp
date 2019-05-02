@@ -1,14 +1,14 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx-edit;
+#ifdef TWO_MODULES
+module two.gfx-edit;
 #else
 #include <gfx-edit/Types.h>
 #include <gfx-edit/Api.h>
 #include <type/Vector.h>
 #endif
 
-namespace mud
+namespace two
 {
     // Exported types
     

@@ -1,19 +1,19 @@
-#define MUD_NO_GFX
+#define TWO_NO_GFX
 #include <frame/Api.h>
 #include <00_ui/00_ui.h>
 
 #include <stl/array.h>
 #include <stl/vector.hpp>
 
-#ifdef MUD_RENDERER_GL
+#ifdef TWO_RENDERER_GL
 #include <gl/GlSystem.h>
-#elif defined MUD_RENDERER_BGFX
+#elif defined TWO_RENDERER_BGFX
 #include <bgfx/BgfxSystem.h>
 #endif
 
 #include <ui-vg/VgVg.h>
 
-using namespace mud;
+using namespace two;
 
 // dear imgui, v1.70 WIP
 // (demo code)
@@ -378,7 +378,6 @@ void ShowDemoWindow(Widget& parent)
 				//ImGui::LogText("Hello, world!");
 				//ImGui::LogFinish();
 			}
-			//ImGui::TreePop();
 		}
 	}
 
@@ -636,8 +635,6 @@ static void ShowDemoWindowWidgets(Widget& parent)
 			//ImGui::SetNextItemWidth(-1);
 			//ImGui::ListBox("##listbox2", listbox_item_current2, listbox_items, IM_ARRAYSIZE(listbox_items), 4);
 		}
-
-		//ImGui::TreePop();
 	}
 
 	// Testing ImGuiOnceUponAFrame helper.
@@ -656,11 +653,8 @@ static void ShowDemoWindowWidgets(Widget& parent)
 				{
 					Widget& row = ui::row(*c);
 					ui::label(row, "blah blah");
-					//ImGui::SameLine();
 					if(ui::button(row, "button").activated()) {};
-					//ImGui::TreePop();
 				}
-			//ImGui::TreePop();
 		}
 
 		if(Widget* n = ui::tree_node(parent, "Advanced, with Selectable nodes").m_body)
@@ -717,9 +711,7 @@ static void ShowDemoWindowWidgets(Widget& parent)
 			if(align_label_with_current_x_position)
 				ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
 #endif
-			//ImGui::TreePop();
 		}
-		//ImGui::TreePop();
 	}
 
 	if(Widget* n = ui::tree_node(*body, "Collapsing Headers").m_body)
@@ -738,7 +730,6 @@ static void ShowDemoWindowWidgets(Widget& parent)
 			for(int i = 0; i < 5; i++)
 				ui::labelf(*h, "More content %d", i);
 		}
-		//ImGui::TreePop();
 	}
 
 	if(Widget* n = ui::tree_node(*body, "Bullets").m_body)
@@ -753,7 +744,6 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		Widget& b1 = ui::row(*n);
 		ui::item(b1, styles().bullet);
 		ui::button(b1, "Button");
-		//ImGui::TreePop();
 	}
 
 #if 0
@@ -766,7 +756,6 @@ static void ShowDemoWindowWidgets(Widget& parent)
 			ImGui::TextColored(vec4(1.0f, 1.0f, 0.0f, 1.0f), "Yellow");
 			ImGui::TextDisabled("Disabled");
 			ImGui::SameLine(); HelpMarker("The TextDisabled color is stored in ImGuiStyle.");
-			//ImGui::TreePop();
 		}
 
 		if(Widget& n = ui::tree_node(*n, "Word Wrapping"))
@@ -793,8 +782,6 @@ static void ShowDemoWindowWidgets(Widget& parent)
 			ui::label(parent, "aaaaaaaa bbbbbbbb, c cccccccc,dddddddd. d eeeeeeee   ffffffff. gggggggg!hhhhhhhh");
 			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(255, 255, 0, 255));
 			ImGui::PopTextWrapPos();
-
-			//ImGui::TreePop();
 		}
 
 		if(Widget& n = ui::tree_node(*n, "UTF-8 Text"))
@@ -813,9 +800,7 @@ static void ShowDemoWindowWidgets(Widget& parent)
 			static char buf[32] = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e";
 			//static char buf[32] = u8"NIHONGO"; // <- this is how you would write it with C++11, using real kanjis
 			ImGui::InputText("UTF-8 input", buf, IM_ARRAYSIZE(buf));
-			//ImGui::TreePop();
 		}
-		//ImGui::TreePop();
 	}
 
 	if(Widget& n = ui::tree_node(*body, "Images"))
@@ -864,7 +849,6 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		}
 		ImGui::NewLine();
 		ui::label(parent, "Pressed %d times.", pressed_count);
-		//ImGui::TreePop();
 	}
 #endif
 	if(Widget* n = ui::tree_node(*body, "Combo").m_body)
@@ -909,86 +893,83 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		//struct FuncHolder { static bool ItemGetter(void* data, int idx, const char** out_str) { *out_str = ((const char**)data)[idx]; return true; } };
 		//static int item_current_4 = 0;
 		//ui::dropdown_field(*n, "combo 4 (function)", item_current_4, &FuncHolder::ItemGetter, items, IM_ARRAYSIZE(items));
-
-		//ImGui::TreePop();
 	}
-#if 0
-	if(Widget& n = ui::tree_node(*body, "Selectables"))
+
+	if(Widget* n = ui::tree_node(*body, "Selectables").m_body)
 	{
 		// Selectable() has 2 overloads:
 		// - The one taking "bool selected" as a read-only selection information. When Selectable() has been clicked is returns true and you can alter selection state accordingly.
 		// - The one taking "bool* p_selected" as a read-write selection information (convenient in some cases)
 		// The earlier is more flexible, as in real application your selection may be stored in a different manner (in flags within objects, as an external list, etc).
-		if(Widget& n = ui::tree_node(*n, "Basic"))
+		if(Widget* n0 = ui::tree_node(*n, "Basic").m_body)
 		{
 			static bool selection[5] = { false, true, false, false, false };
-			ui::selectable(parent, "1. I am selectable", selection[0]);
-			ui::selectable(parent, "2. I am selectable", selection[1]);
-			ui::label(parent, "3. I am not selectable");
-			ui::selectable(parent, "4. I am selectable", selection[3]);
-			if(ui::selectable(parent, "5. I am double clickable", selection[4], ImGuiSelectableFlags_AllowDoubleClick))
-				if(ImGui::IsMouseDoubleClicked(0))
-					selection[4] = !selection[4];
-			//ImGui::TreePop();
+			ui::selectable(*n0, "1. I am selectable", selection[0]);
+			ui::selectable(*n0, "2. I am selectable", selection[1]);
+			ui::label(*n0, "3. I am not selectable");
+			ui::selectable(*n0, "4. I am selectable", selection[3]);
+			//if(ui::selectable(*n0, "5. I am double clickable", selection[4], ImGuiSelectableFlags_AllowDoubleClick))
+			//	if(ImGui::IsMouseDoubleClicked(0))
+			//		selection[4] = !selection[4];
 		}
-		if(Widget& n = ui::tree_node(*n, "Selection State: Single Selection"))
+		if(Widget* n0 = ui::tree_node(*n, "Selection State: Single Selection").m_body)
 		{
 			static int selected = -1;
-			for(int n = 0; n < 5; n++)
+			for(int i = 0; i < 5; i++)
 			{
-				char buf[32];
-				sprintf(buf, "Object %d", n);
-				if(ui::selectable(parent, buf, selected == n))
-					selected = n;
+				string buf = "Object " + to_string(i);
+				bool bsel = selected == i;
+				if(ui::selectable(*n0, buf, bsel).activated())
+					selected = i;
 			}
-			//ImGui::TreePop();
 		}
-		if(Widget& n = ui::tree_node(*n, "Selection State: Multiple Selection"))
+		if(Widget* n0 = ui::tree_node(*n, "Selection State: Multiple Selection").m_body)
 		{
-			HelpMarker("Hold CTRL and click to select multiple items.");
+			HelpMarker(*n, "Hold CTRL and click to select multiple items.");
 			static bool selection[5] = { false, false, false, false, false };
-			for(int n = 0; n < 5; n++)
+			for(int i = 0; i < 5; i++)
 			{
-				char buf[32];
-				sprintf(buf, "Object %d", n);
-				if(ui::selectable(parent, buf, selection[n]))
+				string buf = "Object " + to_string(i);
+				if(ui::selectable(*n0, buf, selection[i]).activated())
 				{
-					if(!ImGui::GetIO().KeyCtrl)    // Clear selection when CTRL is not held
-						memset(selection, 0, sizeof(selection));
-					selection[n] ^= 1;
+					//if(!ImGui::GetIO().KeyCtrl)    // Clear selection when CTRL is not held
+					//	memset(selection, 0, sizeof(selection));
+					selection[i] ^= 1;
 				}
 			}
-			//ImGui::TreePop();
 		}
-		if(Widget& n = ui::tree_node(*n, "Rendering more text into the same line"))
+		if(Widget* n0 = ui::tree_node(*n, "Rendering more text into the same line").m_body)
 		{
 			// Using the Selectable() override that takes "bool* p_selected" parameter and toggle your booleans automatically.
 			static bool selected[3] = { false, false, false };
-			ui::selectable(parent, "main.c", selected[0]); ImGui::SameLine(300); ui::label(parent, " 2,345 bytes");
-			ui::selectable(parent, "Hello.cpp", selected[1]); ImGui::SameLine(300); ui::label(parent, " 12,345 bytes");
-			ui::selectable(parent, "Hello.h", selected[2]); ImGui::SameLine(300); ui::label(parent, " 2,345 bytes");
-			//ImGui::TreePop();
+			Widget& r0 = ui::row(*n0);
+			ui::selectable(r0, "main.c", selected[0]); ui::label(r0, " 2,345 bytes");
+			Widget& r1 = ui::row(*n0);
+			ui::selectable(r1, "Hello.cpp", selected[1]); ui::label(r1, " 12,345 bytes");
+			Widget& r2 = ui::row(*n0);
+			ui::selectable(r2, "Hello.h", selected[2]); ui::label(r2, " 2,345 bytes");
 		}
-		if(Widget& n = ui::tree_node(*n, "In columns"))
+		if(Widget* n0 = ui::tree_node(*n, "In columns").m_body)
 		{
-			Widget& cols = ui::columns(parent, 3, NULL, false);
+			Widget& cols = ui::columns(parent, { 0.f, 0.f, 0.f });
 			static bool selected[16] = { 0 };
+			Widget* row = nullptr;
 			for(int i = 0; i < 16; i++)
 			{
-				char label[32]; sprintf(label, "Item %d", i);
-				if(ui::selectable(parent, label, &selected[i])) {}
-				ImGui::NextColumn();
+				if(i % 3 == 0)
+					row = &ui::row(*n);
+				string label = "Item " + to_string(i);
+				if(ui::selectable(*row, label, selected[i]).activated()) {}
+				//ImGui::NextColumn();
 			}
-			
-			//ImGui::TreePop();
 		}
-		if(Widget& n = ui::tree_node(*n, "Grid"))
+		if(Widget* n0 = ui::tree_node(*n, "Grid").m_body)
 		{
 			static bool selected[4 * 4] = { true, false, false, false, false, true, false, false, false, false, true, false, false, false, false, true };
 			for(int i = 0; i < 4 * 4; i++)
 			{
-				ImGui::PushID(i);
-				if(ui::selectable(parent, "Sailor", selected[i], 0, vec2(50, 50)))
+				//ImGui::PushID(i);
+				if(ui::selectable(parent, "Sailor", selected[i]).activated())//, 0, vec2(50, 50)))
 				{
 					// Note: We _unnecessarily_ test for both x/y and i here only to silence some static analyzer. The second part of each test is unnecessary.
 					int x = i % 4;
@@ -998,40 +979,37 @@ static void ShowDemoWindowWidgets(Widget& parent)
 					if(y > 0 && i > 3) { selected[i - 4] ^= 1; }
 					if(y < 3 && i < 12) { selected[i + 4] ^= 1; }
 				}
-				if((i % 4) < 3) ImGui::SameLine();
-				ImGui::PopID();
+				//if((i % 4) < 3) ImGui::SameLine();
+				//ImGui::PopID();
 			}
-			//ImGui::TreePop();
 		}
-		if(Widget& n = ui::tree_node(*n, "Alignment"))
+		if(Widget* n0 = ui::tree_node(*n, "Alignment").m_body)
 		{
-			HelpMarker("Alignment applies when a selectable is larger than its text content.\nBy default, Selectables uses style.SelectableTextAlign but it can be overriden on a per-item basis using PushStyleVar().");
+			HelpMarker(*n0, "Alignment applies when a selectable is larger than its text content.\nBy default, Selectables uses style.SelectableTextAlign but it can be overriden on a per-item basis using PushStyleVar().");
 			static bool selected[3 * 3] = { true, false, true, false, true, false, true, false, true };
 			for(int y = 0; y < 3; y++)
 			{
 				for(int x = 0; x < 3; x++)
 				{
 					vec2 alignment = vec2((float)x / 2.0f, (float)y / 2.0f);
-					char name[32];
-					sprintf(name, "(%.1f,%.1f)", alignment.x, alignment.y);
-					if(x > 0) ImGui::SameLine();
-					ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign, alignment);
-					ui::selectable(parent, name, &selected[3 * y + x], ImGuiSelectableFlags_None, vec2(80, 80));
-					ImGui::PopStyleVar();
+					//char name[32];
+					//sprintf(name, "(%.1f,%.1f)", alignment.x, alignment.y);
+					//if(x > 0) ImGui::SameLine();
+					//ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign, alignment);
+					//ui::selectable(parent, name, &selected[3 * y + x], ImGuiSelectableFlags_None, vec2(80, 80));
+					//ImGui::PopStyleVar();
 				}
 			}
-			//ImGui::TreePop();
 		}
-		//ImGui::TreePop();
 	}
 
-	if(Widget& n = ui::tree_node(*body, "Text Input"))
+	if(Widget* n = ui::tree_node(*body, "Text Input").m_body)
 	{
-		if(Widget& n = ui::tree_node(parent, "Multi-line Text Input"))
+		if(Widget* n0 = ui::tree_node(*n, "Multi-line Text Input").m_body)
 		{
 			// Note: we are using a fixed-sized buffer for simplicity here. See ImGuiInputTextFlags_CallbackResize
 			// and the code in misc/cpp/imgui_stdlib.h for how to setup InputText() for dynamically resizing strings.
-			static char text[1024 * 16] =
+			static string text =
 				"/*\n"
 				" The Pentium F00F bug, shorthand for F0 0F C7 C8,\n"
 				" the hexadecimal encoding of one offending instruction,\n"
@@ -1043,39 +1021,40 @@ static void ShowDemoWindowWidgets(Widget& parent)
 				"label:\n"
 				"\tlock cmpxchg8b eax\n";
 
-			static ImGuiInputTextFlags flags = ImGuiInputTextFlags_AllowTabInput;
-			HelpMarker("You can use the ImGuiInputTextFlags_CallbackResize facility if you need to wire InputTextMultiline() to a dynamic string type. See misc/cpp/imgui_stdlib.h for an example. (This is not demonstrated in imgui_demo.cpp)");
-			ui::flag_field(parent, "ImGuiInputTextFlags_ReadOnly", (uint32_t&)flags, ImGuiInputTextFlags_ReadOnly);
-			ui::flag_field(parent, "ImGuiInputTextFlags_AllowTabInput", (uint32_t&)flags, ImGuiInputTextFlags_AllowTabInput);
-			ui::flag_field(parent, "ImGuiInputTextFlags_CtrlEnterForNewLine", (uint32_t&)flags, ImGuiInputTextFlags_CtrlEnterForNewLine);
-			ImGui::InputTextMultiline("##source", text, IM_ARRAYSIZE(text), vec2(-1.0f, ImGui::GetTextLineHeight() * 16), flags);
-			//ImGui::TreePop();
+			static bool readonly = false; static bool allow_tab_input = false; static bool ctrl_enter_new_line = false;
+			//static ImGuiInputTextFlags flags = ImGuiInputTextFlags_AllowTabInput;
+			HelpMarker(*n0, "You can use the ImGuiInputTextFlags_CallbackResize facility if you need to wire InputTextMultiline() to a dynamic string type. See misc/cpp/imgui_stdlib.h for an example. (This is not demonstrated in imgui_demo.cpp)");
+			ui::field(*n0, "ReadOnly", readonly);
+			ui::field(*n0, "AllowTabInput", allow_tab_input);
+			ui::field(*n0, "CtrlEnterForNewLine", ctrl_enter_new_line);
+			//ImGui::InputTextMultiline("##source", text, IM_ARRAYSIZE(text), vec2(-1.0f, ImGui::GetTextLineHeight() * 16), flags);
+			ui::text_edit(*n0, text, 16);
 		}
 
-		if(Widget& n = ui::tree_node(parent, "Filtered Text Input"))
+		if(Widget* n0 = ui::tree_node(*n, "Filtered Text Input").m_body)
 		{
-			static char buf1[64] = ""; ImGui::InputText("default", buf1, 64);
-			static char buf2[64] = ""; ImGui::InputText("decimal", buf2, 64, ImGuiInputTextFlags_CharsDecimal);
-			static char buf3[64] = ""; ImGui::InputText("hexadecimal", buf3, 64, ImGuiInputTextFlags_CharsHexadecimal | ImGuiInputTextFlags_CharsUppercase);
-			static char buf4[64] = ""; ImGui::InputText("uppercase", buf4, 64, ImGuiInputTextFlags_CharsUppercase);
-			static char buf5[64] = ""; ImGui::InputText("no blank", buf5, 64, ImGuiInputTextFlags_CharsNoBlank);
-			struct TextFilters { static int FilterImGuiLetters(ImGuiInputTextCallbackData* data) { if(data->EventChar < 256 && strchr("imgui", (char)data->EventChar)) return 0; return 1; } };
-			static char buf6[64] = ""; ImGui::InputText("\"imgui\" letters", buf6, 64, ImGuiInputTextFlags_CallbackCharFilter, TextFilters::FilterImGuiLetters);
+			static string buf1 = ""; ui::field<string>(*n0, "default", buf1);
+			static string buf2 = ""; ui::field<string>(*n0, "decimal", buf2); // , ImGuiInputTextFlags_CharsDecimal);
+			static string buf3 = ""; ui::field<string>(*n0, "hexadecimal", buf3); // , ImGuiInputTextFlags_CharsHexadecimal | ImGuiInputTextFlags_CharsUppercase);
+			static string buf4 = ""; ui::field<string>(*n0, "uppercase", buf4); // , ImGuiInputTextFlags_CharsUppercase);
+			static string buf5 = ""; ui::field<string>(*n0, "no blank", buf5); // , ImGuiInputTextFlags_CharsNoBlank);
+			//struct TextFilters { static int FilterImGuiLetters(ImGuiInputTextCallbackData* data) { if(data->EventChar < 256 && strchr("imgui", (char)data->EventChar)) return 0; return 1; } };
+			//static char buf6[64] = ""; ImGui::InputText("\"imgui\" letters", buf6, 64, ImGuiInputTextFlags_CallbackCharFilter, TextFilters::FilterImGuiLetters);
 
 			ui::label(parent, "Password input");
 			static char bufpass[64] = "password123";
-			ImGui::InputText("password", bufpass, 64, ImGuiInputTextFlags_Password | ImGuiInputTextFlags_CharsNoBlank);
-			ImGui::SameLine(); HelpMarker("Display all characters as '*'.\nDisable clipboard cut and copy.\nDisable logging.\n");
-			ImGui::InputTextWithHint("password (w/ hint)", "<password>", bufpass, 64, ImGuiInputTextFlags_Password | ImGuiInputTextFlags_CharsNoBlank);
-			ImGui::InputText("password (clear)", bufpass, 64, ImGuiInputTextFlags_CharsNoBlank);
-			//ImGui::TreePop();
+			//ImGui::InputText("password", bufpass, 64, ImGuiInputTextFlags_Password | ImGuiInputTextFlags_CharsNoBlank);
+			//ImGui::SameLine(); HelpMarker("Display all characters as '*'.\nDisable clipboard cut and copy.\nDisable logging.\n");
+			//ImGui::InputTextWithHint("password (w/ hint)", "<password>", bufpass, 64, ImGuiInputTextFlags_Password | ImGuiInputTextFlags_CharsNoBlank);
+			//ImGui::InputText("password (clear)", bufpass, 64, ImGuiInputTextFlags_CharsNoBlank);
 		}
 
-		if(Widget& n = ui::tree_node(*body, "Resize Callback"))
+		if(Widget* n0 = ui::tree_node(*n, "Resize Callback").m_body)
 		{
 			// If you have a custom string type you would typically create a ImGui::InputText() wrapper than takes your type as input.
 			// See misc/cpp/imgui_stdlib.h and .cpp for an implementation of this using std::string.
-			HelpMarker("Demonstrate using ImGuiInputTextFlags_CallbackResize to wire your resizable string type to InputText().\n\nSee misc/cpp/imgui_stdlib.h for an implementation of this for std::string.");
+			HelpMarker(*n, "Demonstrate using ImGuiInputTextFlags_CallbackResize to wire your resizable string type to InputText().\n\nSee misc/cpp/imgui_stdlib.h for an implementation of this for std::string.");
+#if 0
 			struct Funcs
 			{
 				static int MyResizeCallback(ImGuiInputTextCallbackData* data)
@@ -1098,45 +1077,42 @@ static void ShowDemoWindowWidgets(Widget& parent)
 					return ImGui::InputTextMultiline(label, my_str->begin(), (size_t)my_str->size(), size, flags | ImGuiInputTextFlags_CallbackResize, Funcs::MyResizeCallback, (void*)my_str);
 				}
 			};
-
+#endif
 			// For this demo we are using vector as a string container.
 			// Note that because we need to store a terminating zero character, our size/capacity are 1 more than usually reported by a typical string class.
 			static vector<char> my_str;
 			if(my_str.empty())
 				my_str.push_back(0);
-			Funcs::MyInputTextMultiline("##MyStr", my_str, vec2(-1.0f, ImGui::GetTextLineHeight() * 16));
-			ui::label(parent, "Data: %p\nSize: %d\nCapacity: %d", (void*)my_str.begin(), my_str.size(), my_str.capacity());
-			//ImGui::TreePop();
+			//Funcs::MyInputTextMultiline("##MyStr", my_str, vec2(-1.0f, ImGui::GetTextLineHeight() * 16));
+			ui::labelf(parent, "Data: %p\nSize: %d\nCapacity: %d", (void*)my_str.begin(), my_str.size(), my_str.capacity());
 		}
-
-		//ImGui::TreePop();
 	}
 
-	if(Widget& n = ui::tree_node(*body, "Plots Widgets"))
+	if(Widget* n = ui::tree_node(*body, "Plots Widgets").m_body)
 	{
 		static bool animate = true;
-		ui::field(parent, "Animate", animate);
+		ui::field(*n, "Animate", animate);
 
 		static float arr[] = { 0.6f, 0.1f, 1.0f, 0.5f, 0.92f, 0.1f, 0.2f };
-		ImGui::PlotLines("Frame Times", arr, IM_ARRAYSIZE(arr));
+		//ImGui::PlotLines("Frame Times", arr, IM_ARRAYSIZE(arr));
 
 		// Create a dummy array of contiguous float values to plot
 		// Tip: If your float aren't contiguous but part of a structure, you can pass a pointer to your first float and the sizeof() of your structure in the Stride parameter.
 		static float values[90] = { 0 };
 		static int values_offset = 0;
 		static double refresh_time = 0.0;
-		if(!animate || refresh_time == 0.0)
-			refresh_time = ImGui::GetTime();
-		while(refresh_time < ImGui::GetTime()) // Create dummy data at fixed 60 hz rate for the demo
-		{
-			static float phase = 0.0f;
-			values[values_offset] = cosf(phase);
-			values_offset = (values_offset + 1) % IM_ARRAYSIZE(values);
-			phase += 0.10f*values_offset;
-			refresh_time += 1.0f / 60.0f;
-		}
-		ImGui::PlotLines("Lines", values, IM_ARRAYSIZE(values), values_offset, "avg 0.0", -1.0f, 1.0f, vec2(0, 80));
-		ImGui::PlotHistogram("Histogram", arr, IM_ARRAYSIZE(arr), 0, NULL, 0.0f, 1.0f, vec2(0, 80));
+		//if(!animate || refresh_time == 0.0)
+		//	refresh_time = ImGui::GetTime();
+		//while(refresh_time < ImGui::GetTime()) // Create dummy data at fixed 60 hz rate for the demo
+		//{
+		//	static float phase = 0.0f;
+		//	values[values_offset] = cosf(phase);
+		//	values_offset = (values_offset + 1) % IM_ARRAYSIZE(values);
+		//	phase += 0.10f*values_offset;
+		//	refresh_time += 1.0f / 60.0f;
+		//}
+		//ImGui::PlotLines("Lines", values, IM_ARRAYSIZE(values), values_offset, "avg 0.0", -1.0f, 1.0f, vec2(0, 80));
+		//ImGui::PlotHistogram("Histogram", arr, IM_ARRAYSIZE(arr), 0, NULL, 0.0f, 1.0f, vec2(0, 80));
 
 		// Use functions to generate output
 		// FIXME: This is rather awkward because current plot API only pass in indices. We probably want an API passing floats and user provide sample rate/count.
@@ -1145,39 +1121,38 @@ static void ShowDemoWindowWidgets(Widget& parent)
 			static float Sin(void*, int i) { return sinf(i * 0.1f); }
 			static float Saw(void*, int i) { return (i & 1) ? 1.0f : -1.0f; }
 		};
-		static int func_type = 0, display_count = 70;
-		ui::separator(parent);
-		ImGui::SetNextItemWidth(100);
-		ui::dropdown_field(parent, "func", func_type, "Sin", "Saw", "");
-		ImGui::SameLine();
-		ui::slider_field<int>(parent, ("Sample count", display_count, 1, 400);
+		static uint32_t func_type = 0, display_count = 70;
+		ui::separator(*n);
+		//ImGui::SetNextItemWidth(100);
+		ui::dropdown_field(*n, "func", { "Sin", "Saw" }, func_type);
+		//ImGui::SameLine();
+		//ui::slider_field<int>(*n, ("Sample count", display_count, 1, 400);
 		float(*func)(void*, int) = (func_type == 0) ? Funcs::Sin : Funcs::Saw;
-		ImGui::PlotLines("Lines", func, NULL, display_count, 0, NULL, -1.0f, 1.0f, vec2(0, 80));
-		ImGui::PlotHistogram("Histogram", func, NULL, display_count, 0, NULL, -1.0f, 1.0f, vec2(0, 80));
-		ui::separator(parent);
+		//ImGui::PlotLines("Lines", func, NULL, display_count, 0, NULL, -1.0f, 1.0f, vec2(0, 80));
+		//ImGui::PlotHistogram("Histogram", func, NULL, display_count, 0, NULL, -1.0f, 1.0f, vec2(0, 80));
+		ui::separator(*n);
 
 		// Animate a simple progress bar
 		static float progress = 0.0f, progress_dir = 1.0f;
 		if(animate)
 		{
-			progress += progress_dir * 0.4f * ImGui::GetIO().DeltaTime;
+			progress += progress_dir * 0.4f; // * ImGui::GetIO().DeltaTime;
 			if(progress >= +1.1f) { progress = +1.1f; progress_dir *= -1.0f; }
 			if(progress <= -0.1f) { progress = -0.1f; progress_dir *= -1.0f; }
 		}
 
 		// Typically we would use vec2(-1.0f,0.0f) to use all available width, or vec2(width,0.0f) for a specified width. vec2(0.0f,0.0f) uses ItemWidth.
-		ImGui::ProgressBar(progress, vec2(0.0f, 0.0f));
-		ImGui::SameLine(0.0f, ImGui::GetStyle().ItemInnerSpacing.x);
-		ui::label(parent, "Progress Bar");
+		ui::fill_bar(*n, progress); // ImGui::ProgressBar(progress, vec2(0.0f, 0.0f));
+		//ImGui::SameLine(0.0f, ImGui::GetStyle().ItemInnerSpacing.x);
+		ui::label(*n, "Progress Bar");
 
 		float progress_saturated = (progress < 0.0f) ? 0.0f : (progress > 1.0f) ? 1.0f : progress;
 		char buf[32];
-		sprintf(buf, "%d/%d", (int)(progress_saturated * 1753), 1753);
-		ImGui::ProgressBar(progress, vec2(0.f, 0.f), buf);
-		//ImGui::TreePop();
+		//sprintf(buf, "%d/%d", (int)(progress_saturated * 1753), 1753);
+		//ImGui::ProgressBar(progress, vec2(0.f, 0.f), buf);
 	}
 
-	if(Widget& n = ui::tree_node(*body, "Color/Picker Widgets"))
+	if(Widget* n = ui::tree_node(*body, "Color/Picker Widgets").m_body)
 	{
 		static vec4 color = vec4(114.0f / 255.0f, 144.0f / 255.0f, 154.0f / 255.0f, 200.0f / 255.0f);
 
@@ -1189,6 +1164,7 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		ui::field(parent, "With Alpha Preview", alpha_preview);
 		ui::field(parent, "With Half Alpha Preview", alpha_half_preview);
 		ui::field(parent, "With Drag and Drop", drag_and_drop);
+#if 0
 		ui::field(parent, "With Options Menu", options_menu); ImGui::SameLine(); HelpMarker("Right-click on the individual color widget to show options.");
 		ui::field(parent, "With HDR", hdr); ImGui::SameLine(); HelpMarker("Currently all this does is to lift the 0..1 limits on dragging widgets.");
 		int misc_flags = (hdr ? ImGuiColorEditFlags_HDR : 0) | (drag_and_drop ? 0 : ImGuiColorEditFlags_NoDragDrop) | (alpha_half_preview ? ImGuiColorEditFlags_AlphaPreviewHalf : (alpha_preview ? ImGuiColorEditFlags_AlphaPreview : 0)) | (options_menu ? 0 : ImGuiColorEditFlags_NoOptions);
@@ -1327,10 +1303,11 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		ImGui::ColorEdit4("HSV shown as HSV##1", (float*)&color_stored_as_hsv, ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_InputHSV | ImGuiColorEditFlags_Float);
 		ImGui::ColorEdit4("HSV shown as RGB##1", (float*)&color_stored_as_hsv, ImGuiColorEditFlags_DisplayHSV | ImGuiColorEditFlags_InputHSV | ImGuiColorEditFlags_Float);
 		ImGui::DragFloat4("Raw HSV values", (float*)&color_stored_as_hsv, 0.01f, 0.0f, 1.0f);
-
+#endif
 		//ImGui::TreePop();
 	}
 
+#if 0
 	if(Widget& n = ui::tree_node(*body, "Range Widgets"))
 	{
 		static float begin = 10, end = 90;
@@ -4577,7 +4554,7 @@ bool pump(RenderSystem& render_system, BgfxContext& context, UiWindow& ui_window
 	return pursue;
 }
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 	#include <emscripten/emscripten.h>
 
 	RenderSystem* g_render_system = nullptr;
@@ -4592,15 +4569,15 @@ int main(int argc, char *argv[])
 	System::instance().load_modules({ &mud_obj::m(), &mud_math::m(), &mud_lang::m(), &mud_ui::m() });
 #endif
 
-#ifdef MUD_RENDERER_GL
-	static GlSystem render_system = { MUD_RESOURCE_PATH };
-#elif defined MUD_RENDERER_BGFX
-	static BgfxSystem render_system = { MUD_RESOURCE_PATH };
+#ifdef TWO_RENDERER_GL
+	static GlSystem render_system = { TWO_RESOURCE_PATH };
+#elif defined TWO_RENDERER_BGFX
+	static BgfxSystem render_system = { TWO_RESOURCE_PATH };
 #endif
 
-	static BgfxContext context = BgfxContext(render_system, "mud ui demo", uvec2(1200, 800), false, true);
+	static BgfxContext context = BgfxContext(render_system, "two ui demo", uvec2(1200, 800), false, true);
 
-	static VgVg vg = VgVg(MUD_RESOURCE_PATH, &render_system.allocator());
+	static VgVg vg = VgVg(TWO_RESOURCE_PATH, &render_system.allocator());
 	vg.setup_context();
 
 	static UiWindow ui_window = UiWindow(context, vg);
@@ -4610,7 +4587,7 @@ int main(int argc, char *argv[])
 	style_minimal(ui_window);
 	//style_imgui(ui_window, ImguiStyle::Dark);
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 	g_render_system = &render_system;
 	g_window = &ui_window;
 	emscripten_set_main_loop(iterate, 0, 1);

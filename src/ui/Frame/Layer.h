@@ -8,9 +8,9 @@
 #include <stl/vector.h>
 #include <ui/Frame/Frame.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_UI_EXPORT Layer
+	export_ class refl_ TWO_UI_EXPORT Layer
 	{
 	public:
 		Layer(Frame& frame);

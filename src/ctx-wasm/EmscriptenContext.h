@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 
 #include <ctx/Forward.h>
 #include <ctx/Context.h>
@@ -12,13 +12,13 @@
 #include <emscripten/emscripten.h>
 #include <emscripten/html5.h>
 
-#ifndef MUD_CTX_WASM_EXPORT
-#define MUD_CTX_WASM_EXPORT
+#ifndef TWO_CTX_WASM_EXPORT
+#define TWO_CTX_WASM_EXPORT
 #endif
 
-namespace mud
+namespace two
 {
-	class MUD_CTX_WASM_EXPORT EmContext : public Context
+	class TWO_CTX_WASM_EXPORT EmContext : public Context
 	{
 	public:
 		EmContext(RenderSystem& renderSystem, const string& name, uvec2 size, bool fullscreen, bool main);

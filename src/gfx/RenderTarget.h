@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/span.h>
 #include <math/Vec.hpp>
 #include <type/Unique.h>
@@ -13,15 +13,15 @@
 #include <gfx/Viewport.h>
 #include <gfx/Texture.h>
 
-#ifdef MUD_UNIFORM_BLOCKS
+#ifdef TWO_UNIFORM_BLOCKS
 #include <gfx/Uniform.h>
 #endif
 
 #include <bgfx/bgfx.h>
 
-namespace mud
+namespace two
 {
-	export_ struct refl_ MUD_GFX_EXPORT RenderQuad
+	export_ struct refl_ TWO_GFX_EXPORT RenderQuad
 	{
 		attr_ vec4 m_source = vec4(vec2(0.f), vec2(1.f));
 		attr_ vec4 m_dest = vec4(vec2(0.f), vec2(1.f));
@@ -37,7 +37,7 @@ namespace mud
 		{}
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT FrameBuffer
+	export_ class refl_ TWO_GFX_EXPORT FrameBuffer
 	{
 	public:
 		constr_ FrameBuffer();
@@ -109,7 +109,7 @@ namespace mud
 		bool m_state = false;
 	};
 
-	export_ struct MUD_GFX_EXPORT GBuffer : public FrameBuffer
+	export_ struct TWO_GFX_EXPORT GBuffer : public FrameBuffer
 	{
 		void create(const uvec2& size, TextureFormat color_format, uint64_t flags);
 
@@ -120,7 +120,7 @@ namespace mud
 		Texture m_surface;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT RenderTarget : public FrameBuffer
+	export_ class refl_ TWO_GFX_EXPORT RenderTarget : public FrameBuffer
 	{
 	public:
 		RenderTarget(const uvec2& size, void* window = nullptr);

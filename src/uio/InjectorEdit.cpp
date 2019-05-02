@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.uio;
+#ifdef TWO_MODULES
+module two.uio;
 #else
 #include <tree/Graph.hpp>
 #include <type/Proto.h>
@@ -19,7 +19,7 @@ module mud.uio;
 #include <uio/ValueEdit.h>
 #endif
 
-namespace mud
+namespace two
 {
 	void object_injector(Widget& parent, Injector& injector)
 	{

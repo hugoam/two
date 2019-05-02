@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_SPHERICAL
-#define MUD_SHADER_SPHERICAL
+#ifndef TWO_SHADER_SPHERICAL
+#define TWO_SHADER_SPHERICAL
 
 #include <common.sh>
 

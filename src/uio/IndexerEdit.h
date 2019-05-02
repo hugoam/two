@@ -4,26 +4,26 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <type/Dispatch.h>
 #include <infra/Global.h>
 #endif
 #include <uio/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ class MUD_UIO_EXPORT DispatchSelector : public Dispatch<bool, Widget&>, public LazyGlobal<DispatchSelector>
+	export_ class TWO_UIO_EXPORT DispatchSelector : public Dispatch<bool, Widget&>, public LazyGlobal<DispatchSelector>
 	{
 	public:
 		DispatchSelector();
 	};
 
-	export_ MUD_UIO_EXPORT void complex_indexer(Widget& parent, Indexer& indexer, vector<Ref>* selection = nullptr);
-	export_ MUD_UIO_EXPORT void object_indexer(Widget& parent, Indexer& indexer, vector<Ref>* selection = nullptr);
+	export_ TWO_UIO_EXPORT void complex_indexer(Widget& parent, Indexer& indexer, vector<Ref>* selection = nullptr);
+	export_ TWO_UIO_EXPORT void object_indexer(Widget& parent, Indexer& indexer, vector<Ref>* selection = nullptr);
 
-	export_ MUD_UIO_EXPORT bool object_selector(Widget& parent, Indexer& indexer, Ref& result);
-	export_ MUD_UIO_EXPORT bool object_selector(Widget& parent, Ref& result);
+	export_ TWO_UIO_EXPORT bool object_selector(Widget& parent, Indexer& indexer, Ref& result);
+	export_ TWO_UIO_EXPORT bool object_selector(Widget& parent, Ref& result);
 
-	export_ MUD_UIO_EXPORT void object_indexer_modal(Widget& parent, Indexer& indexer);
-	export_ MUD_UIO_EXPORT bool object_selector_modal(Widget& screen, Widget& parent, Ref& result);
+	export_ TWO_UIO_EXPORT void object_indexer_modal(Widget& parent, Indexer& indexer);
+	export_ TWO_UIO_EXPORT bool object_selector_modal(Widget& screen, Widget& parent, Ref& result);
 }

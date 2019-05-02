@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.uio;
+#ifdef TWO_MODULES
+module two.uio;
 #else
 #include <stl/map.h>
 #include <infra/Global.h>
@@ -24,7 +24,7 @@ module mud.uio;
 #include <uio/ValueEdit.h>
 #endif
 
-namespace mud
+namespace two
 {
 	struct TypeColours : public Global<TypeColours>
 	{

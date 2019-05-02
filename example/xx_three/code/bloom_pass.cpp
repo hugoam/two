@@ -9,7 +9,7 @@
 
 #include <cstdio>
 
-using namespace mud;
+using namespace two;
 
 // @author alteredq / http://alteredqualia.com/
 // Convolution shader, ported from o3d sample to WebGL / GLSL

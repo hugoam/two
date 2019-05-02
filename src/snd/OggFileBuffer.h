@@ -7,11 +7,11 @@
 #include <snd/SoundFileBuffer.h>
 #include <type/Unique.h>
 
-namespace mud
+namespace two
 {
 	using cstring = const char*;
 
-	class MUD_SND_EXPORT OggFileBuffer : public SoundFileBuffer
+	class TWO_SND_EXPORT OggFileBuffer : public SoundFileBuffer
 	{
 	public:	
 		OggFileBuffer();

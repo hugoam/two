@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <math/Vec.hpp>
 #include <geom/Primitive.hpp>
@@ -37,7 +37,7 @@ module mud.gfx;
 //#define DEBUG_CULLED_RECTS
 #define ITEM_TO_CLIP
 
-namespace mud
+namespace two
 {
 	void screen_space_rect(Render& render, const Camera& camera, const mat4& mat, const vec2& lo, const vec2& hi, const Colour& colour)
 	{

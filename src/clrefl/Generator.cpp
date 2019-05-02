@@ -14,7 +14,7 @@
 
 #define DEBUG_CLANG_ARGS 0
 
-namespace mud
+namespace two
 {
 	using Json = json11::Json;
 
@@ -685,8 +685,8 @@ namespace mud
 				"-Wmicrosoft",
 				"-isystemC:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.16.27023/include",
 				"-isystemC:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt",
-				"-DMUD_META_GENERATOR",
-				//"-DMUD_NO_GLM", // @todo
+				"-DTWO_META_GENERATOR",
+				//"-DTWO_NO_GLM", // @todo
 			};
 
 			for(string attr : { "base", "refl", "struct", "nocopy", "extern", "gpu", "array", "span", "seque", "comp", "constr", "meth", "func", "attr", "nomut", "graph", "link" })
@@ -857,11 +857,11 @@ namespace mud
 
 }
 
-using namespace mud;
+using namespace two;
 
 int main(int argc, char *argv[])
 {
-	string all = "d:/Documents/Programmation/toy/build/refl/mud_infra_refl.Json d:/Documents/Programmation/toy/build/refl/mud_jobs_refl.Json d:/Documents/Programmation/toy/build/refl/mud_type_refl.Json d:/Documents/Programmation/toy/build/refl/mud_tree_refl.Json d:/Documents/Programmation/toy/build/refl/mud_pool_refl.Json d:/Documents/Programmation/toy/build/refl/mud_refl_refl.Json d:/Documents/Programmation/toy/build/refl/mud_ecs_refl.Json d:/Documents/Programmation/toy/build/refl/mud_srlz_refl.Json d:/Documents/Programmation/toy/build/refl/mud_math_refl.Json d:/Documents/Programmation/toy/build/refl/mud_geom_refl.Json d:/Documents/Programmation/toy/build/refl/mud_noise_refl.Json d:/Documents/Programmation/toy/build/refl/mud_wfc_refl.Json d:/Documents/Programmation/toy/build/refl/mud_fract_refl.Json d:/Documents/Programmation/toy/build/refl/mud_lang_refl.Json d:/Documents/Programmation/toy/build/refl/mud_ctx_refl.Json d:/Documents/Programmation/toy/build/refl/mud_ui_refl.Json d:/Documents/Programmation/toy/build/refl/mud_uio_refl.Json d:/Documents/Programmation/toy/build/refl/mud_snd_refl.Json d:/Documents/Programmation/toy/build/refl/mud_bgfx_refl.Json d:/Documents/Programmation/toy/build/refl/mud_gfx_refl.Json d:/Documents/Programmation/toy/build/refl/mud_gltf_refl.Json d:/Documents/Programmation/toy/build/refl/mud_gfx_pbr_refl.Json d:/Documents/Programmation/toy/build/refl/mud_gfx_obj_refl.Json d:/Documents/Programmation/toy/build/refl/mud_gfx_gltf_refl.Json d:/Documents/Programmation/toy/build/refl/mud_gfx_ui_refl.Json d:/Documents/Programmation/toy/build/refl/mud_gfx_edit_refl.Json d:/Documents/Programmation/toy/build/refl/mud_tool_refl.Json d:/Documents/Programmation/toy/build/refl/mud_wfc_gfx_refl.Json d:/Documents/Programmation/toy/build/refl/mud_frame_refl.Json d:/Documents/Programmation/toy/build/refl/toy_util_refl.Json d:/Documents/Programmation/toy/build/refl/toy_core_refl.Json d:/Documents/Programmation/toy/build/refl/toy_visu_refl.Json d:/Documents/Programmation/toy/build/refl/toy_edit_refl.Json d:/Documents/Programmation/toy/build/refl/toy_block_refl.Json d:/Documents/Programmation/toy/build/refl/toy_shell_refl.Json d:/Documents/Programmation/toy/build/refl/_test_refl.Json d:/Documents/Programmation/toy/build/refl/_minimal_refl.Json d:/Documents/Programmation/toy/build/refl/_boids_refl.Json d:/Documents/Programmation/toy/build/refl/_space_refl.Json d:/Documents/Programmation/toy/build/refl/_platform_refl.Json d:/Documents/Programmation/toy/build/refl/_blocks_refl.Json d:/Documents/Programmation/toy/build/refl/_wren_refl.Json d:/Documents/Programmation/toy/build/refl/_godot_refl.Json";
+	string all = "d:/Documents/Programmation/toy/build/refl/two_infra_refl.Json d:/Documents/Programmation/toy/build/refl/two_jobs_refl.Json d:/Documents/Programmation/toy/build/refl/two_type_refl.Json d:/Documents/Programmation/toy/build/refl/two_tree_refl.Json d:/Documents/Programmation/toy/build/refl/two_pool_refl.Json d:/Documents/Programmation/toy/build/refl/two_refl_refl.Json d:/Documents/Programmation/toy/build/refl/two_ecs_refl.Json d:/Documents/Programmation/toy/build/refl/two_srlz_refl.Json d:/Documents/Programmation/toy/build/refl/two_math_refl.Json d:/Documents/Programmation/toy/build/refl/two_geom_refl.Json d:/Documents/Programmation/toy/build/refl/two_noise_refl.Json d:/Documents/Programmation/toy/build/refl/two_wfc_refl.Json d:/Documents/Programmation/toy/build/refl/two_fract_refl.Json d:/Documents/Programmation/toy/build/refl/two_lang_refl.Json d:/Documents/Programmation/toy/build/refl/two_ctx_refl.Json d:/Documents/Programmation/toy/build/refl/two_ui_refl.Json d:/Documents/Programmation/toy/build/refl/two_uio_refl.Json d:/Documents/Programmation/toy/build/refl/two_snd_refl.Json d:/Documents/Programmation/toy/build/refl/two_bgfx_refl.Json d:/Documents/Programmation/toy/build/refl/two_gfx_refl.Json d:/Documents/Programmation/toy/build/refl/two_gltf_refl.Json d:/Documents/Programmation/toy/build/refl/two_gfx_pbr_refl.Json d:/Documents/Programmation/toy/build/refl/two_gfx_obj_refl.Json d:/Documents/Programmation/toy/build/refl/two_gfx_gltf_refl.Json d:/Documents/Programmation/toy/build/refl/two_gfx_ui_refl.Json d:/Documents/Programmation/toy/build/refl/two_gfx_edit_refl.Json d:/Documents/Programmation/toy/build/refl/two_tool_refl.Json d:/Documents/Programmation/toy/build/refl/two_wfc_gfx_refl.Json d:/Documents/Programmation/toy/build/refl/two_frame_refl.Json d:/Documents/Programmation/toy/build/refl/toy_util_refl.Json d:/Documents/Programmation/toy/build/refl/toy_core_refl.Json d:/Documents/Programmation/toy/build/refl/toy_visu_refl.Json d:/Documents/Programmation/toy/build/refl/toy_edit_refl.Json d:/Documents/Programmation/toy/build/refl/toy_block_refl.Json d:/Documents/Programmation/toy/build/refl/toy_shell_refl.Json d:/Documents/Programmation/toy/build/refl/_test_refl.Json d:/Documents/Programmation/toy/build/refl/_minimal_refl.Json d:/Documents/Programmation/toy/build/refl/_boids_refl.Json d:/Documents/Programmation/toy/build/refl/_space_refl.Json d:/Documents/Programmation/toy/build/refl/_platform_refl.Json d:/Documents/Programmation/toy/build/refl/_blocks_refl.Json d:/Documents/Programmation/toy/build/refl/_wren_refl.Json d:/Documents/Programmation/toy/build/refl/_godot_refl.Json";
 	
 	CLGenerator generator;
 
@@ -878,9 +878,9 @@ int main(int argc, char *argv[])
 		generator.add_module(json_module);
 	}
 
-	//generator.generate_module("mud_math");
-	//generator.generate_module("mud_geom");
-	//generator.generate_module("mud_gfx");
+	//generator.generate_module("two_math");
+	//generator.generate_module("two_geom");
+	//generator.generate_module("two_gfx");
 	generator.generate_all_modules();
 	return 0;
 }

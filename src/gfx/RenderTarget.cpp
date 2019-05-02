@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <math/Vec.hpp>
 #include <gfx/RenderTarget.h>
@@ -15,12 +15,12 @@ module mud.gfx;
 #include <gfx/Renderer.h>
 #endif
 
-#define MUD_GL_NO_MRT
-//#define MUD_GFX_DEFERRED
+#define TWO_GL_NO_MRT
+//#define TWO_GFX_DEFERRED
 
-namespace mud
+namespace two
 {
-#if defined MUD_UNIFORM_BLOCKS
+#if defined TWO_UNIFORM_BLOCKS
 	TypedUniformBlock<RenderBlock> RenderBlock::s_block = { "render" };
 #endif
 
@@ -35,7 +35,7 @@ namespace mud
 		else
 			m_fbo = bgfx::createFrameBuffer(window, uint16_t(size.x), uint16_t(size.y));
 
-#if defined MUD_UNIFORM_BLOCKS
+#if defined TWO_UNIFORM_BLOCKS
 		m_render_block.m_render_size = vec2(m_size);
 		m_render_block.m_pixel_size = 1.0f / vec2(m_size);
 #endif
@@ -163,7 +163,7 @@ namespace mud
 
 		m_mrt = bgfx::getCaps()->limits.maxFBAttachments >= 4;
 		
-#ifdef MUD_GL_NO_MRT
+#ifdef TWO_GL_NO_MRT
 		// disabling MRT on OpenGL until we figure out a fix for the visual bug
 		bool is_opengl = bgfx::getRendererType() == bgfx::RendererType::OpenGLES
 					  || bgfx::getRendererType() == bgfx::RendererType::OpenGL;
@@ -194,7 +194,7 @@ namespace mud
 
 		m_cascade.create(size, color_format);
 
-#ifdef MUD_GFX_DEFERRED
+#ifdef TWO_GFX_DEFERRED
 		m_deferred = true;
 #else
 		m_deferred = false;

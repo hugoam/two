@@ -3,14 +3,14 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <gfx/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <cstdio>
 #endif
 
 #include <bx/math.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <math/Vec.hpp>
 #include <gfx/Node3.h>
@@ -60,7 +60,7 @@ namespace bx
 	}
 }
 
-namespace mud
+namespace two
 {
 	bx::Vec3 bxvec3(const vec3& v) { return bx::Vec3(v.x, v.y, v.z); }
 	mat4 bxidentity() { mat4 result; bx::mtxIdentity(value_ptr(result)); return result; }

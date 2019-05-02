@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <type/Type.h>
 #include <type/Indexer.h>
@@ -32,7 +32,7 @@ module mud.gfx;
 #include <cstring>
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 	bool is_valid(Texture* texture) { return texture != nullptr && texture->valid(); };
 

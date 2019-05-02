@@ -2,15 +2,15 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_MODULES
-module mud.geom;
+#ifdef TWO_MODULES
+module two.geom;
 #else
 #include <infra/Vector.h>
 #include <math/Vec.hpp>
 #include <geom/Hilbert.h>
 #endif
 
-namespace mud
+namespace two
 {
 	// ref http://www.openprocessing.org/visuals/?visualID=15599
 

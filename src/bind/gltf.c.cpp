@@ -5,7 +5,7 @@
 #include <math/Api.h>
 #include <gltf/Api.h>
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
 #define DECL EMSCRIPTEN_KEEPALIVE
 #else
@@ -16,8 +16,8 @@
 extern "C" {
 	
 	// glTFNodeExtras
-	mud::Type* DECL glTFNodeExtras__type() {
-		return &mud::type<glTFNodeExtras>();
+	two::Type* DECL glTFNodeExtras__type() {
+		return &two::type<glTFNodeExtras>();
 	}
 	glTFNodeExtras* DECL glTFNodeExtras__construct_0() {
 		return new glTFNodeExtras();
@@ -26,8 +26,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFBuffer
-	mud::Type* DECL glTFBuffer__type() {
-		return &mud::type<glTFBuffer>();
+	two::Type* DECL glTFBuffer__type() {
+		return &two::type<glTFBuffer>();
 	}
 	glTFBuffer* DECL glTFBuffer__construct_0() {
 		return new glTFBuffer();
@@ -60,8 +60,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFImage
-	mud::Type* DECL glTFImage__type() {
-		return &mud::type<glTFImage>();
+	two::Type* DECL glTFImage__type() {
+		return &two::type<glTFImage>();
 	}
 	glTFImage* DECL glTFImage__construct_0() {
 		return new glTFImage();
@@ -94,8 +94,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFBufferView
-	mud::Type* DECL glTFBufferView__type() {
-		return &mud::type<glTFBufferView>();
+	two::Type* DECL glTFBufferView__type() {
+		return &two::type<glTFBufferView>();
 	}
 	glTFBufferView* DECL glTFBufferView__construct_0() {
 		return new glTFBufferView();
@@ -140,8 +140,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFSparseIndices
-	mud::Type* DECL glTFSparseIndices__type() {
-		return &mud::type<glTFSparseIndices>();
+	two::Type* DECL glTFSparseIndices__type() {
+		return &two::type<glTFSparseIndices>();
 	}
 	glTFSparseIndices* DECL glTFSparseIndices__construct_0() {
 		return new glTFSparseIndices();
@@ -168,8 +168,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFSparseValues
-	mud::Type* DECL glTFSparseValues__type() {
-		return &mud::type<glTFSparseValues>();
+	two::Type* DECL glTFSparseValues__type() {
+		return &two::type<glTFSparseValues>();
 	}
 	glTFSparseValues* DECL glTFSparseValues__construct_0() {
 		return new glTFSparseValues();
@@ -190,8 +190,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFSparse
-	mud::Type* DECL glTFSparse__type() {
-		return &mud::type<glTFSparse>();
+	two::Type* DECL glTFSparse__type() {
+		return &two::type<glTFSparse>();
 	}
 	glTFSparse* DECL glTFSparse__construct_0() {
 		return new glTFSparse();
@@ -218,8 +218,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFAccessor
-	mud::Type* DECL glTFAccessor__type() {
-		return &mud::type<glTFAccessor>();
+	two::Type* DECL glTFAccessor__type() {
+		return &two::type<glTFAccessor>();
 	}
 	glTFAccessor* DECL glTFAccessor__construct_0() {
 		return new glTFAccessor();
@@ -276,8 +276,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFSampler
-	mud::Type* DECL glTFSampler__type() {
-		return &mud::type<glTFSampler>();
+	two::Type* DECL glTFSampler__type() {
+		return &two::type<glTFSampler>();
 	}
 	glTFSampler* DECL glTFSampler__construct_0() {
 		return new glTFSampler();
@@ -316,8 +316,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFTexture
-	mud::Type* DECL glTFTexture__type() {
-		return &mud::type<glTFTexture>();
+	two::Type* DECL glTFTexture__type() {
+		return &two::type<glTFTexture>();
 	}
 	glTFTexture* DECL glTFTexture__construct_0() {
 		return new glTFTexture();
@@ -344,8 +344,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFSkin
-	mud::Type* DECL glTFSkin__type() {
-		return &mud::type<glTFSkin>();
+	two::Type* DECL glTFSkin__type() {
+		return &two::type<glTFSkin>();
 	}
 	glTFSkin* DECL glTFSkin__construct_0() {
 		return new glTFSkin();
@@ -375,8 +375,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFAttributes
-	mud::Type* DECL glTFAttributes__type() {
-		return &mud::type<glTFAttributes>();
+	two::Type* DECL glTFAttributes__type() {
+		return &two::type<glTFAttributes>();
 	}
 	glTFAttributes* DECL glTFAttributes__construct_0() {
 		return new glTFAttributes();
@@ -433,8 +433,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFMorphTarget
-	mud::Type* DECL glTFMorphTarget__type() {
-		return &mud::type<glTFMorphTarget>();
+	two::Type* DECL glTFMorphTarget__type() {
+		return &two::type<glTFMorphTarget>();
 	}
 	glTFMorphTarget* DECL glTFMorphTarget__construct_0() {
 		return new glTFMorphTarget();
@@ -461,8 +461,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFPrimitive
-	mud::Type* DECL glTFPrimitive__type() {
-		return &mud::type<glTFPrimitive>();
+	two::Type* DECL glTFPrimitive__type() {
+		return &two::type<glTFPrimitive>();
 	}
 	glTFPrimitive* DECL glTFPrimitive__construct_0() {
 		return new glTFPrimitive();
@@ -495,8 +495,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFMesh
-	mud::Type* DECL glTFMesh__type() {
-		return &mud::type<glTFMesh>();
+	two::Type* DECL glTFMesh__type() {
+		return &two::type<glTFMesh>();
 	}
 	glTFMesh* DECL glTFMesh__construct_0() {
 		return new glTFMesh();
@@ -514,8 +514,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFPerspective
-	mud::Type* DECL glTFPerspective__type() {
-		return &mud::type<glTFPerspective>();
+	two::Type* DECL glTFPerspective__type() {
+		return &two::type<glTFPerspective>();
 	}
 	glTFPerspective* DECL glTFPerspective__construct_0() {
 		return new glTFPerspective();
@@ -548,8 +548,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFOrthographic
-	mud::Type* DECL glTFOrthographic__type() {
-		return &mud::type<glTFOrthographic>();
+	two::Type* DECL glTFOrthographic__type() {
+		return &two::type<glTFOrthographic>();
 	}
 	glTFOrthographic* DECL glTFOrthographic__construct_0() {
 		return new glTFOrthographic();
@@ -582,8 +582,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFCamera
-	mud::Type* DECL glTFCamera__type() {
-		return &mud::type<glTFCamera>();
+	two::Type* DECL glTFCamera__type() {
+		return &two::type<glTFCamera>();
 	}
 	glTFCamera* DECL glTFCamera__construct_0() {
 		return new glTFCamera();
@@ -616,8 +616,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFAnimationTarget
-	mud::Type* DECL glTFAnimationTarget__type() {
-		return &mud::type<glTFAnimationTarget>();
+	two::Type* DECL glTFAnimationTarget__type() {
+		return &two::type<glTFAnimationTarget>();
 	}
 	glTFAnimationTarget* DECL glTFAnimationTarget__construct_0() {
 		return new glTFAnimationTarget();
@@ -638,8 +638,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFAnimationChannel
-	mud::Type* DECL glTFAnimationChannel__type() {
-		return &mud::type<glTFAnimationChannel>();
+	two::Type* DECL glTFAnimationChannel__type() {
+		return &two::type<glTFAnimationChannel>();
 	}
 	glTFAnimationChannel* DECL glTFAnimationChannel__construct_0() {
 		return new glTFAnimationChannel();
@@ -660,8 +660,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFAnimationSampler
-	mud::Type* DECL glTFAnimationSampler__type() {
-		return &mud::type<glTFAnimationSampler>();
+	two::Type* DECL glTFAnimationSampler__type() {
+		return &two::type<glTFAnimationSampler>();
 	}
 	glTFAnimationSampler* DECL glTFAnimationSampler__construct_0() {
 		return new glTFAnimationSampler();
@@ -688,8 +688,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFAnimation
-	mud::Type* DECL glTFAnimation__type() {
-		return &mud::type<glTFAnimation>();
+	two::Type* DECL glTFAnimation__type() {
+		return &two::type<glTFAnimation>();
 	}
 	glTFAnimation* DECL glTFAnimation__construct_0() {
 		return new glTFAnimation();
@@ -704,8 +704,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFTextureInfo
-	mud::Type* DECL glTFTextureInfo__type() {
-		return &mud::type<glTFTextureInfo>();
+	two::Type* DECL glTFTextureInfo__type() {
+		return &two::type<glTFTextureInfo>();
 	}
 	glTFTextureInfo* DECL glTFTextureInfo__construct_0() {
 		return new glTFTextureInfo();
@@ -726,16 +726,16 @@ extern "C" {
 		delete self;
 	}
 	// glTFMaterialPBR
-	mud::Type* DECL glTFMaterialPBR__type() {
-		return &mud::type<glTFMaterialPBR>();
+	two::Type* DECL glTFMaterialPBR__type() {
+		return &two::type<glTFMaterialPBR>();
 	}
 	glTFMaterialPBR* DECL glTFMaterialPBR__construct_0() {
 		return new glTFMaterialPBR();
 	}
-	mud::vec4* DECL glTFMaterialPBR__get_base_color_factor(glTFMaterialPBR* self) {
+	two::vec4* DECL glTFMaterialPBR__get_base_color_factor(glTFMaterialPBR* self) {
 		return &self->base_color_factor;
 	}
-	void DECL glTFMaterialPBR__set_base_color_factor(glTFMaterialPBR* self, mud::vec4* value) {
+	void DECL glTFMaterialPBR__set_base_color_factor(glTFMaterialPBR* self, two::vec4* value) {
 		self->base_color_factor = *value;
 	}
 	glTFTextureInfo* DECL glTFMaterialPBR__get_base_color_texture(glTFMaterialPBR* self) {
@@ -766,8 +766,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFMaterial
-	mud::Type* DECL glTFMaterial__type() {
-		return &mud::type<glTFMaterial>();
+	two::Type* DECL glTFMaterial__type() {
+		return &two::type<glTFMaterial>();
 	}
 	glTFMaterial* DECL glTFMaterial__construct_0() {
 		return new glTFMaterial();
@@ -790,10 +790,10 @@ extern "C" {
 	void DECL glTFMaterial__set_occlusion_texture(glTFMaterial* self, glTFTextureInfo* value) {
 		self->occlusion_texture = *value;
 	}
-	mud::vec3* DECL glTFMaterial__get_emissive_factor(glTFMaterial* self) {
+	two::vec3* DECL glTFMaterial__get_emissive_factor(glTFMaterial* self) {
 		return &self->emissive_factor;
 	}
-	void DECL glTFMaterial__set_emissive_factor(glTFMaterial* self, mud::vec3* value) {
+	void DECL glTFMaterial__set_emissive_factor(glTFMaterial* self, two::vec3* value) {
 		self->emissive_factor = *value;
 	}
 	glTFTextureInfo* DECL glTFMaterial__get_emissive_texture(glTFMaterial* self) {
@@ -824,8 +824,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFNode
-	mud::Type* DECL glTFNode__type() {
-		return &mud::type<glTFNode>();
+	two::Type* DECL glTFNode__type() {
+		return &two::type<glTFNode>();
 	}
 	glTFNode* DECL glTFNode__construct_0() {
 		return new glTFNode();
@@ -854,28 +854,28 @@ extern "C" {
 	void DECL glTFNode__set_skin(glTFNode* self, int value) {
 		self->skin = value;
 	}
-	mud::mat4* DECL glTFNode__get_matrix(glTFNode* self) {
+	two::mat4* DECL glTFNode__get_matrix(glTFNode* self) {
 		return &self->matrix;
 	}
-	void DECL glTFNode__set_matrix(glTFNode* self, mud::mat4* value) {
+	void DECL glTFNode__set_matrix(glTFNode* self, two::mat4* value) {
 		self->matrix = *value;
 	}
-	mud::vec3* DECL glTFNode__get_translation(glTFNode* self) {
+	two::vec3* DECL glTFNode__get_translation(glTFNode* self) {
 		return &self->translation;
 	}
-	void DECL glTFNode__set_translation(glTFNode* self, mud::vec3* value) {
+	void DECL glTFNode__set_translation(glTFNode* self, two::vec3* value) {
 		self->translation = *value;
 	}
-	mud::quat* DECL glTFNode__get_rotation(glTFNode* self) {
+	two::quat* DECL glTFNode__get_rotation(glTFNode* self) {
 		return &self->rotation;
 	}
-	void DECL glTFNode__set_rotation(glTFNode* self, mud::quat* value) {
+	void DECL glTFNode__set_rotation(glTFNode* self, two::quat* value) {
 		self->rotation = *value;
 	}
-	mud::vec3* DECL glTFNode__get_scale(glTFNode* self) {
+	two::vec3* DECL glTFNode__get_scale(glTFNode* self) {
 		return &self->scale;
 	}
-	void DECL glTFNode__set_scale(glTFNode* self, mud::vec3* value) {
+	void DECL glTFNode__set_scale(glTFNode* self, two::vec3* value) {
 		self->scale = *value;
 	}
 	int* DECL glTFNode__get_children(glTFNode* self) {
@@ -885,8 +885,8 @@ extern "C" {
 		delete self;
 	}
 	// glTFScene
-	mud::Type* DECL glTFScene__type() {
-		return &mud::type<glTFScene>();
+	two::Type* DECL glTFScene__type() {
+		return &two::type<glTFScene>();
 	}
 	glTFScene* DECL glTFScene__construct_0() {
 		return new glTFScene();
@@ -904,8 +904,8 @@ extern "C" {
 		delete self;
 	}
 	// glTF
-	mud::Type* DECL glTF__type() {
-		return &mud::type<glTF>();
+	two::Type* DECL glTF__type() {
+		return &two::type<glTF>();
 	}
 	glTF* DECL glTF__construct_0() {
 		return new glTF();

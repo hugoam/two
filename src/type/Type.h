@@ -9,17 +9,17 @@
 #include <type/Forward.h>
 #include <type/Cls.h>
 
-namespace mud // export_ namespace mud// @todo evaluate export at namespace level ?
+namespace two // export_ namespace two// @todo evaluate export at namespace level ?
 {
 	export_ using cstring = const char*;
 
-	export_ struct MUD_TYPE_EXPORT Address
+	export_ struct TWO_TYPE_EXPORT Address
 	{
 		char value[16];
 		bool operator==(const Address& other) const;
 	};
 
-	export_ class refl_ MUD_TYPE_EXPORT Type
+	export_ class refl_ TWO_TYPE_EXPORT Type
 	{
 	public:
 		explicit Type();
@@ -40,7 +40,7 @@ namespace mud // export_ namespace mud// @todo evaluate export at namespace leve
 		bool is(const Type& type) const;
 
 		template <class T>
-		inline bool is() const { return this->is(mud::type<T>()); }
+		inline bool is() const { return this->is(two::type<T>()); }
 
 		static Type& type() { static Type ty(0); return ty; }
 

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/string.h>
 #include <stl/span.h>
 #include <stl/swap.h>
@@ -15,7 +15,7 @@
 #include <bgfx/bgfx.h>
 #include <bimg/bimg.h>
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 namespace bx
 {
 	struct FileReaderI;
@@ -23,7 +23,7 @@ namespace bx
 }
 #endif
 
-namespace mud
+namespace two
 {
 	export_ using cstring = const char*;
 
@@ -34,14 +34,14 @@ namespace mud
 		Normal
 	};
 
-	export_ MUD_GFX_EXPORT void save_bgfx_texture(GfxSystem& gfx, const string& file_path, bgfx::TextureFormat::Enum target_format, bgfx::TextureHandle texture, bgfx::TextureFormat::Enum texture_format, uint16_t width, uint16_t height, uint16_t depth = 1);
-	export_ MUD_GFX_EXPORT bgfx::TextureHandle load_bgfx_texture(GfxSystem& gfx, const string& name, void* data, size_t size, uint64_t flags = BGFX_TEXTURE_NONE, bgfx::TextureInfo* info = nullptr, bool generate_mips = false);
-	export_ MUD_GFX_EXPORT bgfx::TextureHandle load_bgfx_texture(GfxSystem& gfx, const string& file_path, uint64_t flags = BGFX_TEXTURE_NONE, bgfx::TextureInfo* info = nullptr, bool generate_mips = false);
-	export_ MUD_GFX_EXPORT bimg::ImageContainer* load_bgfx_image(GfxSystem& gfx, const string& file_path, bgfx::TextureFormat::Enum dst_format);
+	export_ TWO_GFX_EXPORT void save_bgfx_texture(GfxSystem& gfx, const string& file_path, bgfx::TextureFormat::Enum target_format, bgfx::TextureHandle texture, bgfx::TextureFormat::Enum texture_format, uint16_t width, uint16_t height, uint16_t depth = 1);
+	export_ TWO_GFX_EXPORT bgfx::TextureHandle load_bgfx_texture(GfxSystem& gfx, const string& name, void* data, size_t size, uint64_t flags = BGFX_TEXTURE_NONE, bgfx::TextureInfo* info = nullptr, bool generate_mips = false);
+	export_ TWO_GFX_EXPORT bgfx::TextureHandle load_bgfx_texture(GfxSystem& gfx, const string& file_path, uint64_t flags = BGFX_TEXTURE_NONE, bgfx::TextureInfo* info = nullptr, bool generate_mips = false);
+	export_ TWO_GFX_EXPORT bimg::ImageContainer* load_bgfx_image(GfxSystem& gfx, const string& file_path, bgfx::TextureFormat::Enum dst_format);
 
-	export_ MUD_GFX_EXPORT void save_texture(GfxSystem& gfx, Texture& texture, const string& path);
-	export_ MUD_GFX_EXPORT void load_texture(GfxSystem& gfx, Texture& texture, const string& path, bool srgb = false, bool mips = false);
-	export_ MUD_GFX_EXPORT void load_texture_mem(GfxSystem& gfx, Texture& texture, span<uint8_t> data);
+	export_ TWO_GFX_EXPORT void save_texture(GfxSystem& gfx, Texture& texture, const string& path);
+	export_ TWO_GFX_EXPORT void load_texture(GfxSystem& gfx, Texture& texture, const string& path, bool srgb = false, bool mips = false);
+	export_ TWO_GFX_EXPORT void load_texture_mem(GfxSystem& gfx, Texture& texture, span<uint8_t> data);
 
 	export_ enum class refl_ TextureFormat : unsigned int
 	{
@@ -67,7 +67,7 @@ namespace mud
 		Count
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Texture
+	export_ class refl_ TWO_GFX_EXPORT Texture
 	{
 	public:
 		constr_ Texture(const string& name = "");

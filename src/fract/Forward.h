@@ -7,11 +7,11 @@
 #include <math/Forward.h>
 #include <geom/Forward.h>
 
-#ifndef MUD_FRACT_EXPORT
-#define MUD_FRACT_EXPORT MUD_IMPORT
+#ifndef TWO_FRACT_EXPORT
+#define TWO_FRACT_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
     enum class PatternSampling : unsigned int;
 
@@ -23,11 +23,11 @@ namespace mud
     class FractSample;
 }
 
-#ifdef MUD_META_GENERATOR
+#ifdef TWO_META_GENERATOR
 #include <stl/vector.h>
 namespace stl
 {
-	export_ extern template class refl_ seque_ vector<mud::Circle>;
-	export_ extern template class refl_ seque_ vector<mud::Image256>;
+	export_ extern template class refl_ seque_ vector<two::Circle>;
+	export_ extern template class refl_ seque_ vector<two::Image256>;
 }
 #endif

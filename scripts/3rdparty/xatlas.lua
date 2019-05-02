@@ -1,15 +1,15 @@
--- mud library
+-- two library
 -- xatlas 3rdparty module
 
-xatlas = mud_dep(nil, "xatlas")
+xatlas = two_dep(nil, "xatlas")
 	kind "StaticLib"
     
     includedirs {
-        path.join(MUD_3RDPARTY_DIR, "xatlas"),
+        path.join(TWO_3RDPARTY_DIR, "xatlas"),
     }
 
     files {
-        path.join(MUD_3RDPARTY_DIR, "xatlas", "xatlas.cpp"),
+        path.join(TWO_3RDPARTY_DIR, "xatlas", "xatlas.cpp"),
     }
 
     configuration { "mingw* or linux or osx or asmjs" }

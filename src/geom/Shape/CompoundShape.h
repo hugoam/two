@@ -7,20 +7,20 @@
 #include <geom/Forward.h>
 #include <geom/Shape/ProcShape.h>
 
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <stl/vector.h>
 #endif
 
-namespace mud
+namespace two
 {
-	export_ struct MUD_GEOM_EXPORT CompoundShape
+	export_ struct TWO_GEOM_EXPORT CompoundShape
 	{
 		vector<ProcShape> m_shapes;
 	};
 
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const CompoundShape& compound);
-	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const CompoundShape& compound, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const CompoundShape& compound);
+	export_ TWO_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const CompoundShape& compound, MeshAdapter& writer);
 
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const CompoundShape& compound);
-	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const CompoundShape& compound, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const CompoundShape& compound);
+	export_ TWO_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const CompoundShape& compound, MeshAdapter& writer);
 }

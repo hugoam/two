@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/decls.h>
 #include <stl/vector.h>
 #include <type/Unique.h>
@@ -15,13 +15,13 @@
 
 class GuillotineBinPack;
 
-namespace mud
+namespace two
 {
 	struct StbRectPack;
 
-	export_ MUD_MATH_EXPORT void load_folder_images(vector<Image>& images, const string& path, const string& subfolder);
+	export_ TWO_MATH_EXPORT void load_folder_images(vector<Image>& images, const string& path, const string& subfolder);
 
-	export_ class refl_ MUD_MATH_EXPORT ImageAtlas
+	export_ class refl_ TWO_MATH_EXPORT ImageAtlas
 	{
 	public:
 		ImageAtlas(uvec2 size);
@@ -44,7 +44,7 @@ namespace mud
 		unique<StbRectPack> m_rect_pack;
 	};
 
-	export_ class refl_ MUD_MATH_EXPORT TextureAtlas : public ImageAtlas
+	export_ class refl_ TWO_MATH_EXPORT TextureAtlas : public ImageAtlas
 	{
 	public:
 		TextureAtlas(uvec2 size);
@@ -55,7 +55,7 @@ namespace mud
 		vector<Image> m_textures;
 	};
 
-	export_ class refl_ MUD_MATH_EXPORT Sprite : public Image
+	export_ class refl_ TWO_MATH_EXPORT Sprite : public Image
 	{
 	public:
 		Sprite();
@@ -70,7 +70,7 @@ namespace mud
 		vector<vec4> m_frame_uvs;
 	};
 
-	export_ class refl_ MUD_MATH_EXPORT SpriteAtlas : public ImageAtlas
+	export_ class refl_ TWO_MATH_EXPORT SpriteAtlas : public ImageAtlas
 	{
 	public:
 		SpriteAtlas(uvec2 size);

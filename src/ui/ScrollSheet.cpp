@@ -5,8 +5,8 @@
 #include <infra/Cpp20.h>
 #include <cfloat>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <tree/Graph.hpp>
 #include <math/Vec.hpp>
@@ -17,7 +17,7 @@ module mud.ui;
 #include <ui/Style/Paint.h>
 #endif
 
-namespace mud
+namespace two
 {
 namespace ui
 {

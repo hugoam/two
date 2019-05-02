@@ -1,7 +1,7 @@
--- mud toolchain
+-- two toolchain
 -- defines
 
-function mud_defines()
+function two_defines()
     configuration { "osx or *-clang* or asmjs" }
         buildoptions {
             "-Wno-invalid-offsetof",
@@ -9,60 +9,60 @@ function mud_defines()
         
     configuration { "cpp-modules" }
         defines {
-            "MUD_CPP_20",
-            "MUD_MODULES",
+            "TWO_CPP_20",
+            "TWO_MODULES",
         }
         
     configuration { "windows", "not asmjs" }
-        defines { "MUD_PLATFORM_WINDOWS" }
+        defines { "TWO_PLATFORM_WINDOWS" }
         
     configuration { "linux" }
-        defines { "MUD_PLATFORM_LINUX" }
+        defines { "TWO_PLATFORM_LINUX" }
 
     configuration { "osx" }
-        defines { "MUD_PLATFORM_OSX" }
+        defines { "TWO_PLATFORM_OSX" }
         
     configuration { "asmjs" }
-        defines { "MUD_PLATFORM_EMSCRIPTEN" }
+        defines { "TWO_PLATFORM_EMSCRIPTEN" }
         
     configuration {}
   
     configuration { "renderer-gl" }
-        defines { "MUD_RENDERER_GL" }
+        defines { "TWO_RENDERER_GL" }
         
     configuration { "renderer-bgfx" }
-        defines { "MUD_RENDERER_BGFX" }
+        defines { "TWO_RENDERER_BGFX" }
         
     configuration { "context-glfw" }
-        defines { "MUD_CONTEXT_GLFW" }
+        defines { "TWO_CONTEXT_GLFW" }
             
     configuration { "context-wasm" }
-        defines { "MUD_CONTEXT_WASM" }
+        defines { "TWO_CONTEXT_WASM" }
         
     configuration { "context-native" }
-        defines { "MUD_CONTEXT_NATIVE" }
+        defines { "TWO_CONTEXT_NATIVE" }
         
     configuration { "windows", "context-native" }
-        defines { "MUD_CONTEXT_WINDOWS" }
+        defines { "TWO_CONTEXT_WINDOWS" }
         
     configuration { "context-ogre" }
-        defines { "MUD_CONTEXT_OGRE" }
+        defines { "TWO_CONTEXT_OGRE" }
         
     configuration {}
         
     configuration { "asmjs" }
-        defines { "MUD_STATIC" }
+        defines { "TWO_STATIC" }
             
     configuration { "webgl2" }
-        defines { "MUD_WEBGL2" }
+        defines { "TWO_WEBGL2" }
             
     configuration {}
 end
 
-function mud_binary_config()
+function two_binary_config()
     targetprefix ""
     
-    mud_defines()
+    two_defines()
     
     configuration { "asmjs" }
         linkoptions {
@@ -90,7 +90,7 @@ function mud_binary_config()
         }
         
         defines {
-            "MUD_RESOURCE_PATH=\"/data/\"",
+            "TWO_RESOURCE_PATH=\"/data/\"",
         }
         
     configuration { "asmjs", "webgl2" }
@@ -100,12 +100,12 @@ function mud_binary_config()
 
     configuration { "not osx", "not asmjs" }
         defines {
-            "MUD_RESOURCE_PATH=\"" .. path.join(PROJECT_DIR, "data") .. "\"",
+            "TWO_RESOURCE_PATH=\"" .. path.join(PROJECT_DIR, "data") .. "\"",
         }
 
     configuration { "osx", "not asmjs" }
         defines {
-            "MUD_RESOURCE_PATH=\\\"" .. path.join(PROJECT_DIR, "data") .. "\\\"",
+            "TWO_RESOURCE_PATH=\\\"" .. path.join(PROJECT_DIR, "data") .. "\\\"",
         }
 
     configuration {}

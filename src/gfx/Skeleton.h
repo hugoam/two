@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <stl/string.h>
 #include <math/Vec.h>
@@ -16,13 +16,13 @@
 
 #include <bgfx/bgfx.h>
 
-namespace mud
+namespace two
 {
-	MUD_GFX_EXPORT mat4 fix_bone_pose(Node3& bone);
+	TWO_GFX_EXPORT mat4 fix_bone_pose(Node3& bone);
 
-	MUD_GFX_EXPORT void debug_draw_skeleton(Gnode& parent, const quat& position, const quat& rotation, Rig& rig);
+	TWO_GFX_EXPORT void debug_draw_skeleton(Gnode& parent, const quat& position, const quat& rotation, Rig& rig);
 
-	export_ class refl_ MUD_GFX_EXPORT Skeleton
+	export_ class refl_ TWO_GFX_EXPORT Skeleton
 	{
 	public:
 		Skeleton();
@@ -37,14 +37,14 @@ namespace mud
 		vector<Node3> m_bones;
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT Joint
+	export_ struct refl_ TWO_GFX_EXPORT Joint
 	{
 		size_t m_bone;
 		mat4 m_inverse_bind;
 		mat4 m_joint;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Skin
+	export_ class refl_ TWO_GFX_EXPORT Skin
 	{
 	public:
 		Skin();
@@ -65,7 +65,7 @@ namespace mud
 		vector<Joint> m_joints;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Rig
+	export_ class refl_ TWO_GFX_EXPORT Rig
 	{
 	public:
 		Rig();

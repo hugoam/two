@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/function.h>
 #include <stl/string.h>
 #include <stl/vector.h>
@@ -13,7 +13,7 @@
 #endif
 #include <gfx/Forward.h>
 
-namespace mud
+namespace two
 {
 	using cstring = const char*;
 

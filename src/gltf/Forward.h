@@ -8,8 +8,8 @@
 #include <srlz/Forward.h>
 #include <math/Forward.h>
 
-#ifndef MUD_GLTF_EXPORT
-#define MUD_GLTF_EXPORT MUD_IMPORT
+#ifndef TWO_GLTF_EXPORT
+#define TWO_GLTF_EXPORT TWO_IMPORT
 #endif
 
 enum class glTFComponentType : unsigned int;

@@ -1,7 +1,7 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.pool;
+#ifdef TWO_MODULES
+module two.pool;
 #else
 #include <cstddef>
 #include <stl/new.h>
@@ -18,12 +18,12 @@ module mud.pool;
 
 #include <pool/Api.h>
 
-using namespace mud;
+using namespace two;
 
 
-namespace mud
+namespace two
 {
-	void mud_pool_meta(Module& m)
+	void two_pool_meta(Module& m)
 	{
 	UNUSED(m);
 	
@@ -33,10 +33,10 @@ namespace mud
 	
 	// Sequences
 	
-	// mud::Pool
+	// two::Pool
 	{
-		Type& t = type<mud::Pool>();
-		static Meta meta = { t, &namspc({ "mud" }), "Pool", sizeof(mud::Pool), TypeClass::Object };
+		Type& t = type<two::Pool>();
+		static Meta meta = { t, &namspc({ "two" }), "Pool", sizeof(two::Pool), TypeClass::Object };
 		// bases
 		// defaults
 		// constructors
@@ -46,10 +46,10 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
-	// mud::HandlePool
+	// two::HandlePool
 	{
-		Type& t = type<mud::HandlePool>();
-		static Meta meta = { t, &namspc({ "mud" }), "HandlePool", sizeof(mud::HandlePool), TypeClass::Object };
+		Type& t = type<two::HandlePool>();
+		static Meta meta = { t, &namspc({ "two" }), "HandlePool", sizeof(two::HandlePool), TypeClass::Object };
 		// bases
 		// defaults
 		// constructors
@@ -61,25 +61,25 @@ namespace mud
 	}
 	
 	
-		m.m_types.push_back(&type<mud::Pool>());
-		m.m_types.push_back(&type<mud::HandlePool>());
+		m.m_types.push_back(&type<two::Pool>());
+		m.m_types.push_back(&type<two::HandlePool>());
 	}
 }
 
-namespace mud
+namespace two
 {
-	mud_pool::mud_pool()
-		: Module("mud::pool", { &mud_infra::m(), &mud_type::m() })
+	two_pool::two_pool()
+		: Module("two::pool", { &two_infra::m(), &two_type::m() })
 	{
 		// setup reflection meta data
-		mud_pool_meta(*this);
+		two_pool_meta(*this);
 	}
 }
 
-#ifdef MUD_POOL_MODULE
+#ifdef TWO_POOL_MODULE
 extern "C"
 Module& getModule()
 {
-	return mud_pool::m();
+	return two_pool::m();
 }
 #endif

@@ -7,7 +7,7 @@
 #include <stl/vector.h>
 #include <type/Unique.h>
 
-namespace mud
+namespace two
 {
 	export_ template <class T>
 	class VecPool

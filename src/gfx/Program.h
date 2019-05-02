@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/string.h>
 #include <stl/span.h>
 #include <stl/table.h>
@@ -15,7 +15,7 @@
 
 #include <bgfx/bgfx.h>
 
-namespace mud
+namespace two
 {
 	using cstring = const char*;
 	
@@ -52,13 +52,13 @@ namespace mud
 		Count
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT ShaderDefine
+	export_ struct refl_ TWO_GFX_EXPORT ShaderDefine
 	{
 		attr_ string m_name;
 		attr_ string m_value;
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT ShaderBlock
+	export_ struct refl_ TWO_GFX_EXPORT ShaderBlock
 	{
 		constr_ ShaderBlock();
 		ShaderBlock(span<cstring> options, span<cstring> modes);
@@ -73,7 +73,7 @@ namespace mud
 		meth_ void add_define(const string& name, const string& value) { m_defines.push_back({ name, value }); }
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT ProgramMode
+	export_ struct refl_ TWO_GFX_EXPORT ProgramMode
 	{
 		attr_ string name;
 		attr_ uint32_t size;
@@ -81,7 +81,7 @@ namespace mud
 		attr_ uint32_t mask;
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT ProgramBlock
+	export_ struct refl_ TWO_GFX_EXPORT ProgramBlock
 	{
 		// maps a block shader option to the program option shift
 		attr_ bool m_enabled = false;
@@ -104,7 +104,7 @@ namespace mud
 		Count
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Program
+	export_ class refl_ TWO_GFX_EXPORT Program
 	{
 	public:
 		struct Version

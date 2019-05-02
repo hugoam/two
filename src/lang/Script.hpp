@@ -4,13 +4,13 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <type/Any.h>
 #endif
 #include <lang/Forward.h>
 #include <lang/Script.h>
 
-namespace mud
+namespace two
 {
 	template <class T>
 	T* Interpreter::tget(const string& name) { Var value = get(name, type<T>()); return try_val<T>(value); }

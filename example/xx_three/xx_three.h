@@ -6,7 +6,7 @@
 
 #include <frame/Forward.h>
 
-using namespace mud;
+using namespace two;
 
 void xx_light_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
 void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init);

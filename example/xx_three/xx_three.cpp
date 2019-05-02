@@ -1,10 +1,10 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 
 #include <xx_three/xx_three.h>
 
-using namespace mud;
+using namespace two;
 
 #define SIDE_PANEL 1
 #define MULTI_WINDOW 0
@@ -148,7 +148,7 @@ void pump(Shell& app, ShellWindow& window, bool& init, uint32_t& example)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv), false);
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv), false);
 	app.m_gfx.add_resource_path("examples/xx_three");
 	
 	ShellWindow& w0 = app.window("two", uvec2(1600U, 900U));

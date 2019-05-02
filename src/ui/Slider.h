@@ -7,18 +7,18 @@
 #include <ui/Forward.h>
 #include <ui/Button.h>
 
-namespace mud
+namespace two
 {
 namespace ui
 {
-	export_ struct MUD_UI_EXPORT SliderState
+	export_ struct TWO_UI_EXPORT SliderState
 	{
 		float m_pre_span;
 		float m_knob_span;
 		float m_post_span;
 	};
 
-	export_ struct MUD_UI_EXPORT SliderMetrics
+	export_ struct TWO_UI_EXPORT SliderMetrics
 	{
 		SliderMetrics(float min, float max, float step_length = 1.f, float knob_length = 0.f);
 
@@ -36,7 +36,7 @@ namespace ui
 		SliderState compute(float value);
 	};
 
-	export_ MUD_UI_EXPORT bool slider(Widget& parent, Style& style, float& value, SliderMetrics metrics, Axis dim = Axis::X, bool relative = false, bool fill = true, Style* knob_style = nullptr);
-	export_ MUD_UI_EXPORT bool slider(Widget& parent, float& value, SliderMetrics metrics, Axis dim = Axis::X, bool relative = false, bool fill = true, Style* knob_style = nullptr);
+	export_ TWO_UI_EXPORT bool slider(Widget& parent, Style& style, float& value, SliderMetrics metrics, Axis dim = Axis::X, bool relative = false, bool fill = true, Style* knob_style = nullptr);
+	export_ TWO_UI_EXPORT bool slider(Widget& parent, float& value, SliderMetrics metrics, Axis dim = Axis::X, bool relative = false, bool fill = true, Style* knob_style = nullptr);
 }
 }

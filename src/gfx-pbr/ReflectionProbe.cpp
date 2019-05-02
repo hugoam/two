@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.pbr;
+#ifdef TWO_MODULES
+module two.gfx.pbr;
 #else
 #include <stl/algorithm.h>
 #include <math/Axes.h>
@@ -22,7 +22,7 @@ module mud.gfx.pbr;
 #include <gfx-pbr/ReflectionProbe.h>
 #endif
 
-namespace mud
+namespace two
 {
 	constexpr size_t BlockReflection::ReflectionUniform::max_reflection_probes;
 

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <math/Colour.h>
 #include <math/Vec.h>
 #endif
@@ -12,9 +12,9 @@
 #include <geom/Shape.h>
 #include <geom/Symbol.h>
 
-namespace mud
+namespace two
 {
-	export_ struct MUD_GEOM_EXPORT ShapeSize
+	export_ struct TWO_GEOM_EXPORT ShapeSize
 	{
 		ShapeSize() : vertex_count(0), index_count(0) {}
 		ShapeSize(uint32_t verts, uint32_t indices) : vertex_count(verts), index_count(indices) {}
@@ -27,16 +27,16 @@ namespace mud
 		};
 	};
 
-	export_ struct MUD_GEOM_EXPORT ProcShape
+	export_ struct TWO_GEOM_EXPORT ProcShape
 	{
 		Symbol m_symbol;
 		const Shape* m_shape;
 		DrawMode m_draw_mode;
 	};
 
-	export_ MUD_GEOM_EXPORT ShapeSize symbol_line_size(const ProcShape& shape);
-	export_ MUD_GEOM_EXPORT ShapeSize symbol_triangle_size(const ProcShape& shape);
+	export_ TWO_GEOM_EXPORT ShapeSize symbol_line_size(const ProcShape& shape);
+	export_ TWO_GEOM_EXPORT ShapeSize symbol_triangle_size(const ProcShape& shape);
 
-	export_ MUD_GEOM_EXPORT void symbol_draw_lines(const ProcShape& shape, MeshAdapter& writer);
-	export_ MUD_GEOM_EXPORT void symbol_draw_triangles(const ProcShape& shape, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT void symbol_draw_lines(const ProcShape& shape, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT void symbol_draw_triangles(const ProcShape& shape, MeshAdapter& writer);
 }

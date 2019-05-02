@@ -60,7 +60,7 @@ namespace stl
 }
 #endif
 
-namespace mud
+namespace two
 {
 	export_ using stl::function;
 }

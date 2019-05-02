@@ -8,11 +8,11 @@
 #include <type/Cls.h>
 #include <type/TypeOf.h>
 
-namespace mud
+namespace two
 {
 	using cstring = const char*;
 
-	export_ class refl_ struct_ MUD_TYPE_EXPORT Ref
+	export_ class refl_ struct_ TWO_TYPE_EXPORT Ref
 	{
 	public:
 		constr_ Ref() : m_type(nullptr), m_value(nullptr) {}

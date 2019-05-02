@@ -12,7 +12,7 @@
 #include <ecs/Entity.h>
 #include <ecs/Buffer.h>
 
-namespace mud
+namespace two
 {
 	class BufferArray
 	{
@@ -131,7 +131,7 @@ namespace mud
 		template <class... Types>
 		void add_stream(cstring name);
 
-#ifdef MUD_ECS_TYPED
+#ifdef TWO_ECS_TYPED
 		template <class T>
 		void register_type();
 
@@ -179,7 +179,7 @@ namespace mud
 		Entity create(uint64_t prototype, uint32_t count);
 	};
 
-	export_ extern MUD_ECS_EXPORT ECS* s_ecs[256];
+	export_ extern TWO_ECS_EXPORT ECS* s_ecs[256];
 
 	export_ template <class T>
 	inline bool isa(const Entity& entity) { return s_ecs[entity.m_ecs]->has<T>(entity); }
@@ -193,10 +193,10 @@ namespace mud
 	export_ template <class T>
 	inline T* try_asa(const Entity* entity) { if(entity && isa<T>(*entity)) return &asa<T>(*entity); else return nullptr; }
 
-#ifdef MUD_ECS_TYPED
+#ifdef TWO_ECS_TYPED
 	struct EntityRef {};
 
-	export_ template <> MUD_ECS_EXPORT Type& type<EntityRef>();
+	export_ template <> TWO_ECS_EXPORT Type& type<EntityRef>();
 
 	inline Ref ent_ref(uint32_t entity) { return Ref((void*)uintptr_t(entity), type<EntityRef>()); }
 	inline uint32_t as_ent(const Ref& ref) { return ref.m_type->is<EntityRef>() ? uint32_t((uintptr_t)ref.m_value) : UINT32_MAX; }

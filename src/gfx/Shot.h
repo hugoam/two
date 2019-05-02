@@ -4,14 +4,14 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #endif
 #include <gfx/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_GFX_EXPORT Shot
+	export_ class refl_ TWO_GFX_EXPORT Shot
 	{
 	public:
 		vector<Item*> m_items;

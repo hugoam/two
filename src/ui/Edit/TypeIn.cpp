@@ -3,7 +3,7 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <cctype>
 #include <locale>
 #include <chrono>
@@ -11,8 +11,8 @@
 #include <cmath>
 #endif
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <stl/string.h>
 #include <stl/algorithm.h>
@@ -32,7 +32,7 @@ module mud.ui;
 #include <ui/UiWindow.h>
 #endif
 
-namespace mud
+namespace two
 {
 	TextEdit::TextEdit(Widget* parent, void* identity, bool editor, string allowed_chars)
 		: Widget(parent, identity)

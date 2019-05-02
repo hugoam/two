@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.geom;
+#ifdef TWO_MODULES
+module two.geom;
 #else
 #include <math/Vec.hpp>
 #include <geom/Types.h>
@@ -26,7 +26,7 @@ module mud.geom;
 #include <geom/Aabb.h>
 #endif
 
-namespace mud
+namespace two
 {
 	using Draw = DispatchDrawProcShape;
 

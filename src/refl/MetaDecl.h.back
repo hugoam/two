@@ -12,7 +12,7 @@
 #include <obj/Iterable/Sequence.h>
 #include <obj/Memory/Pool.h>
 
-namespace mud
+namespace two
 {
 	template <class T>
 	void init_store(Meta& meta) {}

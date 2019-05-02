@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <infra/Sort.h>
 #include <math/Vec.hpp>
@@ -19,7 +19,7 @@ module mud.gfx;
 
 #define SKELETON_TEXTURE_SIZE 256
 
-namespace mud
+namespace two
 {
 	Skeleton::Skeleton()
 	{}
@@ -158,7 +158,7 @@ namespace mud
 #include <math/Vec.hpp>
 #include <geom/Shapes.h>
 #include <geom/Symbol.h>
-namespace mud
+namespace two
 {
 	mat4 fix_bone_pose(Node3& bone)
 	{

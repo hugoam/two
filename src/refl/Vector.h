@@ -8,7 +8,7 @@
 #include <infra/TypeTraits.h>
 #include <stl/algorithm.h>
 
-namespace mud
+namespace two
 {
 	export_ template <class T>
 	enable_if<is_comparable<T>, void> vector_remove_any(vector<T>& vector, T value) { remove(vector, value); }

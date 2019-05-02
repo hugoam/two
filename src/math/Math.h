@@ -7,21 +7,21 @@
 #include <stl/math.h>
 #include <math/Forward.h>
 
-#ifdef MUD_META_GENERATOR
+#ifdef TWO_META_GENERATOR
 func_ float sinf(float a);
 func_ float cosf(float a);
 func_ double sin(double a);
 func_ double cos(double a);
 #endif
 
-namespace mud
+namespace two
 {
-	export_ extern MUD_MATH_EXPORT const float c_invpi;
-	export_ extern MUD_MATH_EXPORT const float c_tau;
-	export_ extern MUD_MATH_EXPORT const float c_2pi;
-	export_ extern MUD_MATH_EXPORT const float c_pi;
-	export_ extern MUD_MATH_EXPORT const float c_pi2;
-	export_ extern MUD_MATH_EXPORT const float c_pi4;
+	export_ extern TWO_MATH_EXPORT const float c_invpi;
+	export_ extern TWO_MATH_EXPORT const float c_tau;
+	export_ extern TWO_MATH_EXPORT const float c_2pi;
+	export_ extern TWO_MATH_EXPORT const float c_pi;
+	export_ extern TWO_MATH_EXPORT const float c_pi2;
+	export_ extern TWO_MATH_EXPORT const float c_pi4;
 	
 	export_ template <class T>
 	T add(T a, T b) { return a + b; }
@@ -35,11 +35,11 @@ namespace mud
 	export_ template <class T>
 	T divide(T a, T b) { return a / b; }
 
-#ifndef MUD_META_GENERATOR
-	template MUD_MATH_EXPORT func_ float add<float>(float a, float b);
-	template MUD_MATH_EXPORT func_ float subtract<float>(float a, float b);
-	template MUD_MATH_EXPORT func_ float multiply<float>(float a, float b);
-	template MUD_MATH_EXPORT func_ float divide<float>(float a, float b);
+#ifndef TWO_META_GENERATOR
+	template TWO_MATH_EXPORT func_ float add<float>(float a, float b);
+	template TWO_MATH_EXPORT func_ float subtract<float>(float a, float b);
+	template TWO_MATH_EXPORT func_ float multiply<float>(float a, float b);
+	template TWO_MATH_EXPORT func_ float divide<float>(float a, float b);
 #else
 	template <> func_ float add<float>(float a, float b);
 	template <> func_ float subtract<float>(float a, float b);
@@ -47,11 +47,11 @@ namespace mud
 	template <> func_ float divide<float>(float a, float b);
 #endif
 
-	export_ MUD_MATH_EXPORT func_ float nsinf(float a); // { return a + 1.f / 2.f; } // @kludge can't be inline because we identify reflected functions through their pointer 
-	export_ MUD_MATH_EXPORT func_ float ncosf(float a); // { return a + 1.f / 2.f; }
+	export_ TWO_MATH_EXPORT func_ float nsinf(float a); // { return a + 1.f / 2.f; } // @kludge can't be inline because we identify reflected functions through their pointer 
+	export_ TWO_MATH_EXPORT func_ float ncosf(float a); // { return a + 1.f / 2.f; }
 
-	export_ MUD_MATH_EXPORT func_ double nsin(double a); // { return a + 1.0 / 2.0; }
-	export_ MUD_MATH_EXPORT func_ double ncos(double a); // { return a + 1.0 / 2.0; }
+	export_ TWO_MATH_EXPORT func_ double nsin(double a); // { return a + 1.0 / 2.0; }
+	export_ TWO_MATH_EXPORT func_ double ncos(double a); // { return a + 1.0 / 2.0; }
 
 	inline float to_radians(float degrees)
 	{
@@ -81,5 +81,5 @@ namespace mud
 		return remap(number, -1.f, 1.f, low, high);
 	}
 
-	MUD_MATH_EXPORT void register_math_conversions();
+	TWO_MATH_EXPORT void register_math_conversions();
 }

@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/algorithm.h>
 #include <math/Math.h>
@@ -21,7 +21,7 @@ module mud.gfx;
 
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 	Mime::Mime()
 	{}

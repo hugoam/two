@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <math/Vec.hpp>
 #include <gfx/Light.h>
 #include <gfx/Node3.h>
@@ -17,7 +17,7 @@
 
 #define PAD 0.f
 
-namespace mud
+namespace two
 {
 	template <>
 	struct GpuState<GpuShadow>

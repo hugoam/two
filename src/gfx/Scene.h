@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <type/Unique.h>
 #include <math/Vec.h>
 #endif
@@ -15,7 +15,7 @@
 
 #include <bgfx/bgfx.h>
 
-namespace mud
+namespace two
 {
 	export_ struct refl_ Sun
 	{
@@ -94,7 +94,7 @@ namespace mud
 
 	class Shot;
 
-	export_ class refl_ MUD_GFX_EXPORT Scene
+	export_ class refl_ TWO_GFX_EXPORT Scene
 	{
 	public:
 		constr_ Scene(GfxSystem& gfx);
@@ -122,11 +122,11 @@ namespace mud
 		vector<Sound*> m_orphan_sounds;
 	};
 
-	export_ MUD_GFX_EXPORT void cull_items(Scene& scene, const Plane6& planes, vector<Item*>& items);
+	export_ TWO_GFX_EXPORT void cull_items(Scene& scene, const Plane6& planes, vector<Item*>& items);
 
-	export_ MUD_GFX_EXPORT void gather_items(Scene& scene, const Camera& camera, vector<Item*>& items);
-	export_ MUD_GFX_EXPORT void gather_occluders(Scene& scene, const Camera& camera, vector<Item*>& occluders);
-	export_ MUD_GFX_EXPORT void gather_lights(Scene& scene, vector<Light*>& lights);
+	export_ TWO_GFX_EXPORT void gather_items(Scene& scene, const Camera& camera, vector<Item*>& items);
+	export_ TWO_GFX_EXPORT void gather_occluders(Scene& scene, const Camera& camera, vector<Item*>& occluders);
+	export_ TWO_GFX_EXPORT void gather_lights(Scene& scene, vector<Light*>& lights);
 
-	export_ MUD_GFX_EXPORT void gather_render(Scene& scene, Render& render);
+	export_ TWO_GFX_EXPORT void gather_render(Scene& scene, Render& render);
 }

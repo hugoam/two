@@ -7,8 +7,8 @@
 //#include <base64.h>
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.gltf;
+#ifdef TWO_MODULES
+module two.gfx.gltf;
 #else
 #include <stl/algorithm.h>
 #include <stl/hash_base.hpp>
@@ -42,13 +42,13 @@ module mud.gfx.gltf;
 
 #define KUPOMAN_EXPORTER 1
 
-namespace mud
+namespace two
 {
 	float* value_ptr(Colour& colour) { return &colour.r; }
 	const float* value_ptr(const Colour& colour) { return &colour.r; }
 }
 
-namespace mud
+namespace two
 {
 	static ImportConfig load_model_config(const string& path, const string& model_name, const ImportConfig& inconfig)
 	{
@@ -68,7 +68,7 @@ namespace mud
 	ImporterGltf::ImporterGltf(GfxSystem& gfx)
 		: m_gfx(gfx)
 	{
-		setup_gltf(mud_gltf::m());
+		setup_gltf(two_gltf::m());
 
 		static auto load_gltf_model = [&](Model& model, const string& path, const ImportConfig& inconfig)
 		{
@@ -268,7 +268,7 @@ namespace mud
 				model.add_item(mesh, bxidentity());
 
 				MeshPacker packer;
-#ifndef MUD_PLATFORM_EMSCRIPTEN
+#ifndef TWO_PLATFORM_EMSCRIPTEN
 				//packer.m_quantize = true;
 #endif
 
@@ -316,7 +316,7 @@ namespace mud
 					printf("[warning] mesh %s imported without tangents (no uvs)\n", name.c_str());
 
 				bool optimize = config.m_optimize_geometry;
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 				optimize = false;
 #endif
 

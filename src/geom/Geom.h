@@ -4,17 +4,17 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <math/Vec.h>
 #include <math/Colour.h>
 #endif
 #include <geom/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ MUD_GEOM_EXPORT Aabb transform_aabb(const Aabb& source, const mat4& transform);
-	export_ MUD_GEOM_EXPORT Aabb translate_aabb(const Aabb& source, const vec3& offset);
-	export_ MUD_GEOM_EXPORT vec2 project_aabb_in_plane(const Plane& plane, const Aabb& aabb);
+	export_ TWO_GEOM_EXPORT Aabb transform_aabb(const Aabb& source, const mat4& transform);
+	export_ TWO_GEOM_EXPORT Aabb translate_aabb(const Aabb& source, const vec3& offset);
+	export_ TWO_GEOM_EXPORT vec2 project_aabb_in_plane(const Plane& plane, const Aabb& aabb);
 
 	export_ constexpr inline float c_cmp_epsilon = 0.00001f;
 	export_ constexpr inline float c_cmp_epsilon2 = c_cmp_epsilon * c_cmp_epsilon;

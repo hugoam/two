@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 
 #include <19_multi_viewport/19_multi_viewport.h>
@@ -6,7 +6,7 @@
 
 #include <stl/vector.hpp>
 
-using namespace mud;
+using namespace two;
 
 size_t viewport_mode(Widget& parent)
 {
@@ -81,7 +81,7 @@ void pump(Shell& app, ShellWindow& window)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
 	app.m_gfx.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }

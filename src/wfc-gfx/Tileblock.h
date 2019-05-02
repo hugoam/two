@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/map.h>
 #include <math/Vec.hpp>
 #include <geom/Aabb.h>
@@ -8,15 +8,15 @@
 #endif
 #include <wfc-gfx/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ struct refl_ MUD_WFC_GFX_EXPORT TileModel
+	export_ struct refl_ TWO_WFC_GFX_EXPORT TileModel
 	{
 		Model* m_model;
 		quat m_rotation;
 	};
 
-	export_ class refl_ MUD_WFC_GFX_EXPORT WfcBlock
+	export_ class refl_ TWO_WFC_GFX_EXPORT WfcBlock
 	{
 	public:
 		constr_ WfcBlock();
@@ -55,19 +55,19 @@ namespace mud
 		meth_ void update(Wave& wave);
 	};
 
-	MUD_WFC_GFX_EXPORT void paint_tile_grid(Gnode& parent, WfcBlock& tileblock);
-	MUD_WFC_GFX_EXPORT Model& entropy_cube(Gnode& parent, WfcBlock& tileblock, uint16_t x, uint16_t y, uint16_t z);
+	TWO_WFC_GFX_EXPORT void paint_tile_grid(Gnode& parent, WfcBlock& tileblock);
+	TWO_WFC_GFX_EXPORT Model& entropy_cube(Gnode& parent, WfcBlock& tileblock, uint16_t x, uint16_t y, uint16_t z);
 
-	MUD_WFC_GFX_EXPORT void paint_tiles(Gnode& parent, Entity object, WfcBlock& tileblock, const uvec3& focused = uvec3(UINT32_MAX), const uvec3* exclude = nullptr, bool draw_entropy = false);
+	TWO_WFC_GFX_EXPORT void paint_tiles(Gnode& parent, Entity object, WfcBlock& tileblock, const uvec3& focused = uvec3(UINT32_MAX), const uvec3* exclude = nullptr, bool draw_entropy = false);
 
-	MUD_WFC_GFX_EXPORT void paint_tile_cube(Gnode& parent, WfcBlock& tileblock, const uvec3& coord, const Colour& outline, const Colour& fill = Colour::None);
-	MUD_WFC_GFX_EXPORT void paint_tile_cube(Gnode& parent, WfcBlock& tileblock, const uvec3& coord);
-	MUD_WFC_GFX_EXPORT void paint_tileblock(Gnode& parent, Entity object, WfcBlock& tileblock, const uvec3& focused = uvec3(UINT32_MAX), const uvec3* exclude = nullptr, bool draw_entropy = false);
+	TWO_WFC_GFX_EXPORT void paint_tile_cube(Gnode& parent, WfcBlock& tileblock, const uvec3& coord, const Colour& outline, const Colour& fill = Colour::None);
+	TWO_WFC_GFX_EXPORT void paint_tile_cube(Gnode& parent, WfcBlock& tileblock, const uvec3& coord);
+	TWO_WFC_GFX_EXPORT void paint_tileblock(Gnode& parent, Entity object, WfcBlock& tileblock, const uvec3& focused = uvec3(UINT32_MAX), const uvec3* exclude = nullptr, bool draw_entropy = false);
 
-	MUD_WFC_GFX_EXPORT void tileset_view(Widget& parent, WfcBlock& tileblock, Tileset& tileset);
-	MUD_WFC_GFX_EXPORT void tile_states_view(Widget& parent, WfcBlock& tileblock, uvec3& coord);
+	TWO_WFC_GFX_EXPORT void tileset_view(Widget& parent, WfcBlock& tileblock, Tileset& tileset);
+	TWO_WFC_GFX_EXPORT void tile_states_view(Widget& parent, WfcBlock& tileblock, uvec3& coord);
 
-	MUD_WFC_GFX_EXPORT void tileblock_edit(Widget& parent, Viewer& viewer, WfcBlock& tileblock, uvec3& highlighted, uvec3& selected, uvec3& focused);
+	TWO_WFC_GFX_EXPORT void tileblock_edit(Widget& parent, Viewer& viewer, WfcBlock& tileblock, uvec3& highlighted, uvec3& selected, uvec3& focused);
 
-	MUD_WFC_GFX_EXPORT void tileblock_editor(Widget& parent, Viewer& viewer, WfcBlock& tileblock);
+	TWO_WFC_GFX_EXPORT void tileblock_editor(Widget& parent, Viewer& viewer, WfcBlock& tileblock);
 }

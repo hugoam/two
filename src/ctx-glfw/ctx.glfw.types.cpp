@@ -1,16 +1,16 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ctx-glfw;
+#ifdef TWO_MODULES
+module two.ctx-glfw;
 #else
 #include <ctx-glfw/Types.h>
 #include <ctx-glfw/Api.h>
 #include <type/Vector.h>
 #endif
 
-namespace mud
+namespace two
 {
     // Exported types
     
-    template <> MUD_CTX_GLFW_EXPORT Type& type<mud::GlfwContext>() { static Type ty("GlfwContext", type<mud::Context>()); return ty; }
+    template <> TWO_CTX_GLFW_EXPORT Type& type<two::GlfwContext>() { static Type ty("GlfwContext", type<two::Context>()); return ty; }
 }

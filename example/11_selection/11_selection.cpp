@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 #include <infra/Vector.h>
@@ -9,7 +9,7 @@
 
 #include <stl/vector.hpp>
 
-using namespace mud;
+using namespace two;
 
 vec4 abs_rect(const vec2& start, const vec2& size)
 {
@@ -76,7 +76,7 @@ void pump(Shell& app, ShellWindow& window)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
 	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }

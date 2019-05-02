@@ -14,7 +14,7 @@
 #include <Ogre.h>
 #include <Compositor/OgreCompositorManager2.h>
 
-namespace mud
+namespace two
 {
 	OgreRenderTarget::OgreRenderTarget(Renderer& renderer, Layer& masterLayer)
 		: RenderTarget(renderer, masterLayer, true)

@@ -7,7 +7,7 @@
 #include <stl/vector.h>
 #include <infra/Config.h>
 
-namespace mud
+namespace two
 {
 #ifndef USE_STL
 	template <class T>

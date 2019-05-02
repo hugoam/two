@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/algorithm.h>
 #include <tree/Graph.hpp>
@@ -31,7 +31,7 @@ module mud.gfx;
 
 #define DEBUG_ITEMS 0
 
-namespace mud
+namespace two
 {
 	Scene::Scene(GfxSystem& gfx)
 		: m_gfx(gfx)

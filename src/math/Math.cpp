@@ -4,9 +4,9 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
+#ifdef TWO_MODULES
 #include <cstdlib>
-module mud.math;
+module two.math;
 #else
 #include <stl/span.h>
 #include <math/Types.h>
@@ -17,7 +17,7 @@ module mud.math;
 #include <math/Range.h>
 #endif
 
-namespace mud
+namespace two
 {
 	template struct Range<vec3>;
     template struct Range<quat>;

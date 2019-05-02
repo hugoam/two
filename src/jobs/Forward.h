@@ -3,11 +3,11 @@
 #include <infra/Config.h>
 
 
-#ifndef MUD_JOBS_EXPORT
-#define MUD_JOBS_EXPORT MUD_IMPORT
+#ifndef TWO_JOBS_EXPORT
+#define TWO_JOBS_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
 	class JobSystem;
 }

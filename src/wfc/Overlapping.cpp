@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.wfc;
+#ifdef TWO_MODULES
+module two.wfc;
 #else
 #include <stl/map.h>
 #include <stl/algorithm.h>
@@ -19,7 +19,7 @@ module mud.wfc;
 using Json = json11::Json;
 
 
-namespace mud
+namespace two
 {
 	PatternHash hash_from_pattern(const ColorPattern& pattern, size_t palette_size)
 	{

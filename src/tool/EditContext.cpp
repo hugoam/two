@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.tool;
+#ifdef TWO_MODULES
+module two.tool;
 #else
 #include <geom/Geom.hpp>
 #include <type/Any.h>
@@ -23,7 +23,7 @@ module mud.tool;
 #include <tool/Brush.h>
 #endif
 
-namespace mud
+namespace two
 {
 	EditContext::EditContext(GfxSystem& gfx)
 		: m_gfx(gfx)

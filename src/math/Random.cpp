@@ -3,18 +3,18 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <random>
 #endif
 
-#ifdef MUD_MODULES
-module mud.math;
+#ifdef TWO_MODULES
+module two.math;
 #else
 #include <stl/limits.h>
 #include <math/Random.h>
 #endif
 
-namespace mud
+namespace two
 {
 	template <class T>
 	T randi(T min, T max)
@@ -52,17 +52,17 @@ namespace mud
 		return distribution(generator);
 	}
 
-	template MUD_MATH_EXPORT float randf();
-	template MUD_MATH_EXPORT double randf<double>();
+	template TWO_MATH_EXPORT float randf();
+	template TWO_MATH_EXPORT double randf<double>();
 
-	template MUD_MATH_EXPORT float randf(float min, float max);
-	template MUD_MATH_EXPORT double randf<double>(double min, double max);
+	template TWO_MATH_EXPORT float randf(float min, float max);
+	template TWO_MATH_EXPORT double randf<double>(double min, double max);
 
-	template MUD_MATH_EXPORT int randi<int>();
-	template MUD_MATH_EXPORT uint randi<uint>();
+	template TWO_MATH_EXPORT int randi<int>();
+	template TWO_MATH_EXPORT uint randi<uint>();
 
-	template MUD_MATH_EXPORT int randi<int>(int min, int max);
-	template MUD_MATH_EXPORT uint randi<uint>(uint min, uint max);
-	template MUD_MATH_EXPORT ulong randi<ulong>(ulong min, ulong max);
-	template MUD_MATH_EXPORT ullong randi<ullong>(ullong min, ullong max);
+	template TWO_MATH_EXPORT int randi<int>(int min, int max);
+	template TWO_MATH_EXPORT uint randi<uint>(uint min, uint max);
+	template TWO_MATH_EXPORT ulong randi<ulong>(ulong min, ulong max);
+	template TWO_MATH_EXPORT ullong randi<ullong>(ullong min, ullong max);
 }

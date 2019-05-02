@@ -1,6 +1,6 @@
 #ifndef USE_STL
-#ifdef MUD_MODULES
-module mud.uio;
+#ifdef TWO_MODULES
+module two.uio;
 #else
 #include <stl/vector.hpp>
 #include <pool/Api.h>
@@ -8,7 +8,7 @@ module mud.uio;
 
 namespace stl
 {
-	using namespace mud;
-	template class MUD_POOL_EXPORT vector<unique<Pool>>;
+	using namespace two;
+	template class TWO_POOL_EXPORT vector<unique<Pool>>;
 }
 #endif

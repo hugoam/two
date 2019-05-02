@@ -5,18 +5,18 @@
 #include <stl/vector.h>
 #include <ctx-glfw/Forward.h>
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <type/Type.h>
 #endif
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <math/Types.h>
 #include <ctx/Types.h>
 #endif
 
-namespace mud
+namespace two
 {
     // Exported types
     
-    export_ template <> MUD_CTX_GLFW_EXPORT Type& type<mud::GlfwContext>();
+    export_ template <> TWO_CTX_GLFW_EXPORT Type& type<two::GlfwContext>();
 }

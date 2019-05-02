@@ -4,15 +4,15 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ecs;
+#ifdef TWO_MODULES
+module two.ecs;
 #else
 #include <type/Indexer.h>
 #include <type/Proto.h>
 #include <ecs/Complex.h>
 #endif
 
-namespace mud
+namespace two
 {
 	Complex::Complex(uint32_t id, Type& type)
 		: m_id(index(type, id, Ref(this, type)))

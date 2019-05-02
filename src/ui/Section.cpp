@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <tree/Graph.hpp>
 #include <ui/Style/Layout.h>
@@ -16,7 +16,7 @@ module mud.ui;
 #include <ui/Ui.h>
 #endif
 
-namespace mud
+namespace two
 {
 	Style& section_style()
 	{

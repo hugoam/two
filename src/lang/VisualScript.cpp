@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.lang;
+#ifdef TWO_MODULES
+module two.lang;
 #else
 #include <stl/math.h>
 #include <stl/algorithm.h>
@@ -22,9 +22,9 @@ module mud.lang;
 
 #include <algorithm>
 
-#define MUD_DEBUG_SCRIPT
+#define TWO_DEBUG_SCRIPT
 
-namespace mud
+namespace two
 {
 	template <class T, class V>
 	inline auto remove_pt(vector<T>& vec, V& value)
@@ -286,7 +286,7 @@ namespace mud
 		{
 			bool check = input->check(branch);
 			valid = valid && check;
-#ifdef MUD_DEBUG_SCRIPT
+#ifdef TWO_DEBUG_SCRIPT
 			if(!check)
 				printf("[warning] vislang - wrong parameter for process %s, input %s, branch %s\n", m_title.c_str(), input->m_name.c_str(), to_string(branch.m_index).c_str());
 #endif
@@ -298,7 +298,7 @@ namespace mud
 	{
 		if(!this->validate_inputs(branch))
 		{
-#ifdef MUD_DEBUG_SCRIPT
+#ifdef TWO_DEBUG_SCRIPT
 			//if(!branch.empty()) // @todo this doesn't work (branches are never empty :/
 				printf("[warning] vislang - process %s failed for branch %s\n", m_title.c_str(), to_string(branch.m_index).c_str());
 #endif

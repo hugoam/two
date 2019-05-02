@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
@@ -18,7 +18,7 @@ module mud.ui;
 #include <ui/Frame/Solver.h>
 #endif
 
-namespace mud
+namespace two
 {
 	Table::Table(Widget* parent, void* identity, span<float> weights)
 		: Widget(parent, identity)

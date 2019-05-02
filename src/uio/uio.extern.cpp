@@ -1,6 +1,6 @@
 #ifndef USE_STL
-#ifdef MUD_MODULES
-module mud.uio;
+#ifdef TWO_MODULES
+module two.uio;
 #else
 #include <stl/vector.hpp>
 #include <stl/unordered_map.hpp>
@@ -9,9 +9,9 @@ module mud.uio;
 
 namespace stl
 {
-	using namespace mud;
-	template class MUD_UIO_EXPORT vector<EditSpec>;
-	template class MUD_UIO_EXPORT unordered_map<Module*, bool>;
-	template class MUD_UIO_EXPORT unordered_map<const Type*, Colour>;
+	using namespace two;
+	template class TWO_UIO_EXPORT vector<EditSpec>;
+	template class TWO_UIO_EXPORT unordered_map<Module*, bool>;
+	template class TWO_UIO_EXPORT unordered_map<const Type*, Colour>;
 }
 #endif

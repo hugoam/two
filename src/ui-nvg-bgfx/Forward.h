@@ -9,8 +9,8 @@
 #include <math/Forward.h>
 #include <ui/Forward.h>
 
-#ifndef MUD_UI_NANOVG_BGFX_EXPORT
-#define MUD_UI_NANOVG_BGFX_EXPORT MUD_IMPORT
+#ifndef TWO_UI_NANOVG_BGFX_EXPORT
+#define TWO_UI_NANOVG_BGFX_EXPORT TWO_IMPORT
 #endif
 
 
@@ -23,7 +23,7 @@ namespace std {
     
 }
 
-namespace mud {
+namespace two {
 namespace ui {
 
     
@@ -37,7 +37,7 @@ namespace glm {
     
 }
 
-namespace mud {
+namespace two {
 namespace gfx {
 
     
@@ -51,14 +51,14 @@ namespace json11 {
     
 }
 
-namespace mud {
+namespace two {
 
     
     
     class VgNanoBgfx;
 }
 
-namespace mud {
+namespace two {
 namespace detail {
 
     

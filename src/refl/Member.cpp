@@ -4,15 +4,15 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.refl;
+#ifdef TWO_MODULES
+module two.refl;
 #else
 #include <refl/Member.h>
 #include <refl/Meta.h>
 #include <refl/System.h>
 #endif
 
-namespace mud
+namespace two
 {
 	Static::Static() {}
 	Static::Static(Type& parent_type, cstring name, Ref value)

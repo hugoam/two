@@ -5,9 +5,9 @@
 #include <gl/GlSystem.h>
 #include <ui-nanovg-gl/VgNanoGl.h>
 
-#ifdef MUD_CONTEXT_GLFW
+#ifdef TWO_CONTEXT_GLFW
 #include <ctx-glfw/GlfwContext.h>
-#elif defined MUD_CONTEXT_WASM
+#elif defined TWO_CONTEXT_WASM
 #include <ctx-wasm/EmscriptenContext.h>
 #endif
 
@@ -15,13 +15,13 @@
 
 #ifdef NANOVG_GLEW
 	#include <GL/glew.h>
-#elif defined MUD_PLATFORM_EMSCRIPTEN
+#elif defined TWO_PLATFORM_EMSCRIPTEN
 	#define GL_GLEXT_PROTOTYPES
 	#include <GL/gl.h>
 	#include <GL/glext.h>
 #endif
 
-namespace mud
+namespace two
 {
 	GlSystem::GlSystem(cstring resource_path)
 		: RenderSystem(resource_path, true)
@@ -47,9 +47,9 @@ namespace mud
 
 	object_ptr<Context> GlSystem::create_context(cstring name, int width, int height, bool full_screen)
 	{
-#ifdef MUD_CONTEXT_GLFW
+#ifdef TWO_CONTEXT_GLFW
 		object_ptr<Context> context = make_object<GlfwContext>(*this, name, width, height, full_screen, true);
-#elif defined MUD_CONTEXT_WASM
+#elif defined TWO_CONTEXT_WASM
 		object_ptr<Context> context = make_object<EmContext>(*this, name, width, height, full_screen);
 #endif
 		this->init_glew();

@@ -1,7 +1,7 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx-gltf;
+#ifdef TWO_MODULES
+module two.gfx-gltf;
 #else
 #include <cstddef>
 #include <stl/new.h>
@@ -24,17 +24,17 @@ module mud.gfx-gltf;
 
 #include <gfx-gltf/Api.h>
 
-using namespace mud;
+using namespace two;
 
-void mud_ImporterGltf__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ImporterGltf( *static_cast<mud::GfxSystem*>(args[0]) ); }
-void mud_ImporterGltf_import(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::ImporterGltf*>(object)).import(*static_cast<mud::Import*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<mud::ImportConfig*>(args[2])); }
-void mud_ImporterGltf_import_model(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::ImporterGltf*>(object)).import_model(*static_cast<mud::Model*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<mud::ImportConfig*>(args[2])); }
-void mud_ImporterGltf_import_prefab(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::ImporterGltf*>(object)).import_prefab(*static_cast<mud::Prefab*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<mud::ImportConfig*>(args[2])); }
-void mud_ImporterGltf_repack(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<mud::ImporterGltf*>(object)).repack(*static_cast<stl::string*>(args[0]), *static_cast<mud::ImportConfig*>(args[1])); }
+void two_ImporterGltf__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ImporterGltf( *static_cast<two::GfxSystem*>(args[0]) ); }
+void two_ImporterGltf_import(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ImporterGltf*>(object)).import(*static_cast<two::Import*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<two::ImportConfig*>(args[2])); }
+void two_ImporterGltf_import_model(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ImporterGltf*>(object)).import_model(*static_cast<two::Model*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<two::ImportConfig*>(args[2])); }
+void two_ImporterGltf_import_prefab(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ImporterGltf*>(object)).import_prefab(*static_cast<two::Prefab*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<two::ImportConfig*>(args[2])); }
+void two_ImporterGltf_repack(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ImporterGltf*>(object)).repack(*static_cast<stl::string*>(args[0]), *static_cast<two::ImportConfig*>(args[1])); }
 
-namespace mud
+namespace two
 {
-	void mud_gfx_gltf_meta(Module& m)
+	void two_gfx_gltf_meta(Module& m)
 	{
 	UNUSED(m);
 	
@@ -44,48 +44,48 @@ namespace mud
 	
 	// Sequences
 	
-	// mud::ImporterGltf
+	// two::ImporterGltf
 	{
-		Type& t = type<mud::ImporterGltf>();
-		static Meta meta = { t, &namspc({ "mud" }), "ImporterGltf", sizeof(mud::ImporterGltf), TypeClass::Object };
+		Type& t = type<two::ImporterGltf>();
+		static Meta meta = { t, &namspc({ "two" }), "ImporterGltf", sizeof(two::ImporterGltf), TypeClass::Object };
 		// bases
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_ImporterGltf__construct_0, { { "gfx", type<mud::GfxSystem>(),  } } }
+			{ t, two_ImporterGltf__construct_0, { { "gfx", type<two::GfxSystem>(),  } } }
 		};
 		// copy constructor
 		// members
 		// methods
 		static Method methods[] = {
-			{ t, "import", Address(), mud_ImporterGltf_import, { { "import", type<mud::Import>(),  }, { "filepath", type<stl::string>(),  }, { "config", type<mud::ImportConfig>(),  } }, g_qvoid },
-			{ t, "import_model", Address(), mud_ImporterGltf_import_model, { { "model", type<mud::Model>(),  }, { "filepath", type<stl::string>(),  }, { "config", type<mud::ImportConfig>(),  } }, g_qvoid },
-			{ t, "import_prefab", Address(), mud_ImporterGltf_import_prefab, { { "prefab", type<mud::Prefab>(),  }, { "filepath", type<stl::string>(),  }, { "config", type<mud::ImportConfig>(),  } }, g_qvoid },
-			{ t, "repack", Address(), mud_ImporterGltf_repack, { { "filepath", type<stl::string>(),  }, { "config", type<mud::ImportConfig>(),  } }, g_qvoid }
+			{ t, "import", Address(), two_ImporterGltf_import, { { "import", type<two::Import>(),  }, { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid },
+			{ t, "import_model", Address(), two_ImporterGltf_import_model, { { "model", type<two::Model>(),  }, { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid },
+			{ t, "import_prefab", Address(), two_ImporterGltf_import_prefab, { { "prefab", type<two::Prefab>(),  }, { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid },
+			{ t, "repack", Address(), two_ImporterGltf_repack, { { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, constructors, {}, {}, methods, {}, };
 	}
 	
 	
-		m.m_types.push_back(&type<mud::ImporterGltf>());
+		m.m_types.push_back(&type<two::ImporterGltf>());
 	}
 }
 
-namespace mud
+namespace two
 {
-	mud_gfx_gltf::mud_gfx_gltf()
-		: Module("mud::gfx-gltf", { &mud_infra::m(), &mud_type::m(), &mud_refl::m(), &mud_srlz::m(), &mud_math::m(), &mud_geom::m(), &mud_gfx::m(), &mud_gltf::m() })
+	two_gfx_gltf::two_gfx_gltf()
+		: Module("two::gfx-gltf", { &two_infra::m(), &two_type::m(), &two_refl::m(), &two_srlz::m(), &two_math::m(), &two_geom::m(), &two_gfx::m(), &two_gltf::m() })
 	{
 		// setup reflection meta data
-		mud_gfx_gltf_meta(*this);
+		two_gfx_gltf_meta(*this);
 	}
 }
 
-#ifdef MUD_GFX_GLTF_MODULE
+#ifdef TWO_GFX_GLTF_MODULE
 extern "C"
 Module& getModule()
 {
-	return mud_gfx_gltf::m();
+	return two_gfx_gltf::m();
 }
 #endif

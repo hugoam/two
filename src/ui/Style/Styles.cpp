@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <math/Vec.hpp>
 #include <infra/ToString.h>
@@ -18,7 +18,7 @@ module mud.ui;
 #include <ui/UiRoot.h>
 #endif
 
-namespace mud
+namespace two
 {
 	void render_bullet(const Frame& frame, const vec4& rect, Vg& vg)
 	{

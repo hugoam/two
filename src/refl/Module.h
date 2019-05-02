@@ -9,18 +9,18 @@
 
 #include <stdint.h>
 
-namespace mud
+namespace two
 {
 	export_ using cstring = const char*;
 
-	export_ struct refl_ MUD_REFL_EXPORT Alias
+	export_ struct refl_ TWO_REFL_EXPORT Alias
 	{
 		Type* m_type;
 		Namespace* m_namespace;
 		cstring m_name;
 	};
 
-	export_ class refl_ MUD_REFL_EXPORT Module
+	export_ class refl_ TWO_REFL_EXPORT Module
 	{
 	public:
 		Module(cstring name, vector<Module*> deps);

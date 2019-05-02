@@ -2,16 +2,16 @@
 
 #include <wfc/Types.h>
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <refl/Meta.h>
 #include <refl/Enum.h>
 #include <infra/StringOps.h>
 #endif
 
-namespace mud
+namespace two
 {
-	export_ template <> inline void to_value(const string& str, mud::Result& val) { val = mud::Result(enu<mud::Result>().value(str.c_str())); };
-	export_ template <> inline void to_string(const mud::Result& val, string& str) { str = enu<mud::Result>().name(uint32_t(val)); };
+	export_ template <> inline void to_value(const string& str, two::Result& val) { val = two::Result(enu<two::Result>().value(str.c_str())); };
+	export_ template <> inline void to_string(const two::Result& val, string& str) { str = enu<two::Result>().name(uint32_t(val)); };
 	
 	
 }

@@ -8,9 +8,9 @@
 #include <snd/Forward.h>
 #include <stl/string.h>
 
-namespace mud
+namespace two
 {
-	class MUD_SND_EXPORT SoundFileBuffer
+	class TWO_SND_EXPORT SoundFileBuffer
 	{
 	public:
 		virtual ~SoundFileBuffer() {}

@@ -8,12 +8,12 @@
 #include <ctx/Forward.h>
 #include <bgfx/Forward.h>
 
-#ifndef MUD_MODULES
-	#if defined MUD_CONTEXT_GLFW
+#ifndef TWO_MODULES
+	#if defined TWO_CONTEXT_GLFW
 		#include <ctx-glfw/GlfwContext.h>
-	#elif defined MUD_CONTEXT_WASM
+	#elif defined TWO_CONTEXT_WASM
 		#include <ctx-wasm/EmscriptenContext.h>
-	#elif defined MUD_CONTEXT_WINDOWS
+	#elif defined TWO_CONTEXT_WINDOWS
 		#include <ctx-win/WindowsContext.h>
 	#else
 		#include <ctx/Context.h>
@@ -25,18 +25,18 @@ namespace bx
 	struct AllocatorI;
 }
 
-namespace mud
+namespace two
 {
 	class BgfxSystem;
 
-#if defined MUD_CONTEXT_GLFW
-	export_ class MUD_BGFX_EXPORT BgfxContext : public GlfwContext
-#elif defined MUD_CONTEXT_WASM
-	export_ class MUD_BGFX_EXPORT BgfxContext : public EmContext
-#elif defined MUD_CONTEXT_WINDOWS
-	export_ class MUD_BGFX_EXPORT BgfxContext : public WinContext
+#if defined TWO_CONTEXT_GLFW
+	export_ class TWO_BGFX_EXPORT BgfxContext : public GlfwContext
+#elif defined TWO_CONTEXT_WASM
+	export_ class TWO_BGFX_EXPORT BgfxContext : public EmContext
+#elif defined TWO_CONTEXT_WINDOWS
+	export_ class TWO_BGFX_EXPORT BgfxContext : public WinContext
 #else
-	export_ class MUD_BGFX_EXPORT BgfxContext : public Context
+	export_ class TWO_BGFX_EXPORT BgfxContext : public Context
 #endif
 	{
 	public:
@@ -47,7 +47,7 @@ namespace mud
 		virtual void reset_fb(const uvec2& size) override;
 	};
 
-	export_ struct MUD_BGFX_EXPORT TimerBx
+	export_ struct TWO_BGFX_EXPORT TimerBx
 	{
 		int64_t m_start = 0;
 
@@ -55,7 +55,7 @@ namespace mud
 		float end();
 	};
 
-	export_ class refl_ MUD_BGFX_EXPORT BgfxSystem : public RenderSystem
+	export_ class refl_ TWO_BGFX_EXPORT BgfxSystem : public RenderSystem
 	{
 	public:
 		BgfxSystem(const string& resource_path);

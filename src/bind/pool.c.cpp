@@ -2,7 +2,7 @@
 #include <type/Api.h>
 #include <pool/Api.h>
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
 #define DECL EMSCRIPTEN_KEEPALIVE
 #else
@@ -13,17 +13,17 @@
 extern "C" {
 	
 	// Pool
-	mud::Type* DECL mud_Pool__type() {
-		return &mud::type<mud::Pool>();
+	two::Type* DECL two_Pool__type() {
+		return &two::type<two::Pool>();
 	}
-	void DECL mud_Pool__destroy(mud::Pool* self) {
+	void DECL two_Pool__destroy(two::Pool* self) {
 		delete self;
 	}
 	// HandlePool
-	mud::Type* DECL mud_HandlePool__type() {
-		return &mud::type<mud::HandlePool>();
+	two::Type* DECL two_HandlePool__type() {
+		return &two::type<two::HandlePool>();
 	}
-	void DECL mud_HandlePool__destroy(mud::HandlePool* self) {
+	void DECL two_HandlePool__destroy(two::HandlePool* self) {
 		delete self;
 	}
 	

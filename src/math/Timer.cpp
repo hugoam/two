@@ -4,13 +4,13 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.infra;
+#ifdef TWO_MODULES
+module two.infra;
 #else
 #include <math/Timer.h>
 #endif
 
-namespace mud
+namespace two
 {
 	const double c_tick_interval = 0.02;
 

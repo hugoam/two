@@ -4,20 +4,17 @@
 
 #pragma once
 
-#ifdef MUD_CTX_OGRE
+#ifdef TWO_CTX_OGRE
 
-/* mud */
 #include <ui/Types.h>
 #include <ui/Render/RenderWindow.h>
 #include <ui/Input/InputDispatcher.h>
 
-/* Ogre */
 #include <OgreWindowEventUtilities.h>
 
-/* OIS */
 #include <OIS.h>
 
-namespace mud
+namespace two
 {
 	class OgreRenderWindow : public RenderWindow, Ogre::WindowEventListener
 	{
@@ -79,4 +76,4 @@ namespace mud
 	};
 }
 
-#endif // MUD_GFXREWINDOW_H
+#endif // TWO_GFXREWINDOW_H

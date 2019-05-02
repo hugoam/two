@@ -2,6 +2,6 @@
 
 #include <gfx/Forward.h>
 
-namespace mud
+namespace two
 {
 }

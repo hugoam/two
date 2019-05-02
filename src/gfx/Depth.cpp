@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/algorithm.h>
 #include <gfx/Item.h>
@@ -18,7 +18,7 @@ module mud.gfx;
 #include <gfx/Asset.h>
 #endif
 
-namespace mud
+namespace two
 {
 	bool queue_depth(GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element)
 	{

@@ -1,7 +1,7 @@
 #include <infra/Api.h>
 #include <type/Api.h>
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
 #define DECL EMSCRIPTEN_KEEPALIVE
 #else
@@ -12,101 +12,101 @@
 extern "C" {
 	
 	// Ref
-	mud::Type* DECL mud_Ref__type() {
-		return &mud::type<mud::Ref>();
+	two::Type* DECL two_Ref__type() {
+		return &two::type<two::Ref>();
 	}
-	mud::Ref* DECL mud_Ref__construct_0() {
-		return new mud::Ref();
+	two::Ref* DECL two_Ref__construct_0() {
+		return new two::Ref();
 	}
-	mud::Ref* DECL mud_Ref__construct_2(void* value, const mud::Type* type) {
-		return new mud::Ref(value, *type);
+	two::Ref* DECL two_Ref__construct_2(void* value, const two::Type* type) {
+		return new two::Ref(value, *type);
 	}
-	const mud::Type* DECL mud_Ref__get_type(mud::Ref* self) {
+	const two::Type* DECL two_Ref__get_type(two::Ref* self) {
 		return self->m_type;
 	}
-	void DECL mud_Ref__set_type(mud::Ref* self, const mud::Type* value) {
+	void DECL two_Ref__set_type(two::Ref* self, const two::Type* value) {
 		self->m_type = value;
 	}
-	void* DECL mud_Ref__get_value(mud::Ref* self) {
+	void* DECL two_Ref__get_value(two::Ref* self) {
 		return self->m_value;
 	}
-	void DECL mud_Ref__set_value(mud::Ref* self, void* value) {
+	void DECL two_Ref__set_value(two::Ref* self, void* value) {
 		self->m_value = value;
 	}
-	void DECL mud_Ref__destroy(mud::Ref* self) {
+	void DECL two_Ref__destroy(two::Ref* self) {
 		delete self;
 	}
 	// Type
-	mud::Type* DECL mud_Type__type() {
-		return &mud::type<mud::Type>();
+	two::Type* DECL two_Type__type() {
+		return &two::type<two::Type>();
 	}
-	uint32_t DECL mud_Type__get_id(mud::Type* self) {
+	uint32_t DECL two_Type__get_id(two::Type* self) {
 		return self->m_id;
 	}
-	void DECL mud_Type__set_id(mud::Type* self, uint32_t value) {
+	void DECL two_Type__set_id(two::Type* self, uint32_t value) {
 		self->m_id = value;
 	}
-	const char* DECL mud_Type__get_name(mud::Type* self) {
+	const char* DECL two_Type__get_name(two::Type* self) {
 		return self->m_name;
 	}
-	void DECL mud_Type__set_name(mud::Type* self, const char* value) {
+	void DECL two_Type__set_name(two::Type* self, const char* value) {
 		self->m_name = value;
 	}
-	size_t DECL mud_Type__get_size(mud::Type* self) {
+	size_t DECL two_Type__get_size(two::Type* self) {
 		return self->m_size;
 	}
-	void DECL mud_Type__set_size(mud::Type* self, size_t value) {
+	void DECL two_Type__set_size(two::Type* self, size_t value) {
 		self->m_size = value;
 	}
-	mud::Type* DECL mud_Type__get_base(mud::Type* self) {
+	two::Type* DECL two_Type__get_base(two::Type* self) {
 		return self->m_base;
 	}
-	void DECL mud_Type__set_base(mud::Type* self, mud::Type* value) {
+	void DECL two_Type__set_base(two::Type* self, two::Type* value) {
 		self->m_base = value;
 	}
-	void DECL mud_Type__destroy(mud::Type* self) {
+	void DECL two_Type__destroy(two::Type* self) {
 		delete self;
 	}
 	// Indexer
-	mud::Type* DECL mud_Indexer__type() {
-		return &mud::type<mud::Indexer>();
+	two::Type* DECL two_Indexer__type() {
+		return &two::type<two::Indexer>();
 	}
-	const mud::Type* DECL mud_Indexer__get_type(mud::Indexer* self) {
+	const two::Type* DECL two_Indexer__get_type(two::Indexer* self) {
 		return self->m_type;
 	}
-	void DECL mud_Indexer__set_type(mud::Indexer* self, const mud::Type* value) {
+	void DECL two_Indexer__set_type(two::Indexer* self, const two::Type* value) {
 		self->m_type = value;
 	}
-	void DECL mud_Indexer__destroy(mud::Indexer* self) {
+	void DECL two_Indexer__destroy(two::Indexer* self) {
 		delete self;
 	}
 	// Index
-	mud::Type* DECL mud_Index__type() {
-		return &mud::type<mud::Index>();
+	two::Type* DECL two_Index__type() {
+		return &two::type<two::Index>();
 	}
-	mud::Indexer* DECL mud_Index_indexer_1(mud::Index* self, const mud::Type* type) {
+	two::Indexer* DECL two_Index_indexer_1(two::Index* self, const two::Type* type) {
 		return &self->indexer(*type);
 	}
-	void DECL mud_Index__destroy(mud::Index* self) {
+	void DECL two_Index__destroy(two::Index* self) {
 		delete self;
 	}
 	// Var
-	mud::Type* DECL mud_Var__type() {
-		return &mud::type<mud::Var>();
+	two::Type* DECL two_Var__type() {
+		return &two::type<two::Var>();
 	}
-	void DECL mud_Var__destroy(mud::Var* self) {
+	void DECL two_Var__destroy(two::Var* self) {
 		delete self;
 	}
 	// Prototype
-	mud::Type* DECL mud_Prototype__type() {
-		return &mud::type<mud::Prototype>();
+	two::Type* DECL two_Prototype__type() {
+		return &two::type<two::Prototype>();
 	}
-	void DECL mud_Prototype__destroy(mud::Prototype* self) {
+	void DECL two_Prototype__destroy(two::Prototype* self) {
 		delete self;
 	}
-	mud::Ref* DECL mud_indexed_2(const mud::Type* type, uint32_t id) {
-		static mud::Ref temp;
-		return (temp = mud::indexed(*type, id), &temp);
+	two::Ref* DECL two_indexed_2(const two::Type* type, uint32_t id) {
+		static two::Ref temp;
+		return (temp = two::indexed(*type, id), &temp);
 	}
 	
 }

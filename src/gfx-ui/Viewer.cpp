@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.ui;
+#ifdef TWO_MODULES
+module two.gfx.ui;
 #else
 #include <stl/algorithm.h>
 #include <tree/Graph.hpp>
@@ -34,7 +34,7 @@ module mud.gfx.ui;
 #include <gfx-ui/Types.h>
 #endif
 
-namespace mud
+namespace two
 {
 	ViewerStyles::ViewerStyles()
 		: viewer("Viewer", styles().wedge, [](Layout& l) { l.m_opacity = Opacity::Opaque; l.m_space = Preset::Sheet; }, [](InkStyle& l) { l.m_empty = false; })
@@ -84,8 +84,8 @@ namespace mud
 			picker->process(render, picker->m_query);
 		}
 
-//#define MUD_DEBUG_PICKER_TEXTURE
-#ifdef MUD_DEBUG_PICKER_TEXTURE
+//#define TWO_DEBUG_PICKER_TEXTURE
+#ifdef TWO_DEBUG_PICKER_TEXTURE
 		if(m_picker)
 		{
 			vec4 source_rect = { vec2(0.f), vec2(m_pick_query.m_rect.size) };

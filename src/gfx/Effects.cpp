@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/algorithm.h>
 #include <gfx/Types.h>
@@ -15,7 +15,7 @@ module mud.gfx;
 #include <gfx/GfxSystem.h>
 #endif
 
-namespace mud
+namespace two
 {
 	void pass_resolve(GfxSystem& gfx, Render& render)
 	{

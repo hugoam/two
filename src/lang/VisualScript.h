@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <type/Unique.h>
 #include <type/Var.h>
@@ -13,7 +13,7 @@
 #include <lang/Stream.h>
 #include <lang/Script.h>
 
-namespace mud
+namespace two
 {
 	export_ enum ValveKind : unsigned int
 	{
@@ -23,7 +23,7 @@ namespace mud
 		OUTPUT_VALVE
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT Valve
+	export_ class refl_ TWO_LANG_EXPORT Valve
 	{
 	public:
 		Valve(Process& process, cstring name, ValveKind kind, const Var& value = {}, bool nullable = false, bool reference = false);
@@ -52,7 +52,7 @@ namespace mud
 		void propagate();
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT Pipe
+	export_ class refl_ TWO_LANG_EXPORT Pipe
 	{
 	public:
 		Pipe(Valve& output, Valve& input, StreamModifier modifier = SM_NONE);
@@ -65,7 +65,7 @@ namespace mud
 		void propagate();
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT Process
+	export_ class refl_ TWO_LANG_EXPORT Process
 	{
 	public:
 		Process(VisualScript& script, cstring title, Type& type);
@@ -136,7 +136,7 @@ namespace mud
 		int visit_order();
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT VisualScript final : public Script
+	export_ class refl_ TWO_LANG_EXPORT VisualScript final : public Script
 	{
 	public:
 		constr_ VisualScript(const string& name, const Signature& signature = {});
@@ -197,7 +197,7 @@ namespace mud
 		Valve* method(T_Method meth, span<Valve*> params = {}, Process* flow = nullptr, span<StreamModifier> modifiers = {});
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT ProcessInput : public Process, public Param
+	export_ class refl_ TWO_LANG_EXPORT ProcessInput : public Process, public Param
 	{
 	public:
 		ProcessInput(VisualScript& script, const Param& param);
@@ -205,7 +205,7 @@ namespace mud
 		Valve m_output;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT ProcessOutput : public Process, public Param
+	export_ class refl_ TWO_LANG_EXPORT ProcessOutput : public Process, public Param
 	{
 	public:
 		ProcessOutput(VisualScript& script, const Param& param);

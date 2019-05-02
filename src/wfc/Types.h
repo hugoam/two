@@ -5,11 +5,11 @@
 #include <stl/vector.h>
 #include <wfc/Forward.h>
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <type/Type.h>
 #endif
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <infra/Types.h>
 #include <type/Types.h>
 #include <srlz/Types.h>
@@ -18,15 +18,15 @@
 #endif
 
 
-namespace mud
+namespace two
 {
     // Exported types
-    export_ template <> MUD_WFC_EXPORT Type& type<mud::Result>();
+    export_ template <> TWO_WFC_EXPORT Type& type<two::Result>();
     
     
-    export_ template <> MUD_WFC_EXPORT Type& type<mud::Tile>();
-    export_ template <> MUD_WFC_EXPORT Type& type<mud::Tileset>();
-    export_ template <> MUD_WFC_EXPORT Type& type<mud::Wave>();
-    export_ template <> MUD_WFC_EXPORT Type& type<mud::WaveTileset>();
-    export_ template <> MUD_WFC_EXPORT Type& type<mud::TileWave>();
+    export_ template <> TWO_WFC_EXPORT Type& type<two::Tile>();
+    export_ template <> TWO_WFC_EXPORT Type& type<two::Tileset>();
+    export_ template <> TWO_WFC_EXPORT Type& type<two::Wave>();
+    export_ template <> TWO_WFC_EXPORT Type& type<two::WaveTileset>();
+    export_ template <> TWO_WFC_EXPORT Type& type<two::TileWave>();
 }

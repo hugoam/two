@@ -4,13 +4,13 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.uio;
+#ifdef TWO_MODULES
+module two.uio;
 #else
 #include <uio/Dropper.h>
 #endif
 
-namespace mud
+namespace two
 {
 #if 0
 	Dropper::Dropper(Widget& parent, Type& deviceType)

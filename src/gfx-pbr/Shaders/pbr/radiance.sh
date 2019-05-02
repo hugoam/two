@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_RADIANCE
-#define MUD_SHADER_RADIANCE
+#ifndef TWO_SHADER_RADIANCE
+#define TWO_SHADER_RADIANCE
 
 #include <spherical.sh>
 #include <gpu/zone.sh>

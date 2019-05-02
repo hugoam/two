@@ -7,7 +7,7 @@
 
 #include <atomic>
 
-namespace mud
+namespace two
 {
 	struct alignas(CACHELINE_SIZE)Job
 	{

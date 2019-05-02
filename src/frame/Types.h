@@ -5,22 +5,22 @@
 #include <stl/vector.h>
 #include <frame/Forward.h>
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <type/Type.h>
 #endif
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <gfx/Types.h>
 #include <gfx-ui/Types.h>
 #endif
 
 
-namespace mud
+namespace two
 {
     // Exported types
     
     
-    export_ template <> MUD_FRAME_EXPORT Type& type<mud::ShellContext>();
-    export_ template <> MUD_FRAME_EXPORT Type& type<mud::ShellWindow>();
-    export_ template <> MUD_FRAME_EXPORT Type& type<mud::Shell>();
+    export_ template <> TWO_FRAME_EXPORT Type& type<two::ShellContext>();
+    export_ template <> TWO_FRAME_EXPORT Type& type<two::ShellWindow>();
+    export_ template <> TWO_FRAME_EXPORT Type& type<two::Shell>();
 }

@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-obj/Api.h>
@@ -10,7 +10,7 @@
 
 #include <stl/vector.hpp>
 
-using namespace mud;
+using namespace two;
 
 #define DEBUG_FRUSTUM 0
 #define GI_PROBE 0
@@ -168,7 +168,7 @@ void pump(Shell& app, ShellWindow& window)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
 	app.m_gfx.add_resource_path("examples/04_sponza");
 	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);

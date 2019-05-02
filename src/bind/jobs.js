@@ -6,12 +6,12 @@ JobSystem.prototype.__class = JobSystem;
 JobSystem.__cache = {};
 Module['JobSystem'] = JobSystem;
 JobSystem.prototype["__destroy"] = JobSystem.prototype.__destroy = function() {
-    _mud_JobSystem__destroy(this.__ptr);
+    _two_JobSystem__destroy(this.__ptr);
 };
 
 (function() {
     function setup() {
-        JobSystem.prototype.__type = _mud_JobSystem__type();
+        JobSystem.prototype.__type = _two_JobSystem__type();
     }
     if (Module['calledRun']) setup();
     else addOnPreMain(setup);

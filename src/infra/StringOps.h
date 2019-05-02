@@ -9,7 +9,7 @@
 #include <infra/Config.h>
 #include <stl/span.h>
 
-namespace mud
+namespace two
 {
 	export_ using cstring = const char*;
 
@@ -34,22 +34,22 @@ namespace mud
 	export_ template <> inline void to_value<string>(const string& str, string& val) { val = str; }
 	export_ template <> inline void to_string<string>(const string& val, string& str){ str = val; }
 
-	export_ MUD_INFRA_EXPORT void split(const string& str, const string& separator, span<string> output);
-	export_ MUD_INFRA_EXPORT vector<string> split(const string& str, const string& separator);
+	export_ TWO_INFRA_EXPORT void split(const string& str, const string& separator, span<string> output);
+	export_ TWO_INFRA_EXPORT vector<string> split(const string& str, const string& separator);
 
-	export_ MUD_INFRA_EXPORT string join(span<string> strings, string separator);
+	export_ TWO_INFRA_EXPORT string join(span<string> strings, string separator);
 
-	export_ MUD_INFRA_EXPORT string replace(const string& original, const string& before, const string& after);
+	export_ TWO_INFRA_EXPORT string replace(const string& original, const string& before, const string& after);
 
-	export_ MUD_INFRA_EXPORT string to_lower(const string& original);
-	export_ MUD_INFRA_EXPORT string to_upper(const string& original);
-	export_ MUD_INFRA_EXPORT string to_pascalcase(const string& name);
-	export_ MUD_INFRA_EXPORT string to_camelcase(const string& name);
+	export_ TWO_INFRA_EXPORT string to_lower(const string& original);
+	export_ TWO_INFRA_EXPORT string to_upper(const string& original);
+	export_ TWO_INFRA_EXPORT string to_pascalcase(const string& name);
+	export_ TWO_INFRA_EXPORT string to_camelcase(const string& name);
 
 	export_ inline bool starts_with(const string& s, const string& start) { return s.size() >= start.size() && (s.find(start) == 0); };
 	export_ inline bool ends_with(const string& s, const string& end) { return s.size() >= end.size() && (s.rfind(end) == (s.size() - end.size())); };
 
-	extern MUD_INFRA_EXPORT const size_t g_num_precision; // = 3;
+	extern TWO_INFRA_EXPORT const size_t g_num_precision; // = 3;
 
 	export_ inline string truncate_number(const string& str)
 	{

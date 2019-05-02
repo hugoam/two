@@ -222,7 +222,7 @@ namespace stl
 	constexpr bool is_number = is_float<T> || (is_integral<T> && !is_same<T, bool>);
 }
 
-namespace mud
+namespace two
 {
 	using stl::declval;
 	using stl::enable_if;

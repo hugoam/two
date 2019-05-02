@@ -38,7 +38,7 @@ namespace stl
 	inline constexpr T clamp(T v, T lo, T hi) { return min(max(v, lo), hi); }
 }
 
-namespace mud
+namespace two
 {
 	export_ using stl::sq;
 	export_ using stl::sign;

@@ -56,7 +56,7 @@ namespace stl {
 }
 #endif
 
-namespace mud
+namespace two
 {
 	using stl::unordered_set;
 }

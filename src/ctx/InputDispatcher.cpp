@@ -3,19 +3,19 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <cstdio>
 #endif
 
-#ifdef MUD_MODULES
-module mud.ctx;
+#ifdef TWO_MODULES
+module two.ctx;
 #else
 #include <ctx/InputDispatcher.h>
 #include <ctx/InputDevice.h>
 #include <ctx/ControlNode.h>
 #endif
 
-namespace mud
+namespace two
 {
 	EventDispatcher::EventDispatcher(ControlNode* control_node)
 		: m_control_node(*control_node)

@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.infra;
+#ifdef TWO_MODULES
+module two.infra;
 #else
 #include <stl/algorithm.h>
 #include <infra/Config.h>
@@ -17,7 +17,7 @@ module mud.infra;
 #include <cctype>
 #include <cassert>
 
-namespace mud
+namespace two
 {
 	const size_t g_num_precision = 3;
 

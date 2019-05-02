@@ -4,18 +4,18 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <lang/Script.h>
 #endif
 #include <ui/Section.h>
 
-namespace mud
+namespace two
 {
 	struct ProcessStructure;
 	struct ProcessConstruct;
 
-	export_ MUD_UIO_EXPORT void process_display(Widget& parent, ProcessDisplay& process);
-	export_ MUD_UIO_EXPORT void process_display_structure(Widget& parent, ProcessStructure& process);
-	export_ MUD_UIO_EXPORT void process_construct(Widget& parent, ProcessConstruct& process);
-	export_ MUD_UIO_EXPORT Section& visual_script_edit(Widget& parent, VisualScript& script);
+	export_ TWO_UIO_EXPORT void process_display(Widget& parent, ProcessDisplay& process);
+	export_ TWO_UIO_EXPORT void process_display_structure(Widget& parent, ProcessStructure& process);
+	export_ TWO_UIO_EXPORT void process_construct(Widget& parent, ProcessConstruct& process);
+	export_ TWO_UIO_EXPORT Section& visual_script_edit(Widget& parent, VisualScript& script);
 }

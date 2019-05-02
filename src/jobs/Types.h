@@ -5,19 +5,19 @@
 #include <stl/vector.h>
 #include <jobs/Forward.h>
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <type/Type.h>
 #endif
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <infra/Types.h>
 #endif
 
 
-namespace mud
+namespace two
 {
     // Exported types
     
     
-    export_ template <> MUD_JOBS_EXPORT Type& type<mud::JobSystem>();
+    export_ template <> TWO_JOBS_EXPORT Type& type<two::JobSystem>();
 }

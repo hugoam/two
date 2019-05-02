@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <climits>
 #include <stl/string.h>
 #include <stl/vector.h>
@@ -14,15 +14,15 @@
 #include <ui/Frame/Dim.h>
 #include <ui/Style/Paint.h>
 
-namespace mud
+namespace two
 {
-	export_ struct MUD_UI_EXPORT TextGlyph
+	export_ struct TWO_UI_EXPORT TextGlyph
 	{
 		const char* m_position;
 		vec4 m_rect;
 	};
 
-	export_ struct MUD_UI_EXPORT TextRow
+	export_ struct TWO_UI_EXPORT TextRow
 	{
 		const char* m_start;
 		const char* m_end;
@@ -38,21 +38,21 @@ namespace mud
 		return { start, end, size_t(start - str), size_t(end - str), rect, {} };
 	}
 
-	MUD_UI_EXPORT bool is_separator(char c);
+	TWO_UI_EXPORT bool is_separator(char c);
 
-	MUD_UI_EXPORT size_t word_begin(const string& text, size_t index);
-	MUD_UI_EXPORT size_t word_end(const string& text, size_t index);
-	MUD_UI_EXPORT string word_at(const string& text, size_t index);
+	TWO_UI_EXPORT size_t word_begin(const string& text, size_t index);
+	TWO_UI_EXPORT size_t word_end(const string& text, size_t index);
+	TWO_UI_EXPORT string word_at(const string& text, size_t index);
 
-	MUD_UI_EXPORT size_t line_begin(const string& text, size_t index);
-	MUD_UI_EXPORT size_t line_end(const string& text, size_t index);
+	TWO_UI_EXPORT size_t line_begin(const string& text, size_t index);
+	TWO_UI_EXPORT size_t line_end(const string& text, size_t index);
 
-	MUD_UI_EXPORT string text_line(const string& text, size_t index);
-	MUD_UI_EXPORT size_t text_column(const string& text, size_t index);
+	TWO_UI_EXPORT string text_line(const string& text, size_t index);
+	TWO_UI_EXPORT size_t text_column(const string& text, size_t index);
 
-	MUD_UI_EXPORT void replace_tabs(string& text, size_t tab_size = 4);
+	TWO_UI_EXPORT void replace_tabs(string& text, size_t tab_size = 4);
 
-	export_ struct refl_ MUD_UI_EXPORT TextCursor
+	export_ struct refl_ TWO_UI_EXPORT TextCursor
 	{
 		TextCursor() {}
 		TextCursor(size_t index, uvec2 grid_index) : m_index(index), m_grid_index(grid_index) {}
@@ -65,7 +65,7 @@ namespace mud
 		uvec2 m_grid_index = { UINT_MAX, UINT_MAX };
 	};
 
-	export_ struct refl_ MUD_UI_EXPORT TextSelection
+	export_ struct refl_ TWO_UI_EXPORT TextSelection
 	{
 		TextSelection() {}
 		TextSelection(TextCursor cursor, size_t start, size_t end, bool insert_mode) : m_cursor(cursor), m_start(start), m_end(end), m_insert_mode(insert_mode) {}
@@ -83,7 +83,7 @@ namespace mud
 		Error,
 	};
 
-	export_ struct refl_ MUD_UI_EXPORT TextMarker
+	export_ struct refl_ TWO_UI_EXPORT TextMarker
 	{
 		TextMarkerKind m_type;
 		size_t m_line;
@@ -93,7 +93,7 @@ namespace mud
 		PaletteIndex m_highlight;
 	};
 
-	export_ class refl_ MUD_UI_EXPORT Text
+	export_ class refl_ TWO_UI_EXPORT Text
 	{
 	public:
 		Text(Frame& frame);
@@ -164,11 +164,11 @@ namespace mud
 		static Vg* s_vg;
 	};
 
-	MUD_UI_EXPORT Colour palette_colour(const ColourPalette& palette, PaletteIndex color_index);
-	MUD_UI_EXPORT Paint palette_paint(const ColourPalette& palette, PaletteIndex color_index);
-	MUD_UI_EXPORT TextPaint palette_text_paint(const Text& text, const ColourPalette& palette, PaletteIndex color_index);
+	TWO_UI_EXPORT Colour palette_colour(const ColourPalette& palette, PaletteIndex color_index);
+	TWO_UI_EXPORT Paint palette_paint(const ColourPalette& palette, PaletteIndex color_index);
+	TWO_UI_EXPORT TextPaint palette_text_paint(const Text& text, const ColourPalette& palette, PaletteIndex color_index);
 
-	MUD_UI_EXPORT void draw_text(Vg& vg, const vec2& padding, const Text& text);
-	MUD_UI_EXPORT void draw_editor_text(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette);
-	MUD_UI_EXPORT void draw_text_selection(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const TextSelection& selection, const ColourPalette& palette, bool current_line);
+	TWO_UI_EXPORT void draw_text(Vg& vg, const vec2& padding, const Text& text);
+	TWO_UI_EXPORT void draw_editor_text(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette);
+	TWO_UI_EXPORT void draw_text_selection(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const TextSelection& selection, const ColourPalette& palette, bool current_line);
 }

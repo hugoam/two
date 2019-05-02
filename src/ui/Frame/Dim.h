@@ -9,7 +9,7 @@
 #include <math/Vec.h>
 #include <ui/Forward.h>
 
-namespace mud
+namespace two
 {
 	//export_ enum class refl_ Dim : unsigned int
 	//{
@@ -95,7 +95,7 @@ namespace mud
 		Layout   // Paragraph   direction, Sizing::Expand length, Sizing::Expand depth
 	};
 
-	export_ struct refl_ MUD_UI_EXPORT Space
+	export_ struct refl_ TWO_UI_EXPORT Space
 	{
 		attr_ FlowAxis direction;
 		attr_ Sizing sizingLength;

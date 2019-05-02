@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <infra/Reverse.h>
 #include <math/Vec.hpp>
@@ -21,7 +21,7 @@ module mud.ui;
 #define DEBUG_BOUNDS 0
 #define DEBUG_LAYOUT 0
 
-namespace mud
+namespace two
 {
 	void collect_solvers(Frame& frame, SolverVector& solvers, DirtyLayout dirtyTop)
 	{

@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.uio;
+#ifdef TWO_MODULES
+module two.uio;
 #else
 #include <infra/ToString.h>
 #include <ui/Ui.h>
@@ -19,7 +19,7 @@ module mud.uio;
 #include <uio/GraphEdit.h>
 #endif
 
-namespace mud
+namespace two
 {
 	void ui_debug_modal(Widget& parent, Widget& target)
 	{

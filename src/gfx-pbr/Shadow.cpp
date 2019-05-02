@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.pbr;
+#ifdef TWO_MODULES
+module two.gfx.pbr;
 #else
 #include <stl/algorithm.h>
 #include <pool/ObjectPool.hpp>
@@ -36,7 +36,7 @@ module mud.gfx.pbr;
 
 #define DEBUG_ATLAS 0
 
-namespace mud
+namespace two
 {
 	GpuState<GpuShadow> GpuState<GpuShadow>::me;
 

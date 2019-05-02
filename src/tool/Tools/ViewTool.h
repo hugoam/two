@@ -4,13 +4,13 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <math/Vec.hpp>
 #endif
 #include <tool/Forward.h>
 #include <tool/Tool.h>
 
-namespace mud
+namespace two
 {
 	export_ class refl_ ViewAction : public EditorAction
 	{

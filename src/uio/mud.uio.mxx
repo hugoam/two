@@ -2,21 +2,21 @@
 
 #include <obj/Config.h>
 
-export module mud.uio;
+export module two.uio;
 export import std.core;
 export import std.io;
 export import std.threading;
 export import std.regex;
 
-export import mud.infra;
-export import mud.tree;
-export import mud.obj;
-export import mud.pool;
-export import mud.refl;
-export import mud.math;
-export import mud.lang;
-export import mud.ctx;
-export import mud.ui;
+export import two.infra;
+export import two.tree;
+export import two.obj;
+export import two.pool;
+export import two.refl;
+export import two.math;
+export import two.lang;
+export import two.ctx;
+export import two.ui;
 
 #include <uio/Api.h>
 

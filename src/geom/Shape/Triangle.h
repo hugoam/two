@@ -7,11 +7,11 @@
 #include <geom/Forward.h>
 #include <geom/Shape/ProcShape.h>
 
-namespace mud
+namespace two
 {
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Triangle& triangle);
-	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Triangle& triangle, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Triangle& triangle);
+	export_ TWO_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Triangle& triangle, MeshAdapter& writer);
 
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Triangle& triangle);
-	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Triangle& triangle, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Triangle& triangle);
+	export_ TWO_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Triangle& triangle, MeshAdapter& writer);
 }

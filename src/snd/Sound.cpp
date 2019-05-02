@@ -11,7 +11,7 @@
 
 #include <AL/al.h>
 
-namespace mud
+namespace two
 {
 	bool operator < (Sound::Priority& rhs, Sound::Priority& lhs)
 	{

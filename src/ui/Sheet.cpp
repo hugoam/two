@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <stl/algorithm.h>
 #include <ui/Sheet.h>
@@ -16,7 +16,7 @@ module mud.ui;
 #include <ui/Cursor.h>
 #endif
 
-namespace mud
+namespace two
 {
 namespace ui
 {

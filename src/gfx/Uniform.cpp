@@ -5,8 +5,8 @@
 #if 0
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <refl/Class.h>
 #include <infra/ToString.h>
@@ -16,7 +16,7 @@ module mud.gfx;
 #include <gfx/Texture.h>
 #endif
 
-namespace mud
+namespace two
 {
 	UniformBlock::UniformBlock(Type& type, const string& name)
 		: m_type(type)

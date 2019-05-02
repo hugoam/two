@@ -125,13 +125,13 @@ namespace stl {
 
 	using string = basic_string<TINYSTL_ALLOCATOR>;
 
-	extern template MUD_INFRA_EXPORT string operator+(const string& lhs, const string& rhs);
-	extern template MUD_INFRA_EXPORT string operator+(const char* lhs, const string& rhs);
-	extern template MUD_INFRA_EXPORT string operator+(const string& lhs, const char* rhs);
+	extern template TWO_INFRA_EXPORT string operator+(const string& lhs, const string& rhs);
+	extern template TWO_INFRA_EXPORT string operator+(const char* lhs, const string& rhs);
+	extern template TWO_INFRA_EXPORT string operator+(const string& lhs, const char* rhs);
 }
 #endif
 
-#ifdef MUD_META_GENERATOR
+#ifdef TWO_META_GENERATOR
 namespace stl
 {
 	extern template class refl_ basic_string<TINYSTL_ALLOCATOR>;
@@ -140,7 +140,7 @@ namespace stl
 }
 #endif
 
-namespace mud
+namespace two
 {
 	using stl::string;
 }

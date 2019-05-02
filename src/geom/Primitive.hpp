@@ -10,7 +10,7 @@
 
 #include <cassert>
 
-namespace mud
+namespace two
 {
 	inline size_t vertex_attribute_size(VertexAttribute::Enum attribute)
 	{

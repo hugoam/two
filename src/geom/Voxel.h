@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <stl/function.h>
 #include <math/Vec.h>
@@ -12,10 +12,10 @@
 #endif
 #include <geom/Forward.h>
 
-namespace mud
+namespace two
 {
 	// port of http://webglsamples.org/blob/blob.html
-	export_ class refl_ MUD_GEOM_EXPORT MarchingCubes
+	export_ class refl_ TWO_GEOM_EXPORT MarchingCubes
 	{
 	public:
 		attr_ float m_isolation = 80.f;
@@ -65,10 +65,10 @@ namespace mud
 		meth_ void render(MeshPacker& output) const;
 	};
 
-	MUD_GEOM_EXPORT func_ void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract, const Colour& colour);
-	MUD_GEOM_EXPORT func_ void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract);
+	TWO_GEOM_EXPORT func_ void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract, const Colour& colour);
+	TWO_GEOM_EXPORT func_ void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract);
 
-	MUD_GEOM_EXPORT func_ void add_planeX(MarchingCubes& cubes, float strength, float subtract);
-	MUD_GEOM_EXPORT func_ void add_planeY(MarchingCubes& cubes, float strength, float subtract);
-	MUD_GEOM_EXPORT func_ void add_planeZ(MarchingCubes& cubes, float strength, float subtract);
+	TWO_GEOM_EXPORT func_ void add_planeX(MarchingCubes& cubes, float strength, float subtract);
+	TWO_GEOM_EXPORT func_ void add_planeY(MarchingCubes& cubes, float strength, float subtract);
+	TWO_GEOM_EXPORT func_ void add_planeZ(MarchingCubes& cubes, float strength, float subtract);
 }

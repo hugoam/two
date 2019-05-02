@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.uio;
+#ifdef TWO_MODULES
+module two.uio;
 #else
 #include <stl/algorithm.h>
 #include <refl/Meta.h>
@@ -26,7 +26,7 @@ module mud.uio;
 #include <uio/MethodEdit.h>
 #endif
 
-namespace mud
+namespace two
 {
 	template <class T>
 	bool range_edit(Widget& parent, Range<T>& value)

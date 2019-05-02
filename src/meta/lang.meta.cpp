@@ -1,7 +1,7 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.lang;
+#ifdef TWO_MODULES
+module two.lang;
 #else
 #include <cstddef>
 #include <stl/new.h>
@@ -20,29 +20,29 @@ module mud.lang;
 
 #include <lang/Api.h>
 
-using namespace mud;
+using namespace two;
 
-void mud_Language__to_string(void* val, string& str) { str = g_enu[type<mud::Language>().m_id]->name(uint32_t((*static_cast<mud::Language*>(val)))); }
-void mud_Language__to_value(const string& str, void* val) { (*static_cast<mud::Language*>(val)) = mud::Language(g_enu[type<mud::Language>().m_id]->value(str.c_str())); }
-void* mud_Script__get_type(void* object) { return &(*static_cast<mud::Script*>(object)).m_type; }
-void mud_ScriptError__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) mud::ScriptError(  ); }
-void mud_ScriptError__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) mud::ScriptError((*static_cast<mud::ScriptError*>(other))); }
-void mud_TextScript__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::TextScript( *static_cast<stl::string*>(args[0]), *static_cast<mud::Language*>(args[1]), *static_cast<mud::Signature*>(args[2]) ); }
-void mud_ScriptClass__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ScriptClass( *static_cast<stl::string*>(args[0]), *static_cast<stl::span<mud::Type*>*>(args[1]) ); }
-void* mud_Process__get_type(void* object) { return &(*static_cast<mud::Process*>(object)).m_type; }
-void mud_VisualScript__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::VisualScript( *static_cast<stl::string*>(args[0]), *static_cast<mud::Signature*>(args[1]) ); }
-void mud_ProcessValue__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ProcessValue( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Var*>(args[1]) ); }
-void mud_ProcessCreate__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ProcessCreate( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Type*>(args[1]), *static_cast<mud::Constructor*>(args[2]) ); }
-void mud_ProcessCallable__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ProcessCallable( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Callable*>(args[1]) ); }
-void mud_ProcessScript__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ProcessScript( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::VisualScript*>(args[1]) ); }
-void mud_ProcessFunction__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ProcessFunction( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Function*>(args[1]) ); }
-void mud_ProcessMethod__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ProcessMethod( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Method*>(args[1]) ); }
-void mud_ProcessGetMember__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ProcessGetMember( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Member*>(args[1]) ); }
-void mud_ProcessSetMember__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) mud::ProcessSetMember( *static_cast<mud::VisualScript*>(args[0]), *static_cast<mud::Member*>(args[1]) ); }
+void two_Language__to_string(void* val, string& str) { str = g_enu[type<two::Language>().m_id]->name(uint32_t((*static_cast<two::Language*>(val)))); }
+void two_Language__to_value(const string& str, void* val) { (*static_cast<two::Language*>(val)) = two::Language(g_enu[type<two::Language>().m_id]->value(str.c_str())); }
+void* two_Script__get_type(void* object) { return &(*static_cast<two::Script*>(object)).m_type; }
+void two_ScriptError__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::ScriptError(  ); }
+void two_ScriptError__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::ScriptError((*static_cast<two::ScriptError*>(other))); }
+void two_TextScript__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::TextScript( *static_cast<stl::string*>(args[0]), *static_cast<two::Language*>(args[1]), *static_cast<two::Signature*>(args[2]) ); }
+void two_ScriptClass__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ScriptClass( *static_cast<stl::string*>(args[0]), *static_cast<stl::span<two::Type*>*>(args[1]) ); }
+void* two_Process__get_type(void* object) { return &(*static_cast<two::Process*>(object)).m_type; }
+void two_VisualScript__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::VisualScript( *static_cast<stl::string*>(args[0]), *static_cast<two::Signature*>(args[1]) ); }
+void two_ProcessValue__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ProcessValue( *static_cast<two::VisualScript*>(args[0]), *static_cast<two::Var*>(args[1]) ); }
+void two_ProcessCreate__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ProcessCreate( *static_cast<two::VisualScript*>(args[0]), *static_cast<two::Type*>(args[1]), *static_cast<two::Constructor*>(args[2]) ); }
+void two_ProcessCallable__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ProcessCallable( *static_cast<two::VisualScript*>(args[0]), *static_cast<two::Callable*>(args[1]) ); }
+void two_ProcessScript__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ProcessScript( *static_cast<two::VisualScript*>(args[0]), *static_cast<two::VisualScript*>(args[1]) ); }
+void two_ProcessFunction__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ProcessFunction( *static_cast<two::VisualScript*>(args[0]), *static_cast<two::Function*>(args[1]) ); }
+void two_ProcessMethod__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ProcessMethod( *static_cast<two::VisualScript*>(args[0]), *static_cast<two::Method*>(args[1]) ); }
+void two_ProcessGetMember__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ProcessGetMember( *static_cast<two::VisualScript*>(args[0]), *static_cast<two::Member*>(args[1]) ); }
+void two_ProcessSetMember__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ProcessSetMember( *static_cast<two::VisualScript*>(args[0]), *static_cast<two::Member*>(args[1]) ); }
 
-namespace mud
+namespace two
 {
-	void mud_lang_meta(Module& m)
+	void two_lang_meta(Module& m)
 	{
 	UNUSED(m);
 	
@@ -50,88 +50,88 @@ namespace mud
 	
 	// Enums
 	{
-		Type& t = type<mud::Language>();
-		static Meta meta = { t, &namspc({ "mud" }), "Language", sizeof(mud::Language), TypeClass::Enum };
+		Type& t = type<two::Language>();
+		static Meta meta = { t, &namspc({ "two" }), "Language", sizeof(two::Language), TypeClass::Enum };
 		static cstring ids[] = { "Cpp", "Lua", "Wren" };
 		static uint32_t values[] = { 0, 1, 2 };
-		static mud::Language vars[] = { mud::Language::Cpp, mud::Language::Lua, mud::Language::Wren};
+		static two::Language vars[] = { two::Language::Cpp, two::Language::Lua, two::Language::Wren};
 		static void* refs[] = { &vars[0], &vars[1], &vars[2]};
 		static Enum enu = { t, true, ids, values, refs };
-		static Convert convert = { mud_Language__to_string,
-		                           mud_Language__to_value };
+		static Convert convert = { two_Language__to_string,
+		                           two_Language__to_value };
 		g_convert[t.m_id] = &convert;
 	}
 	
 	// Sequences
 	
-	// mud::Script
+	// two::Script
 	{
-		Type& t = type<mud::Script>();
-		static Meta meta = { t, &namspc({ "mud" }), "Script", sizeof(mud::Script), TypeClass::Object };
+		Type& t = type<two::Script>();
+		static Meta meta = { t, &namspc({ "two" }), "Script", sizeof(two::Script), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Callable>() };
-		static size_t bases_offsets[] = { base_offset<mud::Script, mud::Callable>() };
+		static Type* bases[] = { &type<two::Callable>() };
+		static size_t bases_offsets[] = { base_offset<two::Script, two::Callable>() };
 		// defaults
 		// constructors
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::Script, m_index), type<uint32_t>(), "index", nullptr, Member::Value, nullptr },
-			{ t, SIZE_MAX, type<mud::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_Script__get_type },
-			{ t, offsetof(mud::Script, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::Script, m_locked), type<bool>(), "locked", nullptr, Member::Value, nullptr }
+			{ t, offsetof(two::Script, m_index), type<uint32_t>(), "index", nullptr, Member::Value, nullptr },
+			{ t, SIZE_MAX, type<two::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Script__get_type },
+			{ t, offsetof(two::Script, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Script, m_locked), type<bool>(), "locked", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, members, {}, {}, };
 	}
-	// mud::ScriptError
+	// two::ScriptError
 	{
-		Type& t = type<mud::ScriptError>();
-		static Meta meta = { t, &namspc({ "mud" }), "ScriptError", sizeof(mud::ScriptError), TypeClass::Struct };
+		Type& t = type<two::ScriptError>();
+		static Meta meta = { t, &namspc({ "two" }), "ScriptError", sizeof(two::ScriptError), TypeClass::Struct };
 		// bases
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_ScriptError__construct_0, {} }
+			{ t, two_ScriptError__construct_0, {} }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
-			{ t, mud_ScriptError__copy_construct }
+			{ t, two_ScriptError__copy_construct }
 		};
 		// members
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
 	}
-	// mud::TextScript
+	// two::TextScript
 	{
-		Type& t = type<mud::TextScript>();
-		static Meta meta = { t, &namspc({ "mud" }), "TextScript", sizeof(mud::TextScript), TypeClass::Object };
+		Type& t = type<two::TextScript>();
+		static Meta meta = { t, &namspc({ "two" }), "TextScript", sizeof(two::TextScript), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Script>() };
-		static size_t bases_offsets[] = { base_offset<mud::TextScript, mud::Script>() };
+		static Type* bases[] = { &type<two::Script>() };
+		static size_t bases_offsets[] = { base_offset<two::TextScript, two::Script>() };
 		// defaults
-		static mud::Signature construct_0_signature_default = {};
+		static two::Signature construct_0_signature_default = {};
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_TextScript__construct_0, { { "name", type<stl::string>(),  }, { "language", type<mud::Language>(),  }, { "signature", type<mud::Signature>(), Param::Default, &construct_0_signature_default } } }
+			{ t, two_TextScript__construct_0, { { "name", type<stl::string>(),  }, { "language", type<two::Language>(),  }, { "signature", type<two::Signature>(), Param::Default, &construct_0_signature_default } } }
 		};
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::TextScript, m_language), type<mud::Language>(), "language", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::TextScript, m_script), type<stl::string>(), "script", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::TextScript, m_dirty), type<bool>(), "dirty", nullptr, Member::Value, nullptr }
+			{ t, offsetof(two::TextScript, m_language), type<two::Language>(), "language", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::TextScript, m_script), type<stl::string>(), "script", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::TextScript, m_dirty), type<bool>(), "dirty", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, {}, members, {}, {}, };
 	}
-	// mud::Interpreter
+	// two::Interpreter
 	{
-		Type& t = type<mud::Interpreter>();
-		static Meta meta = { t, &namspc({ "mud" }), "Interpreter", sizeof(mud::Interpreter), TypeClass::Object };
+		Type& t = type<two::Interpreter>();
+		static Meta meta = { t, &namspc({ "two" }), "Interpreter", sizeof(two::Interpreter), TypeClass::Object };
 		// bases
 		// defaults
 		// constructors
@@ -141,35 +141,35 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
-	// mud::ScriptClass
+	// two::ScriptClass
 	{
-		Type& t = type<mud::ScriptClass>();
-		static Meta meta = { t, &namspc({ "mud" }), "ScriptClass", sizeof(mud::ScriptClass), TypeClass::Object };
+		Type& t = type<two::ScriptClass>();
+		static Meta meta = { t, &namspc({ "two" }), "ScriptClass", sizeof(two::ScriptClass), TypeClass::Object };
 		// bases
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_ScriptClass__construct_0, { { "name", type<stl::string>(),  }, { "parts", type<stl::span<mud::Type*>>(),  } } }
+			{ t, two_ScriptClass__construct_0, { { "name", type<stl::string>(),  }, { "parts", type<stl::span<two::Type*>>(),  } } }
 		};
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(mud::ScriptClass, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(mud::ScriptClass, m_class_type), type<mud::Type>(), "class_type", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(mud::ScriptClass, m_class), type<mud::Class>(), "class", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(mud::ScriptClass, m_prototype), type<mud::Prototype>(), "prototype", nullptr, Member::NonMutable, nullptr }
+			{ t, offsetof(two::ScriptClass, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ScriptClass, m_class_type), type<two::Type>(), "class_type", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(two::ScriptClass, m_class), type<two::Class>(), "class", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(two::ScriptClass, m_prototype), type<two::Prototype>(), "prototype", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, constructors, {}, members, {}, {}, };
 	}
-	// mud::LuaInterpreter
+	// two::LuaInterpreter
 	{
-		Type& t = type<mud::LuaInterpreter>();
-		static Meta meta = { t, &namspc({ "mud" }), "LuaInterpreter", sizeof(mud::LuaInterpreter), TypeClass::Object };
+		Type& t = type<two::LuaInterpreter>();
+		static Meta meta = { t, &namspc({ "two" }), "LuaInterpreter", sizeof(two::LuaInterpreter), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Interpreter>() };
-		static size_t bases_offsets[] = { base_offset<mud::LuaInterpreter, mud::Interpreter>() };
+		static Type* bases[] = { &type<two::Interpreter>() };
+		static size_t bases_offsets[] = { base_offset<two::LuaInterpreter, two::Interpreter>() };
 		// defaults
 		// constructors
 		// copy constructor
@@ -178,10 +178,10 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
-	// mud::StreamBranch
+	// two::StreamBranch
 	{
-		Type& t = type<mud::StreamBranch>();
-		static Meta meta = { t, &namspc({ "mud" }), "StreamBranch", sizeof(mud::StreamBranch), TypeClass::Object };
+		Type& t = type<two::StreamBranch>();
+		static Meta meta = { t, &namspc({ "two" }), "StreamBranch", sizeof(two::StreamBranch), TypeClass::Object };
 		// bases
 		// defaults
 		// constructors
@@ -191,13 +191,13 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
-	// mud::Stream
+	// two::Stream
 	{
-		Type& t = type<mud::Stream>();
-		static Meta meta = { t, &namspc({ "mud" }), "Stream", sizeof(mud::Stream), TypeClass::Object };
+		Type& t = type<two::Stream>();
+		static Meta meta = { t, &namspc({ "two" }), "Stream", sizeof(two::Stream), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::StreamBranch>() };
-		static size_t bases_offsets[] = { base_offset<mud::Stream, mud::StreamBranch>() };
+		static Type* bases[] = { &type<two::StreamBranch>() };
+		static size_t bases_offsets[] = { base_offset<two::Stream, two::StreamBranch>() };
 		// defaults
 		// constructors
 		// copy constructor
@@ -206,10 +206,10 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
-	// mud::Valve
+	// two::Valve
 	{
-		Type& t = type<mud::Valve>();
-		static Meta meta = { t, &namspc({ "mud" }), "Valve", sizeof(mud::Valve), TypeClass::Object };
+		Type& t = type<two::Valve>();
+		static Meta meta = { t, &namspc({ "two" }), "Valve", sizeof(two::Valve), TypeClass::Object };
 		// bases
 		// defaults
 		// constructors
@@ -219,10 +219,10 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
-	// mud::Pipe
+	// two::Pipe
 	{
-		Type& t = type<mud::Pipe>();
-		static Meta meta = { t, &namspc({ "mud" }), "Pipe", sizeof(mud::Pipe), TypeClass::Object };
+		Type& t = type<two::Pipe>();
+		static Meta meta = { t, &namspc({ "two" }), "Pipe", sizeof(two::Pipe), TypeClass::Object };
 		// bases
 		// defaults
 		// constructors
@@ -232,34 +232,34 @@ namespace mud
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
 	}
-	// mud::Process
+	// two::Process
 	{
-		Type& t = type<mud::Process>();
-		static Meta meta = { t, &namspc({ "mud" }), "Process", sizeof(mud::Process), TypeClass::Object };
+		Type& t = type<two::Process>();
+		static Meta meta = { t, &namspc({ "two" }), "Process", sizeof(two::Process), TypeClass::Object };
 		// bases
 		// defaults
 		// constructors
 		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, SIZE_MAX, type<mud::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), mud_Process__get_type }
+			{ t, SIZE_MAX, type<two::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Process__get_type }
 		};
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
 	}
-	// mud::VisualScript
+	// two::VisualScript
 	{
-		Type& t = type<mud::VisualScript>();
-		static Meta meta = { t, &namspc({ "mud" }), "VisualScript", sizeof(mud::VisualScript), TypeClass::Object };
+		Type& t = type<two::VisualScript>();
+		static Meta meta = { t, &namspc({ "two" }), "VisualScript", sizeof(two::VisualScript), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Script>() };
-		static size_t bases_offsets[] = { base_offset<mud::VisualScript, mud::Script>() };
+		static Type* bases[] = { &type<two::Script>() };
+		static size_t bases_offsets[] = { base_offset<two::VisualScript, two::Script>() };
 		// defaults
-		static mud::Signature construct_0_signature_default = {};
+		static two::Signature construct_0_signature_default = {};
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_VisualScript__construct_0, { { "name", type<stl::string>(),  }, { "signature", type<mud::Signature>(), Param::Default, &construct_0_signature_default } } }
+			{ t, two_VisualScript__construct_0, { { "name", type<stl::string>(),  }, { "signature", type<two::Signature>(), Param::Default, &construct_0_signature_default } } }
 		};
 		// copy constructor
 		// members
@@ -267,13 +267,13 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
 	}
-	// mud::ProcessInput
+	// two::ProcessInput
 	{
-		Type& t = type<mud::ProcessInput>();
-		static Meta meta = { t, &namspc({ "mud" }), "ProcessInput", sizeof(mud::ProcessInput), TypeClass::Object };
+		Type& t = type<two::ProcessInput>();
+		static Meta meta = { t, &namspc({ "two" }), "ProcessInput", sizeof(two::ProcessInput), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Process>(), &type<mud::Param>() };
-		static size_t bases_offsets[] = { base_offset<mud::ProcessInput, mud::Process>(), base_offset<mud::ProcessInput, mud::Param>() };
+		static Type* bases[] = { &type<two::Process>(), &type<two::Param>() };
+		static size_t bases_offsets[] = { base_offset<two::ProcessInput, two::Process>(), base_offset<two::ProcessInput, two::Param>() };
 		// defaults
 		// constructors
 		// copy constructor
@@ -282,13 +282,13 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
-	// mud::ProcessOutput
+	// two::ProcessOutput
 	{
-		Type& t = type<mud::ProcessOutput>();
-		static Meta meta = { t, &namspc({ "mud" }), "ProcessOutput", sizeof(mud::ProcessOutput), TypeClass::Object };
+		Type& t = type<two::ProcessOutput>();
+		static Meta meta = { t, &namspc({ "two" }), "ProcessOutput", sizeof(two::ProcessOutput), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Process>(), &type<mud::Param>() };
-		static size_t bases_offsets[] = { base_offset<mud::ProcessOutput, mud::Process>(), base_offset<mud::ProcessOutput, mud::Param>() };
+		static Type* bases[] = { &type<two::Process>(), &type<two::Param>() };
+		static size_t bases_offsets[] = { base_offset<two::ProcessOutput, two::Process>(), base_offset<two::ProcessOutput, two::Param>() };
 		// defaults
 		// constructors
 		// copy constructor
@@ -297,17 +297,17 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
-	// mud::ProcessValue
+	// two::ProcessValue
 	{
-		Type& t = type<mud::ProcessValue>();
-		static Meta meta = { t, &namspc({ "mud" }), "ProcessValue", sizeof(mud::ProcessValue), TypeClass::Object };
+		Type& t = type<two::ProcessValue>();
+		static Meta meta = { t, &namspc({ "two" }), "ProcessValue", sizeof(two::ProcessValue), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Process>() };
-		static size_t bases_offsets[] = { base_offset<mud::ProcessValue, mud::Process>() };
+		static Type* bases[] = { &type<two::Process>() };
+		static size_t bases_offsets[] = { base_offset<two::ProcessValue, two::Process>() };
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_ProcessValue__construct_0, { { "script", type<mud::VisualScript>(),  }, { "value", type<mud::Var>(),  } } }
+			{ t, two_ProcessValue__construct_0, { { "script", type<two::VisualScript>(),  }, { "value", type<two::Var>(),  } } }
 		};
 		// copy constructor
 		// members
@@ -315,17 +315,17 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
 	}
-	// mud::ProcessCreate
+	// two::ProcessCreate
 	{
-		Type& t = type<mud::ProcessCreate>();
-		static Meta meta = { t, &namspc({ "mud" }), "ProcessCreate", sizeof(mud::ProcessCreate), TypeClass::Object };
+		Type& t = type<two::ProcessCreate>();
+		static Meta meta = { t, &namspc({ "two" }), "ProcessCreate", sizeof(two::ProcessCreate), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Process>() };
-		static size_t bases_offsets[] = { base_offset<mud::ProcessCreate, mud::Process>() };
+		static Type* bases[] = { &type<two::Process>() };
+		static size_t bases_offsets[] = { base_offset<two::ProcessCreate, two::Process>() };
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_ProcessCreate__construct_0, { { "script", type<mud::VisualScript>(),  }, { "type", type<mud::Type>(),  }, { "constructor", type<mud::Constructor>(),  } } }
+			{ t, two_ProcessCreate__construct_0, { { "script", type<two::VisualScript>(),  }, { "type", type<two::Type>(),  }, { "constructor", type<two::Constructor>(),  } } }
 		};
 		// copy constructor
 		// members
@@ -333,17 +333,17 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
 	}
-	// mud::ProcessCallable
+	// two::ProcessCallable
 	{
-		Type& t = type<mud::ProcessCallable>();
-		static Meta meta = { t, &namspc({ "mud" }), "ProcessCallable", sizeof(mud::ProcessCallable), TypeClass::Object };
+		Type& t = type<two::ProcessCallable>();
+		static Meta meta = { t, &namspc({ "two" }), "ProcessCallable", sizeof(two::ProcessCallable), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Process>() };
-		static size_t bases_offsets[] = { base_offset<mud::ProcessCallable, mud::Process>() };
+		static Type* bases[] = { &type<two::Process>() };
+		static size_t bases_offsets[] = { base_offset<two::ProcessCallable, two::Process>() };
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_ProcessCallable__construct_0, { { "script", type<mud::VisualScript>(),  }, { "callable", type<mud::Callable>(),  } } }
+			{ t, two_ProcessCallable__construct_0, { { "script", type<two::VisualScript>(),  }, { "callable", type<two::Callable>(),  } } }
 		};
 		// copy constructor
 		// members
@@ -351,17 +351,17 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
 	}
-	// mud::ProcessScript
+	// two::ProcessScript
 	{
-		Type& t = type<mud::ProcessScript>();
-		static Meta meta = { t, &namspc({ "mud" }), "ProcessScript", sizeof(mud::ProcessScript), TypeClass::Object };
+		Type& t = type<two::ProcessScript>();
+		static Meta meta = { t, &namspc({ "two" }), "ProcessScript", sizeof(two::ProcessScript), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::ProcessCallable>() };
-		static size_t bases_offsets[] = { base_offset<mud::ProcessScript, mud::ProcessCallable>() };
+		static Type* bases[] = { &type<two::ProcessCallable>() };
+		static size_t bases_offsets[] = { base_offset<two::ProcessScript, two::ProcessCallable>() };
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_ProcessScript__construct_0, { { "script", type<mud::VisualScript>(),  }, { "target", type<mud::VisualScript>(),  } } }
+			{ t, two_ProcessScript__construct_0, { { "script", type<two::VisualScript>(),  }, { "target", type<two::VisualScript>(),  } } }
 		};
 		// copy constructor
 		// members
@@ -369,17 +369,17 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
 	}
-	// mud::ProcessFunction
+	// two::ProcessFunction
 	{
-		Type& t = type<mud::ProcessFunction>();
-		static Meta meta = { t, &namspc({ "mud" }), "ProcessFunction", sizeof(mud::ProcessFunction), TypeClass::Object };
+		Type& t = type<two::ProcessFunction>();
+		static Meta meta = { t, &namspc({ "two" }), "ProcessFunction", sizeof(two::ProcessFunction), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::ProcessCallable>() };
-		static size_t bases_offsets[] = { base_offset<mud::ProcessFunction, mud::ProcessCallable>() };
+		static Type* bases[] = { &type<two::ProcessCallable>() };
+		static size_t bases_offsets[] = { base_offset<two::ProcessFunction, two::ProcessCallable>() };
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_ProcessFunction__construct_0, { { "script", type<mud::VisualScript>(),  }, { "function", type<mud::Function>(),  } } }
+			{ t, two_ProcessFunction__construct_0, { { "script", type<two::VisualScript>(),  }, { "function", type<two::Function>(),  } } }
 		};
 		// copy constructor
 		// members
@@ -387,17 +387,17 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
 	}
-	// mud::ProcessMethod
+	// two::ProcessMethod
 	{
-		Type& t = type<mud::ProcessMethod>();
-		static Meta meta = { t, &namspc({ "mud" }), "ProcessMethod", sizeof(mud::ProcessMethod), TypeClass::Object };
+		Type& t = type<two::ProcessMethod>();
+		static Meta meta = { t, &namspc({ "two" }), "ProcessMethod", sizeof(two::ProcessMethod), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::ProcessCallable>() };
-		static size_t bases_offsets[] = { base_offset<mud::ProcessMethod, mud::ProcessCallable>() };
+		static Type* bases[] = { &type<two::ProcessCallable>() };
+		static size_t bases_offsets[] = { base_offset<two::ProcessMethod, two::ProcessCallable>() };
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_ProcessMethod__construct_0, { { "script", type<mud::VisualScript>(),  }, { "method", type<mud::Method>(),  } } }
+			{ t, two_ProcessMethod__construct_0, { { "script", type<two::VisualScript>(),  }, { "method", type<two::Method>(),  } } }
 		};
 		// copy constructor
 		// members
@@ -405,17 +405,17 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
 	}
-	// mud::ProcessGetMember
+	// two::ProcessGetMember
 	{
-		Type& t = type<mud::ProcessGetMember>();
-		static Meta meta = { t, &namspc({ "mud" }), "ProcessGetMember", sizeof(mud::ProcessGetMember), TypeClass::Object };
+		Type& t = type<two::ProcessGetMember>();
+		static Meta meta = { t, &namspc({ "two" }), "ProcessGetMember", sizeof(two::ProcessGetMember), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Process>() };
-		static size_t bases_offsets[] = { base_offset<mud::ProcessGetMember, mud::Process>() };
+		static Type* bases[] = { &type<two::Process>() };
+		static size_t bases_offsets[] = { base_offset<two::ProcessGetMember, two::Process>() };
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_ProcessGetMember__construct_0, { { "script", type<mud::VisualScript>(),  }, { "member", type<mud::Member>(),  } } }
+			{ t, two_ProcessGetMember__construct_0, { { "script", type<two::VisualScript>(),  }, { "member", type<two::Member>(),  } } }
 		};
 		// copy constructor
 		// members
@@ -423,17 +423,17 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
 	}
-	// mud::ProcessSetMember
+	// two::ProcessSetMember
 	{
-		Type& t = type<mud::ProcessSetMember>();
-		static Meta meta = { t, &namspc({ "mud" }), "ProcessSetMember", sizeof(mud::ProcessSetMember), TypeClass::Object };
+		Type& t = type<two::ProcessSetMember>();
+		static Meta meta = { t, &namspc({ "two" }), "ProcessSetMember", sizeof(two::ProcessSetMember), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Process>() };
-		static size_t bases_offsets[] = { base_offset<mud::ProcessSetMember, mud::Process>() };
+		static Type* bases[] = { &type<two::Process>() };
+		static size_t bases_offsets[] = { base_offset<two::ProcessSetMember, two::Process>() };
 		// defaults
 		// constructors
 		static Constructor constructors[] = {
-			{ t, mud_ProcessSetMember__construct_0, { { "script", type<mud::VisualScript>(),  }, { "member", type<mud::Member>(),  } } }
+			{ t, two_ProcessSetMember__construct_0, { { "script", type<two::VisualScript>(),  }, { "member", type<two::Member>(),  } } }
 		};
 		// copy constructor
 		// members
@@ -441,13 +441,13 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
 	}
-	// mud::ProcessDisplay
+	// two::ProcessDisplay
 	{
-		Type& t = type<mud::ProcessDisplay>();
-		static Meta meta = { t, &namspc({ "mud" }), "ProcessDisplay", sizeof(mud::ProcessDisplay), TypeClass::Object };
+		Type& t = type<two::ProcessDisplay>();
+		static Meta meta = { t, &namspc({ "two" }), "ProcessDisplay", sizeof(two::ProcessDisplay), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Process>() };
-		static size_t bases_offsets[] = { base_offset<mud::ProcessDisplay, mud::Process>() };
+		static Type* bases[] = { &type<two::Process>() };
+		static size_t bases_offsets[] = { base_offset<two::ProcessDisplay, two::Process>() };
 		// defaults
 		// constructors
 		// copy constructor
@@ -456,13 +456,13 @@ namespace mud
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
 	}
-	// mud::WrenInterpreter
+	// two::WrenInterpreter
 	{
-		Type& t = type<mud::WrenInterpreter>();
-		static Meta meta = { t, &namspc({ "mud" }), "WrenInterpreter", sizeof(mud::WrenInterpreter), TypeClass::Object };
+		Type& t = type<two::WrenInterpreter>();
+		static Meta meta = { t, &namspc({ "two" }), "WrenInterpreter", sizeof(two::WrenInterpreter), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<mud::Interpreter>() };
-		static size_t bases_offsets[] = { base_offset<mud::WrenInterpreter, mud::Interpreter>() };
+		static Type* bases[] = { &type<two::Interpreter>() };
+		static size_t bases_offsets[] = { base_offset<two::WrenInterpreter, two::Interpreter>() };
 		// defaults
 		// constructors
 		// copy constructor
@@ -473,48 +473,48 @@ namespace mud
 	}
 	
 	
-		m.m_types.push_back(&type<mud::Script>());
-		m.m_types.push_back(&type<mud::Language>());
-		m.m_types.push_back(&type<mud::ScriptError>());
-		m.m_types.push_back(&type<mud::TextScript>());
-		m.m_types.push_back(&type<mud::Interpreter>());
-		m.m_types.push_back(&type<mud::ScriptClass>());
-		m.m_types.push_back(&type<mud::LuaInterpreter>());
-		m.m_types.push_back(&type<mud::StreamBranch>());
-		m.m_types.push_back(&type<mud::Stream>());
-		m.m_types.push_back(&type<mud::Valve>());
-		m.m_types.push_back(&type<mud::Pipe>());
-		m.m_types.push_back(&type<mud::Process>());
-		m.m_types.push_back(&type<mud::VisualScript>());
-		m.m_types.push_back(&type<mud::ProcessInput>());
-		m.m_types.push_back(&type<mud::ProcessOutput>());
-		m.m_types.push_back(&type<mud::ProcessValue>());
-		m.m_types.push_back(&type<mud::ProcessCreate>());
-		m.m_types.push_back(&type<mud::ProcessCallable>());
-		m.m_types.push_back(&type<mud::ProcessScript>());
-		m.m_types.push_back(&type<mud::ProcessFunction>());
-		m.m_types.push_back(&type<mud::ProcessMethod>());
-		m.m_types.push_back(&type<mud::ProcessGetMember>());
-		m.m_types.push_back(&type<mud::ProcessSetMember>());
-		m.m_types.push_back(&type<mud::ProcessDisplay>());
-		m.m_types.push_back(&type<mud::WrenInterpreter>());
+		m.m_types.push_back(&type<two::Script>());
+		m.m_types.push_back(&type<two::Language>());
+		m.m_types.push_back(&type<two::ScriptError>());
+		m.m_types.push_back(&type<two::TextScript>());
+		m.m_types.push_back(&type<two::Interpreter>());
+		m.m_types.push_back(&type<two::ScriptClass>());
+		m.m_types.push_back(&type<two::LuaInterpreter>());
+		m.m_types.push_back(&type<two::StreamBranch>());
+		m.m_types.push_back(&type<two::Stream>());
+		m.m_types.push_back(&type<two::Valve>());
+		m.m_types.push_back(&type<two::Pipe>());
+		m.m_types.push_back(&type<two::Process>());
+		m.m_types.push_back(&type<two::VisualScript>());
+		m.m_types.push_back(&type<two::ProcessInput>());
+		m.m_types.push_back(&type<two::ProcessOutput>());
+		m.m_types.push_back(&type<two::ProcessValue>());
+		m.m_types.push_back(&type<two::ProcessCreate>());
+		m.m_types.push_back(&type<two::ProcessCallable>());
+		m.m_types.push_back(&type<two::ProcessScript>());
+		m.m_types.push_back(&type<two::ProcessFunction>());
+		m.m_types.push_back(&type<two::ProcessMethod>());
+		m.m_types.push_back(&type<two::ProcessGetMember>());
+		m.m_types.push_back(&type<two::ProcessSetMember>());
+		m.m_types.push_back(&type<two::ProcessDisplay>());
+		m.m_types.push_back(&type<two::WrenInterpreter>());
 	}
 }
 
-namespace mud
+namespace two
 {
-	mud_lang::mud_lang()
-		: Module("mud::lang", { &mud_infra::m(), &mud_type::m(), &mud_pool::m(), &mud_refl::m() })
+	two_lang::two_lang()
+		: Module("two::lang", { &two_infra::m(), &two_type::m(), &two_pool::m(), &two_refl::m() })
 	{
 		// setup reflection meta data
-		mud_lang_meta(*this);
+		two_lang_meta(*this);
 	}
 }
 
-#ifdef MUD_LANG_MODULE
+#ifdef TWO_LANG_MODULE
 extern "C"
 Module& getModule()
 {
-	return mud_lang::m();
+	return two_lang::m();
 }
 #endif

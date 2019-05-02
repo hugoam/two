@@ -12,7 +12,7 @@
 struct NVGcontext;
 struct NVGdisplayList;
 
-namespace mud
+namespace two
 {
 	class VgNano : public VgRenderer
 	{
@@ -38,7 +38,7 @@ namespace mud
 		virtual void begin_target() final;
 		virtual void end_target() final;
 
-#ifdef MUD_UI_DRAW_CACHE
+#ifdef TWO_UI_DRAW_CACHE
 		virtual void begin_cached(Layer& layer) final;
 		virtual void end_cached() final;
 
@@ -85,7 +85,7 @@ namespace mud
 	private:
 		void setup_text(const TextPaint& paint);
 
-#ifdef MUD_UI_DRAW_CACHE
+#ifdef TWO_UI_DRAW_CACHE
 		NVGdisplayList* layer_cache(Layer& layer);
 #endif
 

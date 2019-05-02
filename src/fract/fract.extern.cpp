@@ -1,6 +1,6 @@
 #ifndef USE_STL
-#ifdef MUD_MODULES
-module mud.fract;
+#ifdef TWO_MODULES
+module two.fract;
 #else
 #include <stl/vector.hpp>
 #include <stl/unordered_map.hpp>
@@ -9,8 +9,8 @@ module mud.fract;
 
 namespace stl
 {
-	using namespace mud;
-	template class MUD_FRACT_EXPORT vector<FractTab>;
-	template class MUD_FRACT_EXPORT vector<Pixircle>;
+	using namespace two;
+	template class TWO_FRACT_EXPORT vector<FractTab>;
+	template class TWO_FRACT_EXPORT vector<Pixircle>;
 }
 #endif

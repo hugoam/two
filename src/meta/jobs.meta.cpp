@@ -1,7 +1,7 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.jobs;
+#ifdef TWO_MODULES
+module two.jobs;
 #else
 #include <cstddef>
 #include <stl/new.h>
@@ -17,12 +17,12 @@ module mud.jobs;
 
 #include <jobs/Api.h>
 
-using namespace mud;
+using namespace two;
 
 
-namespace mud
+namespace two
 {
-	void mud_jobs_meta(Module& m)
+	void two_jobs_meta(Module& m)
 	{
 	UNUSED(m);
 	
@@ -32,10 +32,10 @@ namespace mud
 	
 	// Sequences
 	
-	// mud::JobSystem
+	// two::JobSystem
 	{
-		Type& t = type<mud::JobSystem>();
-		static Meta meta = { t, &namspc({ "mud" }), "JobSystem", sizeof(mud::JobSystem), TypeClass::Object };
+		Type& t = type<two::JobSystem>();
+		static Meta meta = { t, &namspc({ "two" }), "JobSystem", sizeof(two::JobSystem), TypeClass::Object };
 		// bases
 		// defaults
 		// constructors
@@ -47,24 +47,24 @@ namespace mud
 	}
 	
 	
-		m.m_types.push_back(&type<mud::JobSystem>());
+		m.m_types.push_back(&type<two::JobSystem>());
 	}
 }
 
-namespace mud
+namespace two
 {
-	mud_jobs::mud_jobs()
-		: Module("mud::jobs", { &mud_infra::m() })
+	two_jobs::two_jobs()
+		: Module("two::jobs", { &two_infra::m() })
 	{
 		// setup reflection meta data
-		mud_jobs_meta(*this);
+		two_jobs_meta(*this);
 	}
 }
 
-#ifdef MUD_JOBS_MODULE
+#ifdef TWO_JOBS_MODULE
 extern "C"
 Module& getModule()
 {
-	return mud_jobs::m();
+	return two_jobs::m();
 }
 #endif

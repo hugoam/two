@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.obj;
+#ifdef TWO_MODULES
+module two.gfx.obj;
 #else
 #include <stl/algorithm.h>
 #include <infra/File.h>
@@ -30,7 +30,7 @@ module mud.gfx.obj;
 
 #define DEBUG_MESHES 0
 
-namespace mud
+namespace two
 {
 	static ImportConfig load_model_config(const string& path, const string& model_name, const ImportConfig& input)
 	{

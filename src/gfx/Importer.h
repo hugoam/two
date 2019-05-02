@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <stl/string.h>
 #include <stl/map.h>
@@ -13,7 +13,7 @@
 #include <gfx/Item.h>
 #include <gfx/Node3.h>
 
-namespace mud
+namespace two
 {
 	export_ enum class refl_ ModelFormat : unsigned int
 	{
@@ -24,7 +24,7 @@ namespace mud
 		Count
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT ImportConfig
+	export_ struct refl_ TWO_GFX_EXPORT ImportConfig
 	{
 		ImportConfig() {}
 
@@ -50,7 +50,7 @@ namespace mud
 		bool filter_material(const string& name) const;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Import
+	export_ class refl_ TWO_GFX_EXPORT Import
 	{
 	public:
 		Import(GfxSystem& gfx, const string& filepath, const ImportConfig& config);
@@ -76,7 +76,7 @@ namespace mud
 		vector<Item> m_items;
 	};
 
-	export_ class MUD_GFX_EXPORT Importer
+	export_ class TWO_GFX_EXPORT Importer
 	{
 	public:
 		virtual ~Importer() {}
@@ -86,5 +86,5 @@ namespace mud
 		virtual void repack(const string& filepath, const ImportConfig& config) = 0;
 	};
 
-	export_ MUD_GFX_EXPORT void import_to_prefab(GfxSystem& gfx, Prefab& prefab, Import& state, uint32_t flags = 0);
+	export_ TWO_GFX_EXPORT void import_to_prefab(GfxSystem& gfx, Prefab& prefab, Import& state, uint32_t flags = 0);
 }

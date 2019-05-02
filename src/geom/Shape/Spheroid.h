@@ -6,7 +6,7 @@
 
 #include <geom/Shape/CompoundShape.h>
 
-namespace mud
+namespace two
 {
-	MUD_GEOM_EXPORT CompoundShape shape_compound(const ProcShape& shape, const Spheroid& spheroid);
+	TWO_GEOM_EXPORT CompoundShape shape_compound(const ProcShape& shape, const Spheroid& spheroid);
 }

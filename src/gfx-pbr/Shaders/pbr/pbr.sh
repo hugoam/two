@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_PBR
-#define MUD_SHADER_PBR
+#ifndef TWO_SHADER_PBR
+#define TWO_SHADER_PBR
 
 #include <common.sh>
 #include <srgb.sh>

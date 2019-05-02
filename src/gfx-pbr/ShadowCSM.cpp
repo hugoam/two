@@ -6,12 +6,12 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.pbr;
+#ifdef TWO_MODULES
+module two.gfx.pbr;
 #else
 #include <gfx-pbr/ShadowCSM.h>
 #endif
 
-namespace mud
+namespace two
 {
 }

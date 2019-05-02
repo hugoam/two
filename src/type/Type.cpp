@@ -3,13 +3,13 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <cstring>
 #include <cstdio>
 #endif
 
-#ifdef MUD_MODULES
-module mud.obj;
+#ifdef TWO_MODULES
+module two.obj;
 #else
 #include <stl/vector.h>
 #include <stl/string.h>
@@ -19,7 +19,7 @@ module mud.obj;
 //#include <ecs/Proto.h>
 #endif
 
-namespace mud
+namespace two
 {
 	bool Address::operator==(const Address& other) const
 	{

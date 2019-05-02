@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/map.h>
 #include <math/Vec.h>
 #include <ctx/KeyCode.h>
@@ -12,9 +12,9 @@
 #endif
 #include <ui/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ struct MUD_UI_EXPORT KeyCombo
+	export_ struct TWO_UI_EXPORT KeyCombo
 	{
 		KeyCombo(Key key) : m_modifier(InputMod::Any), m_key(key) {}
 		KeyCombo(InputMod modifier, Key key) : m_modifier(modifier), m_key(key) {}
@@ -34,7 +34,7 @@ namespace mud
 
 	using KeyHandler = void(*)();
 
-	export_ class MUD_UI_EXPORT EventDispatch
+	export_ class TWO_UI_EXPORT EventDispatch
 	{
 	public:
 		EventDispatch();

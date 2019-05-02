@@ -7,7 +7,7 @@
 #include <frame/Forward.h>
 #include <infra/StringOps.h>
 
-using namespace mud;
+using namespace two;
 
 Material& phong_white(GfxSystem& gfx, const string& name = "milky_white");
 Material& milky_white(GfxSystem& gfx, const string& name = "milky_white");

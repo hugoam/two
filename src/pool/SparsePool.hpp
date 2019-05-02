@@ -8,7 +8,7 @@
 #include <stl/swap.h>
 #include <pool/SparsePool.h>
 
-namespace mud
+namespace two
 {
 	template <class T>
 	inline SparseHandle<T>::SparseHandle() {}

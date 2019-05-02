@@ -4,7 +4,7 @@
 #include <geom/Api.h>
 #include <noise/Api.h>
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
 #define DECL EMSCRIPTEN_KEEPALIVE
 #else
@@ -15,151 +15,151 @@
 extern "C" {
 	
 	// Noise
-	mud::Type* DECL mud_Noise__type() {
-		return &mud::type<mud::Noise>();
+	two::Type* DECL two_Noise__type() {
+		return &two::type<two::Noise>();
 	}
-	void DECL mud_Noise__destroy(mud::Noise* self) {
+	void DECL two_Noise__destroy(two::Noise* self) {
 		delete self;
 	}
-	float DECL mud_noise_2d_3(float x, float y, mud::Noise::NoiseType noise_type) {
-		return mud::noise_2d(x, y, noise_type);
+	float DECL two_noise_2d_3(float x, float y, two::Noise::NoiseType noise_type) {
+		return two::noise_2d(x, y, noise_type);
 	}
-	float DECL mud_noise_2d_4(float x, float y, mud::Noise::NoiseType noise_type, float frequency) {
-		return mud::noise_2d(x, y, noise_type, frequency);
+	float DECL two_noise_2d_4(float x, float y, two::Noise::NoiseType noise_type, float frequency) {
+		return two::noise_2d(x, y, noise_type, frequency);
 	}
-	float DECL mud_noise_2d_5(float x, float y, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp) {
-		return mud::noise_2d(x, y, noise_type, frequency, interp);
+	float DECL two_noise_2d_5(float x, float y, two::Noise::NoiseType noise_type, float frequency, two::Noise::Interp interp) {
+		return two::noise_2d(x, y, noise_type, frequency, interp);
 	}
-	float DECL mud_noise_3d_4(float x, float y, float z, mud::Noise::NoiseType noise_type) {
-		return mud::noise_3d(x, y, z, noise_type);
+	float DECL two_noise_3d_4(float x, float y, float z, two::Noise::NoiseType noise_type) {
+		return two::noise_3d(x, y, z, noise_type);
 	}
-	float DECL mud_noise_3d_5(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency) {
-		return mud::noise_3d(x, y, z, noise_type, frequency);
+	float DECL two_noise_3d_5(float x, float y, float z, two::Noise::NoiseType noise_type, float frequency) {
+		return two::noise_3d(x, y, z, noise_type, frequency);
 	}
-	float DECL mud_noise_3d_6(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp) {
-		return mud::noise_3d(x, y, z, noise_type, frequency, interp);
+	float DECL two_noise_3d_6(float x, float y, float z, two::Noise::NoiseType noise_type, float frequency, two::Noise::Interp interp) {
+		return two::noise_3d(x, y, z, noise_type, frequency, interp);
 	}
-	float DECL mud_noise_fract_2d_4(float x, float y, mud::Noise::NoiseType noise_type, float frequency) {
-		return mud::noise_fract_2d(x, y, noise_type, frequency);
+	float DECL two_noise_fract_2d_4(float x, float y, two::Noise::NoiseType noise_type, float frequency) {
+		return two::noise_fract_2d(x, y, noise_type, frequency);
 	}
-	float DECL mud_noise_fract_2d_5(float x, float y, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp) {
-		return mud::noise_fract_2d(x, y, noise_type, frequency, interp);
+	float DECL two_noise_fract_2d_5(float x, float y, two::Noise::NoiseType noise_type, float frequency, two::Noise::Interp interp) {
+		return two::noise_fract_2d(x, y, noise_type, frequency, interp);
 	}
-	float DECL mud_noise_fract_2d_6(float x, float y, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type) {
-		return mud::noise_fract_2d(x, y, noise_type, frequency, interp, fractal_type);
+	float DECL two_noise_fract_2d_6(float x, float y, two::Noise::NoiseType noise_type, float frequency, two::Noise::Interp interp, two::Noise::FractalType fractal_type) {
+		return two::noise_fract_2d(x, y, noise_type, frequency, interp, fractal_type);
 	}
-	float DECL mud_noise_fract_2d_7(float x, float y, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type, int octaves) {
-		return mud::noise_fract_2d(x, y, noise_type, frequency, interp, fractal_type, octaves);
+	float DECL two_noise_fract_2d_7(float x, float y, two::Noise::NoiseType noise_type, float frequency, two::Noise::Interp interp, two::Noise::FractalType fractal_type, int octaves) {
+		return two::noise_fract_2d(x, y, noise_type, frequency, interp, fractal_type, octaves);
 	}
-	float DECL mud_noise_fract_2d_8(float x, float y, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type, int octaves, float lacunarity) {
-		return mud::noise_fract_2d(x, y, noise_type, frequency, interp, fractal_type, octaves, lacunarity);
+	float DECL two_noise_fract_2d_8(float x, float y, two::Noise::NoiseType noise_type, float frequency, two::Noise::Interp interp, two::Noise::FractalType fractal_type, int octaves, float lacunarity) {
+		return two::noise_fract_2d(x, y, noise_type, frequency, interp, fractal_type, octaves, lacunarity);
 	}
-	float DECL mud_noise_fract_2d_9(float x, float y, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type, int octaves, float lacunarity, float gain) {
-		return mud::noise_fract_2d(x, y, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain);
+	float DECL two_noise_fract_2d_9(float x, float y, two::Noise::NoiseType noise_type, float frequency, two::Noise::Interp interp, two::Noise::FractalType fractal_type, int octaves, float lacunarity, float gain) {
+		return two::noise_fract_2d(x, y, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain);
 	}
-	float DECL mud_noise_fract_3d_5(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency) {
-		return mud::noise_fract_3d(x, y, z, noise_type, frequency);
+	float DECL two_noise_fract_3d_5(float x, float y, float z, two::Noise::NoiseType noise_type, float frequency) {
+		return two::noise_fract_3d(x, y, z, noise_type, frequency);
 	}
-	float DECL mud_noise_fract_3d_6(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp) {
-		return mud::noise_fract_3d(x, y, z, noise_type, frequency, interp);
+	float DECL two_noise_fract_3d_6(float x, float y, float z, two::Noise::NoiseType noise_type, float frequency, two::Noise::Interp interp) {
+		return two::noise_fract_3d(x, y, z, noise_type, frequency, interp);
 	}
-	float DECL mud_noise_fract_3d_7(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type) {
-		return mud::noise_fract_3d(x, y, z, noise_type, frequency, interp, fractal_type);
+	float DECL two_noise_fract_3d_7(float x, float y, float z, two::Noise::NoiseType noise_type, float frequency, two::Noise::Interp interp, two::Noise::FractalType fractal_type) {
+		return two::noise_fract_3d(x, y, z, noise_type, frequency, interp, fractal_type);
 	}
-	float DECL mud_noise_fract_3d_8(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type, int octaves) {
-		return mud::noise_fract_3d(x, y, z, noise_type, frequency, interp, fractal_type, octaves);
+	float DECL two_noise_fract_3d_8(float x, float y, float z, two::Noise::NoiseType noise_type, float frequency, two::Noise::Interp interp, two::Noise::FractalType fractal_type, int octaves) {
+		return two::noise_fract_3d(x, y, z, noise_type, frequency, interp, fractal_type, octaves);
 	}
-	float DECL mud_noise_fract_3d_9(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type, int octaves, float lacunarity) {
-		return mud::noise_fract_3d(x, y, z, noise_type, frequency, interp, fractal_type, octaves, lacunarity);
+	float DECL two_noise_fract_3d_9(float x, float y, float z, two::Noise::NoiseType noise_type, float frequency, two::Noise::Interp interp, two::Noise::FractalType fractal_type, int octaves, float lacunarity) {
+		return two::noise_fract_3d(x, y, z, noise_type, frequency, interp, fractal_type, octaves, lacunarity);
 	}
-	float DECL mud_noise_fract_3d_10(float x, float y, float z, mud::Noise::NoiseType noise_type, float frequency, mud::Noise::Interp interp, mud::Noise::FractalType fractal_type, int octaves, float lacunarity, float gain) {
-		return mud::noise_fract_3d(x, y, z, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain);
+	float DECL two_noise_fract_3d_10(float x, float y, float z, two::Noise::NoiseType noise_type, float frequency, two::Noise::Interp interp, two::Noise::FractalType fractal_type, int octaves, float lacunarity, float gain) {
+		return two::noise_fract_3d(x, y, z, noise_type, frequency, interp, fractal_type, octaves, lacunarity, gain);
 	}
 	// NoiseType
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_Value() {
-		return mud::Noise::Value;
+	two::Noise::NoiseType DECL two_Noise_NoiseType_Value() {
+		return two::Noise::Value;
 	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_ValueFractal() {
-		return mud::Noise::ValueFractal;
+	two::Noise::NoiseType DECL two_Noise_NoiseType_ValueFractal() {
+		return two::Noise::ValueFractal;
 	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_Perlin() {
-		return mud::Noise::Perlin;
+	two::Noise::NoiseType DECL two_Noise_NoiseType_Perlin() {
+		return two::Noise::Perlin;
 	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_PerlinFractal() {
-		return mud::Noise::PerlinFractal;
+	two::Noise::NoiseType DECL two_Noise_NoiseType_PerlinFractal() {
+		return two::Noise::PerlinFractal;
 	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_Simplex() {
-		return mud::Noise::Simplex;
+	two::Noise::NoiseType DECL two_Noise_NoiseType_Simplex() {
+		return two::Noise::Simplex;
 	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_SimplexFractal() {
-		return mud::Noise::SimplexFractal;
+	two::Noise::NoiseType DECL two_Noise_NoiseType_SimplexFractal() {
+		return two::Noise::SimplexFractal;
 	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_Cellular() {
-		return mud::Noise::Cellular;
+	two::Noise::NoiseType DECL two_Noise_NoiseType_Cellular() {
+		return two::Noise::Cellular;
 	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_WhiteNoise() {
-		return mud::Noise::WhiteNoise;
+	two::Noise::NoiseType DECL two_Noise_NoiseType_WhiteNoise() {
+		return two::Noise::WhiteNoise;
 	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_Cubic() {
-		return mud::Noise::Cubic;
+	two::Noise::NoiseType DECL two_Noise_NoiseType_Cubic() {
+		return two::Noise::Cubic;
 	}
-	mud::Noise::NoiseType DECL mud_Noise_NoiseType_CubicFractal() {
-		return mud::Noise::CubicFractal;
+	two::Noise::NoiseType DECL two_Noise_NoiseType_CubicFractal() {
+		return two::Noise::CubicFractal;
 	}
 	// Interp
-	mud::Noise::Interp DECL mud_Noise_Interp_Linear() {
-		return mud::Noise::Linear;
+	two::Noise::Interp DECL two_Noise_Interp_Linear() {
+		return two::Noise::Linear;
 	}
-	mud::Noise::Interp DECL mud_Noise_Interp_Hermite() {
-		return mud::Noise::Hermite;
+	two::Noise::Interp DECL two_Noise_Interp_Hermite() {
+		return two::Noise::Hermite;
 	}
-	mud::Noise::Interp DECL mud_Noise_Interp_Quintic() {
-		return mud::Noise::Quintic;
+	two::Noise::Interp DECL two_Noise_Interp_Quintic() {
+		return two::Noise::Quintic;
 	}
 	// FractalType
-	mud::Noise::FractalType DECL mud_Noise_FractalType_FBM() {
-		return mud::Noise::FBM;
+	two::Noise::FractalType DECL two_Noise_FractalType_FBM() {
+		return two::Noise::FBM;
 	}
-	mud::Noise::FractalType DECL mud_Noise_FractalType_Billow() {
-		return mud::Noise::Billow;
+	two::Noise::FractalType DECL two_Noise_FractalType_Billow() {
+		return two::Noise::Billow;
 	}
-	mud::Noise::FractalType DECL mud_Noise_FractalType_RigidMulti() {
-		return mud::Noise::RigidMulti;
+	two::Noise::FractalType DECL two_Noise_FractalType_RigidMulti() {
+		return two::Noise::RigidMulti;
 	}
 	// CellularDistanceFunction
-	mud::Noise::CellularDistanceFunction DECL mud_Noise_CellularDistanceFunction_Euclidean() {
-		return mud::Noise::Euclidean;
+	two::Noise::CellularDistanceFunction DECL two_Noise_CellularDistanceFunction_Euclidean() {
+		return two::Noise::Euclidean;
 	}
-	mud::Noise::CellularDistanceFunction DECL mud_Noise_CellularDistanceFunction_Manhattan() {
-		return mud::Noise::Manhattan;
+	two::Noise::CellularDistanceFunction DECL two_Noise_CellularDistanceFunction_Manhattan() {
+		return two::Noise::Manhattan;
 	}
-	mud::Noise::CellularDistanceFunction DECL mud_Noise_CellularDistanceFunction_Natural() {
-		return mud::Noise::Natural;
+	two::Noise::CellularDistanceFunction DECL two_Noise_CellularDistanceFunction_Natural() {
+		return two::Noise::Natural;
 	}
 	// CellularReturnType
-	mud::Noise::CellularReturnType DECL mud_Noise_CellularReturnType_CellValue() {
-		return mud::Noise::CellValue;
+	two::Noise::CellularReturnType DECL two_Noise_CellularReturnType_CellValue() {
+		return two::Noise::CellValue;
 	}
-	mud::Noise::CellularReturnType DECL mud_Noise_CellularReturnType_NoiseLookup() {
-		return mud::Noise::NoiseLookup;
+	two::Noise::CellularReturnType DECL two_Noise_CellularReturnType_NoiseLookup() {
+		return two::Noise::NoiseLookup;
 	}
-	mud::Noise::CellularReturnType DECL mud_Noise_CellularReturnType_Distance() {
-		return mud::Noise::Distance;
+	two::Noise::CellularReturnType DECL two_Noise_CellularReturnType_Distance() {
+		return two::Noise::Distance;
 	}
-	mud::Noise::CellularReturnType DECL mud_Noise_CellularReturnType_Distance2() {
-		return mud::Noise::Distance2;
+	two::Noise::CellularReturnType DECL two_Noise_CellularReturnType_Distance2() {
+		return two::Noise::Distance2;
 	}
-	mud::Noise::CellularReturnType DECL mud_Noise_CellularReturnType_Distance2Add() {
-		return mud::Noise::Distance2Add;
+	two::Noise::CellularReturnType DECL two_Noise_CellularReturnType_Distance2Add() {
+		return two::Noise::Distance2Add;
 	}
-	mud::Noise::CellularReturnType DECL mud_Noise_CellularReturnType_Distance2Sub() {
-		return mud::Noise::Distance2Sub;
+	two::Noise::CellularReturnType DECL two_Noise_CellularReturnType_Distance2Sub() {
+		return two::Noise::Distance2Sub;
 	}
-	mud::Noise::CellularReturnType DECL mud_Noise_CellularReturnType_Distance2Mul() {
-		return mud::Noise::Distance2Mul;
+	two::Noise::CellularReturnType DECL two_Noise_CellularReturnType_Distance2Mul() {
+		return two::Noise::Distance2Mul;
 	}
-	mud::Noise::CellularReturnType DECL mud_Noise_CellularReturnType_Distance2Div() {
-		return mud::Noise::Distance2Div;
+	two::Noise::CellularReturnType DECL two_Noise_CellularReturnType_Distance2Div() {
+		return two::Noise::Distance2Div;
 	}
 	
 }

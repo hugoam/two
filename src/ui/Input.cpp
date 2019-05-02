@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <math/Vec.hpp>
 #include <ui/Input.h>
@@ -21,7 +21,7 @@ module mud.ui;
 
 #include <iostream>
 
-namespace mud
+namespace two
 {
 namespace ui
 {

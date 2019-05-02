@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/function.h>
 #include <stl/vector.h>
 #include <stl/span.h>
@@ -16,7 +16,7 @@
 
 #include <bgfx/bgfx.h>
 
-namespace mud
+namespace two
 {
 #define PICKING_BUFFER_SIZE 8  // Size of the ID buffer
 
@@ -44,7 +44,7 @@ namespace mud
 		operator bool() const { return m_rect != uvec4(0U); }
 	};
 
-	export_ class MUD_GFX_EXPORT Picker
+	export_ class TWO_GFX_EXPORT Picker
 	{
 	public:
 		Picker(GfxSystem& system, FrameBuffer& target);

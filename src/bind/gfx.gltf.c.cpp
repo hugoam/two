@@ -8,7 +8,7 @@
 #include <gltf/Api.h>
 #include <gfx-gltf/Api.h>
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
 #define DECL EMSCRIPTEN_KEEPALIVE
 #else
@@ -19,25 +19,25 @@
 extern "C" {
 	
 	// ImporterGltf
-	mud::Type* DECL mud_ImporterGltf__type() {
-		return &mud::type<mud::ImporterGltf>();
+	two::Type* DECL two_ImporterGltf__type() {
+		return &two::type<two::ImporterGltf>();
 	}
-	mud::ImporterGltf* DECL mud_ImporterGltf__construct_1(mud::GfxSystem* gfx) {
-		return new mud::ImporterGltf(*gfx);
+	two::ImporterGltf* DECL two_ImporterGltf__construct_1(two::GfxSystem* gfx) {
+		return new two::ImporterGltf(*gfx);
 	}
-	void DECL mud_ImporterGltf_import_3(mud::ImporterGltf* self, mud::Import* import, const char* filepath, const mud::ImportConfig* config) {
+	void DECL two_ImporterGltf_import_3(two::ImporterGltf* self, two::Import* import, const char* filepath, const two::ImportConfig* config) {
 		self->import(*import, filepath, *config);
 	}
-	void DECL mud_ImporterGltf_import_model_3(mud::ImporterGltf* self, mud::Model* model, const char* filepath, const mud::ImportConfig* config) {
+	void DECL two_ImporterGltf_import_model_3(two::ImporterGltf* self, two::Model* model, const char* filepath, const two::ImportConfig* config) {
 		self->import_model(*model, filepath, *config);
 	}
-	void DECL mud_ImporterGltf_import_prefab_3(mud::ImporterGltf* self, mud::Prefab* prefab, const char* filepath, const mud::ImportConfig* config) {
+	void DECL two_ImporterGltf_import_prefab_3(two::ImporterGltf* self, two::Prefab* prefab, const char* filepath, const two::ImportConfig* config) {
 		self->import_prefab(*prefab, filepath, *config);
 	}
-	void DECL mud_ImporterGltf_repack_2(mud::ImporterGltf* self, const char* filepath, const mud::ImportConfig* config) {
+	void DECL two_ImporterGltf_repack_2(two::ImporterGltf* self, const char* filepath, const two::ImportConfig* config) {
 		self->repack(filepath, *config);
 	}
-	void DECL mud_ImporterGltf__destroy(mud::ImporterGltf* self) {
+	void DECL two_ImporterGltf__destroy(two::ImporterGltf* self) {
 		delete self;
 	}
 	

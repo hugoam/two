@@ -4,7 +4,7 @@
 #include <climits>
 #include <cfloat>
 
-namespace mud
+namespace two
 {
 #if 0
 	template <class T>

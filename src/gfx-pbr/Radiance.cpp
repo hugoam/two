@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.pbr;
+#ifdef TWO_MODULES
+module two.gfx.pbr;
 #else
 #include <stl/algorithm.h>
 #include <gfx/Scene.h>
@@ -23,7 +23,7 @@ module mud.gfx.pbr;
 
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 	BlockRadiance::BlockRadiance(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy)
 		: DrawBlock(gfx, type<BlockRadiance>())
@@ -169,7 +169,7 @@ namespace mud
 				m_filter.source0p(source, program, source_level, TEXTURE_POINT);
 
 				float roughness = i / float(roughness_levels - 1);
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 				constexpr uint num_samples = 64;
 #else
 				constexpr uint num_samples = 512;

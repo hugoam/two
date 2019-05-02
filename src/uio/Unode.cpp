@@ -4,15 +4,15 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.uio;
+#ifdef TWO_MODULES
+module two.uio;
 #else
 #include <ui/WindowStruct.h>
 #include <ui/ContainerStruct.h>
 #include <uio/Unode.h>
 #endif
 
-namespace mud
+namespace two
 {
 	DispatchItem::DispatchItem()
 	{}

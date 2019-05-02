@@ -4,14 +4,14 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/string.h>
 #include <stl/memory.h>
 #endif
 #include <ui/Forward.h>
 #include <ui/Frame/UiRect.h>
 
-namespace mud
+namespace two
 {
 	using cstring = const char*;
 
@@ -24,7 +24,7 @@ namespace mud
 		DIRTY_FORCE_LAYOUT	// The frame layout has changed
 	};
 
-	export_ class refl_ MUD_UI_EXPORT Frame : public UiRect
+	export_ class refl_ TWO_UI_EXPORT Frame : public UiRect
 	{
 	public:
 		Frame(Frame* parent, Widget& widget);

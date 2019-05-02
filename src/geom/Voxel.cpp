@@ -2,8 +2,8 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_MODULES
-module mud.geom;
+#ifdef TWO_MODULES
+module two.geom;
 #else
 #include <stl/algorithm.h>
 #include <stl/table.h>
@@ -17,7 +17,7 @@ module mud.geom;
 #define FLAT false
 #define FLAT_BLEND 1
 
-namespace mud
+namespace two
 {
 	extern const int c_edge_table[];
 
@@ -344,7 +344,7 @@ namespace mud
 
 	void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract, const Colour& colour)
 	{
-		const float sign = mud::sign(strength);
+		const float sign = two::sign(strength);
 		strength = abs(strength);
 
 		// Let's solve the equation to find the radius:

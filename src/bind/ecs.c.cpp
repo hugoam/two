@@ -3,7 +3,7 @@
 #include <type/Api.h>
 #include <ecs/Api.h>
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
 #define DECL EMSCRIPTEN_KEEPALIVE
 #else
@@ -14,30 +14,30 @@
 extern "C" {
 	
 	// Entity
-	mud::Type* DECL mud_Entity__type() {
-		return &mud::type<mud::Entity>();
+	two::Type* DECL two_Entity__type() {
+		return &two::type<two::Entity>();
 	}
-	mud::Entity* DECL mud_Entity__construct_0() {
-		return new mud::Entity();
+	two::Entity* DECL two_Entity__construct_0() {
+		return new two::Entity();
 	}
-	void DECL mud_Entity__destroy(mud::Entity* self) {
+	void DECL two_Entity__destroy(two::Entity* self) {
 		delete self;
 	}
 	// Entt
-	mud::Type* DECL mud_Entt__type() {
-		return &mud::type<mud::Entt>();
+	two::Type* DECL two_Entt__type() {
+		return &two::type<two::Entt>();
 	}
-	mud::Entt* DECL mud_Entt__construct_0() {
-		return new mud::Entt();
+	two::Entt* DECL two_Entt__construct_0() {
+		return new two::Entt();
 	}
-	void DECL mud_Entt__destroy(mud::Entt* self) {
+	void DECL two_Entt__destroy(two::Entt* self) {
 		delete self;
 	}
 	// OEntt
-	mud::Type* DECL mud_OEntt__type() {
-		return &mud::type<mud::OEntt>();
+	two::Type* DECL two_OEntt__type() {
+		return &two::type<two::OEntt>();
 	}
-	void DECL mud_OEntt__destroy(mud::OEntt* self) {
+	void DECL two_OEntt__destroy(two::OEntt* self) {
 		delete self;
 	}
 	

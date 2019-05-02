@@ -1,14 +1,14 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.tree;
+#ifdef TWO_MODULES
+module two.tree;
 #else
 #include <tree/Types.h>
 #include <tree/Api.h>
 #include <type/Vector.h>
 #endif
 
-namespace mud
+namespace two
 {
     // Exported types
     

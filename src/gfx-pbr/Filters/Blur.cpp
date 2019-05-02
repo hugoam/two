@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.pbr;
+#ifdef TWO_MODULES
+module two.gfx.pbr;
 #else
 #include <math/Vec.hpp>
 #include <gfx/Filter.h>
@@ -18,7 +18,7 @@ module mud.gfx.pbr;
 #include <gfx-pbr/Filters/Blur.h>
 #endif
 
-namespace mud
+namespace two
 {
 	BlockBlur::BlockBlur(GfxSystem& gfx, BlockFilter& filter)
 		: GfxBlock(gfx, *this)

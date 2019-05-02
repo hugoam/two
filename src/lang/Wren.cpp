@@ -3,7 +3,7 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <cassert>
 #include <cmath>
 #include <cstdio>
@@ -13,8 +13,8 @@
 #include <cstring>
 #endif
 
-#ifdef MUD_MODULES
-module mud.lang;
+#ifdef TWO_MODULES
+module two.lang;
 #else
 #include <stl/new.h>
 #include <stl/math.h>
@@ -50,12 +50,12 @@ void wrenAssignVariable(WrenVM* vm, const char* module, const char* name,
 						int value_slot);
 }
 
-//#define MUD_WREN_DEBUG_DECLS
-//#define MUD_WREN_DEBUG
-#define MUD_WREN_CACHE_HANDLES
-//#define MUD_WREN_OPTIMIZE_SET_MEMBER
+//#define TWO_WREN_DEBUG_DECLS
+//#define TWO_WREN_DEBUG
+#define TWO_WREN_CACHE_HANDLES
+//#define TWO_WREN_OPTIMIZE_SET_MEMBER
 
-namespace mud
+namespace two
 {
 	inline WrenInterpreter* wren(WrenVM* vm) { return (WrenInterpreter*) wrenGetUserData(vm); }
 	inline const TextScript* wren_script(WrenVM* vm) { return wren(vm)->m_script; }
@@ -201,7 +201,7 @@ namespace mud
 		wrenEnsureSlots(vm, class_slot + 1);
 		wrenSetSlotHandle(vm, class_slot, g_wren_classes[type.m_id]);
 		Ref object = alloc_object(vm, slot, class_slot, type);
-#ifdef MUD_WREN_CACHE_HANDLES
+#ifdef TWO_WREN_CACHE_HANDLES
 		assert(g_wren_objects[object.m_value] == nullptr);
 		g_wren_objects[object.m_value] = wrenGetSlotHandle(vm, slot);
 #endif
@@ -214,7 +214,7 @@ namespace mud
 		wrenEnsureSlots(vm, class_slot + 1);
 		wrenSetSlotHandle(vm, class_slot, g_wren_classes[type(ref).m_id]);
 		Ref object = alloc_ref(vm, slot, class_slot, ref);
-#ifdef MUD_WREN_CACHE_HANDLES
+#ifdef TWO_WREN_CACHE_HANDLES
 		assert(g_wren_objects[object.m_value] == nullptr);
 		g_wren_objects[object.m_value] = wrenGetSlotHandle(vm, slot);
 #endif
@@ -224,7 +224,7 @@ namespace mud
 	inline void push_ref(WrenVM* vm, int slot, Ref object)
 	{
 		if(!object) push_null(vm, slot);
-#ifdef MUD_WREN_CACHE_HANDLES
+#ifdef TWO_WREN_CACHE_HANDLES
 		WrenHandle*& handle = g_wren_objects[object.m_value];
 		if(!handle)
 			alloc_ref(vm, slot, object);
@@ -296,7 +296,7 @@ namespace mud
 			success &= callable.m_params[i].nullable() || !vars[i].null();
 			if(!success)
 			{
-#ifdef MUD_WREN_DEBUG
+#ifdef TWO_WREN_DEBUG
 				printf("[ERROR] wren -> wrong argument %s, expect type %s, got %s\n", callable.m_params[i].m_name, type(callable.m_params[i].m_value).m_name, type(vars[i]).m_name);
 #endif
 				return false;
@@ -323,7 +323,7 @@ namespace mud
 	inline void call_function(WrenVM* vm, size_t num_args)
 	{
 		const Callable& callable = val<Callable>(wren_ref(vm, 0));
-#ifdef MUD_WREN_DEBUG
+#ifdef TWO_WREN_DEBUG
 		printf("[info] wren -> call function %s\n", callable.m_name);
 #endif
 		Call& call = cached_call(callable);
@@ -339,7 +339,7 @@ namespace mud
 	inline void call_method(WrenVM* vm, size_t num_args)
 	{
 		const Callable& callable = val<Callable>(read_ref(vm, 0));
-#ifdef MUD_WREN_DEBUG
+#ifdef TWO_WREN_DEBUG
 		printf("[info] wren -> call method %s\n", callable.m_name);
 #endif
 		Call& call = cached_call(callable);
@@ -365,7 +365,7 @@ namespace mud
 
 	inline void call_wren_virtual(WrenVM* vm, Method& method, Ref object, span<Var> parameters)
 	{
-#ifdef MUD_WREN_DEBUG
+#ifdef TWO_WREN_DEBUG
 		printf("[info] wren -> call wren %s\n", method.m_name);
 #endif
 		WrenHandle* hmethod = g_wren_methods[method.m_index];
@@ -376,7 +376,7 @@ namespace mud
 	inline void get_member(WrenVM* vm)
 	{
 		const Member& member = val<Member>(read_ref(vm, 0));
-#ifdef MUD_WREN_DEBUG
+#ifdef TWO_WREN_DEBUG
 		printf("[info] wren -> get member %s\n", member.m_name);
 #endif
 		Ref object = read_ref(vm, 1);
@@ -387,11 +387,11 @@ namespace mud
 	inline void set_member(WrenVM* vm)
 	{
 		const Member& member = val<Member>(read_ref(vm, 0));
-#ifdef MUD_WREN_DEBUG
+#ifdef TWO_WREN_DEBUG
 		printf("[info] wren -> set member %s\n", member.m_name);
 #endif
 		Ref object = read_ref(vm, 1);
-#ifdef MUD_WREN_OPTIMIZE_SET_MEMBER
+#ifdef TWO_WREN_OPTIMIZE_SET_MEMBER
 		Ref value = member.cast_get(object);
 		read_value(vm, 2, value);
 		if(member.is_pointer())
@@ -422,7 +422,7 @@ namespace mud
 	{
 		const Constructor* constructor = &val<Constructor>(read_ref(vm, 0));
 		if(!constructor) return;
-#ifdef MUD_WREN_DEBUG
+#ifdef TWO_WREN_DEBUG
 		printf("[info] wren -> construct %s\n", constructor->m_name);
 #endif
 		Call& construct = cached_call(*constructor);
@@ -437,7 +437,7 @@ namespace mud
 	{
 		const CopyConstructor* constructor = &val<CopyConstructor>(read_ref(vm, 0));
 		if(!constructor) return;
-#ifdef MUD_WREN_DEBUG
+#ifdef TWO_WREN_DEBUG
 		printf("[info] wren -> copy construct %s\n", constructor->m_name);
 #endif
 		
@@ -448,10 +448,10 @@ namespace mud
 
 	inline void construct_interface(WrenVM* vm)
 	{
-		WrenInterpreter* wren = mud::wren(vm);
+		WrenInterpreter* wren = two::wren(vm);
 		const Constructor* constructor = &val<Constructor>(read_ref(vm, 0));
 		if(!constructor) return;
-#ifdef MUD_WREN_DEBUG
+#ifdef TWO_WREN_DEBUG
 		printf("[info] wren -> construct %s\n", constructor->m_name);
 #endif
 		Call& construct = cached_call(*constructor);
@@ -476,7 +476,7 @@ namespace mud
 
 	inline void register_enum(WrenVM* vm, string module, string name, const Type& type)
 	{
-		Enum& enu = mud::enu(type);
+		Enum& enu = two::enu(type);
 
 		string t = "    ";
 
@@ -491,7 +491,7 @@ namespace mud
 		decl += members;
 		decl += "}\n";
 
-#ifdef MUD_WREN_DEBUG_DECLS
+#ifdef TWO_WREN_DEBUG_DECLS
 		printf("%s\n", decl.c_str());
 #endif
 
@@ -617,7 +617,7 @@ namespace mud
 		decl += "\n";
 		decl += name + ".bind()\n";
 
-#ifdef MUD_WREN_DEBUG_DECLS
+#ifdef TWO_WREN_DEBUG_DECLS
 		printf("%s\n", decl.c_str());
 #endif
 
@@ -1244,7 +1244,7 @@ namespace mud
 			decl += "\n";
 			decl += c + ".bind()\n";
 
-#ifdef MUD_WREN_DEBUG_DECLS
+#ifdef TWO_WREN_DEBUG_DECLS
 			printf("%s\n", decl.c_str());
 #endif
 
@@ -1262,12 +1262,12 @@ namespace mud
 	};
 }
 
-namespace mud
+namespace two
 {
 	static map<string, string> namespaces()
 	{
 		map<string, string> n;
-		n["mud"] = "toy";
+		n["two"] = "toy";
 		n["ui"]  = "toy";
 		n["gfx"] = "toy";
 		n["toy"] = "toy";

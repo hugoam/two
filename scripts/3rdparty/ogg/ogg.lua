@@ -1,20 +1,20 @@
--- mud library
+-- two library
 -- ogg library
 
-ogg = mud_dep(nil, "ogg")
+ogg = two_dep(nil, "ogg")
 	kind "StaticLib"
     
 	includedirs {
-        path.join(MUD_3RDPARTY_DIR, "ogg", "include"),
-        path.join(MUD_DIR, "scripts/3rdparty/ogg/"),
+        path.join(TWO_3RDPARTY_DIR, "ogg", "include"),
+        path.join(TWO_DIR, "scripts/3rdparty/ogg/"),
 	}
 
 	files {
-        path.join(MUD_3RDPARTY_DIR, "ogg", "include/ogg/config_types.h"),
-        path.join(MUD_3RDPARTY_DIR, "ogg", "include/ogg/ogg.h"),
-        path.join(MUD_3RDPARTY_DIR, "ogg", "include/ogg/os_types.h"),
-        path.join(MUD_3RDPARTY_DIR, "ogg", "src/bitwise.c"),
-        path.join(MUD_3RDPARTY_DIR, "ogg", "src/framing.c"),
+        path.join(TWO_3RDPARTY_DIR, "ogg", "include/ogg/config_types.h"),
+        path.join(TWO_3RDPARTY_DIR, "ogg", "include/ogg/ogg.h"),
+        path.join(TWO_3RDPARTY_DIR, "ogg", "include/ogg/os_types.h"),
+        path.join(TWO_3RDPARTY_DIR, "ogg", "src/bitwise.c"),
+        path.join(TWO_3RDPARTY_DIR, "ogg", "src/framing.c"),
 	}
                         
     defines { }

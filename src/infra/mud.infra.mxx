@@ -2,7 +2,7 @@
 
 #include <obj/Config.h>
 
-export module mud.infra;
+export module two.infra;
 export import std.core;
 export import std.io;
 export import std.threading;

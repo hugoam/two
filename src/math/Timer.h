@@ -8,16 +8,16 @@
 
 #include <ctime>
 
-namespace mud
+namespace two
 {
-	export_ extern MUD_MATH_EXPORT const double c_tick_interval;
+	export_ extern TWO_MATH_EXPORT const double c_tick_interval;
 
 	inline size_t globalTick()
 	{
 		return size_t(clock() / c_tick_interval);
 	}
 
-	export_ struct refl_ MUD_MATH_EXPORT Time
+	export_ struct refl_ TWO_MATH_EXPORT Time
 	{
 	public:
 		constr_ Time(double value) : m_value(value) {}
@@ -36,7 +36,7 @@ namespace mud
 		inline int seconds() { return int(m_value) % 60; }
 	};
 
-	export_ struct refl_ MUD_MATH_EXPORT TimeSpan
+	export_ struct refl_ TWO_MATH_EXPORT TimeSpan
 	{
 	public:
 		constr_ TimeSpan(Time s, Time e) : start(s), end(e) {}
@@ -50,7 +50,7 @@ namespace mud
 		attr_ Time end;
 	};
 
-	export_ class MUD_MATH_EXPORT Clock
+	export_ class TWO_MATH_EXPORT Clock
     {
     public:
 		Clock();

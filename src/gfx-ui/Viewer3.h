@@ -7,9 +7,9 @@
 #include <gfx-ui/Forward.h>
 #include <gfx-ui/Viewer.h>
 
-namespace mud
+namespace two
 {
-	export_ class MUD_GFX_UI_EXPORT SpaceViewport : public Viewer
+	export_ class TWO_GFX_UI_EXPORT SpaceViewport : public Viewer
 	{
 	public:
 		SpaceViewport(Widget* parent, void* identity, Scene& scene);

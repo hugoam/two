@@ -11,7 +11,7 @@
 //#include <cstdio>
 #include <cassert>
 
-namespace mud
+namespace two
 {
 	template <class F, typename... Types>
 	void for_each(F&& f, Types&&... xs)
@@ -75,7 +75,7 @@ namespace mud
 	template <class T>
 	inline void BufferArray::add_buffer()
 	{
-#ifdef MUD_ECS_TYPED
+#ifdef TWO_ECS_TYPED
 		m_buffers.push_back(construct<TBuffer<T>>(type<T>()));
 #else
 		m_buffers.push_back(construct<TBuffer<T>>());
@@ -252,7 +252,7 @@ namespace mud
 		m_stream_map[prototype] = index;
 	}
 
-#ifdef MUD_ECS_TYPED
+#ifdef TWO_ECS_TYPED
 	template <class T>
 	inline void ECS::register_type()
 	{

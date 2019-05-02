@@ -1,24 +1,24 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.tree;
+#ifdef TWO_MODULES
+module two.tree;
 #else
 #include <refl/Module.h>
 #include <meta/infra.meta.h>
 #include <meta/tree.meta.h>
 #endif
 
-namespace mud
+namespace two
 {
-	mud_tree::mud_tree()
-		: Module("mud::tree", { &mud_infra::m() })
+	two_tree::two_tree()
+		: Module("two::tree", { &two_infra::m() })
 	{}
 }
 
-#ifdef MUD_TREE_MODULE
+#ifdef TWO_TREE_MODULE
 extern "C"
 Module& getModule()
 {
-	return mud_tree::m();
+	return two_tree::m();
 }
 #endif

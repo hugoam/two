@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_SKELETON
-#define MUD_SHADER_SKELETON
+#ifndef TWO_SHADER_SKELETON
+#define TWO_SHADER_SKELETON
 
 #include <common.sh>
 

@@ -10,7 +10,7 @@
 
 #include <stl/vector.h>
 
-namespace mud
+namespace two
 {
 	class StreamSound : public Sound
 	{

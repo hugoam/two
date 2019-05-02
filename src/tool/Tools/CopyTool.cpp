@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.tool;
+#ifdef TWO_MODULES
+module two.tool;
 #else
 #include <refl/Meta.h>
 #include <math/Math.h>
@@ -15,7 +15,7 @@ module mud.tool;
 #include <tool/Tools/CopyTool.h>
 #endif
 
-namespace mud
+namespace two
 {
 	CopyAction::CopyAction(span<Transform*> targets)
 		: TranslateAction(targets)

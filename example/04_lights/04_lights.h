@@ -6,7 +6,7 @@
 
 #include <frame/Forward.h>
 
-using namespace mud;
+using namespace two;
 
 struct LightInstance { Colour colour; };
 

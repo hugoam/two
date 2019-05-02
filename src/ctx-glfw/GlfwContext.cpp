@@ -3,11 +3,11 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 //#include <gfx/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <cstdio>
 #endif
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <math/Math.h>
 #include <math/Vec.hpp>
 #include <ctx/KeyCode.h>
@@ -17,18 +17,18 @@
 
 #include <GLFW/glfw3.h>
 
-#if defined MUD_PLATFORM_WINDOWS
+#if defined TWO_PLATFORM_WINDOWS
 	#define GLFW_EXPOSE_NATIVE_WIN32
-#elif defined MUD_PLATFORM_LINUX
+#elif defined TWO_PLATFORM_LINUX
 	#define GLFW_EXPOSE_NATIVE_X11
 	#define GLFW_EXPOSE_NATIVE_GLX
-#elif defined MUD_PLATFORM_OSX
+#elif defined TWO_PLATFORM_OSX
 	#define GLFW_EXPOSE_NATIVE_COCOA
 #endif
 
 #include <GLFW/glfw3native.h>
 
-#if defined MUD_PLATFORM_WINDOWS
+#if defined TWO_PLATFORM_WINDOWS
 	#undef max
 	#undef min
 	#undef near
@@ -37,8 +37,8 @@
 	#undef FAR
 #endif
 
-#ifdef MUD_MODULES
-module mud.ctx.glfw;
+#ifdef TWO_MODULES
+module two.ctx.glfw;
 #endif
 
 void glfw_error(int error, const char* desc)
@@ -46,7 +46,7 @@ void glfw_error(int error, const char* desc)
 	printf("[ERROR] ctx glfw - GLFW %d: %s\n", error, desc);
 }
 
-namespace mud
+namespace two
 {
 	MouseButtonCode convert_glfw_button(int button)
 	{
@@ -216,9 +216,9 @@ namespace mud
 			return;
 		}
 
-#if defined MUD_RENDERER_BGFX && GLFW_VERSION_MINOR > 1
+#if defined TWO_RENDERER_BGFX && GLFW_VERSION_MINOR > 1
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-#elif not defined MUD_RENDERER_BGFX
+#elif not defined TWO_RENDERER_BGFX
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 #endif
@@ -240,12 +240,12 @@ namespace mud
 		glfwSwapInterval(0);
 		glfwSetTime(0);
 
-#if defined MUD_PLATFORM_LINUX || defined MUD_PLATFORM_BSD
+#if defined TWO_PLATFORM_LINUX || defined TWO_PLATFORM_BSD
 		m_native_handle = (void*)(uintptr_t)glfwGetX11Window(m_gl_window);
 		m_native_target = glfwGetX11Display();
-#elif defined MUD_PLATFORM_OSX
+#elif defined TWO_PLATFORM_OSX
 		m_native_handle = glfwGetCocoaWindow(m_gl_window);
-#elif defined MUD_PLATFORM_WINDOWS
+#elif defined TWO_PLATFORM_WINDOWS
 		m_native_handle = glfwGetWin32Window(m_gl_window);
 #endif
 	}

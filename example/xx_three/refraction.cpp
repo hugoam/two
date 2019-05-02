@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <srlz/Serial.h>
 #include <gfx-pbr/Api.h>
@@ -10,7 +10,7 @@
 
 #include <cstdio>
 
-using namespace mud;
+using namespace two;
 
 void xx_refraction_mesh(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {

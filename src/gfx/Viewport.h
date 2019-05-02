@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/function.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
@@ -15,7 +15,7 @@
 #include <gfx/Culling.h>
 #include <gfx/Froxel.h>
 
-namespace mud
+namespace two
 {
 	using cstring = const char*;
 
@@ -42,9 +42,9 @@ namespace mud
 		Count
 	};
 
-	export_ extern MUD_GFX_EXPORT GridECS* g_viewer_ecs;
+	export_ extern TWO_GFX_EXPORT GridECS* g_viewer_ecs;
 
-	export_ class refl_ MUD_GFX_EXPORT Viewport : public OEntt
+	export_ class refl_ TWO_GFX_EXPORT Viewport : public OEntt
 	{
 	public:
 		constr_ Viewport() {}

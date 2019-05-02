@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_TONEMAP
-#define MUD_SHADER_TONEMAP
+#ifndef TWO_SHADER_TONEMAP
+#define TWO_SHADER_TONEMAP
 
 #include <srgb.sh>
 
@@ -124,4 +124,4 @@ vec3 to_filmic(vec3 color, float white)
     return coltn / whitetn;
 }
 
-#endif // MUD_SHADER_TONEMAP
+#endif // TWO_SHADER_TONEMAP

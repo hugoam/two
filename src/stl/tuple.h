@@ -3,7 +3,7 @@
 
 #ifdef USE_STL
 #include <tuple>
-namespace mud
+namespace two
 {
 	export_ using std::tuple;
 	export_ using std::index_sequence;
@@ -20,7 +20,7 @@ namespace mud
 }
 #else
 #include <stl/stddef.h>
-namespace mud
+namespace two
 {
 	template <size_t...>
 	struct index_sequence

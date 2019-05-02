@@ -9,7 +9,7 @@
 #include <ui/Forward.h>
 #include <ui/Frame/Dim.h>
 
-namespace mud
+namespace two
 {
 	export_ namespace ui
 	{}
@@ -33,15 +33,15 @@ namespace mud
 
 namespace ui
 {
-	export_ MUD_UI_EXPORT func_ Widget& widget(Widget& parent, Style& style, bool open = false, Axis length = Axis::None, v2<size_t> index = { 0, 0 });
-	export_ MUD_UI_EXPORT Widget& widget(Widget& parent, Style& style, void* identity);
+	export_ TWO_UI_EXPORT func_ Widget& widget(Widget& parent, Style& style, bool open = false, Axis length = Axis::None, v2<size_t> index = { 0, 0 });
+	export_ TWO_UI_EXPORT Widget& widget(Widget& parent, Style& style, void* identity);
 
-	export_ MUD_UI_EXPORT func_ Widget& item(Widget& parent, Style& style, cstring content = nullptr);
-	export_ MUD_UI_EXPORT Widget& item(Widget& parent, Style& style, const string& content);
+	export_ TWO_UI_EXPORT func_ Widget& item(Widget& parent, Style& style, cstring content = nullptr);
+	export_ TWO_UI_EXPORT Widget& item(Widget& parent, Style& style, const string& content);
 
-	export_ MUD_UI_EXPORT func_ Widget& multi_item(Widget& parent, Style& style, span<cstring> elements, Style* element_style = nullptr);
-	export_ MUD_UI_EXPORT Widget& multi_item(Widget& parent, span<cstring> elements, Style* element_style = nullptr);
+	export_ TWO_UI_EXPORT func_ Widget& multi_item(Widget& parent, Style& style, span<cstring> elements, Style* element_style = nullptr);
+	export_ TWO_UI_EXPORT Widget& multi_item(Widget& parent, span<cstring> elements, Style* element_style = nullptr);
 
-	export_ MUD_UI_EXPORT func_ Widget& spanner(Widget& parent, Style& style, Axis dim, float span);
+	export_ TWO_UI_EXPORT func_ Widget& spanner(Widget& parent, Style& style, Axis dim, float span);
 }
 }

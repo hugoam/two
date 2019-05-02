@@ -9,11 +9,11 @@
 #include <geom/Forward.h>
 #include <gfx/Forward.h>
 
-#ifndef MUD_GFX_OBJ_EXPORT
-#define MUD_GFX_OBJ_EXPORT MUD_IMPORT
+#ifndef TWO_GFX_OBJ_EXPORT
+#define TWO_GFX_OBJ_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
     class ImporterOBJ;
 	class ImporterPLY;

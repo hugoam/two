@@ -10,7 +10,7 @@
 #include <pool/VecPool.hpp>
 #include <type/RefVal.h>
 
-namespace mud
+namespace two
 {
 	template <class T>
 	TPool<T>::TPool(size_t size) : m_vec_pool(make_unique<VecPool<T>>(size)) {}

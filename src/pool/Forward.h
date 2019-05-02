@@ -5,11 +5,11 @@
 #include <infra/Forward.h>
 #include <type/Forward.h>
 
-#ifndef MUD_POOL_EXPORT
-#define MUD_POOL_EXPORT MUD_IMPORT
+#ifndef TWO_POOL_EXPORT
+#define TWO_POOL_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
 	template <class T> class VecPool;
 	template <class T> class TPool;
@@ -22,7 +22,7 @@ namespace mud
     class ObjectPool;
 }
 
-#ifdef MUD_META_GENERATOR
+#ifdef TWO_META_GENERATOR
 #include <stl/vector.h>
 namespace stl
 {

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <stl/string.h>
 #include <stl/span.h>
@@ -17,7 +17,7 @@
 #include <gfx/Forward.h>
 #include <gfx/Node3.h>
 
-namespace mud
+namespace two
 {
 	export_ struct refl_ ModelElem
 	{
@@ -30,7 +30,7 @@ namespace mud
 		attr_ Material* m_material;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Model
+	export_ class refl_ TWO_GFX_EXPORT Model
 	{
 	public:
 		Model(const string& name);
@@ -61,5 +61,5 @@ namespace mud
 		static GfxSystem* ms_gfx;
 	};
 
-	export_ MUD_GFX_EXPORT Model& model_variant(GfxSystem& gfx, Model& original, const string& name, span<string> materials, span<Material*> substitutes);
+	export_ TWO_GFX_EXPORT Model& model_variant(GfxSystem& gfx, Model& original, const string& name, span<string> materials, span<Material*> substitutes);
 }

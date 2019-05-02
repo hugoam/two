@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <refl/Api.h>
 #include <gfx-pbr/Api.h>
@@ -9,7 +9,7 @@
 
 #include <geom/Primitive.hpp>
 
-using namespace mud;
+using namespace two;
 
 void debug_normals(Gnode& parent, Mesh& mesh, const mat4& transform, float length = 1.f)
 {
@@ -54,7 +54,7 @@ void pump(Shell& app, ShellWindow& window)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
 	app.m_gfx.add_resource_path("examples/07_gltf");
 	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);

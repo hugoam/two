@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <geom/Geom.hpp>
 #include <gfx/Camera.h>
@@ -15,7 +15,7 @@ module mud.gfx;
 
 #include <bgfx/bgfx.h>
 
-namespace mud
+namespace two
 {
 	Camera::Camera()
 	{

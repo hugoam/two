@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <math/Colour.h>
 #include <math/Vec.h>
@@ -16,9 +16,9 @@
 
 #include <bgfx/bgfx.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_GFX_PBR_EXPORT CubeTarget
+	export_ class refl_ TWO_GFX_PBR_EXPORT CubeTarget
 	{
 	public:
 		constr_ CubeTarget() {}
@@ -30,7 +30,7 @@ namespace mud
 		attr_ uint32_t m_size;
 	};
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT CubeCamera
+	export_ class refl_ TWO_GFX_PBR_EXPORT CubeCamera
 	{
 	public:
 		constr_ CubeCamera() {}
@@ -48,7 +48,7 @@ namespace mud
 		void clear(GfxSystem& gfx, Render& render, Colour color, float depth, uint8_t stencil);
 	};
 
-	export_ class MUD_GFX_PBR_EXPORT ReflectionAtlas
+	export_ class TWO_GFX_PBR_EXPORT ReflectionAtlas
 	{
 	public:
 		ReflectionAtlas(uint16_t size, uint16_t subdiv);

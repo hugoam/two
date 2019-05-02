@@ -10,21 +10,21 @@
 #include <bgfx/bgfx.h>
 #include <bgfx/platform.h>
 
-#ifdef MUD_MODULES
-module mud.bgfx;
+#ifdef TWO_MODULES
+module two.bgfx;
 #else
 #include <type/Type.h>
 #include <bgfx/BgfxSystem.h>
 #endif
 
-namespace mud
+namespace two
 {
 	BgfxContext::BgfxContext(BgfxSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main, bool init)
-#if defined MUD_CONTEXT_GLFW
+#if defined TWO_CONTEXT_GLFW
 		: GlfwContext(gfx, name, size, fullscreen, main, false)
-#elif defined MUD_CONTEXT_WASM
+#elif defined TWO_CONTEXT_WASM
 		: EmContext(gfx, name, size, fullscreen, main)
-#elif defined MUD_CONTEXT_WINDOWS
+#elif defined TWO_CONTEXT_WINDOWS
 		: WinContext(gfx, name, size, fullscreen, main)
 #endif
 	{

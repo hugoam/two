@@ -1,5 +1,5 @@
-#ifndef MUD_LIGHT_CLUSTER
-#define MUD_LIGHT_CLUSTER
+#ifndef TWO_LIGHT_CLUSTER
+#define TWO_LIGHT_CLUSTER
 
 #include <common.sh>
 #include <pbr/pbr.sh>

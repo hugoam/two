@@ -4,21 +4,21 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <gfx/Renderer.h>
 #include <gfx/Program.h>
 #include <gfx/Filter.h>
 #endif
 #include <gfx-pbr/Forward.h>
 
-namespace mud
+namespace two
 {
 	enum ShaderOptionGlow : unsigned int
 	{
 		GLOW_FILTER_BICUBIC,
 	};
 
-	export_ struct refl_ MUD_GFX_PBR_EXPORT Glow
+	export_ struct refl_ TWO_GFX_PBR_EXPORT Glow
 	{
 		attr_ bool m_enabled = false;
 		attr_ gpu_ vec4 m_levels_1_4 = { 1.f, 0.f, 0.f, 0.f };
@@ -30,9 +30,9 @@ namespace mud
 		attr_ gpu_ bool m_bicubic_filter = false;
 	};
 
-	export_ MUD_GFX_PBR_EXPORT func_ void pass_glow(GfxSystem& gfx, Render& render, Glow& glow);
+	export_ TWO_GFX_PBR_EXPORT func_ void pass_glow(GfxSystem& gfx, Render& render, Glow& glow);
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGlow : public GfxBlock
+	export_ class refl_ TWO_GFX_PBR_EXPORT BlockGlow : public GfxBlock
 	{
 	public:
 		BlockGlow(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy, BlockBlur& blur);

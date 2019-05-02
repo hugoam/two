@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <infra/File.h>
 #include <stl/span.h>
 #include <stl/algorithm.h>
@@ -15,7 +15,7 @@
 
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 	template <class T_Asset>
 	AssetStore<T_Asset>::AssetStore(GfxSystem& gfx, const string& path)

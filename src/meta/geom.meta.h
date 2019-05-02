@@ -1,29 +1,29 @@
 #pragma once
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <refl/Module.h>
 #endif
 
 #include <geom/Forward.h>
 //#include <geom/Types.h>
 
-#ifndef MUD_GEOM_REFL_EXPORT
-#define MUD_GEOM_REFL_EXPORT MUD_IMPORT
+#ifndef TWO_GEOM_REFL_EXPORT
+#define TWO_GEOM_REFL_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
-	export_ class MUD_GEOM_REFL_EXPORT mud_geom : public mud::Module
+	export_ class TWO_GEOM_REFL_EXPORT two_geom : public two::Module
 	{
 	private:
-		mud_geom();
+		two_geom();
 		
 	public:
-		static mud_geom& m() { static mud_geom instance; return instance; }
+		static two_geom& m() { static two_geom instance; return instance; }
 	};
 }
 
-#ifdef MUD_GEOM_MODULE
+#ifdef TWO_GEOM_MODULE
 extern "C"
-MUD_GEOM_REFL_EXPORT Module& getModule();
+TWO_GEOM_REFL_EXPORT Module& getModule();
 #endif

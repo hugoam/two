@@ -1,4 +1,4 @@
-#ifdef MUD_MODULES
+#ifdef TWO_MODULES
 #include <cpp/stdguard.h>
 
 module json11;

@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_BLEND
-#define MUD_SHADER_BLEND
+#ifndef TWO_SHADER_BLEND
+#define TWO_SHADER_BLEND
 
 #include <filter/filter.sh>
 

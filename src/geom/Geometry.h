@@ -9,9 +9,9 @@
 #include <geom/Primitive.h>
 #include <geom/Shape.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_GEOM_EXPORT Geometry final : public Shape
+	export_ class refl_ TWO_GEOM_EXPORT Geometry final : public Shape
 	{
 	public:
 		constr_ Geometry();
@@ -30,7 +30,7 @@ namespace mud
 		virtual object<Shape> clone() const;
 	};
 
-	export_ struct refl_ MUD_GEOM_EXPORT MeshPacker
+	export_ struct refl_ TWO_GEOM_EXPORT MeshPacker
 	{
 		constr_ MeshPacker();
 
@@ -83,5 +83,5 @@ namespace mud
 		meth_ void smooth_normals();
 	};
 
-	export_ MUD_GEOM_EXPORT void generate_mikkt_tangents(span<ShapeIndex> indices, span<ShapeVertex> vertices);
+	export_ TWO_GEOM_EXPORT void generate_mikkt_tangents(span<ShapeIndex> indices, span<ShapeVertex> vertices);
 }

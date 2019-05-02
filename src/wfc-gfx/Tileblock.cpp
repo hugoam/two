@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.wfc.gfx;
+#ifdef TWO_MODULES
+module two.wfc.gfx;
 #else
 #include <stl/vector.hpp>
 #include <stl/unordered_map.hpp>
@@ -38,7 +38,7 @@ module mud.wfc.gfx;
 #include <cstring>
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 	WfcBlock::WfcBlock() {}
 	WfcBlock::WfcBlock(const vec3& position, const uvec3& size, const vec3& scale, WaveTileset& tileset, bool auto_solve)

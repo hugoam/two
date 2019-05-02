@@ -1,4 +1,4 @@
-#ifdef MUD_CPP_20
+#ifdef TWO_CPP_20
 #include <infra/Config.h>
 
 #include <cassert>

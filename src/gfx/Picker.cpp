@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/map.h>
 #include <stl/algorithm.h>
@@ -30,7 +30,7 @@ module mud.gfx;
 #include <bx/bx.h>
 #include <bgfx/bgfx.h>
 
-namespace mud
+namespace two
 {
 #define PICKING_FOV 3.0f
 

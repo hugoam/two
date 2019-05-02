@@ -5,11 +5,11 @@
 #include <stl/vector.h>
 #include <ui/Forward.h>
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <type/Type.h>
 #endif
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <infra/Types.h>
 #include <type/Types.h>
 #include <math/Types.h>
@@ -17,77 +17,77 @@
 #endif
 
 
-namespace mud
+namespace two
 {
     // Exported types
-    export_ template <> MUD_UI_EXPORT Type& type<mud::FlowAxis>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Pivot>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Align>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Solver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::AutoLayout>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::LayoutFlow>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Sizing>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Preset>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Clip>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Opacity>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::WidgetState>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::ui::PopupFlags>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::WindowState>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::FlowAxis>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Pivot>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Align>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Solver>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::AutoLayout>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::LayoutFlow>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Sizing>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Preset>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Clip>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Opacity>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::WidgetState>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::ui::PopupFlags>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::WindowState>();
     
-    export_ template <> MUD_UI_EXPORT Type& type<stl::span<const char*>>();
-    export_ template <> MUD_UI_EXPORT Type& type<stl::vector<mud::Space>>();
-    export_ template <> MUD_UI_EXPORT Type& type<stl::vector<mud::Subskin>>();
+    export_ template <> TWO_UI_EXPORT Type& type<stl::span<const char*>>();
+    export_ template <> TWO_UI_EXPORT Type& type<stl::vector<two::Space>>();
+    export_ template <> TWO_UI_EXPORT Type& type<stl::vector<two::Subskin>>();
     
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Space>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<size_t>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::AutoLayout>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Sizing>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Align>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Pivot>>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::ImageSkin>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Shadow>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Paint>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::TextPaint>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Gradient>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::InkStyle>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Layout>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Subskin>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Style>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::UiRect>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Frame>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Widget>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::TextCursor>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::TextSelection>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::TextMarker>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Text>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::TextEdit>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::NodeConnection>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Vg>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Clipboard>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::UiWindow>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::User>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Layer>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::FrameSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::RowSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::TableSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::LineSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::GridSolver>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::ScrollSheet>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::ui::Sequence>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Tabber>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Expandbox>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::TreeNode>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Table>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dock>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Docksystem>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dockable>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Docker>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dockspace>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Dockbar>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::NodePlug>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Node>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::CanvasConnect>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Canvas>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Ui>();
-    export_ template <> MUD_UI_EXPORT Type& type<mud::Window>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Space>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::v2<size_t>>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::v2<two::AutoLayout>>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::v2<two::Sizing>>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::v2<two::Align>>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::v2<two::Pivot>>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::ImageSkin>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Shadow>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Paint>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::TextPaint>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Gradient>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::InkStyle>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Layout>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Subskin>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Style>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::UiRect>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Frame>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Widget>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::TextCursor>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::TextSelection>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::TextMarker>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Text>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::TextEdit>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::NodeConnection>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Vg>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Clipboard>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::UiWindow>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::User>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Layer>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::FrameSolver>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::RowSolver>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::TableSolver>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::LineSolver>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::GridSolver>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::ScrollSheet>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::ui::Sequence>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Tabber>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Expandbox>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::TreeNode>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Table>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Dock>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Docksystem>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Dockable>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Docker>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Dockspace>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Dockbar>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::NodePlug>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Node>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::CanvasConnect>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Canvas>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Ui>();
+    export_ template <> TWO_UI_EXPORT Type& type<two::Window>();
 }

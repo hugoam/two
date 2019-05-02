@@ -1,10 +1,10 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <ui/Edit/Lang.h>
 
 #include <09_live_shader/09_live_shader.h>
 
-using namespace mud;
+using namespace two;
 
 static string fragment =
 	"$input v_uv0\n"
@@ -92,7 +92,7 @@ void pump(Shell& app, ShellWindow& window)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
 	app.m_gfx.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }

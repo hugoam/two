@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/span.h>
 #include <type/Unique.h>
 #include <math/Vec.h>
@@ -13,7 +13,7 @@
 #include <gfx/Forward.h>
 #include <gfx/Node3.h>
 
-namespace mud
+namespace two
 {
 	export_ enum refl_ IsometricAngle : unsigned int
 	{
@@ -23,7 +23,7 @@ namespace mud
 		WEST = (2 << 8)
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Camera
+	export_ class refl_ TWO_GFX_EXPORT Camera
 	{
 	public:
 		Camera();
@@ -40,7 +40,7 @@ namespace mud
 		attr_ mat4 m_view;
 		attr_ mat4 m_proj;
 
-#if defined MUD_UNIFORM_BLOCKS
+#if defined TWO_UNIFORM_BLOCKS
 		attr_ FrustumBlock m_frustum;
 #endif
 		attr_ gpu_ float m_fov = 60.f;
@@ -80,5 +80,5 @@ namespace mud
 		attr_ mat4 m_mirror;
 	};
 
-	MUD_GFX_EXPORT func_ MirrorCamera mirror_camera(const Camera& sourcecam, Node3& node, float clipBias = 0.f);
+	TWO_GFX_EXPORT func_ MirrorCamera mirror_camera(const Camera& sourcecam, Node3& node, float clipBias = 0.f);
 }

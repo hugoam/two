@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/algorithm.h>
 #include <infra/Sort.h>
@@ -33,9 +33,9 @@ module mud.gfx;
 
 #include <Tracy.hpp>
 
-//#define MUD_GFX_JOBS
+//#define TWO_GFX_JOBS
 
-namespace mud
+namespace two
 {
 	struct RenderUniform
 	{
@@ -414,7 +414,7 @@ namespace mud
 		//	if(block->m_draw_block)
 		//		((DrawBlock*)block)->submit(render, pass);
 
-#ifdef MUD_GFX_JOBS
+#ifdef TWO_GFX_JOBS
 		auto submit = [&](JobSystem& js, Job* job, size_t start, size_t count)
 		{
 			UNUSED(job);

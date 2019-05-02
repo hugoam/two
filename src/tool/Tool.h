@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <stl/string.h>
 #include <math/Axis.h>
@@ -19,9 +19,9 @@
 #include <tool/Action.h>
 #include <gfx-ui/Viewer.h>
 
-namespace mud
+namespace two
 {
-	export_ struct refl_ MUD_TOOL_EXPORT ToolContext
+	export_ struct refl_ TWO_TOOL_EXPORT ToolContext
 	{
 		Camera* m_camera = nullptr;
 		Plane* m_work_plane = nullptr;
@@ -29,7 +29,7 @@ namespace mud
 		vector<Ref>* m_selection = nullptr;
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT ToolOption
+	export_ class refl_ TWO_TOOL_EXPORT ToolOption
 	{
 	public:
 		ToolOption(cstring name) : m_name(name) {}
@@ -50,7 +50,7 @@ namespace mud
 		Active = 2
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT Tool
+	export_ class refl_ TWO_TOOL_EXPORT Tool
 	{
 	public:
 		using Callback = void(*)(Tool&);
@@ -84,7 +84,7 @@ namespace mud
 		Callback m_callback;
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT ViewportTool : public Tool //, public ViewerController
+	export_ class refl_ TWO_TOOL_EXPORT ViewportTool : public Tool //, public ViewerController
 	{
 	public:
 		ViewportTool(ToolContext& context, cstring name, Type& type);
@@ -94,7 +94,7 @@ namespace mud
 		vec3 m_symbol_position;
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT SpatialTool : public ViewportTool
+	export_ class refl_ TWO_TOOL_EXPORT SpatialTool : public ViewportTool
 	{
 	public:
 		SpatialTool(ToolContext& context, cstring name, Type& type);
@@ -104,7 +104,7 @@ namespace mud
 		virtual void process(Viewer& viewer, span<Ref> selection) = 0;
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT Gizmo
+	export_ class refl_ TWO_TOOL_EXPORT Gizmo
 	{
 	public:
 		virtual ~Gizmo() {}
@@ -116,11 +116,11 @@ namespace mud
 		bool m_highlighted = false;
 	};
 
-	MUD_TOOL_EXPORT Colour gizmo_colour(float hue, bool active);
-	MUD_TOOL_EXPORT vec3 gizmo_grab_linear(Viewer& viewer, const Transform& space, Axis axis);
-	MUD_TOOL_EXPORT vec3 gizmo_grab_planar(Viewer& viewer, const Transform& space, Axis normal);
+	TWO_TOOL_EXPORT Colour gizmo_colour(float hue, bool active);
+	TWO_TOOL_EXPORT vec3 gizmo_grab_linear(Viewer& viewer, const Transform& space, Axis axis);
+	TWO_TOOL_EXPORT vec3 gizmo_grab_planar(Viewer& viewer, const Transform& space, Axis normal);
 
-	export_ class refl_ MUD_TOOL_EXPORT TransformAction : public EditorAction
+	export_ class refl_ TWO_TOOL_EXPORT TransformAction : public EditorAction
 	{
 	public:
 		TransformAction(span<Transform*> targets);
@@ -137,7 +137,7 @@ namespace mud
 		vector<Transform*> m_targets;
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT TransformTool : public SpatialTool
+	export_ class refl_ TWO_TOOL_EXPORT TransformTool : public SpatialTool
 	{
 	public:
 		TransformTool(ToolContext& context, cstring name, Type& type);
@@ -169,7 +169,7 @@ namespace mud
 		object<TransformAction> m_action;
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT TransformGizmo : public Gizmo
+	export_ class refl_ TWO_TOOL_EXPORT TransformGizmo : public Gizmo
 	{
 	public:
 		TransformGizmo(TransformTool& tool, Axis axis = Axis::X, float hue = 0.f) : m_tool(tool), m_axis(axis), m_hue(hue) {}

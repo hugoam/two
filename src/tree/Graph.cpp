@@ -7,5 +7,5 @@
 #include <infra/Config.h>
 #include <tree/Graph.h>
 
-namespace mud
+namespace two
 {}

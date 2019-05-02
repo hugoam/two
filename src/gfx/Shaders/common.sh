@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_COMMON
-#define MUD_SHADER_COMMON
+#ifndef TWO_SHADER_COMMON
+#define TWO_SHADER_COMMON
 
 #include <bgfx_shader.sh>
 #include <srgb.sh>

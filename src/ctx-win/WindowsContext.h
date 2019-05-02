@@ -4,17 +4,17 @@
 
 #pragma once
 
-//#ifdef MUD_CTX_NATIVE
+//#ifdef TWO_CTX_NATIVE
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <ctx/Forward.h>
 #include <ctx/Context.h>
 
 struct GLFWwindow;
 #endif
 
-#ifndef MUD_CTX_WIN_EXPORT
-#define MUD_CTX_WIN_EXPORT MUD_IMPORT
+#ifndef TWO_CTX_WIN_EXPORT
+#define TWO_CTX_WIN_EXPORT TWO_IMPORT
 #endif
 
 #include <windows.h>
@@ -26,9 +26,9 @@ struct GLFWwindow;
 
 #undef OPAQUE
 
-namespace mud
+namespace two
 {
-	class MUD_CTX_WIN_EXPORT WinContext : public Context
+	class TWO_CTX_WIN_EXPORT WinContext : public Context
 	{
 	public:
 		WinContext(RenderSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main = true);

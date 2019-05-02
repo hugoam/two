@@ -3,11 +3,11 @@
 #include <infra/Config.h>
 
 
-#ifndef MUD_SND_EXPORT
-#define MUD_SND_EXPORT MUD_IMPORT
+#ifndef TWO_SND_EXPORT
+#define TWO_SND_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
     class Sound;
     class SoundFileBuffer;

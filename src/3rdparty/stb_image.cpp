@@ -1,4 +1,4 @@
-#ifdef MUD_MODULES
+#ifdef TWO_MODULES
 #include <cpp/preimport.h>
 
 module stb.image;

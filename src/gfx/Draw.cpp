@@ -3,14 +3,14 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <gfx/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <array>
 #include <map>
 #include <cstring>
 #endif
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <infra/ToString.h>
 #include <infra/Vector.h>
@@ -31,7 +31,7 @@ module mud.gfx;
 #include <gfx/Item.h>
 #endif
 
-namespace mud
+namespace two
 {
 	ShapeSize shapes_size(span<ProcShape> shapes, DrawMode draw_mode)
 	{

@@ -8,11 +8,11 @@
 #include <geom/Forward.h>
 #include <gfx/Forward.h>
 
-#ifndef MUD_GFX_PBR_EXPORT
-#define MUD_GFX_PBR_EXPORT MUD_IMPORT
+#ifndef TWO_GFX_PBR_EXPORT
+#define TWO_GFX_PBR_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
     enum ShaderOptionLight : unsigned int;
     enum ShaderOptionRadiance : unsigned int;

@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.lang;
+#ifdef TWO_MODULES
+module two.lang;
 #else
 #include <type/Indexer.h>
 #include <type/Var.h>
@@ -16,11 +16,11 @@ module mud.lang;
 #include <lang/Lua.h>
 #endif
 
-namespace mud
+namespace two
 {
 	Script::Script(Type& type, const string& name, const Signature& signature)
 		: Callable(name.c_str(), signature.m_params, signature.m_return_type)
-		, m_index(index(mud::type<Script>(), Ref(this, type)))
+		, m_index(index(two::type<Script>(), Ref(this, type)))
 		, m_type(type)
 		, m_name(name)
 		, m_signature(signature)

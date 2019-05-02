@@ -7,9 +7,9 @@
 #if defined _MSC_VER
 #	pragma warning (disable : 4201) // anonymous structs are supported by all target compilers
 #	pragma warning (disable : 4251) // members are private, so there's no risk them being accessed by the user
-#	pragma warning (disable : 4577) // mud doesn't use exceptions
+#	pragma warning (disable : 4577) // two doesn't use exceptions
 
-#ifdef MUD_CPP_20
+#ifdef TWO_CPP_20
 #	pragma warning (disable : 4996) // with c++20 modules we can't pass _CRT_SECURE_NO_WARNINGS
 // these are warnings in the experimental Visual Studio std module
 #	pragma warning (disable : 4530) 

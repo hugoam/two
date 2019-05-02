@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <lang/Api.h>
 #include <uio/Api.h>
@@ -6,7 +6,7 @@
 
 #include <14_live_gfx_visual/14_live_gfx_visual.h>
 
-using namespace mud;
+using namespace two;
 
 static float g_time = 0.f;
 
@@ -73,7 +73,7 @@ VisualScript& create_visual_script()
 void ex_14_live_gfx_visual(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app);
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 	// speed it up a bit on Emscripten cause it's clamped to 60fps
 	g_time += 0.02f;
 #else
@@ -103,7 +103,7 @@ void pump(Shell& app, ShellWindow& window)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
 	System::instance().load_modules({ &mud_gfx::m() });
 	app.m_gfx.init_pipeline(pipeline_minimal);
 	app.run(pump);

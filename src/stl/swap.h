@@ -26,7 +26,7 @@ namespace stl
 #endif
 
 #include <stl/move.h>
-namespace mud
+namespace two
 {
 	namespace
 	{

@@ -4,11 +4,11 @@
 
 #include <infra/Forward.h>
 
-#ifndef MUD_TYPE_EXPORT
-#define MUD_TYPE_EXPORT MUD_IMPORT
+#ifndef TWO_TYPE_EXPORT
+#define TWO_TYPE_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
     enum VarMode : unsigned int;
     
@@ -24,12 +24,12 @@ namespace mud
 	class Prototype;
 }
 
-#ifdef MUD_META_GENERATOR
+#ifdef TWO_META_GENERATOR
 #include <stl/string.h>
 #include <stl/vector.h>
 namespace stl
 {
 	export_ extern template class refl_ seque_ vector<string>;
-	export_ extern template class refl_ seque_ vector<mud::Ref>;
+	export_ extern template class refl_ seque_ vector<two::Ref>;
 }
 #endif

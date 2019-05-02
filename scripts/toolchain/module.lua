@@ -1,7 +1,7 @@
--- mud toolchain
+-- two toolchain
 -- module
 
-function mud_dep(namespace, name, cppmodule, usage_decl, deps)
+function two_dep(namespace, name, cppmodule, usage_decl, deps)
     local m = {
         project = nil,
         cppmodule = cppmodule,
@@ -26,13 +26,13 @@ function mud_dep(namespace, name, cppmodule, usage_decl, deps)
     }
     
     if cppmodule then
-        mud_modules(m)
+        two_modules(m)
     end
     
     return m
 end
 
-function mud_module(namespace, name, rootpath, subpath, self_decl, usage_decl, reflect, deps, nomodule)
+function two_module(namespace, name, rootpath, subpath, self_decl, usage_decl, reflect, deps, nomodule)
     local m = {
         project = nil,
         cppmodule = true,
@@ -43,7 +43,7 @@ function mud_module(namespace, name, rootpath, subpath, self_decl, usage_decl, r
         root = rootpath,
         subdir = subpath,
         path = path.join(rootpath, subpath),
-        decl = mud_module_decl,
+        decl = two_module_decl,
         self_decl = self_decl,
         usage_decl = usage_decl,
         reflect = reflect,
@@ -62,14 +62,14 @@ function mud_module(namespace, name, rootpath, subpath, self_decl, usage_decl, r
     end
     
     if reflect then
-        m.refl = mud_refl(m)
+        m.refl = two_refl(m)
     end
     
     return m
 end
 
-function mud_refl(m, force_project)
-    deps = { mud.infra, mud.type, mud.pool, mud.refl }
+function two_refl(m, force_project)
+    deps = { two.infra, two.type, two.pool, two.refl }
     table.extend(deps, m.deps)
     table.extend(deps, { m })
     for _, m in ipairs(m.deps) do
@@ -77,16 +77,16 @@ function mud_refl(m, force_project)
             table.insert(deps, m.refl)
         end
     end
-    m.refl = mud_module(m.namespace, m.name .. "-refl", m.root, path.join("meta", m.subdir), nil, m.usage_decl, false, deps, true)
+    m.refl = two_module(m.namespace, m.name .. "-refl", m.root, path.join("meta", m.subdir), nil, m.usage_decl, false, deps, true)
     m.refl.headers = { path.join(m.root, "meta", string.gsub(m.name, "-", ".") .. ".meta.h") }
     m.refl.sources = { path.join(m.root, "meta", string.gsub(m.name, "-", ".") .. ".meta.cpp") }
-    m.decl = mud_refl_decl
+    m.decl = two_refl_decl
     m.refl.force_project = force_project
     m.refl.reflected = m
     return m.refl
 end
 
-function mud_links(lib, dep)
+function two_links(lib, dep)
     --print("    links " .. dep.name)
     table.insert(lib.links, dep)
     links(dep.name)
@@ -97,7 +97,7 @@ function mud_links(lib, dep)
             if lib.kind == "ConsoleApp" then
                 defines { m.idname:upper() .. "_EXPORT=" }
             else
-                defines { m.idname:upper() .. "_EXPORT=MUD_EXPORT" }
+                defines { m.idname:upper() .. "_EXPORT=TWO_EXPORT" }
             end
         end
     end
@@ -110,7 +110,7 @@ function mud_links(lib, dep)
     end
 end
 
-function mud_depend(lib, m)
+function two_depend(lib, m)
     --print("    depends on " .. m.dotname)
     if m.header_only then
         defines { m.idname:upper() .. "_EXPORT=" }
@@ -119,7 +119,7 @@ function mud_depend(lib, m)
         end
     else
         if lib.name ~= m.lib.name and not table.contains(lib.links, m.lib) then
-            mud_links(lib, m.lib)
+            two_links(lib, m.lib)
         end
     end
     
@@ -128,7 +128,7 @@ function mud_depend(lib, m)
     end
 end
 
-function mud_module_decl(m)
+function two_module_decl(m)
     includedirs {
         m.root,
     }
@@ -151,14 +151,14 @@ function mud_module_decl(m)
     end
     
     local cpps = os.matchfiles(path.join(m.path, "**.cpp"))
-    mud_mxx(cpps, m)
+    two_mxx(cpps, m)
     
     defines { m.idname:upper() .. "_LIB" }
-    defines { m.idname:upper() .. "_EXPORT=MUD_EXPORT" }
+    defines { m.idname:upper() .. "_EXPORT=TWO_EXPORT" }
     
     --vpaths { [name] = { "**.h", "**.cpp" } }
     
-    mud_modules(m)
+    two_modules(m)
     
     if m.self_decl then
         m.self_decl()
@@ -174,14 +174,14 @@ function mud_module_decl(m)
     end
 end
 
-function mud_refl_decl(m, as_project)
+function two_refl_decl(m, as_project)
     if as_project and not m.force_project then
         project(m.reflected.idname)
     end
-    mud_module_decl(m, as_project or m.force_project)
+    two_module_decl(m, as_project or m.force_project)
 end
 
-function mud_project(lib, name, modules, libkind, optdeps, norefl)
+function two_project(lib, name, modules, libkind, optdeps, norefl)
     print("lib " .. name)
     lib.project = project(name)
     kind(libkind)
@@ -207,32 +207,32 @@ function mud_project(lib, name, modules, libkind, optdeps, norefl)
     
     for _, m in ipairs(lib.deps) do
         if m ~= null then
-            mud_depend(lib, m)
+            two_depend(lib, m)
         end
     end
 end
 
-function mud_lib(name, modules, libkind, deps, norefl)
+function two_lib(name, modules, libkind, deps, norefl)
     local lib = {}
-    mud_project(lib, name, modules, libkind, deps, norefl)
+    two_project(lib, name, modules, libkind, deps, norefl)
     return lib
 end
 
-function mud_libs(modules, libkind, deps)
+function two_libs(modules, libkind, deps)
     for k, m  in pairs(modules) do
-        m.lib = mud_lib(m.idname, { m }, libkind, deps, true)
+        m.lib = two_lib(m.idname, { m }, libkind, deps, true)
         if m.refl then
-            m.refl.lib = mud_lib(m.refl.idname, { m.refl }, libkind, deps)
+            m.refl.lib = two_lib(m.refl.idname, { m.refl }, libkind, deps)
             table.insert(modules, m.refl)
         end
     end
 end
 
-function mud_unity(m)
+function two_unity(m)
     m.headers = { path.join(m.root, m.namespace, string.gsub(m.name, "-", ".") .. ".h") }
     m.sources = { path.join(m.root, m.namespace, string.gsub(m.name, "-", ".") .. ".cpp") }
     m.header_only = true
     if m.refl then
-        mud_unity(m.refl)
+        two_unity(m.refl)
     end
 end

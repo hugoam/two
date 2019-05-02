@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <cfloat>
 #include <math/Math.h>
 #include <math/Vec.h>
@@ -18,7 +18,7 @@
 #endif
 #include <gfx-ui/Forward.h>
 
-namespace mud
+namespace two
 {
 	export_ struct ViewerStyles
 	{
@@ -26,9 +26,9 @@ namespace mud
 		Style viewer; Style viewer_fixed; Style space_sheet;
 	};
 
-	export_ MUD_GFX_UI_EXPORT ViewerStyles& viewer_styles();
+	export_ TWO_GFX_UI_EXPORT ViewerStyles& viewer_styles();
 
-	export_ class refl_ MUD_GFX_UI_EXPORT ViewerController
+	export_ class refl_ TWO_GFX_UI_EXPORT ViewerController
 	{
 	public:
 		virtual ~ViewerController() {}
@@ -36,7 +36,7 @@ namespace mud
 		virtual void process(Viewer& viewer) = 0;
 	};
 
-	export_ class refl_ MUD_GFX_UI_EXPORT Viewer : public Widget
+	export_ class refl_ TWO_GFX_UI_EXPORT Viewer : public Widget
 	{
 	public:
 		Viewer(Widget* parent, void* identity, Scene& scene);
@@ -70,7 +70,7 @@ namespace mud
 		Picker& picker(size_t index);
 	};
 
-	export_ class refl_ MUD_GFX_UI_EXPORT SceneViewer : public Viewer
+	export_ class refl_ TWO_GFX_UI_EXPORT SceneViewer : public Viewer
 	{
 	public:
 		SceneViewer(Widget* parent, void* identity);
@@ -78,7 +78,7 @@ namespace mud
 		Scene m_scene;
 	};
 
-	export_ class refl_ MUD_GFX_UI_EXPORT OrbitController : public ViewerController//, public EventDispatch
+	export_ class refl_ TWO_GFX_UI_EXPORT OrbitController : public ViewerController//, public EventDispatch
 	{
 	public:
 		OrbitController(Viewer& viewer, float yaw = 0.f, float pitch = 0.f, float distance = 1.f);
@@ -99,7 +99,7 @@ namespace mud
 		void update_eye();
 	};
 
-	export_ class refl_ MUD_GFX_UI_EXPORT TrackballController : public ViewerController
+	export_ class refl_ TWO_GFX_UI_EXPORT TrackballController : public ViewerController
 	{
 	public:
 		TrackballController(const vec3& eye, const vec3& target, const vec3& up);
@@ -179,7 +179,7 @@ namespace mud
 
 	struct Polar { float theta; float phi; float radius; };
 
-	export_ class refl_ MUD_GFX_UI_EXPORT OrbitControls : public ViewerController
+	export_ class refl_ TWO_GFX_UI_EXPORT OrbitControls : public ViewerController
 	{
 	public:
 		// Set to false to disable this control
@@ -272,7 +272,7 @@ namespace mud
 		vec2 dollyDelta = vec2(0.f);
 	};
 
-	export_ class refl_ MUD_GFX_UI_EXPORT FreeOrbitController : public OrbitController
+	export_ class refl_ TWO_GFX_UI_EXPORT FreeOrbitController : public OrbitController
 	{
 	public:
 		FreeOrbitController(Viewer& viewer);
@@ -282,11 +282,11 @@ namespace mud
 
 namespace ui
 {
-	export_ MUD_GFX_UI_EXPORT func_ Viewer& viewer(Widget& parent, Scene& scene);
-	export_ MUD_GFX_UI_EXPORT func_ SceneViewer& scene_viewer(Widget& parent, const vec2& size = vec2(0.f));
+	export_ TWO_GFX_UI_EXPORT func_ Viewer& viewer(Widget& parent, Scene& scene);
+	export_ TWO_GFX_UI_EXPORT func_ SceneViewer& scene_viewer(Widget& parent, const vec2& size = vec2(0.f));
 
-	export_ MUD_GFX_UI_EXPORT void viewport_picker(Viewer& viewer, Widget& widget, vector<Ref>& selection);
-	export_ MUD_GFX_UI_EXPORT Viewer& scene_viewport(Widget& parent, Scene& scene, Camera& camera, vector<Ref>& selection);
+	export_ TWO_GFX_UI_EXPORT void viewport_picker(Viewer& viewer, Widget& widget, vector<Ref>& selection);
+	export_ TWO_GFX_UI_EXPORT Viewer& scene_viewport(Widget& parent, Scene& scene, Camera& camera, vector<Ref>& selection);
 
 	enum class refl_ OrbitMode
 	{
@@ -295,13 +295,13 @@ namespace ui
 		PseudoIsometric,
 	};
 
-	export_ MUD_GFX_UI_EXPORT func_ TrackballController& trackball_controller(Viewer& viewer);
-	export_ MUD_GFX_UI_EXPORT func_ OrbitControls& orbit_controls(Viewer& viewer);
-	export_ MUD_GFX_UI_EXPORT func_ OrbitController& orbit_controller(Viewer& viewer, float yaw = c_pi4, float pitch = -c_pi4, float distance = 10.f);
-	export_ MUD_GFX_UI_EXPORT func_ FreeOrbitController& free_orbit_controller(Viewer& viewer);
-	export_ MUD_GFX_UI_EXPORT func_ OrbitController& isometric_controller(Viewer& viewer, bool topdown = false);
-	export_ MUD_GFX_UI_EXPORT func_ OrbitController& hybrid_controller(Viewer& viewer, OrbitMode mode, Transform& entity, bool& aiming, vec2& angles, bool modal = false);
+	export_ TWO_GFX_UI_EXPORT func_ TrackballController& trackball_controller(Viewer& viewer);
+	export_ TWO_GFX_UI_EXPORT func_ OrbitControls& orbit_controls(Viewer& viewer);
+	export_ TWO_GFX_UI_EXPORT func_ OrbitController& orbit_controller(Viewer& viewer, float yaw = c_pi4, float pitch = -c_pi4, float distance = 10.f);
+	export_ TWO_GFX_UI_EXPORT func_ FreeOrbitController& free_orbit_controller(Viewer& viewer);
+	export_ TWO_GFX_UI_EXPORT func_ OrbitController& isometric_controller(Viewer& viewer, bool topdown = false);
+	export_ TWO_GFX_UI_EXPORT func_ OrbitController& hybrid_controller(Viewer& viewer, OrbitMode mode, Transform& entity, bool& aiming, vec2& angles, bool modal = false);
 
-	export_ MUD_GFX_UI_EXPORT func_ void velocity_controller(Viewer& viewer, vec3& linear, vec3& angular, float speed = 1.f);
+	export_ TWO_GFX_UI_EXPORT func_ void velocity_controller(Viewer& viewer, vec3& linear, vec3& angular, float speed = 1.f);
 }
 }

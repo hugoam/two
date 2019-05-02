@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <refl/Api.h>
 #include <gfx-pbr/Api.h>
@@ -13,7 +13,7 @@
 #include <stl/vector.hpp>
 #endif
 
-using namespace mud;
+using namespace two;
 
 class Human
 {
@@ -193,7 +193,7 @@ void pump(Shell& app, ShellWindow& window)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
 	app.m_gfx.add_resource_path("examples/05_character");
 	app.m_gfx.init_pipeline(pipeline_pbr);
 	app.run(pump);

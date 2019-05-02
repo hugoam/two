@@ -4,13 +4,13 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.refl;
+#ifdef TWO_MODULES
+module two.refl;
 #else
 #include <refl/Module.h>
 #endif
 
-namespace mud
+namespace two
 {
 	Module::Module(cstring name, vector<Module*> deps)
 		: m_name(name)

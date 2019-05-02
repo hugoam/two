@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <stl/map.h>
 #include <math/Vec.h>
@@ -15,7 +15,7 @@
 
 #include <bgfx/bgfx.h>
 
-namespace mud
+namespace two
 {
 	class ShadowAtlas
 	{

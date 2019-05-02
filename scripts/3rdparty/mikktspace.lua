@@ -1,15 +1,15 @@
--- mud library
+-- two library
 -- mikktspace 3rdparty module
 
-mikktspace = mud_dep(nil, "mikktspace")
+mikktspace = two_dep(nil, "mikktspace")
     kind "StaticLib"
     
     includedirs {
-        path.join(MUD_3RDPARTY_DIR, "mikkt"),
+        path.join(TWO_3RDPARTY_DIR, "mikkt"),
     }
     
     files {
-        path.join(MUD_3RDPARTY_DIR, "mikkt", "mikktspace.c"),
+        path.join(TWO_3RDPARTY_DIR, "mikkt", "mikktspace.c"),
     }
     
     configuration { "osx or *-clang* or asmjs" }

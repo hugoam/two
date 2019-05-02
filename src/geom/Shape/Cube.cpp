@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.geom;
+#ifdef TWO_MODULES
+module two.geom;
 #else
 #include <stl/array.h>
 #include <math/Vec.hpp>
@@ -18,7 +18,7 @@ module mud.geom;
 
 #include <stl/vector.hpp>
 
-namespace mud
+namespace two
 {
 	ShapeSize size_cube_corners_lines(const ProcShape& shape, const Box& box)
 	{

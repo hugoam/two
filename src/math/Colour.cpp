@@ -4,14 +4,14 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.math;
+#ifdef TWO_MODULES
+module two.math;
 #else
 #include <math/Colour.h>
 #include <math/Math.h>
 #endif
 
-namespace mud
+namespace two
 {
 	Colour Colour::Black(0.f, 0.f, 0.f);
 	Colour Colour::AlphaBlack(0.f, 0.f, 0.f, 0.5f);
@@ -46,7 +46,7 @@ namespace mud
 
 	Colour Colour::hsl(float h, float s, float l)
 	{
-		return mud::hsl(h, s, l);
+		return two::hsl(h, s, l);
 	}
 
 	uint32_t to_rgba(const Colour& colour)

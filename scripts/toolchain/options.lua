@@ -1,4 +1,4 @@
--- mud toolchain
+-- two toolchain
 -- options
 
 newoption {
@@ -18,7 +18,7 @@ newoption {
 
 newoption {
     trigger = "as-libs",
-    description = "Generate separate mud libraries",
+    description = "Generate separate two libraries",
 }
 
 newoption {
@@ -48,7 +48,7 @@ newoption {
 
 newoption {
     trigger = "sound",
-    description = "Build mud library with Sound.",
+    description = "Build two library with Sound.",
 }
 
 newoption {

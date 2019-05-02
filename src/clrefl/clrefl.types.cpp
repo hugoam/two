@@ -2,8 +2,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.clrefl;
+#ifdef TWO_MODULES
+module two.clrefl;
 #else
 #include <clrefl/Types.h>
 #include <clrefl/Api.h>
@@ -11,6 +11,6 @@ module mud.clrefl;
 //#include <ecs/Proto.h>
 #endif
 
-namespace mud
+namespace two
 {
 }

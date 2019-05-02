@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx-edit;
+#ifdef TWO_MODULES
+module two.gfx-edit;
 #else
 #include <infra/File.h>
 #include <type/Var.h>
@@ -25,7 +25,7 @@ module mud.gfx-edit;
 #include <gfx-edit/ParticleEdit.h>
 #endif
 
-namespace mud
+namespace two
 {
 	struct ParticleEditorState : public NodeState
 	{

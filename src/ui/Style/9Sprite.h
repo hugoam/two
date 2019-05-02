@@ -4,16 +4,16 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/span.h>
 #endif
 #include <ui/Forward.h>
 #include <ui/Frame/Dim.h>
 #include <math/Image.h>
 
-namespace mud
+namespace two
 {
-	export_ struct refl_ MUD_UI_EXPORT ImageSkin
+	export_ struct refl_ TWO_UI_EXPORT ImageSkin
 	{
 	public:
 		enum Section

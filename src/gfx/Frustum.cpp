@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <math/Axis.h>
 #include <geom/Geom.hpp>
@@ -23,7 +23,7 @@ module mud.gfx;
 typedef SSIZE_T ssize_t;
 #endif
 
-namespace mud
+namespace two
 {
 	inline Plane bounding_plane(const mat4& mat, Axis component, float dir)
 	{

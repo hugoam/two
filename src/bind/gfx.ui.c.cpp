@@ -8,7 +8,7 @@
 #include <gfx/Api.h>
 #include <gfx-ui/Api.h>
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
 #define DECL EMSCRIPTEN_KEEPALIVE
 #else
@@ -19,220 +19,220 @@
 extern "C" {
 	
 	// SpaceSheet
-	mud::Type* DECL mud_SpaceSheet__type() {
-		return &mud::type<mud::SpaceSheet>();
+	two::Type* DECL two_SpaceSheet__type() {
+		return &two::type<two::SpaceSheet>();
 	}
-	void DECL mud_SpaceSheet__destroy(mud::SpaceSheet* self) {
+	void DECL two_SpaceSheet__destroy(two::SpaceSheet* self) {
 		delete self;
 	}
 	// ViewerController
-	mud::Type* DECL mud_ViewerController__type() {
-		return &mud::type<mud::ViewerController>();
+	two::Type* DECL two_ViewerController__type() {
+		return &two::type<two::ViewerController>();
 	}
-	void DECL mud_ViewerController__destroy(mud::ViewerController* self) {
+	void DECL two_ViewerController__destroy(two::ViewerController* self) {
 		delete self;
 	}
 	// Viewer
-	mud::Type* DECL mud_Viewer__type() {
-		return &mud::type<mud::Viewer>();
+	two::Type* DECL two_Viewer__type() {
+		return &two::type<two::Viewer>();
 	}
-	mud::Scene* DECL mud_Viewer__get_scene(mud::Viewer* self) {
+	two::Scene* DECL two_Viewer__get_scene(two::Viewer* self) {
 		return self->m_scene;
 	}
-	void DECL mud_Viewer__set_scene(mud::Viewer* self, mud::Scene* value) {
+	void DECL two_Viewer__set_scene(two::Viewer* self, two::Scene* value) {
 		self->m_scene = value;
 	}
-	mud::Camera* DECL mud_Viewer__get_camera(mud::Viewer* self) {
+	two::Camera* DECL two_Viewer__get_camera(two::Viewer* self) {
 		return &self->m_camera;
 	}
-	mud::Viewport* DECL mud_Viewer__get_viewport(mud::Viewer* self) {
+	two::Viewport* DECL two_Viewer__get_viewport(two::Viewer* self) {
 		return &self->m_viewport;
 	}
-	mud::vec2* DECL mud_Viewer__get_position(mud::Viewer* self) {
+	two::vec2* DECL two_Viewer__get_position(two::Viewer* self) {
 		return &self->m_position;
 	}
-	void DECL mud_Viewer__set_position(mud::Viewer* self, mud::vec2* value) {
+	void DECL two_Viewer__set_position(two::Viewer* self, two::vec2* value) {
 		self->m_position = *value;
 	}
-	mud::vec2* DECL mud_Viewer__get_size(mud::Viewer* self) {
+	two::vec2* DECL two_Viewer__get_size(two::Viewer* self) {
 		return &self->m_size;
 	}
-	void DECL mud_Viewer__set_size(mud::Viewer* self, mud::vec2* value) {
+	void DECL two_Viewer__set_size(two::Viewer* self, two::vec2* value) {
 		self->m_size = *value;
 	}
-	void DECL mud_Viewer__destroy(mud::Viewer* self) {
+	void DECL two_Viewer__destroy(two::Viewer* self) {
 		delete self;
 	}
 	// SceneViewer
-	mud::Type* DECL mud_SceneViewer__type() {
-		return &mud::type<mud::SceneViewer>();
+	two::Type* DECL two_SceneViewer__type() {
+		return &two::type<two::SceneViewer>();
 	}
-	void DECL mud_SceneViewer__destroy(mud::SceneViewer* self) {
+	void DECL two_SceneViewer__destroy(two::SceneViewer* self) {
 		delete self;
 	}
 	// OrbitController
-	mud::Type* DECL mud_OrbitController__type() {
-		return &mud::type<mud::OrbitController>();
+	two::Type* DECL two_OrbitController__type() {
+		return &two::type<two::OrbitController>();
 	}
-	void DECL mud_OrbitController_set_eye_1(mud::OrbitController* self, const mud::quat* rotation) {
+	void DECL two_OrbitController_set_eye_1(two::OrbitController* self, const two::quat* rotation) {
 		self->set_eye(*rotation);
 	}
-	void DECL mud_OrbitController_set_target_1(mud::OrbitController* self, const mud::vec3* position) {
+	void DECL two_OrbitController_set_target_1(two::OrbitController* self, const two::vec3* position) {
 		self->set_target(*position);
 	}
-	mud::vec3* DECL mud_OrbitController__get_position(mud::OrbitController* self) {
+	two::vec3* DECL two_OrbitController__get_position(two::OrbitController* self) {
 		return &self->m_position;
 	}
-	void DECL mud_OrbitController__set_position(mud::OrbitController* self, mud::vec3* value) {
+	void DECL two_OrbitController__set_position(two::OrbitController* self, two::vec3* value) {
 		self->m_position = *value;
 	}
-	float DECL mud_OrbitController__get_yaw(mud::OrbitController* self) {
+	float DECL two_OrbitController__get_yaw(two::OrbitController* self) {
 		return self->m_yaw;
 	}
-	void DECL mud_OrbitController__set_yaw(mud::OrbitController* self, float value) {
+	void DECL two_OrbitController__set_yaw(two::OrbitController* self, float value) {
 		self->m_yaw = value;
 	}
-	float DECL mud_OrbitController__get_pitch(mud::OrbitController* self) {
+	float DECL two_OrbitController__get_pitch(two::OrbitController* self) {
 		return self->m_pitch;
 	}
-	void DECL mud_OrbitController__set_pitch(mud::OrbitController* self, float value) {
+	void DECL two_OrbitController__set_pitch(two::OrbitController* self, float value) {
 		self->m_pitch = value;
 	}
-	float DECL mud_OrbitController__get_distance(mud::OrbitController* self) {
+	float DECL two_OrbitController__get_distance(two::OrbitController* self) {
 		return self->m_distance;
 	}
-	void DECL mud_OrbitController__set_distance(mud::OrbitController* self, float value) {
+	void DECL two_OrbitController__set_distance(two::OrbitController* self, float value) {
 		self->m_distance = value;
 	}
-	void DECL mud_OrbitController__destroy(mud::OrbitController* self) {
+	void DECL two_OrbitController__destroy(two::OrbitController* self) {
 		delete self;
 	}
 	// TrackballController
-	mud::Type* DECL mud_TrackballController__type() {
-		return &mud::type<mud::TrackballController>();
+	two::Type* DECL two_TrackballController__type() {
+		return &two::type<two::TrackballController>();
 	}
-	float DECL mud_TrackballController__get_rotateSpeed(mud::TrackballController* self) {
+	float DECL two_TrackballController__get_rotateSpeed(two::TrackballController* self) {
 		return self->m_rotateSpeed;
 	}
-	void DECL mud_TrackballController__set_rotateSpeed(mud::TrackballController* self, float value) {
+	void DECL two_TrackballController__set_rotateSpeed(two::TrackballController* self, float value) {
 		self->m_rotateSpeed = value;
 	}
-	float DECL mud_TrackballController__get_zoomSpeed(mud::TrackballController* self) {
+	float DECL two_TrackballController__get_zoomSpeed(two::TrackballController* self) {
 		return self->m_zoomSpeed;
 	}
-	void DECL mud_TrackballController__set_zoomSpeed(mud::TrackballController* self, float value) {
+	void DECL two_TrackballController__set_zoomSpeed(two::TrackballController* self, float value) {
 		self->m_zoomSpeed = value;
 	}
-	float DECL mud_TrackballController__get_panSpeed(mud::TrackballController* self) {
+	float DECL two_TrackballController__get_panSpeed(two::TrackballController* self) {
 		return self->m_panSpeed;
 	}
-	void DECL mud_TrackballController__set_panSpeed(mud::TrackballController* self, float value) {
+	void DECL two_TrackballController__set_panSpeed(two::TrackballController* self, float value) {
 		self->m_panSpeed = value;
 	}
-	bool DECL mud_TrackballController__get_staticMoving(mud::TrackballController* self) {
+	bool DECL two_TrackballController__get_staticMoving(two::TrackballController* self) {
 		return self->m_staticMoving;
 	}
-	void DECL mud_TrackballController__set_staticMoving(mud::TrackballController* self, bool value) {
+	void DECL two_TrackballController__set_staticMoving(two::TrackballController* self, bool value) {
 		self->m_staticMoving = value;
 	}
-	float DECL mud_TrackballController__get_dynamicDampingFactor(mud::TrackballController* self) {
+	float DECL two_TrackballController__get_dynamicDampingFactor(two::TrackballController* self) {
 		return self->m_dynamicDampingFactor;
 	}
-	void DECL mud_TrackballController__set_dynamicDampingFactor(mud::TrackballController* self, float value) {
+	void DECL two_TrackballController__set_dynamicDampingFactor(two::TrackballController* self, float value) {
 		self->m_dynamicDampingFactor = value;
 	}
-	float DECL mud_TrackballController__get_minDistance(mud::TrackballController* self) {
+	float DECL two_TrackballController__get_minDistance(two::TrackballController* self) {
 		return self->m_minDistance;
 	}
-	void DECL mud_TrackballController__set_minDistance(mud::TrackballController* self, float value) {
+	void DECL two_TrackballController__set_minDistance(two::TrackballController* self, float value) {
 		self->m_minDistance = value;
 	}
-	float DECL mud_TrackballController__get_maxDistance(mud::TrackballController* self) {
+	float DECL two_TrackballController__get_maxDistance(two::TrackballController* self) {
 		return self->m_maxDistance;
 	}
-	void DECL mud_TrackballController__set_maxDistance(mud::TrackballController* self, float value) {
+	void DECL two_TrackballController__set_maxDistance(two::TrackballController* self, float value) {
 		self->m_maxDistance = value;
 	}
-	mud::vec3* DECL mud_TrackballController__get_target(mud::TrackballController* self) {
+	two::vec3* DECL two_TrackballController__get_target(two::TrackballController* self) {
 		return &self->m_target;
 	}
-	void DECL mud_TrackballController__set_target(mud::TrackballController* self, mud::vec3* value) {
+	void DECL two_TrackballController__set_target(two::TrackballController* self, two::vec3* value) {
 		self->m_target = *value;
 	}
-	void DECL mud_TrackballController__destroy(mud::TrackballController* self) {
+	void DECL two_TrackballController__destroy(two::TrackballController* self) {
 		delete self;
 	}
 	// OrbitControls
-	mud::Type* DECL mud_OrbitControls__type() {
-		return &mud::type<mud::OrbitControls>();
+	two::Type* DECL two_OrbitControls__type() {
+		return &two::type<two::OrbitControls>();
 	}
-	void DECL mud_OrbitControls__destroy(mud::OrbitControls* self) {
+	void DECL two_OrbitControls__destroy(two::OrbitControls* self) {
 		delete self;
 	}
 	// FreeOrbitController
-	mud::Type* DECL mud_FreeOrbitController__type() {
-		return &mud::type<mud::FreeOrbitController>();
+	two::Type* DECL two_FreeOrbitController__type() {
+		return &two::type<two::FreeOrbitController>();
 	}
-	void DECL mud_FreeOrbitController__destroy(mud::FreeOrbitController* self) {
+	void DECL two_FreeOrbitController__destroy(two::FreeOrbitController* self) {
 		delete self;
 	}
-	mud::Viewer* DECL mud_ui_viewer_2(mud::Widget* parent, mud::Scene* scene) {
-		return &mud::ui::viewer(*parent, *scene);
+	two::Viewer* DECL two_ui_viewer_2(two::Widget* parent, two::Scene* scene) {
+		return &two::ui::viewer(*parent, *scene);
 	}
-	mud::SceneViewer* DECL mud_ui_scene_viewer_1(mud::Widget* parent) {
-		return &mud::ui::scene_viewer(*parent);
+	two::SceneViewer* DECL two_ui_scene_viewer_1(two::Widget* parent) {
+		return &two::ui::scene_viewer(*parent);
 	}
-	mud::SceneViewer* DECL mud_ui_scene_viewer_2(mud::Widget* parent, const mud::vec2* size) {
-		return &mud::ui::scene_viewer(*parent, *size);
+	two::SceneViewer* DECL two_ui_scene_viewer_2(two::Widget* parent, const two::vec2* size) {
+		return &two::ui::scene_viewer(*parent, *size);
 	}
-	mud::TrackballController* DECL mud_ui_trackball_controller_1(mud::Viewer* viewer) {
-		return &mud::ui::trackball_controller(*viewer);
+	two::TrackballController* DECL two_ui_trackball_controller_1(two::Viewer* viewer) {
+		return &two::ui::trackball_controller(*viewer);
 	}
-	mud::OrbitControls* DECL mud_ui_orbit_controls_1(mud::Viewer* viewer) {
-		return &mud::ui::orbit_controls(*viewer);
+	two::OrbitControls* DECL two_ui_orbit_controls_1(two::Viewer* viewer) {
+		return &two::ui::orbit_controls(*viewer);
 	}
-	mud::OrbitController* DECL mud_ui_orbit_controller_1(mud::Viewer* viewer) {
-		return &mud::ui::orbit_controller(*viewer);
+	two::OrbitController* DECL two_ui_orbit_controller_1(two::Viewer* viewer) {
+		return &two::ui::orbit_controller(*viewer);
 	}
-	mud::OrbitController* DECL mud_ui_orbit_controller_2(mud::Viewer* viewer, float yaw) {
-		return &mud::ui::orbit_controller(*viewer, yaw);
+	two::OrbitController* DECL two_ui_orbit_controller_2(two::Viewer* viewer, float yaw) {
+		return &two::ui::orbit_controller(*viewer, yaw);
 	}
-	mud::OrbitController* DECL mud_ui_orbit_controller_3(mud::Viewer* viewer, float yaw, float pitch) {
-		return &mud::ui::orbit_controller(*viewer, yaw, pitch);
+	two::OrbitController* DECL two_ui_orbit_controller_3(two::Viewer* viewer, float yaw, float pitch) {
+		return &two::ui::orbit_controller(*viewer, yaw, pitch);
 	}
-	mud::OrbitController* DECL mud_ui_orbit_controller_4(mud::Viewer* viewer, float yaw, float pitch, float distance) {
-		return &mud::ui::orbit_controller(*viewer, yaw, pitch, distance);
+	two::OrbitController* DECL two_ui_orbit_controller_4(two::Viewer* viewer, float yaw, float pitch, float distance) {
+		return &two::ui::orbit_controller(*viewer, yaw, pitch, distance);
 	}
-	mud::FreeOrbitController* DECL mud_ui_free_orbit_controller_1(mud::Viewer* viewer) {
-		return &mud::ui::free_orbit_controller(*viewer);
+	two::FreeOrbitController* DECL two_ui_free_orbit_controller_1(two::Viewer* viewer) {
+		return &two::ui::free_orbit_controller(*viewer);
 	}
-	mud::OrbitController* DECL mud_ui_isometric_controller_1(mud::Viewer* viewer) {
-		return &mud::ui::isometric_controller(*viewer);
+	two::OrbitController* DECL two_ui_isometric_controller_1(two::Viewer* viewer) {
+		return &two::ui::isometric_controller(*viewer);
 	}
-	mud::OrbitController* DECL mud_ui_isometric_controller_2(mud::Viewer* viewer, bool topdown) {
-		return &mud::ui::isometric_controller(*viewer, topdown);
+	two::OrbitController* DECL two_ui_isometric_controller_2(two::Viewer* viewer, bool topdown) {
+		return &two::ui::isometric_controller(*viewer, topdown);
 	}
-	mud::OrbitController* DECL mud_ui_hybrid_controller_5(mud::Viewer* viewer, mud::ui::OrbitMode mode, mud::Transform* entity, bool aiming, mud::vec2* angles) {
-		return &mud::ui::hybrid_controller(*viewer, mode, *entity, aiming, *angles);
+	two::OrbitController* DECL two_ui_hybrid_controller_5(two::Viewer* viewer, two::ui::OrbitMode mode, two::Transform* entity, bool aiming, two::vec2* angles) {
+		return &two::ui::hybrid_controller(*viewer, mode, *entity, aiming, *angles);
 	}
-	mud::OrbitController* DECL mud_ui_hybrid_controller_6(mud::Viewer* viewer, mud::ui::OrbitMode mode, mud::Transform* entity, bool aiming, mud::vec2* angles, bool modal) {
-		return &mud::ui::hybrid_controller(*viewer, mode, *entity, aiming, *angles, modal);
+	two::OrbitController* DECL two_ui_hybrid_controller_6(two::Viewer* viewer, two::ui::OrbitMode mode, two::Transform* entity, bool aiming, two::vec2* angles, bool modal) {
+		return &two::ui::hybrid_controller(*viewer, mode, *entity, aiming, *angles, modal);
 	}
-	void DECL mud_ui_velocity_controller_3(mud::Viewer* viewer, mud::vec3* linear, mud::vec3* angular) {
-		mud::ui::velocity_controller(*viewer, *linear, *angular);
+	void DECL two_ui_velocity_controller_3(two::Viewer* viewer, two::vec3* linear, two::vec3* angular) {
+		two::ui::velocity_controller(*viewer, *linear, *angular);
 	}
-	void DECL mud_ui_velocity_controller_4(mud::Viewer* viewer, mud::vec3* linear, mud::vec3* angular, float speed) {
-		mud::ui::velocity_controller(*viewer, *linear, *angular, speed);
+	void DECL two_ui_velocity_controller_4(two::Viewer* viewer, two::vec3* linear, two::vec3* angular, float speed) {
+		two::ui::velocity_controller(*viewer, *linear, *angular, speed);
 	}
 	// OrbitMode
-	mud::ui::OrbitMode DECL mud_ui_OrbitMode_ThirdPerson() {
-		return mud::ui::OrbitMode::ThirdPerson;
+	two::ui::OrbitMode DECL two_ui_OrbitMode_ThirdPerson() {
+		return two::ui::OrbitMode::ThirdPerson;
 	}
-	mud::ui::OrbitMode DECL mud_ui_OrbitMode_Isometric() {
-		return mud::ui::OrbitMode::Isometric;
+	two::ui::OrbitMode DECL two_ui_OrbitMode_Isometric() {
+		return two::ui::OrbitMode::Isometric;
 	}
-	mud::ui::OrbitMode DECL mud_ui_OrbitMode_PseudoIsometric() {
-		return mud::ui::OrbitMode::PseudoIsometric;
+	two::ui::OrbitMode DECL two_ui_OrbitMode_PseudoIsometric() {
+		return two::ui::OrbitMode::PseudoIsometric;
 	}
 	
 }

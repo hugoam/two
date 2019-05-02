@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <srlz/Api.h>
 #include <refl/Api.h>
@@ -9,7 +9,7 @@
 
 #include <stl/vector.hpp>
 
-using namespace mud;
+using namespace two;
 
 template <class T_Asset>
 void add_asset_loader(AssetStore<T_Asset>& store, cstring format)
@@ -29,7 +29,7 @@ struct ParticleItem
 	Flare* m_particles;
 };
 
-namespace mud
+namespace two
 {
 	template <> Type& type<ParticleItem>() { static Type ty("ParticleItem"); return ty; }
 }
@@ -103,7 +103,7 @@ void pump(Shell& app, ShellWindow& window)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
 	System::instance().load_modules({ &mud_gfx::m() });
 	add_asset_loader(app.m_gfx.flows(), ".ptc");
 	app.m_gfx.add_resource_path("examples/06_particles");

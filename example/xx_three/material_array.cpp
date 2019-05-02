@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 #include <ecs/ECS.hpp>
@@ -7,7 +7,7 @@
 
 #include <stl/vector.hpp>
 
-using namespace mud;
+using namespace two;
 
 void xx_material_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 {

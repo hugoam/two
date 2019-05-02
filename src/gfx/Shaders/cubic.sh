@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_CUBIC
-#define MUD_SHADER_CUBIC
+#ifndef TWO_SHADER_CUBIC
+#define TWO_SHADER_CUBIC
 
 vec4 cubic(float v)
 {

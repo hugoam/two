@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.wfc;
+#ifdef TWO_MODULES
+module two.wfc;
 #else
 #include <json11.hpp>
 using Json = json11::Json;
@@ -20,7 +20,7 @@ using Json = json11::Json;
 #endif
 
 
-namespace mud
+namespace two
 {
 	void add_tile(Tileset& tileset, span<string> subset_tiles, const string& tile_name, char symmetry, float weight)
 	{

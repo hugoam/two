@@ -5,11 +5,11 @@
 #include <type/Forward.h>
 #include <math/Forward.h>
 
-#ifndef MUD_GEOM_EXPORT
-#define MUD_GEOM_EXPORT MUD_IMPORT
+#ifndef TWO_GEOM_EXPORT
+#define TWO_GEOM_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
     enum DrawMode : unsigned int;
     enum class PrimitiveType : unsigned int;
@@ -82,17 +82,17 @@ namespace mud
     class IcoSphere;
 }
 
-#ifdef MUD_META_GENERATOR
+#ifdef TWO_META_GENERATOR
 #include <stl/vector.h>
 #include <stl/span.h>
 namespace stl
 {
-	export_ extern template struct refl_ span_ span<mud::vec3>;
+	export_ extern template struct refl_ span_ span<two::vec3>;
 
-	export_ extern template class refl_ seque_ vector<mud::vec2>;
-	export_ extern template class refl_ seque_ vector<mud::vec4>;
-	export_ extern template class refl_ seque_ vector<mud::ivec4>;
+	export_ extern template class refl_ seque_ vector<two::vec2>;
+	export_ extern template class refl_ seque_ vector<two::vec4>;
+	export_ extern template class refl_ seque_ vector<two::ivec4>;
 
-	export_ extern template class refl_ seque_ vector<mud::Circle>;
+	export_ extern template class refl_ seque_ vector<two::Circle>;
 }
 #endif

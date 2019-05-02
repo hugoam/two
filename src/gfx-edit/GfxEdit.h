@@ -4,31 +4,31 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <math/Vec.h>
 #endif
 #include <gfx-edit/Forward.h>
 
-namespace mud
+namespace two
 {
 #if 0
-	MUD_GFX_EDIT_EXPORT void painter_edit(Widget& parent, VisuPainter& painter);
-	MUD_GFX_EDIT_EXPORT void painter_panel(Widget& parent, VisuScene& scene);
+	TWO_GFX_EDIT_EXPORT void painter_edit(Widget& parent, VisuPainter& painter);
+	TWO_GFX_EDIT_EXPORT void painter_panel(Widget& parent, VisuScene& scene);
 
 #endif
 
-	MUD_GFX_EDIT_EXPORT void space_axes(Gnode& parent);
+	TWO_GFX_EDIT_EXPORT void space_axes(Gnode& parent);
 
-	MUD_GFX_EDIT_EXPORT void animation_edit(Widget& parent, Mime& animated);
+	TWO_GFX_EDIT_EXPORT void animation_edit(Widget& parent, Mime& animated);
 
-	MUD_GFX_EDIT_EXPORT void asset_browser(Widget& parent, GfxSystem& gfx);
+	TWO_GFX_EDIT_EXPORT void asset_browser(Widget& parent, GfxSystem& gfx);
 
-	MUD_GFX_EDIT_EXPORT void edit_viewer_filters(Widget& parent, Viewer& viewer);
+	TWO_GFX_EDIT_EXPORT void edit_viewer_filters(Widget& parent, Viewer& viewer);
 
-	MUD_GFX_EDIT_EXPORT void panel_gfx_stats(Widget& parent);
-	MUD_GFX_EDIT_EXPORT void edit_gfx(Widget& parent, GfxSystem& system);
+	TWO_GFX_EDIT_EXPORT void panel_gfx_stats(Widget& parent);
+	TWO_GFX_EDIT_EXPORT void edit_gfx(Widget& parent, GfxSystem& system);
 	
-	MUD_GFX_EDIT_EXPORT void gfx_editor(Widget& parent, GfxSystem& system);
+	TWO_GFX_EDIT_EXPORT void gfx_editor(Widget& parent, GfxSystem& system);
 
-	MUD_GFX_EDIT_EXPORT void declare_gfx_edit();
+	TWO_GFX_EDIT_EXPORT void declare_gfx_edit();
 }

@@ -11,7 +11,7 @@
 #include <type/Var.h>
 #include <type/Type.h>
 
-namespace mud
+namespace two
 {
 	using cstring = const char*;
 
@@ -31,7 +31,7 @@ namespace mud
 		return offset;
 	}
 
-	export_ class refl_ MUD_REFL_EXPORT Meta
+	export_ class refl_ TWO_REFL_EXPORT Meta
 	{
 	public:
 		Meta(Type& type, Namespace* location, cstring name, size_t size, TypeClass type_class, bool is_array = false);
@@ -54,7 +54,7 @@ namespace mud
 		inline void copy_assign(Ref first, Ref other) const { m_copy_assign(first.m_value, other.m_value); }
 	};
 
-	export_ class refl_ MUD_REFL_EXPORT Convert
+	export_ class refl_ TWO_REFL_EXPORT Convert
 	{
 	public:
 		using ToString = void(*)(void*, string&); ToString m_to_string;
@@ -64,12 +64,12 @@ namespace mud
 		inline void to_value(const string& str, Ref object) const { m_to_value(str, object.m_value); }
 	};
 
-	export_ extern MUD_REFL_EXPORT vector<Meta*> g_meta;
-	export_ extern MUD_REFL_EXPORT vector<Class*> g_class;
-	export_ extern MUD_REFL_EXPORT vector<Enum*> g_enu;
-	export_ extern MUD_REFL_EXPORT vector<Convert*> g_convert;
-	export_ extern MUD_REFL_EXPORT vector<Iterable*> g_iterable;
-	export_ extern MUD_REFL_EXPORT vector<Sequence*> g_sequence;
+	export_ extern TWO_REFL_EXPORT vector<Meta*> g_meta;
+	export_ extern TWO_REFL_EXPORT vector<Class*> g_class;
+	export_ extern TWO_REFL_EXPORT vector<Enum*> g_enu;
+	export_ extern TWO_REFL_EXPORT vector<Convert*> g_convert;
+	export_ extern TWO_REFL_EXPORT vector<Iterable*> g_iterable;
+	export_ extern TWO_REFL_EXPORT vector<Sequence*> g_sequence;
 
 	export_ inline Meta& meta(const Type& type) { return *g_meta[type.m_id]; }
 	export_ inline Class& cls(const Type& type) { return *g_class[type.m_id]; }
@@ -106,23 +106,23 @@ namespace mud
 	export_ inline Iterable& iter(const Ref& ref) { return iter(type(ref)); }
 	export_ inline Sequence& sequence(const Ref& ref) { return sequence(type(ref)); }
 
-	export_ MUD_REFL_EXPORT void copy_construct(Ref dest, Ref source);
+	export_ TWO_REFL_EXPORT void copy_construct(Ref dest, Ref source);
 
 	//export_ inline Var construct(Type& type)
 	//{
 	//	return meta(type).m_empty_var;
 	//}
 
-	export_ MUD_REFL_EXPORT void assign(Ref first, Ref second);
-	export_ MUD_REFL_EXPORT void assign_pointer(Ref first, Ref second);
-	export_ MUD_REFL_EXPORT bool compare(Ref first, Ref second);
+	export_ TWO_REFL_EXPORT void assign(Ref first, Ref second);
+	export_ TWO_REFL_EXPORT void assign_pointer(Ref first, Ref second);
+	export_ TWO_REFL_EXPORT bool compare(Ref first, Ref second);
 
-	export_ MUD_REFL_EXPORT bool is_related(const Type& input, const Type& output);
+	export_ TWO_REFL_EXPORT bool is_related(const Type& input, const Type& output);
 
-	export_ MUD_REFL_EXPORT bool convert(Var& input, const Type& output, Var& result, bool ref = false);
-	export_ MUD_REFL_EXPORT bool convert(Ref input, const Type& output, Var& result);
-	export_ MUD_REFL_EXPORT Var convert(Ref input, const Type& output);
+	export_ TWO_REFL_EXPORT bool convert(Var& input, const Type& output, Var& result, bool ref = false);
+	export_ TWO_REFL_EXPORT bool convert(Ref input, const Type& output, Var& result);
+	export_ TWO_REFL_EXPORT Var convert(Ref input, const Type& output);
 
-	export_ MUD_REFL_EXPORT bool can_convert(const Type& input, const Type& output);
-	export_ MUD_REFL_EXPORT bool can_convert(Ref input, const Type& output);
+	export_ TWO_REFL_EXPORT bool can_convert(const Type& input, const Type& output);
+	export_ TWO_REFL_EXPORT bool can_convert(Ref input, const Type& output);
 }

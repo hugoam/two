@@ -7,7 +7,7 @@
 #include <math/Math.h>
 #include <math/Stat.h>
 
-namespace mud
+namespace two
 {
 	export_ template <class T>
 	inline T StatDef<T>::rincrement(T& value, T amount) const { T diff = min(m_max - value, amount); value += diff; update(value); return diff; }

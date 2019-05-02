@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/set.h>
 #include <stl/hash_base.hpp>
@@ -19,9 +19,9 @@ module mud.gfx;
 #include <gfx/GfxSystem.h>
 #endif
 
-namespace mud
+namespace two
 {
-#ifdef MUD_PREFABNODE
+#ifdef TWO_PREFABNODE
 	PrefabNode::PrefabNode()
 	{}
 

@@ -4,16 +4,16 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <refl/Injector.h>
 #include <geom/Poisson.h>
 #endif
 #include <tool/Forward.h>
 #include <tool/Tool.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_TOOL_EXPORT Brush : public SpatialTool
+	export_ class refl_ TWO_TOOL_EXPORT Brush : public SpatialTool
 	{
 	public:
 		Brush(ToolContext& context, cstring name, Type& type);
@@ -34,7 +34,7 @@ namespace mud
 		vec3 m_position;
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT PlaneSnapOption : public ToolOption
+	export_ class refl_ TWO_TOOL_EXPORT PlaneSnapOption : public ToolOption
 	{
 	public:
 		PlaneSnapOption(Brush& tool);
@@ -46,7 +46,7 @@ namespace mud
 		Brush& m_tool;
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT WorldSnapOption : public ToolOption
+	export_ class refl_ TWO_TOOL_EXPORT WorldSnapOption : public ToolOption
 	{
 	public:
 		WorldSnapOption(Brush& tool);
@@ -58,7 +58,7 @@ namespace mud
 		Brush& m_tool;
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT PlaceBrush : public Brush
+	export_ class refl_ TWO_TOOL_EXPORT PlaceBrush : public Brush
 	{
 	public:
 		constr_ PlaceBrush(ToolContext& context);
@@ -70,7 +70,7 @@ namespace mud
 		virtual void paint(Gnode& parent);
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT CircleBrush : public Brush
+	export_ class refl_ TWO_TOOL_EXPORT CircleBrush : public Brush
 	{
 	public:
 		constr_ CircleBrush(ToolContext& context);
@@ -96,7 +96,7 @@ namespace mud
 	};
 
 
-	export_ class refl_ MUD_TOOL_EXPORT ScriptedBrush : public Brush
+	export_ class refl_ TWO_TOOL_EXPORT ScriptedBrush : public Brush
 	{
 	public:
 		constr_ ScriptedBrush(ToolContext& context, Script& script);

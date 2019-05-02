@@ -9,11 +9,11 @@
 #include <stl/string.h>
 #include <refl/Forward.h>
 
-namespace mud
+namespace two
 {
 	using cstring = const char*;
 
-	export_ class refl_ MUD_REFL_EXPORT Namespace
+	export_ class refl_ TWO_REFL_EXPORT Namespace
 	{
 	public:
 		Namespace(cstring name = nullptr, Namespace* parent = nullptr);
@@ -25,5 +25,5 @@ namespace mud
 		vector<cstring> m_path;
 	};
 
-	export_ MUD_REFL_EXPORT Namespace& namspc(span<cstring> path);
+	export_ TWO_REFL_EXPORT Namespace& namspc(span<cstring> path);
 }

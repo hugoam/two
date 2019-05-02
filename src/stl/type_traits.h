@@ -16,7 +16,7 @@ namespace stl
 }
 #endif
 
-namespace mud
+namespace two
 {
 	//using stl::is_function;
 	using stl::is_trivially_destructible;

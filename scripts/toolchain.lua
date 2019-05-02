@@ -1,25 +1,25 @@
--- mud toolchain
+-- two toolchain
 
-MUD_STATIC = true
+TWO_STATIC = true
 FORCE_REFL_PROJECTS = false
 
 MODULES = {}
 
-if not MUD_DIR then
-    MUD_DIR = path.getabsolute("..")
+if not TWO_DIR then
+    TWO_DIR = path.getabsolute("..")
 end
-MUD_SRC_DIR  = path.join(MUD_DIR, "src")
-MUD_DIST_DIR = path.join(MUD_DIR, "dist")
+TWO_SRC_DIR  = path.join(TWO_DIR, "src")
+TWO_DIST_DIR = path.join(TWO_DIR, "dist")
 
-MUD_3RDPARTY_DIR = path.join(MUD_DIR, "3rdparty")
+TWO_3RDPARTY_DIR = path.join(TWO_DIR, "3rdparty")
 
-BX_DIR   = path.join(MUD_3RDPARTY_DIR, "bx")
-BGFX_DIR = path.join(MUD_3RDPARTY_DIR, "bgfx")
-BIMG_DIR = path.join(MUD_3RDPARTY_DIR, "bimg")
+BX_DIR   = path.join(TWO_3RDPARTY_DIR, "bx")
+BGFX_DIR = path.join(TWO_3RDPARTY_DIR, "bgfx")
+BIMG_DIR = path.join(TWO_3RDPARTY_DIR, "bimg")
 
-DAWN_DIR = path.join(MUD_DIR, "../../dawn")
+DAWN_DIR = path.join(TWO_DIR, "../../dawn")
 
-json = dofile(path.join(MUD_3RDPARTY_DIR, "jsonlua/json.lua"))
+json = dofile(path.join(TWO_3RDPARTY_DIR, "jsonlua/json.lua"))
 
 dofile("toolchain/table.lua")
 dofile("toolchain/defines.lua")

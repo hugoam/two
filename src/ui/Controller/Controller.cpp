@@ -4,15 +4,15 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <ui/Controller/Controller.h>
 #include <ui/UiRoot.h>
 #include <ctx/InputDevice.h>
 #endif
 
-namespace mud
+namespace two
 {
 	EventDispatch::EventDispatch()
 	{}

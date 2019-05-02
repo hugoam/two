@@ -3,17 +3,17 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <cmath>
 #endif
 
-#ifdef MUD_MODULES
-module mud.infra;
+#ifdef TWO_MODULES
+module two.infra;
 #else
 #include <infra/Arena.h>
 #endif
 
-namespace mud
+namespace two
 {
 	FreeListBase::Node* FreeListBase::init(void* begin, void* end, size_t elementSize, size_t alignment, size_t extra)
 	{

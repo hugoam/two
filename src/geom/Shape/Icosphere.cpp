@@ -4,15 +4,15 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.geom;
+#ifdef TWO_MODULES
+module two.geom;
 #else
 #include <math/Math.h>
 #include <math/Vec.hpp>
 #include <geom/Shape/Icosphere.h>
 #endif
 
-namespace mud
+namespace two
 {
 	vector<IcoSphere> IcoSphere::s_levels = { 1, 2, 3 };
 

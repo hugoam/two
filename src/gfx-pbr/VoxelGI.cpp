@@ -8,8 +8,8 @@
 #include <bgfx/bgfx.h>
 #include <xatlas.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.pbr;
+#ifdef TWO_MODULES
+module two.gfx.pbr;
 #else
 #include <stl/algorithm.h>
 #include <math/Vec.hpp>
@@ -35,7 +35,7 @@ module mud.gfx.pbr;
 
 #define LIGHTMAP_XATLAS
 
-namespace mud
+namespace two
 {
 	GpuState<GpuVoxelGI> GpuState<GpuVoxelGI>::me;
 	GpuState<GIProbe> GpuState<GIProbe>::me;

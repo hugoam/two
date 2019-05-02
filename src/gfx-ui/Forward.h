@@ -12,11 +12,11 @@
 #include <ui/Forward.h>
 #include <gfx/Forward.h>
 
-#ifndef MUD_GFX_UI_EXPORT
-#define MUD_GFX_UI_EXPORT MUD_IMPORT
+#ifndef TWO_GFX_UI_EXPORT
+#define TWO_GFX_UI_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
 namespace ui
 {
@@ -25,7 +25,7 @@ namespace ui
 }
 }
 
-namespace mud
+namespace two
 {
 	class Object;
     class SpaceSheet;

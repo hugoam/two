@@ -4,9 +4,8 @@
 
 #pragma once
 
-#ifdef MUD_CTX_OGRE
+#ifdef TWO_CTX_OGRE
 
-/* mud */
 #include <ui/Generated/Types.h>
 #include <ui/UiWindow.h>
 
@@ -22,7 +21,7 @@ namespace Ogre
 	class HlmsPbs;
 }
 
-namespace mud
+namespace two
 {
 	class OgreContext : public Context
 	{

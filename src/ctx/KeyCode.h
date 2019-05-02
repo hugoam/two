@@ -8,10 +8,10 @@
 
 #include <stdint.h>
 
-export_ namespace mud
+export_ namespace two
 {}
 
-namespace mud
+namespace two
 {
 	//! Keyboard scan codes
 	export_ enum class refl_ Key : uint16_t

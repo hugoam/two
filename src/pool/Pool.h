@@ -11,9 +11,9 @@
 
 #include <cstddef>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_POOL_EXPORT Pool
+	export_ class refl_ TWO_POOL_EXPORT Pool
 	{
 	public:
 		virtual ~Pool() {}

@@ -1,13 +1,13 @@
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <gfx/Importer.h>
 #endif
 #include <gfx-obj/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_GFX_OBJ_EXPORT ImporterPLY : public Importer
+	export_ class refl_ TWO_GFX_OBJ_EXPORT ImporterPLY : public Importer
 	{
 	public:
 		constr_ ImporterPLY(GfxSystem& gfx);

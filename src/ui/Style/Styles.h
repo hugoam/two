@@ -9,9 +9,9 @@
 #include <ui/Forward.h>
 #include <ui/Style/Style.h>
 
-namespace mud
+namespace two
 {
-	export_ struct MUD_UI_EXPORT Styles
+	export_ struct TWO_UI_EXPORT Styles
 	{
 		void setup(UiWindow& window);
 		void reset();
@@ -29,7 +29,7 @@ namespace mud
 		Style popup; Style modal; Style color_popup;
 	};
 
-	export_ MUD_UI_EXPORT Styles& styles();
+	export_ TWO_UI_EXPORT Styles& styles();
 
 	extern map<string, Style*> g_styles;
 }

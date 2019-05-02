@@ -7,7 +7,7 @@
 #include <ui/Generated/Forward.h>
 #include <ui-nanovg/VgNano.h>
 
-namespace mud
+namespace two
 {
 	class VgNanoBgfx : public VgNano
 	{

@@ -10,7 +10,7 @@
 
 #include <vector>
 
-using namespace mud;
+using namespace two;
 
 struct ShapeInstance { ShapeVar shape; Colour colour; Symbol symbol; };
 

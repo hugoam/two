@@ -11,9 +11,9 @@
 #include <infra/Global.h>
 #include <infra/StringOps.h>
 
-namespace mud
+namespace two
 {
-	export_ MUD_REFL_EXPORT string to_name(const Type& type, Ref value);
+	export_ TWO_REFL_EXPORT string to_name(const Type& type, Ref value);
 	export_ inline string to_name(Ref value) { return to_name(type(value), value); }
 
 	export_ template <>
@@ -31,7 +31,7 @@ namespace mud
 		to = T_Dest(from);
 	}
 
-	export_ class MUD_REFL_EXPORT TypeConverter : public DoubleDispatch, public LazyGlobal<TypeConverter>
+	export_ class TWO_REFL_EXPORT TypeConverter : public DoubleDispatch, public LazyGlobal<TypeConverter>
 	{
 	public:
 		TypeConverter();

@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.uio;
+#ifdef TWO_MODULES
+module two.uio;
 #else
 #include <stl/algorithm.h>
 //#include <type/Entity.h>
@@ -28,7 +28,7 @@ module mud.uio;
 #include <meta/refl.conv.h>
 #endif
 
-namespace mud
+namespace two
 {
 	static void text_skin(InkStyle& style, const Colour& colour)
 	{

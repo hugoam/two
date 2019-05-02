@@ -4,16 +4,16 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <math/Vec.h>
 #include <math/Grid.h>
 #endif
 #include <geom/Forward.h>
 #include <geom/Shapes.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_GEOM_EXPORT Distribution
+	export_ class refl_ TWO_GEOM_EXPORT Distribution
 	{
 	public:
 		struct Point
@@ -27,7 +27,7 @@ namespace mud
 		//meth_ virtual bool addPoint(float radius, vec3& point) = 0;
 	};
 
-	export_ class refl_ MUD_GEOM_EXPORT Poisson : public Distribution
+	export_ class refl_ TWO_GEOM_EXPORT Poisson : public Distribution
 	{
 	public:
 		constr_ Poisson(vec2 size, float maxRadius);
@@ -65,5 +65,5 @@ namespace mud
 		vector2d<vector<Point>> m_grid;
 	};
 
-	MUD_GEOM_EXPORT func_ vector<vec3> distribute_poisson(vec2 size, float radius);
+	TWO_GEOM_EXPORT func_ vector<vec3> distribute_poisson(vec2 size, float radius);
 }

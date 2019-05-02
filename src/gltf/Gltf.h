@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <stl/algorithm.h>
 #include <stl/traits.h>
@@ -285,7 +285,7 @@ export_ struct refl_ glTFTextureInfo
 export_ struct refl_ glTFMaterialPBR
 {
 	glTFMaterialPBR() {}
-	attr_ mud::vec4 base_color_factor = mud::vec4(1.f);
+	attr_ two::vec4 base_color_factor = two::vec4(1.f);
 	attr_ glTFTextureInfo base_color_texture;
 	attr_ float metallic_factor = 1.f;
 	attr_ float roughness_factor = 1.f;
@@ -305,7 +305,7 @@ export_ struct refl_ glTFMaterial
 	attr_ string name;
 	attr_ glTFTextureInfo normal_texture;
 	attr_ glTFTextureInfo occlusion_texture;
-	attr_ mud::vec3 emissive_factor = to_vec3(mud::Colour::Black);
+	attr_ two::vec3 emissive_factor = to_vec3(two::Colour::Black);
 	attr_ glTFTextureInfo emissive_texture;
 	attr_ bool double_sided = false;
 	attr_ glTFAlphaMode alpha_mode = glTFAlphaMode::OPAQUE;
@@ -322,10 +322,10 @@ export_ struct refl_ glTFNode
 	attr_ int camera = -1;
 	attr_ int skin = -1;
 
-	attr_ mud::mat4 matrix = {};
-	attr_ mud::vec3 translation = mud::vec3(0.f);
-	attr_ mud::quat rotation = mud::ZeroQuat;
-	attr_ mud::vec3 scale = mud::vec3(1.f);
+	attr_ two::mat4 matrix = {};
+	attr_ two::vec3 translation = two::vec3(0.f);
+	attr_ two::quat rotation = two::ZeroQuat;
+	attr_ two::vec3 scale = two::vec3(1.f);
 
 	attr_ vector<int> children;
 
@@ -364,18 +364,18 @@ export_ struct refl_ glTF
 	void* m_user = nullptr;
 };
 
-namespace mud
+namespace two
 {
 	export_ using glTFRepack = void(*)(glTF&, const string&, glTFPrimitive&);
 
-	export_ MUD_GLTF_EXPORT void setup_gltf(Module& gltf);
-	export_ MUD_GLTF_EXPORT void unpack_gltf(const string& path, const string& file, glTF& gltf);
-	export_ MUD_GLTF_EXPORT void repack_gltf(glTF& gltf, const string& path, const string& file, const glTFRepack& repack);
+	export_ TWO_GLTF_EXPORT void setup_gltf(Module& gltf);
+	export_ TWO_GLTF_EXPORT void unpack_gltf(const string& path, const string& file, glTF& gltf);
+	export_ TWO_GLTF_EXPORT void repack_gltf(glTF& gltf, const string& path, const string& file, const glTFRepack& repack);
 
-	export_ MUD_GLTF_EXPORT int encode_accessor(glTF& gltf, int buffer_index, glTFAccessor& a, vector<double>& values, bool for_vertex);
-	export_ MUD_GLTF_EXPORT vector<double> decode_accessor(const glTF& gltf, size_t accessor, bool for_vertex);
+	export_ TWO_GLTF_EXPORT int encode_accessor(glTF& gltf, int buffer_index, glTFAccessor& a, vector<double>& values, bool for_vertex);
+	export_ TWO_GLTF_EXPORT vector<double> decode_accessor(const glTF& gltf, size_t accessor, bool for_vertex);
 
-	export_ MUD_GLTF_EXPORT void setup_nodes(glTF& gltf);
+	export_ TWO_GLTF_EXPORT void setup_nodes(glTF& gltf);
 
 	template <class T>
 	vector<T> unpack_accessor(const glTF& gltf, size_t accessor, bool for_vertex)

@@ -4,16 +4,16 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/span.h>
 #include <math/Vec.h>
 #endif
 #include <geom/Forward.h>
 //#include <geom/Shapes.h>
 
-namespace mud
+namespace two
 {
-	export_ struct refl_ MUD_GEOM_EXPORT Aabb
+	export_ struct refl_ TWO_GEOM_EXPORT Aabb
 	{
 	public:
 		constr_ Aabb();
@@ -35,8 +35,8 @@ namespace mud
 		bool cull(span<vec3> points) const;
 	};
 
-	export_ MUD_GEOM_EXPORT Aabb aabb(const vec3& min, const vec3& max);
+	export_ TWO_GEOM_EXPORT Aabb aabb(const vec3& min, const vec3& max);
 
-	export_ MUD_GEOM_EXPORT Aabb face_aabb(const vec3* vertices);
-	export_ MUD_GEOM_EXPORT Aabb face_aabb(const Face3& face);
+	export_ TWO_GEOM_EXPORT Aabb face_aabb(const vec3* vertices);
+	export_ TWO_GEOM_EXPORT Aabb face_aabb(const Face3& face);
 }

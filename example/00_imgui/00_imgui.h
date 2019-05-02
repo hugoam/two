@@ -1,12 +1,12 @@
 
 #pragma once
 
-#include <mud/Forward.h>
+#include <two/Forward.h>
 
-using namespace mud;
+using namespace two;
 
 #ifndef _00_UI_EXPORT
-#define _00_UI_EXPORT MUD_IMPORT
+#define _00_UI_EXPORT TWO_IMPORT
 #endif
 
 

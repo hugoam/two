@@ -1,4 +1,4 @@
--- mud toolchain
+-- two toolchain
 -- global configuration
 
 flags {

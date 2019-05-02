@@ -1,6 +1,6 @@
 #ifndef USE_STL
-#ifdef MUD_MODULES
-module mud.wfc.gfx;
+#ifdef TWO_MODULES
+module two.wfc.gfx;
 #else
 #include <stl/vector.hpp>
 #include <wfc-gfx/Api.h>
@@ -8,7 +8,7 @@ module mud.wfc.gfx;
 
 namespace stl
 {
-	using namespace mud;
-	template class MUD_WFC_GFX_EXPORT vector<TileModel>;
+	using namespace two;
+	template class TWO_WFC_GFX_EXPORT vector<TileModel>;
 }
 #endif

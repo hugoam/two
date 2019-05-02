@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <stl/algorithm.h>
 #include <infra/Reverse.h>
@@ -17,7 +17,7 @@ module mud.ui;
 
 #include <algorithm>
 
-namespace mud
+namespace two
 {
 	Layer::Layer(Frame& frame)
 		: m_frame(frame)

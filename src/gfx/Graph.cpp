@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/algorithm.h>
 #include <infra/Copy.h>
@@ -38,7 +38,7 @@ module mud.gfx;
 
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 	template class Graph<Gnode>;
 

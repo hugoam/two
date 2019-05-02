@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_GI_LIGHT
-#define MUD_SHADER_GI_LIGHT
+#ifndef TWO_SHADER_GI_LIGHT
+#define TWO_SHADER_GI_LIGHT
 
 #include <common.sh>
 #include <pbr/pbr.sh>

@@ -12,7 +12,7 @@
 
 #include <cassert>
 
-namespace mud
+namespace two
 {
 	inline void* aligned_alloc(size_t size, size_t align) noexcept
 	{

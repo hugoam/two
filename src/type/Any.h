@@ -12,7 +12,7 @@
 #include <type/TypeOf.h>
 #include <type/Types.h>
 
-namespace mud
+namespace two
 {
 	export_ template <class T, bool onlyref = is_object_pointer<T> || !is_copyable<T>>
 	constexpr bool ValueSemantic = true;
@@ -52,7 +52,7 @@ namespace mud
 		virtual void copy(Any& any, const Any& other) const { create(any, *this, value(other)); }
 		virtual void move(Any& any, Any& other) const
 		{
-			using mud::move;
+			using two::move;
 			create(any, *this, move(value(other)));
 			destroy(other);
 		}

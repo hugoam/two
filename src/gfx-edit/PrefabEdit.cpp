@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx-edit;
+#ifdef TWO_MODULES
+module two.gfx-edit;
 #else
 #include <type/Any.h>
 #include <stl/algorithm.h>
@@ -22,7 +22,7 @@ module mud.gfx-edit;
 #include <gfx-edit/PrefabEdit.h>
 #endif
 
-namespace mud
+namespace two
 {
 #if 0
 	TreeNode& prefab_node(Widget& parent, PrefabNode* parent_node, PrefabNode& node, PrefabNode*& selected)

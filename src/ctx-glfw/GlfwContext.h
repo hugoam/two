@@ -4,22 +4,22 @@
 
 #pragma once
 
-//#ifdef MUD_CTX_GLFW
+//#ifdef TWO_CTX_GLFW
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <ctx/Forward.h>
 #include <ctx/Context.h>
 
 struct GLFWwindow;
 #endif
 
-#ifndef MUD_CTX_GLFW_EXPORT
-#define MUD_CTX_GLFW_EXPORT MUD_IMPORT
+#ifndef TWO_CTX_GLFW_EXPORT
+#define TWO_CTX_GLFW_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_CTX_GLFW_EXPORT GlfwContext : public Context
+	export_ class refl_ TWO_CTX_GLFW_EXPORT GlfwContext : public Context
 	{
 	public:
 		GlfwContext(RenderSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main = true, bool autoswap = true);

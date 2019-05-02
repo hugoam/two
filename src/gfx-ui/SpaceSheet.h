@@ -4,16 +4,16 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <ui/UiRoot.h>
 #endif
 #include <gfx-ui/Forward.h>
 
-namespace mud
+namespace two
 {
 	class SpaceQuad;
 
-	export_ class refl_ MUD_GFX_UI_EXPORT SpaceSheet : public Ui
+	export_ class refl_ TWO_GFX_UI_EXPORT SpaceSheet : public Ui
 	{
 	public:
 		SpaceSheet(Widget& parent, SpaceViewport& viewport);

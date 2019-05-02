@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.geom;
+#ifdef TWO_MODULES
+module two.geom;
 #else
 #include <math/Vec.hpp>
 #include <geom/Shape/Geom.h>
@@ -13,7 +13,7 @@ module mud.geom;
 #include <geom/Primitive.hpp>
 #endif
 
-namespace mud
+namespace two
 {
 	ShapeSize size_shape_lines(const ProcShape& shape, const Geometry& geometry)
 	{

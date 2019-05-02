@@ -9,7 +9,7 @@
 #include <ui/Button.h>
 #include <ui/Style/Styles.h>
 
-namespace mud
+namespace two
 {
 namespace ui
 {
@@ -38,13 +38,13 @@ namespace ui
 		return self;
 	}
 
-	export_ MUD_UI_EXPORT func_ Widget& dummy(Widget& parent, const vec2& size);
+	export_ TWO_UI_EXPORT func_ Widget& dummy(Widget& parent, const vec2& size);
 
-	export_ MUD_UI_EXPORT Widget& layout_span(Widget& parent, float span);
+	export_ TWO_UI_EXPORT Widget& layout_span(Widget& parent, float span);
 
-	export_ MUD_UI_EXPORT Widget& popup(Widget& parent, Style& style, PopupFlags flags);
-	export_ MUD_UI_EXPORT Widget& popup(Widget& parent, Style& style, const vec2& size, PopupFlags flags);
-	export_ MUD_UI_EXPORT Widget& popup_at(Widget& parent, Style& style, const vec2& position, PopupFlags flags);
+	export_ TWO_UI_EXPORT Widget& popup(Widget& parent, Style& style, PopupFlags flags);
+	export_ TWO_UI_EXPORT Widget& popup(Widget& parent, Style& style, const vec2& size, PopupFlags flags);
+	export_ TWO_UI_EXPORT Widget& popup_at(Widget& parent, Style& style, const vec2& position, PopupFlags flags);
 
 	export_ func_ inline Widget& popup(Widget& parent, PopupFlags flags) { return popup(parent, styles().popup, flags); }
 	export_ func_ inline Widget& popup(Widget& parent, const vec2& size, PopupFlags flags = PopupFlags::None) { return popup(parent, styles().popup, size, flags); }
@@ -53,13 +53,13 @@ namespace ui
 	export_ func_ inline Widget& modal(Widget& parent) { return popup(parent, styles().modal, PopupFlags::Modal); }
 	export_ func_ inline Widget& modal(Widget& parent, const vec2& size) { return popup(parent, styles().modal, size, PopupFlags::Modal); }
 
-	export_ func_ MUD_UI_EXPORT Widget& auto_modal(Widget& parent, uint32_t mode);
-	export_ func_ MUD_UI_EXPORT Widget& auto_modal(Widget& parent, uint32_t mode, const vec2& size);
+	export_ func_ TWO_UI_EXPORT Widget& auto_modal(Widget& parent, uint32_t mode);
+	export_ func_ TWO_UI_EXPORT Widget& auto_modal(Widget& parent, uint32_t mode, const vec2& size);
 
-	export_ func_ MUD_UI_EXPORT Widget* context(Widget& parent, uint32_t mode, PopupFlags flags = PopupFlags::None);
+	export_ func_ TWO_UI_EXPORT Widget* context(Widget& parent, uint32_t mode, PopupFlags flags = PopupFlags::None);
 
-	export_ MUD_UI_EXPORT DragPoint grid_sheet_logic(Widget& self, Axis dim);
-	export_ MUD_UI_EXPORT Widget& grid_sheet(Widget& parent, Style& style, Axis dim);
-	export_ MUD_UI_EXPORT Widget& grid_sheet(Widget& parent, Style& style, Axis dim, span<float> spans);
+	export_ TWO_UI_EXPORT DragPoint grid_sheet_logic(Widget& self, Axis dim);
+	export_ TWO_UI_EXPORT Widget& grid_sheet(Widget& parent, Style& style, Axis dim);
+	export_ TWO_UI_EXPORT Widget& grid_sheet(Widget& parent, Style& style, Axis dim, span<float> spans);
 }
 }

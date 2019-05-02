@@ -8,7 +8,7 @@
 #include <infra/Config.h>
 #include <stl/span.h>
 
-namespace mud
+namespace two
 {
 #if 0
 	template <class T_Key, class T_Value, class T_Indices, class T_Greater>
@@ -16,7 +16,7 @@ namespace mud
 	{
 		auto swap = [&](size_t first, size_t second)
 		{
-			using mud::swap;
+			using two::swap;
 			swap(keys[first], keys[second]);
 			swap(values[first], values[second]);
 			swap(indices[keys[first]], indices[keys[second]]);

@@ -10,9 +10,9 @@
 #include <refl/Forward.h>
 #include <refl/Call.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_REFL_EXPORT Injector : public Call
+	export_ class refl_ TWO_REFL_EXPORT Injector : public Call
 	{
 	public:
 		Injector(const Constructor& constructor);
@@ -31,7 +31,7 @@ namespace mud
 		void destroy(Ref object);
 	};
 
-	export_ class refl_ MUD_REFL_EXPORT Creator
+	export_ class refl_ TWO_REFL_EXPORT Creator
 	{
 	public:
 		Creator(Type& type);

@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <infra/StringOps.h>
 #include <infra/Reverse.h>
@@ -19,7 +19,7 @@ module mud.ui;
 #include <ui/UiWindow.h>
 #endif
 
-namespace mud
+namespace two
 {
 	template class Graph<Widget>;
 
@@ -146,7 +146,7 @@ namespace mud
 
 	Widget* Widget::pinpoint(vec2 pos, const FrameFilter& filter)
 	{
-		Frame* frame = mud::pinpoint(m_frame, pos, filter);
+		Frame* frame = two::pinpoint(m_frame, pos, filter);
 		return frame ? &frame->d_widget : nullptr;
 	}
 

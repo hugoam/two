@@ -2,13 +2,13 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <gfx/Renderer.h>
 #endif
 #include <gfx-pbr/Forward.h>
 #include <gfx-pbr/ReflectionAtlas.h>
 
-namespace mud
+namespace two
 {
 	struct gpu_ GpuReflectionProbe
 	{
@@ -30,7 +30,7 @@ namespace mud
 		vec4 counts;
 	};
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT ReflectionProbe
+	export_ class refl_ TWO_GFX_PBR_EXPORT ReflectionProbe
 	{
 	public:
 		ReflectionProbe(Node3& node);
@@ -48,9 +48,9 @@ namespace mud
 		attr_ bool m_dirty = true;
 	};
 
-	export_ MUD_GFX_PBR_EXPORT void pass_probes(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_PBR_EXPORT void pass_probes(GfxSystem& gfx, Render& render);
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT BlockReflection : public DrawBlock
+	export_ class refl_ TWO_GFX_PBR_EXPORT BlockReflection : public DrawBlock
 	{
 	public:
 		BlockReflection(GfxSystem& gfx);

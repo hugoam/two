@@ -1,29 +1,29 @@
 #pragma once
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <refl/Module.h>
 #endif
 
 #include <noise/Forward.h>
 //#include <noise/Types.h>
 
-#ifndef MUD_NOISE_REFL_EXPORT
-#define MUD_NOISE_REFL_EXPORT MUD_IMPORT
+#ifndef TWO_NOISE_REFL_EXPORT
+#define TWO_NOISE_REFL_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
-	export_ class MUD_NOISE_REFL_EXPORT mud_noise : public mud::Module
+	export_ class TWO_NOISE_REFL_EXPORT two_noise : public two::Module
 	{
 	private:
-		mud_noise();
+		two_noise();
 		
 	public:
-		static mud_noise& m() { static mud_noise instance; return instance; }
+		static two_noise& m() { static two_noise instance; return instance; }
 	};
 }
 
-#ifdef MUD_NOISE_MODULE
+#ifdef TWO_NOISE_MODULE
 extern "C"
-MUD_NOISE_REFL_EXPORT Module& getModule();
+TWO_NOISE_REFL_EXPORT Module& getModule();
 #endif

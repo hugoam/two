@@ -2,16 +2,16 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <math/ImageAtlas.h>
 #include <gfx/Renderer.h>
 #include <gfx/Light.h>
 #endif
 #include <gfx-pbr/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_GFX_PBR_EXPORT LightmapItem
+	export_ class refl_ TWO_GFX_PBR_EXPORT LightmapItem
 	{
 	public:
 		LightmapItem() {}
@@ -27,7 +27,7 @@ namespace mud
 		uvec2 size;
 	};
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT Lightmap
+	export_ class refl_ TWO_GFX_PBR_EXPORT Lightmap
 	{
 	public:
 		Lightmap(uint32_t size);
@@ -45,7 +45,7 @@ namespace mud
 		void add_item(size_t index, Item& item, bool valid, const vec4& uv_scale_offset);
 	};
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT LightmapAtlas
+	export_ class refl_ TWO_GFX_PBR_EXPORT LightmapAtlas
 	{
 	public:
 		LightmapAtlas(uint32_t size, float density);
@@ -67,7 +67,7 @@ namespace mud
 		vector<unique<Lightmap>> m_layers;
 	};
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT BlockLightmap : public DrawBlock
+	export_ class refl_ TWO_GFX_PBR_EXPORT BlockLightmap : public DrawBlock
 	{
 	public:
 		BlockLightmap(GfxSystem& gfx, BlockLight& block_light, BlockGIBake& block_gi_bake);

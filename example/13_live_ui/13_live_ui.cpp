@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <lang/Api.h>
 #include <uio/Api.h>
@@ -9,7 +9,7 @@
 
 #include <stl/vector.hpp>
 
-using namespace mud;
+using namespace two;
 
 #define NATIVE 0
 
@@ -221,7 +221,7 @@ void pump(Shell& app, ShellWindow& window)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv));
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
 	System::instance().load_modules({ &mud_ui::m(), &mud_gfx_ui::m() });
 	app.m_gfx.init_pipeline(pipeline_minimal);
 	app.run(pump);

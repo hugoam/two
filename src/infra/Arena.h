@@ -14,7 +14,7 @@
 #include <malloc.h>
 #endif
 
-namespace mud
+namespace two
 {
 	namespace pointermath
 	{

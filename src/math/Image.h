@@ -8,11 +8,11 @@
 #include <math/Vec.h>
 #include <math/Forward.h>
 
-namespace mud
+namespace two
 {
 	export_ using cstring = const char*;
 
-	export_ struct refl_ MUD_MATH_EXPORT Image
+	export_ struct refl_ TWO_MATH_EXPORT Image
 	{
 	public:
 		Image(const string& name = "", const string& path = "", const uvec2& size = {})

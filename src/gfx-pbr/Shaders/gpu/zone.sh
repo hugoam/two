@@ -1,5 +1,5 @@
-#ifndef MUD_GPU_ZONE
-#define MUD_GPU_ZONE
+#ifndef TWO_GPU_ZONE
+#define TWO_GPU_ZONE
 
 #define ZONES_BUFFER
 #define ZONES_TEXTURE_WIDTH 1024

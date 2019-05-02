@@ -1,7 +1,7 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx-edit;
+#ifdef TWO_MODULES
+module two.gfx-edit;
 #else
 #include <refl/Module.h>
 #include <meta/infra.meta.h>
@@ -17,17 +17,17 @@ module mud.gfx-edit;
 #include <meta/gfx.edit.meta.h>
 #endif
 
-namespace mud
+namespace two
 {
-	mud_gfx_edit::mud_gfx_edit()
-		: Module("mud::gfx-edit", { &mud_infra::m(), &mud_type::m(), &mud_refl::m(), &mud_srlz::m(), &mud_math::m(), &mud_geom::m(), &mud_ui::m(), &mud_uio::m(), &mud_gfx::m(), &mud_gfx_pbr::m() })
+	two_gfx_edit::two_gfx_edit()
+		: Module("two::gfx-edit", { &two_infra::m(), &two_type::m(), &two_refl::m(), &two_srlz::m(), &two_math::m(), &two_geom::m(), &two_ui::m(), &two_uio::m(), &two_gfx::m(), &two_gfx_pbr::m() })
 	{}
 }
 
-#ifdef MUD_GFX_EDIT_MODULE
+#ifdef TWO_GFX_EDIT_MODULE
 extern "C"
 Module& getModule()
 {
-	return mud_gfx_edit::m();
+	return two_gfx_edit::m();
 }
 #endif

@@ -9,7 +9,7 @@
 #include <type/Type.h>
 #include <type/Forward.h>
 
-namespace mud
+namespace two
 {
 	/*	A Prototype represent a fixed layout of parts for an object, allowing for fast part query 
 			It is a broader definition of a type, different from the C++ class, it defines a finite object
@@ -19,7 +19,7 @@ namespace mud
 			and are not part of the object in itself : they can be here or not here, whereas the parts are always here
 	*/
 
-	export_ class refl_ MUD_TYPE_EXPORT Prototype
+	export_ class refl_ TWO_TYPE_EXPORT Prototype
 	{
 	public:
 		Prototype(Type& type, span<Type*> parts);
@@ -36,7 +36,7 @@ namespace mud
 		vector<size_t> m_hash_parts;
 	};
 
-	export_ extern MUD_TYPE_EXPORT vector<Prototype*> g_prototypes;
+	export_ extern TWO_TYPE_EXPORT vector<Prototype*> g_prototypes;
 
 	inline Prototype& proto(Type& type) { return *g_prototypes[type.m_id]; }
 }

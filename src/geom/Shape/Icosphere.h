@@ -9,9 +9,9 @@
 #include <stl/map.h>
 #include <geom/Shape/ProcShape.h>
 
-namespace mud
+namespace two
 {
-	export_ class MUD_GEOM_EXPORT IcoSphere
+	export_ class TWO_GEOM_EXPORT IcoSphere
 	{
 	public:
 		IcoSphere(int subdiv = 1);

@@ -10,8 +10,8 @@
 #include <bgfx/bgfx.h>
 #include <bgfx/platform.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/array.h>
 #include <stl/string.h>
@@ -43,10 +43,10 @@ module mud.gfx;
 
 #include <Tracy.hpp>
 
-//#define MUD_GFX_THREADED
+//#define TWO_GFX_THREADED
 #define POLL_AT_END 0
 
-namespace mud
+namespace two
 {
 	struct GfxSystem::Impl
 	{
@@ -78,7 +78,7 @@ namespace mud
 
 		SymbolIndex m_symbols;
 
-#ifdef MUD_GFX_THREADED
+#ifdef TWO_GFX_THREADED
 		vector<bgfx::Encoder*> m_encoders;
 #endif
 	};
@@ -205,7 +205,7 @@ namespace mud
 
 	void GfxSystem::init_pipeline(PipelineDecl decl)
 	{
-#ifdef MUD_GFX_DEFERRED
+#ifdef TWO_GFX_DEFERRED
 		decl(*this, m_renderer, true);
 #else
 		decl(*this, m_renderer, false);
@@ -272,7 +272,7 @@ namespace mud
 				pursue &= context->begin_frame();
 		}
 
-#ifdef MUD_GFX_THREADED
+#ifdef TWO_GFX_THREADED
 		{
 			ZoneScopedNC("gfx begin", tracy::Color::Cyan);
 
@@ -309,7 +309,7 @@ namespace mud
 				context->render_frame();
 		}
 
-#ifdef MUD_GFX_THREADED
+#ifdef TWO_GFX_THREADED
 		{
 			ZoneScopedNC("gfx end", tracy::Color::Cyan);
 

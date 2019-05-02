@@ -15,7 +15,7 @@
 #define MATH_fE 2.71828174591064453125f
 #define MATH_dE 2.718281828459045090795598298427648842334747314453125
 
-namespace mud
+namespace two
 {
 	template <class T>
 	template <class V>
@@ -392,10 +392,10 @@ namespace mud
 	export_ inline Colour to_colour(const vec3& vec) { return { vec.x, vec.y, vec.z }; }
 	export_ inline Colour to_colour(const vec4& vec) { return { vec.x, vec.y, vec.z, vec.w }; }
 
-	export_ MUD_MATH_EXPORT uint32_t pack4(const vec4& vec);
-	export_ MUD_MATH_EXPORT uint32_t pack3(const vec3& vec);
-	export_ MUD_MATH_EXPORT vec3 unpack3(uint32_t vec);
-	export_ MUD_MATH_EXPORT vec4 unpack4(uint32_t vec);
+	export_ TWO_MATH_EXPORT uint32_t pack4(const vec4& vec);
+	export_ TWO_MATH_EXPORT uint32_t pack3(const vec3& vec);
+	export_ TWO_MATH_EXPORT vec3 unpack3(uint32_t vec);
+	export_ TWO_MATH_EXPORT vec4 unpack4(uint32_t vec);
 
 	export_ inline void flatten(vec3& vector)
 	{
@@ -410,11 +410,11 @@ namespace mud
 			f = 0.f;
 	}
 
-#ifndef MUD_META_GENERATOR
-	export_ template MUD_MATH_EXPORT func_ vec3 add<vec3>(vec3 a, vec3 b);
-	export_ template MUD_MATH_EXPORT func_ vec3 subtract<vec3>(vec3 a, vec3 b);
-	export_ template MUD_MATH_EXPORT func_ vec3 multiply<vec3>(vec3 a, vec3 b);
-	export_ template MUD_MATH_EXPORT func_ vec3 divide<vec3>(vec3 a, vec3 b);
+#ifndef TWO_META_GENERATOR
+	export_ template TWO_MATH_EXPORT func_ vec3 add<vec3>(vec3 a, vec3 b);
+	export_ template TWO_MATH_EXPORT func_ vec3 subtract<vec3>(vec3 a, vec3 b);
+	export_ template TWO_MATH_EXPORT func_ vec3 multiply<vec3>(vec3 a, vec3 b);
+	export_ template TWO_MATH_EXPORT func_ vec3 divide<vec3>(vec3 a, vec3 b);
 #else
 	template <> func_ vec3 add<vec3>(vec3 a, vec3 b);
 	template <> func_ vec3 subtract<vec3>(vec3 a, vec3 b);
@@ -422,32 +422,32 @@ namespace mud
 	template <> func_ vec3 divide<vec3>(vec3 a, vec3 b);
 #endif
 
-	export_ MUD_MATH_EXPORT quat operator*(const quat& a, const quat& b);
-	//export_ MUD_MATH_EXPORT quat operator/(const quat& a, const quat& b);
-	export_ MUD_MATH_EXPORT quat operator+(const quat& a, const quat& b);
-	export_ MUD_MATH_EXPORT quat operator-(const quat& a, const quat& b);
+	export_ TWO_MATH_EXPORT quat operator*(const quat& a, const quat& b);
+	//export_ TWO_MATH_EXPORT quat operator/(const quat& a, const quat& b);
+	export_ TWO_MATH_EXPORT quat operator+(const quat& a, const quat& b);
+	export_ TWO_MATH_EXPORT quat operator-(const quat& a, const quat& b);
 
-	export_ MUD_MATH_EXPORT quat operator*(const quat& a, float s);
-	export_ MUD_MATH_EXPORT quat operator/(const quat& a, float s);
-	export_ MUD_MATH_EXPORT quat operator*(float s, const quat& a);
-	export_ MUD_MATH_EXPORT quat operator/(float s, const quat& a);
+	export_ TWO_MATH_EXPORT quat operator*(const quat& a, float s);
+	export_ TWO_MATH_EXPORT quat operator/(const quat& a, float s);
+	export_ TWO_MATH_EXPORT quat operator*(float s, const quat& a);
+	export_ TWO_MATH_EXPORT quat operator/(float s, const quat& a);
 
-	export_ MUD_MATH_EXPORT quat operator+(const quat& v);
-	export_ MUD_MATH_EXPORT quat operator-(const quat& v);
+	export_ TWO_MATH_EXPORT quat operator+(const quat& v);
+	export_ TWO_MATH_EXPORT quat operator-(const quat& v);
 
 	// transform position
-	export_ MUD_MATH_EXPORT float3 operator*(const quat& q, const float3& v);
-	export_ MUD_MATH_EXPORT float4 operator*(const quat& q, const float4& v);
+	export_ TWO_MATH_EXPORT float3 operator*(const quat& q, const float3& v);
+	export_ TWO_MATH_EXPORT float4 operator*(const quat& q, const float4& v);
 
-	export_ MUD_MATH_EXPORT quat conjugate(const quat& q);
-	export_ MUD_MATH_EXPORT quat inverse(const quat& q);
-	export_ MUD_MATH_EXPORT quat negate(const quat& q);
+	export_ TWO_MATH_EXPORT quat conjugate(const quat& q);
+	export_ TWO_MATH_EXPORT quat inverse(const quat& q);
+	export_ TWO_MATH_EXPORT quat negate(const quat& q);
 
-	export_ MUD_MATH_EXPORT float dot(const quat& a, const quat& b);
-	export_ MUD_MATH_EXPORT quat normalize(const quat& q);
+	export_ TWO_MATH_EXPORT float dot(const quat& a, const quat& b);
+	export_ TWO_MATH_EXPORT quat normalize(const quat& q);
 
-	export_ MUD_MATH_EXPORT quat lerp(const quat& a, const quat& b, float t);
-	export_ MUD_MATH_EXPORT quat slerp(const quat& a, const quat& b, float t);
+	export_ TWO_MATH_EXPORT quat lerp(const quat& a, const quat& b, float t);
+	export_ TWO_MATH_EXPORT quat slerp(const quat& a, const quat& b, float t);
 
 	//quat qZero();
 	//quat qIdentity();
@@ -476,36 +476,36 @@ namespace mud
 		return float2(v.x * c - v.y * s, v.x * s + v.y * c);
 	}
 
-	export_ MUD_MATH_EXPORT float oriented_angle(const float3& a, const float3& b, const float3& ref);
-	export_ MUD_MATH_EXPORT float oriented_angle(const float2& a, const float2& b);
+	export_ TWO_MATH_EXPORT float oriented_angle(const float3& a, const float3& b, const float3& ref);
+	export_ TWO_MATH_EXPORT float oriented_angle(const float2& a, const float2& b);
 	export_ inline float oriented_angle_2d(const float2& a, const float2& b) { return oriented_angle(a, b); }
 
-	export_ MUD_MATH_EXPORT mat4 inverse(const mat4& m);
-	export_ MUD_MATH_EXPORT mat4 transpose(const mat4& m);
-	export_ MUD_MATH_EXPORT mat4 operator*(const mat4& m0, const mat4& m1);
-	export_ MUD_MATH_EXPORT float4 operator*(const mat4& m, const float4& v);
+	export_ TWO_MATH_EXPORT mat4 inverse(const mat4& m);
+	export_ TWO_MATH_EXPORT mat4 transpose(const mat4& m);
+	export_ TWO_MATH_EXPORT mat4 operator*(const mat4& m0, const mat4& m1);
+	export_ TWO_MATH_EXPORT float4 operator*(const mat4& m, const float4& v);
 
 	export_ inline vec3 reflect(const vec3& i, const vec3& n) { return i - 2.f * dot(n, i) * n; };
 
 	export_ inline vec3 rotate(const vec3& v, float angle, const vec3& axis) { return angle_axis(angle, axis) * v; }
 	export_ inline vec3 rotate(const vec3& v, const vec3& axis, float angle) { return angle_axis(angle, axis) * v; }
 
-	export_ MUD_MATH_EXPORT func_ quat look_dir(const vec3& direction, const vec3& forward = -Z3);
-	export_ MUD_MATH_EXPORT func_ quat look_at(const vec3& eye, const vec3& target, const vec3& forward = -Z3);
+	export_ TWO_MATH_EXPORT func_ quat look_dir(const vec3& direction, const vec3& forward = -Z3);
+	export_ TWO_MATH_EXPORT func_ quat look_at(const vec3& eye, const vec3& target, const vec3& forward = -Z3);
 
-	export_ MUD_MATH_EXPORT Axis nearest_axis(const vec3& direction);
+	export_ TWO_MATH_EXPORT Axis nearest_axis(const vec3& direction);
 
-	export_ MUD_MATH_EXPORT float shortest_angle(float a, float b);
-	export_ MUD_MATH_EXPORT float trigo_angle(const vec3& a, const vec3& b);
-	export_ MUD_MATH_EXPORT float shortest_angle(const vec3& a, const vec3& b);
+	export_ TWO_MATH_EXPORT float shortest_angle(float a, float b);
+	export_ TWO_MATH_EXPORT float trigo_angle(const vec3& a, const vec3& b);
+	export_ TWO_MATH_EXPORT float shortest_angle(const vec3& a, const vec3& b);
 
-	export_ MUD_MATH_EXPORT void orthonormalize(const mat4& transform, vec3& x, vec3& y, vec3& z);
-	export_ MUD_MATH_EXPORT mat4 orthonormalize(const mat4& transform);
-	export_ MUD_MATH_EXPORT mat4 bias_mat();
-	export_ MUD_MATH_EXPORT mat4 bias_mat_bgfx(bool origin_bottom_left, bool homogeneous_depth);
-	export_ MUD_MATH_EXPORT mat4 rect_mat(vec4 rect);
+	export_ TWO_MATH_EXPORT void orthonormalize(const mat4& transform, vec3& x, vec3& y, vec3& z);
+	export_ TWO_MATH_EXPORT mat4 orthonormalize(const mat4& transform);
+	export_ TWO_MATH_EXPORT mat4 bias_mat();
+	export_ TWO_MATH_EXPORT mat4 bias_mat_bgfx(bool origin_bottom_left, bool homogeneous_depth);
+	export_ TWO_MATH_EXPORT mat4 rect_mat(vec4 rect);
 
-	export_ MUD_MATH_EXPORT mat4 abs(const mat4& mat);
+	export_ TWO_MATH_EXPORT mat4 abs(const mat4& mat);
 
 	export_ inline vec3 mulp(const mat4& mat, const vec3& p) { return vec3(mat * vec4(p, 1.f)); }
 	export_ inline vec3 mult(const mat4& mat, const vec3& n) { return vec3(mat * vec4(n, 0.f)); }
@@ -1008,10 +1008,10 @@ double3 float3_to_double3(const float3& v);
 #endif
 }
 
-#if 0 // MUD_NOT_IMPLEMENTED
+#if 0 // TWO_NOT_IMPLEMENTED
 #include <stl/vector.h>
 
-namespace mud
+namespace two
 {
 	//
 	// Some utility functions

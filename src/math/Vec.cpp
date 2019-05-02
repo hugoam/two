@@ -3,13 +3,13 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <limits>
 #endif
 
-#ifdef MUD_MODULES
+#ifdef TWO_MODULES
 #include <cstdlib>
-module mud.math;
+module two.math;
 #else
 #include <math/Vec.h>
 #include <math/Vec.hpp>
@@ -17,23 +17,23 @@ module mud.math;
 
 #include <algorithm>
 
-namespace mud
+namespace two
 {
-	template struct MUD_MATH_EXPORT v2<float>;
-	template struct MUD_MATH_EXPORT v3<float>;
-	template struct MUD_MATH_EXPORT v4<float>;
+	template struct TWO_MATH_EXPORT v2<float>;
+	template struct TWO_MATH_EXPORT v3<float>;
+	template struct TWO_MATH_EXPORT v4<float>;
 
-	template struct MUD_MATH_EXPORT v2<int>;
-	template struct MUD_MATH_EXPORT v3<int>;
-	template struct MUD_MATH_EXPORT v4<int>;
+	template struct TWO_MATH_EXPORT v2<int>;
+	template struct TWO_MATH_EXPORT v3<int>;
+	template struct TWO_MATH_EXPORT v4<int>;
 
-	template struct MUD_MATH_EXPORT v2<uint>;
-	template struct MUD_MATH_EXPORT v3<uint>;
-	template struct MUD_MATH_EXPORT v4<uint>;
+	template struct TWO_MATH_EXPORT v2<uint>;
+	template struct TWO_MATH_EXPORT v3<uint>;
+	template struct TWO_MATH_EXPORT v4<uint>;
 
-	template struct MUD_MATH_EXPORT v2<bool>;
-	template struct MUD_MATH_EXPORT v3<bool>;
-	template struct MUD_MATH_EXPORT v4<bool>;
+	template struct TWO_MATH_EXPORT v2<bool>;
+	template struct TWO_MATH_EXPORT v3<bool>;
+	template struct TWO_MATH_EXPORT v4<bool>;
 
 	template <class T>
 	inline T epsilon() { return std::numeric_limits<T>::epsilon(); }

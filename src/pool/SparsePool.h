@@ -10,9 +10,9 @@
 
 #include <stdint.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_POOL_EXPORT HandlePool
+	export_ class refl_ TWO_POOL_EXPORT HandlePool
 	{
 	public:
 		virtual ~HandlePool() {}
@@ -71,7 +71,7 @@ namespace mud
 		operator SparseHandle<T>() const;
 	};
 
-	export_ class MUD_POOL_EXPORT SparseHandles
+	export_ class TWO_POOL_EXPORT SparseHandles
 	{
 	public:
 		SparseHandles();

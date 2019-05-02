@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <ecs/Entity.h>
 #include <gfx/Renderer.h>
 #endif
@@ -12,7 +12,7 @@
 #include <gfx-pbr/Filters/Glow.h>
 #include <gfx-pbr/Filters/DofBlur.h>
 
-namespace mud
+namespace two
 {
 	enum TonemapShaderOption : unsigned int
 	{
@@ -54,9 +54,9 @@ namespace mud
 		Texture* m_color_lut = nullptr;
 	};
 
-	export_ MUD_GFX_PBR_EXPORT func_ void pass_tonemap(GfxSystem& gfx, Render& render, Tonemap& tonemap, BCS& bcs);
+	export_ TWO_GFX_PBR_EXPORT func_ void pass_tonemap(GfxSystem& gfx, Render& render, Tonemap& tonemap, BCS& bcs);
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT BlockTonemap : public GfxBlock
+	export_ class refl_ TWO_GFX_PBR_EXPORT BlockTonemap : public GfxBlock
 	{
 	public:
 		BlockTonemap(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy);

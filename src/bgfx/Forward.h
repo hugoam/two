@@ -8,11 +8,11 @@
 #include <ctx/Forward.h>
 #include <ctx-glfw/Forward.h>
 
-#ifndef MUD_BGFX_EXPORT
-#define MUD_BGFX_EXPORT MUD_IMPORT
+#ifndef TWO_BGFX_EXPORT
+#define TWO_BGFX_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
     class BgfxContext;
     class BgfxSystem;

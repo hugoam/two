@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.uio;
+#ifdef TWO_MODULES
+module two.uio;
 #else
 #include <stl/string.h>
 #include <stl/algorithm.h>
@@ -20,7 +20,7 @@ module mud.uio;
 #include <uio/Object.h>
 #endif
 
-namespace mud
+namespace two
 {
 	void structure_node(Widget& parent, Ref object, vector<Ref>& selection)
 	{

@@ -1,22 +1,22 @@
--- mud library
+-- two library
 -- stb 3rdparty module
 
 function stb_module(name)
-local m = mud_dep('stb', name, true)
+local m = two_dep('stb', name, true)
     kind "StaticLib"
     
     includedirs {
-        path.join(MUD_SRC_DIR),
-        path.join(MUD_3RDPARTY_DIR, "stb"),
+        path.join(TWO_SRC_DIR),
+        path.join(TWO_3RDPARTY_DIR, "stb"),
     }
     
     files {
-        path.join(MUD_3RDPARTY_DIR, "stb", "stb_" .. name .. ".h"),
-        path.join(MUD_SRC_DIR, "3rdparty", "stb_" .. name .. ".cpp"),
-        path.join(MUD_SRC_DIR, "3rdparty", "stb." .. name .. ".mxx"),
+        path.join(TWO_3RDPARTY_DIR, "stb", "stb_" .. name .. ".h"),
+        path.join(TWO_SRC_DIR, "3rdparty", "stb_" .. name .. ".cpp"),
+        path.join(TWO_SRC_DIR, "3rdparty", "stb." .. name .. ".mxx"),
     }
         
-    mud_mxx({ path.join(MUD_SRC_DIR, "3rdparty", "stb_" .. name .. ".cpp") }, m)
+    two_mxx({ path.join(TWO_SRC_DIR, "3rdparty", "stb_" .. name .. ".cpp") }, m)
     
     configuration { "*-gcc*" }
         buildoptions {

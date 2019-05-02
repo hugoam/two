@@ -7,19 +7,19 @@
 #include <geom/Forward.h>
 #include <geom/Shape/ProcShape.h>
 
-namespace mud
+namespace two
 {
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Box& box);
-	export_ MUD_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Box& box, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Box& box);
+	export_ TWO_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Box& box, MeshAdapter& writer);
 
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Box& box);
-	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Box& box, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Box& box);
+	export_ TWO_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Box& box, MeshAdapter& writer);
 
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Tetraedr& tetra);
-	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Tetraedr& tetra, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Tetraedr& tetra);
+	export_ TWO_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Tetraedr& tetra, MeshAdapter& writer);
 
-	export_ MUD_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Icosaedr& icosa);
-	export_ MUD_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Icosaedr& ticosaetra, MeshAdapter& writer);
+	export_ TWO_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Icosaedr& icosa);
+	export_ TWO_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Icosaedr& ticosaetra, MeshAdapter& writer);
 
 	// Cube : Box(cube)
 	// Aabb : Box(aabb)

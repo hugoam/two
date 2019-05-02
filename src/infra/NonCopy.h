@@ -6,9 +6,9 @@
 
 #include <infra/Config.h>
 
-namespace mud
+namespace two
 {
-	export_ class MUD_INFRA_EXPORT NonCopy
+	export_ class TWO_INFRA_EXPORT NonCopy
 	{
 	public:
 		NonCopy() {}

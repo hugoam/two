@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <type/Indexer.h>
 #include <pool/Pool.hpp>
@@ -20,7 +20,7 @@ module mud.gfx;
 #include <gfx/GfxSystem.h>
 #endif
 
-namespace mud
+namespace two
 {
 	//static uint16_t s_model_index = 0;
 

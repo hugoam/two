@@ -7,7 +7,7 @@
 #include <gfx-pbr/Forward.h>
 #include <ecs/Entity.h>
 
-namespace mud
+namespace two
 {
 	template <> struct TypedBuffer<Tonemap> { static uint32_t index() { return 0; } };
 	template <> struct TypedBuffer<BCS> { static uint32_t index() { return 1; } };

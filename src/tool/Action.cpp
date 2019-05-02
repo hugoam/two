@@ -4,12 +4,12 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.tool;
+#ifdef TWO_MODULES
+module two.tool;
 #else
 #include <tool/Action.h>
 #endif
 
-namespace mud
+namespace two
 {
 }

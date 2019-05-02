@@ -6,10 +6,10 @@
 
 #include <ui/Forward.h>
 
-namespace mud
+namespace two
 {
 	using cstring = const char*;
-	MUD_UI_EXPORT void load_style_sheet(UiWindow& ui_window, cstring path);
-	MUD_UI_EXPORT void set_style_sheet(UiWindow& ui_window, cstring path);
-	MUD_UI_EXPORT void set_default_style_sheet(UiWindow& ui_window);
+	TWO_UI_EXPORT void load_style_sheet(UiWindow& ui_window, cstring path);
+	TWO_UI_EXPORT void set_style_sheet(UiWindow& ui_window, cstring path);
+	TWO_UI_EXPORT void set_default_style_sheet(UiWindow& ui_window);
 }

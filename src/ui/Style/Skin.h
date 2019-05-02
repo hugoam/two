@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/string.h>
 #include <math/Colour.h>
 #include <math/Vec.h>
@@ -13,11 +13,11 @@
 #include <ui/Style/9Sprite.h>
 #include <ui/Style/Paint.h>
 
-namespace mud
+namespace two
 {
 	using CustomDraw = void(*)(const Frame&, const vec4&, Vg&);
 
-	export_ struct refl_ MUD_UI_EXPORT InkStyle
+	export_ struct refl_ TWO_UI_EXPORT InkStyle
 	{
 	public:
 		constr_ InkStyle() {}

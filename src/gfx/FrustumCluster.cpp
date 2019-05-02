@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/stddef.h>
 #include <stl/limits.h>
@@ -21,7 +21,7 @@ module mud.gfx;
 #include <stdint.h>
 #include <cassert>
 
-namespace mud
+namespace two
 {
 	
 namespace fast {
@@ -121,7 +121,7 @@ inline T qdec(T a)  noexcept {
 }
 }
 
-namespace mud
+namespace two
 {
 	void compute_frustum_subdiv(ClusteredFrustum& frustum, vec2 clip_size, size_t slices)
 	{

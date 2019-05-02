@@ -2,7 +2,7 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_CPP_20
+#ifdef TWO_CPP_20
 #include <infra/Cpp20.h>
 #include <dirent.h>
 #else
@@ -18,8 +18,8 @@
 #undef FAR
 #endif
 
-#ifdef MUD_MODULES
-module mud.infra;
+#ifdef TWO_MODULES
+module two.infra;
 #else
 #include <infra/File.h>
 #include <infra/StringOps.h>
@@ -31,7 +31,7 @@ module mud.infra;
 #include <sys/stat.h>
 #endif
 
-namespace mud
+namespace two
 {
 	void copy_file(const string& source, const string& dest)
 	{

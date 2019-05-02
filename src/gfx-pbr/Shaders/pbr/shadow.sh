@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_SHADOW
-#define MUD_SHADER_SHADOW
+#ifndef TWO_SHADER_SHADOW
+#define TWO_SHADER_SHADOW
 
 #include <pbr/light.sh>
 

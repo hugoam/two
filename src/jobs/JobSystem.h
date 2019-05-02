@@ -11,7 +11,7 @@
 // Size is chosen so that we can store at least std::function<> and a job size is a multiple of a cacheline.
 #define JOB_PADDING (6+8)
 
-namespace mud
+namespace two
 {
 #ifdef __ARM_32BIT_STATE
 	// on ARM 32-bits, assume 32-bytes cache lines
@@ -27,7 +27,7 @@ namespace mud
 	using JobFunc = void(*)(void*, JobSystem&, Job*);
 	using JobStorage = void*[JOB_PADDING];
 
-	export_ class refl_ nocopy_ MUD_JOBS_EXPORT JobSystem
+	export_ class refl_ nocopy_ TWO_JOBS_EXPORT JobSystem
 	{
 		static constexpr size_t MAX_JOB_COUNT = 4096;
 		static_assert(MAX_JOB_COUNT <= 0x7FFE, "MAX_JOB_COUNT must be <= 0x7FFE");

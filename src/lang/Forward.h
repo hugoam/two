@@ -7,11 +7,11 @@
 #include <pool/Forward.h>
 #include <refl/Forward.h>
 
-#ifndef MUD_LANG_EXPORT
-#define MUD_LANG_EXPORT MUD_IMPORT
+#ifndef TWO_LANG_EXPORT
+#define TWO_LANG_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
     enum class Language : unsigned int;
     enum StreamModifier : unsigned int;
@@ -44,7 +44,7 @@ namespace mud
     class WrenInterpreter;
 }
 
-#ifdef MUD_META_GENERATOR
+#ifdef TWO_META_GENERATOR
 #include <stl/vector.h>
 namespace stl
 {

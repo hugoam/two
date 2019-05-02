@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_TRIPLANAR
-#define MUD_SHADER_TRIPLANAR
+#ifndef TWO_SHADER_TRIPLANAR
+#define TWO_SHADER_TRIPLANAR
 
 vec4 textureTriplanar(sampler2D tex, vec3 weights, vec3 world_pos)
 {

@@ -5,11 +5,11 @@
 #include <stl/vector.h>
 #include <uio/Forward.h>
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <type/Type.h>
 #endif
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <infra/Types.h>
 #include <tree/Types.h>
 #include <type/Types.h>
@@ -23,12 +23,12 @@
 #endif
 
 
-namespace mud
+namespace two
 {
     // Exported types
-    export_ template <> MUD_UIO_EXPORT Type& type<mud::EditNestMode>();
-    export_ template <> MUD_UIO_EXPORT Type& type<mud::EditorHint>();
+    export_ template <> TWO_UIO_EXPORT Type& type<two::EditNestMode>();
+    export_ template <> TWO_UIO_EXPORT Type& type<two::EditorHint>();
     
     
-    export_ template <> MUD_UIO_EXPORT Type& type<mud::ScriptEditor>();
+    export_ template <> TWO_UIO_EXPORT Type& type<two::ScriptEditor>();
 }

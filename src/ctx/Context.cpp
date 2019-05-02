@@ -4,13 +4,13 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ctx;
+#ifdef TWO_MODULES
+module two.ctx;
 #else
 #include <ctx/Context.h>
 #endif
 
-namespace mud
+namespace two
 {
 	RenderSystem::RenderSystem(const string& resource_path, bool manual_render)
 		: m_resource_path(resource_path)

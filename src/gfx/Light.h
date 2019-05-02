@@ -4,13 +4,13 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <math/Colour.h>
 #include <math/Vec.h>
 #endif
 #include <gfx/Forward.h>
 
-namespace mud
+namespace two
 {
 	export_ enum class refl_ LightType : unsigned int
 	{
@@ -29,7 +29,7 @@ namespace mud
 
 	export_ struct AtlasIndex { uint8_t slice = UINT8_MAX; uint16_t slot = UINT16_MAX; };
 
-	export_ class refl_ MUD_GFX_EXPORT Light
+	export_ class refl_ TWO_GFX_EXPORT Light
 	{
 	public:
 		constr_ Light(Node3& node, LightType type = LightType::Point, bool shadows = false, Colour colour = Colour::White, float energy = 1.f, float range = 1.f);

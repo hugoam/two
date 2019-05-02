@@ -2,8 +2,8 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <stl/hash_base.hpp>
 #include <math/Vec.hpp>
@@ -12,7 +12,7 @@ module mud.ui;
 #include <ui/Widget.h>
 #endif
 
-namespace mud
+namespace two
 {
 	void style_blender_dark(UiWindow& ui_window)
 	{

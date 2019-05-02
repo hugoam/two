@@ -4,13 +4,13 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <gfx/Renderer.h>
 #endif
 #include <gfx-pbr/Forward.h>
 #include <gfx-pbr/Filters/DofBlur.h>
 
-namespace mud
+namespace two
 {
 	template <>
 	struct GpuState<DofBlur>

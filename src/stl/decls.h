@@ -32,7 +32,7 @@ namespace stl
 }
 #endif
 
-namespace mud
+namespace two
 {
 	using stl::string;
 	using stl::function;

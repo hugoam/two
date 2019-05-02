@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <bgfx/bgfx.h>
 
@@ -22,7 +22,7 @@ module mud.gfx;
 
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 	uint32_t item_flags(uint32_t flags)
 	{

@@ -1,13 +1,13 @@
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <gfx/Importer.h>
 #endif
 #include <gfx-gltf/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_GFX_GLTF_EXPORT ImporterGltf : public Importer
+	export_ class refl_ TWO_GFX_GLTF_EXPORT ImporterGltf : public Importer
 	{
 	public:
 		constr_ ImporterGltf(GfxSystem& gfx);

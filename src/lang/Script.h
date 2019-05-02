@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/string.h>
 #include <stl/map.h>
 #include <stl/span.h>
@@ -15,9 +15,9 @@
 #endif
 #include <lang/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_LANG_EXPORT Script : public Callable
+	export_ class refl_ TWO_LANG_EXPORT Script : public Callable
 	{
 	public:
 		Script(Type& type, const string& name, const Signature& signature = {});
@@ -38,14 +38,14 @@ namespace mud
 		Wren
 	};
 
-	export_ struct refl_ MUD_LANG_EXPORT ScriptError
+	export_ struct refl_ TWO_LANG_EXPORT ScriptError
 	{
 		size_t m_line;
 		size_t m_column;
 		string m_message;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT TextScript final : public Script
+	export_ class refl_ TWO_LANG_EXPORT TextScript final : public Script
 	{
 	public:
 		constr_ TextScript(const string& name, Language language, const Signature& signature = {});
@@ -63,7 +63,7 @@ namespace mud
 		mutable map<int, ScriptError> m_runtime_errors;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT Interpreter
+	export_ class refl_ TWO_LANG_EXPORT Interpreter
 	{
 	public:
 		Interpreter();
@@ -98,7 +98,7 @@ namespace mud
 		string m_output;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT ScriptClass
+	export_ class refl_ TWO_LANG_EXPORT ScriptClass
 	{
 	public:
 		constr_ ScriptClass(const string& name, span<Type*> parts);

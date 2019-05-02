@@ -11,8 +11,8 @@
 #include <bx/readerwriter.h>
 #include <bx/file.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/string.h>
 #include <infra/Vector.h>
@@ -26,7 +26,7 @@ module mud.gfx;
 #include <cstdio>
 #include <cstring>
 
-namespace mud
+namespace two
 {
 	string readable_file_size(double size)
 	{

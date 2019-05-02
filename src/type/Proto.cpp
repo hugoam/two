@@ -4,14 +4,14 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.type;
+#ifdef TWO_MODULES
+module two.type;
 #else
 #include <type/Cls.h>
 #include <type/Proto.h>
 #endif
 
-namespace mud
+namespace two
 {
 	vector<Prototype*> g_prototypes = vector<Prototype*>(c_max_types);
 

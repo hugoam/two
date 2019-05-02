@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <stl/algorithm.h>
 #include <stl/unordered_map.hpp>
@@ -20,7 +20,7 @@ module mud.ui;
 
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 	UiWindow::UiWindow(Context& context, Vg& vg, User* user)
 		: m_resource_path(context.m_resource_path)

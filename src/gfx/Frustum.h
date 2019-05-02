@@ -4,20 +4,20 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/span.h>
 #include <geom/Geom.h>
 #endif
 #include <gfx/Forward.h>
 
-#if defined MUD_UNIFORM_BLOCKS
+#if defined TWO_UNIFORM_BLOCKS
 #include <gfx/Uniform.h>
 #endif
 
-namespace mud
+namespace two
 {
-#if defined MUD_UNIFORM_BLOCKS
-	export_ struct refl_ MUD_GFX_EXPORT FrustumBlock
+#if defined TWO_UNIFORM_BLOCKS
+	export_ struct refl_ TWO_GFX_EXPORT FrustumBlock
 	{
 		attr_ float m_fov = 60.f;
 		attr_ float m_aspect = 1.f;
@@ -28,15 +28,15 @@ namespace mud
 	};
 #endif
 
-	export_ MUD_GFX_EXPORT Plane6 bounding_planes(const mat4& mat);
-	export_ MUD_GFX_EXPORT Plane6 frustum_planes(const mat4& projection, const mat4& transform);
-	export_ MUD_GFX_EXPORT Plane6 frustum_planes(const mat4& view, float fov, float aspect, float near, float far);
-	export_ MUD_GFX_EXPORT Plane6 frustum_planes(const mat4& view, const vec2& rect, float near, float far);
-	export_ MUD_GFX_EXPORT Point8 frustum_corners(const Plane6& planes);
+	export_ TWO_GFX_EXPORT Plane6 bounding_planes(const mat4& mat);
+	export_ TWO_GFX_EXPORT Plane6 frustum_planes(const mat4& projection, const mat4& transform);
+	export_ TWO_GFX_EXPORT Plane6 frustum_planes(const mat4& view, float fov, float aspect, float near, float far);
+	export_ TWO_GFX_EXPORT Plane6 frustum_planes(const mat4& view, const vec2& rect, float near, float far);
+	export_ TWO_GFX_EXPORT Point8 frustum_corners(const Plane6& planes);
 
-	export_ MUD_GFX_EXPORT vec2 frustum_viewport_size(const mat4& projection);
+	export_ TWO_GFX_EXPORT vec2 frustum_viewport_size(const mat4& projection);
 
-	export_ class refl_ MUD_GFX_EXPORT Frustum
+	export_ class refl_ TWO_GFX_EXPORT Frustum
 	{
 	public:
 		Frustum();
@@ -57,13 +57,13 @@ namespace mud
 		attr_ float m_radius;
 	};
 
-	export_ MUD_GFX_EXPORT Frustum optimized_frustum(Camera& camera, span<Item*> items);
+	export_ TWO_GFX_EXPORT Frustum optimized_frustum(Camera& camera, span<Item*> items);
 
-	export_ struct refl_ MUD_GFX_EXPORT FrustumSlice
+	export_ struct refl_ TWO_GFX_EXPORT FrustumSlice
 	{
 		int m_index;
 		Frustum m_frustum;
 	};
 
-	export_ MUD_GFX_EXPORT void split_frustum_slices(Camera& camera, span<FrustumSlice*> slices, uint8_t num_splits, float split_distribution);
+	export_ TWO_GFX_EXPORT void split_frustum_slices(Camera& camera, span<FrustumSlice*> slices, uint8_t num_splits, float split_distribution);
 }

@@ -5,14 +5,14 @@
 #include <infra/Cpp20.h>
 #include <climits>
 
-#ifdef MUD_MODULES
-module mud.noise;
+#ifdef TWO_MODULES
+module two.noise;
 #else
 #include <math/Random.h>
 #include <noise/Noise.h>
 #endif
 
-namespace mud
+namespace two
 {
 	Noise::Noise(int seed)
 		: FastNoise(seed)

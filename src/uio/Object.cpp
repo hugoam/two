@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.uio;
+#ifdef TWO_MODULES
+module two.uio;
 #else
 #include <refl/Class.h>
 #include <refl/Convert.h>
@@ -20,7 +20,7 @@ module mud.uio;
 #include <uio/MethodEdit.h>
 #endif
 
-namespace mud
+namespace two
 {
 	string object_name(Ref object)
 	{

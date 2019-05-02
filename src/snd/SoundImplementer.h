@@ -6,7 +6,7 @@
 
 #include <snd/Forward.h>
 
-namespace mud
+namespace two
 {
 	class SoundImplementer
 	{

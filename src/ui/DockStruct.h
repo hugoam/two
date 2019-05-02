@@ -11,9 +11,9 @@
 #include <ui/WidgetStruct.h>
 #include <ui/Container.h>
 
-namespace mud
+namespace two
 {
-	export_ struct refl_ MUD_UI_EXPORT Dock
+	export_ struct refl_ TWO_UI_EXPORT Dock
 	{
 		Dock();
 		Dock(Docker& docker, cstring name, vector<uint16_t> dockid, float span = 0.f);
@@ -23,7 +23,7 @@ namespace mud
 		float m_span = 0.f;
 	};
 
-	export_ class refl_ MUD_UI_EXPORT Docksystem
+	export_ class refl_ TWO_UI_EXPORT Docksystem
 	{
 	public:
 		Docksystem();
@@ -34,14 +34,14 @@ namespace mud
 		vector<Docker*> m_dockers;
 	};
 
-	export_ class refl_ MUD_UI_EXPORT Dockable : public Widget
+	export_ class refl_ TWO_UI_EXPORT Dockable : public Widget
 	{
 	public:
 		Dockable(Widget* parent, void* identity);
 		Dock* m_dock = nullptr;
 	};
 
-	export_ class refl_ MUD_UI_EXPORT Docker : public Widget
+	export_ class refl_ TWO_UI_EXPORT Docker : public Widget
 	{
 	public:
 		Docker(Widget* parent, void* identity, Docksystem& docksystem);
@@ -61,7 +61,7 @@ namespace mud
 		vector<Dock*> m_docks;
 	};
 
-	export_ class refl_ MUD_UI_EXPORT Dockspace : public Docker
+	export_ class refl_ TWO_UI_EXPORT Dockspace : public Docker
 	{
 	public:
 		Dockspace(Widget* parent, void* identity, Docksystem& docksystem);
@@ -78,7 +78,7 @@ namespace mud
 		Widget* m_mainline;
 	};
 
-	export_ class refl_ MUD_UI_EXPORT Dockbar : public Docker
+	export_ class refl_ TWO_UI_EXPORT Dockbar : public Docker
 	{
 	public:
 		Dockbar(Widget* parent, void* identity, Docksystem& docksystem);

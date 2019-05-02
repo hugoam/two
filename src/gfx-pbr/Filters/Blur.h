@@ -4,12 +4,12 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <gfx/Renderer.h>
 #include <gfx/Program.h>
 #endif
 
-namespace mud
+namespace two
 {
 	enum ShaderOptionBlur : unsigned int
 	{
@@ -42,7 +42,7 @@ namespace mud
 		float m_vertical[5];
 	};
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT BlockBlur : public GfxBlock
+	export_ class refl_ TWO_GFX_PBR_EXPORT BlockBlur : public GfxBlock
 	{
 	public:
 		BlockBlur(GfxSystem& gfx, BlockFilter& filter);

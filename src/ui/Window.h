@@ -8,7 +8,7 @@
 #include <ui/Style/Style.h>
 #include <ui/Widget.h>
 
-namespace mud
+namespace two
 {
 	export_ enum class refl_ WindowState : unsigned int
 	{
@@ -32,9 +32,9 @@ namespace ui
 		Style dock_window; Style wrap_window;
 	};
 
-	export_ MUD_UI_EXPORT WindowStyles& window_styles();
+	export_ TWO_UI_EXPORT WindowStyles& window_styles();
 
-	export_ func_ MUD_UI_EXPORT Window& window(Widget& parent, cstring title, WindowState state = WindowState::Default);
-	export_ MUD_UI_EXPORT Window& window(Widget& parent, cstring title, WindowState state, void* identity, Dock* dock = nullptr);
+	export_ func_ TWO_UI_EXPORT Window& window(Widget& parent, cstring title, WindowState state = WindowState::Default);
+	export_ TWO_UI_EXPORT Window& window(Widget& parent, cstring title, WindowState state, void* identity, Dock* dock = nullptr);
 }
 }

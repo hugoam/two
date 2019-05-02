@@ -16,14 +16,14 @@
 
 #include <stl/vector.hpp>
 
-namespace mud
+namespace two
 {
 	static LRESULT CALLBACK wndProc(HWND _hwnd, UINT _id, WPARAM _wparam, LPARAM _lparam);
 
 	struct WindowHolder
 	{
 		void add(WinContext& window) { m_windows.push_back(&window); }
-		void remove(WinContext& window) { mud::remove(m_windows, &window); }
+		void remove(WinContext& window) { two::remove(m_windows, &window); }
 		WinContext* find(HWND hwnd) { for(WinContext* window : m_windows) if(window->m_hwnd == hwnd) return window; return nullptr; }
 
 		vector<WinContext*> m_windows;

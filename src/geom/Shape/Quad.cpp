@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.geom;
+#ifdef TWO_MODULES
+module two.geom;
 #else
 #include <math/Vec.hpp>
 #include <geom/Shape/Quad.h>
@@ -16,7 +16,7 @@ module mud.geom;
 
 //#define PK_GLITCH
 
-namespace mud
+namespace two
 {
 	static vec2 quadUVs[4] = { { 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 0.f }, { 0.f, 1.f } };
 

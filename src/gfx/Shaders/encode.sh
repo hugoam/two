@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_ENCODE
-#define MUD_SHADER_ENCODE
+#ifndef TWO_SHADER_ENCODE
+#define TWO_SHADER_ENCODE
 
 #include <common.sh>
 
@@ -235,4 +235,4 @@ vec3 decodeNormal(uint val)
 }
 #endif
 
-#endif // MUD_SHADER_ENCODE
+#endif // TWO_SHADER_ENCODE

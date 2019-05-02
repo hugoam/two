@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/function.h>
 #include <stl/string.h>
 #include <stl/vector.h>
@@ -11,11 +11,11 @@
 #endif
 #include <wfc/Forward.h>
 
-namespace mud
+namespace two
 {
 	using ubool = uint8_t;
 
-#define MUD_WFC_PROPAGATION_VEC
+#define TWO_WFC_PROPAGATION_VEC
 
 	export_ enum refl_ Result : unsigned int
 	{
@@ -24,7 +24,7 @@ namespace mud
 		kUnfinished,
 	};
 
-	export_ struct refl_ MUD_WFC_EXPORT Tile
+	export_ struct refl_ TWO_WFC_EXPORT Tile
 	{
 		Tile() {}
 		Tile(uint32_t index, string name, char symmetry, int cardinality, int profile) : m_index(index), m_name(name), m_symmetry(symmetry), m_cardinality(cardinality), m_profile(profile) {}
@@ -37,7 +37,7 @@ namespace mud
 		table<SignedAxis, uint32_t> m_edges;
 	};
 
-	export_ struct refl_ MUD_WFC_EXPORT Tileset
+	export_ struct refl_ TWO_WFC_EXPORT Tileset
 	{
 		attr_ string m_name;
 		attr_ vec3 m_tile_size;
@@ -56,7 +56,7 @@ namespace mud
 	using ValidCoord = function<bool(int, int, int)>;
 	using Propagator = function<void(Wave&)>;
 
-	export_ struct refl_ MUD_WFC_EXPORT Wave
+	export_ struct refl_ TWO_WFC_EXPORT Wave
 	{
 		Wave();
 		Wave(uint16_t states, uint16_t width, uint16_t height, uint16_t depth, bool periodic);
@@ -101,7 +101,7 @@ namespace mud
 		meth_ Result solve(size_t limit);
 	};
 
-	export_ struct refl_ MUD_WFC_EXPORT WaveTileset : public Tileset
+	export_ struct refl_ TWO_WFC_EXPORT WaveTileset : public Tileset
 	{
 		vector3d<ubool> m_propagator[6];
 
@@ -113,20 +113,20 @@ namespace mud
 		vector3d<ubool>& side(SignedAxis axis) { return m_propagator[size_t(axis)]; }
 	};
 
-	export_ struct refl_ MUD_WFC_EXPORT TileWave : public Wave
+	export_ struct refl_ TWO_WFC_EXPORT TileWave : public Wave
 	{
 		TileWave();
 		constr_ TileWave(WaveTileset& tileset, uint16_t width, uint16_t height, uint16_t depth, bool periodic);
 	};
 
-	export_ MUD_WFC_EXPORT bool neighbour(Wave& wave, const uvec3& coord, SignedAxis d, uvec3& neighbour);
-	export_ MUD_WFC_EXPORT uint16_t tile_at(Wave& wave, uint16_t x, uint16_t y, uint16_t z);
+	export_ TWO_WFC_EXPORT bool neighbour(Wave& wave, const uvec3& coord, SignedAxis d, uvec3& neighbour);
+	export_ TWO_WFC_EXPORT uint16_t tile_at(Wave& wave, uint16_t x, uint16_t y, uint16_t z);
 
-	export_ MUD_WFC_EXPORT void add_tile(Tileset& tileset, const set<string>& subset_tiles, const string& tile_name, char symmetry, float weight);
-	export_ MUD_WFC_EXPORT void add_tile(Tileset& tileset, const string& tile_name, char symmetry, float weight);
+	export_ TWO_WFC_EXPORT void add_tile(Tileset& tileset, const set<string>& subset_tiles, const string& tile_name, char symmetry, float weight);
+	export_ TWO_WFC_EXPORT void add_tile(Tileset& tileset, const string& tile_name, char symmetry, float weight);
 
-	export_ MUD_WFC_EXPORT func_ void parse_json_tileset(const string& path, const string& subset, Tileset& outputTileset);
-	export_ MUD_WFC_EXPORT func_ void parse_json_wave_tileset(const string& path, const string& subset, WaveTileset& outputTileset);
+	export_ TWO_WFC_EXPORT func_ void parse_json_tileset(const string& path, const string& subset, Tileset& outputTileset);
+	export_ TWO_WFC_EXPORT func_ void parse_json_wave_tileset(const string& path, const string& subset, WaveTileset& outputTileset);
 
 	struct VoxelTile
 	{

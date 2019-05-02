@@ -4,13 +4,13 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/span.h>
 #endif
 #include <ui/Forward.h>
 #include <ui/Sheet.h>
 
-namespace mud
+namespace two
 {
 namespace ui
 {
@@ -21,16 +21,16 @@ namespace ui
 		//Style dockdiv; Style dockbox;
 	};
 
-	export_ MUD_UI_EXPORT DockStyles& dock_styles();
+	export_ TWO_UI_EXPORT DockStyles& dock_styles();
 
-	export_ MUD_UI_EXPORT Widget& dockline(Widget& parent, uint16_t index, Axis dim);
-	export_ MUD_UI_EXPORT Tabber& docksection(Widget& parent);
+	export_ TWO_UI_EXPORT Widget& dockline(Widget& parent, uint16_t index, Axis dim);
+	export_ TWO_UI_EXPORT Tabber& docksection(Widget& parent);
 
-	export_ MUD_UI_EXPORT func_ Dockspace& dockspace(Widget& parent, Docksystem& docksystem);
-	export_ MUD_UI_EXPORT func_ Dockbar& dockbar(Widget& parent, Docksystem& docksystem);
+	export_ TWO_UI_EXPORT func_ Dockspace& dockspace(Widget& parent, Docksystem& docksystem);
+	export_ TWO_UI_EXPORT func_ Dockbar& dockbar(Widget& parent, Docksystem& docksystem);
 
-	export_ MUD_UI_EXPORT func_ Widget* dockitem(Widget& parent, Docksystem& docksystem, Dock& dock);
+	export_ TWO_UI_EXPORT func_ Widget* dockitem(Widget& parent, Docksystem& docksystem, Dock& dock);
 
-	export_ MUD_UI_EXPORT Widget* dockitem(Docker& docker, cstring name, span<uint16_t> dockid = {}, float span = 0.f);
+	export_ TWO_UI_EXPORT Widget* dockitem(Docker& docker, cstring name, span<uint16_t> dockid = {}, float span = 0.f);
 }
 }

@@ -1,18 +1,18 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.pool;
+#ifdef TWO_MODULES
+module two.pool;
 #else
 #include <pool/Types.h>
 #include <pool/Api.h>
 #include <type/Vector.h>
 #endif
 
-namespace mud
+namespace two
 {
     // Exported types
     
     
-    template <> MUD_POOL_EXPORT Type& type<mud::Pool>() { static Type ty("Pool", sizeof(mud::Pool)); return ty; }
-    template <> MUD_POOL_EXPORT Type& type<mud::HandlePool>() { static Type ty("HandlePool", sizeof(mud::HandlePool)); return ty; }
+    template <> TWO_POOL_EXPORT Type& type<two::Pool>() { static Type ty("Pool", sizeof(two::Pool)); return ty; }
+    template <> TWO_POOL_EXPORT Type& type<two::HandlePool>() { static Type ty("HandlePool", sizeof(two::HandlePool)); return ty; }
 }

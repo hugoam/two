@@ -1,5 +1,5 @@
-#ifndef MUD_GPU_ZONELIGHTS
-#define MUD_GPU_ZONELIGHTS
+#ifndef TWO_GPU_ZONELIGHTS
+#define TWO_GPU_ZONELIGHTS
 
 struct ZoneLights
 {

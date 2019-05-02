@@ -8,7 +8,7 @@
 #include <tool/Forward.h>
 #include <tool/Tool.h>
 
-namespace mud
+namespace two
 {
 	export_ class refl_ WorkPlaneAction : public EditorAction
 	{

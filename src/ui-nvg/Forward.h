@@ -5,8 +5,8 @@
 #include <infra/Config.h>
 
 
-#ifndef MUD_UI_NANOVG_EXPORT
-#define MUD_UI_NANOVG_EXPORT MUD_IMPORT
+#ifndef TWO_UI_NANOVG_EXPORT
+#define TWO_UI_NANOVG_EXPORT TWO_IMPORT
 #endif
 
 
@@ -19,7 +19,7 @@ namespace std {
     
 }
 
-namespace mud {
+namespace two {
 namespace ui {
 
     
@@ -33,7 +33,7 @@ namespace glm {
     
 }
 
-namespace mud {
+namespace two {
 namespace gfx {
 
     
@@ -47,14 +47,14 @@ namespace json11 {
     
 }
 
-namespace mud {
+namespace two {
 
     
     
     class VgNano;
 }
 
-namespace mud {
+namespace two {
 namespace detail {
 
     

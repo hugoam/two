@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.lang;
+#ifdef TWO_MODULES
+module two.lang;
 #else
 #include <infra/ToString.h>
 #include <stl/algorithm.h>
@@ -16,7 +16,7 @@ module mud.lang;
 #include <lang/Stream.h>
 #endif
 
-namespace mud
+namespace two
 {
 	StreamBranch::StreamBranch() {}
 	StreamBranch::StreamBranch(Stream* stream, const Var& value, StreamIndex index)

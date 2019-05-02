@@ -3,8 +3,8 @@
 #include <infra/Config.h>
 #include <stl/base.h>
 
-#ifndef MUD_INFRA_EXPORT
-#define MUD_INFRA_EXPORT MUD_IMPORT
+#ifndef TWO_INFRA_EXPORT
+#define TWO_INFRA_EXPORT TWO_IMPORT
 #endif
 
 #ifdef USE_STL
@@ -18,7 +18,7 @@ namespace stl
 #include <stl/decls.h>
 #endif
 
-namespace mud
+namespace two
 {
 	using stl::array;
 	using stl::span;
@@ -29,7 +29,7 @@ namespace mud
     class Movabl;
 }
 
-#ifdef MUD_META_GENERATOR // #ifdef MUD_META_GENERATOR
+#ifdef TWO_META_GENERATOR // #ifdef TWO_META_GENERATOR
 #include <stl/decls.h>
 namespace stl
 {

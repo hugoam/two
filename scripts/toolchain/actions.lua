@@ -1,17 +1,17 @@
--- mud toolchain
+-- two toolchain
 -- actions
 
-function mud_amalgamate(modules)
+function two_amalgamate(modules)
     for _, m in ipairs(modules) do
         local dir = os.getcwd()
         os.chdir(m.root)
         local jsonfile = m.path .. "/amalg.json"
-        os.execute(path.join(MUD_DIR, "bin/amalg") .. " " .. jsonfile)
+        os.execute(path.join(TWO_DIR, "bin/amalg") .. " " .. jsonfile)
         os.chdir(dir)
     end
 end
 
-function mud_write_api(m)
+function two_write_api(m)
     headers = os.matchfiles(path.join(m.path, "**.h"))
     --table.insert(headers, os.matchfiles(path.join(m.path, "**.hpp")))
     
@@ -26,7 +26,7 @@ function mud_write_api(m)
     f:close()
 end
 
-function mud_write_mxx(m)
+function two_write_mxx(m)
 	local f, err = io.open(path.join(m.path, m.dotname .. ".mxx"), "wb")
     io.output(f)
     
@@ -57,10 +57,10 @@ function mud_write_mxx(m)
     f:close()
 end
 
-function mud_bootstrap(modules)
+function two_bootstrap(modules)
     for _, m in ipairs(modules) do
-        mud_write_api(m)
-        mud_write_mxx(m)
+        two_write_api(m)
+        two_write_mxx(m)
     end
 end
 
@@ -75,12 +75,12 @@ function concat_files(files)
     end
 end
 
-function mud_glue_js(modules)
+function two_glue_js(modules)
     local glue_path = path.join(BUILD_DIR, "js", "glue.js")
     local f, err = io.open(glue_path, "wb")
     io.output(f)
     
-    local files = { path.join(MUD_DIR, "src/clrefl", "Module.js") }
+    local files = { path.join(TWO_DIR, "src/clrefl", "Module.js") }
     for _, m in ipairs(modules) do
         if m ~= null then
             table.insert(files, path.join(m.root, "bind", string.gsub(m.name, "-", ".") .. ".js"))
@@ -96,7 +96,7 @@ function mud_glue_js(modules)
     }
 end
 
-function mud_reflect(modules)
+function two_reflect(modules)
     local current = {}
     includedirs = function(dirs)
         for _, dir in ipairs(dirs) do
@@ -111,7 +111,7 @@ function mud_reflect(modules)
     local jsons = {}
     for _, m in ipairs(modules) do
         if m.refl then
-            print('mud reflect ' .. m.idname)
+            print('two reflect ' .. m.idname)
             current = {
                 namespace = iif(m.namespace, m.namespace, ''),
                 name = m.name,
@@ -149,15 +149,15 @@ function mud_reflect(modules)
         end
     end
     
-    print(path.join(MUD_DIR, "bin/metagen") .. " " .. table.concat(jsons, " "))
-    os.execute(path.join(MUD_DIR, "bin/metagen") .. " " .. table.concat(jsons, " "))
+    print(path.join(TWO_DIR, "bin/metagen") .. " " .. table.concat(jsons, " "))
+    os.execute(path.join(TWO_DIR, "bin/metagen") .. " " .. table.concat(jsons, " "))
 end
 
 newaction {
     trigger     = "bootstrap",
     description = "Bootstrap c++ modules",
     execute     = function()
-        mud_bootstrap(MODULES)
+        two_bootstrap(MODULES)
     end
 }
 
@@ -165,7 +165,7 @@ newaction {
     trigger     = "reflect",
     description = "Generate reflection",
     execute     = function()
-        mud_reflect(MODULES)
+        two_reflect(MODULES)
     end
 }
 
@@ -173,7 +173,7 @@ newaction {
     trigger     = "amalgamate",
     description = "Generate amalgamation files",
     execute     = function()
-        mud_amalgamate(MODULES)
+        two_amalgamate(MODULES)
     end
 }
 

@@ -10,7 +10,7 @@
 
 struct dirent;
 
-namespace mud
+namespace two
 {
 namespace ui
 {
@@ -20,16 +20,16 @@ namespace ui
 		Style dir; Style file;
 	};
 
-	export_ MUD_UI_EXPORT FileStyles& file_styles();
+	export_ TWO_UI_EXPORT FileStyles& file_styles();
 
-	export_ MUD_UI_EXPORT func_ Widget& dir_item(Widget& parent, const string& name);
-	export_ MUD_UI_EXPORT func_ Widget& file_item(Widget& parent, const string& name);
-	export_ MUD_UI_EXPORT func_ Widget& file_list(Widget& parent, string& path);
+	export_ TWO_UI_EXPORT func_ Widget& dir_item(Widget& parent, const string& name);
+	export_ TWO_UI_EXPORT func_ Widget& file_item(Widget& parent, const string& name);
+	export_ TWO_UI_EXPORT func_ Widget& file_list(Widget& parent, string& path);
 
-	export_ MUD_UI_EXPORT func_ Widget& file_browser(Widget& parent, string& path);
+	export_ TWO_UI_EXPORT func_ Widget& file_browser(Widget& parent, string& path);
 
-	export_ MUD_UI_EXPORT func_ Widget& dir_node(Widget& parent, const string& path, const string& name, bool collapsed);
-	export_ MUD_UI_EXPORT func_ Widget& file_node(Widget& parent, const string& name);
-	export_ MUD_UI_EXPORT func_ Widget& file_tree(Widget& parent, const string& path);
+	export_ TWO_UI_EXPORT func_ Widget& dir_node(Widget& parent, const string& path, const string& name, bool collapsed);
+	export_ TWO_UI_EXPORT func_ Widget& file_node(Widget& parent, const string& name);
+	export_ TWO_UI_EXPORT func_ Widget& file_tree(Widget& parent, const string& path);
 }
 }

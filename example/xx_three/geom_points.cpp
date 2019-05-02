@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 
@@ -8,7 +8,7 @@
 
 #include <cstring>
 
-using namespace mud;
+using namespace two;
 
 #define PAD 0.f
 

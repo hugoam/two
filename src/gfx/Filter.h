@@ -4,14 +4,14 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/string.h>
 #include <stl/map.h>
 #include <math/Vec.h>
 #endif
 #include <gfx/Renderer.h>
 
-namespace mud
+namespace two
 {
 	export_ enum ShaderOptionFilter : unsigned int
 	{
@@ -50,7 +50,7 @@ namespace mud
 		bgfx::UniformHandle u_source_crop;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT BlockFilter : public GfxBlock
+	export_ class refl_ TWO_GFX_EXPORT BlockFilter : public GfxBlock
 	{
 	public:
 		BlockFilter(GfxSystem& gfx);
@@ -86,7 +86,7 @@ namespace mud
 		float m_multiply = 1.f;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT BlockCopy : public GfxBlock
+	export_ class refl_ TWO_GFX_EXPORT BlockCopy : public GfxBlock
 	{
 	public:
 		BlockCopy(GfxSystem& gfx, BlockFilter& filter);

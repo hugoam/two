@@ -16,9 +16,9 @@
 //#include <wfc/Api.h>
 //#include <fract/Api.h>
 
-#if defined MUD_RENDERER_BGFX
+#if defined TWO_RENDERER_BGFX
 #include <bgfx/Forward.h>
-#if !defined MUD_NO_GFX
+#if !defined TWO_NO_GFX
 #include <gfx/Api.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-obj/Api.h>
@@ -31,6 +31,6 @@
 #endif
 #endif
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
-#define MUD_RESOURCE_PATH "/data/"
+#ifdef TWO_PLATFORM_EMSCRIPTEN
+#define TWO_RESOURCE_PATH "/data/"
 #endif

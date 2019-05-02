@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.refl;
+#ifdef TWO_MODULES
+module two.refl;
 #else
 #include <stl/algorithm.h>
 #include <infra/Vector.h>
@@ -16,7 +16,7 @@ module mud.refl;
 #include <refl/VirtualMethod.h>
 #endif
 
-namespace mud
+namespace two
 {
 	bool QualType::isvoid() const { return m_type == &type<void>(); }
 

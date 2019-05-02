@@ -8,11 +8,11 @@
 #include <math/Vec.h>
 #include <geom/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ MUD_GEOM_EXPORT vector<vec3> hilbert2d(vec3 center = vec3(0.f), float size = 10.f, int iterations = 1, 
+	export_ TWO_GEOM_EXPORT vector<vec3> hilbert2d(vec3 center = vec3(0.f), float size = 10.f, int iterations = 1, 
 												   uint v0 = 0, uint v1 = 1, uint v2 = 2, uint v3 = 3);
 
-	export_ MUD_GEOM_EXPORT vector<vec3> hilbert3d(vec3 center = vec3(0.f), float size = 10.f, int iterations = 1,
+	export_ TWO_GEOM_EXPORT vector<vec3> hilbert3d(vec3 center = vec3(0.f), float size = 10.f, int iterations = 1,
 												   uint v0 = 0, uint v1 = 1, uint v2 = 2, uint v3 = 3, uint v4 = 4, uint v5 = 5, uint v6 = 6, uint v7 = 7);
 }

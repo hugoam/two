@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_CONETRACE
-#define MUD_SHADER_CONETRACE
+#ifndef TWO_SHADER_CONETRACE
+#define TWO_SHADER_CONETRACE
 
 #include <common.sh>
 #include <encode.sh>

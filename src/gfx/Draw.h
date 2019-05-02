@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <math/Vec.h>
 #include <geom/Shape/ProcShape.h>
 #endif
@@ -12,13 +12,13 @@
 #include <gfx/Mesh.h>
 #include <gfx/Material.h>
 
-namespace mud
+namespace two
 {
 	constexpr size_t c_max_shape_size = 256U;
 
 	using cstring = const char*;
 
-	export_ class refl_ MUD_GFX_EXPORT Direct
+	export_ class refl_ TWO_GFX_EXPORT Direct
 	{
 	public:
 		constr_ Direct();
@@ -34,7 +34,7 @@ namespace mud
 		//vector<Mesh> m_batches;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT ImmediateDraw
+	export_ class refl_ TWO_GFX_EXPORT ImmediateDraw
 	{
 	public:
 		ImmediateDraw(Material& material);
@@ -75,7 +75,7 @@ namespace mud
 		void submit(bgfx::Encoder& encoder, uint8_t view, uint64_t bgfx_state, DrawMode draw_mode, Batch& batch);
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT SymbolIndex
+	export_ class refl_ TWO_GFX_EXPORT SymbolIndex
 	{
 	public:
 		SymbolIndex();
@@ -88,20 +88,20 @@ namespace mud
 		unique<Impl> m_impl;
 	};
 
-	export_ MUD_GFX_EXPORT object<Model> gen_model(cstring name, const ProcShape& shape, bool readback = false);
-	export_ MUD_GFX_EXPORT object<Model> gen_model(cstring name, span<ProcShape> shapes, bool readback = false);
+	export_ TWO_GFX_EXPORT object<Model> gen_model(cstring name, const ProcShape& shape, bool readback = false);
+	export_ TWO_GFX_EXPORT object<Model> gen_model(cstring name, span<ProcShape> shapes, bool readback = false);
 
-	export_ MUD_GFX_EXPORT void gen_model(const ProcShape& shape, Model& model, bool readback = false, Material* material = nullptr);
-	export_ MUD_GFX_EXPORT void gen_model(span<ProcShape> shapes, Model& model, bool readback = false, Material* material = nullptr);
+	export_ TWO_GFX_EXPORT void gen_model(const ProcShape& shape, Model& model, bool readback = false, Material* material = nullptr);
+	export_ TWO_GFX_EXPORT void gen_model(span<ProcShape> shapes, Model& model, bool readback = false, Material* material = nullptr);
 
-	export_ MUD_GFX_EXPORT void gen_mesh(const ProcShape& shapes, Model& model, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
-	export_ MUD_GFX_EXPORT void gen_mesh(span<ProcShape> shapes, Model& model, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
+	export_ TWO_GFX_EXPORT void gen_mesh(const ProcShape& shapes, Model& model, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
+	export_ TWO_GFX_EXPORT void gen_mesh(span<ProcShape> shapes, Model& model, DrawMode draw_mode, bool readback = false, Material* material = nullptr);
 
-	export_ MUD_GFX_EXPORT void gen_geom(const ProcShape& shapes, MeshPacker& model, DrawMode draw_mode);
-	export_ MUD_GFX_EXPORT void gen_geom(span<ProcShape> shapes, MeshPacker& model, DrawMode draw_mode);
+	export_ TWO_GFX_EXPORT void gen_geom(const ProcShape& shapes, MeshPacker& model, DrawMode draw_mode);
+	export_ TWO_GFX_EXPORT void gen_geom(span<ProcShape> shapes, MeshPacker& model, DrawMode draw_mode);
 
 
-	export_ class refl_ MUD_GFX_EXPORT Lines
+	export_ class refl_ TWO_GFX_EXPORT Lines
 	{
 	public:
 		constr_ Lines();

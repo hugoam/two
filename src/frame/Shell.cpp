@@ -3,17 +3,17 @@
 
 #include <ui-vg/VgVg.h>
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten/emscripten.h>
 #endif
 
 #include <stl/vector.hpp>
 
-//#define MUD_GFX_DEFERRED
+//#define TWO_GFX_DEFERRED
 
-namespace mud
+namespace two
 {
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 	static Shell* g_app = nullptr;
 	static size_t g_frame = 0U;
 	static size_t g_iterations = 0U;
@@ -27,9 +27,9 @@ namespace mud
 
 	unique<Vg> create_vg(GfxSystem& gfx, const string& resource_path)
 	{
-#if defined MUD_VG_VG
+#if defined TWO_VG_VG
 		return construct<VgVg>(resource_path, &gfx.allocator());
-#elif defined MUD_VG_NANOVG
+#elif defined TWO_VG_NANOVG
 		return construct<VgNanoBgfx>(m_resource_path);
 #endif
 	}
@@ -97,7 +97,7 @@ namespace mud
 	{
 		m_pump = func;
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 		g_app = this;
 		g_iterations = iterations;
 		emscripten_set_main_loop(iterate, 0, 1);

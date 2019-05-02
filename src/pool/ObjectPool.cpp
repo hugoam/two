@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.pool;
+#ifdef TWO_MODULES
+module two.pool;
 #else
 #include <infra/Config.h>
 #include <pool/ObjectPool.h>
@@ -13,7 +13,7 @@ module mud.pool;
 //#include <refl/Class.h>
 #endif
 
-namespace mud
+namespace two
 {
 	vector<unique<Pool>> g_pools = vector<unique<Pool>>(c_max_types);
 

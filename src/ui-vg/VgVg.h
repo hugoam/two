@@ -4,25 +4,25 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/string.h>
 #include <stl/map.h>
 #endif
 #include <ui/Forward.h>
 #include <ui/UiRenderer.h>
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <vg/vg.h>
 #include <bgfx/bgfx.h>
 #endif
 
-#ifndef MUD_UI_VG_EXPORT
-#define MUD_UI_VG_EXPORT MUD_IMPORT
+#ifndef TWO_UI_VG_EXPORT
+#define TWO_UI_VG_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
-	export_ class MUD_UI_VG_EXPORT VgVg : public Vg
+	export_ class TWO_UI_VG_EXPORT VgVg : public Vg
 	{
 	public:
 		VgVg(const string& resource_path, bx::AllocatorI* allocator);
@@ -51,7 +51,7 @@ namespace mud
 		virtual void begin_layer(Layer& layer, const vec2& position, float scale) override;
 		virtual void end_layer() override;
 
-#ifdef MUD_UI_DRAW_CACHE
+#ifdef TWO_UI_DRAW_CACHE
 		virtual void begin_cached(Layer& layer) override;
 		virtual void end_cached() override;
 
@@ -100,7 +100,7 @@ namespace mud
 		uint32_t text_align(const TextPaint& paint);
 		vg::TextConfig text_font(const TextPaint& paint);
 
-#ifdef MUD_UI_DRAW_CACHE
+#ifdef TWO_UI_DRAW_CACHE
 		vg::CommandListHandle layer_cache(Layer& layer);
 #endif
 

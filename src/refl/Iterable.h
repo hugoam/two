@@ -7,9 +7,9 @@
 #include <refl/Forward.h>
 #include <type/Ref.h>
 
-namespace mud
+namespace two
 {
-	export_ class MUD_REFL_EXPORT Iterable
+	export_ class TWO_REFL_EXPORT Iterable
 	{
 	public:
 		Type* m_element_type;
@@ -39,7 +39,7 @@ namespace mud
 		}
 	};
 
-	export_ class MUD_REFL_EXPORT Sequence
+	export_ class TWO_REFL_EXPORT Sequence
 	{
 	public:
 		using Push = void(*)(void*); Push m_push;

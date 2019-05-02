@@ -8,7 +8,7 @@
 #include <ecs/Forward.h>
 #include <stdint.h>
 
-namespace mud
+namespace two
 {
 	template <size_t EcsType, size_t Index>
 	struct TypeBuffer
@@ -18,7 +18,7 @@ namespace mud
 	struct TypedBuffer
 	{};
 
-	struct refl_ struct_ MUD_ECS_EXPORT Entity
+	struct refl_ struct_ TWO_ECS_EXPORT Entity
 	{
 		explicit operator bool() const { return m_handle != UINT32_MAX; }
 		//operator uint32_t() const { return m_handle; }
@@ -28,7 +28,7 @@ namespace mud
 
 		void destroy(); // { if(m_handle != UINT32_MAX) s_ecs[m_ecs]->destroy(m_handle); }
 
-		void swap(Entity& other) { using mud::swap; swap(m_handle, other.m_handle); swap(m_stream, other.m_stream); swap(m_ecs, other.m_ecs); }
+		void swap(Entity& other) { using two::swap; swap(m_handle, other.m_handle); swap(m_stream, other.m_stream); swap(m_ecs, other.m_ecs); }
 
 		uint8_t m_ecs = UINT8_MAX;
 		uint16_t m_stream = UINT16_MAX;
@@ -37,7 +37,7 @@ namespace mud
 		uint64_t as_uint() { return uint64_t(m_ecs) << 48ULL | uint64_t(m_stream) << 32ULL | uint64_t(m_handle); }
 	};
 
-	struct refl_ struct_ MUD_ECS_EXPORT Entt
+	struct refl_ struct_ TWO_ECS_EXPORT Entt
 	{
 		GridECS* m_ecs = nullptr;
 		uint32_t m_handle = UINT32_MAX;
@@ -46,7 +46,7 @@ namespace mud
 		T& comp();
 	};
 
-	class refl_ MUD_ECS_EXPORT OEntt : public Entt
+	class refl_ TWO_ECS_EXPORT OEntt : public Entt
 	{
 	public:
 		OEntt() {}

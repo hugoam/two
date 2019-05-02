@@ -4,18 +4,18 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <type/Ref.h>
 #endif
 #include <ui/Forward.h>
 #include <ui/WidgetStruct.h>
 #include <ui/Container.h>
 
-#define MUD_UI_SEQUENCE_REFS
+#define TWO_UI_SEQUENCE_REFS
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_UI_EXPORT ScrollSheet : public Widget
+	export_ class refl_ TWO_UI_EXPORT ScrollSheet : public Widget
 	{
 	public:
 		ScrollSheet(Widget* parent, void* identity) : Widget(parent, identity) {}
@@ -24,11 +24,11 @@ namespace mud
 
 namespace ui
 {
-	export_ class refl_ MUD_UI_EXPORT Sequence : public Widget
+	export_ class refl_ TWO_UI_EXPORT Sequence : public Widget
 	{
 	public:
 		Sequence(Widget* parent, void* identity) : Widget(parent, identity) {}
-#ifdef MUD_UI_SEQUENCE_REFS
+#ifdef TWO_UI_SEQUENCE_REFS
 		vector<Ref>* m_selection = nullptr;
 #else
 		vector<Widget*> m_selection;
@@ -36,7 +36,7 @@ namespace ui
 	};
 }
 
-	export_ class refl_ MUD_UI_EXPORT Tabber : public Widget
+	export_ class refl_ TWO_UI_EXPORT Tabber : public Widget
 	{
 	public:
 		Tabber(Widget* parent, void* identity) : Widget(parent, identity) {}
@@ -45,21 +45,21 @@ namespace ui
 		size_t m_active = 0;
 	};
 
-	export_ class refl_ MUD_UI_EXPORT Expandbox : public Widget
+	export_ class refl_ TWO_UI_EXPORT Expandbox : public Widget
 	{
 	public:
 		Expandbox(Widget* parent, void* identity) : Widget(parent, identity) {}
 		Widget* m_header = nullptr;
 	};
 
-	export_ class refl_ MUD_UI_EXPORT TreeNode : public Widget
+	export_ class refl_ TWO_UI_EXPORT TreeNode : public Widget
 	{
 	public:
 		TreeNode(Widget* parent, void* identity) : Widget(parent, identity) {}
 		Widget* m_header = nullptr;
 	};
 
-	export_ class refl_ MUD_UI_EXPORT Table : public Widget
+	export_ class refl_ TWO_UI_EXPORT Table : public Widget
 	{
 	public:
 		Table(Widget* parent, void* identity, span<float> weights);

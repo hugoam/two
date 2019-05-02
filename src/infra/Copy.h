@@ -9,7 +9,7 @@
 
 #include <cstring>
 
-namespace mud
+namespace two
 {
 	template <class T>
 	void copy(span<T> dest, span<T> src) { memcpy(dest.m_pointer, src.m_pointer, sizeof(T) * src.m_count); }

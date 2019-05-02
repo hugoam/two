@@ -17,7 +17,7 @@
 
 #include <stl/string.h>
 
-namespace mud
+namespace two
 {
 	using string = string;
 
@@ -176,7 +176,7 @@ namespace mud
 	EmContext::EmContext(RenderSystem& render_system, const string& name, uvec2 size, bool fullscreen, bool main)
 		: Context(render_system, name, size, fullscreen)
 	{
-#ifdef MUD_RENDERER_BGFX
+#ifdef TWO_RENDERER_BGFX
 		const bool create = !main;
 #else
 		const bool create = false;
@@ -224,7 +224,7 @@ namespace mud
 		attrs.depth = 1;
 		attrs.stencil = 1;
 		attrs.antialias = 1;
-#ifdef MUD_WEBGL2
+#ifdef TWO_WEBGL2
 		attrs.majorVersion = 2;
 #else
 		attrs.majorVersion = 1;

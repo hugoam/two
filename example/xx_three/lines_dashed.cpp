@@ -1,4 +1,4 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 
@@ -6,7 +6,7 @@
 
 #include <stl/array.h>
 
-using namespace mud;
+using namespace two;
 
 Model& cube_model(GfxSystem& gfx, float size)
 {

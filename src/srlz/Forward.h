@@ -8,15 +8,15 @@
 #include <type/Forward.h>
 #include <refl/Forward.h>
 
-#ifndef MUD_SRLZ_EXPORT
-#define MUD_SRLZ_EXPORT MUD_IMPORT
+#ifndef TWO_SRLZ_EXPORT
+#define TWO_SRLZ_EXPORT TWO_IMPORT
 #endif
 
 
     
     
 
-namespace mud {
+namespace two {
 
     
     

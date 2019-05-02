@@ -9,7 +9,7 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
-namespace mud
+namespace two
 {
 	SoundListener::SoundListener()
 	{}

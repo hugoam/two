@@ -3,14 +3,14 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <cassert>
 #include <iostream>
 #include <fstream>
 #endif
 
-#ifdef MUD_MODULES
-module mud.gltf;
+#ifdef TWO_MODULES
+module two.gltf;
 #else
 #include <json11.hpp>
 using Json = json11::Json;
@@ -36,7 +36,7 @@ using Json = json11::Json;
 
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 	inline void from_json(const Json& j, PrimitiveType& mat)
 	{
@@ -44,7 +44,7 @@ namespace mud
 	}
 }
 
-namespace mud
+namespace two
 {
 	FromJson gltf_unpacker()
 	{

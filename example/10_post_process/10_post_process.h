@@ -6,6 +6,6 @@
 
 #include <frame/Forward.h>
 
-using namespace mud;
+using namespace two;
 
 void ex_10_post_process(Shell& app, Widget& parent, Dockbar& dockbar);

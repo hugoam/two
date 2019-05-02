@@ -1,18 +1,18 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx-obj;
+#ifdef TWO_MODULES
+module two.gfx-obj;
 #else
 #include <gfx-obj/Types.h>
 #include <gfx-obj/Api.h>
 #include <type/Vector.h>
 #endif
 
-namespace mud
+namespace two
 {
     // Exported types
     
     
-    template <> MUD_GFX_OBJ_EXPORT Type& type<mud::ImporterOBJ>() { static Type ty("ImporterOBJ", sizeof(mud::ImporterOBJ)); return ty; }
-    template <> MUD_GFX_OBJ_EXPORT Type& type<mud::ImporterPLY>() { static Type ty("ImporterPLY", sizeof(mud::ImporterPLY)); return ty; }
+    template <> TWO_GFX_OBJ_EXPORT Type& type<two::ImporterOBJ>() { static Type ty("ImporterOBJ", sizeof(two::ImporterOBJ)); return ty; }
+    template <> TWO_GFX_OBJ_EXPORT Type& type<two::ImporterPLY>() { static Type ty("ImporterPLY", sizeof(two::ImporterPLY)); return ty; }
 }

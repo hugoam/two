@@ -1,29 +1,29 @@
 #pragma once
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <refl/Module.h>
 #endif
 
 #include <fract/Forward.h>
 //#include <fract/Types.h>
 
-#ifndef MUD_FRACT_REFL_EXPORT
-#define MUD_FRACT_REFL_EXPORT MUD_IMPORT
+#ifndef TWO_FRACT_REFL_EXPORT
+#define TWO_FRACT_REFL_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
-	export_ class MUD_FRACT_REFL_EXPORT mud_fract : public mud::Module
+	export_ class TWO_FRACT_REFL_EXPORT two_fract : public two::Module
 	{
 	private:
-		mud_fract();
+		two_fract();
 		
 	public:
-		static mud_fract& m() { static mud_fract instance; return instance; }
+		static two_fract& m() { static two_fract instance; return instance; }
 	};
 }
 
-#ifdef MUD_FRACT_MODULE
+#ifdef TWO_FRACT_MODULE
 extern "C"
-MUD_FRACT_REFL_EXPORT Module& getModule();
+TWO_FRACT_REFL_EXPORT Module& getModule();
 #endif

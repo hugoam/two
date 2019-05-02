@@ -6,13 +6,13 @@
 
 #include <cassert>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <gfx/Buffer.h>
 #endif
 
-namespace mud
+namespace two
 {
 	static size_t data_type_to_size(GpuBuffer::Element element) noexcept
 	{

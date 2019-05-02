@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/string.h>
 #include <stl/vector.h>
 #include <stl/map.h>
@@ -15,9 +15,9 @@
 #include <ui/Forward.h>
 #include <ui/UiRenderer.h>
 
-namespace mud
+namespace two
 {
-	export_ struct refl_ MUD_UI_EXPORT Clipboard
+	export_ struct refl_ TWO_UI_EXPORT Clipboard
 	{
 		Clipboard() {}
 		Clipboard(const string& text, bool line_mode) : m_text(text), m_line_mode(line_mode) {}
@@ -26,7 +26,7 @@ namespace mud
 		attr_ vector<string> m_pasted = {};
 	};
 
-	export_ class refl_ MUD_UI_EXPORT UiWindow
+	export_ class refl_ TWO_UI_EXPORT UiWindow
 	{
 	public:
 		UiWindow(Context& context, Vg& vg, User* user = nullptr);

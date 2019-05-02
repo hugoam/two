@@ -3,12 +3,12 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <cstring>
 #endif
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <infra/ToString.h>
 #include <math/Image256.h>
@@ -23,7 +23,7 @@ module mud.ui;
 #include <cstdarg>
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 namespace ui
 {

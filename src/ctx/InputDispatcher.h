@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <stl/map.h>
 #include <type/Unique.h>
@@ -14,7 +14,7 @@
 #include <ctx/KeyCode.h>
 #include <ctx/InputEvent.h>
 
-namespace mud
+namespace two
 {
 	export_ template <class T>
 	struct EventMap
@@ -25,12 +25,12 @@ namespace mud
 		void clear() { *this = {}; }
 	};
 
-	export_ struct MUD_CTX_EXPORT EventBatch : public EventMap<InputEvent*>
+	export_ struct TWO_CTX_EXPORT EventBatch : public EventMap<InputEvent*>
 	{
 		ControlNode* m_control_node = nullptr;
 	};
 
-	export_ class MUD_CTX_EXPORT EventDispatcher
+	export_ class TWO_CTX_EXPORT EventDispatcher
 	{
 	public:
 		EventDispatcher(ControlNode* control_node);

@@ -4,8 +4,8 @@
 
 #include <gfx/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/algorithm.h>
 #include <math/Vec.hpp>
@@ -22,7 +22,7 @@ module mud.gfx;
 #include <cstdio>
 #include <cassert>
 
-namespace mud
+namespace two
 {
 	BlockFilter::BlockFilter(GfxSystem& gfx)
 		: GfxBlock(gfx, *this)

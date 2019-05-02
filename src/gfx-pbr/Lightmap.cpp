@@ -8,8 +8,8 @@
 #include <bgfx/bgfx.h>
 #include <xatlas.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.pbr;
+#ifdef TWO_MODULES
+module two.gfx.pbr;
 #else
 #include <infra/ToString.h>
 #include <infra/File.h>
@@ -43,12 +43,12 @@ module mud.gfx.pbr;
 //#define LIGHTMAP_PIXELS
 //#define LIGHTMAP_SORT
 
-namespace mud
+namespace two
 {
 	inline bool operator>(const uvec2& lhs, const uvec2& rhs) { return lhs.x > rhs.x || (lhs.x == rhs.x && lhs.y > rhs.y); }
 }
 
-namespace mud
+namespace two
 {
 #ifdef LIGHTMAP_HDR
 	static const TextureFormat c_lightmap_format = TextureFormat::RGBA16F;

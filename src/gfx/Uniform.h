@@ -6,7 +6,7 @@
 
 #if 0
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/string.h>
 #include <math/Vec.h>
 #include <type/Type.h>
@@ -19,14 +19,14 @@
 
 #include <algorithm>
 
-namespace mud
+namespace two
 {
 	// @todo automatical definition of structs to uniforms using reflection
 	// - vectors and floats are packed to Vec4 in the order they appear, adding padding if next vector is too big to fit
 	// - enums are sent as a define switch using enum value label
 	// - booleans are sent as a define switch using parameter name
 
-	export_ struct MUD_GFX_EXPORT Uniform
+	export_ struct TWO_GFX_EXPORT Uniform
 	{
 		Uniform(const string& name, size_t member, bgfx::UniformType::Enum type) : m_name(name), m_member(member), m_type(type), m_floats(16) {}
 
@@ -73,7 +73,7 @@ namespace mud
 		}
 	};
 
-	export_ struct MUD_GFX_EXPORT Sampler
+	export_ struct TWO_GFX_EXPORT Sampler
 	{
 		string m_name;
 		size_t m_member;
@@ -95,7 +95,7 @@ namespace mud
 		}
 	};
 
-	export_ struct MUD_GFX_EXPORT UniformBlock
+	export_ struct TWO_GFX_EXPORT UniformBlock
 	{
 		UniformBlock(Type& type, const string& name);
 

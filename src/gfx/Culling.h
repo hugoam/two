@@ -12,9 +12,9 @@
 
 class MaskedOcclusionCulling;
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_GFX_EXPORT Culler
+	export_ class refl_ TWO_GFX_EXPORT Culler
 	{
 	public:
 		Culler(Viewport& viewport);

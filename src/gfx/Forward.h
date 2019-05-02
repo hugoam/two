@@ -12,11 +12,11 @@
 #include <ctx-glfw/Forward.h>
 #include <bgfx/Forward.h>
 
-#ifndef MUD_GFX_EXPORT
-#define MUD_GFX_EXPORT MUD_IMPORT
+#ifndef TWO_GFX_EXPORT
+#define TWO_GFX_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
 	enum class AnimTarget : unsigned int;
     enum class Interpolation : unsigned int;
@@ -176,29 +176,29 @@ namespace mud
 	class LightmapItem;
 }
 
-#ifdef MUD_META_GENERATOR
+#ifdef TWO_META_GENERATOR
 #include <stl/vector.h>
 #include <stl/span.h>
 namespace stl
 {
-	export_ extern template struct refl_ span_ span<mud::mat4>;
+	export_ extern template struct refl_ span_ span<two::mat4>;
 
-	export_ extern template struct refl_ span_ span<mud::Node3>;
-	export_ extern template struct refl_ span_ span<mud::Item>;
-	export_ extern template struct refl_ span_ span<mud::Batch>;
-	export_ extern template struct refl_ span_ span<mud::Direct>;
-	export_ extern template struct refl_ span_ span<mud::Mime>;
-	export_ extern template struct refl_ span_ span<mud::Light>;
-	export_ extern template struct refl_ span_ span<mud::Flare>;
+	export_ extern template struct refl_ span_ span<two::Node3>;
+	export_ extern template struct refl_ span_ span<two::Item>;
+	export_ extern template struct refl_ span_ span<two::Batch>;
+	export_ extern template struct refl_ span_ span<two::Direct>;
+	export_ extern template struct refl_ span_ span<two::Mime>;
+	export_ extern template struct refl_ span_ span<two::Light>;
+	export_ extern template struct refl_ span_ span<two::Flare>;
 
-	export_ extern template struct refl_ span_ span<mud::Texture*>;
+	export_ extern template struct refl_ span_ span<two::Texture*>;
 
-	export_ extern template class refl_ seque_ vector<mud::Mesh*>;
-	export_ extern template class refl_ seque_ vector<mud::Model*>;
-	export_ extern template class refl_ seque_ vector<mud::Texture*>;
-	export_ extern template class refl_ seque_ vector<mud::Material*>;
+	export_ extern template class refl_ seque_ vector<two::Mesh*>;
+	export_ extern template class refl_ seque_ vector<two::Model*>;
+	export_ extern template class refl_ seque_ vector<two::Texture*>;
+	export_ extern template class refl_ seque_ vector<two::Material*>;
 
-	export_ extern template class refl_ seque_ vector<mud::Animation*>;
-	export_ extern template class refl_ seque_ vector<mud::AnimPlay>;
+	export_ extern template class refl_ seque_ vector<two::Animation*>;
+	export_ extern template class refl_ seque_ vector<two::AnimPlay>;
 }
 #endif

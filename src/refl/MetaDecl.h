@@ -12,7 +12,7 @@
 #include <refl/Namespace.h>
 #include <refl/Vector.h>
 
-namespace mud
+namespace two
 {
 #if 0
 	export_ template <class T_Value, class T_Member, class T>
@@ -35,7 +35,7 @@ namespace mud
 		
 	export_ template <class T, class U>
 	void init_vector() { static Iterable iterable = { [](Ref vec) { return val<T>(vec).size(); },
-													  [](Ref vec, size_t i) -> Ref { return mud::ref(val<T>(vec)[i]); } };
+													  [](Ref vec, size_t i) -> Ref { return two::ref(val<T>(vec)[i]); } };
 						 static Sequence sequence = { [](Ref vec, Ref value) { val<T>(vec).push_back(val<U>(value)); },
 													  [](Ref vec, Ref value) { vector_remove_any(val<T>(vec), val<U>(value)); } };
 						 g_iterable[type<T>().m_id] = &iterable;
@@ -49,13 +49,13 @@ namespace mud
 						 g_convert[type<T>().m_id] = &convert; }
 
 	export_ template <>
-	MUD_REFL_EXPORT void init_string<void>();
+	TWO_REFL_EXPORT void init_string<void>();
 	
 	export_ template <>
-	MUD_REFL_EXPORT void init_string<void*>();
+	TWO_REFL_EXPORT void init_string<void*>();
 
 	export_ template <>
-	MUD_REFL_EXPORT void init_string<cstring>();
+	TWO_REFL_EXPORT void init_string<cstring>();
 
 	export_ template <class T>
 	void init_pool() { cls<T>().m_make_pool = []() -> unique<Pool> { return make_unique<TPool<T>>(); }; }
@@ -88,10 +88,10 @@ namespace mud
 		init_destructor() { cls<T>().m_destructor.push_back({ type<T>(), [](void* ref) { static_cast<T*>(ref)->~T(); } }); }
 
 	export_ template <>
-	MUD_REFL_EXPORT void init_assign<void*>();
+	TWO_REFL_EXPORT void init_assign<void*>();
 
 	export_ template <>
-	MUD_REFL_EXPORT void init_assign<cstring>();
+	TWO_REFL_EXPORT void init_assign<cstring>();
 
 	export_ template <class T>
 	void meta_type()

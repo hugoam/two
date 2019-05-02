@@ -5,11 +5,11 @@
 #include <stl/vector.h>
 #include <fract/Forward.h>
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <type/Type.h>
 #endif
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <infra/Types.h>
 #include <type/Types.h>
 #include <math/Types.h>
@@ -17,16 +17,16 @@
 #endif
 
 
-namespace mud
+namespace two
 {
     // Exported types
-    export_ template <> MUD_FRACT_EXPORT Type& type<mud::PatternSampling>();
+    export_ template <> TWO_FRACT_EXPORT Type& type<two::PatternSampling>();
     
-    export_ template <> MUD_FRACT_EXPORT Type& type<stl::vector<mud::Image256>>();
+    export_ template <> TWO_FRACT_EXPORT Type& type<stl::vector<two::Image256>>();
     
-    export_ template <> MUD_FRACT_EXPORT Type& type<mud::Circlifier>();
-    export_ template <> MUD_FRACT_EXPORT Type& type<mud::Pattern>();
-    export_ template <> MUD_FRACT_EXPORT Type& type<mud::FractTab>();
-    export_ template <> MUD_FRACT_EXPORT Type& type<mud::Fract>();
-    export_ template <> MUD_FRACT_EXPORT Type& type<mud::FractSample>();
+    export_ template <> TWO_FRACT_EXPORT Type& type<two::Circlifier>();
+    export_ template <> TWO_FRACT_EXPORT Type& type<two::Pattern>();
+    export_ template <> TWO_FRACT_EXPORT Type& type<two::FractTab>();
+    export_ template <> TWO_FRACT_EXPORT Type& type<two::Fract>();
+    export_ template <> TWO_FRACT_EXPORT Type& type<two::FractSample>();
 }

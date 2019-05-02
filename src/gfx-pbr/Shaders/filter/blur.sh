@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_BLUR
-#define MUD_SHADER_BLUR
+#ifndef TWO_SHADER_BLUR
+#define TWO_SHADER_BLUR
 
 vec4 blur_7(sampler2D tex, vec2 uv, float lod, float k0, float k1, float k2, float k3, float k4, float k5, float k6)
 {

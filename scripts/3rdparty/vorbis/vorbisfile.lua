@@ -1,17 +1,17 @@
--- mud library
+-- two library
 -- vorbisfile library
 
-vorbisfile = mud_dep(nil, "vorbisfile")
+vorbisfile = two_dep(nil, "vorbisfile")
 	kind "StaticLib"
 
 	includedirs {
-        path.join(MUD_3RDPARTY_DIR, "ogg", "include"),
-        path.join(MUD_3RDPARTY_DIR, "vorbis", "include"),
-        path.join(MUD_DIR, "scripts/3rdparty/ogg/"),
+        path.join(TWO_3RDPARTY_DIR, "ogg", "include"),
+        path.join(TWO_3RDPARTY_DIR, "vorbis", "include"),
+        path.join(TWO_DIR, "scripts/3rdparty/ogg/"),
 	}
 
 	files {
-        path.join(MUD_3RDPARTY_DIR, "vorbis", "lib/vorbisfile.c"),
+        path.join(TWO_3RDPARTY_DIR, "vorbis", "lib/vorbisfile.c"),
 	}
                         
     defines { }

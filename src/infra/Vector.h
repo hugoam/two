@@ -9,7 +9,7 @@
 #include <infra/Config.h>
 #include <stl/span.h>
 
-namespace mud
+namespace two
 {
 	export_ template <class T>
 	span<T> to_array(vector<T>& vec) { return { &vec[0], vec.size() }; }

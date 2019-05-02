@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.uio;
+#ifdef TWO_MODULES
+module two.uio;
 #else
 #include <tree/Graph.hpp>
 #include <stl/algorithm.h>
@@ -22,7 +22,7 @@ module mud.uio;
 
 //#define EDIT_MEMBER_REF
 
-namespace mud
+namespace two
 {
 	vector<EditSpec> g_edit_specs = vector<EditSpec>(c_max_types);
 
@@ -149,7 +149,7 @@ namespace mud
 			else if(mode == EditNestMode::Modal)
 				changed |= member_edit_toggle(row, object, member);
 			else
-				changed |= mud::member_edit(row, object, member);
+				changed |= two::member_edit(row, object, member);
 		};
 
 		for(Member& member : cls(object).m_members)

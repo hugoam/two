@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <stl/string.h>
 #include <stl/map.h>
@@ -22,7 +22,7 @@ module mud.ui;
 
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 	inline Colour offset_colour(const Colour& colour, float delta)
 	{
@@ -173,7 +173,7 @@ namespace mud
 
 		m_vg.begin_frame(view, vec4(vec2(0.f), target.m_frame.m_size), pixel_ratio, colour);
 
-#ifdef MUD_UI_DRAW_CACHE
+#ifdef TWO_UI_DRAW_CACHE
 		target.visit([&](Layer& layer) {
 			if(layer.redraw() || layer.forceRedraw())
 				this->render_layer(layer);
@@ -203,7 +203,7 @@ namespace mud
 		if(layer.master())
 			m_vg.begin_target();
 
-#ifdef MUD_UI_DRAW_CACHE
+#ifdef TWO_UI_DRAW_CACHE
 		m_vg.begin_cached(layer);
 #endif
 
@@ -220,7 +220,7 @@ namespace mud
 		if(layer.m_frame.d_parent)
 			this->end_layer(*layer.m_frame.d_parent);
 
-#ifdef MUD_UI_DRAW_CACHE
+#ifdef TWO_UI_DRAW_CACHE
 		m_vg.end_cached();
 #endif
 
@@ -294,7 +294,7 @@ namespace mud
 		if(frame.d_inkstyle->m_custom_draw)
 			return frame.d_inkstyle->m_custom_draw(frame, rect, m_vg);
 	
-		mud::draw_frame(m_vg, frame, rect);
+		two::draw_frame(m_vg, frame, rect);
 	}
 
 	void draw_frame(Vg& vg, const Frame& frame, const vec4& rect)

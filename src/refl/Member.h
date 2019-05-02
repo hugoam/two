@@ -10,11 +10,11 @@
 #include <stl/span.h>
 #include <refl/Meta.h>
 
-namespace mud
+namespace two
 {
 	using MemberGet = void*(*)(void*);
 
-	export_ class refl_ MUD_REFL_EXPORT Static
+	export_ class refl_ TWO_REFL_EXPORT Static
 	{
 	public:
 		Static();
@@ -25,7 +25,7 @@ namespace mud
 		Ref m_value;
 	};
 
-	export_ class refl_ MUD_REFL_EXPORT Member
+	export_ class refl_ TWO_REFL_EXPORT Member
 	{
 	public:
 		enum Flags
@@ -54,8 +54,8 @@ namespace mud
 		Flags m_flags;
 		MemberGet m_get;
 
-		Meta& meta() const { return mud::meta(*m_type); }
-		Class& cls() const { return mud::cls(*m_type); }
+		Meta& meta() const { return two::meta(*m_type); }
+		Class& cls() const { return two::cls(*m_type); }
 
 		bool is_pointer() const { return (m_flags & Pointer) != 0; }
 		bool is_mutable() const { return (m_flags & NonMutable) == 0; }

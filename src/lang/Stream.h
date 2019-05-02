@@ -4,19 +4,19 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <infra/StringOps.h>
 #include <type/Var.h>
 #endif
 #include <lang/Forward.h>
 
-namespace mud
+namespace two
 {
 	typedef vector<size_t> StreamIndex;
 	typedef vector<size_t> Topology;
 
-	/*export_ struct MUD_LANG_EXPORT StreamBranch : public StreamIndex
+	/*export_ struct TWO_LANG_EXPORT StreamBranch : public StreamIndex
 	{
 		StreamBranch(StreamIndex index);
 
@@ -24,7 +24,7 @@ namespace mud
 		bool empty;
 	};
 
-	export_ struct MUD_LANG_EXPORT Flow
+	export_ struct TWO_LANG_EXPORT Flow
 	{
 		vector<StreamBranch> branches;
 		Topology topology;
@@ -36,7 +36,7 @@ namespace mud
 		const Topology& m_topology;
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT StreamBranch
+	export_ class refl_ TWO_LANG_EXPORT StreamBranch
 	{
 	public:
 		StreamBranch();
@@ -90,7 +90,7 @@ namespace mud
 		SM_GRAFT
 	};
 
-	export_ class refl_ MUD_LANG_EXPORT Stream : public StreamBranch
+	export_ class refl_ TWO_LANG_EXPORT Stream : public StreamBranch
 	{
 	public:
 		Stream();

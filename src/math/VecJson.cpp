@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.math;
+#ifdef TWO_MODULES
+module two.math;
 #else
 #include <stl/vector.h>
 #include <math/Vec.hpp>
@@ -14,7 +14,7 @@ module mud.math;
 
 #include <json11.hpp>
 
-namespace mud
+namespace two
 {
 	inline float jfloat(const Json& j) { return float(j.number_value()); }
 
@@ -39,7 +39,7 @@ namespace mud
 	}
 }
 
-namespace mud
+namespace two
 {
 	void from_json(const Json& j, Colour& col)
 	{

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <type/Unique.h>
 #include <stl/table.h>
 #endif
@@ -10,7 +10,7 @@
 #include <gfx/Material.h>
 #include <gfx/Forward.h>
 
-namespace mud
+namespace two
 {
 	export_ enum class refl_ DepthMethod : unsigned int
 	{
@@ -34,11 +34,11 @@ namespace mud
 		attr_ gpu_ float m_far = 1.f;
 	};
 
-	export_ MUD_GFX_EXPORT bool queue_depth(GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element);
-	export_ MUD_GFX_EXPORT void pass_depth(GfxSystem& gfx, Render& render, Pass& pass, bool submit = true);
-	export_ MUD_GFX_EXPORT void pass_depth(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_EXPORT bool queue_depth(GfxSystem& gfx, Render& render, Pass& pass, DrawElement& element);
+	export_ TWO_GFX_EXPORT void pass_depth(GfxSystem& gfx, Render& render, Pass& pass, bool submit = true);
+	export_ TWO_GFX_EXPORT void pass_depth(GfxSystem& gfx, Render& render);
 
-	export_ class refl_ MUD_GFX_EXPORT BlockDepth : public DrawBlock
+	export_ class refl_ TWO_GFX_EXPORT BlockDepth : public DrawBlock
 	{
 	public:
 		BlockDepth(GfxSystem& gfx);

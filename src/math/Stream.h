@@ -11,7 +11,7 @@
 
 #include <sstream>
 
-namespace mud
+namespace two
 {
 	export_ inline void read(std::istream& stream, size_t length, string& buffer)
 	{

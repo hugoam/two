@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.tool;
+#ifdef TWO_MODULES
+module two.tool;
 #else
 #include <math/Axes.h>
 #include <geom/Shapes.h>
@@ -17,7 +17,7 @@ module mud.tool;
 #include <gfx-ui/Viewer.h>
 #endif
 
-namespace mud
+namespace two
 {
 	RotateAction::RotateAction(span<Transform*> targets, const vec3& axis)
 		: TransformAction(targets)

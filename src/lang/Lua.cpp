@@ -3,7 +3,7 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <cassert>
 #include <cmath>
 #include <cstdio>
@@ -12,8 +12,8 @@
 #include <cstring>
 #endif
 
-#ifdef MUD_MODULES
-module mud.lang;
+#ifdef TWO_MODULES
+module two.lang;
 #else
 #include <stl/new.h>
 #include <stl/vector.h>
@@ -43,13 +43,13 @@ extern "C"
 #include <lualib.h>
 }
 
-#define MUD_LUA_DEBUG 0
-#define MUD_LUA_DEBUG_IO 0
+#define TWO_LUA_DEBUG 0
+#define TWO_LUA_DEBUG_IO 0
 
 // @todo: there is a weird thing where there are constantly about 10 tables on the stack when entering a script
 // so we are missing a pop somewhere in the paths used when declaring reflected types and functions probably
 
-namespace mud
+namespace two
 {
 	string* g_lua_print_output = nullptr;
 
@@ -236,7 +236,7 @@ namespace mud
 	inline Stack push_ref(lua_State* state, Ref object)
 	{
 		alloc_ref(state, object);
-#if MUD_LUA_DEBUG
+#if TWO_LUA_DEBUG
 		printf("Lua -> pushed ref %s at %p\n", type(object).m_name, object.m_value);
 #endif
 		return{ state, 1 };
@@ -246,7 +246,7 @@ namespace mud
 	{
 		Ref ref = alloc_object(state, *value.m_type);
 		copy_construct(ref, value);
-#if MUD_LUA_DEBUG
+#if TWO_LUA_DEBUG
 		printf("Lua -> pushed object %s at %p\n", type(value).m_name, ref.m_value);
 #endif
 		return{ state, 1 };
@@ -267,7 +267,7 @@ namespace mud
 		if(lua_isnil(state, index)) return Ref();
 		else if(!lua_isuserdata(state, index)) return Ref();
 		else return userdata(state, index);
-#if MUD_LUA_DEBUG
+#if TWO_LUA_DEBUG
 		//printf("Lua -> read_value ref %s at %p\n", result.m_type ? result.m_type->m_name : "none", result.m_value);
 #endif
 	}
@@ -281,7 +281,7 @@ namespace mud
 			if(object.m_type->is(type_to_read))
 				return object;
 		}
-#if MUD_LUA_DEBUG
+#if TWO_LUA_DEBUG
 		//printf("Lua -> read_value object %s at %p\n", type(result).m_name, result.m_value);
 #endif
 	}
@@ -482,13 +482,13 @@ namespace mud
 		{
 			call.prepare();
 			call();
-#if MUD_LUA_DEBUG
+#if TWO_LUA_DEBUG
 			printf("Lua -> called %s\n", call.m_callable->m_name);
 #endif
 			Stack result = Stack{ state, 0 };
 			if(!call.m_result.none())
 				result = push_value(state, call.m_result);
-#if MUD_LUA_DEBUG
+#if TWO_LUA_DEBUG
 			//lua_dump_stack(state);
 #endif
 			return result;
@@ -924,10 +924,10 @@ namespace mud
 }
 
 
-namespace mud
+namespace two
 {
 	LuaInterpreter::LuaInterpreter(bool import_symbols)
-		: m_context(construct<LuaContext>(vector<string>{ "mud", "toy" }))
+		: m_context(construct<LuaContext>(vector<string>{ "two", "toy" }))
 	{
 		//g_lua_print_output = &m_output;
 		if(import_symbols)
@@ -991,11 +991,11 @@ namespace mud
 
 	void LuaInterpreter::call(const string& code, Var* result)
 	{
-#if MUD_LUA_DEBUG_IO
+#if TWO_LUA_DEBUG_IO
 		printf("lua -> %s\n", code);
 #endif
 		exec_lua(m_context->m_state, code.c_str(), result);
-#if MUD_LUA_DEBUG_IO
+#if TWO_LUA_DEBUG_IO
 		printf("lua -> %s\n", m_output.c_str());
 		m_output = "";
 #endif

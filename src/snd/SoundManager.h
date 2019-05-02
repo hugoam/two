@@ -23,13 +23,13 @@
 //#include <memory>
 #endif
 
-namespace mud
+namespace two
 {
 	using SoundCallback = void(*)(Sound&);
 
 	bool openal_check_error();
 
-	class MUD_SND_EXPORT SoundManager : public SoundImplementer
+	class TWO_SND_EXPORT SoundManager : public SoundImplementer
 	{
 	public:
 		using SoundAction = function<void()>;

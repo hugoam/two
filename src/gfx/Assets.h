@@ -13,7 +13,7 @@
 #include <gfx/Particles.h>
 #include <gfx/Prefab.h>
 
-namespace mud
+namespace two
 {
 	export_ extern template class refl_ AssetStore<Texture>;
 	export_ extern template class refl_ AssetStore<Program>;

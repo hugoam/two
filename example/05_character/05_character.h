@@ -6,7 +6,7 @@
 
 #include <frame/Forward.h>
 
-using namespace mud;
+using namespace two;
 
 void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar);
 

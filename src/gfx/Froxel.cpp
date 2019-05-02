@@ -6,8 +6,8 @@
 
 #include <bx/allocator.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/bitset.h>
 #include <stl/swap.h>
@@ -40,7 +40,7 @@ typedef SSIZE_T ssize_t;
 
 #include <stl/vector.hpp>
 
-namespace mud
+namespace two
 {
 	// This depends on the maximum number of lights (currently 255),and can't be more than 16 bits.
 	static_assert(CONFIG_MAX_LIGHT_INDEX <= UINT16_MAX, "can't have more than 65536 lights");
@@ -374,13 +374,13 @@ namespace mud
 		}
 	}
 
-#define MUD_THREADED
+#define TWO_THREADED
 
 	void Froxelizer::clusterize_loop(const Camera& camera, span<Light*> lights)
 	{
 		memset(m_impl->m_cluster_sharded_data.data(), 0, m_impl->m_cluster_sharded_data.size() * sizeof(FroxelThreadData));
 
-#ifdef MUD_THREADED
+#ifdef TWO_THREADED
 		JobSystem& js = *m_gfx.m_job_system;
 		Job* parent = js.job();
 		for(uint32_t i = 0; i < GROUP_COUNT; i++)

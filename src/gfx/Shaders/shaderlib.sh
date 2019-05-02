@@ -1,5 +1,5 @@
-#ifndef MUD_SHADERLIB
-#define MUD_SHADERLIB
+#ifndef TWO_SHADERLIB
+#define TWO_SHADERLIB
 
 vec3 fixCubeLookup(vec3 _v, float _lod, float _topLevelCubeSize)
 {
@@ -26,4 +26,4 @@ vec2 texture2DBc5(sampler2D _sampler, vec2 _uv)
 #endif
 }
 
-#endif // MUD_SHADERLIB
+#endif // TWO_SHADERLIB

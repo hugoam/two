@@ -34,14 +34,14 @@
 #endif
 
 
-#ifdef MUD_MODULES
-module mud.infra;
+#ifdef TWO_MODULES
+module two.infra;
 #else
 #include <infra/Config.h>
 #include <infra/Thread.h>
 #endif
 
-namespace mud
+namespace two
 {
 	void set_thread_name(const char* name)
 	{

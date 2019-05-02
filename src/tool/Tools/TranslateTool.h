@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <math/Vec.h>
 #include <math/Axis.h>
@@ -12,9 +12,9 @@
 #include <tool/Forward.h>
 #include <tool/Tool.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_TOOL_EXPORT TranslateAction : public TransformAction
+	export_ class refl_ TWO_TOOL_EXPORT TranslateAction : public TransformAction
 	{
 	public:
 		TranslateAction(span<Transform*> targets);
@@ -28,7 +28,7 @@ namespace mud
 		vec3 m_translation;
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT TranslateTool final : public TransformTool
+	export_ class refl_ TWO_TOOL_EXPORT TranslateTool final : public TransformTool
 	{
 	public:
 		TranslateTool(ToolContext& context);

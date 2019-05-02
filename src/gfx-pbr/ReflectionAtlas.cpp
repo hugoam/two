@@ -6,8 +6,8 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.pbr;
+#ifdef TWO_MODULES
+module two.gfx.pbr;
 #else
 #include <stl/algorithm.h>
 #include <gfx/Renderer.h>
@@ -16,7 +16,7 @@ module mud.gfx.pbr;
 #include <gfx-pbr/ReflectionProbe.h>
 #endif
 
-namespace mud
+namespace two
 {
 	ReflectionAtlas::ReflectionAtlas(uint16_t size, uint16_t subdiv)
 		: m_size(size)

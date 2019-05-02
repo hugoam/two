@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.refl;
+#ifdef TWO_MODULES
+module two.refl;
 #else
 #include <stl/algorithm.h>
 #include <refl/Call.h>
@@ -14,7 +14,7 @@ module mud.refl;
 //#include <refl/VirtualMethod.h>
 #endif
 
-namespace mud
+namespace two
 {
 	vector<Var> arguments(const Callable& callable)
 	{

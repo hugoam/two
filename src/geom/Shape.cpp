@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.geom;
+#ifdef TWO_MODULES
+module two.geom;
 #else
 #include <infra/Copy.h>
 #include <type/DispatchDecl.h>
@@ -22,7 +22,7 @@ module mud.geom;
 #include <geom/Geom.h>
 #endif
 
-namespace mud
+namespace two
 {
 	Line::Line() : Shape(type<Line>()) {}
 	Line::Line(const vec3& start, const vec3& end) : Shape(type<Line>()), m_start(start), m_end(end) {}

@@ -1,6 +1,6 @@
 #ifndef USE_STL
-#ifdef MUD_MODULES
-module mud.snd;
+#ifdef TWO_MODULES
+module two.snd;
 #else
 #include <stl/vector.hpp>
 #include <stl/unordered_map.hpp>
@@ -9,8 +9,8 @@ module mud.snd;
 
 namespace stl
 {
-	using namespace mud;
-	template class MUD_SND_EXPORT vector<unique<Sound>>;
-	template class MUD_SND_EXPORT unordered_map<string, unique<SharedBuffer>>;
+	using namespace two;
+	template class TWO_SND_EXPORT vector<unique<Sound>>;
+	template class TWO_SND_EXPORT unordered_map<string, unique<SharedBuffer>>;
 }
 #endif

@@ -5,16 +5,16 @@
 #include <stl/vector.h>
 #include <snd/Forward.h>
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <type/Type.h>
 #endif
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #endif
 
 #include <snd/Structs.h>
 
-namespace mud
+namespace two
 {
     // Exported types
     

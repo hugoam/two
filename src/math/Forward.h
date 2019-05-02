@@ -6,11 +6,11 @@
 #include <type/Forward.h>
 #include <refl/Forward.h>
 
-#ifndef MUD_MATH_EXPORT
-#define MUD_MATH_EXPORT MUD_IMPORT
+#ifndef TWO_MATH_EXPORT
+#define TWO_MATH_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
     enum Clockwise : unsigned int;
     enum class Axis : unsigned int;
@@ -97,7 +97,7 @@ namespace mud
     class Animator;
 }
 
-#ifdef MUD_META_GENERATOR
+#ifdef TWO_META_GENERATOR
 #include <stl/span.h>
 #include <stl/vector.h>
 //#include <math/Vec.h>
@@ -107,17 +107,17 @@ namespace stl
 	export_ extern template struct refl_ span_ span<int>;
 	export_ extern template struct refl_ span_ span<float>;
 	export_ extern template struct refl_ span_ span<uint32_t>;
-	export_ extern template struct refl_ span_ span<mud::vec3>;
-	export_ extern template struct refl_ span_ span<mud::quat>;
-	export_ extern template struct refl_ span_ span<mud::Colour>;
-	export_ extern template struct refl_ span_ span<mud::uvec3>;
+	export_ extern template struct refl_ span_ span<two::vec3>;
+	export_ extern template struct refl_ span_ span<two::quat>;
+	export_ extern template struct refl_ span_ span<two::Colour>;
+	export_ extern template struct refl_ span_ span<two::uvec3>;
 
 	export_ extern template class refl_ seque_ vector<int>;
 	export_ extern template class refl_ seque_ vector<float>;
 	export_ extern template class refl_ seque_ vector<uint32_t>;
-	export_ extern template class refl_ seque_ vector<mud::vec3>;
-	export_ extern template class refl_ seque_ vector<mud::quat>;
-	export_ extern template class refl_ seque_ vector<mud::Colour>;
-	export_ extern template class refl_ seque_ vector<mud::uvec3>;
+	export_ extern template class refl_ seque_ vector<two::vec3>;
+	export_ extern template class refl_ seque_ vector<two::quat>;
+	export_ extern template class refl_ seque_ vector<two::Colour>;
+	export_ extern template class refl_ seque_ vector<two::uvec3>;
 }
 #endif

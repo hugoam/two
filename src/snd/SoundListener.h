@@ -7,9 +7,9 @@
 #include <math/Vec.h>
 #include <snd/Forward.h>
 
-namespace mud
+namespace two
 {
-	class MUD_SND_EXPORT SoundListener
+	class TWO_SND_EXPORT SoundListener
 	{
 	public:
 		SoundListener();

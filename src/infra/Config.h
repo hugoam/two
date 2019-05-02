@@ -6,7 +6,7 @@
 
 #include <infra/Pragma.h>
 
-#ifndef MUD_META_GENERATOR
+#ifndef TWO_META_GENERATOR
 #define base_   // Base type
 #define refl_   // Reflect
 #define struct_ // Struct
@@ -29,49 +29,49 @@
 
 #if defined _WIN32 || defined __CYGWIN__
 	#if defined __GNUC__
-		#define MUD_EXPORT __attribute__ ((dllexport))
-		#define MUD_IMPORT __attribute__ ((dllimport))
+		#define TWO_EXPORT __attribute__ ((dllexport))
+		#define TWO_IMPORT __attribute__ ((dllimport))
 	#else
-		#define MUD_EXPORT __declspec(dllexport)
-		#define MUD_IMPORT __declspec(dllimport)
+		#define TWO_EXPORT __declspec(dllexport)
+		#define TWO_IMPORT __declspec(dllimport)
 	#endif
 	#define DLL_LOCAL
 #elif __GNUC__ >= 4
-	#define MUD_EXPORT __attribute__ ((visibility ("default")))
-	#define MUD_IMPORT
+	#define TWO_EXPORT __attribute__ ((visibility ("default")))
+	#define TWO_IMPORT
 	#define DLL_LOCAL  __attribute__ ((visibility ("hidden")))
 #else
-	#define MUD_EXPORT
-	#define MUD_IMPORT
+	#define TWO_EXPORT
+	#define TWO_IMPORT
 	#define DLL_LOCAL
 #endif
 
-#ifdef MUD_STATIC
-#undef MUD_IMPORT
-#define MUD_IMPORT
+#ifdef TWO_STATIC
+#undef TWO_IMPORT
+#define TWO_IMPORT
 #endif
 
-#define MUD_FUNC_EXPORT __cdecl
+#define TWO_FUNC_EXPORT __cdecl
 
 #define UNUSED(x) (void)(x)
 
 #if defined _MSC_VER && _MSC_VER >= 1914
-//#define MUD_MODULES
+//#define TWO_MODULES
 #endif
 
-#ifdef MUD_MODULES
+#ifdef TWO_MODULES
 #define export_ export
-#undef MUD_EXPORT
-#define MUD_EXPORT
+#undef TWO_EXPORT
+#define TWO_EXPORT
 #else
 #define export_ 
 #endif
 
-#ifndef MUD_INFRA_EXPORT
-#define MUD_INFRA_EXPORT MUD_IMPORT
+#ifndef TWO_INFRA_EXPORT
+#define TWO_INFRA_EXPORT TWO_IMPORT
 #endif
 
-#ifdef MUD_META_GENERATOR
+#ifdef TWO_META_GENERATOR
 base_ static void* dvoidptr;
 base_ static bool dbool;
 base_ static char dchar;

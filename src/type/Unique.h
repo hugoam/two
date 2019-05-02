@@ -6,15 +6,15 @@
 
 #include <stl/memory.h>
 
-#ifdef MUD_TRACK_MEMORY
+#ifdef TWO_TRACK_MEMORY
 #include <type/Cls.h>
 #include <stl/traits.h>
 #include <stl/function.h>
 #endif
 
-namespace mud
+namespace two
 {
-#ifdef MUD_TRACK_MEMORY
+#ifdef TWO_TRACK_MEMORY
 	template <class T>
 	struct object_ptr_tracker
 	{

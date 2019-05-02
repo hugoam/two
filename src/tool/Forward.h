@@ -16,11 +16,11 @@
 #include <gfx/Forward.h>
 #include <gfx-pbr/Forward.h>
 
-#ifndef MUD_TOOL_EXPORT
-#define MUD_TOOL_EXPORT MUD_IMPORT
+#ifndef TWO_TOOL_EXPORT
+#define TWO_TOOL_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
     enum class ToolState : unsigned int;
     

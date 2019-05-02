@@ -7,9 +7,9 @@
 #include <tool/Tool.h>
 #include <tool/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ class MUD_TOOL_EXPORT ActionStack
+	export_ class TWO_TOOL_EXPORT ActionStack
 	{
 	public:
 		ActionStack();
@@ -28,7 +28,7 @@ namespace mud
 		vector<object<EditorAction>> m_undone;
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT UndoTool : public Tool
+	export_ class refl_ TWO_TOOL_EXPORT UndoTool : public Tool
 	{
 	public:
 		UndoTool(ToolContext& context);
@@ -36,7 +36,7 @@ namespace mud
 		virtual void activate() final;
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT RedoTool : public Tool
+	export_ class refl_ TWO_TOOL_EXPORT RedoTool : public Tool
 	{
 	public:
 		RedoTool(ToolContext& context);

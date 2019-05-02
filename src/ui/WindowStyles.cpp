@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <ui/Window.h>
 #include <ui/Dock.h>
@@ -18,7 +18,7 @@ module mud.ui;
 
 #define CANVAS_MULTI_DRAG 1
 
-namespace mud
+namespace two
 {
 namespace ui
 {

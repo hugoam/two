@@ -5,7 +5,7 @@
 #include <ecs/ECS.hpp>
 #include <jobs/JobLoop.hpp>
 
-namespace mud
+namespace two
 {
 	template <class... Types, size_t... Is, class T_Function>
 	Job* for_components_impl(JobSystem& job_system, Job* parent, ECS& ecs, T_Function action, index_sequence<Is...>)

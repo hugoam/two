@@ -5,11 +5,11 @@
 #include <stl/vector.h>
 #include <tool/Forward.h>
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <type/Type.h>
 #endif
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <infra/Types.h>
 #include <tree/Types.h>
 #include <type/Types.h>
@@ -28,43 +28,43 @@
 #endif
 
 
-namespace mud
+namespace two
 {
     // Exported types
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::ToolState>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::ToolState>();
     
     
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::EditorAction>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::ToolContext>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::ToolOption>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::Tool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::ViewportTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::SpatialTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::Gizmo>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::TransformAction>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::TransformTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::TransformGizmo>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::UndoTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::RedoTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::Brush>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::PlaneSnapOption>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::WorldSnapOption>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::PlaceBrush>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::CircleBrush>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::ScriptedBrush>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::TranslateAction>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::TranslateTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::RotateAction>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::RotateTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::ScaleAction>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::ScaleTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::CopyAction>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::CopyTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::ViewAction>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::FrameViewTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::ViewTool>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::Selection>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::EditContext>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::WorkPlaneAction>();
-    export_ template <> MUD_TOOL_EXPORT Type& type<mud::WorkPlaneTool>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::EditorAction>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::ToolContext>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::ToolOption>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::Tool>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::ViewportTool>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::SpatialTool>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::Gizmo>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::TransformAction>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::TransformTool>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::TransformGizmo>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::UndoTool>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::RedoTool>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::Brush>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::PlaneSnapOption>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::WorldSnapOption>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::PlaceBrush>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::CircleBrush>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::ScriptedBrush>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::TranslateAction>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::TranslateTool>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::RotateAction>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::RotateTool>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::ScaleAction>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::ScaleTool>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::CopyAction>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::CopyTool>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::ViewAction>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::FrameViewTool>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::ViewTool>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::Selection>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::EditContext>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::WorkPlaneAction>();
+    export_ template <> TWO_TOOL_EXPORT Type& type<two::WorkPlaneTool>();
 }

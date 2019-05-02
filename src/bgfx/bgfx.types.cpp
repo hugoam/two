@@ -1,17 +1,17 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.bgfx;
+#ifdef TWO_MODULES
+module two.bgfx;
 #else
 #include <bgfx/Types.h>
 #include <bgfx/Api.h>
 #include <type/Vector.h>
 #endif
 
-namespace mud
+namespace two
 {
     // Exported types
     
     
-    template <> MUD_BGFX_EXPORT Type& type<mud::BgfxSystem>() { static Type ty("BgfxSystem", type<mud::RenderSystem>(), sizeof(mud::BgfxSystem)); return ty; }
+    template <> TWO_BGFX_EXPORT Type& type<two::BgfxSystem>() { static Type ty("BgfxSystem", type<two::RenderSystem>(), sizeof(two::BgfxSystem)); return ty; }
 }

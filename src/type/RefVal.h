@@ -12,7 +12,7 @@
 
 #include <cassert>
 
-namespace mud
+namespace two
 {
 	export_ template <class T>
 	inline void type_check(const Ref& ref) { UNUSED(ref); assert(type(ref).is<T>()); }

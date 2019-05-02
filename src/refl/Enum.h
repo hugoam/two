@@ -8,9 +8,9 @@
 #include <stl/span.h>
 #include <refl/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_REFL_EXPORT Enum
+	export_ class refl_ TWO_REFL_EXPORT Enum
 	{
 	public:
 		Enum(Type& type, bool scoped, span<cstring> names, span<uint32_t> values, span<void*> vars);

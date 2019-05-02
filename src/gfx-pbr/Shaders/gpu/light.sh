@@ -1,5 +1,5 @@
-#ifndef MUD_GPU_LIGHT
-#define MUD_GPU_LIGHT
+#ifndef TWO_GPU_LIGHT
+#define TWO_GPU_LIGHT
 
 #define LIGHTS_BUFFER
 #define LIGHTS_TEXTURE_WIDTH 1024

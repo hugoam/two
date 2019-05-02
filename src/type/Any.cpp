@@ -4,15 +4,15 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.obj;
+#ifdef TWO_MODULES
+module two.obj;
 #else
 #include <infra/Config.h>
 #include <type/Var.h>
 #include <type/Any.h>
 #endif
 
-namespace mud
+namespace two
 {
 	AnyHandler AnyHandler::none;
 }

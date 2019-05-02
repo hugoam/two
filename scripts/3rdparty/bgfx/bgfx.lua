@@ -1,4 +1,4 @@
--- mud library
+-- two library
 -- bgfx dependency module
 
 group "bgfx"
@@ -61,7 +61,7 @@ project "bimg_encode"
 
     configuration {}
         
-dofile(path.join(MUD_DIR, "scripts/3rdparty/bgfx/shaderc.lua"))
+dofile(path.join(TWO_DIR, "scripts/3rdparty/bgfx/shaderc.lua"))
 
 function uses_bx()
     includedirs {
@@ -114,7 +114,7 @@ function uses_bgfx()
 end
 
 function uses_shaderc()
-    defines { "MUD_LIVE_SHADER_COMPILER" }
+    defines { "TWO_LIVE_SHADER_COMPILER" }
     
     --print(" links fcpp, glslang, etc...")
     links {
@@ -126,14 +126,14 @@ function uses_shaderc()
     }
 end
 
---fcpp        = mud_dep(nil, "fcpp",          false, nil)
---glslang     = mud_dep(nil, "glslang",       false, nil)
---glslopt     = mud_dep(nil, "glsl-optimizer",false, nil)
---spirvopt    = mud_dep(nil, "fcpp",          false, nil)
+--fcpp        = two_dep(nil, "fcpp",          false, nil)
+--glslang     = two_dep(nil, "glslang",       false, nil)
+--glslopt     = two_dep(nil, "glsl-optimizer",false, nil)
+--spirvopt    = two_dep(nil, "fcpp",          false, nil)
 
-bx          = mud_dep(nil, "bx",            false, uses_bx)
-bimg        = mud_dep(nil, "bimg",          false, uses_bimg,       { bx })
-bimg.decode = mud_dep(nil, "bimg_decode",   false, uses_bimg        { bx })
-bimg.encode = mud_dep(nil, "bimg_encode",   false, uses_bimg        { bx })
-bgfx        = mud_dep(nil, "bgfx",          false, uses_bgfx,       { bx, bimg })
-shaderc     = mud_dep(nil, "shaderc",       false, uses_shaderc,    { bx, bimg, bgfx })
+bx          = two_dep(nil, "bx",            false, uses_bx)
+bimg        = two_dep(nil, "bimg",          false, uses_bimg,       { bx })
+bimg.decode = two_dep(nil, "bimg_decode",   false, uses_bimg        { bx })
+bimg.encode = two_dep(nil, "bimg_encode",   false, uses_bimg        { bx })
+bgfx        = two_dep(nil, "bgfx",          false, uses_bgfx,       { bx, bimg })
+shaderc     = two_dep(nil, "shaderc",       false, uses_shaderc,    { bx, bimg, bgfx })

@@ -4,16 +4,16 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <stl/span.h>
 #endif
 #include <geom/Forward.h>
 #include <geom/Shape.h>
 
-namespace mud
+namespace two
 {
-	export_ struct refl_ MUD_GEOM_EXPORT Polygon final : public Shape
+	export_ struct refl_ TWO_GEOM_EXPORT Polygon final : public Shape
 	{
 	public:
 		constr_ Polygon();
@@ -24,7 +24,7 @@ namespace mud
 		virtual object<Shape> clone() const;
 	};
 
-	export_ struct refl_ MUD_GEOM_EXPORT Box final : public Shape
+	export_ struct refl_ TWO_GEOM_EXPORT Box final : public Shape
 	{
 	public:
 		constr_ Box();
@@ -37,7 +37,7 @@ namespace mud
 		virtual object<Shape> clone() const;
 	};
 
-	export_ struct refl_ MUD_GEOM_EXPORT Points final : public Shape
+	export_ struct refl_ TWO_GEOM_EXPORT Points final : public Shape
 	{
 	public:
 		constr_ Points();
@@ -48,7 +48,7 @@ namespace mud
 		virtual object<Shape> clone() const;
 	};
 
-	export_ struct refl_ MUD_GEOM_EXPORT Grid3 final : public Shape
+	export_ struct refl_ TWO_GEOM_EXPORT Grid3 final : public Shape
 	{
 	public:
 		constr_ Grid3();
@@ -60,7 +60,7 @@ namespace mud
 		virtual object<Shape> clone() const;
 	};
 
-	export_ struct refl_ MUD_GEOM_EXPORT ConvexHull final : public Shape
+	export_ struct refl_ TWO_GEOM_EXPORT ConvexHull final : public Shape
 	{
 	public:
 		constr_ ConvexHull();

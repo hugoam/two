@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <infra/TypeTraits.h>
 #endif
 
@@ -12,7 +12,7 @@
 #   pragma GCC system_header
 #endif
 
-namespace mud
+namespace two
 {
 	export_ template <class T>
 	inline enable_if<is_comparable<T>, bool>

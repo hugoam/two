@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/string.h>
 #include <type/Unique.h>
 #include <math/Vec.h>
@@ -12,11 +12,11 @@
 #endif
 #include <ctx/Forward.h>
 
-namespace mud
+namespace two
 {
 	using cstring = const char*;
 
-	export_ class refl_ MUD_CTX_EXPORT RenderSystem
+	export_ class refl_ TWO_CTX_EXPORT RenderSystem
 	{
 	public:
 		RenderSystem(const string& resource_path, bool manual_render);
@@ -29,7 +29,7 @@ namespace mud
 		const bool m_manual_render;
 	};
 
-	export_ class refl_ MUD_CTX_EXPORT Context
+	export_ class refl_ TWO_CTX_EXPORT Context
 	{
 	public:
 		Context(RenderSystem& render_system, const string& title, const uvec2& size, bool fullscreen = false, bool main = true);

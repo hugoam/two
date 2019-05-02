@@ -2,19 +2,19 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <gfx/Renderer.h>
 #include <gfx/Light.h>
 #include <gfx/RenderTarget.h>
 #endif
 #include <gfx-pbr/Forward.h>
 
-namespace mud
+namespace two
 {
 namespace gfx
 {
-	export_ MUD_GFX_EXPORT func_ GIProbe& gi_probe(Gnode& parent, uint16_t subdiv, const vec3& extents);
-	export_ MUD_GFX_EXPORT func_ LightmapAtlas& lightmap(Gnode& parent, uint32_t resolution, float density = 8.f, const string& save_path = "");
+	export_ TWO_GFX_EXPORT func_ GIProbe& gi_probe(Gnode& parent, uint16_t subdiv, const vec3& extents);
+	export_ TWO_GFX_EXPORT func_ LightmapAtlas& lightmap(Gnode& parent, uint32_t resolution, float density = 8.f, const string& save_path = "");
 }
 
 	enum ShaderOptionGI : unsigned int
@@ -28,7 +28,7 @@ namespace gfx
 		LoadVoxels,
 	};
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT GIProbe
+	export_ class refl_ TWO_GFX_PBR_EXPORT GIProbe
 	{
 	public:
 		GIProbe(Node3& node);
@@ -64,10 +64,10 @@ namespace gfx
 		float m_normal_bias = 0.8f;
 	};
 
-	export_ MUD_GFX_PBR_EXPORT void save_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path);
-	export_ MUD_GFX_PBR_EXPORT void load_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, const string& path);
+	export_ TWO_GFX_PBR_EXPORT void save_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path);
+	export_ TWO_GFX_PBR_EXPORT void load_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, const string& path);
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGITrace : public DrawBlock
+	export_ class refl_ TWO_GFX_PBR_EXPORT BlockGITrace : public DrawBlock
 	{
 	public:
 		BlockGITrace(GfxSystem& gfx);
@@ -103,7 +103,7 @@ namespace gfx
 		attr_ gpu_ mat4 world;
 	};
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT BlockGIBake : public DrawBlock
+	export_ class refl_ TWO_GFX_PBR_EXPORT BlockGIBake : public DrawBlock
 	{
 	public:
 		BlockGIBake(GfxSystem& gfx, BlockLight& block_light, BlockShadow& block_shadow, BlockGITrace& block_trace);

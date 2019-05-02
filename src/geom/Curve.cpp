@@ -2,8 +2,8 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef MUD_MODULES
-module mud.geom;
+#ifdef TWO_MODULES
+module two.geom;
 #else
 #include <stl/string.h>
 #include <stl/span.h>
@@ -17,7 +17,7 @@ module mud.geom;
 
 #include <cfloat>
 
-namespace mud
+namespace two
 {
 	Curve3Sampler::Curve3Sampler(Curve3& curve)
 		: m_curve(curve)
@@ -228,7 +228,7 @@ namespace mud
 
 			vec = cross(tangents[i - 1], tangents[i]);
 
-			if (mud::length(vec) > c_cmp_epsilon)
+			if (two::length(vec) > c_cmp_epsilon)
 			{
 				vec = normalize(vec);
 

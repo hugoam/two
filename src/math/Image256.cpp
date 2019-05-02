@@ -3,19 +3,19 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <cstring>
 #include <cstdio>
 #endif
 
-#ifdef MUD_MODULES
-module mud.math;
+#ifdef TWO_MODULES
+module two.math;
 #else
 #include <math/Image256.h>
 #include <math/Colour.h>
 #endif
 
-namespace mud
+namespace two
 {
 	Palette::Palette()
 		: m_colours()

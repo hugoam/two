@@ -2,7 +2,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <gfx/Renderer.h>
 #include <gfx/Light.h>
@@ -10,7 +10,7 @@
 #endif
 #include <gfx-pbr/Forward.h>
 
-namespace mud
+namespace two
 {
 	enum ShaderOptionLight : unsigned int
 	{
@@ -55,10 +55,10 @@ namespace mud
 		attr_ GpuCSMShadow csm;
 	};
 
-	export_ MUD_GFX_PBR_EXPORT void debug_draw_light_clusters(Gnode& parent, Viewport& viewport, Camera& camera);
-	export_ MUD_GFX_PBR_EXPORT void debug_draw_light_slices(Gnode& parent, Light& light, bool frustums = true, bool bounds = true);
+	export_ TWO_GFX_PBR_EXPORT void debug_draw_light_clusters(Gnode& parent, Viewport& viewport, Camera& camera);
+	export_ TWO_GFX_PBR_EXPORT void debug_draw_light_slices(Gnode& parent, Light& light, bool frustums = true, bool bounds = true);
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 	constexpr size_t c_max_forward_lights = 32;
 #else
 	constexpr size_t c_max_forward_lights = 64;
@@ -72,7 +72,7 @@ namespace mud
 		uint16_t m_light_count;
 	};
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT BlockLight : public DrawBlock
+	export_ class refl_ TWO_GFX_PBR_EXPORT BlockLight : public DrawBlock
 	{
 	public:
 		BlockLight(GfxSystem& gfx);

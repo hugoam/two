@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <type/Ref.h>
 #include <type/Unique.h>
 #include <math/Timer.h>
@@ -14,7 +14,7 @@
 #include <ui/Forward.h>
 #include <ui/WidgetStruct.h>
 
-namespace mud
+namespace two
 {
 	enum class DropState : unsigned int
 	{
@@ -32,7 +32,7 @@ namespace mud
 		DropState m_state = DropState::None;
 	};
 
-	export_ class refl_ MUD_UI_EXPORT Ui : public Widget, public EventDispatcher
+	export_ class refl_ TWO_UI_EXPORT Ui : public Widget, public EventDispatcher
 	{
 	public:
 		Ui(UiWindow& window);

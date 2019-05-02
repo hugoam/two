@@ -1,6 +1,6 @@
 
 --dofile(path.join(BGFX_DIR, "scripts/shaderc.lua"))
-dofile(path.join(MUD_DIR, "scripts/3rdparty/bgfx/shaderc_bgfx.lua"))
+dofile(path.join(TWO_DIR, "scripts/3rdparty/bgfx/shaderc_bgfx.lua"))
 
 project "glsl-optimizer"
     removeflags {

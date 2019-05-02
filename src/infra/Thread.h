@@ -5,9 +5,9 @@
 #include <stl/stddef.h>
 #include <stdint.h>
 
-namespace mud
+namespace two
 {
-	export_ MUD_INFRA_EXPORT void set_thread_name(const char* name);
+	export_ TWO_INFRA_EXPORT void set_thread_name(const char* name);
 
 	export_ enum class ThreadPriority
 	{
@@ -16,6 +16,6 @@ namespace mud
 		UrgentDisplay
 	};
 
-	export_ MUD_INFRA_EXPORT void set_thread_priority(ThreadPriority priority);
-	export_ MUD_INFRA_EXPORT void set_thread_affinity(uint32_t mask);
+	export_ TWO_INFRA_EXPORT void set_thread_priority(ThreadPriority priority);
+	export_ TWO_INFRA_EXPORT void set_thread_affinity(uint32_t mask);
 }

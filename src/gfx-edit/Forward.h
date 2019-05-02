@@ -15,10 +15,10 @@
 #include <gfx-ui/Forward.h>
 #include <gfx-pbr/Forward.h>
 
-#ifndef MUD_GFX_EDIT_EXPORT
-#define MUD_GFX_EDIT_EXPORT MUD_IMPORT
+#ifndef TWO_GFX_EDIT_EXPORT
+#define TWO_GFX_EDIT_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
 }

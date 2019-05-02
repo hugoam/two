@@ -9,7 +9,7 @@
 #include <math/Axis.h>
 #include <math/Forward.h>
 
-namespace mud
+namespace two
 {
 	template <class T>
 	export_ struct refl_ struct_ array_ v2
@@ -199,7 +199,7 @@ namespace mud
 	};
 }
 
-namespace mud
+namespace two
 {
 	export_ constexpr inline vec3 X3 = { 1.f, 0.f, 0.f };
 	export_ constexpr inline vec3 Y3 = { 0.f, 1.f, 0.f };
@@ -214,7 +214,7 @@ namespace mud
 		return !(second.x > first.x + first.z || second.y > first.y + first.w || second.x + second.z < first.x || second.y + second.w < first.y);
 	}
 
-	export_ struct refl_ MUD_MATH_EXPORT Transform
+	export_ struct refl_ TWO_MATH_EXPORT Transform
 	{
 		attr_ vec3 m_position = vec3(0.f);
 		attr_ quat m_rotation = ZeroQuat;

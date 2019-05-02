@@ -5,11 +5,11 @@
 #include <stl/vector.h>
 #include <gfx-ui/Forward.h>
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <type/Type.h>
 #endif
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <infra/Types.h>
 #include <tree/Types.h>
 #include <type/Types.h>
@@ -21,18 +21,18 @@
 #endif
 
 
-namespace mud
+namespace two
 {
     // Exported types
-    export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::ui::OrbitMode>();
+    export_ template <> TWO_GFX_UI_EXPORT Type& type<two::ui::OrbitMode>();
     
     
-    export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::SpaceSheet>();
-    export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::ViewerController>();
-    export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::Viewer>();
-    export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::SceneViewer>();
-    export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::OrbitController>();
-    export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::TrackballController>();
-    export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::OrbitControls>();
-    export_ template <> MUD_GFX_UI_EXPORT Type& type<mud::FreeOrbitController>();
+    export_ template <> TWO_GFX_UI_EXPORT Type& type<two::SpaceSheet>();
+    export_ template <> TWO_GFX_UI_EXPORT Type& type<two::ViewerController>();
+    export_ template <> TWO_GFX_UI_EXPORT Type& type<two::Viewer>();
+    export_ template <> TWO_GFX_UI_EXPORT Type& type<two::SceneViewer>();
+    export_ template <> TWO_GFX_UI_EXPORT Type& type<two::OrbitController>();
+    export_ template <> TWO_GFX_UI_EXPORT Type& type<two::TrackballController>();
+    export_ template <> TWO_GFX_UI_EXPORT Type& type<two::OrbitControls>();
+    export_ template <> TWO_GFX_UI_EXPORT Type& type<two::FreeOrbitController>();
 }

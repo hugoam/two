@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/memory.h>
 #include <math/Timer.h>
 #include <math/Colour.h>
@@ -12,11 +12,11 @@
 #include <ui/Forward.h>
 #include <ui/Frame/Caption.h>
 
-namespace mud
+namespace two
 {
 	using cstring = const char*;
 
-	export_ class refl_ MUD_UI_EXPORT Vg
+	export_ class refl_ TWO_UI_EXPORT Vg
 	{
 	public:
 		Vg(cstring resource_path);
@@ -42,7 +42,7 @@ namespace mud
 		virtual void begin_target() = 0;
 		virtual void end_target() = 0;
 
-#ifdef MUD_UI_DRAW_CACHE
+#ifdef TWO_UI_DRAW_CACHE
 		virtual void begin_cached(Layer& layer) = 0;
 		virtual void end_cached() = 0;
 
@@ -108,18 +108,18 @@ namespace mud
 		bool m_null = false;
 	};
 
-	export_ MUD_UI_EXPORT vec4 select_corners(const Frame& frame);
-	export_ MUD_UI_EXPORT float content_position(const Frame& frame, const vec2& content, const vec2& padded_pos, const vec2& padded_size, Axis dim);
+	export_ TWO_UI_EXPORT vec4 select_corners(const Frame& frame);
+	export_ TWO_UI_EXPORT float content_position(const Frame& frame, const vec2& content, const vec2& padded_pos, const vec2& padded_size, Axis dim);
 
-	export_ MUD_UI_EXPORT void draw_frame(Vg& vg, const Frame& frame, const vec4& rect);
-	export_ MUD_UI_EXPORT void draw_content(Vg& vg, const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
-	export_ MUD_UI_EXPORT void draw_background(Vg& vg, const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
-	export_ MUD_UI_EXPORT void draw_rect(Vg& vg, const vec4& rect, const vec4& corners, const InkStyle& inkstyle);
-	export_ MUD_UI_EXPORT void draw_image(Vg& vg, const Image& image, const vec4& rect);
-	export_ MUD_UI_EXPORT void draw_image_stretch(Vg& vg, const Image& image, const vec4& rect, const vec2& stretch = { 1.f, 1.f });
-	export_ MUD_UI_EXPORT void draw_skin_image(Vg& vg, const Frame& frame, int section, vec4 rect);
+	export_ TWO_UI_EXPORT void draw_frame(Vg& vg, const Frame& frame, const vec4& rect);
+	export_ TWO_UI_EXPORT void draw_content(Vg& vg, const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
+	export_ TWO_UI_EXPORT void draw_background(Vg& vg, const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
+	export_ TWO_UI_EXPORT void draw_rect(Vg& vg, const vec4& rect, const vec4& corners, const InkStyle& inkstyle);
+	export_ TWO_UI_EXPORT void draw_image(Vg& vg, const Image& image, const vec4& rect);
+	export_ TWO_UI_EXPORT void draw_image_stretch(Vg& vg, const Image& image, const vec4& rect, const vec2& stretch = { 1.f, 1.f });
+	export_ TWO_UI_EXPORT void draw_skin_image(Vg& vg, const Frame& frame, int section, vec4 rect);
 
-	export_ class MUD_UI_EXPORT UiRenderer
+	export_ class TWO_UI_EXPORT UiRenderer
 	{
 	public:
 		UiRenderer(Vg& vg);

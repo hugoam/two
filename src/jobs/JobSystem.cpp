@@ -19,7 +19,7 @@
 #include <condition_variable>
 #include <mutex>
 
-#ifndef MUD_PLATFORM_EMSCRIPTEN
+#ifndef TWO_PLATFORM_EMSCRIPTEN
 #include <immintrin.h>
 #endif
 
@@ -52,7 +52,7 @@
 #   endif
 #endif
 
-namespace mud
+namespace two
 {
 	thread_local JobSystem::ThreadState* s_thread_state(nullptr);
 

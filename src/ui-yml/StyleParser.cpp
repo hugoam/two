@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <tree/Node.inl.h>
 #include <refl/Class.h>
@@ -25,9 +25,9 @@ module mud.ui;
 
 #include <json11.hpp>
 
-namespace mud
+namespace two
 {
-	export_ class MUD_UI_EXPORT Options
+	export_ class TWO_UI_EXPORT Options
 	{
 	public:
 		vector<Var> m_fields;
@@ -39,7 +39,7 @@ namespace mud
 
 	using StyleMap = map<string, Options>;
 
-	export_ class refl_ MUD_UI_EXPORT Styler
+	export_ class refl_ TWO_UI_EXPORT Styler
 	{
 	public:
 		Styler(UiWindow& ui_window);

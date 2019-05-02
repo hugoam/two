@@ -7,7 +7,7 @@
 #include <tree/Graph.h>
 #include <stl/algorithm.h>
 
-namespace mud
+namespace two
 {
 	template <class T>
 	Graph<T>::Graph() {}

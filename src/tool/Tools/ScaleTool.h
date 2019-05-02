@@ -4,16 +4,16 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <math/Vec.h>
 #endif
 #include <tool/Forward.h>
 #include <tool/Tool.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_TOOL_EXPORT ScaleAction : public TransformAction
+	export_ class refl_ TWO_TOOL_EXPORT ScaleAction : public TransformAction
 	{
 	public:
 		ScaleAction(span<Transform*> targets);
@@ -27,7 +27,7 @@ namespace mud
 		vec3 m_scale_offset;
 	};
 
-	export_ class refl_ MUD_TOOL_EXPORT ScaleTool final : public TransformTool
+	export_ class refl_ TWO_TOOL_EXPORT ScaleTool final : public TransformTool
 	{
 	public:
 		ScaleTool(ToolContext& context);

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/string.h>
 #include <stl/table.h>
 #include <stl/function.h>
@@ -21,7 +21,7 @@ namespace bgfx
 	struct Encoder;
 }
 
-namespace mud
+namespace two
 {
 	export_ enum class refl_ BlendMode : unsigned int
 	{
@@ -109,7 +109,7 @@ namespace mud
 	export_ extern template struct refl_ MaterialParam<float>;
 	export_ extern template struct refl_ MaterialParam<vec4>;
 
-	export_ struct refl_ MUD_GFX_EXPORT MaterialBase
+	export_ struct refl_ TWO_GFX_EXPORT MaterialBase
 	{
 		attr_ BlendMode m_blend_mode = BlendMode::None;
 		attr_ CullMode m_cull_mode = CullMode::Back;
@@ -136,7 +136,7 @@ namespace mud
 		static ShaderBlock s_block;
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT MaterialUser
+	export_ struct refl_ TWO_GFX_EXPORT MaterialUser
 	{
 		attr_ Texture* m_tex0 = nullptr;
 		attr_ Texture* m_tex1 = nullptr;
@@ -155,7 +155,7 @@ namespace mud
 		static ShaderBlock s_block;
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT MaterialAlpha
+	export_ struct refl_ TWO_GFX_EXPORT MaterialAlpha
 	{
 		attr_ gpu_ MaterialParam<float> m_alpha = { 1.f, nullptr };
 		attr_ gpu_ float m_alpha_scissor = 0.5f;
@@ -166,7 +166,7 @@ namespace mud
 		static ShaderBlock s_block;
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT MaterialSolid
+	export_ struct refl_ TWO_GFX_EXPORT MaterialSolid
 	{
 		attr_ MaterialParam<Colour> m_colour = { Colour::White, nullptr };
 
@@ -183,7 +183,7 @@ namespace mud
 		DASH,
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT MaterialPoint
+	export_ struct refl_ TWO_GFX_EXPORT MaterialPoint
 	{
 		attr_ gpu_ float m_point_size = 1.f;
 		attr_ gpu_ bool m_project = false;
@@ -191,7 +191,7 @@ namespace mud
 		static ShaderBlock s_block;
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT MaterialLine
+	export_ struct refl_ TWO_GFX_EXPORT MaterialLine
 	{
 		attr_ gpu_ float m_line_width = 1.f;
 
@@ -204,7 +204,7 @@ namespace mud
 		static ShaderBlock s_block;
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT MaterialFresnel
+	export_ struct refl_ TWO_GFX_EXPORT MaterialFresnel
 	{
 		attr_ gpu_ MaterialParam<Colour> m_value = { Colour::White, nullptr };
 
@@ -273,7 +273,7 @@ namespace mud
 		ENV_BLEND,
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT MaterialLit
+	export_ struct refl_ TWO_GFX_EXPORT MaterialLit
 	{
 		attr_ gpu_ MaterialParam<Colour> m_emissive = { rgba(0x00000000), nullptr };
 		attr_ gpu_ float m_emissive_energy = 0.f;
@@ -291,7 +291,7 @@ namespace mud
 		static ShaderBlock s_block;
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT MaterialPbr
+	export_ struct refl_ TWO_GFX_EXPORT MaterialPbr
 	{
 		constr_ MaterialPbr() {}
 		constr_ MaterialPbr(const Colour& albedo, float metallic = 0.f, float roughness = 1.f) : m_albedo(albedo, nullptr), m_metallic(metallic, nullptr, TextureChannel::Red), m_roughness(roughness, nullptr, TextureChannel::Red) {}
@@ -332,7 +332,7 @@ namespace mud
 		Add,
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT MaterialPhong
+	export_ struct refl_ TWO_GFX_EXPORT MaterialPhong
 	{
 		attr_ gpu_ MaterialParam<Colour> m_diffuse = { rgb(0xffffff), nullptr };
 		attr_ gpu_ MaterialParam<Colour> m_specular = { rgb(0x111111), nullptr };
@@ -348,7 +348,7 @@ namespace mud
 		static ShaderBlock s_block;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT BlockMaterial : public GfxBlock
+	export_ class refl_ TWO_GFX_EXPORT BlockMaterial : public GfxBlock
 	{
 	public:
 		BlockMaterial(GfxSystem& gfx);
@@ -367,9 +367,9 @@ namespace mud
 		GpuTexture m_materials_texture = {};
 	};
 
-	export_ MUD_GFX_EXPORT void load_material(Material& material, Program& program);
+	export_ TWO_GFX_EXPORT void load_material(Material& material, Program& program);
 
-	export_ class refl_ MUD_GFX_EXPORT Material
+	export_ class refl_ TWO_GFX_EXPORT Material
 	{
 	public:
 		Material() {}

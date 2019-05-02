@@ -7,7 +7,7 @@
 #include <infra/Config.h>
 #include <cstddef>
 
-namespace mud
+namespace two
 {
 	export_ template <class Enum, class T, size_t Size = size_t(Enum::Count)>
 	struct table

@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx.ui;
+#ifdef TWO_MODULES
+module two.gfx.ui;
 #else
 #include <geom/Intersect.h>
 #include <geom/Shapes.h>
@@ -27,7 +27,7 @@ module mud.gfx.ui;
 
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 	class SpaceQuad
 	{

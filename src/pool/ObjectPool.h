@@ -9,9 +9,9 @@
 #include <pool/Forward.h>
 #include <pool/Pool.h>
 
-namespace mud
+namespace two
 {
-	export_ class MUD_POOL_EXPORT ObjectPool //
+	export_ class TWO_POOL_EXPORT ObjectPool //
 	{
 	public:
 		ObjectPool();
@@ -32,8 +32,8 @@ namespace mud
 		vector<unique<Pool>> m_pools;
 	};
 
-	//export_ extern MUD_POOL_EXPORT vector<unique<Pool>> g_pool_makers;
-	export_ extern MUD_POOL_EXPORT vector<unique<Pool>> g_pools;
+	//export_ extern TWO_POOL_EXPORT vector<unique<Pool>> g_pool_makers;
+	export_ extern TWO_POOL_EXPORT vector<unique<Pool>> g_pools;
 
 	template <class T>
 	inline TPool<T>& global_pool();

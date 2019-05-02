@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/function.h>
 #include <tree/Graph.h>
 #ifdef _MSC_VER
@@ -18,7 +18,7 @@
 #include <ui/Frame/Frame.h>
 #include <ui/Widget.h>
 
-namespace mud
+namespace two
 {
 	using FrameFilter = bool(*)(Frame&);
 
@@ -26,7 +26,7 @@ namespace mud
 	export_ extern template class Graph<Widget>;
 #endif
 
-	export_ class refl_ MUD_UI_EXPORT Widget : public Graph<Widget>, public ControlNode
+	export_ class refl_ TWO_UI_EXPORT Widget : public Graph<Widget>, public ControlNode
 	{
 	public:
 		Widget();

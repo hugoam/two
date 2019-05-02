@@ -9,7 +9,7 @@
 #include <pool/ObjectPool.h>
 #include <pool/Pool.hpp>
 
-namespace mud
+namespace two
 {
 	inline Pool& ObjectPool::pool(Type& type) { return *m_pools[type.m_id].get(); }
 

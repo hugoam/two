@@ -17,7 +17,7 @@
 #include <cstdio>
 #include <algorithm>
 
-namespace mud
+namespace two
 {
 	// todo:
 	// - add error/warning for member of non reflected type
@@ -361,7 +361,7 @@ namespace mud
 		bool isclass() const { return m_type_kind == CLTypeKind::Class; }
 		bool isbasetype() const { return m_type_kind != CLTypeKind::Class && m_type_kind != CLTypeKind::Enum; }
 		bool isprimitive() const { return m_type_kind < CLTypeKind::String; }
-		bool istypedptr() const { return m_id == "mud::Ref"; }
+		bool istypedptr() const { return m_id == "two::Ref"; }
 		bool isarray() const { return m_array; }
 		bool isspan() const { return m_span; }
 		bool issequence() const { return m_sequence; }
@@ -402,7 +402,7 @@ namespace mud
 		bool isconst() const { return m_spelling.substr(0, 5) == "const"; }
 		bool value() const { return !this->pointer() && !this->reference(); }
 		bool memvalue() const { return m_type->m_struct && !this->pointer(); }
-		bool nullable() const { return this->pointer() || m_type_name == "mud::Ref"; }
+		bool nullable() const { return this->pointer() || m_type_name == "two::Ref"; }
 
 		bool isvoid() const { return !m_type || m_type->m_type_kind == CLTypeKind::Void; }
 	};
@@ -823,7 +823,7 @@ namespace mud
 		CLType* get_type(CXType cxtype, const string& name)
 		{
 			CLType* t = this->find_type(name);
-			for(const string& n : { "stl", "mud" })
+			for(const string& n : { "stl", "two" })
 				if(!t)
 					t = this->find_type(n + "::" + name);
 			if(!t)

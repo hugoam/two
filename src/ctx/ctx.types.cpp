@@ -1,29 +1,29 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ctx;
+#ifdef TWO_MODULES
+module two.ctx;
 #else
 #include <ctx/Types.h>
 #include <ctx/Api.h>
 #include <type/Vector.h>
 #endif
 
-namespace mud
+namespace two
 {
     // Exported types
-    template <> MUD_CTX_EXPORT Type& type<mud::Key>() { static Type ty("Key", sizeof(mud::Key)); return ty; }
-    template <> MUD_CTX_EXPORT Type& type<mud::MouseButtonCode>() { static Type ty("MouseButtonCode", sizeof(mud::MouseButtonCode)); return ty; }
-    template <> MUD_CTX_EXPORT Type& type<mud::InputMod>() { static Type ty("InputMod", sizeof(mud::InputMod)); return ty; }
-    template <> MUD_CTX_EXPORT Type& type<mud::DeviceType>() { static Type ty("DeviceType", sizeof(mud::DeviceType)); return ty; }
-    template <> MUD_CTX_EXPORT Type& type<mud::EventType>() { static Type ty("EventType", sizeof(mud::EventType)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::Key>() { static Type ty("Key", sizeof(two::Key)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::MouseButtonCode>() { static Type ty("MouseButtonCode", sizeof(two::MouseButtonCode)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::InputMod>() { static Type ty("InputMod", sizeof(two::InputMod)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::DeviceType>() { static Type ty("DeviceType", sizeof(two::DeviceType)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::EventType>() { static Type ty("EventType", sizeof(two::EventType)); return ty; }
     
     
-    template <> MUD_CTX_EXPORT Type& type<mud::RenderSystem>() { static Type ty("RenderSystem", sizeof(mud::RenderSystem)); return ty; }
-    template <> MUD_CTX_EXPORT Type& type<mud::Context>() { static Type ty("Context", sizeof(mud::Context)); return ty; }
-    template <> MUD_CTX_EXPORT Type& type<mud::InputEvent>() { static Type ty("InputEvent", sizeof(mud::InputEvent)); return ty; }
-    template <> MUD_CTX_EXPORT Type& type<mud::MouseEvent>() { static Type ty("MouseEvent", type<mud::InputEvent>(), sizeof(mud::MouseEvent)); return ty; }
-    template <> MUD_CTX_EXPORT Type& type<mud::KeyEvent>() { static Type ty("KeyEvent", type<mud::InputEvent>(), sizeof(mud::KeyEvent)); return ty; }
-    template <> MUD_CTX_EXPORT Type& type<mud::ControlNode>() { static Type ty("ControlNode", sizeof(mud::ControlNode)); return ty; }
-    template <> MUD_CTX_EXPORT Type& type<mud::Keyboard>() { static Type ty("Keyboard", sizeof(mud::Keyboard)); return ty; }
-    template <> MUD_CTX_EXPORT Type& type<mud::Mouse>() { static Type ty("Mouse", sizeof(mud::Mouse)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::RenderSystem>() { static Type ty("RenderSystem", sizeof(two::RenderSystem)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::Context>() { static Type ty("Context", sizeof(two::Context)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::InputEvent>() { static Type ty("InputEvent", sizeof(two::InputEvent)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::MouseEvent>() { static Type ty("MouseEvent", type<two::InputEvent>(), sizeof(two::MouseEvent)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::KeyEvent>() { static Type ty("KeyEvent", type<two::InputEvent>(), sizeof(two::KeyEvent)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::ControlNode>() { static Type ty("ControlNode", sizeof(two::ControlNode)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::Keyboard>() { static Type ty("Keyboard", sizeof(two::Keyboard)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::Mouse>() { static Type ty("Mouse", sizeof(two::Mouse)); return ty; }
 }

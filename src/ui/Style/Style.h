@@ -10,7 +10,7 @@
 #include <ui/Style/Skin.h>
 #include <ui/Style/Layout.h>
 
-namespace mud
+namespace two
 {
 	using cstring = const char*;
 
@@ -24,9 +24,9 @@ namespace mud
 		attr_ WidgetState state;
 	};
 
-	export_ MUD_UI_EXPORT void register_styles(span<Style*> styles);
+	export_ TWO_UI_EXPORT void register_styles(span<Style*> styles);
 
-	export_ class refl_ MUD_UI_EXPORT Style
+	export_ class refl_ TWO_UI_EXPORT Style
 	{
 	public:
 		Style();
@@ -61,13 +61,13 @@ namespace mud
 
 	StyleSelector select(span<string> styles);
 
-	export_ MUD_UI_EXPORT func_ void layout_minimal(UiWindow& ui_window);
-	export_ MUD_UI_EXPORT func_ void style_minimal(UiWindow& ui_window);
-	export_ MUD_UI_EXPORT func_ void style_vector(UiWindow& ui_window);
+	export_ TWO_UI_EXPORT func_ void layout_minimal(UiWindow& ui_window);
+	export_ TWO_UI_EXPORT func_ void style_minimal(UiWindow& ui_window);
+	export_ TWO_UI_EXPORT func_ void style_vector(UiWindow& ui_window);
 
-	export_ MUD_UI_EXPORT func_ void style_blendish(UiWindow& ui_window);
-	export_ MUD_UI_EXPORT func_ void style_blendish_light(UiWindow& ui_window);
-	export_ MUD_UI_EXPORT func_ void style_blendish_dark(UiWindow& ui_window);
+	export_ TWO_UI_EXPORT func_ void style_blendish(UiWindow& ui_window);
+	export_ TWO_UI_EXPORT func_ void style_blendish_light(UiWindow& ui_window);
+	export_ TWO_UI_EXPORT func_ void style_blendish_dark(UiWindow& ui_window);
 
 	export_ enum class ImguiStyle
 	{
@@ -164,9 +164,9 @@ namespace mud
 		Colour ModalWindowDimBg;
 	};
 
-	export_ MUD_UI_EXPORT func_ void style_imgui_dark(UiWindow& ui_window);
-	export_ MUD_UI_EXPORT func_ void style_imgui_light(UiWindow& ui_window);
-	export_ MUD_UI_EXPORT func_ void style_imgui_classic(UiWindow& ui_window);
+	export_ TWO_UI_EXPORT func_ void style_imgui_dark(UiWindow& ui_window);
+	export_ TWO_UI_EXPORT func_ void style_imgui_light(UiWindow& ui_window);
+	export_ TWO_UI_EXPORT func_ void style_imgui_classic(UiWindow& ui_window);
 
-	export_ MUD_UI_EXPORT void style_imgui(UiWindow& ui_window, ImguiStyle style = ImguiStyle::Dark);
+	export_ TWO_UI_EXPORT void style_imgui(UiWindow& ui_window, ImguiStyle style = ImguiStyle::Dark);
 }

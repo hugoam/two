@@ -9,7 +9,7 @@
 #include <gfx/Renderer.h>
 #include <gfx/Filter.h>
 
-namespace mud
+namespace two
 {
 	enum ShaderOptionSkybox : unsigned int
 	{
@@ -31,10 +31,10 @@ namespace mud
 		December
 	};
 
-	MUD_GFX_EXPORT quat sun_rotation(float azimuth, float altitude, const vec3& up = Y3, const vec3& north = X3);
-	MUD_GFX_EXPORT quat sun_rotation(Month month, float latitude, float hour, float ecliptic_obliquity = 0.408407f, const vec3& up = Y3, const vec3& north = X3);
+	TWO_GFX_EXPORT quat sun_rotation(float azimuth, float altitude, const vec3& up = Y3, const vec3& north = X3);
+	TWO_GFX_EXPORT quat sun_rotation(Month month, float latitude, float hour, float ecliptic_obliquity = 0.408407f, const vec3& up = Y3, const vec3& north = X3);
 
-	export_ class refl_ MUD_GFX_EXPORT BlockSky : public GfxBlock
+	export_ class refl_ TWO_GFX_EXPORT BlockSky : public GfxBlock
 	{
 	public:
 		BlockSky(GfxSystem& gfx, BlockFilter& filter);

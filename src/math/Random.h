@@ -6,7 +6,7 @@
 
 #include <math/Forward.h>
 
-namespace mud
+namespace two
 {
 	export_ template <class T = float>
 	T randf();

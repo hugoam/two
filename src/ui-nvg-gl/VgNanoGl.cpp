@@ -8,13 +8,13 @@
 
 #ifdef NANOVG_GLEW
 	#include <GL/glew.h>
-#elif defined MUD_PLATFORM_EMSCRIPTEN
+#elif defined TWO_PLATFORM_EMSCRIPTEN
 	#define GL_GLEXT_PROTOTYPES
 	#include <GL/gl.h>
 	#include <GL/glext.h>
 #endif
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 #define NANOVG_GLES2_IMPLEMENTATION
 #else
 #define NANOVG_GL3_IMPLEMENTATION
@@ -23,7 +23,7 @@
 #include <nanovg.h>
 #include <nanovg_gl.h>
 
-namespace mud
+namespace two
 {
 	VgNanoGl::VgNanoGl(cstring resource_path, bool clear)
 		: VgNano(resource_path)

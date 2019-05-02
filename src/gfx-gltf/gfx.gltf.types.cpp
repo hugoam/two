@@ -1,17 +1,17 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gfx-gltf;
+#ifdef TWO_MODULES
+module two.gfx-gltf;
 #else
 #include <gfx-gltf/Types.h>
 #include <gfx-gltf/Api.h>
 #include <type/Vector.h>
 #endif
 
-namespace mud
+namespace two
 {
     // Exported types
     
     
-    template <> MUD_GFX_GLTF_EXPORT Type& type<mud::ImporterGltf>() { static Type ty("ImporterGltf", sizeof(mud::ImporterGltf)); return ty; }
+    template <> TWO_GFX_GLTF_EXPORT Type& type<two::ImporterGltf>() { static Type ty("ImporterGltf", sizeof(two::ImporterGltf)); return ty; }
 }

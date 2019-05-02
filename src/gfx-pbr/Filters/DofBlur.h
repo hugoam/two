@@ -4,13 +4,13 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <gfx/Renderer.h>
 #include <gfx/Program.h>
 #include <gfx/Filter.h>
 #endif
 
-namespace mud
+namespace two
 {
 	enum ShaderOptionDofBlur : unsigned int
 	{
@@ -32,9 +32,9 @@ namespace mud
 		attr_ gpu_ float m_max_coc_radius = 8.f;
 	};
 
-	export_ MUD_GFX_PBR_EXPORT func_ void pass_dofblur(GfxSystem& gfx, Render& render, const DofBlur& blur);
+	export_ TWO_GFX_PBR_EXPORT func_ void pass_dofblur(GfxSystem& gfx, Render& render, const DofBlur& blur);
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT BlockDofBlur : public GfxBlock
+	export_ class refl_ TWO_GFX_PBR_EXPORT BlockDofBlur : public GfxBlock
 	{
 	public:
 		BlockDofBlur(GfxSystem& gfx, BlockFilter& filter);

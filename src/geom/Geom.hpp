@@ -4,13 +4,13 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <math/Vec.hpp>
 #endif
 #include <geom/Forward.h>
 #include <geom/Geom.h>
 
-namespace mud
+namespace two
 {
 	inline float distance(const Plane& plane, const vec3& p)
 	{

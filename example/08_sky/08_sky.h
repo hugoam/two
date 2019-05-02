@@ -6,6 +6,6 @@
 
 #include <frame/Forward.h>
 
-using namespace mud;
+using namespace two;
 
 void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar);

@@ -1,7 +1,7 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.gltf;
+#ifdef TWO_MODULES
+module two.gltf;
 #else
 #include <cstddef>
 #include <stl/new.h>
@@ -21,7 +21,7 @@ module mud.gltf;
 
 #include <gltf/Api.h>
 
-using namespace mud;
+using namespace two;
 
 void glTFComponentType__to_string(void* val, string& str) { str = g_enu[type<glTFComponentType>().m_id]->name(uint32_t((*static_cast<glTFComponentType*>(val)))); }
 void glTFComponentType__to_value(const string& str, void* val) { (*static_cast<glTFComponentType*>(val)) = glTFComponentType(g_enu[type<glTFComponentType>().m_id]->value(str.c_str())); }
@@ -175,9 +175,9 @@ void glTFScene__copy_construct(void* ref, void* other) { new(stl::placeholder(),
 void glTF__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTF(  ); }
 void glTF__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTF((*static_cast<glTF*>(other))); }
 
-namespace mud
+namespace two
 {
-	void mud_gltf_meta(Module& m)
+	void two_gltf_meta(Module& m)
 	{
 	UNUSED(m);
 	
@@ -1085,7 +1085,7 @@ namespace mud
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFMaterialPBR, base_color_factor), type<mud::vec4>(), "base_color_factor", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFMaterialPBR, base_color_factor), type<two::vec4>(), "base_color_factor", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterialPBR, base_color_texture), type<glTFTextureInfo>(), "base_color_texture", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterialPBR, metallic_factor), type<float>(), "metallic_factor", &metallic_factor_default, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterialPBR, roughness_factor), type<float>(), "roughness_factor", &roughness_factor_default, Member::Value, nullptr },
@@ -1101,7 +1101,7 @@ namespace mud
 		static Meta meta = { t, &namspc({}), "glTFMaterial", sizeof(glTFMaterial), TypeClass::Struct };
 		// bases
 		// defaults
-		static mud::vec3 emissive_factor_default = to_vec3(mud::Colour::Black);
+		static two::vec3 emissive_factor_default = to_vec3(two::Colour::Black);
 		static bool double_sided_default = false;
 		static glTFAlphaMode alpha_mode_default = glTFAlphaMode::OPAQUE;
 		// constructors
@@ -1117,7 +1117,7 @@ namespace mud
 			{ t, offsetof(glTFMaterial, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, normal_texture), type<glTFTextureInfo>(), "normal_texture", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, occlusion_texture), type<glTFTextureInfo>(), "occlusion_texture", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFMaterial, emissive_factor), type<mud::vec3>(), "emissive_factor", &emissive_factor_default, Member::Value, nullptr },
+			{ t, offsetof(glTFMaterial, emissive_factor), type<two::vec3>(), "emissive_factor", &emissive_factor_default, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, emissive_texture), type<glTFTextureInfo>(), "emissive_texture", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, double_sided), type<bool>(), "double_sided", &double_sided_default, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, alpha_mode), type<glTFAlphaMode>(), "alpha_mode", &alpha_mode_default, Member::Value, nullptr },
@@ -1136,8 +1136,8 @@ namespace mud
 		static int mesh_default = -1;
 		static int camera_default = -1;
 		static int skin_default = -1;
-		static mud::mat4 matrix_default = {};
-		static mud::quat rotation_default = mud::ZeroQuat;
+		static two::mat4 matrix_default = {};
+		static two::quat rotation_default = two::ZeroQuat;
 		// constructors
 		static Constructor constructors[] = {
 			{ t, glTFNode__construct_0, {} }
@@ -1152,10 +1152,10 @@ namespace mud
 			{ t, offsetof(glTFNode, mesh), type<int>(), "mesh", &mesh_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, camera), type<int>(), "camera", &camera_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, skin), type<int>(), "skin", &skin_default, Member::Value, nullptr },
-			{ t, offsetof(glTFNode, matrix), type<mud::mat4>(), "matrix", &matrix_default, Member::Value, nullptr },
-			{ t, offsetof(glTFNode, translation), type<mud::vec3>(), "translation", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFNode, rotation), type<mud::quat>(), "rotation", &rotation_default, Member::Value, nullptr },
-			{ t, offsetof(glTFNode, scale), type<mud::vec3>(), "scale", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, matrix), type<two::mat4>(), "matrix", &matrix_default, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, translation), type<two::vec3>(), "translation", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, rotation), type<two::quat>(), "rotation", &rotation_default, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, scale), type<two::vec3>(), "scale", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, children), type<stl::vector<int>>(), "children", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
@@ -1274,20 +1274,20 @@ namespace mud
 	}
 }
 
-namespace mud
+namespace two
 {
-	mud_gltf::mud_gltf()
-		: Module("mud::gltf", { &mud_infra::m(), &mud_type::m(), &mud_refl::m(), &mud_srlz::m(), &mud_math::m() })
+	two_gltf::two_gltf()
+		: Module("two::gltf", { &two_infra::m(), &two_type::m(), &two_refl::m(), &two_srlz::m(), &two_math::m() })
 	{
 		// setup reflection meta data
-		mud_gltf_meta(*this);
+		two_gltf_meta(*this);
 	}
 }
 
-#ifdef MUD_GLTF_MODULE
+#ifdef TWO_GLTF_MODULE
 extern "C"
 Module& getModule()
 {
-	return mud_gltf::m();
+	return two_gltf::m();
 }
 #endif

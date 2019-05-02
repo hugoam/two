@@ -11,9 +11,9 @@
 #include <type/Type.h>
 #include <type/Unique.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_TYPE_EXPORT Indexer
+	export_ class refl_ TWO_TYPE_EXPORT Indexer
 	{
 	public:
 		Indexer(const Type& type) : m_type(&type), m_objects(1, Ref{ type }), m_count(0), m_next(0) {}
@@ -40,7 +40,7 @@ namespace mud
 		uint32_t m_next;
 	};
 
-	export_ class refl_ MUD_TYPE_EXPORT Index //
+	export_ class refl_ TWO_TYPE_EXPORT Index //
 	{
 	public:
 		Index() : m_indexers(c_max_types) {}

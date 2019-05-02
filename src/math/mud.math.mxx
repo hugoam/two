@@ -2,7 +2,7 @@
 
 #include <infra/Config.h>
 
-export module mud.math;
+export module two.math;
 export import std.core;
 export import std.io;
 export import std.threading;
@@ -10,10 +10,10 @@ export import std.regex;
 
 export import json11;
 export import stb.rect_pack;
-export import mud.infra;
-export import mud.obj;
-export import mud.refl;
-export import mud.srlz;
+export import two.infra;
+export import two.obj;
+export import two.refl;
+export import two.srlz;
 
 #include <math/Api.h>
 

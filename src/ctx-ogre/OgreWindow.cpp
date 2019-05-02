@@ -16,7 +16,7 @@
 #include <Compositor/OgreCompositorNodeDef.h>
 #include <Compositor/OgreCompositorWorkspaceDef.h>
 
-namespace mud
+namespace two
 {
 	OgreRenderWindow::OgreRenderWindow(OgreRenderSystem& renderSystem, const string& name, int width, int height, bool fullScreen)
 		: RenderWindow(name, width, height, fullScreen)

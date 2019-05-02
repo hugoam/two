@@ -3,12 +3,12 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <cstdio>
 #endif
 
-#ifdef MUD_MODULES
-module mud.geom;
+#ifdef TWO_MODULES
+module two.geom;
 #else
 #include <stl/unordered_map.h>
 #include <stl/map.h>
@@ -25,12 +25,12 @@ module mud.geom;
 
 #include <mikktspace.h>
 
-namespace mud
+namespace two
 {
 	inline bool operator<(const vec3& lhs, const vec3& rhs) { return all(less(lhs, rhs)); }
 }
 
-namespace mud
+namespace two
 {
 	uint32_t joints(const ivec4& j)
 	{

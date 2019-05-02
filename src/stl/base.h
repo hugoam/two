@@ -22,7 +22,7 @@ namespace stl
 	inline bool bit(T flags, T bit) { return (uint(flags) & uint(bit)) != 0; }
 }
 
-namespace mud
+namespace two
 {
 	using stl::bit;
 }

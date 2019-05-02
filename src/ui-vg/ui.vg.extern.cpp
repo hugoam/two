@@ -1,6 +1,6 @@
 #ifndef USE_STL
-#ifdef MUD_MODULES
-module mud.ui.vg;
+#ifdef TWO_MODULES
+module two.ui.vg;
 #else
 #include <stl/vector.hpp>
 #include <stl/unordered_map.hpp>
@@ -9,8 +9,8 @@ module mud.ui.vg;
 
 namespace stl
 {
-	using namespace mud;
-	template class MUD_UI_VG_EXPORT vector<vg::GlyphPosition>;
-	template class MUD_UI_VG_EXPORT unordered_map<string, vg::FontHandle>;
+	using namespace two;
+	template class TWO_UI_VG_EXPORT vector<vg::GlyphPosition>;
+	template class TWO_UI_VG_EXPORT unordered_map<string, vg::FontHandle>;
 }
 #endif

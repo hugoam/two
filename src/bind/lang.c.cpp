@@ -4,7 +4,7 @@
 #include <refl/Api.h>
 #include <lang/Api.h>
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten.h>
 #define DECL EMSCRIPTEN_KEEPALIVE
 #else
@@ -15,278 +15,278 @@
 extern "C" {
 	
 	// Script
-	mud::Type* DECL mud_Script__type() {
-		return &mud::type<mud::Script>();
+	two::Type* DECL two_Script__type() {
+		return &two::type<two::Script>();
 	}
-	uint32_t DECL mud_Script__get_index(mud::Script* self) {
+	uint32_t DECL two_Script__get_index(two::Script* self) {
 		return self->m_index;
 	}
-	void DECL mud_Script__set_index(mud::Script* self, uint32_t value) {
+	void DECL two_Script__set_index(two::Script* self, uint32_t value) {
 		self->m_index = value;
 	}
-	mud::Type* DECL mud_Script__get_type(mud::Script* self) {
+	two::Type* DECL two_Script__get_type(two::Script* self) {
 		return &self->m_type;
 	}
-	const char* DECL mud_Script__get_name(mud::Script* self) {
+	const char* DECL two_Script__get_name(two::Script* self) {
 		return self->m_name.c_str();
 	}
-	void DECL mud_Script__set_name(mud::Script* self, const char* value) {
+	void DECL two_Script__set_name(two::Script* self, const char* value) {
 		self->m_name = value;
 	}
-	bool DECL mud_Script__get_locked(mud::Script* self) {
+	bool DECL two_Script__get_locked(two::Script* self) {
 		return self->m_locked;
 	}
-	void DECL mud_Script__set_locked(mud::Script* self, bool value) {
+	void DECL two_Script__set_locked(two::Script* self, bool value) {
 		self->m_locked = value;
 	}
-	void DECL mud_Script__destroy(mud::Script* self) {
+	void DECL two_Script__destroy(two::Script* self) {
 		delete self;
 	}
 	// ScriptError
-	mud::Type* DECL mud_ScriptError__type() {
-		return &mud::type<mud::ScriptError>();
+	two::Type* DECL two_ScriptError__type() {
+		return &two::type<two::ScriptError>();
 	}
-	mud::ScriptError* DECL mud_ScriptError__construct_0() {
-		return new mud::ScriptError();
+	two::ScriptError* DECL two_ScriptError__construct_0() {
+		return new two::ScriptError();
 	}
-	void DECL mud_ScriptError__destroy(mud::ScriptError* self) {
+	void DECL two_ScriptError__destroy(two::ScriptError* self) {
 		delete self;
 	}
 	// TextScript
-	mud::Type* DECL mud_TextScript__type() {
-		return &mud::type<mud::TextScript>();
+	two::Type* DECL two_TextScript__type() {
+		return &two::type<two::TextScript>();
 	}
-	mud::TextScript* DECL mud_TextScript__construct_2(const char* name, mud::Language language) {
-		return new mud::TextScript(name, language);
+	two::TextScript* DECL two_TextScript__construct_2(const char* name, two::Language language) {
+		return new two::TextScript(name, language);
 	}
-	mud::TextScript* DECL mud_TextScript__construct_3(const char* name, mud::Language language, const mud::Signature* signature) {
-		return new mud::TextScript(name, language, *signature);
+	two::TextScript* DECL two_TextScript__construct_3(const char* name, two::Language language, const two::Signature* signature) {
+		return new two::TextScript(name, language, *signature);
 	}
-	mud::Language DECL mud_TextScript__get_language(mud::TextScript* self) {
+	two::Language DECL two_TextScript__get_language(two::TextScript* self) {
 		return self->m_language;
 	}
-	void DECL mud_TextScript__set_language(mud::TextScript* self, mud::Language value) {
+	void DECL two_TextScript__set_language(two::TextScript* self, two::Language value) {
 		self->m_language = value;
 	}
-	const char* DECL mud_TextScript__get_script(mud::TextScript* self) {
+	const char* DECL two_TextScript__get_script(two::TextScript* self) {
 		return self->m_script.c_str();
 	}
-	void DECL mud_TextScript__set_script(mud::TextScript* self, const char* value) {
+	void DECL two_TextScript__set_script(two::TextScript* self, const char* value) {
 		self->m_script = value;
 	}
-	bool DECL mud_TextScript__get_dirty(mud::TextScript* self) {
+	bool DECL two_TextScript__get_dirty(two::TextScript* self) {
 		return self->m_dirty;
 	}
-	void DECL mud_TextScript__set_dirty(mud::TextScript* self, bool value) {
+	void DECL two_TextScript__set_dirty(two::TextScript* self, bool value) {
 		self->m_dirty = value;
 	}
-	void DECL mud_TextScript__destroy(mud::TextScript* self) {
+	void DECL two_TextScript__destroy(two::TextScript* self) {
 		delete self;
 	}
 	// Interpreter
-	mud::Type* DECL mud_Interpreter__type() {
-		return &mud::type<mud::Interpreter>();
+	two::Type* DECL two_Interpreter__type() {
+		return &two::type<two::Interpreter>();
 	}
-	void DECL mud_Interpreter__destroy(mud::Interpreter* self) {
+	void DECL two_Interpreter__destroy(two::Interpreter* self) {
 		delete self;
 	}
 	// ScriptClass
-	mud::Type* DECL mud_ScriptClass__type() {
-		return &mud::type<mud::ScriptClass>();
+	two::Type* DECL two_ScriptClass__type() {
+		return &two::type<two::ScriptClass>();
 	}
-	const char* DECL mud_ScriptClass__get_name(mud::ScriptClass* self) {
+	const char* DECL two_ScriptClass__get_name(two::ScriptClass* self) {
 		return self->m_name.c_str();
 	}
-	void DECL mud_ScriptClass__set_name(mud::ScriptClass* self, const char* value) {
+	void DECL two_ScriptClass__set_name(two::ScriptClass* self, const char* value) {
 		self->m_name = value;
 	}
-	mud::Type* DECL mud_ScriptClass__get_class_type(mud::ScriptClass* self) {
+	two::Type* DECL two_ScriptClass__get_class_type(two::ScriptClass* self) {
 		return &self->m_class_type;
 	}
-	mud::Class* DECL mud_ScriptClass__get_class(mud::ScriptClass* self) {
+	two::Class* DECL two_ScriptClass__get_class(two::ScriptClass* self) {
 		return &self->m_class;
 	}
-	mud::Prototype* DECL mud_ScriptClass__get_prototype(mud::ScriptClass* self) {
+	two::Prototype* DECL two_ScriptClass__get_prototype(two::ScriptClass* self) {
 		return &self->m_prototype;
 	}
-	void DECL mud_ScriptClass__destroy(mud::ScriptClass* self) {
+	void DECL two_ScriptClass__destroy(two::ScriptClass* self) {
 		delete self;
 	}
 	// LuaInterpreter
-	mud::Type* DECL mud_LuaInterpreter__type() {
-		return &mud::type<mud::LuaInterpreter>();
+	two::Type* DECL two_LuaInterpreter__type() {
+		return &two::type<two::LuaInterpreter>();
 	}
-	void DECL mud_LuaInterpreter__destroy(mud::LuaInterpreter* self) {
+	void DECL two_LuaInterpreter__destroy(two::LuaInterpreter* self) {
 		delete self;
 	}
 	// StreamBranch
-	mud::Type* DECL mud_StreamBranch__type() {
-		return &mud::type<mud::StreamBranch>();
+	two::Type* DECL two_StreamBranch__type() {
+		return &two::type<two::StreamBranch>();
 	}
-	void DECL mud_StreamBranch__destroy(mud::StreamBranch* self) {
+	void DECL two_StreamBranch__destroy(two::StreamBranch* self) {
 		delete self;
 	}
 	// Stream
-	mud::Type* DECL mud_Stream__type() {
-		return &mud::type<mud::Stream>();
+	two::Type* DECL two_Stream__type() {
+		return &two::type<two::Stream>();
 	}
-	void DECL mud_Stream__destroy(mud::Stream* self) {
+	void DECL two_Stream__destroy(two::Stream* self) {
 		delete self;
 	}
 	// Valve
-	mud::Type* DECL mud_Valve__type() {
-		return &mud::type<mud::Valve>();
+	two::Type* DECL two_Valve__type() {
+		return &two::type<two::Valve>();
 	}
-	void DECL mud_Valve__destroy(mud::Valve* self) {
+	void DECL two_Valve__destroy(two::Valve* self) {
 		delete self;
 	}
 	// Pipe
-	mud::Type* DECL mud_Pipe__type() {
-		return &mud::type<mud::Pipe>();
+	two::Type* DECL two_Pipe__type() {
+		return &two::type<two::Pipe>();
 	}
-	void DECL mud_Pipe__destroy(mud::Pipe* self) {
+	void DECL two_Pipe__destroy(two::Pipe* self) {
 		delete self;
 	}
 	// Process
-	mud::Type* DECL mud_Process__type() {
-		return &mud::type<mud::Process>();
+	two::Type* DECL two_Process__type() {
+		return &two::type<two::Process>();
 	}
-	mud::Type* DECL mud_Process__get_type(mud::Process* self) {
+	two::Type* DECL two_Process__get_type(two::Process* self) {
 		return &self->m_type;
 	}
-	void DECL mud_Process__destroy(mud::Process* self) {
+	void DECL two_Process__destroy(two::Process* self) {
 		delete self;
 	}
 	// VisualScript
-	mud::Type* DECL mud_VisualScript__type() {
-		return &mud::type<mud::VisualScript>();
+	two::Type* DECL two_VisualScript__type() {
+		return &two::type<two::VisualScript>();
 	}
-	mud::VisualScript* DECL mud_VisualScript__construct_1(const char* name) {
-		return new mud::VisualScript(name);
+	two::VisualScript* DECL two_VisualScript__construct_1(const char* name) {
+		return new two::VisualScript(name);
 	}
-	mud::VisualScript* DECL mud_VisualScript__construct_2(const char* name, const mud::Signature* signature) {
-		return new mud::VisualScript(name, *signature);
+	two::VisualScript* DECL two_VisualScript__construct_2(const char* name, const two::Signature* signature) {
+		return new two::VisualScript(name, *signature);
 	}
-	void DECL mud_VisualScript__destroy(mud::VisualScript* self) {
+	void DECL two_VisualScript__destroy(two::VisualScript* self) {
 		delete self;
 	}
 	// ProcessInput
-	mud::Type* DECL mud_ProcessInput__type() {
-		return &mud::type<mud::ProcessInput>();
+	two::Type* DECL two_ProcessInput__type() {
+		return &two::type<two::ProcessInput>();
 	}
-	void DECL mud_ProcessInput__destroy(mud::ProcessInput* self) {
+	void DECL two_ProcessInput__destroy(two::ProcessInput* self) {
 		delete self;
 	}
 	// ProcessOutput
-	mud::Type* DECL mud_ProcessOutput__type() {
-		return &mud::type<mud::ProcessOutput>();
+	two::Type* DECL two_ProcessOutput__type() {
+		return &two::type<two::ProcessOutput>();
 	}
-	void DECL mud_ProcessOutput__destroy(mud::ProcessOutput* self) {
+	void DECL two_ProcessOutput__destroy(two::ProcessOutput* self) {
 		delete self;
 	}
 	// ProcessValue
-	mud::Type* DECL mud_ProcessValue__type() {
-		return &mud::type<mud::ProcessValue>();
+	two::Type* DECL two_ProcessValue__type() {
+		return &two::type<two::ProcessValue>();
 	}
-	mud::ProcessValue* DECL mud_ProcessValue__construct_2(mud::VisualScript* script, const mud::Var* value) {
-		return new mud::ProcessValue(*script, *value);
+	two::ProcessValue* DECL two_ProcessValue__construct_2(two::VisualScript* script, const two::Var* value) {
+		return new two::ProcessValue(*script, *value);
 	}
-	void DECL mud_ProcessValue__destroy(mud::ProcessValue* self) {
+	void DECL two_ProcessValue__destroy(two::ProcessValue* self) {
 		delete self;
 	}
 	// ProcessCreate
-	mud::Type* DECL mud_ProcessCreate__type() {
-		return &mud::type<mud::ProcessCreate>();
+	two::Type* DECL two_ProcessCreate__type() {
+		return &two::type<two::ProcessCreate>();
 	}
-	mud::ProcessCreate* DECL mud_ProcessCreate__construct_3(mud::VisualScript* script, mud::Type* type, const mud::Constructor* constructor) {
-		return new mud::ProcessCreate(*script, *type, *constructor);
+	two::ProcessCreate* DECL two_ProcessCreate__construct_3(two::VisualScript* script, two::Type* type, const two::Constructor* constructor) {
+		return new two::ProcessCreate(*script, *type, *constructor);
 	}
-	void DECL mud_ProcessCreate__destroy(mud::ProcessCreate* self) {
+	void DECL two_ProcessCreate__destroy(two::ProcessCreate* self) {
 		delete self;
 	}
 	// ProcessCallable
-	mud::Type* DECL mud_ProcessCallable__type() {
-		return &mud::type<mud::ProcessCallable>();
+	two::Type* DECL two_ProcessCallable__type() {
+		return &two::type<two::ProcessCallable>();
 	}
-	mud::ProcessCallable* DECL mud_ProcessCallable__construct_2(mud::VisualScript* script, mud::Callable* callable) {
-		return new mud::ProcessCallable(*script, *callable);
+	two::ProcessCallable* DECL two_ProcessCallable__construct_2(two::VisualScript* script, two::Callable* callable) {
+		return new two::ProcessCallable(*script, *callable);
 	}
-	void DECL mud_ProcessCallable__destroy(mud::ProcessCallable* self) {
+	void DECL two_ProcessCallable__destroy(two::ProcessCallable* self) {
 		delete self;
 	}
 	// ProcessScript
-	mud::Type* DECL mud_ProcessScript__type() {
-		return &mud::type<mud::ProcessScript>();
+	two::Type* DECL two_ProcessScript__type() {
+		return &two::type<two::ProcessScript>();
 	}
-	mud::ProcessScript* DECL mud_ProcessScript__construct_2(mud::VisualScript* script, mud::VisualScript* target) {
-		return new mud::ProcessScript(*script, *target);
+	two::ProcessScript* DECL two_ProcessScript__construct_2(two::VisualScript* script, two::VisualScript* target) {
+		return new two::ProcessScript(*script, *target);
 	}
-	void DECL mud_ProcessScript__destroy(mud::ProcessScript* self) {
+	void DECL two_ProcessScript__destroy(two::ProcessScript* self) {
 		delete self;
 	}
 	// ProcessFunction
-	mud::Type* DECL mud_ProcessFunction__type() {
-		return &mud::type<mud::ProcessFunction>();
+	two::Type* DECL two_ProcessFunction__type() {
+		return &two::type<two::ProcessFunction>();
 	}
-	mud::ProcessFunction* DECL mud_ProcessFunction__construct_2(mud::VisualScript* script, mud::Function* function) {
-		return new mud::ProcessFunction(*script, *function);
+	two::ProcessFunction* DECL two_ProcessFunction__construct_2(two::VisualScript* script, two::Function* function) {
+		return new two::ProcessFunction(*script, *function);
 	}
-	void DECL mud_ProcessFunction__destroy(mud::ProcessFunction* self) {
+	void DECL two_ProcessFunction__destroy(two::ProcessFunction* self) {
 		delete self;
 	}
 	// ProcessMethod
-	mud::Type* DECL mud_ProcessMethod__type() {
-		return &mud::type<mud::ProcessMethod>();
+	two::Type* DECL two_ProcessMethod__type() {
+		return &two::type<two::ProcessMethod>();
 	}
-	mud::ProcessMethod* DECL mud_ProcessMethod__construct_2(mud::VisualScript* script, mud::Method* method) {
-		return new mud::ProcessMethod(*script, *method);
+	two::ProcessMethod* DECL two_ProcessMethod__construct_2(two::VisualScript* script, two::Method* method) {
+		return new two::ProcessMethod(*script, *method);
 	}
-	void DECL mud_ProcessMethod__destroy(mud::ProcessMethod* self) {
+	void DECL two_ProcessMethod__destroy(two::ProcessMethod* self) {
 		delete self;
 	}
 	// ProcessGetMember
-	mud::Type* DECL mud_ProcessGetMember__type() {
-		return &mud::type<mud::ProcessGetMember>();
+	two::Type* DECL two_ProcessGetMember__type() {
+		return &two::type<two::ProcessGetMember>();
 	}
-	mud::ProcessGetMember* DECL mud_ProcessGetMember__construct_2(mud::VisualScript* script, mud::Member* member) {
-		return new mud::ProcessGetMember(*script, *member);
+	two::ProcessGetMember* DECL two_ProcessGetMember__construct_2(two::VisualScript* script, two::Member* member) {
+		return new two::ProcessGetMember(*script, *member);
 	}
-	void DECL mud_ProcessGetMember__destroy(mud::ProcessGetMember* self) {
+	void DECL two_ProcessGetMember__destroy(two::ProcessGetMember* self) {
 		delete self;
 	}
 	// ProcessSetMember
-	mud::Type* DECL mud_ProcessSetMember__type() {
-		return &mud::type<mud::ProcessSetMember>();
+	two::Type* DECL two_ProcessSetMember__type() {
+		return &two::type<two::ProcessSetMember>();
 	}
-	mud::ProcessSetMember* DECL mud_ProcessSetMember__construct_2(mud::VisualScript* script, mud::Member* member) {
-		return new mud::ProcessSetMember(*script, *member);
+	two::ProcessSetMember* DECL two_ProcessSetMember__construct_2(two::VisualScript* script, two::Member* member) {
+		return new two::ProcessSetMember(*script, *member);
 	}
-	void DECL mud_ProcessSetMember__destroy(mud::ProcessSetMember* self) {
+	void DECL two_ProcessSetMember__destroy(two::ProcessSetMember* self) {
 		delete self;
 	}
 	// ProcessDisplay
-	mud::Type* DECL mud_ProcessDisplay__type() {
-		return &mud::type<mud::ProcessDisplay>();
+	two::Type* DECL two_ProcessDisplay__type() {
+		return &two::type<two::ProcessDisplay>();
 	}
-	void DECL mud_ProcessDisplay__destroy(mud::ProcessDisplay* self) {
+	void DECL two_ProcessDisplay__destroy(two::ProcessDisplay* self) {
 		delete self;
 	}
 	// WrenInterpreter
-	mud::Type* DECL mud_WrenInterpreter__type() {
-		return &mud::type<mud::WrenInterpreter>();
+	two::Type* DECL two_WrenInterpreter__type() {
+		return &two::type<two::WrenInterpreter>();
 	}
-	void DECL mud_WrenInterpreter__destroy(mud::WrenInterpreter* self) {
+	void DECL two_WrenInterpreter__destroy(two::WrenInterpreter* self) {
 		delete self;
 	}
 	// Language
-	mud::Language DECL mud_Language_Cpp() {
-		return mud::Language::Cpp;
+	two::Language DECL two_Language_Cpp() {
+		return two::Language::Cpp;
 	}
-	mud::Language DECL mud_Language_Lua() {
-		return mud::Language::Lua;
+	two::Language DECL two_Language_Lua() {
+		return two::Language::Lua;
 	}
-	mud::Language DECL mud_Language_Wren() {
-		return mud::Language::Wren;
+	two::Language DECL two_Language_Wren() {
+		return two::Language::Wren;
 	}
 	
 }

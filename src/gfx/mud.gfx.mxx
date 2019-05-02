@@ -2,23 +2,23 @@
 
 #include <obj/Config.h>
 
-export module mud.gfx;
+export module two.gfx;
 export import std.core;
 export import std.io;
 export import std.threading;
 export import std.regex;
 
 export import json11;
-export import mud.infra;
-export import mud.obj;
-export import mud.pool;
-export import mud.refl;
-export import mud.srlz;
-export import mud.math;
-export import mud.geom;
-export import mud.ctx;
-export import mud.ctx.glfw;
-export import mud.bgfx;
+export import two.infra;
+export import two.obj;
+export import two.pool;
+export import two.refl;
+export import two.srlz;
+export import two.math;
+export import two.geom;
+export import two.ctx;
+export import two.ctx.glfw;
+export import two.bgfx;
 
 #include <gfx/Api.h>
 

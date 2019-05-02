@@ -1,29 +1,29 @@
 #pragma once
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <refl/Module.h>
 #endif
 
 #include <gltf/Forward.h>
 //#include <gltf/Types.h>
 
-#ifndef MUD_GLTF_REFL_EXPORT
-#define MUD_GLTF_REFL_EXPORT MUD_IMPORT
+#ifndef TWO_GLTF_REFL_EXPORT
+#define TWO_GLTF_REFL_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
-	export_ class MUD_GLTF_REFL_EXPORT mud_gltf : public mud::Module
+	export_ class TWO_GLTF_REFL_EXPORT two_gltf : public two::Module
 	{
 	private:
-		mud_gltf();
+		two_gltf();
 		
 	public:
-		static mud_gltf& m() { static mud_gltf instance; return instance; }
+		static two_gltf& m() { static two_gltf instance; return instance; }
 	};
 }
 
-#ifdef MUD_GLTF_MODULE
+#ifdef TWO_GLTF_MODULE
 extern "C"
-MUD_GLTF_REFL_EXPORT Module& getModule();
+TWO_GLTF_REFL_EXPORT Module& getModule();
 #endif

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <stl/map.h>
 #include <gfx/Renderer.h>
@@ -12,7 +12,7 @@
 #endif
 #include <gfx-pbr/Forward.h>
 
-namespace mud
+namespace two
 {
 	enum ShaderOptionRadiance : unsigned int
 	{
@@ -20,7 +20,7 @@ namespace mud
 		RADIANCE_CUBE,
 	};
 
-	export_ class refl_ MUD_GFX_PBR_EXPORT BlockRadiance : public DrawBlock
+	export_ class refl_ TWO_GFX_PBR_EXPORT BlockRadiance : public DrawBlock
 	{
 	public:
 		BlockRadiance(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy);

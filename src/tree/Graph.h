@@ -9,13 +9,13 @@
 #include <stl/memory.h>
 #include <infra/Config.h>
 
-#ifndef MUD_TREE_EXPORT
-#define MUD_TREE_EXPORT MUD_IMPORT
+#ifndef TWO_TREE_EXPORT
+#define TWO_TREE_EXPORT TWO_IMPORT
 #endif
 
-namespace mud
+namespace two
 {
-	export_ class MUD_TREE_EXPORT NodeState
+	export_ class TWO_TREE_EXPORT NodeState
 	{
 	public:
 		virtual ~NodeState() {}

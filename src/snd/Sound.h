@@ -12,14 +12,14 @@
 
 #include <stdint.h>
 
-namespace mud
+namespace two
 {
 	class Sound;
 
 	using cstring = const char*;
 	using SoundCallback = void(*)(Sound&);
 
-	class MUD_SND_EXPORT Sound
+	class TWO_SND_EXPORT Sound
 	{
 	public:
 		enum State

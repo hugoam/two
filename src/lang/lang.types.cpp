@@ -1,41 +1,41 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.lang;
+#ifdef TWO_MODULES
+module two.lang;
 #else
 #include <lang/Types.h>
 #include <lang/Api.h>
 #include <type/Vector.h>
 #endif
 
-namespace mud
+namespace two
 {
     // Exported types
-    template <> MUD_LANG_EXPORT Type& type<mud::Language>() { static Type ty("Language", sizeof(mud::Language)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::Language>() { static Type ty("Language", sizeof(two::Language)); return ty; }
     
     
-    template <> MUD_LANG_EXPORT Type& type<mud::Script>() { static Type ty("Script", type<mud::Callable>(), sizeof(mud::Script)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::ScriptError>() { static Type ty("ScriptError", sizeof(mud::ScriptError)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::TextScript>() { static Type ty("TextScript", type<mud::Script>(), sizeof(mud::TextScript)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::Interpreter>() { static Type ty("Interpreter", sizeof(mud::Interpreter)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::ScriptClass>() { static Type ty("ScriptClass", sizeof(mud::ScriptClass)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::LuaInterpreter>() { static Type ty("LuaInterpreter", type<mud::Interpreter>(), sizeof(mud::LuaInterpreter)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::StreamBranch>() { static Type ty("StreamBranch", sizeof(mud::StreamBranch)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::Stream>() { static Type ty("Stream", type<mud::StreamBranch>(), sizeof(mud::Stream)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::Valve>() { static Type ty("Valve", sizeof(mud::Valve)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::Pipe>() { static Type ty("Pipe", sizeof(mud::Pipe)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::Process>() { static Type ty("Process", sizeof(mud::Process)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::VisualScript>() { static Type ty("VisualScript", type<mud::Script>(), sizeof(mud::VisualScript)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::ProcessInput>() { static Type ty("ProcessInput", type<mud::Process>(), sizeof(mud::ProcessInput)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::ProcessOutput>() { static Type ty("ProcessOutput", type<mud::Process>(), sizeof(mud::ProcessOutput)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::ProcessValue>() { static Type ty("ProcessValue", type<mud::Process>(), sizeof(mud::ProcessValue)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::ProcessCreate>() { static Type ty("ProcessCreate", type<mud::Process>(), sizeof(mud::ProcessCreate)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::ProcessCallable>() { static Type ty("ProcessCallable", type<mud::Process>(), sizeof(mud::ProcessCallable)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::ProcessScript>() { static Type ty("ProcessScript", type<mud::ProcessCallable>(), sizeof(mud::ProcessScript)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::ProcessFunction>() { static Type ty("ProcessFunction", type<mud::ProcessCallable>(), sizeof(mud::ProcessFunction)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::ProcessMethod>() { static Type ty("ProcessMethod", type<mud::ProcessCallable>(), sizeof(mud::ProcessMethod)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::ProcessGetMember>() { static Type ty("ProcessGetMember", type<mud::Process>(), sizeof(mud::ProcessGetMember)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::ProcessSetMember>() { static Type ty("ProcessSetMember", type<mud::Process>(), sizeof(mud::ProcessSetMember)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::ProcessDisplay>() { static Type ty("ProcessDisplay", type<mud::Process>(), sizeof(mud::ProcessDisplay)); return ty; }
-    template <> MUD_LANG_EXPORT Type& type<mud::WrenInterpreter>() { static Type ty("WrenInterpreter", type<mud::Interpreter>(), sizeof(mud::WrenInterpreter)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::Script>() { static Type ty("Script", type<two::Callable>(), sizeof(two::Script)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::ScriptError>() { static Type ty("ScriptError", sizeof(two::ScriptError)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::TextScript>() { static Type ty("TextScript", type<two::Script>(), sizeof(two::TextScript)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::Interpreter>() { static Type ty("Interpreter", sizeof(two::Interpreter)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::ScriptClass>() { static Type ty("ScriptClass", sizeof(two::ScriptClass)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::LuaInterpreter>() { static Type ty("LuaInterpreter", type<two::Interpreter>(), sizeof(two::LuaInterpreter)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::StreamBranch>() { static Type ty("StreamBranch", sizeof(two::StreamBranch)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::Stream>() { static Type ty("Stream", type<two::StreamBranch>(), sizeof(two::Stream)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::Valve>() { static Type ty("Valve", sizeof(two::Valve)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::Pipe>() { static Type ty("Pipe", sizeof(two::Pipe)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::Process>() { static Type ty("Process", sizeof(two::Process)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::VisualScript>() { static Type ty("VisualScript", type<two::Script>(), sizeof(two::VisualScript)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessInput>() { static Type ty("ProcessInput", type<two::Process>(), sizeof(two::ProcessInput)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessOutput>() { static Type ty("ProcessOutput", type<two::Process>(), sizeof(two::ProcessOutput)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessValue>() { static Type ty("ProcessValue", type<two::Process>(), sizeof(two::ProcessValue)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessCreate>() { static Type ty("ProcessCreate", type<two::Process>(), sizeof(two::ProcessCreate)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessCallable>() { static Type ty("ProcessCallable", type<two::Process>(), sizeof(two::ProcessCallable)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessScript>() { static Type ty("ProcessScript", type<two::ProcessCallable>(), sizeof(two::ProcessScript)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessFunction>() { static Type ty("ProcessFunction", type<two::ProcessCallable>(), sizeof(two::ProcessFunction)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessMethod>() { static Type ty("ProcessMethod", type<two::ProcessCallable>(), sizeof(two::ProcessMethod)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessGetMember>() { static Type ty("ProcessGetMember", type<two::Process>(), sizeof(two::ProcessGetMember)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessSetMember>() { static Type ty("ProcessSetMember", type<two::Process>(), sizeof(two::ProcessSetMember)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessDisplay>() { static Type ty("ProcessDisplay", type<two::Process>(), sizeof(two::ProcessDisplay)); return ty; }
+    template <> TWO_LANG_EXPORT Type& type<two::WrenInterpreter>() { static Type ty("WrenInterpreter", type<two::Interpreter>(), sizeof(two::WrenInterpreter)); return ty; }
 }

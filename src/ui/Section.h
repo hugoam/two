@@ -4,20 +4,20 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/string.h>
 #include <ui/WidgetStruct.h>
 #endif
 #include <ui/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ struct MUD_UI_EXPORT Section : public Widget
+	export_ struct TWO_UI_EXPORT Section : public Widget
 	{
 		Section(Widget* parent, void* identity) : Widget(parent, identity) {}
 		Widget* m_toolbar = nullptr;
 	};
 
-	export_ MUD_UI_EXPORT Section& section(Widget& parent, const string& name, bool no_toolbar = false);
-	export_ MUD_UI_EXPORT bool section_action(Section& parent, const string& name);
+	export_ TWO_UI_EXPORT Section& section(Widget& parent, const string& name, bool no_toolbar = false);
+	export_ TWO_UI_EXPORT bool section_action(Section& parent, const string& name);
 }

@@ -8,8 +8,8 @@
 #include <bx/readerwriter.h>
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/string.h>
 #include <stl/vector.h>
@@ -37,7 +37,7 @@ namespace bgfx
 	void getShaderError(char* _outputText, uint16_t& _outputSize);
 }
 
-namespace mud
+namespace two
 {
 	static const bgfx::Memory* load_mem(bx::FileReaderI& reader, const char* file_path)
 	{
@@ -107,7 +107,7 @@ namespace mud
 		return gfx.m_resource_path + "/shaders/" + name + suffix;
 	}
 
-#ifdef MUD_LIVE_SHADER_COMPILER
+#ifdef TWO_LIVE_SHADER_COMPILER
 	bool compile_shader(GfxSystem& gfx, const string& name, const string& suffix, ShaderType shader_type, const string& defines_in, const string& source)
 	{
 		string defines = defines_in;
@@ -372,7 +372,7 @@ namespace mud
 		const string defines = this->defines(config);
 
 		bool compiled = true;
-#ifdef MUD_LIVE_SHADER_COMPILER
+#ifdef TWO_LIVE_SHADER_COMPILER
 		if(compute)
 		{
 			compiled &= compile_shader(gfx, m_name, suffix, ShaderType::Compute, defines, m_sources[ShaderType::Compute]);

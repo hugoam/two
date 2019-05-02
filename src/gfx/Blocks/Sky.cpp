@@ -7,8 +7,8 @@
 #include <bx/allocator.h>
 #include <bx/math.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <math/Vec.hpp>
 #include <gfx/Types.h>
@@ -21,7 +21,7 @@ module mud.gfx;
 #include <gfx/RenderTarget.h>
 #endif
 
-namespace mud
+namespace two
 {
 	quat sun_rotation(float azimuth, float altitude, const vec3& up, const vec3& north)
 	{

@@ -4,15 +4,15 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.tool;
+#ifdef TWO_MODULES
+module two.tool;
 #else
 #include <gfx/Camera.h>
 #include <tool/Types.h>
 #include <tool/Tools/ViewTool.h>
 #endif
 
-namespace mud
+namespace two
 {
 	ViewAction::ViewAction(Camera& camera, const vec3& eye, const vec3& target)
 		: m_camera(camera)

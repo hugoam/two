@@ -8,9 +8,9 @@
 #include <stl/swap.h>
 #include <type/Ref.h>
 
-namespace mud
+namespace two
 {
-	export_ class MUD_TYPE_EXPORT AnyHandler
+	export_ class TWO_TYPE_EXPORT AnyHandler
 	{
 	public:
 		virtual Ref ref(const Any& any) const { UNUSED(any); return Ref(); }
@@ -25,7 +25,7 @@ namespace mud
 		static AnyHandler none;
 	};
 
-	export_ class MUD_TYPE_EXPORT Any
+	export_ class TWO_TYPE_EXPORT Any
 	{
 	public:
 		Any() : m_handler(&AnyHandler::none) {}
@@ -37,7 +37,7 @@ namespace mud
 		Any& operator=(const Any& rhs) { if(m_handler == rhs.m_handler) m_handler->assign(*this, rhs); else Any(rhs).swap(*this); return *this; }
 		Any& operator=(Ref ref) { m_handler->assign(*this, ref); return *this; }
 
-		Any& swap(Any& other) { using mud::swap; swap(m_handler, other.m_handler); swap(m_pointer, other.m_pointer); swap(m_storage, other.m_storage); return *this; }
+		Any& swap(Any& other) { using two::swap; swap(m_handler, other.m_handler); swap(m_pointer, other.m_pointer); swap(m_storage, other.m_storage); return *this; }
 
 		Ref ref() const { return m_handler->ref(*this); }
 		bool operator==(const Any& other) const { return m_handler == other.m_handler && m_handler->compare(*this, other); }
@@ -55,7 +55,7 @@ namespace mud
 		REF
 	};
 
-	export_ class refl_ MUD_TYPE_EXPORT Var
+	export_ class refl_ TWO_TYPE_EXPORT Var
 	{
 	public:
 		Var() : m_mode(VAL), m_any(), m_ref() {}

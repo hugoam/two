@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.refl;
+#ifdef TWO_MODULES
+module two.refl;
 #else
 #include <stl/string.h>
 #include <stl/algorithm.h>
@@ -34,7 +34,7 @@ module mud.refl;
 #include <cstdio>
 #include <cstring>
 
-namespace mud
+namespace two
 {
 	Module* load_module(cstring path)
 	{
@@ -148,7 +148,7 @@ namespace mud
 
 	Module* System::open_module(cstring path)
 	{
-		return mud::load_module(path);
+		return two::load_module(path);
 	}
 
 	void System::load_module(Module& m)
@@ -186,7 +186,7 @@ namespace mud
 		for(Function* function : m.m_functions)
 			remove(m_functions, function);
 
-		mud::unload_module(m);
+		two::unload_module(m);
 	}
 
 	Module& System::reload_module(Module& m)

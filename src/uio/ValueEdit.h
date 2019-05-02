@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <infra/Global.h>
 #include <type/Dispatch.h>
 #include <math/Stat.h>
@@ -12,27 +12,27 @@
 #include <uio/Forward.h>
 #include <uio/Inspector.h>
 
-namespace mud
+namespace two
 {
-	export_ class MUD_UIO_EXPORT DispatchInput : public Dispatch<bool, Widget&>, public Global<DispatchInput>
+	export_ class TWO_UIO_EXPORT DispatchInput : public Dispatch<bool, Widget&>, public Global<DispatchInput>
 	{
 	public:
 		DispatchInput();
 	};
 
-	export_ MUD_UIO_EXPORT bool type_selector(Widget& parent, uint32_t& type, span<Type*> types);
+	export_ TWO_UIO_EXPORT bool type_selector(Widget& parent, uint32_t& type, span<Type*> types);
 
-	export_ MUD_UIO_EXPORT bool value_edit(Widget& parent, Ref& value);
-	export_ MUD_UIO_EXPORT bool none_edit(Widget& parent, Ref& value);
-	export_ MUD_UIO_EXPORT bool enum_edit(Widget& parent, Ref& value);
-	export_ MUD_UIO_EXPORT bool object_link_edit(Widget& parent, Ref& value);
-	export_ MUD_UIO_EXPORT bool sequence_element_edit(Widget& parent, Ref& value);
-	export_ MUD_UIO_EXPORT bool sequence_edit(Widget& parent, Ref& value, EditorHint hint = EditorHint::Rows);
+	export_ TWO_UIO_EXPORT bool value_edit(Widget& parent, Ref& value);
+	export_ TWO_UIO_EXPORT bool none_edit(Widget& parent, Ref& value);
+	export_ TWO_UIO_EXPORT bool enum_edit(Widget& parent, Ref& value);
+	export_ TWO_UIO_EXPORT bool object_link_edit(Widget& parent, Ref& value);
+	export_ TWO_UIO_EXPORT bool sequence_element_edit(Widget& parent, Ref& value);
+	export_ TWO_UIO_EXPORT bool sequence_edit(Widget& parent, Ref& value, EditorHint hint = EditorHint::Rows);
 
-	export_ MUD_UIO_EXPORT bool any_edit(Widget& parent, Ref& ref, bool link = false, EditorHint hint = EditorHint::Rows);
+	export_ TWO_UIO_EXPORT bool any_edit(Widget& parent, Ref& ref, bool link = false, EditorHint hint = EditorHint::Rows);
 
-	export_ MUD_UIO_EXPORT bool field_edit(Widget& parent, cstring name, Ref& ref, bool nullable);
-	export_ MUD_UIO_EXPORT bool modal_edit(Widget& parent, uint32_t mode, cstring name, Ref& ref, bool nullable, bool confirm = false);
+	export_ TWO_UIO_EXPORT bool field_edit(Widget& parent, cstring name, Ref& ref, bool nullable);
+	export_ TWO_UIO_EXPORT bool modal_edit(Widget& parent, uint32_t mode, cstring name, Ref& ref, bool nullable, bool confirm = false);
 
 	export_ template <class T_Value>
 	bool select_value(Widget& parent, uint32_t mode, T_Value& value, bool confirm = true)

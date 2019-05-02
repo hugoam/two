@@ -1,6 +1,6 @@
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <stl/map.h>
 #include <stl/memory.h>
@@ -11,9 +11,9 @@
 #endif
 #include <fract/Forward.h>
 
-namespace mud
+namespace two
 {
-	MUD_FRACT_EXPORT func_ void generate_fract(uvec2 resolution, const Pattern& pattern, Image256& output_image);
+	TWO_FRACT_EXPORT func_ void generate_fract(uvec2 resolution, const Pattern& pattern, Image256& output_image);
 
 	typedef uint32_t(*PatternSampler)(const Pattern&, float, float, float);
 
@@ -28,7 +28,7 @@ namespace mud
 	uint32_t sampleXY(const Pattern& pattern, float x, float y, float depth);
 	uint32_t sampleZ(const Pattern& pattern, float x, float y, float depth);
 
-	export_ struct refl_ MUD_FRACT_EXPORT Pattern
+	export_ struct refl_ TWO_FRACT_EXPORT Pattern
 	{
 	public:
 		constr_ Pattern(Palette palette, PatternSampling sampling, float precision = 1.f, size_t step = 1);
@@ -44,7 +44,7 @@ namespace mud
 		PatternSampler m_sampler;
 	};
 
-	export_ struct refl_ MUD_FRACT_EXPORT FractTab
+	export_ struct refl_ TWO_FRACT_EXPORT FractTab
 	{
 	public:
 		FractTab();
@@ -79,7 +79,7 @@ namespace mud
 		float angle_offset_a;
 	};
 
-	export_ class refl_ MUD_FRACT_EXPORT Fract
+	export_ class refl_ TWO_FRACT_EXPORT Fract
 	{
 	public:
 		constr_ Fract(size_t num_tabs = 75);
@@ -102,7 +102,7 @@ namespace mud
 		vector<FractTab> m_tabs;
 	};
 
-	export_ class refl_ MUD_FRACT_EXPORT FractSample
+	export_ class refl_ TWO_FRACT_EXPORT FractSample
 	{
 	public:
 		constr_ FractSample(Fract& fract, const Rect& rect, uvec2 resolution);

@@ -1,16 +1,16 @@
--- mud library
+-- two library
 -- FastNoise 3rdparty module
 
-fastnoise = mud_dep(nil, "FastNoise")
+fastnoise = two_dep(nil, "FastNoise")
 	kind "StaticLib"
     
     includedirs {
-        path.join(MUD_3RDPARTY_DIR, "FastNoise"),
+        path.join(TWO_3RDPARTY_DIR, "FastNoise"),
     }
     
     files {
-        path.join(MUD_3RDPARTY_DIR, "FastNoise", "**.h"),
-        path.join(MUD_3RDPARTY_DIR, "FastNoise", "**.cpp"),
+        path.join(TWO_3RDPARTY_DIR, "FastNoise", "**.h"),
+        path.join(TWO_3RDPARTY_DIR, "FastNoise", "**.cpp"),
     }
         
     configuration { "mingw* or linux or osx or asmjs" }

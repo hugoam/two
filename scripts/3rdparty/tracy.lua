@@ -1,22 +1,22 @@
--- mud library
+-- two library
 -- tracy 3rdparty module
 
 function uses_tracy()
     includedirs {
-        path.join(MUD_3RDPARTY_DIR, "tracy"),
+        path.join(TWO_3RDPARTY_DIR, "tracy"),
     }
 end
 
-tracy = mud_dep(nil, "tracy", false, uses_tracy)
+tracy = two_dep(nil, "tracy", false, uses_tracy)
 	kind "StaticLib"
     
 	includedirs {
-        path.join(MUD_3RDPARTY_DIR, "tracy"),
+        path.join(TWO_3RDPARTY_DIR, "tracy"),
 	}
 
 	files {
-        path.join(MUD_3RDPARTY_DIR, "tracy", "TracyClient.hpp"),
-        path.join(MUD_3RDPARTY_DIR, "tracy", "TracyClient.cpp"),
+        path.join(TWO_3RDPARTY_DIR, "tracy", "TracyClient.hpp"),
+        path.join(TWO_3RDPARTY_DIR, "tracy", "TracyClient.cpp"),
 	}
     
     configuration { "mingw* or linux or osx or asmjs" }

@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.uio;
+#ifdef TWO_MODULES
+module two.uio;
 #else
 #include <stl/string.h>
 #include <type/Indexer.h>
@@ -18,7 +18,7 @@ module mud.uio;
 #include <uio/IndexerEdit.h>
 #endif
 
-namespace mud
+namespace two
 {
 	DispatchSelector::DispatchSelector()
 	{}

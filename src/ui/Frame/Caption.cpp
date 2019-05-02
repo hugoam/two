@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <stl/math.h>
 #include <math/Vec.hpp>
@@ -17,7 +17,7 @@ module mud.ui;
 
 #include <cstdio>
 
-namespace mud
+namespace two
 {
 	bool is_separator(char c)
 	{
@@ -307,6 +307,9 @@ namespace mud
 
 		for(const TextRow& row : text.m_text_rows)
 		{
+			if(row.m_start == row.m_end)
+				continue;
+
 			while(isection < text.m_sections.size() && text.m_sections[isection].m_end < row.m_start_index)
 				isection++;
 

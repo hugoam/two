@@ -11,7 +11,7 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
-namespace mud
+namespace two
 {
 	static size_t ogg_read(void* ptr, size_t size, size_t count, void* file)
 	{

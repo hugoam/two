@@ -4,15 +4,15 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ecs;
+#ifdef TWO_MODULES
+module two.ecs;
 #else
 #include <ecs/Entity.h>
 #include <ecs/ECS.h>
 #include <ecs/ECS.hpp>
 #endif
 
-namespace mud
+namespace two
 {
 	ECS* s_ecs[256] = {};
 

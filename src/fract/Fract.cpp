@@ -3,15 +3,15 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #include <infra/Cpp20.h>
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <cstdlib>
 #include <cstdio>
 #include <cmath>
 #include <ctime>
 #endif
 
-#ifdef MUD_MODULES
-module mud.fract;
+#ifdef TWO_MODULES
+module two.fract;
 #else
 #include <math/Colour.h>
 #include <math/Vec.hpp>
@@ -23,7 +23,7 @@ module mud.fract;
 #define COEFF_ROTATION 15
 #define COEFF_V 0.004
 
-#ifndef MUD_CPP_20
+#ifndef TWO_CPP_20
 #include <cstdio>
 #include <stl/string.h>
 #endif
@@ -34,7 +34,7 @@ float rnd_float()
 	//rand()/RAND_MAX;
 }
 
-namespace mud
+namespace two
 {
 	void generate_fract(uvec2 resolution, const Pattern& pattern, Image256& output_image)
 	{

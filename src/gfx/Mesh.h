@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <stl/string.h>
 #include <stl/span.h>
@@ -16,9 +16,9 @@
 
 #include <bgfx/bgfx.h>
 
-namespace mud
+namespace two
 {
-	export_ struct refl_ MUD_GFX_EXPORT GpuMesh
+	export_ struct refl_ TWO_GFX_EXPORT GpuMesh
 	{
 		GpuMesh();
 		GpuMesh(PrimitiveType primitive, uint32_t vertex_count, uint32_t index_count);
@@ -40,13 +40,13 @@ namespace mud
 		MeshAdapter m_writer = {};
 	};
 	
-	export_ MUD_GFX_EXPORT const bgfx::VertexDecl& vertex_decl(uint32_t vertex_format);
+	export_ TWO_GFX_EXPORT const bgfx::VertexDecl& vertex_decl(uint32_t vertex_format);
 
-	export_ MUD_GFX_EXPORT GpuMesh alloc_mesh(PrimitiveType primitive, uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32);
-	export_ MUD_GFX_EXPORT GpuMesh alloc_mesh(PrimitiveType primitive, uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count);
-	export_ MUD_GFX_EXPORT GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count);
+	export_ TWO_GFX_EXPORT GpuMesh alloc_mesh(PrimitiveType primitive, uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count, bool index32);
+	export_ TWO_GFX_EXPORT GpuMesh alloc_mesh(PrimitiveType primitive, uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count);
+	export_ TWO_GFX_EXPORT GpuMesh alloc_mesh(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count);
 
-	export_ class refl_ MUD_GFX_EXPORT Mesh
+	export_ class refl_ TWO_GFX_EXPORT Mesh
 	{
 	public:
 		Mesh(const string& name, bool readback = false);

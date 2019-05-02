@@ -3,7 +3,7 @@
 #define LAMBDAS 0
 #define MULTI_FUNC 1
 
-namespace mud
+namespace two
 {
 	inline vector<string> quote(span<string> strings) { return transform<string>(strings, [](const string& s) { return "\"" + s + "\""; }); }
 	inline string comma(span<string> strings) { return join(strings, ", "); }
@@ -611,7 +611,7 @@ namespace clgen
 			p("#include <" + d->m_subdir + "/Forward.h>");
 
 		p("#ifndef " + m.m_export);
-		p("#define " + m.m_export + " MUD_IMPORT");
+		p("#define " + m.m_export + " TWO_IMPORT");
 		p("#endif");
 
 		for(auto& key_namespace : m.m_namespaces)
@@ -649,13 +649,13 @@ namespace clgen
 		p("");
 		p("#include <" + m.m_subdir + "/Types.h>");
 		p("");
-		p("#if !defined MUD_MODULES || defined MUD_TYPE_LIB");
+		p("#if !defined TWO_MODULES || defined TWO_TYPE_LIB");
 		p("#include <refl/Meta.h>");
 		p("#include <refl/Enum.h>");
 		p("#include <infra/StringOps.h>");
 		p("#endif");
 		p("");
-		p("namespace mud");
+		p("namespace two");
 		p("{");
 		for(auto& e : m.m_enums)
 		if(e->m_reflect)
@@ -679,7 +679,7 @@ namespace clgen
 
 		p("#pragma once");
 		p("");
-		p("#if !defined MUD_MODULES || defined MUD_TYPE_LIB");
+		p("#if !defined TWO_MODULES || defined TWO_TYPE_LIB");
 		p("#include <refl/Module.h>");
 		p("#endif");
 		p("");
@@ -687,7 +687,7 @@ namespace clgen
 		p("//#include <" + m.m_subdir + "/Types.h>");
 		p("");
 		p("#ifndef " + m.m_refl_export);
-		p("#define " + m.m_refl_export + " MUD_IMPORT");
+		p("#define " + m.m_refl_export + " TWO_IMPORT");
 		p("#endif");
 		p("");
 		if(m.m_namespace != "")
@@ -695,7 +695,7 @@ namespace clgen
 			p("namespace " + m.m_namespace);
 			p("{");
 		}
-		p("export_ class " + m.m_refl_export + " " + m.m_id + " : public mud::Module");
+		p("export_ class " + m.m_refl_export + " " + m.m_id + " : public two::Module");
 		p("{");
 		s("private:");
 		p(m.m_id + "();");
@@ -760,7 +760,7 @@ namespace clgen
 
 		p("#include <infra/Cpp20.h>");
 		p("");
-		p("#ifdef MUD_MODULES");
+		p("#ifdef TWO_MODULES");
 		p("module " + m.m_namespace + "." + m.m_name + ";");
 		p("#else");
 		if(m.m_has_reflected)
@@ -787,7 +787,7 @@ namespace clgen
 		{
 		p("#include <" + m.m_subdir + "/Api.h>");
 		p("");
-		p("using namespace mud;");
+		p("using namespace two;");
 		p("");
 
 #if !LAMBDAS
@@ -848,7 +848,7 @@ namespace clgen
 #endif
 
 		p("");
-		p("namespace mud");
+		p("namespace two");
 		p("{");
 
 		p("void " + m.m_id + "_meta(Module& m)");
@@ -1081,11 +1081,11 @@ namespace clgen
 		p("#include <stl/vector.h>");
 		p("#include <" + m.m_subdir + "/Forward.h>");
 		p("");
-		p("#if !defined MUD_MODULES || defined MUD_TYPE_LIB");
+		p("#if !defined TWO_MODULES || defined TWO_TYPE_LIB");
 		p("#include <type/Type.h>");
 		p("#endif");
 		p("");
-		p("#ifndef MUD_MODULES");
+		p("#ifndef TWO_MODULES");
 		for(auto& d : m.m_dependencies)
 			p("#include <" + d->m_subdir + "/Types.h>");
 		p("#endif");
@@ -1093,7 +1093,7 @@ namespace clgen
 		if(m.m_has_structs)
 			p("#include <" + m.m_subdir + "/Structs.h>");
 		p("");
-		p("namespace mud");
+		p("namespace two");
 		p("{");
 		p("// Exported types");
 		for(auto& b : m.m_basetypes)
@@ -1104,14 +1104,14 @@ namespace clgen
 				p("export_ template <> " + m.m_export + " Type& type<" + e->m_id + ">();");
 		p("");
 		for(auto& c : m.m_sequences)
-			if(c->m_reflect && !c->m_nested && c->m_id != "mud::Type")
+			if(c->m_reflect && !c->m_nested && c->m_id != "two::Type")
 				p("export_ template <> " + m.m_export + " Type& type<" + c->m_id + ">();");
 		p("");
 		for(auto& c : m.m_classes)
-			if(c->m_reflect && !c->m_nested && c->m_id != "mud::Type")
+			if(c->m_reflect && !c->m_nested && c->m_id != "two::Type")
 				p("export_ template <> " + m.m_export + " Type& type<" + c->m_id + ">();");
 		//for(auto& c : m.m_classes)
-		//	if(c->m_reflect && !c->m_nested && c->m_id != "mud::Type")
+		//	if(c->m_reflect && !c->m_nested && c->m_id != "two::Type")
 		//		p("export_ template <> " + m.m_export + " Type& type<vector<" + c->m_id + "*>>();");
 		p("}");
 
@@ -1141,7 +1141,7 @@ namespace clgen
 
 		p("#include <infra/Cpp20.h>");
 		p("");
-		p("#ifdef MUD_MODULES");
+		p("#ifdef TWO_MODULES");
 		p("module " + m.m_namespace + "." + m.m_name + ";");
 		p("#else");
 		p("#include <" + m.m_subdir + "/Types.h>");
@@ -1149,7 +1149,7 @@ namespace clgen
 		p("#include <type/Vector.h>");
 		p("#endif");
 		p("");
-		p("namespace mud");
+		p("namespace two");
 		p("{");
 		p("// Exported types");
 		for(auto& b : m.m_basetypes)
@@ -1164,10 +1164,10 @@ namespace clgen
 				p("template <> " + m.m_export + " Type& type<" + c->m_id + ">() { " + type_decl(*c) + " }");
 		p("");
 		for(auto& c : m.m_classes)
-			if(c->m_reflect && !c->m_nested && c->m_id != "mud::Type")
+			if(c->m_reflect && !c->m_nested && c->m_id != "two::Type")
 				p("template <> " + m.m_export + " Type& type<" + c->m_id + ">() { " + type_decl_class(*c) + " }");
 		//for(auto& c : m.m_classes)
-		//	if(c->m_reflect && !c->m_nested && c->m_id != "mud::Type")
+		//	if(c->m_reflect && !c->m_nested && c->m_id != "two::Type")
 		//		p("template <> " + m.m_export + " Type& type<vector<" + c->m_id + "*>>() { " + type_decl_name("vector<" + c->m_id + "*>", "vector<" + c->m_id + "*>") + " }");
 		p("}");
 
@@ -1194,7 +1194,7 @@ namespace clgen
 		// - references to strings
 
 		// not implemented yet
-		vector<string> blacklist = { "mud::Complex", "mud::Module" };
+		vector<string> blacklist = { "two::Complex", "two::Module" };
 
 		auto blacklist_qualtype = [&](const CLQualType& t) { for(const string& n : blacklist) { if(t.m_spelling.find(n) != string::npos) return true; } if(t.m_type->isstring() && t.reference() && !t.isconst()) return true; return false; };
 		auto blacklist_type = [&](const CLType& t) { for(const string& n : blacklist) { if(t.m_id.find(n) != string::npos) return true; } return false; };
@@ -1234,7 +1234,7 @@ namespace clgen
 		for(CLModule* d : m.m_modules)
 			cw("#include <" + d->m_subdir + "/Api.h>");
 		cw("");
-		cw("#ifdef MUD_PLATFORM_EMSCRIPTEN");
+		cw("#ifdef TWO_PLATFORM_EMSCRIPTEN");
 		cw("#include <emscripten.h>");
 		cw("#define DECL EMSCRIPTEN_KEEPALIVE");
 		cw("#else");
@@ -1334,7 +1334,7 @@ namespace clgen
 		auto c_typed_arg = [&](const CLQualType& qt, const string& name)
 		{
 			if(qt.m_type->istypedptr())
-				return "void* " + name + ", " + "mud::Type* " + name + "_type";
+				return "void* " + name + ", " + "two::Type* " + name + "_type";
 			else if(qt.m_type->issequence())
 				return reduce_element(*qt.m_type).m_id + "* " + name + ", " + "int " + name + "_size";
 			else
@@ -1695,8 +1695,8 @@ namespace clgen
 
 		auto c_type_handle = [&](const CLClass& c)
 		{
-			cw("mud::Type* DECL " + id(c, "_type") + "() {");
-			cw("return &mud::type<" + c.m_id + ">();");
+			cw("two::Type* DECL " + id(c, "_type") + "() {");
+			cw("return &two::type<" + c.m_id + ">();");
 			cw("}");
 		};
 

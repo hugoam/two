@@ -1,84 +1,84 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.ui;
+#ifdef TWO_MODULES
+module two.ui;
 #else
 #include <ui/Types.h>
 #include <ui/Api.h>
 #include <type/Vector.h>
 #endif
 
-namespace mud
+namespace two
 {
     // Exported types
-    template <> MUD_UI_EXPORT Type& type<mud::FlowAxis>() { static Type ty("FlowAxis", sizeof(mud::FlowAxis)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Pivot>() { static Type ty("Pivot", sizeof(mud::Pivot)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Align>() { static Type ty("Align", sizeof(mud::Align)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Solver>() { static Type ty("Solver", sizeof(mud::Solver)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::AutoLayout>() { static Type ty("AutoLayout", sizeof(mud::AutoLayout)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::LayoutFlow>() { static Type ty("LayoutFlow", sizeof(mud::LayoutFlow)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Sizing>() { static Type ty("Sizing", sizeof(mud::Sizing)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Preset>() { static Type ty("Preset", sizeof(mud::Preset)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Clip>() { static Type ty("Clip", sizeof(mud::Clip)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Opacity>() { static Type ty("Opacity", sizeof(mud::Opacity)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::WidgetState>() { static Type ty("WidgetState", sizeof(mud::WidgetState)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::ui::PopupFlags>() { static Type ty("PopupFlags", sizeof(mud::ui::PopupFlags)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::WindowState>() { static Type ty("WindowState", sizeof(mud::WindowState)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::FlowAxis>() { static Type ty("FlowAxis", sizeof(two::FlowAxis)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Pivot>() { static Type ty("Pivot", sizeof(two::Pivot)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Align>() { static Type ty("Align", sizeof(two::Align)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Solver>() { static Type ty("Solver", sizeof(two::Solver)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::AutoLayout>() { static Type ty("AutoLayout", sizeof(two::AutoLayout)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::LayoutFlow>() { static Type ty("LayoutFlow", sizeof(two::LayoutFlow)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Sizing>() { static Type ty("Sizing", sizeof(two::Sizing)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Preset>() { static Type ty("Preset", sizeof(two::Preset)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Clip>() { static Type ty("Clip", sizeof(two::Clip)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Opacity>() { static Type ty("Opacity", sizeof(two::Opacity)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::WidgetState>() { static Type ty("WidgetState", sizeof(two::WidgetState)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::ui::PopupFlags>() { static Type ty("PopupFlags", sizeof(two::ui::PopupFlags)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::WindowState>() { static Type ty("WindowState", sizeof(two::WindowState)); return ty; }
     
-    template <> MUD_UI_EXPORT Type& type<stl::span<const char*>>() { static Type ty("span<const char*>", sizeof(stl::span<const char*>)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<stl::vector<mud::Space>>() { static Type ty("vector<mud::Space>", sizeof(stl::vector<mud::Space>)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<stl::vector<mud::Subskin>>() { static Type ty("vector<mud::Subskin>", sizeof(stl::vector<mud::Subskin>)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<stl::span<const char*>>() { static Type ty("span<const char*>", sizeof(stl::span<const char*>)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<stl::vector<two::Space>>() { static Type ty("vector<two::Space>", sizeof(stl::vector<two::Space>)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<stl::vector<two::Subskin>>() { static Type ty("vector<two::Subskin>", sizeof(stl::vector<two::Subskin>)); return ty; }
     
-    template <> MUD_UI_EXPORT Type& type<mud::Space>() { static Type ty("Space", sizeof(mud::Space)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::v2<size_t>>() { static Type ty("v2<size_t>", sizeof(mud::v2<size_t>)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::v2<mud::AutoLayout>>() { static Type ty("v2<mud::AutoLayout>", sizeof(mud::v2<mud::AutoLayout>)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Sizing>>() { static Type ty("v2<mud::Sizing>", sizeof(mud::v2<mud::Sizing>)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Align>>() { static Type ty("v2<mud::Align>", sizeof(mud::v2<mud::Align>)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::v2<mud::Pivot>>() { static Type ty("v2<mud::Pivot>", sizeof(mud::v2<mud::Pivot>)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::ImageSkin>() { static Type ty("ImageSkin", sizeof(mud::ImageSkin)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Shadow>() { static Type ty("Shadow", sizeof(mud::Shadow)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Paint>() { static Type ty("Paint", sizeof(mud::Paint)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::TextPaint>() { static Type ty("TextPaint", sizeof(mud::TextPaint)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Gradient>() { static Type ty("Gradient", sizeof(mud::Gradient)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::InkStyle>() { static Type ty("InkStyle", sizeof(mud::InkStyle)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Layout>() { static Type ty("Layout", sizeof(mud::Layout)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Subskin>() { static Type ty("Subskin", sizeof(mud::Subskin)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Style>() { static Type ty("Style", sizeof(mud::Style)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::UiRect>() { static Type ty("UiRect", sizeof(mud::UiRect)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Frame>() { static Type ty("Frame", type<mud::UiRect>(), sizeof(mud::Frame)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Widget>() { static Type ty("Widget", type<mud::ControlNode>(), sizeof(mud::Widget)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::TextCursor>() { static Type ty("TextCursor", sizeof(mud::TextCursor)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::TextSelection>() { static Type ty("TextSelection", sizeof(mud::TextSelection)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::TextMarker>() { static Type ty("TextMarker", sizeof(mud::TextMarker)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Text>() { static Type ty("Text", sizeof(mud::Text)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::TextEdit>() { static Type ty("TextEdit", type<mud::Widget>(), sizeof(mud::TextEdit)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::NodeConnection>() { static Type ty("NodeConnection", sizeof(mud::NodeConnection)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Vg>() { static Type ty("Vg", sizeof(mud::Vg)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Clipboard>() { static Type ty("Clipboard", sizeof(mud::Clipboard)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::UiWindow>() { static Type ty("UiWindow", sizeof(mud::UiWindow)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::User>() { static Type ty("User", sizeof(mud::User)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Layer>() { static Type ty("Layer", sizeof(mud::Layer)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::FrameSolver>() { static Type ty("FrameSolver", type<mud::UiRect>(), sizeof(mud::FrameSolver)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::RowSolver>() { static Type ty("RowSolver", type<mud::FrameSolver>(), sizeof(mud::RowSolver)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::TableSolver>() { static Type ty("TableSolver", sizeof(mud::TableSolver)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::LineSolver>() { static Type ty("LineSolver", type<mud::RowSolver>(), sizeof(mud::LineSolver)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::GridSolver>() { static Type ty("GridSolver", sizeof(mud::GridSolver)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::ScrollSheet>() { static Type ty("ScrollSheet", type<mud::Widget>(), sizeof(mud::ScrollSheet)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::ui::Sequence>() { static Type ty("Sequence", type<mud::Widget>(), sizeof(mud::ui::Sequence)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Tabber>() { static Type ty("Tabber", type<mud::Widget>(), sizeof(mud::Tabber)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Expandbox>() { static Type ty("Expandbox", type<mud::Widget>(), sizeof(mud::Expandbox)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::TreeNode>() { static Type ty("TreeNode", type<mud::Widget>(), sizeof(mud::TreeNode)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Table>() { static Type ty("Table", type<mud::Widget>(), sizeof(mud::Table)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Dock>() { static Type ty("Dock", sizeof(mud::Dock)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Docksystem>() { static Type ty("Docksystem", sizeof(mud::Docksystem)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Dockable>() { static Type ty("Dockable", type<mud::Widget>(), sizeof(mud::Dockable)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Docker>() { static Type ty("Docker", type<mud::Widget>(), sizeof(mud::Docker)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Dockspace>() { static Type ty("Dockspace", type<mud::Docker>(), sizeof(mud::Dockspace)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Dockbar>() { static Type ty("Dockbar", type<mud::Docker>(), sizeof(mud::Dockbar)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::NodePlug>() { static Type ty("NodePlug", type<mud::Widget>(), sizeof(mud::NodePlug)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Node>() { static Type ty("Node", type<mud::Widget>(), sizeof(mud::Node)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::CanvasConnect>() { static Type ty("CanvasConnect", sizeof(mud::CanvasConnect)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Canvas>() { static Type ty("Canvas", type<mud::Widget>(), sizeof(mud::Canvas)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Ui>() { static Type ty("Ui", type<mud::Widget>(), sizeof(mud::Ui)); return ty; }
-    template <> MUD_UI_EXPORT Type& type<mud::Window>() { static Type ty("Window", type<mud::Dockable>(), sizeof(mud::Window)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Space>() { static Type ty("Space", sizeof(two::Space)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::v2<size_t>>() { static Type ty("v2<size_t>", sizeof(two::v2<size_t>)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::v2<two::AutoLayout>>() { static Type ty("v2<two::AutoLayout>", sizeof(two::v2<two::AutoLayout>)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::v2<two::Sizing>>() { static Type ty("v2<two::Sizing>", sizeof(two::v2<two::Sizing>)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::v2<two::Align>>() { static Type ty("v2<two::Align>", sizeof(two::v2<two::Align>)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::v2<two::Pivot>>() { static Type ty("v2<two::Pivot>", sizeof(two::v2<two::Pivot>)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::ImageSkin>() { static Type ty("ImageSkin", sizeof(two::ImageSkin)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Shadow>() { static Type ty("Shadow", sizeof(two::Shadow)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Paint>() { static Type ty("Paint", sizeof(two::Paint)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::TextPaint>() { static Type ty("TextPaint", sizeof(two::TextPaint)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Gradient>() { static Type ty("Gradient", sizeof(two::Gradient)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::InkStyle>() { static Type ty("InkStyle", sizeof(two::InkStyle)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Layout>() { static Type ty("Layout", sizeof(two::Layout)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Subskin>() { static Type ty("Subskin", sizeof(two::Subskin)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Style>() { static Type ty("Style", sizeof(two::Style)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::UiRect>() { static Type ty("UiRect", sizeof(two::UiRect)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Frame>() { static Type ty("Frame", type<two::UiRect>(), sizeof(two::Frame)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Widget>() { static Type ty("Widget", type<two::ControlNode>(), sizeof(two::Widget)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::TextCursor>() { static Type ty("TextCursor", sizeof(two::TextCursor)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::TextSelection>() { static Type ty("TextSelection", sizeof(two::TextSelection)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::TextMarker>() { static Type ty("TextMarker", sizeof(two::TextMarker)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Text>() { static Type ty("Text", sizeof(two::Text)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::TextEdit>() { static Type ty("TextEdit", type<two::Widget>(), sizeof(two::TextEdit)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::NodeConnection>() { static Type ty("NodeConnection", sizeof(two::NodeConnection)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Vg>() { static Type ty("Vg", sizeof(two::Vg)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Clipboard>() { static Type ty("Clipboard", sizeof(two::Clipboard)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::UiWindow>() { static Type ty("UiWindow", sizeof(two::UiWindow)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::User>() { static Type ty("User", sizeof(two::User)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Layer>() { static Type ty("Layer", sizeof(two::Layer)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::FrameSolver>() { static Type ty("FrameSolver", type<two::UiRect>(), sizeof(two::FrameSolver)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::RowSolver>() { static Type ty("RowSolver", type<two::FrameSolver>(), sizeof(two::RowSolver)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::TableSolver>() { static Type ty("TableSolver", sizeof(two::TableSolver)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::LineSolver>() { static Type ty("LineSolver", type<two::RowSolver>(), sizeof(two::LineSolver)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::GridSolver>() { static Type ty("GridSolver", sizeof(two::GridSolver)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::ScrollSheet>() { static Type ty("ScrollSheet", type<two::Widget>(), sizeof(two::ScrollSheet)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::ui::Sequence>() { static Type ty("Sequence", type<two::Widget>(), sizeof(two::ui::Sequence)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Tabber>() { static Type ty("Tabber", type<two::Widget>(), sizeof(two::Tabber)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Expandbox>() { static Type ty("Expandbox", type<two::Widget>(), sizeof(two::Expandbox)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::TreeNode>() { static Type ty("TreeNode", type<two::Widget>(), sizeof(two::TreeNode)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Table>() { static Type ty("Table", type<two::Widget>(), sizeof(two::Table)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Dock>() { static Type ty("Dock", sizeof(two::Dock)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Docksystem>() { static Type ty("Docksystem", sizeof(two::Docksystem)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Dockable>() { static Type ty("Dockable", type<two::Widget>(), sizeof(two::Dockable)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Docker>() { static Type ty("Docker", type<two::Widget>(), sizeof(two::Docker)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Dockspace>() { static Type ty("Dockspace", type<two::Docker>(), sizeof(two::Dockspace)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Dockbar>() { static Type ty("Dockbar", type<two::Docker>(), sizeof(two::Dockbar)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::NodePlug>() { static Type ty("NodePlug", type<two::Widget>(), sizeof(two::NodePlug)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Node>() { static Type ty("Node", type<two::Widget>(), sizeof(two::Node)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::CanvasConnect>() { static Type ty("CanvasConnect", sizeof(two::CanvasConnect)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Canvas>() { static Type ty("Canvas", type<two::Widget>(), sizeof(two::Canvas)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Ui>() { static Type ty("Ui", type<two::Widget>(), sizeof(two::Ui)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Window>() { static Type ty("Window", type<two::Dockable>(), sizeof(two::Window)); return ty; }
 }

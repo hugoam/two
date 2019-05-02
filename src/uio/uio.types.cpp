@@ -1,19 +1,19 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.uio;
+#ifdef TWO_MODULES
+module two.uio;
 #else
 #include <uio/Types.h>
 #include <uio/Api.h>
 #include <type/Vector.h>
 #endif
 
-namespace mud
+namespace two
 {
     // Exported types
-    template <> MUD_UIO_EXPORT Type& type<mud::EditNestMode>() { static Type ty("EditNestMode", sizeof(mud::EditNestMode)); return ty; }
-    template <> MUD_UIO_EXPORT Type& type<mud::EditorHint>() { static Type ty("EditorHint", sizeof(mud::EditorHint)); return ty; }
+    template <> TWO_UIO_EXPORT Type& type<two::EditNestMode>() { static Type ty("EditNestMode", sizeof(two::EditNestMode)); return ty; }
+    template <> TWO_UIO_EXPORT Type& type<two::EditorHint>() { static Type ty("EditorHint", sizeof(two::EditorHint)); return ty; }
     
     
-    template <> MUD_UIO_EXPORT Type& type<mud::ScriptEditor>() { static Type ty("ScriptEditor", sizeof(mud::ScriptEditor)); return ty; }
+    template <> TWO_UIO_EXPORT Type& type<two::ScriptEditor>() { static Type ty("ScriptEditor", sizeof(two::ScriptEditor)); return ty; }
 }

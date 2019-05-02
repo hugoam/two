@@ -17,7 +17,7 @@
 
 #include <cmath>
 
-namespace mud
+namespace two
 {
 	inline NVGcolor nvgColour(const Colour& colour)
 	{
@@ -76,7 +76,7 @@ namespace mud
 
 	void VgNano::begin_frame(UiTarget& target)
 	{
-#ifdef MUD_RENDERER_BGFX
+#ifdef TWO_RENDERER_BGFX
 		bgfx::setViewRect(250, 0, 0, uint16_t(target.m_layer.m_frame.m_size.x), uint16_t(target.m_layer.m_frame.m_size.y));
 		bgfx::setViewMode(250, bgfx::ViewMode::Sequential);
 		bgfx::setViewName(250, "ui");
@@ -367,7 +367,7 @@ namespace mud
 		nvgRestore(m_ctx);
 	}
 
-#ifdef MUD_UI_DRAW_CACHE
+#ifdef TWO_UI_DRAW_CACHE
 	NVGdisplayList* VgNano::layer_cache(Layer& layer)
 	{
 		if(m_layers.find(&layer) == m_layers.end())

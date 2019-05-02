@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <cfloat>
 #include <stl/span.h>
 #include <math/Vec.h>
@@ -12,7 +12,7 @@
 #endif
 #include <geom/Forward.h>
 
-namespace mud
+namespace two
 {
 	export_ enum refl_ DrawMode : unsigned int
 	{
@@ -65,25 +65,25 @@ namespace mud
 
 	export_ using ShapeIndex = uint16_t;
 	
-	export_ struct MUD_GEOM_EXPORT Vertex
+	export_ struct TWO_GEOM_EXPORT Vertex
 	{
 		static const uint32_t vertex_format = VertexAttribute::Position;
 		vec3 m_position;
 	};
 
-	export_ struct MUD_GEOM_EXPORT Tri
+	export_ struct TWO_GEOM_EXPORT Tri
 	{
 		uint32_t a, b, c;
 	};
 
-	export_ struct MUD_GEOM_EXPORT ShapeVertex
+	export_ struct TWO_GEOM_EXPORT ShapeVertex
 	{
 		static const uint32_t vertex_format = VertexAttribute::Position | VertexAttribute::Normal | VertexAttribute::Colour
 										    | VertexAttribute::Tangent| VertexAttribute::TexCoord0 | VertexAttribute::Joints | VertexAttribute::Weights;
 		vec3 m_position; vec3 m_normal; uint32_t m_colour; vec4 m_tangent; vec2 m_uv0; uint32_t m_joints; vec4 m_weights;
 	};
 
-	export_ struct MUD_GEOM_EXPORT ShapeTriangle
+	export_ struct TWO_GEOM_EXPORT ShapeTriangle
 	{
 		uint32_t a, b, c;
 	};
@@ -94,7 +94,7 @@ namespace mud
 
 	export_ size_t vertex_offset(uint32_t vertex_format, VertexAttribute::Enum attribute);
 
-	export_ struct refl_ MUD_GEOM_EXPORT MeshAdapter
+	export_ struct refl_ TWO_GEOM_EXPORT MeshAdapter
 	{
 		MeshAdapter() {}
 		MeshAdapter(uint32_t vertex_format, span<void> vertices, span<void> indices = {}, bool index32 = false);

@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.uio;
+#ifdef TWO_MODULES
+module two.uio;
 #else
 #include <stl/algorithm.h>
 #include <stl/hash_base.hpp>
@@ -29,7 +29,7 @@ module mud.uio;
 #include <uio/ReflEdit.h>
 #endif
 
-namespace mud
+namespace two
 {
 	ScriptEditor::ScriptEditor()
 	{

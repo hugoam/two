@@ -1,5 +1,5 @@
-#ifndef MUD_SHADER_SRGB
-#define MUD_SHADER_SRGB
+#ifndef TWO_SHADER_SRGB
+#define TWO_SHADER_SRGB
 
 vec3 toLinear(vec3 _rgb)
 {
@@ -52,4 +52,4 @@ vec4 toGammaAccurate(vec4 _rgba)
 	return vec4(toGammaAccurate(_rgba.xyz), _rgba.w);
 }
 
-#endif // MUD_SHADER_SRGB
+#endif // TWO_SHADER_SRGB

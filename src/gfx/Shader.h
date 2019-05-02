@@ -10,7 +10,7 @@
 
 #include <cassert>
 
-namespace mud
+namespace two
 {
 	enum ShaderOption : unsigned int
 	{
@@ -28,7 +28,7 @@ namespace mud
 		BUFFER_MATERIALS,
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT ProgramVersion
+	export_ struct refl_ TWO_GFX_EXPORT ProgramVersion
 	{
 		constr_ ProgramVersion() {}
 		constr_ ProgramVersion(const Program& program) : m_program(&program) {}

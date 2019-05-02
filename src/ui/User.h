@@ -4,15 +4,15 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <type/Ref.h>
 #endif
 #include <ui/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_UI_EXPORT User
+	export_ class refl_ TWO_UI_EXPORT User
 	{
 	public:
 		vector<Ref> m_selection;

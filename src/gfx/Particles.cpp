@@ -8,8 +8,8 @@
 #include <bimg/bimg.h>
 #include <bgfx/bgfx.h>
 
-#ifdef MUD_MODULES
-module mud.gfx;
+#ifdef TWO_MODULES
+module two.gfx;
 #else
 #include <stl/string.h>
 #include <stl/algorithm.h>
@@ -34,7 +34,7 @@ module mud.gfx;
 
 #define SPRITE_TEXTURE_SIZE 2048U
 
-namespace mud
+namespace two
 {
 	bgfx::VertexDecl particle_vertex_decl()
 	{

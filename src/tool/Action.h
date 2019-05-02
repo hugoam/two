@@ -6,9 +6,9 @@
 
 #include <tool/Forward.h>
 
-namespace mud
+namespace two
 {
-	export_ class refl_ MUD_TOOL_EXPORT EditorAction
+	export_ class refl_ TWO_TOOL_EXPORT EditorAction
 	{
 	public:
 		virtual ~EditorAction() {}

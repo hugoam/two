@@ -4,14 +4,14 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.geom;
+#ifdef TWO_MODULES
+module two.geom;
 #else
 #include <geom/Shape/Spheroid.h>
 #include <geom/Shape/Circle.h>
 #endif
 
-namespace mud
+namespace two
 {
 	CompoundShape shape_compound(const ProcShape& shape, const Spheroid& spheroid)
 	{

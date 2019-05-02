@@ -1,11 +1,11 @@
-//#include <mud/frame.h>
+//#include <two/frame.h>
 #include <frame/Api.h>
 #include <gfx-pbr/Api.h>
 
 #include <xx_three/xx_three.h>
 #include <xx_three/code/bloom_pass.h>
 
-using namespace mud;
+using namespace two;
 
 // @author alteredq / http://alteredqualia.com/
 // Film grain & scanlines shader

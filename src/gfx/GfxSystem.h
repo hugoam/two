@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <stl/string.h>
 #include <stl/function.h>
@@ -15,8 +15,8 @@
 #include <geom/Symbol.h>
 #include <gfx/Forward.h>
 #include <gfx/Renderer.h>
-#ifndef MUD_BGFX_EXPORT
-#define MUD_BGFX_EXPORT MUD_GFX_EXPORT
+#ifndef TWO_BGFX_EXPORT
+#define TWO_BGFX_EXPORT TWO_GFX_EXPORT
 #endif
 #include <bgfx/BgfxSystem.h>
 
@@ -31,11 +31,11 @@ namespace bgfx
 	struct Encoder;
 }
 
-namespace mud
+namespace two
 {
 	class Vg;
 
-	export_ class refl_ MUD_GFX_EXPORT GfxWindow : public BgfxContext
+	export_ class refl_ TWO_GFX_EXPORT GfxWindow : public BgfxContext
 	{
 	public:
 		GfxWindow(GfxSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main = true);
@@ -75,7 +75,7 @@ namespace mud
 		explicit operator bool() { return m_located; }
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT GfxSystem : public BgfxSystem
+	export_ class refl_ TWO_GFX_EXPORT GfxSystem : public BgfxSystem
 	{
 	public:
 		constr_ GfxSystem(const string& resource_path);

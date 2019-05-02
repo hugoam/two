@@ -1,23 +1,23 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.fract;
+#ifdef TWO_MODULES
+module two.fract;
 #else
 #include <fract/Types.h>
 #include <fract/Api.h>
 #include <type/Vector.h>
 #endif
 
-namespace mud
+namespace two
 {
     // Exported types
-    template <> MUD_FRACT_EXPORT Type& type<mud::PatternSampling>() { static Type ty("PatternSampling", sizeof(mud::PatternSampling)); return ty; }
+    template <> TWO_FRACT_EXPORT Type& type<two::PatternSampling>() { static Type ty("PatternSampling", sizeof(two::PatternSampling)); return ty; }
     
-    template <> MUD_FRACT_EXPORT Type& type<stl::vector<mud::Image256>>() { static Type ty("vector<mud::Image256>", sizeof(stl::vector<mud::Image256>)); return ty; }
+    template <> TWO_FRACT_EXPORT Type& type<stl::vector<two::Image256>>() { static Type ty("vector<two::Image256>", sizeof(stl::vector<two::Image256>)); return ty; }
     
-    template <> MUD_FRACT_EXPORT Type& type<mud::Circlifier>() { static Type ty("Circlifier", sizeof(mud::Circlifier)); return ty; }
-    template <> MUD_FRACT_EXPORT Type& type<mud::Pattern>() { static Type ty("Pattern", sizeof(mud::Pattern)); return ty; }
-    template <> MUD_FRACT_EXPORT Type& type<mud::FractTab>() { static Type ty("FractTab", sizeof(mud::FractTab)); return ty; }
-    template <> MUD_FRACT_EXPORT Type& type<mud::Fract>() { static Type ty("Fract", sizeof(mud::Fract)); return ty; }
-    template <> MUD_FRACT_EXPORT Type& type<mud::FractSample>() { static Type ty("FractSample", sizeof(mud::FractSample)); return ty; }
+    template <> TWO_FRACT_EXPORT Type& type<two::Circlifier>() { static Type ty("Circlifier", sizeof(two::Circlifier)); return ty; }
+    template <> TWO_FRACT_EXPORT Type& type<two::Pattern>() { static Type ty("Pattern", sizeof(two::Pattern)); return ty; }
+    template <> TWO_FRACT_EXPORT Type& type<two::FractTab>() { static Type ty("FractTab", sizeof(two::FractTab)); return ty; }
+    template <> TWO_FRACT_EXPORT Type& type<two::Fract>() { static Type ty("Fract", sizeof(two::Fract)); return ty; }
+    template <> TWO_FRACT_EXPORT Type& type<two::FractSample>() { static Type ty("FractSample", sizeof(two::FractSample)); return ty; }
 }

@@ -1,19 +1,19 @@
-#define MUD_NO_GFX
+#define TWO_NO_GFX
 #include <frame/Api.h>
 #include <00_ui/00_ui.h>
 
 #include <stl/array.h>
 #include <stl/vector.hpp>
 
-#ifdef MUD_RENDERER_GL
+#ifdef TWO_RENDERER_GL
 #include <gl/GlSystem.h>
-#elif defined MUD_RENDERER_BGFX
+#elif defined TWO_RENDERER_BGFX
 #include <bgfx/BgfxSystem.h>
 #endif
 
 #include <ui-vg/VgVg.h>
 
-using namespace mud;
+using namespace two;
 
 const string girl_names[] =
 {
@@ -819,7 +819,7 @@ bool pump(RenderSystem& render_system, BgfxContext& context, UiWindow& ui_window
 	return pursue;
 }
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 	#include <emscripten/emscripten.h>
 
 	RenderSystem* g_render_system = nullptr;
@@ -834,15 +834,15 @@ int main(int argc, char *argv[])
 	System::instance().load_modules({ &mud_obj::m(), &mud_math::m(), &mud_lang::m(), &mud_ui::m() });
 #endif
 
-#ifdef MUD_RENDERER_GL
-	static GlSystem render_system = { MUD_RESOURCE_PATH };
-#elif defined MUD_RENDERER_BGFX
-	static BgfxSystem render_system = { MUD_RESOURCE_PATH };
+#ifdef TWO_RENDERER_GL
+	static GlSystem render_system = { TWO_RESOURCE_PATH };
+#elif defined TWO_RENDERER_BGFX
+	static BgfxSystem render_system = { TWO_RESOURCE_PATH };
 #endif
 
-	static BgfxContext context = BgfxContext(render_system, "mud ui demo", uvec2(1200, 800), false, true);
+	static BgfxContext context = BgfxContext(render_system, "two ui demo", uvec2(1200, 800), false, true);
 
-	static VgVg vg = VgVg(MUD_RESOURCE_PATH, &render_system.allocator());
+	static VgVg vg = VgVg(TWO_RESOURCE_PATH, &render_system.allocator());
 
 	//context.m_vg = m_vg.get();
 	//context.m_reset_vg = [](GfxWindow& context, Vg& vg) { return vg.load_texture(context.m_target->m_diffuse.m_tex.idx); };
@@ -858,7 +858,7 @@ int main(int argc, char *argv[])
 	//style_imgui(ui_window, ImguiStyle::Dark);
 	style_blendish_dark(ui_window);
 
-#ifdef MUD_PLATFORM_EMSCRIPTEN
+#ifdef TWO_PLATFORM_EMSCRIPTEN
 	g_render_system = &render_system;
 	g_window = &ui_window;
 	emscripten_set_main_loop(iterate, 0, 1);

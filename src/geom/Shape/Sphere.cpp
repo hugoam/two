@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.geom;
+#ifdef TWO_MODULES
+module two.geom;
 #else
 #include <math/Vec.hpp>
 #include <geom/Shape/Sphere.h>
@@ -15,9 +15,9 @@ module mud.geom;
 #endif
 
 #define ICO_SPHERE_LOD 2
-//#define MUD_SPHERE_ICOSPHERE
+//#define TWO_SPHERE_ICOSPHERE
 
-namespace mud
+namespace two
 {
 	ShapeSize size_icosphere_lines(const ProcShape& shape, const Sphere& sphere)
 	{
@@ -140,7 +140,7 @@ namespace mud
 
 	ShapeSize size_shape_lines(const ProcShape& shape, const Sphere& sphere)
 	{
-#ifdef MUD_SPHERE_ICOSPHERE
+#ifdef TWO_SPHERE_ICOSPHERE
 		return size_icosphere_lines(shape, sphere);
 #else
 		return size_sphere_lines(shape, sphere);
@@ -149,7 +149,7 @@ namespace mud
 
 	void draw_shape_lines(const ProcShape& shape, const Sphere& sphere, MeshAdapter& writer)
 	{
-#ifdef MUD_SPHERE_ICOSPHERE
+#ifdef TWO_SPHERE_ICOSPHERE
 		return draw_icosphere_lines(shape, sphere, writer);
 #else
 		return draw_sphere_lines(shape, sphere, writer);
@@ -158,7 +158,7 @@ namespace mud
 
 	ShapeSize size_shape_triangles(const ProcShape& shape, const Sphere& sphere)
 	{
-#ifdef MUD_SPHERE_ICOSPHERE
+#ifdef TWO_SPHERE_ICOSPHERE
 		return size_icosphere_triangles(shape, sphere);
 #else
 		return size_sphere_triangles(shape, sphere);
@@ -167,7 +167,7 @@ namespace mud
 
 	void draw_shape_triangles(const ProcShape& shape, const Sphere& sphere, MeshAdapter& writer)
 	{
-#ifdef MUD_SPHERE_ICOSPHERE
+#ifdef TWO_SPHERE_ICOSPHERE
 		return draw_icosphere_triangles(shape, sphere, writer);
 #else
 		return draw_sphere_triangles(shape, sphere, writer);

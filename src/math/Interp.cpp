@@ -4,8 +4,8 @@
 
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
-module mud.math;
+#ifdef TWO_MODULES
+module two.math;
 #else
 #include <infra/Global.h>
 #include <type/Any.h>
@@ -16,7 +16,7 @@ module mud.math;
 #include <math/Types.h>
 #endif
 
-namespace mud
+namespace two
 {
 	class Lerp : public Dispatch<void, Ref, Ref, float>, public LazyGlobal<Lerp>
 	{

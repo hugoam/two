@@ -11,7 +11,7 @@
 
 #include <bgfx/bgfx.h>
 
-namespace mud
+namespace two
 {
 
 	class GpuBuffer

@@ -15,7 +15,7 @@
 #include <type/Unique.h>
 #include <type/TypeUtils.h>
 
-namespace mud
+namespace two
 {
 	template<class T>
 	class VecPool;
@@ -35,7 +35,7 @@ namespace mud
 	{
 	public:
 		//using Handle = T*;
-		using Handle = mud::Handle<T>;
+		using Handle = two::Handle<T>;
 
 		VecPool(uint32_t size = 256, uint32_t offset = 0)
 			: m_size(size)

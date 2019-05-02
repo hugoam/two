@@ -4,7 +4,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <stl/vector.h>
 #include <math/Vec.h>
 #include <math/Colour.h>
@@ -14,7 +14,7 @@
 
 #include <bgfx/bgfx.h>
 
-namespace mud
+namespace two
 {
 	export_ struct ItemFlag
 	{
@@ -45,7 +45,7 @@ namespace mud
 		DoubleSided
 	};
 
-	export_ struct refl_ MUD_GFX_EXPORT Batch
+	export_ struct refl_ TWO_GFX_EXPORT Batch
 	{
 		constr_ Batch();
 		constr_ Batch(Item& item, uint16_t stride);
@@ -70,7 +70,7 @@ namespace mud
 		void submit(bgfx::Encoder& encoder, const ModelElem& item); // const;
 	};
 
-	export_ class refl_ MUD_GFX_EXPORT Item
+	export_ class refl_ TWO_GFX_EXPORT Item
 	{
 	public:
 		constr_ Item();
