@@ -8,7 +8,7 @@ function uses_examples()
 end
 
 two.examples = {}
-two.examples.all = two_module(nil, "example", TWO_DIR, "example", nil, uses_examples, false, {}, true)
+two.examples.all = module(nil, "example", TWO_DIR, "example", nil, uses_examples, false, {}, true)
         
 if _OPTIONS["renderer-bgfx"] then
     --two_binary("two_example", two.examples.all, { two })
@@ -29,7 +29,7 @@ function two_example(name, deps, exdeps, ismodule)
         add_example_data(name)
     end
 
-    _G[name] = two_module(nil, "_" .. name, path.join(TWO_DIR, "example"), name, nil, uses_example, false, deps, not ismodule)
+    _G[name] = module(nil, "_" .. name, path.join(TWO_DIR, "example"), name, nil, uses_example, false, deps, not ismodule)
     
     two_binary(name, table.union({ _G[name] }, exdeps), deps)
 end

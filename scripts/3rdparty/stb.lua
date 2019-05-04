@@ -2,7 +2,7 @@
 -- stb 3rdparty module
 
 function stb_module(name)
-local m = two_dep('stb', name, true)
+local m = dep('stb', name, true)
     kind "StaticLib"
     
     includedirs {
@@ -16,7 +16,7 @@ local m = two_dep('stb', name, true)
         path.join(TWO_SRC_DIR, "3rdparty", "stb." .. name .. ".mxx"),
     }
         
-    two_mxx({ path.join(TWO_SRC_DIR, "3rdparty", "stb_" .. name .. ".cpp") }, m)
+    mxx({ path.join(TWO_SRC_DIR, "3rdparty", "stb_" .. name .. ".cpp") }, m)
     
     configuration { "*-gcc*" }
         buildoptions {

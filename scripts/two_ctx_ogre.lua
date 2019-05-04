@@ -28,7 +28,7 @@ function two_ctx_ogre()
     configuration {}    
 end
 
-two.ctx.ogre = two_module("two", "ctx-ogre", TWO_SRC_DIR, "ctx-ogre", two_ctx_ogre, nil, false, { two.math, two.ctx })
+two.ctx.ogre = module("two", "ctx-ogre", TWO_SRC_DIR, "ctx-ogre", two_ctx_ogre, nil, false, { two.math, two.ctx })
 
 function two_ctx_backend()
     return two.ctx.ogre

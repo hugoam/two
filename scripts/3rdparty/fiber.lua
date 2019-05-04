@@ -30,7 +30,7 @@ local asm_table = {
     osx = "gas.S",
 }
 
-fcontext = two_dep(nil, "fcontext")
+fcontext = dep(nil, "fcontext")
     kind "StaticLib"
 
     files {
@@ -68,7 +68,7 @@ function uses_ftl()
     }
 end
 
-ftl = two_dep(nil, "ftl", false, uses_ftl)
+ftl = dep(nil, "ftl", false, uses_ftl)
     kind "StaticLib"
     
     includedirs {

@@ -36,12 +36,12 @@ function uses_two_ui_nvg()
 end
 
 if TWO_STATIC then
-    two.ui.vg   = two_module("two", "ui-vg",        TWO_SRC_DIR, "ui-vg",        two_ui_vg,   uses_two_ui_vg,   false,  { bgfx, vg, two.infra, two.type, two.math, two.ui })
+    two.ui.vg   = module("two", "ui-vg",        TWO_SRC_DIR, "ui-vg",        two_ui_vg,   uses_two_ui_vg,   false,  { bgfx, vg, two.infra, two.type, two.math, two.ui })
 else
-    two.ui.vg   = two_module("two", "ui-vg",        TWO_SRC_DIR, "ui-vg",        two_ui_vg,   uses_two_ui_vg,   false,  { stb.image, bgfx, vg, two.infra, two.type, two.math, two.ui })
+    two.ui.vg   = module("two", "ui-vg",        TWO_SRC_DIR, "ui-vg",        two_ui_vg,   uses_two_ui_vg,   false,  { stb.image, bgfx, vg, two.infra, two.type, two.math, two.ui })
 end
-two.ui.nvg      = two_module("two", "ui-nvg",       TWO_SRC_DIR, "ui-nvg",       nil,         nil,              false,  {})
-two.ui.nvg.bgfx = two_module("two", "ui-nvg-bgfx",  TWO_SRC_DIR, "ui-nvg-bgfx",  two_ui_nvg,  uses_two_ui_nvg,  false,  { bgfx, two.infra, two.type, two.math, two.ui })
+two.ui.nvg      = module("two", "ui-nvg",       TWO_SRC_DIR, "ui-nvg",       nil,         nil,              false,  {})
+two.ui.nvg.bgfx = module("two", "ui-nvg-bgfx",  TWO_SRC_DIR, "ui-nvg-bgfx",  two_ui_nvg,  uses_two_ui_nvg,  false,  { bgfx, two.infra, two.type, two.math, two.ui })
     
 function two_ui_backend()
     if _OPTIONS["vg-vg"] then

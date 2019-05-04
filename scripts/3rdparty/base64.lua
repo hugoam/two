@@ -1,7 +1,7 @@
 -- two library
 -- base64 3rdparty module
 
-base64 = two_dep(nil, "base64")
+base64 = dep(nil, "base64")
     kind "StaticLib"
     
     includedirs {

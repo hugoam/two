@@ -9,7 +9,7 @@ end
 
 dofile(path.join(TWO_DIR, "scripts/two_ui_gl.lua"))
 
-two.gl = two_module("two", "gl", TWO_SRC_DIR, "gl")
+two.gl = module("two", "gl", TWO_SRC_DIR, "gl")
 	kind "SharedLib"
     
     two_ctx_backend()

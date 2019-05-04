@@ -1,7 +1,7 @@
 -- two library
 -- xatlas 3rdparty module
 
-xatlas = two_dep(nil, "xatlas")
+xatlas = dep(nil, "xatlas")
 	kind "StaticLib"
     
     includedirs {

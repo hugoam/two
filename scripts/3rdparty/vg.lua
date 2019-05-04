@@ -1,7 +1,7 @@
 -- two library
 -- vg-renderer 3rdparty module
 
-vg = two_dep(nil, "vg")
+vg = dep(nil, "vg")
     kind "StaticLib"
     
     includedirs {
@@ -40,7 +40,7 @@ vg = two_dep(nil, "vg")
         
     configuration {}
     
---nanovg = two_dep(nil, "nanovg")
+--nanovg = dep(nil, "nanovg")
 --    cxxmodule("vg")
 --    kind "StaticLib"
 --    

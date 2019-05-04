@@ -1,7 +1,7 @@
 -- two library
 -- meshopt 3rdparty module
 
-meshopt = two_dep(nil, "meshopt")
+meshopt = dep(nil, "meshopt")
     kind "StaticLib"
     
     includedirs {

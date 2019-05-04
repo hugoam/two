@@ -1,7 +1,7 @@
 -- two library
 -- lua 3rdparty module
 
-lua = two_dep(nil, "lua")
+lua = dep(nil, "lua")
 	kind "StaticLib"
     
 	includedirs {

@@ -1,7 +1,7 @@
 -- two library
 -- json11 3rdparty module
 
-json11 = two_dep(nil, "json11", true)
+json11 = dep(nil, "json11", true)
     kind "StaticLib"
     
     includedirs {
@@ -15,4 +15,4 @@ json11 = two_dep(nil, "json11", true)
         path.join(TWO_SRC_DIR, "3rdparty", "json11.mxx"),
     }
     
-    two_mxx({ path.join(TWO_SRC_DIR, "3rdparty", "json11.cpp") }, json11)
+    mxx({ path.join(TWO_SRC_DIR, "3rdparty", "json11.cpp") }, json11)

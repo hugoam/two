@@ -37,7 +37,7 @@ function culling_config()
     configuration {}
 end
 
-cullingavx2 = two_dep(nil, "cullingavx2", false, uses_culling)
+cullingavx2 = dep(nil, "cullingavx2", false, uses_culling)
     culling_config()
     
     files {
@@ -51,7 +51,7 @@ cullingavx2 = two_dep(nil, "cullingavx2", false, uses_culling)
         
     configuration {}
         
-cullingavx512 = two_dep(nil, "cullingavx512", false, uses_culling)
+cullingavx512 = dep(nil, "cullingavx512", false, uses_culling)
     culling_config()
     
     files {
@@ -65,7 +65,7 @@ cullingavx512 = two_dep(nil, "cullingavx512", false, uses_culling)
         
     configuration {}
     
-culling = two_dep(nil, "culling", false, uses_culling, { cullingavx2, cullingavx512 })
+culling = dep(nil, "culling", false, uses_culling, { cullingavx2, cullingavx512 })
     culling_config()
     
     files {

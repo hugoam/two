@@ -6,7 +6,7 @@ if not cxxmodule then
     end
 end
 
-function two_modules(m)
+function modules(m)
     if not _OPTIONS["cpp-modules"] then
         return
     end
@@ -38,7 +38,7 @@ function two_modules(m)
     end
 end
 
-function two_mxx(cpps, m)
+function mxx(cpps, m)
     if not _OPTIONS["cpp-modules"] then
         return
     end

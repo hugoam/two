@@ -7,7 +7,7 @@ function uses_tracy()
     }
 end
 
-tracy = two_dep(nil, "tracy", false, uses_tracy)
+tracy = dep(nil, "tracy", false, uses_tracy)
 	kind "StaticLib"
     
 	includedirs {

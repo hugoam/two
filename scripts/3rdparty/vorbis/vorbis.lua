@@ -1,7 +1,7 @@
 -- two library
 -- vorbis library
 
-vorbis = two_dep(nil, "vorbis")
+vorbis = dep(nil, "vorbis")
 	kind "StaticLib"
 
 	includedirs {

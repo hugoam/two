@@ -1,7 +1,7 @@
 -- two library
 -- mikktspace 3rdparty module
 
-mikktspace = two_dep(nil, "mikktspace")
+mikktspace = dep(nil, "mikktspace")
     kind "StaticLib"
     
     includedirs {

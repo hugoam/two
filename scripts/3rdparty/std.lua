@@ -17,7 +17,7 @@ project("std_" .. name)
         path.join(TWO_SRC_DIR, "3rdparty/std", "std." .. name  .. ".mxx"),
     }
     
-    return two_dep("std", name, true)
+    return dep("std", name, true)
 end
 
 std = {}

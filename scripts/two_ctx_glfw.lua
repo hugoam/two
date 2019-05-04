@@ -21,7 +21,7 @@ function uses_two_ctx_glfw()
     configuration {}
 end
 
-two.ctx.glfw = two_module("two", "ctx-glfw", TWO_SRC_DIR, "ctx-glfw", two_ctx_glfw, uses_two_ctx_glfw, false, { glfw, two.math, two.ctx })
+two.ctx.glfw = module("two", "ctx-glfw", TWO_SRC_DIR, "ctx-glfw", two_ctx_glfw, uses_two_ctx_glfw, false, { glfw, two.math, two.ctx })
 
 function two_ctx_backend()
     return two.ctx.glfw 

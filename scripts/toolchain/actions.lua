@@ -1,7 +1,7 @@
 -- two toolchain
 -- actions
 
-function two_amalgamate(modules)
+function amalgamate(modules)
     for _, m in ipairs(modules) do
         local dir = os.getcwd()
         os.chdir(m.root)
@@ -11,7 +11,7 @@ function two_amalgamate(modules)
     end
 end
 
-function two_write_api(m)
+function write_api(m)
     headers = os.matchfiles(path.join(m.path, "**.h"))
     --table.insert(headers, os.matchfiles(path.join(m.path, "**.hpp")))
     
@@ -26,7 +26,7 @@ function two_write_api(m)
     f:close()
 end
 
-function two_write_mxx(m)
+function write_mxx(m)
 	local f, err = io.open(path.join(m.path, m.dotname .. ".mxx"), "wb")
     io.output(f)
     
@@ -57,7 +57,7 @@ function two_write_mxx(m)
     f:close()
 end
 
-function two_bootstrap(modules)
+function bootstrap(modules)
     for _, m in ipairs(modules) do
         two_write_api(m)
         two_write_mxx(m)
@@ -75,7 +75,7 @@ function concat_files(files)
     end
 end
 
-function two_glue_js(modules)
+function gluejs(modules)
     local glue_path = path.join(BUILD_DIR, "js", "glue.js")
     local f, err = io.open(glue_path, "wb")
     io.output(f)
@@ -96,7 +96,7 @@ function two_glue_js(modules)
     }
 end
 
-function two_reflect(modules)
+function reflect(modules)
     local current = {}
     includedirs = function(dirs)
         for _, dir in ipairs(dirs) do
@@ -157,7 +157,7 @@ newaction {
     trigger     = "bootstrap",
     description = "Bootstrap c++ modules",
     execute     = function()
-        two_bootstrap(MODULES)
+        bootstrap(MODULES)
     end
 }
 
@@ -165,7 +165,7 @@ newaction {
     trigger     = "reflect",
     description = "Generate reflection",
     execute     = function()
-        two_reflect(MODULES)
+        reflect(MODULES)
     end
 }
 
@@ -173,7 +173,7 @@ newaction {
     trigger     = "amalgamate",
     description = "Generate amalgamation files",
     execute     = function()
-        two_amalgamate(MODULES)
+        amalgamate(MODULES)
     end
 }
 

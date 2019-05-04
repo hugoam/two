@@ -1,7 +1,7 @@
 -- two library
 -- ogg library
 
-ogg = two_dep(nil, "ogg")
+ogg = dep(nil, "ogg")
 	kind "StaticLib"
     
 	includedirs {

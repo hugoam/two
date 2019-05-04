@@ -26,8 +26,8 @@ function two_ui_gl()
 	configuration {}
 end
 
-two.ui.nvg = two_module("two", "ui-nvg", TWO_SRC_DIR, "ui-nvg", nil, nil, false, {})
+two.ui.nvg = module("two", "ui-nvg", TWO_SRC_DIR, "ui-nvg", nil, nil, false, {})
     
 function two_ui_backend()
-    return two_module("two", "ui-nvg-gl",  TWO_SRC_DIR, "ui-nvg-gl", two_ui_gl, nil, false, { two.type, two.math, two.ui })
+    return module("two", "ui-nvg-gl",  TWO_SRC_DIR, "ui-nvg-gl", two_ui_gl, nil, false, { two.type, two.math, two.ui })
 end

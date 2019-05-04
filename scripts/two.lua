@@ -268,37 +268,37 @@ end
 --       and make reflection generator generate empty modules in those cases
 --                       base   name        root path       sub path    self decl   usage decl      reflect     dependencies
 -- core
-two.infra   = two_module("two", "infra",    TWO_SRC_DIR,    "infra",    two_infra,  uses_two,       true,       { })
-two.jobs    = two_module("two", "jobs",     TWO_SRC_DIR,    "jobs",     two_jobs,   uses_two,       true,       { tracy, two.infra })
-two.type    = two_module("two", "type",     TWO_SRC_DIR,    "type",     nil,        uses_two,       true,       { two.infra })
-two.tree    = two_module("two", "tree",     TWO_SRC_DIR,    "tree",     nil,        nil,            true,       { two.infra })
-two.pool    = two_module("two", "pool",     TWO_SRC_DIR,    "pool",     nil,        nil,            true,       { two.infra, two.type })
+two.infra   = module("two", "infra",    TWO_SRC_DIR,    "infra",    two_infra,  uses_two,       true,       { })
+two.jobs    = module("two", "jobs",     TWO_SRC_DIR,    "jobs",     two_jobs,   uses_two,       true,       { tracy, two.infra })
+two.type    = module("two", "type",     TWO_SRC_DIR,    "type",     nil,        uses_two,       true,       { two.infra })
+two.tree    = module("two", "tree",     TWO_SRC_DIR,    "tree",     nil,        nil,            true,       { two.infra })
+two.pool    = module("two", "pool",     TWO_SRC_DIR,    "pool",     nil,        nil,            true,       { two.infra, two.type })
 -- refl
-two.refl    = two_module("two", "refl",     TWO_SRC_DIR,    "refl",     nil,        nil,            true,       { two.infra, two.type, two.pool })
+two.refl    = module("two", "refl",     TWO_SRC_DIR,    "refl",     nil,        nil,            true,       { two.infra, two.type, two.pool })
 -- ecs
-two.ecs     = two_module("two", "ecs",      TWO_SRC_DIR,    "ecs",      nil,        uses_two,       true,       { two.infra, two.pool, two.type })
+two.ecs     = module("two", "ecs",      TWO_SRC_DIR,    "ecs",      nil,        uses_two,       true,       { two.infra, two.pool, two.type })
 -- srlz
-two.srlz    = two_module("two", "srlz",     TWO_SRC_DIR,    "srlz",     two_srlz,   nil,            true,       { json11, two.infra, two.type, two.refl })
+two.srlz    = module("two", "srlz",     TWO_SRC_DIR,    "srlz",     two_srlz,   nil,            true,       { json11, two.infra, two.type, two.refl })
 -- math
 if TWO_STATIC then      
-  two.math  = two_module("two", "math",     TWO_SRC_DIR,    "math",     two_math,   uses_two_math,  true,       { stb.rect_pack, two.infra, two.type })
+  two.math  = module("two", "math",     TWO_SRC_DIR,    "math",     two_math,   uses_two_math,  true,       { stb.rect_pack, two.infra, two.type })
 else        
-  two.math  = two_module("two", "math",     TWO_SRC_DIR,    "math",     two_math,   uses_two_math,  true,       { stb.image, stb.rect_pack, two.infra, two.type })
+  two.math  = module("two", "math",     TWO_SRC_DIR,    "math",     two_math,   uses_two_math,  true,       { stb.image, stb.rect_pack, two.infra, two.type })
 end     
 -- geom
-two.geom    = two_module("two", "geom",     TWO_SRC_DIR,    "geom",     two_geom,   nil,            true,       { mikktspace, two.type, two.math })
+two.geom    = module("two", "geom",     TWO_SRC_DIR,    "geom",     two_geom,   nil,            true,       { mikktspace, two.type, two.math })
 -- procgen
-two.noise   = two_module("two", "noise",    TWO_SRC_DIR,    "noise",    two_noise,  uses_two_noise, true,       { fastnoise, two.infra, two.type, two.math, two.geom })
-two.wfc     = two_module("two", "wfc",      TWO_SRC_DIR,    "wfc",      two_wfc,    nil,            true,       { json11, two.infra, two.type, two.srlz, two.math, two.geom })
-two.fract   = two_module("two", "fract",    TWO_SRC_DIR,    "fract",    nil,        nil,            true,       { json11, two.infra, two.type, two.math, two.geom })
+two.noise   = module("two", "noise",    TWO_SRC_DIR,    "noise",    two_noise,  uses_two_noise, true,       { fastnoise, two.infra, two.type, two.math, two.geom })
+two.wfc     = module("two", "wfc",      TWO_SRC_DIR,    "wfc",      two_wfc,    nil,            true,       { json11, two.infra, two.type, two.srlz, two.math, two.geom })
+two.fract   = module("two", "fract",    TWO_SRC_DIR,    "fract",    nil,        nil,            true,       { json11, two.infra, two.type, two.math, two.geom })
 -- lang
-two.lang    = two_module("two", "lang",     TWO_SRC_DIR,    "lang",     two_lang,   nil,            true,       { lua, wren, two.infra, two.type, two.pool, two.refl })
+two.lang    = module("two", "lang",     TWO_SRC_DIR,    "lang",     two_lang,   nil,            true,       { lua, wren, two.infra, two.type, two.pool, two.refl })
 -- ui
-two.ctx     = two_module("two", "ctx",      TWO_SRC_DIR,    "ctx",      nil,        nil,            true,       { two.infra, two.type, two.math })
-two.ui      = two_module("two", "ui",       TWO_SRC_DIR,    "ui",       two_ui,     uses_two_ui,    true,       { two.infra, two.type, two.math, two.ctx })
-two.uio     = two_module("two", "uio",      TWO_SRC_DIR,    "uio",      nil,        nil,            true,       { two.infra, two.tree, two.type, two.ecs, two.pool, two.refl, two.math, two.lang, two.ctx, two.ui })
+two.ctx     = module("two", "ctx",      TWO_SRC_DIR,    "ctx",      nil,        nil,            true,       { two.infra, two.type, two.math })
+two.ui      = module("two", "ui",       TWO_SRC_DIR,    "ui",       two_ui,     uses_two_ui,    true,       { two.infra, two.type, two.math, two.ctx })
+two.uio     = module("two", "uio",      TWO_SRC_DIR,    "uio",      nil,        nil,            true,       { two.infra, two.tree, two.type, two.ecs, two.pool, two.refl, two.math, two.lang, two.ctx, two.ui })
 -- snd
-two.snd     = two_module("two", "snd",      TWO_SRC_DIR,    "snd",      two_snd,    uses_two_snd,   true,       { ogg, vorbis, vorbisfile, two.type, two.math })
+two.snd     = module("two", "snd",      TWO_SRC_DIR,    "snd",      two_snd,    uses_two_snd,   true,       { ogg, vorbis, vorbisfile, two.type, two.math })
 
 if _OPTIONS["context-glfw"] then
     dofile(path.join(TWO_DIR, "scripts/two_ctx_glfw.lua"))
@@ -319,31 +319,31 @@ two.uibackend   = two_ui_backend()
 
 --                       base   name        root path       sub path    self decl   usage decl      reflect     dependencies
 -- gfx
-two.bgfx    = two_module("two", "bgfx",     TWO_SRC_DIR,    "bgfx",     nil,        uses_two_bgfx,  true,       { bx, bimg, bimg.decode, bimg.encode, bgfx, two.infra, two.type, two.math, two.ctx })
-two.gfx     = two_module("two", "gfx",      TWO_SRC_DIR,    "gfx",      two_gfx,    uses_two_gfx,   true,       { tracy, json11, meshopt, culling, bgfx, shaderc, two.infra, two.jobs, two.type, two.pool, two.ecs, two.math, two.geom, two.ctx, two.bgfx })
+two.bgfx    = module("two", "bgfx",     TWO_SRC_DIR,    "bgfx",     nil,        uses_two_bgfx,  true,       { bx, bimg, bimg.decode, bimg.encode, bgfx, two.infra, two.type, two.math, two.ctx })
+two.gfx     = module("two", "gfx",      TWO_SRC_DIR,    "gfx",      two_gfx,    uses_two_gfx,   true,       { tracy, json11, meshopt, culling, bgfx, shaderc, two.infra, two.jobs, two.type, two.pool, two.ecs, two.math, two.geom, two.ctx, two.bgfx })
 -- gltf                                                     
-two.gltf    = two_module("two", "gltf",     TWO_SRC_DIR,    "gltf",     two_gltf,   nil,            true,       { json11, base64, two.infra, two.type, two.refl, two.srlz, two.math })
+two.gltf    = module("two", "gltf",     TWO_SRC_DIR,    "gltf",     two_gltf,   nil,            true,       { json11, base64, two.infra, two.type, two.refl, two.srlz, two.math })
 -- gfx exts                                                 
-two.gfx.pbr = two_module("two", "gfx-pbr",  TWO_SRC_DIR,    "gfx-pbr",  two_gfx_pbr,nil,            true,       { xatlas, two.infra, two.type, two.math, two.geom, two.gfx })
-two.gfx.obj = two_module("two", "gfx-obj",  TWO_SRC_DIR,    "gfx-obj",  nil,        nil,            true,       { two.infra, two.type, two.srlz, two.math, two.geom, two.gfx })
-two.gfx.gltf= two_module("two", "gfx-gltf", TWO_SRC_DIR,    "gfx-gltf", two_gltf,   nil,            true,       { json11, two.infra, two.type, two.refl, two.srlz, two.math, two.geom, two.gfx, two.gltf, two.gltf.refl })
-two.gfx.ui  = two_module("two", "gfx-ui",   TWO_SRC_DIR,    "gfx-ui",   nil,        nil,            true,       { two.infra, two.tree, two.type, two.math, two.geom, two.ctx, two.ui, two.gfx })
-two.gfx.edit= two_module("two", "gfx-edit", TWO_SRC_DIR,    "gfx-edit", nil,        nil,            true,       { two.infra, two.type, two.refl, two.srlz, two.math, two.geom, two.ui, two.uio, two.gfx, two.gfx.pbr })
+two.gfx.pbr = module("two", "gfx-pbr",  TWO_SRC_DIR,    "gfx-pbr",  two_gfx_pbr,nil,            true,       { xatlas, two.infra, two.type, two.math, two.geom, two.gfx })
+two.gfx.obj = module("two", "gfx-obj",  TWO_SRC_DIR,    "gfx-obj",  nil,        nil,            true,       { two.infra, two.type, two.srlz, two.math, two.geom, two.gfx })
+two.gfx.gltf= module("two", "gfx-gltf", TWO_SRC_DIR,    "gfx-gltf", two_gltf,   nil,            true,       { json11, two.infra, two.type, two.refl, two.srlz, two.math, two.geom, two.gfx, two.gltf, two.gltf.refl })
+two.gfx.ui  = module("two", "gfx-ui",   TWO_SRC_DIR,    "gfx-ui",   nil,        nil,            true,       { two.infra, two.tree, two.type, two.math, two.geom, two.ctx, two.ui, two.gfx })
+two.gfx.edit= module("two", "gfx-edit", TWO_SRC_DIR,    "gfx-edit", nil,        nil,            true,       { two.infra, two.type, two.refl, two.srlz, two.math, two.geom, two.ui, two.uio, two.gfx, two.gfx.pbr })
 -- tool                                                     
-two.tool    = two_module("two", "tool",     TWO_SRC_DIR,    "tool",     nil,        nil,            true,       { two.infra, two.tree, two.type, two.refl, two.srlz, two.lang, two.math, two.geom, two.ctx, two.ui, two.uio, two.gfx, two.gfx.pbr, two.gfx.ui, two.gfx.edit })
+two.tool    = module("two", "tool",     TWO_SRC_DIR,    "tool",     nil,        nil,            true,       { two.infra, two.tree, two.type, two.refl, two.srlz, two.lang, two.math, two.geom, two.ctx, two.ui, two.uio, two.gfx, two.gfx.pbr, two.gfx.ui, two.gfx.edit })
 -- wfc                                                      
-two.wfc.gfx = two_module("two", "wfc-gfx",  TWO_SRC_DIR,    "wfc-gfx",  nil,        nil,            true,       { json11, two.infra, two.tree, two.type, two.srlz, two.math, two.geom, two.wfc, two.ctx, two.ui, two.uio, two.gfx, two.gfx.ui })
+two.wfc.gfx = module("two", "wfc-gfx",  TWO_SRC_DIR,    "wfc-gfx",  nil,        nil,            true,       { json11, two.infra, two.tree, two.type, two.srlz, two.math, two.geom, two.wfc, two.ctx, two.ui, two.uio, two.gfx, two.gfx.ui })
 -- frame                                                    
-two.frame   = two_module("two", "frame",    TWO_SRC_DIR,    "frame",    nil,        nil,            true,       { two.gfx, two.gfx.ui, two.ctxbackend, two.uibackend })
+two.frame   = module("two", "frame",    TWO_SRC_DIR,    "frame",    nil,        nil,            true,       { two.gfx, two.gfx.ui, two.ctxbackend, two.uibackend })
 
 if _OPTIONS["tools"] then
-  two.clrefl = two_module("two", "clrefl",  TWO_SRC_DIR,    "clrefl",   two_clrefl, nil,            false,      { json11, two.infra })
-  two.amalg  = two_module("two", "amalg",   TWO_SRC_DIR,    "amalg",    nil,        nil,            false,      { json11, two.infra })
+  two.clrefl = module("two", "clrefl",  TWO_SRC_DIR,    "clrefl",   two_clrefl, nil,            false,      { json11, two.infra })
+  two.amalg  = module("two", "amalg",   TWO_SRC_DIR,    "amalg",    nil,        nil,            false,      { json11, two.infra })
 end
 
 --two_sys(true)
 --two_vec(true)
---two.db = two_module("two", "db", TWO_SRC_DIR, "db", { two.type, two.util })
+--two.db = module("two", "db", TWO_SRC_DIR, "db", { two.type, two.util })
 
 two.two = { two.infra, two.jobs, two.type, two.tree, two.pool, two.refl, two.ecs, two.srlz, two.math, two.geom, two.lang, two.ctx, two.ui, two.uio, two.bgfx, two.gfx, two.gfx.ui,
             two.ctxbackend, two.uibackend, two.frame }
@@ -359,58 +359,60 @@ if _OPTIONS["as-libs"] then
     FORCE_REFL_PROJECTS = true
 end
 
-local lgfx = {}
+function two_libs()
+    local lgfx = {}
 
-if _OPTIONS["renderer-gl"] then
-    lgfx = { two.gl, two.uibackend }
-elseif _OPTIONS["renderer-bgfx"] then
-    lgfx = { two.bgfx, two.uibackend }
-end
+    if _OPTIONS["renderer-gl"] then
+        lgfx = { two.gl, two.uibackend }
+    elseif _OPTIONS["renderer-bgfx"] then
+        lgfx = { two.bgfx, two.uibackend }
+    end
 
-table.insert(lgfx, two.frame)
+    table.insert(lgfx, two.frame)
 
-if _OPTIONS["unity"] then
-    for _, m in pairs(two.all) do
-        two_unity(m)
+    if _OPTIONS["unity"] then
+        for _, m in pairs(two.all) do
+            unity(m)
+        end
+    end
+
+    if _OPTIONS["as-libs"] then
+        group "lib/two"
+            libs(two.all, "StaticLib")
+        group "lib"
+    else
+        two.lib = lib("two", two.all, "StaticLib")
+        
+            --files {
+            --    path.join(TWO_SRC_DIR, "two", "**.h"),
+            --}
+            
+            configuration { "vs*", "not asmjs", "Release" }
+                buildoptions {
+                    "/bigobj",
+                }
+                
+            configuration {}
+    end
+
+    --group "lib/two-opts"
+    --libs(two.opts, "StaticLib")
+
+    if _OPTIONS["tools"] then
+        lib("two_clrefl", { two.clrefl }, "StaticLib", {}, true)
+        lib("two_amalg", { two.amalg }, "StaticLib", {}, true)
     end
 end
 
-if _OPTIONS["as-libs"] then
-    group "lib/two"
-        two_libs(two.all, "StaticLib")
-    group "lib"
-else
-    two.lib = two_lib("two", two.all, "StaticLib")
-    
-        --files {
-        --    path.join(TWO_SRC_DIR, "two", "**.h"),
-        --}
-        
-        configuration { "vs*", "not asmjs", "Release" }
-            buildoptions {
-                "/bigobj",
-            }
-            
-        configuration {}
-end
-
---group "lib/two-opts"
---two_libs(two.opts, "StaticLib")
-
-if _OPTIONS["tools"] then
-    two_lib("two_clrefl", { two.clrefl }, "StaticLib", {}, true)
-    two_lib("two_amalg", { two.amalg }, "StaticLib", {}, true)
-end
-
 function two_binary(name, modules, deps)
-    two_lib(name, modules, "ConsoleApp", deps)
+    lib(name, modules, "ConsoleApp", deps)
     defines { "_" .. name:upper() .. "_EXE" }
     two_binary_config()
 end
 
 function two_js(name, modules)
-    local lib = two_lib(name, {}, "ConsoleApp", modules)
-    two_glue_js(table.inverse(lib.deps))
+    local lib = lib(name, {}, "ConsoleApp", modules)
+    gluejs(table.inverse(lib.deps))
     linkoptions {
         "-s EXPORT_NAME=\"'" .. name .. "'\"",
         --"-s MODULARIZE=1",

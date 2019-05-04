@@ -1,7 +1,7 @@
 -- two library
 -- wren 3rdparty module
 
-wren = two_dep(nil, "wren")
+wren = dep(nil, "wren")
 	kind "StaticLib"
     language "C"
     

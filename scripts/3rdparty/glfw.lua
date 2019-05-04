@@ -13,7 +13,7 @@ function uses_glfw()
     configuration {}
 end
 
-glfw = two_dep(nil, "glfw", false, uses_glfw)
+glfw = dep(nil, "glfw", false, uses_glfw)
 	kind "StaticLib"
     
     files {

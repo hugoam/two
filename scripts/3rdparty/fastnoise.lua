@@ -1,7 +1,7 @@
 -- two library
 -- FastNoise 3rdparty module
 
-fastnoise = two_dep(nil, "FastNoise")
+fastnoise = dep(nil, "FastNoise")
 	kind "StaticLib"
     
     includedirs {
