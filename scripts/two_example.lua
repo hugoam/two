@@ -1,26 +1,26 @@
 -- two
 -- two example application
 
-function uses_examples()
-    includedirs {
-        path.join(TWO_DIR, "example"),
-    }
-end
+--function uses_examples()
+--    includedirs {
+--        path.join(TWO_DIR, "example"),
+--    }
+--end
 
-two.examples = {}
-two.examples.all = module(nil, "example", TWO_DIR, "example", nil, uses_examples, false, {}, true)
+--two.examples = {}
+--two.examples.all = module(nil, "example", TWO_DIR, "example", nil, uses_examples, false, {}, true)
         
 if _OPTIONS["renderer-bgfx"] then
     --two_binary("two_example", two.examples.all, { two })
 end
 
 function add_example_data(name)
-        configuration { "asmjs" }
-            linkoptions {
-                "--preload-file ../../../data/examples/" .. name .. "@data/",
-            }
-        
-        configuration {}
+    configuration { "asmjs" }
+        linkoptions {
+            "--preload-file ../../../data/examples/" .. name .. "@data/",
+        }
+    
+    configuration {}
 end
 
 function two_example(name, deps, exdeps, ismodule)

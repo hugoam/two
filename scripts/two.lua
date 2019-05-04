@@ -266,7 +266,7 @@ end
 
 -- @todo deactivate reflection for infra, tree, srlz, bgfx, gfx.obj, gfx.gltf, gfx.edit
 --       and make reflection generator generate empty modules in those cases
---                       base   name        root path       sub path    self decl   usage decl      reflect     dependencies
+--                   base   name        root path       sub path    self decl   usage decl      reflect     dependencies
 -- core
 two.infra   = module("two", "infra",    TWO_SRC_DIR,    "infra",    two_infra,  uses_two,       true,       { })
 two.jobs    = module("two", "jobs",     TWO_SRC_DIR,    "jobs",     two_jobs,   uses_two,       true,       { tracy, two.infra })
@@ -317,7 +317,7 @@ end
 two.ctxbackend  = two_ctx_backend()
 two.uibackend   = two_ui_backend()
 
---                       base   name        root path       sub path    self decl   usage decl      reflect     dependencies
+--                   base   name        root path       sub path    self decl   usage decl      reflect     dependencies
 -- gfx
 two.bgfx    = module("two", "bgfx",     TWO_SRC_DIR,    "bgfx",     nil,        uses_two_bgfx,  true,       { bx, bimg, bimg.decode, bimg.encode, bgfx, two.infra, two.type, two.math, two.ctx })
 two.gfx     = module("two", "gfx",      TWO_SRC_DIR,    "gfx",      two_gfx,    uses_two_gfx,   true,       { tracy, json11, meshopt, culling, bgfx, shaderc, two.infra, two.jobs, two.type, two.pool, two.ecs, two.math, two.geom, two.ctx, two.bgfx })
