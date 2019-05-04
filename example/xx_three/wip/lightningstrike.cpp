@@ -1,5 +1,5 @@
 //#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 
 #include <xx_three/xx_three.h>
@@ -11,7 +11,7 @@ using namespace two;
 //<script src="js/SimplexNoise.js"></script>
 //<script src="js/postprocessing/OutlinePass.js"></script>
 
-void xx_lightning(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_lightning)
 {
 #if 0
 			var currentSceneIndex = 0;

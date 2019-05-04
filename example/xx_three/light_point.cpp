@@ -1,21 +1,25 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 using namespace two;
 
-void xx_light_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_light_point)
 {
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+#if UI
 	TrackballController& controls = ui::trackball_controller(viewer);
 	controls.m_dynamicDampingFactor = 0.15f;
+#endif
 	
 	//controls.keys = [65, 83, 68];
-
-	Scene& scene = viewer.m_scene;
 
 	static vector<Node3*> lights;
 

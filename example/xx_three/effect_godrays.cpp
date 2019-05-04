@@ -1,35 +1,29 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-obj/Api.h>
-
-#include <xx_three/xx_three.h>
 
 #include <cstdio>
 
 //<script src="js/loaders/OBJLoader.js"></script>
 //<script src="js/ShaderGodRays.js"></script>
 
-/**
- * @author huwb / http://huwbowles.com/
- *
- * God-rays (crepuscular rays)
- *
- * Similar implementation to the one used by Crytek for CryEngine 2 [Sousa2008].
- * Blurs a mask generated from the depth map along radial lines emanating from the light
- * source. The blur repeatedly applies a blur filter of increasing support but constant
- * sample count to produce a blur filter with large support.
- *
- * My implementation performs 3 passes, similar to the implementation from Sousa. I found
- * just 6 samples per pass produced acceptible results. The blur is applied three times,
- * with decreasing filter support. The result is equivalent to a single pass with
- * 6*6*6 = 216 samples.
- *
- * References:
- *
- * Sousa2008 - Crysis Next Gen Effects, GDC2008, http://www.crytek.com/sites/default/files/GDC08_SousaT_CrysisEffects.ppt
- */
-
+// @author huwb / http://huwbowles.com/
+//
+// God-rays (crepuscular rays)
+//
+// Similar implementation to the one used by Crytek for CryEngine 2 [Sousa2008].
+// Blurs a mask generated from the depth map along radial lines emanating from the light
+// source. The blur repeatedly applies a blur filter of increasing support but constant
+// sample count to produce a blur filter with large support.
+//
+// My implementation performs 3 passes, similar to the implementation from Sousa. I found
+// just 6 samples per pass produced acceptible results. The blur is applied three times,
+// with decreasing filter support. The result is equivalent to a single pass with
+// 6*6*6 = 216 samples.
+//
+// References:
+//
+// Sousa2008 - Crysis Next Gen Effects, GDC2008, http://www.crytek.com/sites/default/files/GDC08_SousaT_CrysisEffects.ppt
 
 static string filter_vertex =
 
@@ -347,15 +341,18 @@ void pass_godrays(GfxSystem& gfx, Render& render, const Godrays& godrays)
 	//gfx.m_copy->debug_show_texture(render, pong.m_tex, vec4(0.f));
 }
 
-void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_effect_godrays)
 {
+#if UI
 	UNUSED(dockbar);
-	static ImporterOBJ obj_importer(app.m_gfx);
-
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+	static ImporterOBJ obj_importer(app.m_gfx);
 
 	constexpr float orbit_radius = 200.f;
 
@@ -423,10 +420,12 @@ void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	}
 
 	static vec2 mouse = vec2(0.f);
+#if UI
 	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
 		mouse = (event.m_relative - viewer.m_frame.m_size / 2.f);
 	}
+#endif
 
 	Camera& camera = viewer.m_camera;
 	camera.m_eye.x += (mouse.x - camera.m_eye.x) * 0.036f;

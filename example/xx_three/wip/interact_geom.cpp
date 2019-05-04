@@ -1,21 +1,22 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
 using namespace two;
 
-void xx_interact_geom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_interact_geom)
 {
-	constexpr size_t triangles = 5000;
-
+#if UI
+	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+	constexpr size_t triangles = 5000;
 
 	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
 
@@ -99,11 +100,13 @@ void xx_interact_geom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		auto hover = [](Item& item) {};
 		auto unhover = [](Item& item) {};
 
+#if UI
 		if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
 			//auto pick = [&](Item* item) { if(hovered) unhover(*hovered); hovered = item; if(hovered) hover(*hovered); };
 			//viewer.picker(0).pick_point(viewer.m_viewport, event.m_relative, pick, ItemFlag::Selectable);
 		}
+#endif
 	}
 
 	const float time = app.m_gfx.m_time;

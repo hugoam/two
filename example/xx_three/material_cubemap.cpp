@@ -1,20 +1,25 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-obj/Api.h>
-
-#include <xx_three/xx_three.h>
 
 #include <stl/vector.hpp>
 
 using namespace two;
 
-void xx_material_cubemap(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_material_cubemap)
 {
-	static ImporterOBJ obj_importer = { app.m_gfx };
-
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+	static ImporterOBJ obj_importer = { app.m_gfx };
+
+#if UI
 	OrbitControls& controls = ui::orbit_controls(viewer);
 	controls.enableDamping = true;
 	controls.dampingFactor = 0.25f;
@@ -23,8 +28,7 @@ void xx_material_cubemap(Shell& app, Widget& parent, Dockbar& dockbar, bool init
 	//controls.enablePan = false;
 	//controls.minPolarAngle = c_pi / 4;
 	//controls.maxPolarAngle = c_pi / 1.5;
-
-	Scene& scene = viewer.m_scene;
+#endif
 
 	if(init)
 	{

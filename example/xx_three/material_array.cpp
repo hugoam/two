@@ -1,21 +1,26 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
+
 #include <gfx-pbr/Api.h>
 #include <ecs/ECS.hpp>
-
-#include <xx_three/xx_three.h>
 
 #include <stl/vector.hpp>
 
 using namespace two;
 
-void xx_material_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_material_variations)
 {
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+#if UI
+	ui::orbit_controls(viewer);
+#endif
 
 	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
 	static Program& three = *app.m_gfx.programs().file("pbr/three");

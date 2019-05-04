@@ -1,24 +1,28 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-obj/Api.h>
 #include <ecs/ECS.hpp>
-
-#include <xx_three/xx_three.h>
 
 #include <stl/vector.hpp>
 
 using namespace two;
 
-void xx_material_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_material_standard)
 {
+#if UI
+	UNUSED(dockbar);
+	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
 	static ImporterOBJ importer_obj = { app.m_gfx };
 
-	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
+#if UI
 	ui::trackball_controller(viewer);
-
-	Scene& scene = viewer.m_scene;
+#endif
 
 	if(init)
 	{

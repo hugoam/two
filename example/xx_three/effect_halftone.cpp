@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
@@ -331,15 +328,22 @@ static string basic_fragment =
 		"gl_FragColor = c;\n"
 	"}";
 
-void xx_effect_halftone(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_effect_halftone)
 {
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+#if UI
 	ui::orbit_controls(viewer);
+#endif
 
 	static const float rotationSpeed = c_pi / 64.f;
-
-	Scene& scene = viewer.m_scene;
 
 	static Halftone halftone;
 
@@ -407,6 +411,7 @@ void xx_effect_halftone(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		app.m_gfx.set_renderer(Shading::Shaded, render);
 	}
 	
+#if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
 		Widget& sheet = ui::sheet(*dock);
@@ -431,6 +436,7 @@ void xx_effect_halftone(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		halftone.m_rotate = rotate * (c_pi / 180.f);
 	}
+#endif
 
 	const float delta = app.m_gfx.m_frame_time;
 	angles.y += delta * rotationSpeed;

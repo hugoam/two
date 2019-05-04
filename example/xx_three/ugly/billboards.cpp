@@ -1,24 +1,25 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
 #include <cstring>
 
-void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_billboards)
 {
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controls(viewer);
-
-	Camera& camera = viewer.m_camera;
-	camera.m_near = 2.f; camera.m_far = 2000.f;
-	camera.m_eye.z = 1000.f;
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+#if UI
+	ui::orbit_controls(viewer);
+#endif
+
 	//scene.fog = new THREE.FogExp2(0x000000, 0.001);
 
 	static Program& program = app.m_gfx.programs().fetch("point");
@@ -36,6 +37,10 @@ void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	if(init)
 	{
+		Camera& camera = viewer.m_camera;
+		camera.m_near = 2.f; camera.m_far = 2000.f;
+		camera.m_eye.z = 1000.f;
+
 		Model& model = *app.m_gfx.models().get("point");
 		
 		//Material& material = new THREE.PointsMaterial({ size: 35, sizeAttenuation : false, map : sprite, alphaTest : 0.5, transparent : true });
@@ -65,10 +70,12 @@ void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	float time = app.m_gfx.m_time;
 
 	static vec2 mouse = vec2(0.f);
+#if UI
 	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
 		mouse = (event.m_relative - viewer.m_frame.m_size / 2.f);
 	}
+#endif
 
 	viewer.m_camera.m_eye.x += (mouse.x - viewer.m_camera.m_eye.x) * 0.05f;
 	viewer.m_camera.m_eye.y += (-mouse.y - viewer.m_camera.m_eye.y) * 0.05f;

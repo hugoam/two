@@ -1,9 +1,6 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-gltf/Api.h>
-
-#include <xx_three/xx_three.h>
 
 using namespace two;
 
@@ -42,15 +39,22 @@ static string skydome_fragment =
 		"gl_FragColor = vec4(pow(gl_FragColor.rgb, vec3_splat(2.0)), 1.0);\n"
 	"}\n";
 
-void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_light_hemisphere)
 {
-	static ImporterGltf importer_gltf = { app.m_gfx };
-
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+	static ImporterGltf importer_gltf = { app.m_gfx };
+
+#if UI
+	ui::orbit_controls(viewer);
+#endif
 
 	if(init)
 	{

@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <geom/Primitive.hpp>
 #include <stl/vector.hpp>
@@ -368,12 +365,16 @@ void upload_cubes(MarchingCubes& cubes, Mesh& mesh, bool colors, bool uvs)
 #endif
 }
 
-void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_marching_cubes)
 {
+#if UI
+	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
 
 	struct Controller
 	{
@@ -449,6 +450,7 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		item = &it;
 	}
 
+#if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
 		Widget& sheet = ui::sheet(*dock);
@@ -510,6 +512,7 @@ void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		ui::field(e, "wallx", controller.wallx);
 		ui::field(e, "wallz", controller.wallz);
 	}
+#endif
 
 	// this controls content of marching cubes voxel field
 

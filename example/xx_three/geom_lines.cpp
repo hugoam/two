@@ -1,22 +1,22 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
 using namespace two;
 
-void xx_geom_lines(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_geom_lines)
 {
+#if UI
 	UNUSED(dockbar);
-	constexpr size_t segments = 10000;
-
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+	constexpr size_t segments = 10000;
 
 	//static Program& program = app.m_gfx.programs().fetch("line");
 	static Program& program = app.m_gfx.programs().fetch("solid");

@@ -1,10 +1,7 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-gltf/Api.h>
 #include <ecs/ECS.hpp>
-
-#include <xx_three/xx_three.h>
 
 #include <cstdio>
 
@@ -260,24 +257,31 @@ void pass_unreal_bloom(GfxSystem& gfx, Render& render, const Bloom& bloom)
 
 }
 
-void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_effect_bloom)
 {
-	static ImporterGltf gltf_importer(app.m_gfx);
-
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+	static ImporterGltf gltf_importer(app.m_gfx);
+
+#if UI
 	ui::orbit_controls(viewer);
 	//controls.maxPolarAngle = c_pi * 0.5;
 	//controls.minDistance = 1;
 	//controls.maxDistance = 10;
+#endif
 
 	static Tonemap tonemap;
 	tonemap.m_mode = TonemapMode::Reinhardt;
 	//tonemap.m_exposure = 3.f;
 
 	static BCS bcs;
-
-	Scene& scene = viewer.m_scene;
 
 	static Bloom bloom = { 1.f, 1.5, 0.f, 0.f };
 	bloom.exposure = 1.f;
@@ -337,6 +341,7 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 	scene.update();
 
+#if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
 		Widget& sheet = ui::sheet(*dock);
@@ -353,6 +358,7 @@ void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		tonemap.m_exposure = pow(exposure, 4.0);
 	}
+#endif
 
 	//const float delta = clock.getDelta();
 

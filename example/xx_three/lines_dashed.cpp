@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/array.h>
 
@@ -37,13 +34,16 @@ Model& cube_model(GfxSystem& gfx, float size)
 	return model;
 }
 
-void xx_lines_dashed(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_lines_dashed)
 {
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
 
 	static Program& program = app.m_gfx.programs().fetch("line");
 

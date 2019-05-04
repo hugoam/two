@@ -1,23 +1,24 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
 using namespace two;
 
-void xx_interact_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_interact_cubes)
 {
+#if UI
 	UNUSED(dockbar);
+	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
 	//vec2 mouse = vec2(0.f); // , INTERSECTED;
 	float radius = 100; float theta = 0;
 
-	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-
-	Scene& scene = viewer.m_scene;
 	Camera& camera = viewer.m_camera;
 
 	if(init)
@@ -70,11 +71,13 @@ void xx_interact_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	auto hover = [](Item& item) { item.m_material->m_lit.m_emissive = rgba(0xff0000ff); };
 	auto unhover = [](Item& item) { item.m_material->m_lit.m_emissive = rgba(0x00000000); };
 
+#if UI
 	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
 		auto pick = [&](Item* item) { if(hovered) unhover(*hovered); hovered = item; if(hovered) hover(*hovered); };
 		viewer.picker(0).pick_point(viewer.m_viewport, event.m_relative, pick, ItemFlag::Selectable);
 	}
+#endif
 
 	// find intersections
 	//raycaster.setFromCamera(mouse, camera);

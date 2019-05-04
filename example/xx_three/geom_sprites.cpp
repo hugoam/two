@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
@@ -48,17 +45,22 @@ static string fragment_shader =
 	"	if (color.a < 0.5) discard;\n"
 	"}\n";
 
-void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_geom_sprites)
 {
+#if UI
 	UNUSED(dockbar);
-	constexpr size_t particles = 75000;
-
 	SceneViewer& viewer = ui::scene_viewer(parent);
-#if GLITCH
-	ui::orbit_controls(viewer);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
 #endif
 
-	Scene& scene = viewer.m_scene;
+	constexpr size_t particles = 75000;
+
+#if UI && GLITCH
+	ui::orbit_controls(viewer);
+#endif
 
 	static Program& program = app.m_gfx.programs().create("sprites");
 	if(init)

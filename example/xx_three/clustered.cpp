@@ -1,23 +1,30 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-obj/Api.h>
 #include <ecs/ECS.hpp>
-
-#include <xx_three/xx_three.h>
 
 #include <stl/vector.hpp>
 
 #define CLUSTERED 1
 
-void xx_clustered(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_clustered)
 {
+#if UI
+	UNUSED(dockbar);
+	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
 	static ImporterOBJ obj_importer(app.m_gfx);
 
-	SceneViewer& viewer = ui::scene_viewer(parent);
+#if UI
 	ui::orbit_controls(viewer);
 	//controls.minDistance = 120;
 	//controls.maxDistance = 320;
+#endif
 
 	//var bloom = new THREE.UnrealBloomPass(new THREE.Vector2(), 0.8, 0.6, 0.8);
 	//bloom.renderToScreen = true;
@@ -28,8 +35,6 @@ void xx_clustered(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 #endif
 
 	constexpr float radius = 75.f;
-
-	Scene& scene = viewer.m_scene;
 
 	struct ExLight
 	{

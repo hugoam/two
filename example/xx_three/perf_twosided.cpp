@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
@@ -79,14 +76,18 @@ void main()
 )'";
 #endif
 
-void xx_perf_twosided(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_perf_twosided)
 {
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
 
 	Camera& camera = viewer.m_camera;
-	Scene& scene = viewer.m_scene;
 
 	auto ungamma = [](const Colour& c) { return to_colour(pow(to_vec3(c), vec3(2.f))); };
 
@@ -160,10 +161,12 @@ void xx_perf_twosided(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	}
 
 	static vec2 mouse = vec2(0.f);
+#if UI
 	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
 		mouse = (event.m_relative - viewer.m_frame.m_size / 2.f) * 10.f;
 	}
+#endif
 
 	camera.m_eye.x += (mouse.x - camera.m_eye.x) * .05f;
 	camera.m_eye.y += (-mouse.y - camera.m_eye.y) * .05f;

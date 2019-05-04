@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
@@ -144,13 +141,20 @@ void pass_rgbshift(GfxSystem& gfx, Render& render, RgbShift& p)
 	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_fbo, render.m_target->m_post.last());
 }
 
-void xx_effect(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_effect)
 {
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+#if UI
+	ui::orbit_controls(viewer);
+#endif
 
 	static Node3* node = nullptr;
 	struct Node { vec3 p; quat r; vec3 s; Node3* node; };

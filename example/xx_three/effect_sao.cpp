@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
@@ -400,13 +397,16 @@ void pass_sao(GfxSystem& gfx, Render& render, const SAO& sao, uvec2 resolution =
 #endif
 }
 
-void xx_effect_sao(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_effect_sao)
 {
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
 
 	static Node3* node = nullptr;
 	struct Node { vec3 p; vec3 a; vec3 s; Node3* node; };
@@ -484,6 +484,7 @@ void xx_effect_sao(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		app.m_gfx.set_renderer(Shading::Shaded, render);
 	}
 
+#if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
 		Widget& sheet = ui::sheet(*dock);
@@ -508,6 +509,7 @@ void xx_effect_sao(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		ui::slider_field<float>(a,  "blur std dev",      sao.blurStdDev,      { 0.5f, 150.f, 0.1f });
 		ui::slider_field<float>(a,  "blur depth cutoff", sao.blurDepthCutoff, { 0.0f, 0.1f, 0.01f });
 	}
+#endif
 
 	const float time = app.m_gfx.m_time;
 

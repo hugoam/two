@@ -1,10 +1,7 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-obj/Api.h>
 #include <srlz/Serial.h>
-
-#include <xx_three/xx_three.h>
 
 #include <stl/array.h>
 
@@ -116,15 +113,18 @@ Program& translucent_program(GfxSystem& gfx)
 
 //<script src="js/loaders/FBXLoader.js"></script>
 
-void xx_material_translucent(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_material_translucent)
 {
-	static ImporterOBJ obj_importer = { app.m_gfx };
-
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+	static ImporterOBJ obj_importer = { app.m_gfx };
 
 	static Phong phong;
 	static Subsurface thickness;
@@ -197,6 +197,7 @@ void xx_material_translucent(Shell& app, Widget& parent, Dockbar& dockbar, bool 
 		node = &n;
 	}
 
+#if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
 		Widget& sheet = ui::sheet(*dock);
@@ -215,6 +216,7 @@ void xx_material_translucent(Shell& app, Widget& parent, Dockbar& dockbar, bool 
 		ui::slider_field<float>(a, "power",       thickness.m_power,       { 0.01f, 16.f, 0.1f });
 		ui::slider_field<float>(a, "scale",       thickness.m_scale,       { 0.01f, 50.f, 0.1f });
 	}
+#endif
 
 	const float y = app.m_gfx.m_time / 5.f;
 	node->apply(vec3(0.f, 0.f, 10.f), quat(vec3(0.f, y, 0.f)), scale);

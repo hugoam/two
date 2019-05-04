@@ -4,59 +4,76 @@
 
 #pragma once
 
+#define UI 1
+
+#if UI
 #include <frame/Forward.h>
+#include <frame/Api.h>
+using ShellX = two::Shell;
+using WindowX = two::ShellWindow;
+#else
+#include <xx_three/gfxshell.h>
+using ShellX = two::GfxShell;
+using WindowX = two::GfxWindow;
+#endif
 
 using namespace two;
 
-void xx_light_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_light_hemisphere(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_clustered(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_perf(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_perf_twosided(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_perf_static(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_billboards(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_lines_dashed(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_geom_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_geom_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_geom_lines(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_geom_selective(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_geom_rawshader(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_geom_points(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_geom_points_hw(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_geom_points_packed(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_interact_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_interact_geom(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_marching_cubes(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_hierarchy(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_hierarchy2(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_material_cubemap(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_material_displace(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_material_skin(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_material_standard(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_material_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_effect(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_effect_godrays(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_effect_halftone(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_effect_glitch(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_effect_sao(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_effect_sobel(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_effect_bloom(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_post_fxaa(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_shader2(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_material_translucent(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_refraction_mesh(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_refraction_balls(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_loader_gltf(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
-void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
+#if UI
+#define EX(name) void name(ShellX& app, Widget& parent, Dockbar& dockbar, bool init)
+#else
+#define EX(name) void name(ShellX& app, GfxWindow& window, bool init)
+#endif
 
-void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar, bool init);
+EX(xx_light_point);
+EX(xx_light_hemisphere);
+EX(xx_shadow_point);
+EX(xx_shader);
+EX(xx_shader_lava);
+EX(xx_clustered);
+EX(xx_tiled_forward);
+EX(xx_perf);
+EX(xx_perf_twosided);
+EX(xx_perf_static);
+EX(xx_billboards);
+EX(xx_lines_dashed);
+EX(xx_lines_fat);
+EX(xx_geom_dynamic);
+EX(xx_geom_sprites);
+EX(xx_geom_lines);
+EX(xx_geom_instances);
+EX(xx_geom_selective);
+EX(xx_geom_rawshader);
+EX(xx_geom_points);
+EX(xx_geom_points_hw);
+EX(xx_geom_points_packed);
+EX(xx_interact_cubes);
+EX(xx_interact_geom);
+EX(xx_marching_cubes);
+EX(xx_hierarchy);
+EX(xx_hierarchy2);
+EX(xx_material_cubemap);
+EX(xx_material_displace);
+EX(xx_material_skin);
+EX(xx_material_standard);
+EX(xx_material_variations);
+EX(xx_depth_texture);
+EX(xx_effect);
+EX(xx_effect_dof);
+EX(xx_effect_godrays);
+EX(xx_effect_halftone);
+EX(xx_effect_glitch);
+EX(xx_effect_sao);
+EX(xx_effect_sobel);
+EX(xx_effect_bloom);
+EX(xx_post_fxaa);
+EX(xx_cubemap_dynamic);
+EX(xx_shader_ocean);
+EX(xx_shader2);
+EX(xx_material_translucent);
+EX(xx_refraction_mesh);
+EX(xx_refraction_balls);
+EX(xx_loader_gltf);
+EX(xx_loader_ply);
+
+//void ex_xx_three(ShellX& app, Widget& parent, Dockbar& dockbar, bool init);

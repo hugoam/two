@@ -1,15 +1,9 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 using namespace two;
 
 #define DEFAULT_RENDER 0
-
-#define WATER 1
-#define COLOURS 1
 #define PROBE 1
 
 string water_vertex =
@@ -426,17 +420,20 @@ public:
 	Node3* m_node;
 };
 
-void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_shader_ocean)
 {
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-	ui::orbit_controls(viewer);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
 #if !DEFAULT_RENDER
 	viewer.m_viewport.m_autorender = false;
 #endif
-
-	Scene& scene = viewer.m_scene;
 
 	//controls = new THREE.OrbitControls(camera, renderer.domElement);
 	//controls.maxPolarAngle = c_pi * 0.495;
@@ -448,9 +445,7 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	static Node3* sphere = nullptr;
 	static Node3* sun = nullptr;
 
-#if WATER
 	static Water water;
-#endif
 	static Sky sky;
 
 	struct Parameters { float distance = 400.f; float inclination = 0.49f; float azimuth = 0.205f; };
@@ -483,7 +478,6 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		Texture& normals = *app.m_gfx.textures().file("waternormals.jpg");
 		
-#if WATER
 		water.create(app.m_gfx, scene, plane, app.m_gfx.main_target().m_size / 4U);
 		water.normals = &normals;
 		water.alpha = 1.f;
@@ -491,7 +485,6 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		water.sunColor = rgb(0xffffff);
 		water.waterColor = rgb(0x001e0f);
 		water.distortionScale = 3.7f;
-#endif
 
 		// Skybox
 
@@ -502,7 +495,6 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		// Sphere
 
-#if COLOURS
 		MeshPacker geo;
 		Icosaedr shape = Icosaedr(20.f);
 		gen_geom({ Symbol(), &shape, PLAIN }, geo, PLAIN);
@@ -516,9 +508,6 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		}
 
 		Model& ico = app.m_gfx.create_model_geo("ico", geo);
-#else
-		Model& ico = app.m_gfx.shape(Icosaedr(20.f));
-#endif
 
 		Program& pbr = app.m_gfx.programs().fetch("pbr/pbr");
 
@@ -548,14 +537,13 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		sky.m_sun_position = dir;
 		sky.update(*sky.m_material);
 
-#if WATER
 		water.sunDirection = normalize(dir);
 		water.update(*water.m_material);
-#endif
 	};
 	
 	updateSun();
 
+#if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
 		Widget& sheet = ui::sheet(*dock);
@@ -570,13 +558,12 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		ui::slider_field<float>(a, "inclination", params.inclination,  { 0.f, 0.5f, 0.0001f });
 		ui::slider_field<float>(a, "azimuth",     params.azimuth,      { 0.f, 1.f,  0.0001f });
 	
-#if WATER
 		Widget& b = panel("Water");
 		ui::slider_field<float>(b, "distortion", water.distortionScale,	{ 0.f, 8.f, 0.1f });
 		ui::slider_field<float>(b, "size",		 water.size,			{ 0.1f, 10.f, 0.1f });
 		ui::slider_field<float>(b, "alpha",		 water.alpha,			{ 0.9f, 1.f, 0.001f });
-#endif
 	}
+#endif
 
 	const float time = app.m_gfx.m_time;
 
@@ -591,9 +578,7 @@ void xx_shader_ocean(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	app.m_gfx.m_renderer.gather(render);
 	app.m_gfx.m_renderer.begin(render);
 
-#if WATER
 	water.pass_mirror(app.m_gfx, render);
-#endif
 
 	begin_pbr_render(app.m_gfx, render);
 

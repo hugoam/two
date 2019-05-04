@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
@@ -12,9 +9,17 @@
 
 using namespace two;
 
-void xx_geom_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_geom_dynamic)
 {
+#if UI
 	UNUSED(dockbar);
+	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
 	constexpr uint32_t max_particles = 1000;
 	constexpr uint32_t max_segments = 10000;
 	//constexpr uint32_t max_segments = max_particles * max_particles;
@@ -25,10 +30,9 @@ void xx_geom_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	const float r = 800.f;
 	const float r2 = r / 2.f;
 
-	SceneViewer& viewer = ui::scene_viewer(parent);
+#if UI
 	ui::orbit_controls(viewer);
-
-	Scene& scene = viewer.m_scene;
+#endif
 
 	struct EffectController
 	{

@@ -1,5 +1,5 @@
 //#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-obj/Api.h>
 
@@ -9,15 +9,22 @@
 
 #define CLUSTERED 1
 
-void xx_sprites(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_sprites)
 {
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
 
-	SceneViewer& overlay = ui::scene_viewer(parent);
+#if UI
+	ui::orbit_controls(viewer);
+#endif
+
+	//SceneViewer& overlay = ui::scene_viewer(parent);
 
 	//cameraOrtho = new THREE.OrthographicCamera(- width / 2, width / 2, height / 2, - height / 2, 1, 10);
 	//cameraOrtho.position.z = 10;

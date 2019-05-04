@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/array.h>
 #include <stl/vector.hpp>
@@ -15,14 +12,22 @@ using namespace two;
 #define FAT 1
 #define CACHE 0
 
-void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_lines_fat)
 {
+#if UI
+	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+#if UI
 	ui::orbit_controls(viewer);
 	//controls.minDistance = 10;
 	//controls.maxDistance = 500;
-
-	Scene& scene = viewer.m_scene;
+#endif
 
 	//camera2 = new THREE.PerspectiveCamera(40, 1, 1, 1000);
 	//camera2.position.copy(camera.position);
@@ -110,6 +115,7 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	lines.commit(*batch);
 #endif
 
+#if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
 		Widget& sheet = ui::columns(*dock, { 0.3f, 0.7f });
@@ -121,5 +127,6 @@ void xx_lines_fat(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		ui::slider_field<float>(sheet, "dash size",  material->m_line.m_dash_size,  { 0.f, 20.f, 0.1f });
 		ui::slider_field<float>(sheet, "dash gap",   material->m_line.m_dash_gap,   { 0.f, 20.f, 0.1f });
 	}
+#endif
 }
 			

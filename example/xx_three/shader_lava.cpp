@@ -1,8 +1,6 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 
-#include <xx_three/xx_three.h>
 #include <xx_three/code/bloom_pass.h>
 
 using namespace two;
@@ -177,13 +175,16 @@ static string lava_fragment =
 	"}\n";
 
 
-void xx_shader_lava(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_shader_lava)
 {
+#if UI
+	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-	viewer.m_viewport.m_autorender = false;
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
 
 	static vec3 angles = vec3(0.3f, 0.f, 0.f);
 	static Node3* node = nullptr;

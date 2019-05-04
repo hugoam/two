@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <infra/Vector.h>
 #include <stl/vector.hpp>
@@ -12,14 +9,18 @@ using namespace two;
 #define SPHERE 1
 #define AXES 0
 
-void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_cubemap_dynamic)
 {
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-	viewer.m_viewport.m_autorender = false;
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+	viewer.m_viewport.m_autorender = false;
 
 	static size_t count = 0;
 
@@ -77,6 +78,7 @@ void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	static vec2 presscoord = vec2(0.f);
 	static float presslat = 0.f; static float presslon = 0.f;
 	static bool pressed = false;
+#if UI
 	if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 	{
 		presscoord = event.m_relative;
@@ -101,6 +103,7 @@ void xx_cubemap_dynamic(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	{
 		viewer.m_camera.m_fov = clamp(viewer.m_camera.m_fov + event.m_deltaZ * 0.5f, 10.f, 75.f);
 	}
+#endif
 
 	const float time = app.m_gfx.m_time;
 

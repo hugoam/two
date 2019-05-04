@@ -1,5 +1,4 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <ui/Edit/Lang.h>
 
 #include <09_live_shader/09_live_shader.h>
@@ -65,11 +64,20 @@ static string fragment_shader =
 		
 	"}\n";
 
-void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_shader)
 {
-	UNUSED(dockbar); UNUSED(app);
+#if UI
+	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+#if UI
 	ui::orbit_controls(viewer);
+#endif
 
 	static Program program = { "custom" };
 	if(init)
@@ -89,7 +97,6 @@ void xx_shader(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 
 		Model& model = app.m_gfx.shape(Quad(1.f));
 
-		Scene& scene = viewer.m_scene;
 		Node3& node = gfx::nodes(scene).add(Node3());
 		Item& it = gfx::items(scene).add(Item(node, model, 0U, &material));
 	}

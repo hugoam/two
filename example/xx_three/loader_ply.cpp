@@ -1,9 +1,6 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-obj/Api.h>
-
-#include <xx_three/xx_three.h>
 
 #include <stl/vector.hpp>
 
@@ -11,14 +8,18 @@ using namespace two;
 
 #define CUSTOM_RENDER 0
 
-void xx_loader_ply(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_loader_ply)
 {
-	static ImporterPLY importer_ply = { app.m_gfx };
-
+#if UI
+	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+	static ImporterPLY importer_ply = { app.m_gfx };
 
 	if(init)
 	{

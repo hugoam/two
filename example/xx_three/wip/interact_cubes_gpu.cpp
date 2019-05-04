@@ -1,23 +1,26 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
 using namespace two;
 
-void xx_interact_cubes_gpu(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_interact_cubes_gpu)
 {
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	TrackballController& controls = ui::trackball_controller(viewer);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
 
+#if UI
+	TrackballController& controls = ui::trackball_controller(viewer);
 	controls.m_staticMoving = true;
 	controls.m_dynamicDampingFactor = 0.3f;
-
-	Scene& scene = viewer.m_scene;
+#endif
 
 	struct Object { vec3 position; quat rotation; vec3 scale; };
 	vector<Object> objects = {};

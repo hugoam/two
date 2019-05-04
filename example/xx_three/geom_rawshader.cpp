@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
@@ -37,15 +34,18 @@ static string fragment_shader =
 	"	gl_FragColor = color;\n"
 	"}\n";
 
-void xx_geom_rawshader(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_geom_rawshader)
 {
+#if UI
 	UNUSED(dockbar);
-	constexpr size_t triangles = 500;
-
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+	constexpr size_t triangles = 500;
 
 	static Program& program = app.m_gfx.programs().create("rawshader");
 	if(init)

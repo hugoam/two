@@ -1,5 +1,4 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-gltf/Api.h>
 
@@ -9,15 +8,22 @@
 
 using namespace two;
 
-void xx_loader_gltf(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_loader_gltf)
 {
+#if UI
 	UNUSED(dockbar);
+	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
 	static ImporterGltf importer_gltf = { app.m_gfx };
 
-	SceneViewer& viewer = ui::scene_viewer(parent);
+#if UI
 	ui::orbit_controls(viewer);
-
-	Scene& scene = viewer.m_scene;
+#endif
 
 	if(init)
 	{

@@ -1,5 +1,5 @@
 //#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 
 #include <xx_three/xx_three.h>
@@ -312,9 +312,8 @@ static string fragment_material()
 </div>
 #endif
 
-void xx_interact_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_interact_instances)
 {
-	UNUSED(app); UNUSED(parent); UNUSED(dockbar);
 #if 0
 		var pickingData, pickingRenderTarget, pickingScene;
 		var useOverrideMaterial = true;

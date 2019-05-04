@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
@@ -14,13 +11,16 @@ using namespace two;
 //<script src = "js/postprocessing/ShaderPass.js">< / script>
 //<script src = "js/shaders/CopyShader.js">< / script>
 
-void xx_tonemapping(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_tonemapping)
 {
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
 
 	struct Params {
 		float opacity = 1.0;

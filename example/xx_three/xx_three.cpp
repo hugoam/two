@@ -1,14 +1,23 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+
+#if UI
+#else
+#include <infra/Api.h>
+#include <ecs/Api.h>
+#include <jobs/Api.h>
+#include <math/Api.h>
+#include <geom/Api.h>
+#include <gfx/Api.h>
+#include <xx_three/gfxshell.h>
+#endif
+#include <gfx-pbr/Api.h>
 
 using namespace two;
 
 #define SIDE_PANEL 1
 #define MULTI_WINDOW 0
 #define MULTI_VIEWPORT 0
+
 
 // todo js:
 // fix black helmet before envmap is filtered
@@ -30,7 +39,12 @@ using namespace two;
 // todo js:
 // xx_geom_dynamic
 
-using ExampleFunc = void(*)(Shell&, Widget&, Dockbar&, bool);
+#if UI
+using ExampleFunc = void(*)(ShellX&, Widget&, Dockbar&, bool);
+#else
+using ExampleFunc = void(*)(ShellX&, GfxWindow&, bool);
+#endif
+
 struct Example { string name; ExampleFunc func; };
 Example examples[] = 
 {
@@ -105,7 +119,23 @@ uint32_t find_example(const string& name)
 	return 0;
 }
 
-void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar, bool& init, uint32_t& example)
+#if !UI
+void ex_xx_three(ShellX& app, GfxWindow& window, bool& init, uint32_t& example)
+{
+	static vector<cstring> labels = example_labels();
+	bool changed = false;
+
+	if(changed)
+	{
+		init = true;
+	}
+
+	examples[example].func(app, window, init);
+	init = false;
+}
+
+#else
+void ex_xx_three(ShellX& app, Widget& parent, Dockbar& dockbar, bool& init, uint32_t& example)
 {
 	static vector<cstring> labels = example_labels();
 
@@ -123,6 +153,7 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar, bool& init, uint3
 #endif
 
 	Widget& canvas = ui::sheet(sheet);
+
 	if(changed)
 	{
 		//app.m_gfx.models().clear();
@@ -138,20 +169,25 @@ void ex_xx_three(Shell& app, Widget& parent, Dockbar& dockbar, bool& init, uint3
 	examples[example].func(app, canvas, dockbar, init);
 	init = false;
 }
+#endif
 
 #ifdef _XX_THREE_EXE
-void pump(Shell& app, ShellWindow& window, bool& init, uint32_t& example)
+void pump(ShellX& app, WindowX& window, bool& init, uint32_t& example)
 {
+#if UI
 	shell_context(window.m_ui->begin(), app.m_editor);
 	ex_xx_three(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar, init, example);
+#else
+	ex_xx_three(app, window, init, example);
+#endif
 }
 
 int main(int argc, char *argv[])
 {
-	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv), false);
+	ShellX app(TWO_RESOURCE_PATH, exec_path(argc, argv), false);
 	app.m_gfx.add_resource_path("examples/xx_three");
 	
-	ShellWindow& w0 = app.window("two", uvec2(1600U, 900U));
+	WindowX& w0 = app.window("two", uvec2(1600U, 900U));
 
 	app.m_gfx.init_pipeline(pipeline_pbr);
 	//app.m_gfx.init_pipeline(pipeline_minimal);
@@ -163,7 +199,7 @@ int main(int argc, char *argv[])
 	//static uint32_t example = find_example("geom/points");
 	static bool init = true;
 
-	app.run([](Shell& app, ShellWindow& win) { pump(app, win, init, example); });
+	app.run([](ShellX& app, WindowX& win) { pump(app, win, init, example); });
 #else
 #if MULTI_WINDOW
 	ShellWindow& w1 = app.window("two", uvec2(1600U, 900U));

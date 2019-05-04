@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 using namespace two;
 
@@ -27,19 +24,23 @@ Texture& generateTexture(GfxSystem& gfx)
 	return texture;
 }
 
-void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_shadow_point)
 {
+#if UI
 	UNUSED(dockbar);
+	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
 	constexpr uint32_t colors[] = { 0x0088ff, 0xff8888 };
 	constexpr float intensity = 1.5f;
 	constexpr float range = 20.0f;
 
-	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
+#if UI
 	TrackballController& control = ui::trackball_controller(viewer);
-	
-#if !IMMEDIATE
-	Scene& scene = viewer.m_scene;
 #endif
 
 	static Material* cubemat = nullptr;
@@ -55,7 +56,9 @@ void xx_shadow_point(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		camera.m_fov = 45.f; camera.m_near = 1.f; camera.m_far = 1000.f;
 		camera.m_eye = vec3(0.f, 10.f, 40.f);
 
+#if UI
 		control.m_target = vec3(0.f, 10.f, 0.f);
+#endif
 
 		Zone& env = scene.m_env;
 		env.m_radiance.m_ambient = rgb(0x111122);

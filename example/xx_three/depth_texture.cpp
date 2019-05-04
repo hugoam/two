@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
@@ -57,20 +54,27 @@ void pass_to_depth(GfxSystem& gfx, Render& render)
 	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_fbo, target.m_post.last());
 };
 
-void xx_depth_texture(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_depth_texture)
 {
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+	viewer.m_viewport.m_autorender = false;
+
+#if UI
 	OrbitControls& controls = ui::orbit_controls(viewer);
 	//TrackballController& controls = ui::trackball_controller(viewer);
 	//controls.m_dynamicDampingFactor = 0.05f;
-	viewer.m_viewport.m_autorender = false;
-
 	controls.enableDamping = true;
 	controls.dampingFactor = 0.15f;
 	controls.rotateSpeed = 0.35f;
 
-	Scene& scene = viewer.m_scene;
+#endif
 
 	static Program& program = app.m_gfx.programs().create("todepth");
 	if(init)

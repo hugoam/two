@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
@@ -40,16 +37,19 @@ static string fragment_shader =
 		
 	"}\n";
 
-void xx_geom_selective(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_geom_selective)
 {
+#if UI
 	UNUSED(dockbar);
+	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
 	constexpr size_t numLat = 100;
 	constexpr size_t numLng = 200;
-
-	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-
-	Scene& scene = viewer.m_scene;
 
 	static Program program = { "program" };
 	if(init)

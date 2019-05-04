@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
@@ -12,15 +9,18 @@ using namespace two;
 
 #define PAD 0.f
 
-void xx_geom_points(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_geom_points)
 {
+#if UI
 	UNUSED(dockbar);
-	constexpr size_t particles = 500000;
-
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+	constexpr size_t particles = 500000;
 
 	static Program& program = app.m_gfx.programs().fetch("point");
 

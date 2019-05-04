@@ -46,7 +46,7 @@ namespace two
 
 	BgfxSystem::BgfxSystem(const string& resource_path)
 		: RenderSystem(resource_path, true)
-		//, m_capture_every(100)
+		, m_capture_every(100)
 	{
 		printf("[info] gfx - init gfx system\n");
 	}
@@ -99,6 +99,8 @@ namespace two
 	{
 #ifdef _DEBUG
 		m_capture |= m_capture_every && (m_frame % m_capture_every) == 0;
+		if(m_capture)
+			int i = 0;
 		m_frame = bgfx::frame(m_capture);
 		m_capture = false;
 #else

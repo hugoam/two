@@ -1,5 +1,5 @@
 //#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 
 #include <xx_three/xx_three.h>
@@ -8,13 +8,16 @@
 
 using namespace two;
 
-void xx_terrain(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_terrain)
 {
-	UNUSED(app); UNUSED(dockbar);
+#if UI
+	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
 
 #if 0
 	var worldWidth = 256, worldDepth = 256,

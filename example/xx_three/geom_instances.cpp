@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/vector.hpp>
 
@@ -60,14 +57,18 @@ static string fragment_shader()
 	return shader;
 }
 
-void xx_geom_instances(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_geom_instances)
 {
-	constexpr size_t num_instances = 50000;
-
+#if UI
+	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+	constexpr size_t num_instances = 50000;
 
 	static Program& program = app.m_gfx.programs().create("instances"); 
 	if(init)

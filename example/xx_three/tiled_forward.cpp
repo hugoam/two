@@ -1,10 +1,7 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-obj/Api.h>
 #include <ecs/ECS.hpp>
-
-#include <xx_three/xx_three.h>
 
 #include <stl/vector.hpp>
 
@@ -220,21 +217,29 @@ void pack_lights(GfxSystem& gfx, Render& render, Tiled& state, span<ExLight> lig
 	state.lights.load_float(state.lights.m_size, ld);
 }
 
-void xx_tiled_forward(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_tiled_forward)
 {
+#if UI
+	UNUSED(dockbar);
+	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
 	static ImporterOBJ obj_importer(app.m_gfx);
 
-	SceneViewer& viewer = ui::scene_viewer(parent);
+#if UI
 	ui::orbit_controls(viewer);
 	//controls.minDistance = 120;
 	//controls.maxDistance = 320;
+#endif
 
 	//var bloom = new THREE.UnrealBloomPass(new THREE.Vector2(), 0.8, 0.6, 0.8);
 	//bloom.renderToScreen = true;
 
 	constexpr float radius = 75.f;
-
-	Scene& scene = viewer.m_scene;
 
 	static Tiled state;
 	static vector<ExLight> lights = {};

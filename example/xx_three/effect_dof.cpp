@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 using namespace two;
 
@@ -132,14 +129,18 @@ void pass_bokeh(GfxSystem& gfx, Render& render, const Bokeh& bokeh)
 	gfx.m_copy->quad(render.composite_pass("flip"), *render.m_fbo, render.m_target->m_post.last());
 }
 
-void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_effect_dof)
 {
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-	viewer.m_viewport.m_autorender = false;
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+	viewer.m_viewport.m_autorender = false;
 
 	constexpr int xgrid = 14;
 	constexpr int ygrid = 9;
@@ -214,6 +215,7 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	}
 
 	static vec2 mouse = vec2(0.f);
+#if UI
 	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
 		mouse.x = event.m_relative.x - viewer.m_frame.m_size.x / 2.f;
@@ -229,6 +231,7 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		//	mouseY = event.touches[0].pageY - windowHalfY;
 		//}
 	}
+#endif
 
 	const float time = app.m_gfx.m_time * 0.05f;
 
@@ -244,6 +247,7 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		materials[i]->m_pbr.m_albedo = hsl(h, 1.f, 0.5f);
 	}
 
+#if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
 		Widget& sheet = ui::sheet(*dock);
@@ -253,6 +257,7 @@ void xx_effect_dof(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 		ui::slider_field<float>(controls, "aperture", bokeh.aperture, { 0.f, 10.f, 0.1f });
 		ui::slider_field<float>(controls, "maxblur",  bokeh.maxblur,  { 0.f, 3.f, 0.025f });
 	}
+#endif
 
 #if !RENDERER
 	Render render = { Shading::Shaded, viewer.m_viewport, app.m_gfx.main_target(), app.m_gfx.m_render_frame };

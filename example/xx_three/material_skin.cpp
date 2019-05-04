@@ -1,9 +1,7 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-gltf/Api.h>
 
-#include <xx_three/xx_three.h>
 #include <xx_three/code/bloom_pass.h>
 
 #include <stl/vector.hpp>
@@ -437,16 +435,21 @@ Texture& render_beckmann(GfxSystem& gfx, uvec2 size)
 
 #define PAD 0.f
 
-void xx_material_skin(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_material_skin)
 {
+#if UI
 	UNUSED(dockbar);
+	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
 	static ImporterGltf importer_gltf = { app.m_gfx };
 
-	SceneViewer& viewer = ui::scene_viewer(parent);
 	//ui::orbit_controls(viewer);
 	viewer.m_viewport.m_autorender = false;
-
-	Scene& scene = viewer.m_scene;
 
 	static Node3* mesh = nullptr;
 	static Item* item = nullptr;
@@ -532,10 +535,12 @@ void xx_material_skin(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	}
 
 	static vec2 mouse = vec2(0.f);
+#if 0
 	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
 		mouse = event.m_relative - viewer.m_frame.m_size / 2.f;
 	}
+#endif
 
 	const vec2 target = mouse * 0.001f;
 

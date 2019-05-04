@@ -1,21 +1,25 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
+#include <xx_three/xx_three.h>
 #include <gfx-pbr/Api.h>
 #include <gfx-obj/Api.h>
 
-#include <xx_three/xx_three.h>
-
-void xx_material_displace(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_material_displace)
 {
-	static ImporterOBJ obj_importer(app.m_gfx);
-
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
+	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
+
+	static ImporterOBJ obj_importer(app.m_gfx);
+
+#if UI
 	ui::orbit_controls(viewer);
 	//controls.enableZoom = false;
 	//controls.enableDamping = true;
-
-	Scene& scene = viewer.m_scene;
+#endif
 
 	constexpr int height = 500; // of camera frustum
 
@@ -84,6 +88,7 @@ void xx_material_displace(Shell& app, Widget& parent, Dockbar& dockbar, bool ini
 		gfx::items(scene).add(Item(n, model, 0U, &mat));
 	}
 
+#if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
 		Widget& sheet = ui::sheet(*dock);
@@ -106,6 +111,7 @@ void xx_material_displace(Shell& app, Widget& parent, Dockbar& dockbar, bool ini
 
 		// envMapIntensity
 	}
+#endif
 
 	light->apply(vec3(2500.f * cos(r), 2500.f * sin(r), 0.f));
 

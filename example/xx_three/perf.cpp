@@ -1,21 +1,21 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-
 #include <xx_three/xx_three.h>
+#include <gfx-pbr/Api.h>
 
 #include <stl/array.h>
 #include <stl/vector.hpp>
 
 using namespace two;
 
-void xx_perf(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
+EX(xx_perf)
 {
+#if UI
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
-	//ui::orbit_controls(viewer);
-
 	Scene& scene = viewer.m_scene;
+#else
+	static Scene scene = Scene(app.m_gfx);
+	static GfxViewer viewer = GfxViewer(window, scene);
+#endif
 
 	//scene.background = new THREE.Color(0xffffff);
 
@@ -53,10 +53,12 @@ void xx_perf(Shell& app, Widget& parent, Dockbar& dockbar, bool init)
 	}
 
 	static vec2 mouse = vec2(0.f);
+#if UI
 	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
 		mouse = (event.m_relative - viewer.m_frame.m_size / 2.f) * 10.f;
 	}
+#endif
 
 	Camera& camera = viewer.m_camera;
 	camera.m_eye.x += (mouse.x - camera.m_eye.x) * .05f;
