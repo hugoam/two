@@ -61,7 +61,7 @@ function module(namespace, name, rootpath, subpath, self_decl, usage_decl, refle
         table.insert(MODULES, m)
     end
     
-    if reflect then
+    if reflect and not NO_REFL then
         m.refl = refl(m)
     end
     

@@ -2,6 +2,7 @@
 
 TWO_STATIC = true
 FORCE_REFL_PROJECTS = false
+NO_REFL = false
 
 MODULES = {}
 
