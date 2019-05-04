@@ -118,6 +118,9 @@ namespace two
 		, m_camera()
 		, m_viewport(m_camera, scene)
 	{
+		m_position = vec2(0.f);
+		m_size = vec2(context.m_fb_size);
+
 		m_viewport.m_tasks.push_back([&](Render& render) { this->render(render); });
 
 		m_context.m_viewports.push_back(&m_viewport);
@@ -153,8 +156,6 @@ namespace two
 
 	vec4 GfxViewer::query_rect()
 	{
-		m_position;// = m_frame.absolute_position();
-		m_size;// = m_frame.m_size * m_frame.absolute_scale();
 		const vec4 absolute = vec4(m_position, m_size);
 		return absolute / vec2(m_context.m_size);
 	}

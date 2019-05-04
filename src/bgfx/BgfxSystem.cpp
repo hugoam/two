@@ -99,8 +99,6 @@ namespace two
 	{
 #ifdef _DEBUG
 		m_capture |= m_capture_every && (m_frame % m_capture_every) == 0;
-		if(m_capture)
-			int i = 0;
 		m_frame = bgfx::frame(m_capture);
 		m_capture = false;
 #else
