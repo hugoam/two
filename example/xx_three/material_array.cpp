@@ -97,7 +97,7 @@ void xx_material_variations(Shell& app, Widget& parent, Dockbar& dockbar, bool i
 				}
 
 		//var loader = new THREE.FontLoader();
-		//loader.load('fonts/gentilis_regular.typeface.Json', function(font) {
+		//loader.load('fonts/gentilis_regular.typeface.json', function(font) {
 
 		//function addLabel(name, location) {
 		//

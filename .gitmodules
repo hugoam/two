@@ -2,9 +2,6 @@
 	path = 3rdparty/bx
 	url = https://github.com/bkaradzic/bx
 	branch = master
-[submodule "3rdparty/glm"]
-	path = 3rdparty/glm
-	url = https://github.com/g-truc/glm
 [submodule "3rdparty/stb"]
 	path = 3rdparty/stb
 	url = https://github.com/nothings/stb
@@ -36,12 +33,6 @@
 [submodule "3rdparty/FastNoise"]
 	path = 3rdparty/FastNoise
 	url = https://github.com/Auburns/FastNoise
-[submodule "3rdparty/pycgen"]
-	path = 3rdparty/pycgen
-	url = https://github.com/Celtoys/pycgen
-[submodule "3rdparty/amalgamate"]
-	path = 3rdparty/amalgamate
-	url = https://github.com/edlund/amalgamate
 [submodule "3rdparty/vorbis"]
 	path = 3rdparty/vorbis
 	url = https://github.com/xiph/vorbis
@@ -72,6 +63,3 @@
 [submodule "3rdparty/culling"]
 	path = 3rdparty/culling
 	url = https://github.com/hugoam/MaskedOcclusionCulling
-[submodule "3rdparty/tinystl"]
-	path = 3rdparty/tinystl
-	url = https://github.com/hugoam/tinystl

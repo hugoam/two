@@ -831,7 +831,7 @@ int main(int argc, char *argv[])
 {
 	UNUSED(argc); UNUSED(argv);
 #ifdef SCRIPT
-	System::instance().load_modules({ &mud_obj::m(), &mud_math::m(), &mud_lang::m(), &mud_ui::m() });
+	System::instance().load_modules({ &two_obj::m(), &two_math::m(), &two_lang::m(), &two_ui::m() });
 #endif
 
 #ifdef TWO_RENDERER_GL

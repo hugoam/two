@@ -222,7 +222,7 @@ void pump(Shell& app, ShellWindow& window)
 int main(int argc, char *argv[])
 {
 	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
-	System::instance().load_modules({ &mud_ui::m(), &mud_gfx_ui::m() });
+	System::instance().load_modules({ &two_ui::m(), &two_gfx_ui::m() });
 	app.m_gfx.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }

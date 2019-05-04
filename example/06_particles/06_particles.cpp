@@ -104,7 +104,7 @@ void pump(Shell& app, ShellWindow& window)
 int main(int argc, char *argv[])
 {
 	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv));
-	System::instance().load_modules({ &mud_gfx::m() });
+	System::instance().load_modules({ &two_gfx::m() });
 	add_asset_loader(app.m_gfx.flows(), ".ptc");
 	app.m_gfx.add_resource_path("examples/06_particles");
 	app.m_gfx.init_pipeline(pipeline_minimal);

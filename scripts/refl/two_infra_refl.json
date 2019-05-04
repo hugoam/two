@@ -1,0 +1,12 @@
+{
+    "dependencies": [],
+    "includedirs": ["d:/Documents/Programmation/toy/two/3rdparty/glm", "d:/Documents/Programmation/toy/two/src", "d:/Documents/Programmation/toy/two/3rdparty/tinystl/include", "d:/Documents/Programmation/toy/two/3rdparty/FastNoise", "d:/Documents/Programmation/toy/two/3rdparty/vg-renderer/include", "d:/Documents/Programmation/toy/two/3rdparty/bx/include", "d:/Documents/Programmation/toy/two/3rdparty/bimg/include", "d:/Documents/Programmation/toy/two/3rdparty/bgfx/include", "d:/Documents/Programmation/toy/two/3rdparty/bx/include/compat/msvc", "d:/Documents/Programmation/toy/two/3rdparty/tracy"],
+    "namespace": "two",
+    "dotname": "two.infra",
+    "idname": "two_infra",
+    "path": "d:/Documents/Programmation/toy/two/src/infra",
+    "name": "infra",
+    "root": "d:/Documents/Programmation/toy/two/src",
+    "subdir": "infra",
+    "notypes": true
+}
