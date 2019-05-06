@@ -37,6 +37,7 @@ namespace stl
 	template class TWO_MATH_EXPORT vector<Colour>;
 	template class TWO_MATH_EXPORT vector<Image>;
 	template class TWO_MATH_EXPORT vector<Sprite>;
+	template class TWO_MATH_EXPORT vector<Image*>;
 	template class TWO_MATH_EXPORT unordered_map<uint64_t, ushort>;
 	template class TWO_MATH_EXPORT unordered_map<ushort, ushort>;
 	//template class TWO_MATH_EXPORT unordered_map<Type*, Colour>;
