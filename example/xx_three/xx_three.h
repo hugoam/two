@@ -4,7 +4,7 @@
 
 #pragma once
 
-#define UI 0
+#define UI 1
 
 #if UI
 #include <frame/Forward.h>
@@ -14,7 +14,7 @@ using WindowX = two::ShellWindow;
 #else
 #include <xx_three/gfxshell.h>
 using ShellX = two::GfxShell;
-using WindowX = two::GfxWindow;
+using WindowX = two::GfxContext;
 #endif
 
 using namespace two;

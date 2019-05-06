@@ -194,6 +194,12 @@ namespace two
 		//	m_gfx.m_copy->debug_show_texture(render, *render.m_env->m_radiance.m_filtered, vec4(0.f), 1);
 		//copy.debug_show_texture(render, render.m_env->m_radiance.m_filtered, vec4(0.f), false, false, false, 1);
 		//copy.debug_show_texture(render, bgfx::getTexture(render.m_target->m_effects.last()), vec4(0.f));
+
+		if(render.m_viewport->m_autoflip)
+		{
+			Pass flip = render.next_pass("flip", PassType::Flip);
+			m_gfx.m_copy->quad(flip, render.m_target->m_backbuffer, render.m_target->m_diffuse);
+		}
 	}
 
 	void Renderer::render(Render& render, RenderFunc renderer)

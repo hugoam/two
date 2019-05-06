@@ -6,14 +6,28 @@
 #include <jobs/Api.h>
 #include <math/Api.h>
 #include <geom/Api.h>
+#include <ctx/Api.h>
 #include <gfx/Api.h>
 
 namespace two
 {
 	class GfxShell;
+	class GfxContext;
 
-	using ShellUpdate = void(*)(GfxShell&, GfxWindow&);
+	using ShellUpdate = void(*)(GfxShell&, GfxContext&);
 	//using ShellUpdate = std::function<void(ShellX&)>;
+
+	export_ class refl_ GfxContext : public GfxWindow, public InputContext//, public EventDispatcher
+	{
+	public:
+		GfxContext(GfxSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main = true);
+
+		virtual bool begin_frame() override;
+		virtual void end_frame() override;
+
+		//Keyboard m_keyboard;
+		//Mouse m_mouse;
+	};
 
 	export_ class refl_ GfxShell
 	{
@@ -22,7 +36,7 @@ namespace two
 		~GfxShell();
 
 		meth_ void init(bool window = true);
-		meth_ GfxWindow& window(const string& name, const uvec2& size, bool fullscreen = false);
+		meth_ GfxContext& window(const string& name, const uvec2& size, bool fullscreen = false);
 
 		meth_ void add_file(const string& path, span<uint8_t> data);
 
@@ -33,7 +47,7 @@ namespace two
 
 		meth_ bool pump();
 
-		meth_ GfxWindow& main_window();
+		meth_ GfxContext& main_window();
 
 	public:
 		attr_ string m_exec_path;
@@ -42,7 +56,7 @@ namespace two
 		attr_ JobSystem m_job_system;
 		attr_ GfxSystem m_gfx;
 
-		vector<unique<GfxWindow>> m_windows;
+		vector<unique<GfxContext>> m_windows;
 
 		ShellUpdate m_pump = nullptr;
 	};

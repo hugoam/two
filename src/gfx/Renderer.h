@@ -289,8 +289,6 @@ namespace two
 		struct Impl;
 		unique<Impl> m_impl;
 
-		void init();
-
 		void submit(Render& render, RenderFunc renderer);
 		void render(Render& render, RenderFunc renderer);
 		void subrender(Render& render, Render& sub, RenderFunc renderer);

@@ -68,18 +68,19 @@ namespace two
 		Widget* pinpoint(vec2 pos);
 		Widget* pinpoint(vec2 pos, const FrameFilter& filter);
 
-		inline bool fits_modifier(InputMod modifier, InputMod mask) { return mask == InputMod::Any || modifier == mask; }
-
-		meth_ KeyEvent key_event(Key code, EventType event_type, InputMod modifier = InputMod::Any);
-		meth_ KeyEvent key_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(code, EventType::Stroked, modifier); }
-		meth_ KeyEvent char_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(translate(code), EventType::Stroked, modifier); }
-
-		meth_ MouseEvent mouse_event(DeviceType device, EventType event_type, InputMod modifier = InputMod::None, bool consume = true);
+		//inline bool fits_modifier(InputMod modifier, InputMod mask) { return mask == InputMod::Any || modifier == mask; }
+		//
+		//meth_ KeyEvent key_event(Key code, EventType event_type, InputMod modifier = InputMod::Any);
+		//meth_ KeyEvent key_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(code, EventType::Stroked, modifier); }
+		//meth_ KeyEvent char_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(translate(code), EventType::Stroked, modifier); }
+		//
+		//meth_ MouseEvent mouse_event(DeviceType device, EventType event_type, InputMod modifier = InputMod::None, bool consume = true);
 		
 		void transform_event(InputEvent& event);
-		ControlNode* control_event(InputEvent& event);
-		void receive_event(InputEvent& event);
-		ControlNode* propagate_event(InputEvent& event);
+
+		virtual ControlNode* control_event(InputEvent& event) override;
+		virtual void receive_event(InputEvent& event) override;
+		//virtual ControlNode* propagate_event(InputEvent& event) override;
 
 		attr_ Frame m_frame;
 		attr_ WidgetState m_state = CREATED;

@@ -182,30 +182,30 @@ namespace two
 		this->transform_event(event);
 	}
 
-	ControlNode* Widget::propagate_event(InputEvent& event)
-	{
-		UNUSED(event);
-		return m_parent;
-	}
+	//ControlNode* Widget::propagate_event(InputEvent& event)
+	//{
+	//	UNUSED(event);
+	//	return m_parent;
+	//}
 
-	KeyEvent Widget::key_event(Key code, EventType event_type, InputMod modifier)
-	{
-		if(!m_events) return KeyEvent();
-		KeyEvent* event = static_cast<KeyEvent*>(m_events->m_keyed_events[DeviceType::Keyboard][event_type][int(code)]);
-		return event && fits_modifier(event->m_modifiers, modifier) ? *event : KeyEvent();
-	}
-
-	MouseEvent Widget::mouse_event(DeviceType device, EventType event_type, InputMod modifier, bool consume)
-	{
-		if(!m_events) return MouseEvent();
-		MouseEvent* event = static_cast<MouseEvent*>(m_events->m_events[device][event_type]);
-		if(event && fits_modifier(event->m_modifiers, modifier))
-		{
-			MouseEvent result = *event;;
-			if(consume)
-				event->consume(*this);
-			return result;
-		}
-		return MouseEvent();
-	}
+	//KeyEvent Widget::key_event(Key code, EventType event_type, InputMod modifier)
+	//{
+	//	if(!m_events) return KeyEvent();
+	//	KeyEvent* event = static_cast<KeyEvent*>(m_events->m_keyed_events[DeviceType::Keyboard][event_type][int(code)]);
+	//	return event && fits_modifier(event->m_modifiers, modifier) ? *event : KeyEvent();
+	//}
+	//
+	//MouseEvent Widget::mouse_event(DeviceType device, EventType event_type, InputMod modifier, bool consume)
+	//{
+	//	if(!m_events) return MouseEvent();
+	//	MouseEvent* event = static_cast<MouseEvent*>(m_events->m_events[device][event_type]);
+	//	if(event && fits_modifier(event->m_modifiers, modifier))
+	//	{
+	//		MouseEvent result = *event;;
+	//		if(consume)
+	//			event->consume(*this);
+	//		return result;
+	//	}
+	//	return MouseEvent();
+	//}
 }

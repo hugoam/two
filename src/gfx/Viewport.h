@@ -59,6 +59,7 @@ namespace two
 
 		attr_ uint16_t m_index = 0;
 		attr_ bool m_autorender = true;
+		attr_ bool m_autoflip = false;
 		attr_ vec4 m_rect = vec4(0.f);
 		attr_ bool m_scissor = false;
 		attr_ Colour m_clear_colour = Colour::Black;

@@ -11,6 +11,7 @@
 #include <ctx/Forward.h>
 #include <ctx/KeyCode.h>
 #include <ctx/InputDispatcher.h>
+#include <ctx/ControlNode.h>
 
 namespace two
 {
@@ -91,5 +92,22 @@ namespace two
 		MouseButton m_buttons[3];
 
 		vector<MouseEvent> m_events;
+	};
+
+	export_ class TWO_CTX_EXPORT InputContext : public ControlNode, public EventDispatcher
+	{
+	public:
+		InputContext();
+
+		void init(Context& context);
+
+		void begin_frame();
+		void end_frame();
+
+		virtual ControlNode* control_event(InputEvent& event) override;
+		virtual void receive_event(InputEvent& inputEvent) override;
+
+		Keyboard m_keyboard;
+		Mouse m_mouse;
 	};
 }

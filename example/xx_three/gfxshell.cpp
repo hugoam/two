@@ -25,6 +25,24 @@ namespace two
 	}
 #endif
 
+	GfxContext::GfxContext(GfxSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main)
+		: GfxWindow(gfx, name, size, fullscreen, main)
+	{
+		this->init(*this);
+	}
+
+	bool GfxContext::begin_frame()
+	{
+		InputContext::begin_frame();
+		return GfxWindow::begin_frame();
+	}
+
+	void GfxContext::end_frame()
+	{
+		InputContext::end_frame();
+		GfxWindow::end_frame();
+	}
+
 	GfxShell::GfxShell(const string& resource_path, const string& exec_path, bool window)
         : m_exec_path(exec_path)
 		, m_resource_path(resource_path)
@@ -64,6 +82,12 @@ namespace two
 	bool GfxShell::begin_frame()
 	{
 		bool pursue = m_gfx.begin_frame();
+
+		//GfxWindow& w = this->main_window();
+		//bgfx::setViewFrameBuffer(240, w.m_target->m_backbuffer.m_fbo);
+		//bgfx::setViewClear(240, BGFX_CLEAR_COLOR);
+		//bgfx::touch(240);
+
 		return pursue;
 	}
 
@@ -88,16 +112,12 @@ namespace two
 	void GfxShell::init(bool window)
 	{
 		if(window)
-		{
-			GfxWindow& w = this->window("two", uvec2(1600U, 900U), false);
-			bgfx::setViewFrameBuffer(240, w.m_target->m_backbuffer.m_fbo);
-			bgfx::setViewClear(240, BGFX_CLEAR_COLOR);
-		}
+			this->window("two", uvec2(1600U, 900U), false);
 	}
 
-	GfxWindow& GfxShell::window(const string& name, const uvec2& size, bool fullscreen)
+	GfxContext& GfxShell::window(const string& name, const uvec2& size, bool fullscreen)
 	{
-		m_windows.push_back(construct<GfxWindow>(m_gfx, name, size, fullscreen));
+		m_windows.push_back(construct<GfxContext>(m_gfx, name, size, fullscreen));
 		return *m_windows.back();
 	}
 
@@ -107,7 +127,7 @@ namespace two
 		write_binary_file(path, data);
 	}
 
-	GfxWindow& GfxShell::main_window()
+	GfxContext& GfxShell::main_window()
 	{
 		return *m_windows[0];
 	}
@@ -120,6 +140,9 @@ namespace two
 	{
 		m_position = vec2(0.f);
 		m_size = vec2(context.m_fb_size);
+
+		m_viewport.m_rect = vec4(vec2(0.f), vec2(1.f));
+		m_viewport.m_autoflip = true;
 
 		m_viewport.m_tasks.push_back([&](Render& render) { this->render(render); });
 

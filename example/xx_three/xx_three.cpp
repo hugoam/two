@@ -12,6 +12,8 @@
 #endif
 #include <gfx-pbr/Api.h>
 
+#include <stl/array.h>
+
 using namespace two;
 
 #define SIDE_PANEL 1
@@ -120,10 +122,21 @@ uint32_t find_example(const string& name)
 }
 
 #if !UI
-void ex_xx_three(ShellX& app, GfxWindow& window, bool& init, uint32_t& example)
+void ex_xx_three(ShellX& app, WindowX& window, bool& init, uint32_t& example)
 {
 	static vector<cstring> labels = example_labels();
 	bool changed = false;
+
+	if(window.key_stroke(Key::W))
+	{
+		example = min(example + 1, uint32_t(array_size(examples)));
+		changed = true;
+	}
+	if(window.key_stroke(Key::Q))
+	{
+		example = max(example - 1, 0U);
+		changed = true;
+	}
 
 	if(changed)
 	{

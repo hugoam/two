@@ -93,16 +93,6 @@ EX(xx_perf_twosided)
 
 	Program& phong = app.m_gfx.programs().fetch("pbr/phong");
 
-#if CUSTOM_SHADER
-	static Program& program = app.m_gfx.programs().create("twosided");
-	if(init)
-	{
-		program.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Phong });
-		program.set_source(ShaderType::Vertex, simple_vertex);
-		program.set_source(ShaderType::Fragment, simple_fragment);
-		program.register_blocks(phong);
-	}
-#endif
 
 	if(init)
 	{
@@ -131,6 +121,14 @@ EX(xx_perf_twosided)
 		gfx::lights(scene).add(Light(l2, LightType::Point, false, rgb(0xffaa00), 2.f, 3000.f));
 		
 		Program& phong = *app.m_gfx.programs().file("pbr/phong");
+
+#if CUSTOM_SHADER
+		Program& program = app.m_gfx.programs().create("twosided");
+		program.set_blocks({ MaterialBlock::Alpha, MaterialBlock::Lit, MaterialBlock::Phong });
+		program.set_source(ShaderType::Vertex, simple_vertex);
+		program.set_source(ShaderType::Fragment, simple_fragment);
+		program.register_blocks(phong);
+#endif
 
 		Material& material = app.m_gfx.materials().create("twosided",  [&](Material& m) {
 #if CUSTOM_SHADER

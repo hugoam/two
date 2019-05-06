@@ -11,6 +11,7 @@
 module two.ctx;
 #else
 #include <math/Vec.hpp>
+#include <ctx/Context.h>
 #include <ctx/InputDevice.h>
 #include <ctx/InputEvent.h>
 #include <ctx/ControlNode.h>
@@ -222,5 +223,57 @@ namespace two
 	void MouseButton::click(MouseEvent& mouse_event)
 	{
 		m_mouse.dispatch_secondary(MouseEvent(m_deviceType, EventType::Stroked, mouse_event), m_pressed, m_pressed_event.m_pos);
+	}
+
+	InputContext::InputContext()
+		: EventDispatcher(this)
+		, m_keyboard(*this)
+		, m_mouse(*this, m_keyboard)
+	{}
+
+	void InputContext::init(Context& context)
+	{
+		context.init_input(m_mouse, m_keyboard);
+	}
+
+	void InputContext::begin_frame()
+	{}
+
+	void InputContext::end_frame()
+	{
+		m_mouse.m_events.clear();
+		m_keyboard.m_events.clear();
+
+		EventDispatcher::update();
+	}
+
+	ControlNode* InputContext::control_event(InputEvent& event)
+	{
+		return this;
+	}
+
+	void InputContext::receive_event(InputEvent& inputEvent)
+	{
+	}
+
+	KeyEvent ControlNode::key_event(Key code, EventType event_type, InputMod modifier)
+	{
+		if(!m_events) return KeyEvent();
+		KeyEvent* event = static_cast<KeyEvent*>(m_events->m_keyed_events[DeviceType::Keyboard][event_type][int(code)]);
+		return event && fits_modifier(event->m_modifiers, modifier) ? *event : KeyEvent();
+	}
+
+	MouseEvent ControlNode::mouse_event(DeviceType device, EventType event_type, InputMod modifier, bool consume)
+	{
+		if(!m_events) return MouseEvent();
+		MouseEvent* event = static_cast<MouseEvent*>(m_events->m_events[device][event_type]);
+		if(event && fits_modifier(event->m_modifiers, modifier))
+		{
+			MouseEvent result = *event;;
+			if(consume)
+				event->consume(*this);
+			return result;
+		}
+		return MouseEvent();
 	}
 }
