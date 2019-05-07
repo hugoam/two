@@ -155,10 +155,10 @@ void ex_04_lights(Shell& app, Widget& parent)
 		if(ui::radio_field(sheet, "Type", light_types, light_type_index))
 			light_type = LightType(light_type_index);
 
-		ui::slider_field<float>(sheet, "Range", { light_range, { 0.f, 100.f, 0.01f } });
-		ui::slider_field<float>(sheet, "Attenuation", { light_attenuation, { 0.f, 4.f, 0.01f } });
-		ui::slider_field<float>(sheet, "Spot Angle", { spot_angle, { 0.f, 180.f, 0.1f } });
-		ui::slider_field<float>(sheet, "Spot Attenuation", { spot_attenuation, { 0.f, 4.f, 0.01f } });
+		ui::slider_field<float>(sheet, "Range", light_range, { 0.f, 100.f, 0.01f });
+		ui::slider_field<float>(sheet, "Attenuation", light_attenuation, { 0.f, 4.f, 0.01f });
+		ui::slider_field<float>(sheet, "Spot Angle", spot_angle, { 0.f, 180.f, 0.1f });
+		ui::slider_field<float>(sheet, "Spot Attenuation", spot_attenuation, { 0.f, 4.f, 0.01f });
 	}
 #endif
 }
