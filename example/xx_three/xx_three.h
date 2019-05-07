@@ -4,8 +4,6 @@
 
 #pragma once
 
-#define UI 1
-
 #if UI
 #include <frame/Forward.h>
 #include <frame/Api.h>

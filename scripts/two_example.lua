@@ -85,3 +85,6 @@ if _OPTIONS["renderer-bgfx"] then
     --    configuration { "asmjs" }
     --        uses_shaderc()
 end
+
+project "xx_three"
+    defines { "UI=1" }
