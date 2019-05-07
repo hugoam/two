@@ -101,11 +101,11 @@ EX(xx_material_displace)
 
 		Widget& a = panel("Material");
 
-		ui::slider_field<float>(a, "metalness",    material->m_pbr.m_metallic.m_value,  { 0.f, 1.f, 0.01f });
-		ui::slider_field<float>(a, "roughness",    material->m_pbr.m_roughness.m_value, { 0.f, 1.f, 0.01f });
-		ui::slider_field<float>(a, "occlusion",    material->m_lit.m_occlusion.m_value, { 0.f, 1.f, 0.01f });
-		ui::slider_field<float>(a, "displacement", material->m_lit.m_displace.m_value,  { 0.f, 5.f, 0.01f });
-		ui::slider_field<float>(a, "normal scale", material->m_lit.m_normal.m_value,    { -1.f, 1.f, 0.01f });
+		ui::slider_field(a, "metalness",    material->m_pbr.m_metallic.m_value,  { 0.f, 1.f, 0.01f });
+		ui::slider_field(a, "roughness",    material->m_pbr.m_roughness.m_value, { 0.f, 1.f, 0.01f });
+		ui::slider_field(a, "occlusion",    material->m_lit.m_occlusion.m_value, { 0.f, 1.f, 0.01f });
+		ui::slider_field(a, "displacement", material->m_lit.m_displace.m_value,  { 0.f, 5.f, 0.01f });
+		ui::slider_field(a, "normal scale", material->m_lit.m_normal.m_value,    { -1.f, 1.f, 0.01f });
 
 		ui::color_field(a, "ambient", scene.m_env.m_radiance.m_ambient);
 

@@ -474,7 +474,7 @@ void ex_markup_text(Widget& parent)
 {
 	static float width = 200.f;
 	ui::text(parent, "This is a long paragraph. The text should automatically wrap on the edge of the window. The current implementation follows no word splitting rules, text is just split at the last character.");
-	ui::slider_field<float>(parent, "Wrap width", width, { -20.f, 600.f, 0.1f }, false);
+	ui::slider_field(parent, "Wrap width", width, { -20.f, 600.f, 0.1f }, false);
 
 	Widget& r0 = ui::row(parent);
 	ui::icon(r0, "(bullet)");
@@ -518,10 +518,10 @@ void ex_controls(Widget& parent)
 	ui::slider_field<int>(table, "int -100..100", val_int_100_100, { -100, 100, 1 }, true);
 
 	static float val_float = 1.123f;
-	ui::slider_field<float>(table, "float input", val_float, { 0.0f, 2.0f, 0.001f }, true);
-	//ui::slider_field<float>(table, "log float", val_float, { 0.0f, 10.0f, 1.f }, true);
-	//ui::slider_field<float>(table, "signed log float", val_float, { -10.0f, 10.0f, 1.f }, true);
-	//ui::slider_field<float>(table, "unbound float", 123456789.0f, { -FLT_MAX, FLT_MAX, 1.f }, true);
+	ui::slider_field(table, "float input", val_float, { 0.0f, 2.0f, 0.001f }, true);
+	//ui::slider_field(table, "log float", val_float, { 0.0f, 10.0f, 1.f }, true);
+	//ui::slider_field(table, "signed log float", val_float, { -10.0f, 10.0f, 1.f }, true);
+	//ui::slider_field(table, "unbound float", 123456789.0f, { -FLT_MAX, FLT_MAX, 1.f }, true);
 
 	// table.emplace<SliderAngle>("angle", 0.f);
 
@@ -597,7 +597,7 @@ void ex_progress_dialog(Widget& parent)
 {
 	static float percentage = 0.57f;
 	ui::fill_bar(parent, percentage);
-	ui::slider_field<float>(parent, "Set progress", percentage, { 0.f, 1.f, 0.01f }, false);
+	ui::slider_field(parent, "Set progress", percentage, { 0.f, 1.f, 0.01f }, false);
 }
 
 WindowState window_state = WindowState::Default;
@@ -625,7 +625,7 @@ void ex_window_page(Widget& parent)
 		ui::flag_field(*expandbox, "resizable", (uint32_t&)window_state, 5, true);
 
 		static float alpha = 0.f; //[&window](float alpha) { window.frame().d_inkstyle->m_background_colour.m_a = alpha; }
-		ui::slider_field<float>(*expandbox, "fill alpha", alpha, { 0.f, 1.f, 0.1f }, true);
+		ui::slider_field(*expandbox, "fill alpha", alpha, { 0.f, 1.f, 0.1f }, true);
 	}
 
 	if(Widget* expandbox = ui::expandbox(parent, "Widgets").m_body)

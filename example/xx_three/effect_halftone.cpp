@@ -422,14 +422,14 @@ EX(xx_effect_halftone)
 
 		ui::dropdown_field(controls, "shape", { "None", "Dot", "Ellipse", "Line", "Square" }, (uint32_t&)halftone.m_shape);
 
-		ui::slider_field<float>(controls, "radius",   halftone.m_radius, { 1.f, 25.f, 0.1f });
-		ui::slider_field<float>(controls, "rotateR",  rotate.r, { 0.f, 90.f, 0.1f });
-		ui::slider_field<float>(controls, "rotateG",  rotate.g, { 0.f, 90.f, 0.1f });
-		ui::slider_field<float>(controls, "rotateB",  rotate.b, { 0.f, 90.f, 0.1f });
-		ui::slider_field<float>(controls, "scatter",  halftone.m_scatter, { 0.f, 1.f, 0.01f });
+		ui::slider_field(controls, "radius",   halftone.m_radius, { 1.f, 25.f, 0.1f });
+		ui::slider_field(controls, "rotateR",  rotate.r, { 0.f, 90.f, 0.1f });
+		ui::slider_field(controls, "rotateG",  rotate.g, { 0.f, 90.f, 0.1f });
+		ui::slider_field(controls, "rotateB",  rotate.b, { 0.f, 90.f, 0.1f });
+		ui::slider_field(controls, "scatter",  halftone.m_scatter, { 0.f, 1.f, 0.01f });
 		ui::field<bool>  (controls, "grayscale", halftone.m_grayscale);
 
-		ui::slider_field<float>(controls, "blending", halftone.m_blending, { 0.f, 1.f, 0.01f });
+		ui::slider_field(controls, "blending", halftone.m_blending, { 0.f, 1.f, 0.01f });
 		ui::dropdown_field(controls, "blend mode", { "None", "Linear", "Multiply", "Add", "Lighter", "Darker" }, (uint32_t&)halftone.m_blend_mode);
 
 		ui::field<bool>  (controls, "disable", halftone.m_disable);

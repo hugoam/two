@@ -765,7 +765,7 @@ static void ShowDemoWindowWidgets(Widget& parent)
 			ImGui::Spacing();
 
 			static float wrap_width = 200.0f;
-			ui::slider_field<float>(parent, "Wrap width", wrap_width, -20, 600, "%.0f");
+			ui::slider_field(parent, "Wrap width", wrap_width, -20, 600, "%.0f");
 
 			ui::label(parent, "Test paragraph 1:");
 			vec2 pos = ImGui::GetCursorScreenPos();
@@ -1615,7 +1615,7 @@ static void ShowDemoWindowWidgets(Widget& parent)
 		if(item_type == 0) { ui::label(parent, "ITEM: Text"); }                                              // Testing text items with no identifier/interaction
 		if(item_type == 1) { ret = ui::button(parent, "ITEM: Button"); }                                    // Testing button
 		if(item_type == 2) { ret = ui::field(parent, "ITEM: Checkbox", b); }                            // Testing checkbox
-		if(item_type == 3) { ret = ui::slider_field<float>(parent, "ITEM: SliderFloat", col4f[0], 0.0f, 1.0f); }   // Testing basic item
+		if(item_type == 3) { ret = ui::slider_field(parent, "ITEM: SliderFloat", col4f[0], 0.0f, 1.0f); }   // Testing basic item
 		if(item_type == 4) { ret = ImGui::InputText("ITEM: InputText", str[0], IM_ARRAYSIZE(str)); }  // Testing input text (which handles tabbing)
 		if(item_type == 5) { ret = ImGui::ColorEdit4("ITEM: ColorEdit4", col4f); }                     // Testing multi-component items (IsItemXXX flags are reported merged)
 		if(item_type == 6) { ret = ui::menu_choice(parent, "ITEM: MenuItem"); }                                // Testing menu item (they use ImGuiButtonFlags_PressedOnRelease button policy)
@@ -1897,9 +1897,9 @@ static void ShowDemoWindowLayout()
 		static int item = -1;
 		Widget& row = ui::row(parent);
 		ui::dropdown_field(parent, "Combo", item, items, IM_ARRAYSIZE(items));
-		ui::slider_field<float>(row, "X", { f0, 0.0f, 5.0f });
-		ui::slider_field<float>(row, "Y", { f1, 0.0f, 5.0f });
-		ui::slider_field<float>(row, "Z", { f2, 0.0f, 5.0f });
+		ui::slider_field(row, "X", { f0, 0.0f, 5.0f });
+		ui::slider_field(row, "Y", { f1, 0.0f, 5.0f });
+		ui::slider_field(row, "Z", { f2, 0.0f, 5.0f });
 		ImGui::PopItemWidth();
 
 		ImGui::PushItemWidth(80);
@@ -2985,7 +2985,7 @@ void ShowStyleEditor(Widget& parent, ImguiLook& style, ImguiColours& colours)
 	//ImGui::ShowFontSelector("Fonts##Selector");
 
 	// Simplified Settings
-	if(ui::slider_field<float>(parent, "FrameRounding", style.FrameRounding, { 0.0f, 12.0f })) //, "%.0f"))
+	if(ui::slider_field(parent, "FrameRounding", style.FrameRounding, { 0.0f, 12.0f })) //, "%.0f"))
 		style.GrabRounding = style.FrameRounding; // Make GrabRounding always the same value as FrameRounding
 
 	Widget& row = ui::row(parent);
@@ -3014,23 +3014,23 @@ void ShowStyleEditor(Widget& parent, ImguiLook& style, ImguiColours& colours)
 			ui::float2_slider(cols, "ItemSpacing", { "x", "y" }, style.ItemSpacing.f, { 0.0f, 20.0f }); // , "%.0f");
 			ui::float2_slider(cols, "ItemInnerSpacing", { "x", "y" }, style.ItemInnerSpacing.f, { 0.0f, 20.0f }); // , "%.0f");
 			ui::float2_slider(cols, "TouchExtraPadding", { "x", "y" }, style.TouchExtraPadding.f, { 0.0f, 10.0f }); // , "%.0f");
-			ui::slider_field<float>(cols, "IndentSpacing", style.IndentSpacing, { 0.0f, 30.0f }, true); // , "%.0f");
-			ui::slider_field<float>(cols, "ScrollbarSize", style.ScrollbarSize, { 1.0f, 20.0f }, true); // , "%.0f");
-			ui::slider_field<float>(cols, "GrabMinSize", style.GrabMinSize, { 1.0f, 20.0f }, true); //, "%.0f");
+			ui::slider_field(cols, "IndentSpacing", style.IndentSpacing, { 0.0f, 30.0f }, true); // , "%.0f");
+			ui::slider_field(cols, "ScrollbarSize", style.ScrollbarSize, { 1.0f, 20.0f }, true); // , "%.0f");
+			ui::slider_field(cols, "GrabMinSize", style.GrabMinSize, { 1.0f, 20.0f }, true); //, "%.0f");
 			ui::label(cols, "Borders");
-			ui::slider_field<float>(cols, "WindowBorderSize", style.WindowBorderSize, { 0.0f, 1.0f }, true); //, "%.0f");
-			ui::slider_field<float>(cols, "ChildBorderSize", style.ChildBorderSize, { 0.0f, 1.0f }, true); //, "%.0f");
-			ui::slider_field<float>(cols, "PopupBorderSize", style.PopupBorderSize, { 0.0f, 1.0f }, true); //, "%.0f");
-			ui::slider_field<float>(cols, "FrameBorderSize", style.FrameBorderSize, { 0.0f, 1.0f }, true); //, "%.0f");
-			ui::slider_field<float>(cols, "TabBorderSize", style.TabBorderSize, { 0.0f, 1.0f }, true); //, "%.0f");
+			ui::slider_field(cols, "WindowBorderSize", style.WindowBorderSize, { 0.0f, 1.0f }, true); //, "%.0f");
+			ui::slider_field(cols, "ChildBorderSize", style.ChildBorderSize, { 0.0f, 1.0f }, true); //, "%.0f");
+			ui::slider_field(cols, "PopupBorderSize", style.PopupBorderSize, { 0.0f, 1.0f }, true); //, "%.0f");
+			ui::slider_field(cols, "FrameBorderSize", style.FrameBorderSize, { 0.0f, 1.0f }, true); //, "%.0f");
+			ui::slider_field(cols, "TabBorderSize", style.TabBorderSize, { 0.0f, 1.0f }, true); //, "%.0f");
 			ui::label(cols, "Rounding");
-			ui::slider_field<float>(cols, "WindowRounding", style.WindowRounding, { 0.0f, 12.0f }, true);// , "%.0f");
-			ui::slider_field<float>(cols, "ChildRounding", style.ChildRounding, { 0.0f, 12.0f }, true);//, "%.0f");
-			ui::slider_field<float>(cols, "FrameRounding", style.FrameRounding, { 0.0f, 12.0f }, true);//, "%.0f");
-			ui::slider_field<float>(cols, "PopupRounding", style.PopupRounding, { 0.0f, 12.0f }, true);//, "%.0f");
-			ui::slider_field<float>(cols, "ScrollbarRounding", style.ScrollbarRounding, { 0.0f, 12.0f }, true);//, "%.0f");
-			ui::slider_field<float>(cols, "GrabRounding", style.GrabRounding, { 0.0f, 12.0f }, true);//, "%.0f");
-			ui::slider_field<float>(cols, "TabRounding", style.TabRounding, { 0.0f, 12.0f }, true);//, "%.0f");
+			ui::slider_field(cols, "WindowRounding", style.WindowRounding, { 0.0f, 12.0f }, true);// , "%.0f");
+			ui::slider_field(cols, "ChildRounding", style.ChildRounding, { 0.0f, 12.0f }, true);//, "%.0f");
+			ui::slider_field(cols, "FrameRounding", style.FrameRounding, { 0.0f, 12.0f }, true);//, "%.0f");
+			ui::slider_field(cols, "PopupRounding", style.PopupRounding, { 0.0f, 12.0f }, true);//, "%.0f");
+			ui::slider_field(cols, "ScrollbarRounding", style.ScrollbarRounding, { 0.0f, 12.0f }, true);//, "%.0f");
+			ui::slider_field(cols, "GrabRounding", style.GrabRounding, { 0.0f, 12.0f }, true);//, "%.0f");
+			ui::slider_field(cols, "TabRounding", style.TabRounding, { 0.0f, 12.0f }, true);//, "%.0f");
 			ui::label(cols, "Alignment");
 			ui::float2_slider(cols, "WindowTitleAlign", { "x", "y" }, style.WindowTitleAlign.f, { 0.0f, 1.0f }); // , "%.2f");
 			ui::float2_slider(cols, "ButtonTextAlign", { "x", "y" }, style.ButtonTextAlign.f, { 0.0f, 1.0f }); // , "%.2f");
@@ -3282,7 +3282,7 @@ static void ShowExampleMenuFile()
 		static float f = 0.5f;
 		static int n = 0;
 		static bool b = true;
-		ui::slider_field<float>(parent, "Value", f, 0.0f, 1.0f);
+		ui::slider_field(parent, "Value", f, 0.0f, 1.0f);
 		ui::field<float>(parent, "Input", f, 0.1f);
 		ui::dropdown_field(parent, "Combo", n, "Yes", "No", "Maybe", "", "");
 		ui::field(parent, "Check", b);

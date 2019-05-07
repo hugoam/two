@@ -47,7 +47,7 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 	static vec4 select_rect = vec4(0.f);
 	if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 	{
-		vec2 start = viewer.m_frame.local_position(mouse_event.m_pressed);
+		vec2 start = viewer.m_frame.local_position(event.m_pressed);
 		vec2 end = event.m_relative;
 		select_rect = abs_rect(start, end - start);
 	}

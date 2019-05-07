@@ -479,34 +479,34 @@ EX(xx_marching_cubes)
 
 		Widget& b = panel("Material color");
 
-		ui::slider_field<float>(b, "hue",        current->color.h, { 0.f, 1.f, 0.025f });
-		ui::slider_field<float>(b, "saturation", current->color.s, { 0.f, 1.f, 0.025f });
-		ui::slider_field<float>(b, "lightness",  current->color.l, { 0.f, 1.f, 0.025f });
+		ui::slider_field(b, "hue",        current->color.h, { 0.f, 1.f, 0.025f });
+		ui::slider_field(b, "saturation", current->color.s, { 0.f, 1.f, 0.025f });
+		ui::slider_field(b, "lightness",  current->color.l, { 0.f, 1.f, 0.025f });
 
 		// light (point)
 
 		Widget& c = panel("Point light color");
 
-		ui::slider_field<float>(c, "hue",        controller.lhue,        { 0.f, 1.f, 0.025f });
-		ui::slider_field<float>(c, "saturation", controller.lsaturation, { 0.f, 1.f, 0.025f });
-		ui::slider_field<float>(c, "lightness",  controller.llightness,  { 0.f, 1.f, 0.025f });
+		ui::slider_field(c, "hue",        controller.lhue,        { 0.f, 1.f, 0.025f });
+		ui::slider_field(c, "saturation", controller.lsaturation, { 0.f, 1.f, 0.025f });
+		ui::slider_field(c, "lightness",  controller.llightness,  { 0.f, 1.f, 0.025f });
 
 		// light (directional)
 
 		Widget& d = panel("Directional light orientation");
 
-		ui::slider_field<float>(d, "x", controller.lx, { -1.f, 1.f, 0.025f });
-		ui::slider_field<float>(d, "y", controller.ly, { -1.f, 1.f, 0.025f });
-		ui::slider_field<float>(d, "z", controller.lz, { -1.f, 1.f, 0.025f });
+		ui::slider_field(d, "x", controller.lx, { -1.f, 1.f, 0.025f });
+		ui::slider_field(d, "y", controller.ly, { -1.f, 1.f, 0.025f });
+		ui::slider_field(d, "z", controller.lz, { -1.f, 1.f, 0.025f });
 
 		// simulation
 
 		Widget& e = panel("Simulation");
 
-		ui::slider_field<float>(e,    "speed",      controller.speed,      { 0.1f, 8.0f, 0.05f });
-		ui::slider_field<uint32_t>(e, "numBlobs",   controller.numBlobs,   { 1, 50, 1 });
-		ui::slider_field<uint32_t>(e, "resolution", controller.resolution, { 14, 100, 1 });
-		ui::slider_field<float>(e,    "isolation",  controller.isolation,  { 10.f, 300.f, 1.f });
+		ui::slider_field(e,    "speed",      controller.speed,      { 0.1f, 8.0f, 0.05f });
+		ui::slider_field(e, "numBlobs",   controller.numBlobs,   { 1, 50, 1 });
+		ui::slider_field(e, "resolution", controller.resolution, { 14, 100, 1 });
+		ui::slider_field(e,    "isolation",  controller.isolation,  { 10.f, 300.f, 1.f });
 
 		ui::field(e, "floor", controller.floor);
 		ui::field(e, "wallx", controller.wallx);

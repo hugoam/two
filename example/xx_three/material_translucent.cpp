@@ -210,11 +210,11 @@ EX(xx_material_translucent)
 
 		Widget& a = panel("Thickness Control");
 
-		ui::slider_field<float>(a, "distortion",  thickness.m_distortion,  { 0.01f, 1.f, 0.01f });
-		ui::slider_field<float>(a, "ambient",     thickness.m_ambient,     { 0.01f, 5.f, 0.05f });
-		ui::slider_field<float>(a, "attenuation", thickness.m_attenuation, { 0.01f, 5.f, 0.05f });
-		ui::slider_field<float>(a, "power",       thickness.m_power,       { 0.01f, 16.f, 0.1f });
-		ui::slider_field<float>(a, "scale",       thickness.m_scale,       { 0.01f, 50.f, 0.1f });
+		ui::slider_field(a, "distortion",  thickness.m_distortion,  { 0.01f, 1.f, 0.01f });
+		ui::slider_field(a, "ambient",     thickness.m_ambient,     { 0.01f, 5.f, 0.05f });
+		ui::slider_field(a, "attenuation", thickness.m_attenuation, { 0.01f, 5.f, 0.05f });
+		ui::slider_field(a, "power",       thickness.m_power,       { 0.01f, 16.f, 0.1f });
+		ui::slider_field(a, "scale",       thickness.m_scale,       { 0.01f, 50.f, 0.1f });
 	}
 #endif
 
