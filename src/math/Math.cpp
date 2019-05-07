@@ -19,27 +19,27 @@ module two.math;
 
 namespace two
 {
-	template struct Range<vec3>;
-    template struct Range<quat>;
-    template struct Range<float>;
-    template struct Range<uint32_t>;
-    template struct Range<Colour>;
+	template struct TWO_MATH_EXPORT Range<vec3>;
+    template struct TWO_MATH_EXPORT Range<quat>;
+    template struct TWO_MATH_EXPORT Range<float>;
+    template struct TWO_MATH_EXPORT Range<uint32_t>;
+    template struct TWO_MATH_EXPORT Range<Colour>;
 
-	template struct v2<float>;
-	template struct v3<float>;
-	template struct v4<float>;
+	template struct TWO_MATH_EXPORT v2<float>;
+	template struct TWO_MATH_EXPORT v3<float>;
+	template struct TWO_MATH_EXPORT v4<float>;
 
-	template struct v2<int>;
-	template struct v3<int>;
-	template struct v4<int>;
+	template struct TWO_MATH_EXPORT v2<int>;
+	template struct TWO_MATH_EXPORT v3<int>;
+	template struct TWO_MATH_EXPORT v4<int>;
 
-	template struct v2<uint>;
-	template struct v3<uint>;
-	template struct v4<uint>;
+	template struct TWO_MATH_EXPORT v2<uint>;
+	template struct TWO_MATH_EXPORT v3<uint>;
+	template struct TWO_MATH_EXPORT v4<uint>;
 
-	template struct v2<bool>;
-	template struct v3<bool>;
-	template struct v4<bool>;
+	template struct TWO_MATH_EXPORT v2<bool>;
+	template struct TWO_MATH_EXPORT v3<bool>;
+	template struct TWO_MATH_EXPORT v4<bool>;
 
 #ifndef M_PI
 	const float c_pi = 3.14159265358979323846f;
