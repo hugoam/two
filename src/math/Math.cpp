@@ -25,6 +25,22 @@ namespace two
     template struct Range<uint32_t>;
     template struct Range<Colour>;
 
+	template struct v2<float>;
+	template struct v3<float>;
+	template struct v4<float>;
+
+	template struct v2<int>;
+	template struct v3<int>;
+	template struct v4<int>;
+
+	template struct v2<uint>;
+	template struct v3<uint>;
+	template struct v4<uint>;
+
+	template struct v2<bool>;
+	template struct v3<bool>;
+	template struct v4<bool>;
+
 #ifndef M_PI
 	const float c_pi = 3.14159265358979323846f;
 #else
