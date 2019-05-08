@@ -106,10 +106,10 @@ namespace two
 
 	void Camera::set_isometric(IsometricAngle from_angle, const vec3& position)
 	{
-		static const vec3 z_angles[3] = { vec3(0.f), -Z3,  Z3 };
-		static const vec3 x_angles[3] = { vec3(0.f),  X3, -X3 };
+		static const vec3 z_angles[3] = { vec3(0.f), -z3,  z3 };
+		static const vec3 x_angles[3] = { vec3(0.f),  x3, -x3 };
 
-		vec3 angle = Y3 + z_angles[uint8_t(from_angle >> 0)] + x_angles[uint8_t(from_angle >> 8)];
+		vec3 angle = y3 + z_angles[uint8_t(from_angle >> 0)] + x_angles[uint8_t(from_angle >> 8)];
 
 		m_orthographic = true;
 		m_height = 1.0f;
@@ -145,8 +145,8 @@ namespace two
 	{
 		mat4 rotatemat = rotation(node.m_transform);
 		vec3 position = vec3(node.m_transform[3]);
-		//vec3 normal = muln(m_node->m_transform, Z3);
-		vec3 normal = muln(rotatemat, Y3);
+		//vec3 normal = muln(m_node->m_transform, z3);
+		vec3 normal = muln(rotatemat, y3);
 		vec3 dir = position - sourcecam.m_eye;
 
 		// Avoid rendering when mirror is facing away
@@ -155,9 +155,9 @@ namespace two
 
 		rotatemat = rotation(inverse(sourcecam.m_view));
 		vec3 eye = -reflect(dir, normal) + position;
-		vec3 lookat = muln(rotatemat, -Z3) + sourcecam.m_eye;
+		vec3 lookat = muln(rotatemat, -z3) + sourcecam.m_eye;
 		vec3 target = -reflect(position - lookat, normal) + position;
-		vec3 up = reflect(muln(rotatemat, Y3), normal);
+		vec3 up = reflect(muln(rotatemat, y3), normal);
 
 		Camera camera = Camera(eye, target, up, sourcecam.m_fov, sourcecam.m_aspect, sourcecam.m_near, sourcecam.m_far);
 		camera.m_no_update = true;

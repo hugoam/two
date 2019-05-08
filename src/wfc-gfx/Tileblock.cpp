@@ -73,7 +73,7 @@ namespace two
 
 			Model* model = from_file ? gfx.models().file(m_tileset->m_name + "/" + tile.m_name, config)
 									 : gfx.models().get(tile.m_name.c_str());
-			quat rotation = angle_axis(tile.m_profile * c_pi2, Y3);
+			quat rotation = angle_axis(tile.m_profile * c_pi2, y3);
 			m_tile_models.push_back({ model, rotation });
 		}
 	}
@@ -153,10 +153,10 @@ namespace two
 		Colour colour = { 0.3f, 0.3f, 0.3f, 0.4f };
 		Grid2 grid = { to_xz(vec3(tileblock.m_size)), to_xz(tileblock.m_scale) };
 
-		Gnode& top = gfx::node(parent, tileblock.m_aabb.m_center + Y3 * tileblock.m_aabb.m_extents.y);
+		Gnode& top = gfx::node(parent, tileblock.m_aabb.m_center + y3 * tileblock.m_aabb.m_extents.y);
 		gfx::shape(top, grid, Symbol(colour));
 
-		Gnode& bottom = gfx::node(parent, tileblock.m_aabb.m_center - Y3 * tileblock.m_aabb.m_extents.y);
+		Gnode& bottom = gfx::node(parent, tileblock.m_aabb.m_center - y3 * tileblock.m_aabb.m_extents.y);
 		gfx::shape(bottom, grid, Symbol(colour));
 	}
 
@@ -279,7 +279,7 @@ namespace two
 
 	void paint_tile_cube(Gnode& parent, WfcBlock& tileblock, const uvec3& coord, const Colour& outline, const Colour& fill)
 	{
-		Gnode& node = gfx::node(parent, tileblock.to_position(coord) + Y3 * 0.5f);
+		Gnode& node = gfx::node(parent, tileblock.to_position(coord) + y3 * 0.5f);
 		gfx::shape(node, Cube(0.5f + 0.01f), Symbol(outline, fill));
 	}
 
@@ -354,9 +354,9 @@ namespace two
 				draw(scene, *item.m_model, item.m_position, item.m_rotation, item.m_scale);
 
 		//Gnode& origin = gfx::node(scene, center);
-		//gfx::draw(origin, Line(-100.f * X3, 100.f * X3), Symbol(Colour::Red));
-		//gfx::draw(origin, Line(-100.f * Y3, 100.f * Y3), Symbol(Colour::Green));
-		//gfx::draw(origin, Line(-100.f * Z3, 100.f * Z3), Symbol(Colour::Blue));
+		//gfx::draw(origin, Line(-100.f * x3, 100.f * x3), Symbol(Colour::Red));
+		//gfx::draw(origin, Line(-100.f * y3, 100.f * y3), Symbol(Colour::Green));
+		//gfx::draw(origin, Line(-100.f * z3, 100.f * z3), Symbol(Colour::Blue));
 		//
 		//Gnode& horigin = gfx::node(scene, vec3(0.f, center.y, 0.f));
 		//gfx::draw(horigin, Grid2(vec2(num_columns, num_rows)), Symbol());
@@ -369,7 +369,7 @@ namespace two
 			for(Tile& tile : tileset.m_tiles_flip)
 			{
 				TileModel& tile_model = tileblock.m_tile_models[tile.m_index];
-				state.m_items.push_back({ tile_model.m_model, vec3(0.f), rotate(tile_model.m_rotation, c_pi4, Y3), vec3(1.f) });
+				state.m_items.push_back({ tile_model.m_model, vec3(0.f), rotate(tile_model.m_rotation, c_pi4, y3), vec3(1.f) });
 				if(tile_model.m_model && state.m_item_radius == 0.f)
 					state.m_item_radius = tile_model.m_model->m_radius;
 			}
@@ -387,7 +387,7 @@ namespace two
 				{
 					Tile& tile = tileblock.m_tileset->m_tiles_flip[t];
 					TileModel& tile_model = tileblock.m_tile_models[tile.m_index];
-					state.m_items.push_back({ tile_model.m_model, vec3(0.f), rotate(tile_model.m_rotation, c_pi4, Y3), vec3(1.f) });
+					state.m_items.push_back({ tile_model.m_model, vec3(0.f), rotate(tile_model.m_rotation, c_pi4, y3), vec3(1.f) });
 					if(tile_model.m_model && state.m_item_radius == 0.f)
 						state.m_item_radius = tile_model.m_model->m_radius;
 				}
@@ -416,7 +416,7 @@ namespace two
 		size_t side = size_t(ceil(sqrt(float(tileblock.m_entropy[index]))));
 		size_t columns = tileblock.m_entropy[index] / side;
 
-		vec3 offset = tileblock.to_position(coord) - vec3(float(side - 1), 0.f, float(columns - 1)) * 0.5f + Y3 * 0.5f;
+		vec3 offset = tileblock.to_position(coord) - vec3(float(side - 1), 0.f, float(columns - 1)) * 0.5f + y3 * 0.5f;
 
 		size_t count = 0;
 		for(uint16_t t = 0; t < tileblock.m_wave.m_states.size(); ++t)

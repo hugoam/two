@@ -162,7 +162,7 @@ namespace two
 {
 	mat4 fix_bone_pose(Node3& bone)
 	{
-		return bxrotation(angle_axis(-c_pi * 0.5f, X3)) * bxscale(vec3(0.009999999776482582f)) * bone.m_transform;
+		return bxrotation(angle_axis(-c_pi * 0.5f, x3)) * bxscale(vec3(0.009999999776482582f)) * bone.m_transform;
 	}
 
 	void debug_draw_skeleton(Gnode& parent, const vec3& position, const quat& rotation, Rig& rig)

@@ -407,7 +407,7 @@ public:
 		material.m_user.m_attr2 = { m_mieCoefficient, m_mieDirectionalG, 0.f, 0.f };
 	}
 
-	vec3 m_sun_position = Y3;
+	vec3 m_sun_position = y3;
 	float m_turbidity = 2.f; // 10.f
 	float m_rayleigh = 1.f; // 2.f
 	float m_luminance = 1.f;

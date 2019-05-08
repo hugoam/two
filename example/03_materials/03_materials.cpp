@@ -183,7 +183,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	Gnode& scene = viewer.m_scene.begin();
 
-	Gnode& ground_node = gfx::node(scene, -Y3);
+	Gnode& ground_node = gfx::node(scene, -y3);
 	gfx::shape(ground_node, Rect(vec2(-50.f), vec2(100.f)), Symbol(), 0U, &milky_white(app.m_gfx));
 
 	gfx::direct_light_node(scene);

@@ -158,12 +158,12 @@ EX(xx_shadow_point)
 
 #if IMMEDIATE
 	Box box = Cube(vec3(15.f));
-	Gnode& node = gfx::node(scene);// , Y3 * 10.f);
+	Gnode& node = gfx::node(scene);// , y3 * 10.f);
 	gfx::shape(node, box, Symbol::plain(Colour::White), 0U, cubemat);
 
-	gfx::shape(scene, Cylinder(X3, 0.1f, 1.f, Axis::X), Symbol::plain(Colour::Red));
-	gfx::shape(scene, Cylinder(Y3, 0.1f, 1.f, Axis::Y), Symbol::plain(Colour::Green));
-	gfx::shape(scene, Cylinder(Z3, 0.1f, 1.f, Axis::Z), Symbol::plain(Colour::Blue));
+	gfx::shape(scene, Cylinder(x3, 0.1f, 1.f, Axis::X), Symbol::plain(Colour::Red));
+	gfx::shape(scene, Cylinder(y3, 0.1f, 1.f, Axis::Y), Symbol::plain(Colour::Green));
+	gfx::shape(scene, Cylinder(z3, 0.1f, 1.f, Axis::Z), Symbol::plain(Colour::Blue));
 #endif
 
 }

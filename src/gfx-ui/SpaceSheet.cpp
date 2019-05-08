@@ -104,8 +104,8 @@ namespace two
 		Ray ray = m_viewer.m_viewport.ray(event.m_relative);
 
 		vec3 p0 = m_quad->m_node.position();
-		vec3 p1 = p0 + m_quad->m_node.axis(X3);
-		vec3 p2 = p0 + m_quad->m_node.axis(Y3);
+		vec3 p1 = p0 + m_quad->m_node.axis(x3);
+		vec3 p2 = p0 + m_quad->m_node.axis(y3);
 
 		vec3 pos = plane_segment_intersection(p0, p1, p2, ray.m_start, ray.m_end);
 

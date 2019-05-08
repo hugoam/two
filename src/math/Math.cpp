@@ -103,7 +103,7 @@ namespace two
 		const float d = dot(forward, dir);
 
 		if(abs(d - (-1.0f)) < 0.000001f)
-			return axis_angle(Y3, c_pi);
+			return axis_angle(y3, c_pi);
 		if(abs(d - (1.0f)) < 0.000001f)
 			return ZeroQuat;
 
@@ -187,7 +187,7 @@ namespace two
 
 	float shortest_angle(const vec3& a, const vec3& b)
 	{
-		return oriented_angle(a, b, Y3);
+		return oriented_angle(a, b, y3);
 	}
 
 #if 0
@@ -196,7 +196,7 @@ namespace two
 		float a = angle(vec1, vec2);
 		if(a == 0.f) return a;
 
-		vec3 clockwise = rotate(vec1, a, Y3);
+		vec3 clockwise = rotate(vec1, a, y3);
 		flatten(clockwise);
 
 		if(angle(vec2, clockwise) > 0.001f)

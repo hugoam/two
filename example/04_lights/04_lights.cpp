@@ -48,7 +48,7 @@ void light_grid(Gnode& parent, span2d<LightInstance> light_grid, bool moving, Li
 
 			float height = moving ? sinf(g_time + float(y + x) * 0.21f) * 5.f : 5.f;
 
-			Gnode& light_node = gfx::node(parent, center + vec3(x * spacing, height, y * spacing), angle_axis(c_pi2, X3));
+			Gnode& light_node = gfx::node(parent, center + vec3(x * spacing, height, y * spacing), angle_axis(c_pi2, x3));
 			Light& light = gfx::light(light_node, light_type, false, light_item.colour, range, attenuation);
 			if(light_type == LightType::Spot)
 			{
@@ -112,9 +112,9 @@ void ex_04_lights(Shell& app, Widget& parent)
 
 #if OCCLUSION
 	Colour pink = { 1.f, 0.f, 1.f, 0.15f };
-	gfx::draw(scene, Quad(vec2(40.f), X3,  Y3), Symbol::wire(Colour::White), ItemFlag::Render);
-	gfx::shape(scene, Quad(vec2(40.f), X3,  Y3), Symbol::plain(Colour::Invisible),  ItemFlag::Render | ItemFlag::Occluder);
-	gfx::shape(scene, Quad(vec2(40.f), X3, -Y3), Symbol::plain(Colour::Invisible),  ItemFlag::Render | ItemFlag::Occluder);
+	gfx::draw(scene, Quad(vec2(40.f), x3,  y3), Symbol::wire(Colour::White), ItemFlag::Render);
+	gfx::shape(scene, Quad(vec2(40.f), x3,  y3), Symbol::plain(Colour::Invisible),  ItemFlag::Render | ItemFlag::Occluder);
+	gfx::shape(scene, Quad(vec2(40.f), x3, -y3), Symbol::plain(Colour::Invisible),  ItemFlag::Render | ItemFlag::Occluder);
 	//gfx::shape(scene, Cylinder(20.f, 20.f, Axis::Y), Symbol::plain(Colour::AlphaWhite), ItemFlag::Render | ItemFlag::Occluder);
 #endif
 

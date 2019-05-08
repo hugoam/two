@@ -2650,8 +2650,8 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Camera", sizeof(two::Camera), TypeClass::Object };
 		// bases
 		// defaults
-		static two::vec3 eye_default = Z3;
-		static two::vec3 up_default = Y3;
+		static two::vec3 eye_default = z3;
+		static two::vec3 up_default = y3;
 		static float fov_default = 60.f;
 		static float aspect_default = 1.f;
 		static float near_default = 0.1f;

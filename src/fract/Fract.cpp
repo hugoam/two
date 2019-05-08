@@ -103,7 +103,7 @@ namespace two
 		
 		normal = vec3(a, b, 0.f);
 		if(normal == vec3(0.f))
-			normal = X3;
+			normal = x3;
 		else
 			normal = normalize(normal);
 

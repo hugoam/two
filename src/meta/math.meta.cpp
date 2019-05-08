@@ -1936,12 +1936,12 @@ namespace two
 			m.m_functions.push_back(&f);
 		}
 		{
-			static two::vec3 forward_default = -Z3;
+			static two::vec3 forward_default = -z3;
 			static Function f = { &namspc({ "two" }), "look_dir", funcptr<two::quat(*)(const two::vec3&, const two::vec3&)>(two::look_dir), two_look_dir_31, { { "direction", type<two::vec3>(),  }, { "forward", type<two::vec3>(), Param::Default, &forward_default } }, { &type<two::quat>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static two::vec3 forward_default = -Z3;
+			static two::vec3 forward_default = -z3;
 			static Function f = { &namspc({ "two" }), "look_at", funcptr<two::quat(*)(const two::vec3&, const two::vec3&, const two::vec3&)>(two::look_at), two_look_at_32, { { "eye", type<two::vec3>(),  }, { "target", type<two::vec3>(),  }, { "forward", type<two::vec3>(), Param::Default, &forward_default } }, { &type<two::quat>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}

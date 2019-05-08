@@ -153,9 +153,9 @@ namespace two
 
 	void light_slice_cull(Render& render, Light& light, LightBounds& light_bounds, vector<Item*>& result)
 	{
-		vec3 x = light.m_node->axis(X3);
-		vec3 y = light.m_node->axis(Y3);
-		vec3 z = light.m_node->axis(Z3);
+		vec3 x = light.m_node->axis(x3);
+		vec3 y = light.m_node->axis(y3);
+		vec3 z = light.m_node->axis(z3);
 
 		Plane6 light_frustum_planes =
 		{
@@ -404,7 +404,7 @@ namespace two
 				for(SignedAxis axis : c_signed_axes)
 				{
 					// up stays up for all sides of the cube except when looking down (where it's forward aka -Z) or up (back aka Z)
-					static const table<SignedAxis, vec3> view_up = { Y3, Y3, Z3, -Z3, Y3, Y3 };
+					static const table<SignedAxis, vec3> view_up = { y3, y3, z3, -z3, y3, y3 };
 
 					LightShadow& shadow = push(m_shadows);
 					shadow.m_light = &light;

@@ -118,5 +118,5 @@ namespace two
 
 	vec3 Node3::position() const { return mulp(m_transform, vec3(0.f)); }
 	vec3 Node3::axis(const vec3& dir) const { return muln(m_transform, dir); }
-	vec3 Node3::direction() const { return muln(m_transform, -Z3); }
+	vec3 Node3::direction() const { return muln(m_transform, -z3); }
 }

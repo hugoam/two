@@ -94,6 +94,10 @@ namespace two
 	template <class T> inline constexpr v3<T> operator-(const v3<T>& a) { return v3<T>(-a.x, -a.y, -a.z); }
 	template <class T> inline constexpr v4<T> operator-(const v4<T>& a) { return v4<T>(-a.x, -a.y, -a.z, -a.w); }
 
+#ifdef TWO_META_GENERATOR
+	// extern is not actually necessary, only hiding the implementations + explicit instantiation
+	// deactivating this because of what is apparently a gcc bug related to inline definition of constructors here above
+	// not playing well with those extern declarations
 	export_ extern template struct refl_ v2<float>;
 	export_ extern template struct refl_ v3<float>;
 	export_ extern template struct refl_ v4<float>;
@@ -109,6 +113,7 @@ namespace two
 	export_ extern template struct refl_ v2<bool>;
 	export_ extern template struct refl_ v3<bool>;
 	export_ extern template struct refl_ v4<bool>;
+#endif
 
 	export_ using half2 = v2<ushort>;
 	export_ using half3 = v3<ushort>;
@@ -201,9 +206,9 @@ namespace two
 
 namespace two
 {
-	export_ constexpr inline vec3 X3 = { 1.f, 0.f, 0.f };
-	export_ constexpr inline vec3 Y3 = { 0.f, 1.f, 0.f };
-	export_ constexpr inline vec3 Z3 = { 0.f, 0.f, 1.f };
+	export_ constexpr inline vec3 x3 = { 1.f, 0.f, 0.f };
+	export_ constexpr inline vec3 y3 = { 0.f, 1.f, 0.f };
+	export_ constexpr inline vec3 z3 = { 0.f, 0.f, 1.f };
 
 	export_ constexpr inline quat ZeroQuat = { 0.f, 0.f, 0.f, 1.f };
 

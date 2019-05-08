@@ -23,9 +23,9 @@ namespace two
 	
 	void draw_shape_lines(const ProcShape& shape, const Cylinder& cylinder, MeshAdapter& writer)
 	{
-		vec3 offset = cylinder.m_axis == Axis::X ? X3 * cylinder.m_height / 2.f
-					: cylinder.m_axis == Axis::Y ? Y3 * cylinder.m_height / 2.f
-												 : Z3 * cylinder.m_height / 2.f;
+		vec3 offset = cylinder.m_axis == Axis::X ? x3 * cylinder.m_height / 2.f
+					: cylinder.m_axis == Axis::Y ? y3 * cylinder.m_height / 2.f
+												 : z3 * cylinder.m_height / 2.f;
 
 		Circle circle = { cylinder.m_radius, cylinder.m_axis };
 		uint16_t subdiv = circle_vertices(shape, cylinder.m_center + offset, vec2(circle.m_radius), to_signed_axis(circle.m_axis, true), true, writer);
@@ -47,9 +47,9 @@ namespace two
 	
 	void draw_shape_triangles(const ProcShape& shape, const Cylinder& cylinder, MeshAdapter& writer)
 	{
-		vec3 offset = cylinder.m_axis == Axis::X ? X3 * cylinder.m_height / 2.f
-					: cylinder.m_axis == Axis::Y ? Y3 * cylinder.m_height / 2.f
-												: Z3 * cylinder.m_height / 2.f;
+		vec3 offset = cylinder.m_axis == Axis::X ? x3 * cylinder.m_height / 2.f
+					: cylinder.m_axis == Axis::Y ? y3 * cylinder.m_height / 2.f
+												: z3 * cylinder.m_height / 2.f;
 
 		Circle circle = { cylinder.m_radius, cylinder.m_axis };
 

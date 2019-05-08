@@ -74,9 +74,9 @@ namespace two
 
 	object<TransformAction> RotateTool::create_action(span<Transform*> targets)
 	{
-		vec3 axis = m_current == &*m_gizmos[0] ? -X3
-				  : m_current == &*m_gizmos[1] ?  Y3
-											   : -Z3;
+		vec3 axis = m_current == &*m_gizmos[0] ? -x3
+				  : m_current == &*m_gizmos[1] ?  y3
+											   : -z3;
 		return oconstruct<RotateAction>(targets, axis);
 	}
 

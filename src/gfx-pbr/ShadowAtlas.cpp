@@ -234,7 +234,7 @@ namespace two
 		if(light.m_type == LightType::Point)
 		{
 			points[0] = node.position();
-			points[1] = node.position() + node.axis(X3) * light.m_range;
+			points[1] = node.position() + node.axis(x3) * light.m_range;
 		}
 		else if(light.m_type == LightType::Spot)
 		{
@@ -244,7 +244,7 @@ namespace two
 			const vec3 base = light.m_node->position() + node.direction() * d;
 
 			points[0] = base;
-			points[1] = base + node.axis(X3) * w;
+			points[1] = base + node.axis(x3) * w;
 		}
 
 		if(!render.m_camera->m_orthographic)

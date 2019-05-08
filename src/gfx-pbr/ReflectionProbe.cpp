@@ -62,9 +62,9 @@ namespace two
 		m_cubemap.create(size);
 
 		// up stays up for all sides of the cube except when looking down (where it's forward aka -Z) or up (back aka Z)
-		const table<SignedAxis, vec3> up = { { Y3, Y3, -Z3, Z3, Y3, Y3 } };
+		const table<SignedAxis, vec3> up = { { y3, y3, -z3, z3, y3, y3 } };
 		// cubemaps are stored in left-handed space, so we need to flip X with -X both when rendering and when sampling cubemaps
-		const table<SignedAxis, vec3> dir = { { -X3, X3, Y3, -Y3, Z3, -Z3 } };
+		const table<SignedAxis, vec3> dir = { { -x3, x3, y3, -y3, z3, -z3 } };
 
 		const float fov = 90.f; const float aspect = 1.f;
 
@@ -199,8 +199,8 @@ namespace two
 
 	void BlockReflection::render_reflection_probe(Render& render, ReflectionProbe& probe)
 	{
-		static const vec3 view_normal[6] = { -X3,  X3, -Y3,  Y3, -Z3,  Z3 };
-		static const vec3 view_up[6] = { -Y3, -Y3, -Z3,  Z3, -Y3, -Y3 };
+		static const vec3 view_normal[6] = { -x3,  x3, -y3,  y3, -z3,  z3 };
+		static const vec3 view_up[6] = { -y3, -y3, -z3,  z3, -y3, -y3 };
 
 		uvec4 atlas_rect = m_atlas.render_update(render, probe);
 

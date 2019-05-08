@@ -432,7 +432,7 @@ EX(xx_marching_cubes)
 		//env.m_radiance.m_filter = false;
 		env.m_radiance.m_ambient = rgb(0x080808);
 
-		vec3 t = look_dir(-normalize(vec3(0.5f, 0.5f, 1.f))) * -Z3;
+		vec3 t = look_dir(-normalize(vec3(0.5f, 0.5f, 1.f))) * -z3;
 
 		Node3& l0 = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(-vec3(0.5f, 0.5f, 1.f))));
 		Light& l = gfx::lights(scene).add(Light(l0, LightType::Direct, false, rgb(0xffffff)));

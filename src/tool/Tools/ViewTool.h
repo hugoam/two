@@ -58,11 +58,11 @@ namespace two
 	{
 		ViewTools(ToolContext& context) : m_context(context) {}
 		ToolContext& m_context;
-		ViewTool m_top		= { m_context, "Top View",	   Y3 };
-		ViewTool m_bottom	= { m_context, "Bottom View", -Y3 };
-		ViewTool m_front	= { m_context, "Front View",  -Z3 };
-		ViewTool m_back		= { m_context, "Back View",	   Z3 };
-		ViewTool m_left		= { m_context, "Left View",	   X3 };
-		ViewTool m_right	= { m_context, "Right View",  -X3 };
+		ViewTool m_top		= { m_context, "Top View",	   y3 };
+		ViewTool m_bottom	= { m_context, "Bottom View", -y3 };
+		ViewTool m_front	= { m_context, "Front View",  -z3 };
+		ViewTool m_back		= { m_context, "Back View",	   z3 };
+		ViewTool m_left		= { m_context, "Left View",	   x3 };
+		ViewTool m_right	= { m_context, "Right View",  -x3 };
 	};
 }

@@ -89,7 +89,7 @@ EX(xx_loader_ply)
 	
 		// lights
 
-		scene.m_env.m_skylight = { true, 1.f, -Y3, vec3(0.f), rgb(0x443333), rgb(0x111122) };
+		scene.m_env.m_skylight = { true, 1.f, -y3, vec3(0.f), rgb(0x443333), rgb(0x111122) };
 
 		add_light(normalize(vec3(-1.f, -1.f, -1.f)), rgb(0xffffff), 1.35f, true);
 		add_light(normalize(vec3(-0.5f, -1.f, 1.f)), rgb(0xffaa00), 1.f, true);

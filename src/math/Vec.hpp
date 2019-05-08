@@ -490,8 +490,8 @@ namespace two
 	export_ inline vec3 rotate(const vec3& v, float angle, const vec3& axis) { return angle_axis(angle, axis) * v; }
 	export_ inline vec3 rotate(const vec3& v, const vec3& axis, float angle) { return angle_axis(angle, axis) * v; }
 
-	export_ TWO_MATH_EXPORT func_ quat look_dir(const vec3& direction, const vec3& forward = -Z3);
-	export_ TWO_MATH_EXPORT func_ quat look_at(const vec3& eye, const vec3& target, const vec3& forward = -Z3);
+	export_ TWO_MATH_EXPORT func_ quat look_dir(const vec3& direction, const vec3& forward = -z3);
+	export_ TWO_MATH_EXPORT func_ quat look_at(const vec3& eye, const vec3& target, const vec3& forward = -z3);
 
 	export_ TWO_MATH_EXPORT Axis nearest_axis(const vec3& direction);
 

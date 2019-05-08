@@ -26,7 +26,7 @@ namespace two
 	Brush::Brush(ToolContext& context, cstring name, Type& type)
 		: SpatialTool(context, name, type)
 		, m_world_snap(false)
-		, m_work_plane(Y3, 0.f)
+		, m_work_plane(y3, 0.f)
 	{
 		this->add_option(oconstruct<PlaneSnapOption>(*this));
 		this->add_option(oconstruct<WorldSnapOption>(*this));

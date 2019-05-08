@@ -139,9 +139,9 @@ EX(xx_cubemap_dynamic)
 
 #if AXES
 	Gnode& root = scene.begin();
-	gfx::shape(root, Cylinder(X3 * 30.f, 1.f, 30.f, Axis::X), Symbol::plain(Colour::Red));
-	gfx::shape(root, Cylinder(Y3 * 30.f, 1.f, 30.f, Axis::Y), Symbol::plain(Colour::Green));
-	gfx::shape(root, Cylinder(Z3 * 30.f, 1.f, 30.f, Axis::Z), Symbol::plain(Colour::Blue));
+	gfx::shape(root, Cylinder(x3 * 30.f, 1.f, 30.f, Axis::X), Symbol::plain(Colour::Red));
+	gfx::shape(root, Cylinder(y3 * 30.f, 1.f, 30.f, Axis::Y), Symbol::plain(Colour::Green));
+	gfx::shape(root, Cylinder(z3 * 30.f, 1.f, 30.f, Axis::Z), Symbol::plain(Colour::Blue));
 #endif
 
 	Render render = { Shading::Shaded, viewer.m_viewport, app.m_gfx.main_target(), app.m_gfx.m_render_frame };

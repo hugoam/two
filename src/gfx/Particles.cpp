@@ -176,8 +176,8 @@ namespace two
 			}
 			else
 			{
-				udir = scale * rotate(particle.rot, X3);
-				vdir = scale * rotate(particle.rot, Y3);
+				udir = scale * rotate(particle.rot, x3);
+				vdir = scale * rotate(particle.rot, y3);
 			}
 
 			float frame = m_sprite_frame.sample(particle.life, particle.sprite_seed);

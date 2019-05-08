@@ -179,8 +179,8 @@ namespace two
 
 				if(cube)
 				{
-					constexpr vec3 up[6] = { Y3, Y3, -Z3, Z3, Y3, Y3 };
-					constexpr vec3 dir[6] = { X3, -X3, Y3, -Y3, Z3, -Z3 };
+					constexpr vec3 up[6] = { y3, y3, -z3, z3, y3, y3 };
+					constexpr vec3 dir[6] = { x3, -x3, y3, -y3, z3, -z3 };
 
 					const mat4 cubemat = bxlookat(vec3(0.f), vec3(0.f) + dir[face], up[face]);
 					bgfx::setUniform(u_prefilter.u_prefilter_cube, &cubemat);

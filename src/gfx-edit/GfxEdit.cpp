@@ -144,9 +144,9 @@ namespace two
 		time += 0.01f;
 
 		SceneViewer& viewer = ui::scene_viewer(parent, vec2(200.f));
-		viewer.m_camera.m_eye = radius * 2.5f * Z3;
+		viewer.m_camera.m_eye = radius * 2.5f * z3;
 
-		quat rotation = axis_angle(Y3, fmod(time, c_2pi));
+		quat rotation = axis_angle(y3, fmod(time, c_2pi));
 
 		Gnode& scene = viewer.m_scene.begin();
 		gfx::node(scene, offset, rotation); // object

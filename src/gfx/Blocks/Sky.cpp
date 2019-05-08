@@ -26,7 +26,7 @@ namespace two
 	quat sun_rotation(float azimuth, float altitude, const vec3& up, const vec3& north)
 	{
 		UNUSED(north);
-		return angle_axis(-azimuth, up) * angle_axis(-altitude, X3); // cross(north, up));
+		return angle_axis(-azimuth, up) * angle_axis(-altitude, x3); // cross(north, up));
 	}
 
 	quat sun_rotation(Month month, float latitude_degrees, float hour, float ecliptic_obliquity, const vec3& up, const vec3& north)

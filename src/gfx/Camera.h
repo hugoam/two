@@ -33,9 +33,9 @@ namespace two
 		Camera(mat4 transform, vec2 rect, float near, float far);
 		~Camera();
 
-		attr_ vec3 m_eye = Z3;
+		attr_ vec3 m_eye = z3;
 		attr_ vec3 m_target = vec3(0.f);
-		attr_ vec3 m_up = Y3;
+		attr_ vec3 m_up = y3;
 
 		attr_ mat4 m_view;
 		attr_ mat4 m_proj;

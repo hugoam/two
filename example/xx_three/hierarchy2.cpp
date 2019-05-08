@@ -43,7 +43,7 @@ EX(xx_hierarchy2)
 
 		constexpr size_t amount = 200;
 
-		const vec3 offsets[] = { X3 * 100.f, X3 * -100.f, Y3 * -100.f, Y3 * 100.f, Z3 * -100.f, Z3 * 100.f };
+		const vec3 offsets[] = { x3 * 100.f, x3 * -100.f, y3 * -100.f, y3 * 100.f, z3 * -100.f, z3 * 100.f };
 
 		nodes.clear();
 		for(const vec3& offset : offsets)

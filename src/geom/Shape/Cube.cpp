@@ -32,7 +32,7 @@ namespace two
 		{
 			vec3 position = box.m_center + box.m_vertices[i];
 
-			static const vec3 components[3] = { X3, Y3, Z3 };
+			static const vec3 components[3] = { x3, y3, z3 };
 			float size_factor = 0.2f;
 			
 			writer.position(position)

@@ -70,16 +70,18 @@ static void human_velocity_controller(Widget& widget, Human& human)
 {
 	bool shift = widget.ui().m_keyboard.m_shift;
 
+	constexpr float walk_speed = 2.f;
 	const KeyMove moves[4] =
 	{
-		{ Key::Up,   -Z3 * 2.f, "Walk",  1.f }, { Key::W,  -Z3 * 2.f, "Walk",  1.f },
-		{ Key::Down,  Z3 * 2.f, "Walk", -1.f }, { Key::S,   Z3 * 2.f, "Walk", -1.f },
+		{ Key::Up,   -z3 * walk_speed, "Walk",  1.f }, { Key::W,  -z3 * walk_speed, "Walk",  1.f },
+		{ Key::Down,  z3 * walk_speed, "Walk", -1.f }, { Key::S,   z3 * walk_speed, "Walk", -1.f },
 	};
 
+	constexpr float run_speed = 12.f;
 	const KeyMove shift_moves[4] =
 	{
-		{ Key::Up,  -Z3 * 12.f, "Run",  1.f }, { Key::W, -Z3 * 12.f, "Run",  1.f },
-		{ Key::Down, Z3 * 12.f, "Run", -1.f }, { Key::S,  Z3 * 12.f, "Run", -1.f },
+		{ Key::Up,  -z3 * run_speed, "Run",  1.f }, { Key::W, -z3 * run_speed, "Run",  1.f },
+		{ Key::Down, z3 * run_speed, "Run", -1.f }, { Key::S,  z3 * run_speed, "Run", -1.f },
 	};
 
 	for(const KeyMove& key_move : (shift ? shift_moves : moves))
@@ -87,8 +89,8 @@ static void human_velocity_controller(Widget& widget, Human& human)
 
 	const KeyMove rotations[4] =
 	{
-		{ Key::Right, -Y3 * 4.f, "Step",  1.f }, { Key::D, -Y3 * 4.f, "Step",  1.f },
-		{ Key::Left,   Y3 * 4.f, "Step", -1.f }, { Key::A,  Y3 * 4.f, "Step", -1.f },
+		{ Key::Right, -y3 * 4.f, "Step",  1.f }, { Key::D, -y3 * 4.f, "Step",  1.f },
+		{ Key::Left,   y3 * 4.f, "Step", -1.f }, { Key::A,  y3 * 4.f, "Step", -1.f },
 	};
 
 	for(const KeyMove& key_rotation: rotations)
@@ -134,7 +136,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 		orbit.m_yaw = c_pi;
 		orbit.m_pitch = - c_pi4;
 		orbit.m_distance = 4.f;
-		orbit.m_position = Y3 * 1.f;
+		orbit.m_position = y3 * 1.f;
 
 		for(size_t i = 1; i < num_characters; ++i)
 			characters[i].m_position = { randf(-10.f, 10.f), 0.f, randf(-10.f, 10.f) };
