@@ -21,6 +21,8 @@ EX(xx_material_standard)
 	static ImporterOBJ importer_obj = { app.m_gfx };
 
 #if UI
+	//TrackballControls control;
+	//control.update(window, viewer.m_size, viewer.m_camera);
 	ui::trackball_controller(viewer);
 #endif
 

@@ -64,6 +64,6 @@ namespace two
 		}
 
 		uint32_t hash_modes() const { return (m_modes[0] << 0) + (m_modes[1] << 8) + (m_modes[2] << 16) + (m_modes[3] << 24); }
-		meth_ uint64_t hash() const {	return uint64_t(m_options) + (uint64_t(hash_modes()) << 32); }
+		meth_ uint64_t hash() const { return uint64_t(m_options) + (uint64_t(hash_modes()) << 32); }
 	};
 }

@@ -135,9 +135,11 @@ EX(xx_effect_dof)
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	Scene& scene = viewer.m_scene;
+	ControlNode& input = viewer;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
+	ControlNode& input = window;
 #endif
 
 	viewer.m_viewport.m_autorender = false;
@@ -215,14 +217,13 @@ EX(xx_effect_dof)
 	}
 
 	static vec2 mouse = vec2(0.f);
-#if UI
-	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
+	if(MouseEvent event = input.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
-		mouse.x = event.m_relative.x - viewer.m_frame.m_size.x / 2.f;
-		mouse.y = event.m_relative.y - viewer.m_frame.m_size.y / 2.f;
+		mouse.x = event.m_relative.x - viewer.m_size.x / 2.f;
+		mouse.y = event.m_relative.y - viewer.m_size.y / 2.f;
 	}
 
-	if(MouseEvent event = viewer.mouse_event(DeviceType::Touch, EventType::Pressed))
+	if(MouseEvent event = input.mouse_event(DeviceType::Touch, EventType::Pressed))
 	//or(MouseEvent event = viewer.mouse_event(DeviceType::Touch, EventType::Moved))
 	{
 		//if(event.touches.length == 1) {
@@ -231,7 +232,6 @@ EX(xx_effect_dof)
 		//	mouseY = event.touches[0].pageY - windowHalfY;
 		//}
 	}
-#endif
 
 	const float time = app.m_gfx.m_time * 0.05f;
 

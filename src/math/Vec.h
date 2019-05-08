@@ -96,8 +96,7 @@ namespace two
 
 #ifdef TWO_META_GENERATOR
 	// extern is not actually necessary, only hiding the implementations + explicit instantiation
-	// deactivating this because of what is apparently a gcc bug related to inline definition of constructors here above
-	// not playing well with those extern declarations
+	// deactived because of an apparent gcc bug with the inline definition of constructors above not playing well with those extern declarations
 	export_ extern template struct refl_ v2<float>;
 	export_ extern template struct refl_ v3<float>;
 	export_ extern template struct refl_ v4<float>;

@@ -44,7 +44,7 @@ using namespace two;
 #if UI
 using ExampleFunc = void(*)(ShellX&, Widget&, Dockbar&, bool);
 #else
-using ExampleFunc = void(*)(ShellX&, GfxWindow&, bool);
+using ExampleFunc = void(*)(ShellX&, WindowX&, bool);
 #endif
 
 struct Example { string name; ExampleFunc func; };

@@ -91,7 +91,7 @@ namespace two
 
 		MouseEvent() : InputEvent() {}
 		MouseEvent(DeviceType deviceType, EventType eventType, vec2 pos, InputMod modifiers = InputMod::None)
-			: InputEvent(deviceType, eventType, modifiers), m_pos(pos)
+			: InputEvent(deviceType, eventType, modifiers), m_pos(pos), m_relative(pos)
 		{
 			if(deviceType == DeviceType::MouseLeft)
 				m_button = LEFT_BUTTON;

@@ -85,8 +85,8 @@ namespace two
 		else 							  return { FlowAxis::Paragraph, Sizing::Wrap,   Sizing::Wrap };
 	}
 
-	table<Align, float> c_align_space = { 0.f, 0.5f, 1.f, 0.f, 1.f };
-	table<Align, float> c_align_extent = { 0.f, 0.5f, 1.f, 1.f, 0.f };
+	table<Align, float> c_align_space = { { 0.f, 0.5f, 1.f, 0.f, 1.f } };
+	table<Align, float> c_align_extent = { { 0.f, 0.5f, 1.f, 1.f, 0.f } };
 
 	FrameSolver::FrameSolver()
 	{}

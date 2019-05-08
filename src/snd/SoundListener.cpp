@@ -17,8 +17,8 @@ namespace two
 	void SoundListener::set_transform(const vec3& position, const quat& rotation)
 	{
 		m_position = position;
-		m_front = rotate(rotation, -Z3);
-		m_up = rotate(rotation, Y3);
+		m_front = rotate(rotation, -z3);
+		m_up = rotate(rotation, y3);
 		m_transformUpdated = true;
 	}
 

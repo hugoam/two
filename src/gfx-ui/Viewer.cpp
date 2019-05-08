@@ -235,6 +235,11 @@ namespace two
 
 	void OrbitControls::update(Widget& widget, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat)
 	{
+		this->update(widget, widget.m_frame.m_size, fov, eye, target, up, mat);
+	}
+
+	void OrbitControls::update(ControlNode& input, const vec2& size, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat)
+	{
 		auto getAutoRotationAngle = [&]() -> float { return 2.f * c_pi / 60.f / 60.f * autoRotateSpeed; };
 
 		auto getZoomScale = [&]() -> float { return pow(0.95f, zoomSpeed); };
@@ -271,8 +276,8 @@ namespace two
 				targetDistance *= tan((fov / 2.f) * c_pi / 180.0);
 
 				// we use only clientHeight here so aspect ratio does not distort speed
-				panLeft(2 * delta.x * targetDistance / widget.m_frame.m_size.y); // , object.matrix);
-				panUp(2 * delta.y * targetDistance / widget.m_frame.m_size.y); // , object.matrix);
+				panLeft(2 * delta.x * targetDistance / size.y); // , object.matrix);
+				panUp(2 * delta.y * targetDistance / size.y); // , object.matrix);
 
 			}
 			else {
@@ -312,7 +317,7 @@ namespace two
 		};
 #endif
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 		{
 			bool mod = event.m_modifiers != InputMod::None;
 			state = mod ? State::Pan : State::Rotate;
@@ -322,14 +327,14 @@ namespace two
 				panStart = event.m_relative;
 		}
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Pressed))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseMiddle, EventType::Pressed))
 		{
 			state = State::Dolly;
 			if(enableZoom)
 				dollyStart = event.m_relative;
 		}
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseRight, EventType::Pressed))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseRight, EventType::Pressed))
 		{
 			state = State::Pan;
 			if(enablePan)
@@ -341,8 +346,8 @@ namespace two
 			rotateEnd = event.m_relative;
 			rotateDelta = (rotateEnd - rotateStart) * rotateSpeed;
 
-			rotateLeft(2 * c_pi * rotateDelta.x / widget.m_frame.m_size.y); // yes, height
-			rotateUp(2 * c_pi * rotateDelta.y / widget.m_frame.m_size.y);
+			rotateLeft(2 * c_pi * rotateDelta.x / size.y); // yes, height
+			rotateUp(2 * c_pi * rotateDelta.y / size.y);
 
 			rotateStart = rotateEnd;
 		};
@@ -372,7 +377,7 @@ namespace two
 			panStart = panEnd;
 		};
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::Mouse, EventType::Moved))
+		if(MouseEvent event = input.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
 			if(state == State::Rotate && enableRotate)
 			{
@@ -388,14 +393,14 @@ namespace two
 			}
 		}
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Released))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseLeft, EventType::Released))
 			state = State::None;
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Released))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseMiddle, EventType::Released))
 			state = State::None;
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseRight, EventType::Released))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseRight, EventType::Released))
 			state = State::None;
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
 			if(enabled == false || enableZoom == false || (state != State::None && state != State::Rotate)) return;
 
@@ -852,6 +857,11 @@ namespace two
 
 	void TrackballController::update(Widget& widget, vec3& eye, vec3& target, vec3& up)
 	{
+		this->update(widget, widget.m_frame.m_size, eye, target, up);
+	}
+
+	void TrackballController::update(ControlNode& input, const vec2& size, vec3& eye, vec3& target, vec3& up)
+	{
 		m_to_eye = eye - m_target;
 
 		if(!m_noRotate) this->rotateCamera(eye, up);
@@ -881,74 +891,74 @@ namespace two
 		{
 			for(State state : { State::Rotate, State::Zoom, State::Pan })
 			{
-				if(KeyEvent event = widget.key_event(m_keys[state], EventType::Pressed))
+				if(KeyEvent event = input.key_event(m_keys[state], EventType::Pressed))
 				{
 					m_state = state;
 					m_prevState = m_state;
 				}
 
-				if(KeyEvent event = widget.key_event(m_keys[state], EventType::Released))
+				if(KeyEvent event = input.key_event(m_keys[state], EventType::Released))
 				{
 					m_state = m_prevState;
 				}
 			}
 		}
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 		{
 			m_state = State::Rotate;
 			if(!m_noRotate)
 			{
-				m_moveCurr = getMouseOnCircle(widget.m_frame.m_size, event.m_relative);
+				m_moveCurr = getMouseOnCircle(size, event.m_relative);
 				m_movePrev = m_moveCurr;
 			}
 		}
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Pressed))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseMiddle, EventType::Pressed))
 		{
 			m_state = State::Zoom;
 			if(!m_noZoom)
 			{
-				m_zoomStart = getMouseOnScreen(widget.m_frame.m_size, event.m_relative);
+				m_zoomStart = getMouseOnScreen(size, event.m_relative);
 				m_zoomEnd = m_zoomStart;
 			}
 		}
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseRight, EventType::Pressed))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseRight, EventType::Pressed))
 		{
 			m_state = State::Pan;
 			if(!m_noPan)
 			{
-				m_panStart = getMouseOnScreen(widget.m_frame.m_size, event.m_relative);
+				m_panStart = getMouseOnScreen(size, event.m_relative);
 				m_panEnd = m_panStart;
 			}
 		}
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::Mouse, EventType::Moved))
+		if(MouseEvent event = input.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
 			if(m_state == State::Rotate && !m_noRotate)
 			{
 				m_movePrev = m_moveCurr;
-				m_moveCurr = getMouseOnCircle(widget.m_frame.m_size, event.m_relative);
+				m_moveCurr = getMouseOnCircle(size, event.m_relative);
 			}
 			else if(m_state == State::Zoom && !m_noZoom)
 			{
-				m_zoomEnd = getMouseOnScreen(widget.m_frame.m_size, event.m_relative);
+				m_zoomEnd = getMouseOnScreen(size, event.m_relative);
 			}
 			else if(m_state == State::Pan && !m_noPan)
 			{
-				m_panEnd = getMouseOnScreen(widget.m_frame.m_size, event.m_relative);
+				m_panEnd = getMouseOnScreen(size, event.m_relative);
 			}
 		}
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Released))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseLeft, EventType::Released))
 			m_state = State::None;
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Released))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseMiddle, EventType::Released))
 			m_state = State::None;
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseRight, EventType::Released))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseRight, EventType::Released))
 			m_state = State::None;
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
 			if(m_noZoom != true)
 			{

@@ -13,9 +13,11 @@ EX(xx_hierarchy)
 	UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(parent);
 	Scene& scene = viewer.m_scene;
+	ControlNode& input = viewer;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
+	ControlNode& input = window;
 #endif
 
 	static Program& normal = app.m_gfx.programs().fetch("normal");
@@ -55,12 +57,10 @@ EX(xx_hierarchy)
 	}
 
 	static vec2 mouse = vec2(0.f);
-#if UI
-	if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
+	if(MouseEvent event = input.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
-		mouse = (event.m_relative - viewer.m_frame.m_size / 2.f) * 10.f;
+		mouse = (event.m_relative - viewer.m_size / 2.f) * 10.f;
 	}
-#endif
 
 	const float time = app.m_gfx.m_time;
 

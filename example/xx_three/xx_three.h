@@ -20,7 +20,7 @@ using namespace two;
 #if UI
 #define EX(name) void name(ShellX& app, Widget& parent, Dockbar& dockbar, bool init)
 #else
-#define EX(name) void name(ShellX& app, GfxWindow& window, bool init)
+#define EX(name) void name(ShellX& app, WindowX& window, bool init)
 #endif
 
 EX(xx_light_point);

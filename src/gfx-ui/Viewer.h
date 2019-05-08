@@ -166,8 +166,9 @@ namespace two
 		void reset(vec3& eye, vec3& target, vec3& up);
 
 		virtual void process(Viewer& viewer) override;
-		void update(Widget& widget, vec3& eye, vec3& target, vec3& up);
 
+		void update(Widget& widget, vec3& eye, vec3& target, vec3& up);
+		void update(ControlNode& input, const vec2& size, vec3& eye, vec3& target, vec3& up);
 	};
 
 	// This set of controls performs orbiting, dollying (zooming), and panning.
@@ -243,6 +244,7 @@ namespace two
 		virtual void process(Viewer& viewer) override;
 
 		void update(Widget& widget, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat);
+		void update(ControlNode& input, const vec2& size, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat);
 
 	private:
 		enum class State { None = -1, Rotate = 0, Dolly = 1, Pan = 2, TouchRotate = 3, TouchDollyPan = 4 };

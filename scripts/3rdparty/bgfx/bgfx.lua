@@ -28,12 +28,12 @@ project "bgfx"
         defines {
             "BGFX_CONFIG_DEBUG_UNIFORM=0",
         }
-        
+
     configuration { "osx",  }
         defines {
             "BGFX_CONFIG_RENDERER_OPENGL=31",
         }
-        
+
     configuration { "asmjs", "webgl2" }
         defines {
             "BGFX_CONFIG_RENDERER_OPENGLES=30",
@@ -42,17 +42,18 @@ project "bgfx"
     configuration {}
 
 project "bimg_encode"
-	configuration { "mingw* or linux or osx or asmjs" }
-		buildoptions {
-			"-Wno-undef"
+    configuration { "mingw* or linux or osx or asmjs" }
+        buildoptions {
+            "-Wno-undef",
+            "-Wno-class-memaccess",
         }
-        
-	configuration { "osx or *-clang* or asmjs" }
-		buildoptions {
+
+    configuration { "osx or *-clang* or asmjs" }
+        buildoptions {
             "-Wno-shadow",
-			"-Wno-macro-redefined",
+            "-Wno-macro-redefined",
             "-Wno-tautological-compare",
-		}
+        }
 
     configuration { "vs*", "not asmjs" }
         buildoptions {
@@ -60,7 +61,7 @@ project "bimg_encode"
         }
 
     configuration {}
-        
+
 dofile(path.join(TWO_DIR, "scripts/3rdparty/bgfx/shaderc.lua"))
 
 function uses_bx()
