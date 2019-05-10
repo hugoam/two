@@ -840,7 +840,7 @@ int main(int argc, char *argv[])
 	static BgfxSystem render_system = { TWO_RESOURCE_PATH };
 #endif
 
-	static BgfxContext context = BgfxContext(render_system, "two ui demo", uvec2(1200, 800), false, true);
+	static BgfxContext context = BgfxContext(render_system, "two ui demo", uvec2(1600U, 900U), false, true);
 
 	static VgVg vg = VgVg(TWO_RESOURCE_PATH, &render_system.allocator());
 

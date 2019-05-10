@@ -271,7 +271,7 @@ window.onerror = function() {
     }
     
     var samples = [
-        { name: 'ui',                deps: [] },
+      //{ name: 'ui',                deps: [] },
         { name: 'depth/texture',     deps: [] },
       //{ name: 'geom/dynamic',      deps: [] },
         { name: 'geom/instances',    deps: [] },
@@ -387,8 +387,8 @@ window.onerror = function() {
     
     two.onRuntimeInitialized = function() {
         start(two);
-        //select(findSample('light/point'));
-        select(findSample('ui'));
+        select(findSample('light/point'));
+        //select(findSample('ui'));
     };
     
 </script>
