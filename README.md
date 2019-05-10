@@ -55,9 +55,9 @@ int main(int argc, char *argv[])
 }
 ```
 
-# [ui](docs/ui.md)
-
 ![samples](media/ui0.gif?raw=true)
+
+# [ui](docs/ui.md)
 
 two ui uses a novel paradigm that sits halfway between **immediate** (like dear imgui) and **retained** ui (like Qt) : its API looks and feels exactly like an immediate ui library, except not much is *actually* done immediately. As such, we prefer to refer to it as a **declarative** ui.  
 The final tree of widgets will look exactly like the tree of the declarations that is traversed on any given frame. however, events are processed, and rendering is done in a separate step.
