@@ -18,6 +18,8 @@ Each of those layers are also their own libraries, available as [twfx](https://g
 
 **two** is open-source, and published under the zlib license: as such it is looking for sponsors, funding, and your support through [patreon](https://www.patreon.com/libmud).
 
+![samples](media/samples0.gif?raw=true)
+
 # building
 two is built with [GENie](https://github.com/bkaradzic/GENie) build system, which is based on premake and consists of a bunch of lua scripts. The GENie binaries needed by two for windows and linux are included for convenience in the `bin` folder.  
 To get a headstart and build two you should clone this repository, and run GENie which will generate projects for two libraries and for the examples.
@@ -79,7 +81,7 @@ Style style = {};
 ui::button(parent, style, "Click me!");
 ```
 
-An extensive UI example demonstrates the usage in a way no documentation ever could: have a look at the code.
+An extensive UI example demonstrates the usage in a way no documentation ever could: have a look at the code.  
 ![samples](media/ui0.gif?raw=true)
 
 # [graphics](graphics.md)
@@ -105,7 +107,6 @@ animated.play("walk");
 ```
 
 A collection of 35 examples ported from three.js demonstrate most usages of the API: check them out to get familiar with how to use two.
-![samples](media/samples0.gif?raw=true)
 
 # examples
 
