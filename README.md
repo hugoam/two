@@ -55,6 +55,9 @@ int main(int argc, char *argv[])
 }
 ```
 
+Add some UI code or some graphics code in the body of the function to get started using two.  
+Don't hesitate to have a look at the examples!
+
 ![samples](media/ui0.gif?raw=true)
 
 # [ui](docs/ui.md)
