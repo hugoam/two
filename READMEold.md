@@ -7,14 +7,23 @@
 two is an all-purpose c++ app prototyping library, focused towards live graphical apps and games.  
 two contains all the essential building blocks to develop lean c++ apps from scratch, providing [reflection](#reflection) and low level [generic](#generic-features) algorithms, an [immediate ui](#ui) paradigm, and an immediate minimalistic and flexible [graphics renderer](#graphics).
 
-two aims to provide the *quickest idioms* to build functional and lightweight c++ graphical applications. It tackles the problem of the code you *don't* want to write, and *should not have* to write when prototyping an app.
+two aims to provide the *quickest idioms* to build functional and lightweight c++ graphical applications. It tackles the problem of the code you *don't* want to write, and *should not have* to write when prototyping an app. One core principle in two is : *don't repeat yourself*: we take this aim very seriously and we believe it's a principle that is way too often disregarded.
 
-two provides two main APIs, two low-level application building blocks which you can use just as well from native C++ as from higher-level language bindings:
+two consists of a set of 6 small, self-contained libraries rather than a single one: 6 building blocks essential to prototyping any c++ app.  
 
-- a stable API for mid-level graphics rendering (think scenes, shapes, meshes, models, lights, materials, passes, post-processing, etc).
-- a stable API for fully auto-layout, stylable, declarative/immediate mode UI (with a large set of widgets, docking, tabs, nodes, text editors, inputs, curves etc).
+The first set of blocks, consists of low level c++ programming tools, which purpose is to avoid duplicating code over and over, by providing [generic algorithms](https://github.com/hugoam/two#generic-features) instead, operating on generic objects. Their aim is that ideally, each line of code you have to write is *only* concerned with the *problem domain* you are trying to solve, and not lower-level auxiliary operations.
 
-Each of those layers are also their own libraries, available as tgfx and twui, which can be used independently: they are not tied to one another.
+These are the three low-level generic c++ blocks: they rely on applying generic operations on arbitrary types:
+- [reflection](#reflection) of any c++ code to a set of generic primitives
+- [generic serialization](docs/serial.md) of any c++ objects to any format (currently json)
+- [generic script](docs/scripting.md) bindings for any c++ objects, methods, functions, seamlessly, **and** a visual scripting language
+
+The second set of blocks consists of the the interactive/graphical foundation of an app:
+- immediate/declarative UI to draw skinnable, auto-layout ui panels in few lines of code
+- immediate/declarative graphics to render 3d objects in a minimal amount of code
+
+The last one ties the ui and the generic c++ blocks together:
+- generic ui to edit and inspect c++ objects, modules, call methods, edit text and visual scripts
 
 **two** stems from a strong programming philosophy: it wagers that the future of application and game coding lies in small, self-contained, reusable and shared libraries, and **not** in gigantic tightly coupled *engines* of hundreds thousands of lines of code.
 
@@ -68,6 +77,95 @@ int main(int argc, char *argv[])
     app.run(pump);
 }
 ```
+
+# [reflection](docs/reflection.md)
+Everything starts with your code : the domain specific problem you want to solve, the application business logic.  
+In two we start here, and not in intricate hierarchies of classes and components to inherit. As such two is more alike to a programming language/idiom than a framework.
+
+```c++
+namespace app
+{
+    class refl_ MyObject
+    {
+    public:
+        constr_ MyObject(int var, std::string field);
+        
+        meth_ int method();
+
+        attr_ int m_var; 
+        attr_ std::string m_field;
+        attr_ std::vector<float> m_floats;
+    };
+    
+    func_ void foo(int arg);
+    func_ void bar(MyObject& object);
+}
+```
+
+That code is gonna reside in a module, which you need to precompile to a reflection file, using two reflection generator.  
+From this point, you are allowed to manipulate the reflected classes, objects and functions in a completely generic and type-erased way:
+
+```c++
+// call a generic function
+Var result = function(foo)({ var(5) });
+
+MyObject object = { 12, 'cocorico' };
+// create generic values and references
+Var a = &object;        // a holds generic reference to object
+Var b = var(object);    // b holds a copy of object
+
+// construct an object generically
+Var c = construct(type<MyObject>(), { var(12), var(string("cocorico")) });
+
+// call a generic object method
+Var result = method(&MyObject::method)(object, {});
+
+// get and set a generic object member
+Var member = member(&MyObject::m_var).get(object);
+member(&MyObject::m_field).set(object, var("cocorico!"));
+
+// iterate a generic collection
+Var collection = member(&MyObject::m_floats).get(object);
+iterate(var, [](const Var& element) { printf("%f\n", element.val<float>(); });
+
+// create a generic collection
+std::vector<Var> objects = { var(5), var(34.13f), var(string("cocorico")), var(MyObject(15, "two rocks")) };
+iterate(var, [](const Var& element) { printf("%s, ", to_string(element); }); // prints 5, 34.13f, cocorico, 
+```
+
+# [generic features]()
+two builds on top of these low level generic operations to provide, for any of the reflected types and primitives:
+- [ui components](docs/inspector.md) for creating, editing, saving, inspecting an object structure
+- [serialization](docs/serial.md) facilities
+- [scripting](docs/scripting.md) languages seamless integration with languages (lua, visual scripting)
+
+Here are a few examples of how using these features looks:
+```cpp
+AppObject object(12, 'cocorico');
+// draw an inspector ui panel to edit this object
+ui::inspector(parent, &object);
+
+// serialize and deserialize any object to and from its json representation
+std::string json = slz::pack(object);
+Var object = slz::unpack(type<MyObject>(), json);
+```
+
+In a lua script you can use any of the reflected functions, types, methods, fields
+```lua
+local object = MyObject(5, 'hello world!')
+print(object:method())
+bar(object) -- you can even pass c++ objects to a function
+```
+
+Add nodes to the visual script from c++
+```c++
+Valve& arg = script.value(5);
+Valve& field = script.value(string("cocorico"));
+script.create<MyObject>({ &arg, &field }); // adds a node that creates an object
+```
+
+Now to use these features you need an actual running application.  
+The first step to bootstrap an application is to actually create a window with a user interface.
 
 # [ui](docs/ui.md)
 two ui uses a novel paradigm that sits halfway between **immediate** (like dear imgui) and **retained** ui (like Qt) : its API looks and feels exactly like an immediate ui library, except not much is *actually* done immediately. As such, we prefer to refer to it as a **declarative** ui.  
