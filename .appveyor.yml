@@ -14,5 +14,5 @@ install:
   - bin\windows\genie %TOOLSET%
 
 build:
-  project: build/projects/$(TOOLSET)/mud.sln
+  project: build/projects/$(TOOLSET)/two.sln
   verbosity: normal
