@@ -2,7 +2,7 @@
 
 | CI            | Community     | Support   |
 | ------------- | ------------- | --------- |
-[![Build Status](https://travis-ci.org/hugoam/two.svg?branch=master)](https://travis-ci.org/hugoam/two) [![Build status](https://ci.appveyor.com/api/projects/status/4a77n3scl71ybcgj?svg=true)](https://ci.appveyor.com/project/hugoam/two) | [![Community](https://img.shields.io/discourse/https/discourse.toyengine.io/posts.svg)](https://discourse.toyengine.io) [![Gitter](https://badges.gitter.im/hugoam/two.svg)](https://gitter.im/hugoam/two) | [![Patreon](https://img.shields.io/badge/donate-patreon-orange.svg)](https://www.patreon.com/bePatron?u=11301355)
+[![Build Status](https://travis-ci.org/hugoam/two.svg?branch=master)](https://travis-ci.org/hugoam/two) [![Build status](https://ci.appveyor.com/api/projects/status/4a77n3scl71ybcgj?svg=true)](https://ci.appveyor.com/project/hugoam/two) | [![Gitter](https://badges.gitter.im/hugoam/two.svg)](https://gitter.im/hugoam/two) | [![Patreon](https://img.shields.io/badge/donate-patreon-orange.svg)](https://www.patreon.com/bePatron?u=11301355)
 
 two is an all-purpose c++ app prototyping library, focused towards live graphical apps and games.  
 two contains all the essential building blocks to develop lean c++ apps from scratch, providing [reflection](#reflection) and low level [generic](#generic-features) algorithms, an [immediate ui](#ui) paradigm, and an immediate minimalistic and flexible [graphics renderer](#graphics).
