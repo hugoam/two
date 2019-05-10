@@ -69,8 +69,8 @@ int main(int argc, char *argv[])
 }
 ```
 
-# [ui](docs/ui.md)
 ![samples](media/ui0.gif?raw=true)
+# [ui](docs/ui.md)
 two ui uses a novel paradigm that sits halfway between **immediate** (like dear imgui) and **retained** ui (like Qt) : its API looks and feels exactly like an immediate ui library, except not much is *actually* done immediately. As such, we prefer to refer to it as a **declarative** ui.  
 The final tree of widgets will look exactly like the tree of the declarations that is traversed on any given frame. however, events are processed, and rendering is done in a separate step.
 
@@ -96,8 +96,8 @@ Style style = {};
 ui::button(parent, style, "Click me!");
 ```
 
-# [graphics](graphics.md)
 ![samples](media/samples0.gif?raw=true)
+# [graphics](graphics.md)
 two gfx library uses the same immediate paradigm as the ui. instead of nesting ui nodes (widgets) calls, you nest graphics nodes calls. as such it is perfect for quickly setting up some debug graphics rendering.
 
 ```c++
