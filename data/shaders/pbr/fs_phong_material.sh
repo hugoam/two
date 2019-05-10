@@ -10,9 +10,15 @@
 #include "fs_alpha.sh"
 #include "fs_alphatest.sh"
 
+#ifdef DIFFUSE_MAP
     matphong.diffuse *= sample_material_texture(s_diffuse, fragment.uv).rgb;
+#endif
+#ifdef SPECULAR_MAP
     matphong.specular *= sample_material_texture(s_specular, fragment.uv).rgb;
+#endif
+#ifdef SHININESS_MAP
     matphong.shininess *= sample_material_texture(s_shininess, fragment.uv).r;
+#endif
 
 #ifdef VERTEX_COLOR
     matphong.diffuse *= v_color.rgb;

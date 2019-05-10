@@ -31,7 +31,7 @@ struct LightCluster
     uint spot_count;    // number of spot lights in this cluster
 };
 
-uvec3 fragment_cluster_coord(vec3 frag_coord)
+uvec3 cluster_coord(vec3 frag_coord)
 {
 #if BGFX_SHADER_LANGUAGE_HLSL || BGFX_SHADER_LANGUAGE_PSSL || BGFX_SHADER_LANGUAGE_METAL
 	frag_coord.y = u_screen_size.y - frag_coord.y;
@@ -42,9 +42,9 @@ uvec3 fragment_cluster_coord(vec3 frag_coord)
     return cluster_coord;
 }
 
-uint fragment_cluster_index(vec3 frag_coord)
+uint cluster_index(vec3 frag_coord)
 {
-    uvec3 cluster_coord = fragment_cluster_coord(frag_coord);
+    uvec3 cluster_coord = cluster_coord(frag_coord);
     return cluster_coord.x * uint(u_cluster_f.x) +
            cluster_coord.y * uint(u_cluster_f.y) +
            cluster_coord.z * uint(u_cluster_f.z);
@@ -55,7 +55,7 @@ ivec2 cluster_uv(uint cluster_index)
     return ivec2(cluster_index & CLUSTER_BUFFER_WIDTH_MASK, cluster_index >> CLUSTER_BUFFER_WIDTH_SHIFT);
 }
 
-LightCluster get_light_cluster(uint cluster_index)
+LightCluster read_cluster(uint cluster_index)
 {
     ivec2 uv = cluster_uv(cluster_index);
     //uvec2 entry = texelFetch(s_light_clusters, uv, 0).rg;
@@ -73,12 +73,12 @@ ivec2 record_uv(uint index)
     return ivec2(index & RECORD_BUFFER_WIDTH_MASK, index >> RECORD_BUFFER_WIDTH_SHIFT);
 }
 
-Light read_cluster_light(uint index)
+int clustered_light_index(uint record_offset)
 {
-    ivec2 uv = record_uv(index);
+    ivec2 uv = record_uv(record_offset);
     //uint light_index = texelFetch(s_light_records, uv, 0).r;
     uint light_index = uint(texelFetch(s_light_records, uv, 0).r * 255.0);
-    return read_light(int(light_index));
+    return int(light_index);
 }
 
 #endif

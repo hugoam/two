@@ -38,6 +38,18 @@ vec3 ibl_reflect(vec3 view, vec3 normal, float level)
     return rad;
 }
 
+vec3 ibl_reflect0(vec3 view, vec3 normal)
+{
+	vec3 dir = reflect(-view, normal);
+	dir = normalize(mul(u_invView, vec4(dir, 0.0)).xyz);
+#ifdef RADIANCE_CUBE
+	vec3 rad = textureCube(s_radiance, vec3(-dir.x, dir.y, dir.z)).rgb;
+#else
+	vec3 rad = textureSpherical2D(s_radiance, dir, 0.0).rgb;
+#endif
+    return rad;
+}
+
 vec3 ibl_diffuse(vec3 normal)
 {
     // @todo it seems wrong that last level is too uniform, look into how those are generated

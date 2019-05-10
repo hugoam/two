@@ -1,5 +1,5 @@
 #ifdef RADIANCE_ENVMAP
-    diffuse += ibl_diffuse(fragment.normal) * PI; // * zone.ambient;
+    diffuse += ibl_diffuse(fragment.normal) * PI * zone.energy;
 #ifdef REFRACTION
     vec3 envspec = ibl_refract(fragment.view, fragment.normal, material.refraction, env_brdf_miplevel(material));
 #else

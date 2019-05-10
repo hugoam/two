@@ -9,10 +9,20 @@
 #include "fs_alpha.sh"
 #include "fs_alphatest.sh"
 
+#ifdef ALBEDO_MAP
+    matpbr.albedo.rgb *= sample_material_texture(s_albedo, fragment.uv).rgb;
+#endif
+#ifdef ROUGHNESS_MAP
+    matpbr.roughness *= sample_material_texture(s_roughness, fragment.uv)[ int(matpbr.roughness_channel) ];
+#endif
+#ifdef METALLIC_MAP
+    matpbr.metallic *= sample_material_texture(s_metallic, fragment.uv)[ int(matpbr.metallic_channel) ];
+#endif
+    
     Material material;
-    material.albedo = matpbr.albedo.rgb * sample_material_texture(s_albedo, fragment.uv).rgb;
-    material.roughness = matpbr.roughness * sample_material_texture(s_roughness, fragment.uv)[ int(matpbr.roughness_channel) ];
-    material.metallic = matpbr.metallic * sample_material_texture(s_metallic, fragment.uv)[ int(matpbr.metallic_channel) ];
+    material.albedo = matpbr.albedo.rgb;
+    material.roughness = matpbr.roughness;
+    material.metallic = matpbr.metallic;
     material.specular = matpbr.specular;
     material.refraction = matpbr.refraction;
 

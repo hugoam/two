@@ -30,7 +30,7 @@ SAMPLER2D(s_depth, 7);
 #endif
 
 #ifdef LIGHTMAP
-SAMPLER2D(s_lightmap, 13);
+SAMPLER2D(s_lightmap, 12);
 #endif
 
 #if 0

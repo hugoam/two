@@ -12,11 +12,16 @@ void main()
 #include "fs_alpha.sh"
 #include "fs_alphatest.sh"
     
-    vec4 color_tex = toLinear(texture2D(s_color, v_uv0));
-    color_tex.a *= alpha;
+    vec4 color = matsolid.color;
+    color.a *= alpha;
+    
+#ifdef COLOR_MAP
+    color *= toLinear(texture2D(s_color, v_uv0));
+#endif
+
 #ifdef VERTEX_COLOR
-    gl_FragColor = v_color * color_tex * matsolid.color;
+    gl_FragColor = v_color * color;
 #else
-    gl_FragColor = color_tex * matsolid.color;
+    gl_FragColor = color;
 #endif
 }
