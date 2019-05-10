@@ -7,32 +7,16 @@
 two is an all-purpose c++ app prototyping library, focused towards live graphical apps and games.  
 two contains all the essential building blocks to develop lean c++ apps from scratch, providing [reflection](#reflection) and low level [generic](#generic-features) algorithms, an [immediate ui](#ui) paradigm, and an immediate minimalistic and flexible [graphics renderer](#graphics).
 
-two aims to provide the *quickest idioms* to build functional and lightweight c++ graphical applications. It tackles the problem of the code you *don't* want to write, and *should not have* to write when prototyping an app.
+two aims to provide the *quickest idioms* to build functional and lightweight c++ graphical applications. It wagers that the future of application and game coding lies in small, self-contained, reusable and shared libraries, and **not** in gigantic tightly coupled *engines* of hundreds thousands of lines of code. It tackles the problem of the code you *don't* want to write, and *should not have* to write when prototyping an app.
 
 two provides two main APIs, two low-level application building blocks which you can use just as well from native C++ as from higher-level language bindings:
 
-- a stable API for mid-level graphics rendering (think scenes, shapes, meshes, models, lights, materials, passes, post-processing, etc).
-- a stable API for fully auto-layout, stylable, declarative/immediate mode UI (with a large set of widgets, docking, tabs, nodes, text editors, inputs, curves etc).
+- a stable API for [mid-level graphics rendering](https://github.com/hugoam/two/blob/master/docs/graphics.md) (think scenes, shapes, meshes, models, lights, materials, passes, post-processing, etc).
+- a stable API for fully auto-layout, stylable, [declarative/immediate mode UI](https://github.com/hugoam/two/blob/master/docs/ui.md) (with a large set of widgets, docking, tabs, nodes, text editors, inputs, curves etc).
 
-Each of those layers are also their own libraries, available as tgfx and twui, which can be used independently: they are not tied to one another.
-
-**two** stems from a strong programming philosophy: it wagers that the future of application and game coding lies in small, self-contained, reusable and shared libraries, and **not** in gigantic tightly coupled *engines* of hundreds thousands of lines of code.
-
-For our shared knowledge and our programs to progress, the building blocks have to be **small** and **understandable by most** (which is essentially the same thing). There are many such blocks already in many domains (network, pathfinding, database, graphics).
-
-I started writing two because I discovered some of the blocks I needed were missing. The common thread between these blocks, is an unrelenting thirst for simplicity. With the building blocks two provides, one can create live graphical apps in few lines of code, but also, **anyone** can potentially create a *game engine*.
+Each of those layers are also their own libraries, available as [twfx](https://github.com/hugoam/twfx) and [twui](https://github.com/hugoam/twui), which can be used independently: they are not tied to one another.
 
 **two** is open-source, and published under the zlib license: as such it is looking for sponsors, funding, and your support through [patreon](https://www.patreon.com/libmud).
-
-# domains
-Here is a slightly more in-depth description of each of two core components :
-- [a small generic c++ layer](https://github.com/hugoam/two/blob/master/docs/reflection.md) (< 5 kLoC): c++ primitives that allow manipulating generic objects at runtime, and precompilation of any c++ code to an initializer for these primitives.
-- [a small generic serialization layer](https://github.com/hugoam/two/blob/master/docs/serial.md) (< 1 kLoC): serialize generic c++ objects from and to different formats. two does only json (and previously sqlite), but some binary formats like flat buffers should be studied (although they usually have their own code generation).
-- [a small generic scripting library](https://github.com/hugoam/two/blob/master/docs/scripting.md) (< 3 kLoC): manipulate generic c++ objects through scripts. all reflected primitives: functions, methods, members can be used seamlessly. two does only lua, and a powerful graph based visual scripting language.
-- [a small UI library](https://github.com/hugoam/two/blob/master/docs/ui.md) (< 10 kLoC) that does: immediate-mode widget declarations, logic/layout/styling separation, fully automatic layout, css-like skinning, image-based skinning, style sheets, input widgets, docking windows and tabs, allows to define complex widgets easily.
-- [a small graphics library](https://github.com/hugoam/two/blob/master/docs/graphics.md) (< 6 kLoC): immediate-mode rendering graph declaration, with the following basic primitives: meshes, models, shaders, programs, materials, skeletons, animations, render targets, filters, render passes, render pipelines. It is minimalistic in design, and is **NOT a game engine** nor does it try to be.
-- [a small ui inspection library](https://github.com/hugoam/two/blob/master/docs/inspector.md) (< 3 kLoC): generic ui components: inspector panel, edit an object fields, call a method on an object, inspect an object graph/structure, all these are generic ui components operating on the reflected primitives.
-- [a small pbr rendering model]() (< 4 kLoC): a sample implementation of a physically based rendering model for the above graphics library, demonstrating it can be simple (it's the research behind that is complex).
 
 # building
 two is built with [GENie](https://github.com/bkaradzic/GENie) build system, which is based on premake and consists of a bunch of lua scripts. The GENie binaries needed by two for windows and linux are included for convenience in the `bin` folder.  
@@ -69,7 +53,6 @@ int main(int argc, char *argv[])
 }
 ```
 
-![samples](media/ui0.gif?raw=true)
 # [ui](docs/ui.md)
 two ui uses a novel paradigm that sits halfway between **immediate** (like dear imgui) and **retained** ui (like Qt) : its API looks and feels exactly like an immediate ui library, except not much is *actually* done immediately. As such, we prefer to refer to it as a **declarative** ui.  
 The final tree of widgets will look exactly like the tree of the declarations that is traversed on any given frame. however, events are processed, and rendering is done in a separate step.
@@ -96,7 +79,9 @@ Style style = {};
 ui::button(parent, style, "Click me!");
 ```
 
-![samples](media/samples0.gif?raw=true)
+An extensive UI example demonstrates the usage in a way no documentation ever could: have a look at the code.
+![samples](media/ui0.gif?raw=true)
+
 # [graphics](graphics.md)
 two gfx library uses the same immediate paradigm as the ui. instead of nesting ui nodes (widgets) calls, you nest graphics nodes calls. as such it is perfect for quickly setting up some debug graphics rendering.
 
@@ -118,6 +103,9 @@ Item& item = gfx::model(gnode, "my_3d_model.obj");
 Animated& animated = gfx::animated(gnode, item);
 animated.play("walk");
 ```
+
+A collection of 35 examples ported from three.js demonstrate most usages of the API: check them out to get familiar with how to use two.
+![samples](media/samples0.gif?raw=true)
 
 # examples
 
