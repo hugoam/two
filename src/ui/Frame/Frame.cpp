@@ -23,7 +23,6 @@ module two.ui;
 namespace two
 {
 	template struct v2<bool>;
-	template struct v2<size_t>;
 	template struct v2<AutoLayout>;
 	template struct v2<Sizing>;
 	template struct v2<Align>;
@@ -69,7 +68,7 @@ namespace two
 		return d_caption.c_str();
 	}
 
-	FrameSolver& Frame::solver(Style& style, Axis length, v2<size_t> index)
+	FrameSolver& Frame::solver(Style& style, Axis length, v2<uint> index)
 	{
 		d_style = &style;
 		d_layout = &style.m_layout;

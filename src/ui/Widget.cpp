@@ -36,7 +36,7 @@ namespace ui
 		return self;
 	}
 
-	Widget& widget(Widget& parent, Style& style, bool open, Axis length, v2<size_t> index)
+	Widget& widget(Widget& parent, Style& style, bool open, Axis length, v2<uint> index)
 	{
 		Widget& self = parent.subi(&style).init(style, open, length, index);
 		assert(self.m_frame.d_style);

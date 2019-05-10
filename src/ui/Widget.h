@@ -33,7 +33,7 @@ namespace two
 
 namespace ui
 {
-	export_ TWO_UI_EXPORT func_ Widget& widget(Widget& parent, Style& style, bool open = false, Axis length = Axis::None, v2<size_t> index = { 0, 0 });
+	export_ TWO_UI_EXPORT func_ Widget& widget(Widget& parent, Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 });
 	export_ TWO_UI_EXPORT Widget& widget(Widget& parent, Style& style, void* identity);
 
 	export_ TWO_UI_EXPORT func_ Widget& item(Widget& parent, Style& style, cstring content = nullptr);

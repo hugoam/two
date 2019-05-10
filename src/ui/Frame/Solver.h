@@ -105,7 +105,7 @@ namespace two
 		bool d_content_expand = false;
 		float d_total_span;
 
-		v2<size_t> d_index;
+		v2<uint> d_index;
 
 		FrameSolver* d_prev = nullptr;
 		size_t d_count = 0;

@@ -30,7 +30,6 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<stl::vector<two::Subskin>>() { static Type ty("vector<two::Subskin>", sizeof(stl::vector<two::Subskin>)); return ty; }
     
     template <> TWO_UI_EXPORT Type& type<two::Space>() { static Type ty("Space", sizeof(two::Space)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::v2<size_t>>() { static Type ty("v2<size_t>", sizeof(two::v2<size_t>)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::v2<two::AutoLayout>>() { static Type ty("v2<two::AutoLayout>", sizeof(two::v2<two::AutoLayout>)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::v2<two::Sizing>>() { static Type ty("v2<two::Sizing>", sizeof(two::v2<two::Sizing>)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::v2<two::Align>>() { static Type ty("v2<two::Align>", sizeof(two::v2<two::Align>)); return ty; }

@@ -39,7 +39,6 @@ namespace two
     export_ template <> TWO_UI_EXPORT Type& type<stl::vector<two::Subskin>>();
     
     export_ template <> TWO_UI_EXPORT Type& type<two::Space>();
-    export_ template <> TWO_UI_EXPORT Type& type<two::v2<size_t>>();
     export_ template <> TWO_UI_EXPORT Type& type<two::v2<two::AutoLayout>>();
     export_ template <> TWO_UI_EXPORT Type& type<two::v2<two::Sizing>>();
     export_ template <> TWO_UI_EXPORT Type& type<two::v2<two::Align>>();

@@ -45,7 +45,7 @@ namespace two
 		Frame& root();
 		Layer& layer();
 
-		FrameSolver& solver(Style& style, Axis length = Axis::None, v2<size_t> index = { 0, 0 });
+		FrameSolver& solver(Style& style, Axis length = Axis::None, v2<uint> index = { 0, 0 });
 
 		DirtyLayout clearDirty() { DirtyLayout dirty = d_dirty; d_dirty = CLEAN; return dirty; }
 		void set_dirty(DirtyLayout dirty) { if(dirty > d_dirty) d_dirty = dirty; }
@@ -99,7 +99,7 @@ namespace two
 		Widget& d_widget;
 		Frame* d_parent;
 		DirtyLayout d_dirty = DIRTY_FORCE_LAYOUT;
-		v2<size_t> d_index = { 0, 0 };
+		v2<uint> d_index = { 0, 0 };
 
 		Opacity m_opacity = Opacity::Clear;
 

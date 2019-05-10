@@ -126,7 +126,6 @@ namespace two
 	};
 
 	export_ extern template struct refl_ array_ struct_ v2<bool>;
-	export_ extern template struct refl_ array_ struct_ v2<size_t>;
 	export_ extern template struct refl_ array_ struct_ v2<AutoLayout>;
 	export_ extern template struct refl_ array_ struct_ v2<Sizing>;
 	export_ extern template struct refl_ array_ struct_ v2<Align>;

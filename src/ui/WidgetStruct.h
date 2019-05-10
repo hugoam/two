@@ -95,13 +95,13 @@ namespace two
 		Widget& layer();
 
 		bool once() { if((m_state & CREATED) != 0) { disable_state(CREATED); return true; } return false; }
-		Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<size_t> index = { 0, 0 }) { if(!m_frame.d_style) { m_frame.solver(style, length, index); m_open = open; } return *this; }
+		Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 }) { if(!m_frame.d_style) { m_frame.solver(style, length, index); m_open = open; } return *this; }
 	};
 
 namespace ui
 {
 	export_ template <class T>
-	inline T& twidget(Widget& parent, Style& style, bool open = false, Axis length = Axis::None, v2<size_t> index = { 0, 0 })
+	inline T& twidget(Widget& parent, Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 })
 	{
 		T& self = parent.subi<T>(&style); self.init(style, open, length, index); return self;
 	}

@@ -62,10 +62,6 @@ void stl_vector_two_Subskin__add(void* vec, void* value) { (*static_cast<stl::ve
 void stl_vector_two_Subskin__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<two::Subskin>*>(vec)), *static_cast<two::Subskin*>(value)); }
 void two_Space__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::Space(  ); }
 void two_Space__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Space((*static_cast<two::Space*>(other))); }
-void two_v2_size_t__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::v2<size_t>(  ); }
-void two_v2_size_t__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::v2<size_t>( *static_cast<size_t*>(args[0]) ); }
-void two_v2_size_t__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::v2<size_t>( *static_cast<size_t*>(args[0]), *static_cast<size_t*>(args[1]) ); }
-void two_v2_size_t__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::v2<size_t>((*static_cast<two::v2<size_t>*>(other))); }
 void two_v2_two_AutoLayout__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::v2<two::AutoLayout>(  ); }
 void two_v2_two_AutoLayout__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::v2<two::AutoLayout>( *static_cast<two::AutoLayout*>(args[0]) ); }
 void two_v2_two_AutoLayout__construct_2(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::v2<two::AutoLayout>( *static_cast<two::AutoLayout*>(args[0]), *static_cast<two::AutoLayout*>(args[1]) ); }
@@ -156,7 +152,7 @@ void two_style_blendish_dark_5(span<void*> args, void*& result) { UNUSED(result)
 void two_style_imgui_dark_6(span<void*> args, void*& result) { UNUSED(result);  two::style_imgui_dark(*static_cast<two::UiWindow*>(args[0])); }
 void two_style_imgui_light_7(span<void*> args, void*& result) { UNUSED(result);  two::style_imgui_light(*static_cast<two::UiWindow*>(args[0])); }
 void two_style_imgui_classic_8(span<void*> args, void*& result) { UNUSED(result);  two::style_imgui_classic(*static_cast<two::UiWindow*>(args[0])); }
-void two_ui_widget_9(span<void*> args, void*& result) { result = &two::ui::widget(*static_cast<two::Widget*>(args[0]), *static_cast<two::Style*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<two::Axis*>(args[3]), *static_cast<two::v2<size_t>*>(args[4])); }
+void two_ui_widget_9(span<void*> args, void*& result) { result = &two::ui::widget(*static_cast<two::Widget*>(args[0]), *static_cast<two::Style*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<two::Axis*>(args[3]), *static_cast<two::v2<uint>*>(args[4])); }
 void two_ui_item_10(span<void*> args, void*& result) { result = &two::ui::item(*static_cast<two::Widget*>(args[0]), *static_cast<two::Style*>(args[1]), static_cast<const char*>(args[2])); }
 void two_ui_multi_item_11(span<void*> args, void*& result) { result = &two::ui::multi_item(*static_cast<two::Widget*>(args[0]), *static_cast<two::Style*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), static_cast<two::Style*>(args[3])); }
 void two_ui_spanner_12(span<void*> args, void*& result) { result = &two::ui::spanner(*static_cast<two::Widget*>(args[0]), *static_cast<two::Style*>(args[1]), *static_cast<two::Axis*>(args[2]), *static_cast<float*>(args[3])); }
@@ -518,31 +514,6 @@ namespace two
 			{ t, offsetof(two::Space, direction), type<two::FlowAxis>(), "direction", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Space, sizingLength), type<two::Sizing>(), "sizingLength", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Space, sizingDepth), type<two::Sizing>(), "sizingDepth", nullptr, Member::Value, nullptr }
-		};
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
-	}
-	// two::v2<size_t>
-	{
-		Type& t = type<two::v2<size_t>>();
-		static Meta meta = { t, &namspc({ "two" }), "v2<size_t>", sizeof(two::v2<size_t>), TypeClass::Struct };
-		// bases
-		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_v2_size_t__construct_0, {} },
-			{ t, two_v2_size_t__construct_1, { { "v", type<size_t>(),  } } },
-			{ t, two_v2_size_t__construct_2, { { "x", type<size_t>(),  }, { "y", type<size_t>(),  } } }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, two_v2_size_t__copy_construct }
-		};
-		// members
-		static Member members[] = {
-			{ t, offsetof(two::v2<size_t>, x), type<size_t>(), "x", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::v2<size_t>, y), type<size_t>(), "y", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1625,7 +1596,6 @@ namespace two
 		m.m_types.push_back(&type<two::Space>());
 		m.m_types.push_back(&type<two::Clip>());
 		m.m_types.push_back(&type<two::Opacity>());
-		m.m_types.push_back(&type<two::v2<size_t>>());
 		m.m_types.push_back(&type<two::v2<two::AutoLayout>>());
 		m.m_types.push_back(&type<two::v2<two::Sizing>>());
 		m.m_types.push_back(&type<two::v2<two::Align>>());
@@ -1723,8 +1693,8 @@ namespace two
 		{
 			static bool open_default = false;
 			static two::Axis length_default = two::Axis::None;
-			static two::v2<size_t> index_default = {0,0};
-			static Function f = { &namspc({ "two", "ui" }), "widget", funcptr<two::Widget&(*)(two::Widget&, two::Style&, bool, two::Axis, two::v2<size_t>)>(two::ui::widget), two_ui_widget_9, { { "parent", type<two::Widget>(),  }, { "style", type<two::Style>(),  }, { "open", type<bool>(), Param::Default, &open_default }, { "length", type<two::Axis>(), Param::Default, &length_default }, { "index", type<two::v2<size_t>>(), Param::Default, &index_default } }, { &type<two::Widget>(), QualType::None } };
+			static two::v2<uint> index_default = {0,0};
+			static Function f = { &namspc({ "two", "ui" }), "widget", funcptr<two::Widget&(*)(two::Widget&, two::Style&, bool, two::Axis, two::v2<uint>)>(two::ui::widget), two_ui_widget_9, { { "parent", type<two::Widget>(),  }, { "style", type<two::Style>(),  }, { "open", type<bool>(), Param::Default, &open_default }, { "length", type<two::Axis>(), Param::Default, &length_default }, { "index", type<two::v2<uint>>(), Param::Default, &index_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{

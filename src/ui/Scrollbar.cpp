@@ -37,7 +37,7 @@ namespace ui
 					  dim, true, false, &scrollbar_styles().scroller_knob);
 	}
 
-	Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Axis dim, v2<size_t> grid_index)
+	Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Axis dim, v2<uint> grid_index)
 	{
 		Widget& self = widget(parent, styles().row, false, dim, grid_index);
 
