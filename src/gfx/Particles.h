@@ -79,7 +79,7 @@ namespace two
 		// particles
 		attr_ ValueTrack<float> m_speed = { 1.f };
 		attr_ ValueTrack<float> m_angle = { 0.f };
-		attr_ ValueTrack<float> m_blend = { vector<float>({ 0.8f, 0.0f }) };
+		attr_ ValueTrack<float> m_blend = { { 0.8f, 0.0f } };
 		attr_ ValueTrack<Colour> m_colour = { Colour::White };
 		attr_ ValueTrack<float> m_scale = { 0.1f };
 

@@ -1,3 +1,5 @@
+<p align="center"><img src="https://github.com/hugoam/two/blob/master/media/libtwo0.png" /></p>
+
 # [two](https://github.com/hugoam/two)
 
 | CI            | Community     | Support   |
