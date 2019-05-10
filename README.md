@@ -81,7 +81,8 @@ Style style = {};
 ui::button(parent, style, "Click me!");
 ```
 
-An extensive UI example demonstrates the usage in a way no documentation ever could: have a look at the code.  
+An extensive UI example demonstrates the usage in a way no documentation ever could: have a look at the code.
+
 ![samples](media/ui0.gif?raw=true)
 
 # [graphics](graphics.md)
