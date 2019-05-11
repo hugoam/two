@@ -65,8 +65,8 @@
             </ul>
         </nav>
 
-        <div id="main">
-            <section class="main special">
+        <div class="main">
+            <section class="body special">
                 <div class="container">
                     <div class="row gtr-100 gtr-uniform">
 
@@ -92,6 +92,7 @@
                     </div >
                 </div>
             </section>
+        </div>
             
 <div class="livecode">
     <div id='side-nav' class='side-nav' style="list-style: none;">
@@ -107,7 +108,8 @@
     </div>
 </div>
 
-            <section class="main special">
+        <div class="main">
+            <section class="body special">
                 <div class="container">
                     <div class="row gtr-100 gtr-uniform">
 
@@ -510,10 +512,8 @@ window.onerror = function() {
     
     require.config({ paths: { 'vs': 'editor/monaco/min/vs' }});
     require(['vs/editor/editor.main'], function() {
-        editor = monaco.editor.create(document.getElementById('editor'), {
-            value: '',
-            language: 'javascript'
-        });
+    
+        monaco.languages.typescript.javascriptDefaults.setCompilerOptions({ noLib: true, allowNonTsExtensions: true });
         
         monaco.languages.registerHoverProvider('javascript', {
             provideHover: function (model, position) {
@@ -522,6 +522,17 @@ window.onerror = function() {
                     contents: []
                 };
             }
+        });
+        
+        monaco.languages.registerCompletionItemProvider('javascript', {
+            provideCompletionItems: function(model, position) {
+                return { suggestions: [] };
+            }
+        });
+        
+        editor = monaco.editor.create(document.getElementById('editor'), {
+            value: '',
+            language: 'javascript'
         });
         
         setTheme('tomorrow-night', 'editor/themes/Tomorrow-Night.json')

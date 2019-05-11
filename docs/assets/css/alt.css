@@ -277,7 +277,7 @@ input, select, textarea {
 	}
 
 	a:hover {
-		color: #ffffff;
+		/*color: #ffffff;*/
 	}
 
 	strong, b {
@@ -2618,13 +2618,13 @@ input, select, textarea {
 				width: 100%;
 			}
 
-		.image.main {
+		.image.body {
 			display: block;
 			margin: 0 0 3em 0;
 			width: 100%;
 		}
 
-			.image.main img {
+			.image.body img {
 				width: 100%;
 			}
 
@@ -3081,7 +3081,7 @@ input, select, textarea {
 			border-bottom-color: #dddddd;
 		}
 
-		#nav + #main {
+		#nav + .main {
 		}
 
 		#nav ul {
@@ -3157,7 +3157,7 @@ input, select, textarea {
 				display: none;
 			}
 
-				#nav + #main {
+				#nav + .main {
 					padding-top: 0;
 				}
 
@@ -3165,149 +3165,149 @@ input, select, textarea {
 
 /* Main */
 
-	#main {
+	.main {
 		border-radius: 0.25em;
 	}
 
-		#main blockquote {
+		.main blockquote {
 			border-left-color: #dddddd;
 		}
 
-		#main hr {
+		.main hr {
 			border-bottom-color: #dddddd;
 		}
 
-		#main .box {
+		.main .box {
 			border-color: #dddddd;
 		}
 
-		#main input[type="submit"],
-		#main input[type="reset"],
-		#main input[type="button"],
-		#main button,
-		#main .button {
+		.main input[type="submit"],
+		.main input[type="reset"],
+		.main input[type="button"],
+		.main button,
+		.main .button {
 			background-color: transparent;
 			box-shadow: inset 0 0 0 1px #dddddd;
 		}
 
-			#main input[type="submit"]:hover,
-			#main input[type="reset"]:hover,
-			#main input[type="button"]:hover,
-			#main button:hover,
-			#main .button:hover {
+			.main input[type="submit"]:hover,
+			.main input[type="reset"]:hover,
+			.main input[type="button"]:hover,
+			.main button:hover,
+			.main .button:hover {
 				background-color: rgba(222, 222, 222, 0.25);
 			}
 
-			#main input[type="submit"]:active,
-			#main input[type="reset"]:active,
-			#main input[type="button"]:active,
-			#main button:active,
-			#main .button:active {
+			.main input[type="submit"]:active,
+			.main input[type="reset"]:active,
+			.main input[type="button"]:active,
+			.main button:active,
+			.main .button:active {
 				background-color: rgba(222, 222, 222, 0.5);
 			}
 
-			#main input[type="submit"].icon:before,
-			#main input[type="reset"].icon:before,
-			#main input[type="button"].icon:before,
-			#main button.icon:before,
-			#main .button.icon:before {
+			.main input[type="submit"].icon:before,
+			.main input[type="reset"].icon:before,
+			.main input[type="button"].icon:before,
+			.main button.icon:before,
+			.main .button.icon:before {
 				color: rgba(99, 99, 99, 0.25);
 			}
 
-			#main input[type="submit"].primary,
-			#main input[type="reset"].primary,
-			#main input[type="button"].primary,
-			#main button.primary,
-			#main .button.primary {
+			.main input[type="submit"].primary,
+			.main input[type="reset"].primary,
+			.main input[type="button"].primary,
+			.main button.primary,
+			.main .button.primary {
 				background-color: #00aeef;
 				color: #ffffff !important;
 				box-shadow: none;
 			}
 
-				#main input[type="submit"].primary:hover,
-				#main input[type="reset"].primary:hover,
-				#main input[type="button"].primary:hover,
-				#main button.primary:hover,
-				#main .button.primary:hover {
+				.main input[type="submit"].primary:hover,
+				.main input[type="reset"].primary:hover,
+				.main input[type="button"].primary:hover,
+				.main button.primary:hover,
+				.main .button.primary:hover {
 					background-color: #09bcff;
 				}
 
-				#main input[type="submit"].primary:active,
-				#main input[type="reset"].primary:active,
-				#main input[type="button"].primary:active,
-				#main button.primary:active,
-				#main .button.primary:active {
+				.main input[type="submit"].primary:active,
+				.main input[type="reset"].primary:active,
+				.main input[type="button"].primary:active,
+				.main button.primary:active,
+				.main .button.primary:active {
 					background-color: #7ec3ee;
 				}
 
-				#main input[type="submit"].primary.icon:before,
-				#main input[type="reset"].primary.icon:before,
-				#main input[type="button"].primary.icon:before,
-				#main button.primary.icon:before,
-				#main .button.primary.icon:before {
+				.main input[type="submit"].primary.icon:before,
+				.main input[type="reset"].primary.icon:before,
+				.main input[type="button"].primary.icon:before,
+				.main button.primary.icon:before,
+				.main .button.primary.icon:before {
 					color: #ffffff !important;
 				}
 
-		#main input[type="text"],
-		#main input[type="password"],
-		#main input[type="email"],
-		#main select,
-		#main textarea {
+		.main input[type="text"],
+		.main input[type="password"],
+		.main input[type="email"],
+		.main select,
+		.main textarea {
 			background-color: rgba(222, 222, 222, 0.25);
 			border-color: #dddddd;
 		}
 
-			#main input[type="text"]:focus,
-			#main input[type="password"]:focus,
-			#main input[type="email"]:focus,
-			#main select:focus,
-			#main textarea:focus {
+			.main input[type="text"]:focus,
+			.main input[type="password"]:focus,
+			.main input[type="email"]:focus,
+			.main select:focus,
+			.main textarea:focus {
 				border-color: #00aeef;
 				box-shadow: 0 0 0 1px #00aeef;
 			}
 
-		#main select {
+		.main select {
 			background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' preserveAspectRatio='none' viewBox='0 0 40 40'%3E%3Cpath d='M9.4,12.3l10.4,10.4l10.4-10.4c0.2-0.2,0.5-0.4,0.9-0.4c0.3,0,0.6,0.1,0.9,0.4l3.3,3.3c0.2,0.2,0.4,0.5,0.4,0.9 c0,0.4-0.1,0.6-0.4,0.9L20.7,31.9c-0.2,0.2-0.5,0.4-0.9,0.4c-0.3,0-0.6-0.1-0.9-0.4L4.3,17.3c-0.2-0.2-0.4-0.5-0.4-0.9 c0-0.4,0.1-0.6,0.4-0.9l3.3-3.3c0.2-0.2,0.5-0.4,0.9-0.4S9.1,12.1,9.4,12.3z' fill='%23dddddd' /%3E%3C/svg%3E");
 		}
 
-			#main select option {
+			.main select option {
 				color: #636363;
 				background: #ffffff;
 			}
 
-		#main ul.alt li {
+		.main ul.alt li {
 			border-top-color: #dddddd;
 		}
 
-		#main header.major h2:after {
+		.main header.major h2:after {
 			background-color: #dddddd;
 		}
 
-		#main table tbody tr {
+		.main table tbody tr {
 			border-color: #dddddd;
 		}
 
-			#main table tbody tr:nth-child(2n + 1) {
+			.main table tbody tr:nth-child(2n + 1) {
 				background-color: rgba(222, 222, 222, 0.25);
 			}
 
-		#main table thead {
+		.main table thead {
 			border-bottom-color: #dddddd;
 		}
 
-		#main table tfoot {
+		.main table tfoot {
 			border-top-color: #dddddd;
 		}
 
-		#main table.alt tbody tr td {
+		.main table.alt tbody tr td {
 			border-color: #dddddd;
 		}
 
-		#main .main {
+		.main .body {
 			padding: 1.5em 5em 1.5em 5em;
 		}
 
-			#main .main > .image.main:first-child {
+			.main .body > .image.body:first-child {
 				margin: -5em 0 5em -5em;
 				width: calc(100% + 10em);
 				border-top-right-radius: 0.25em;
@@ -3316,7 +3316,7 @@ input, select, textarea {
 				border-bottom-left-radius: 0;
 			}
 
-				#main .main > .image.main:first-child img {
+				.main .body > .image.body:first-child img {
 					border-top-right-radius: 0.25em;
 					border-top-left-radius: 0.25em;
 					border-bottom-right-radius: 0;
@@ -3325,11 +3325,11 @@ input, select, textarea {
 
 		@media screen and (max-width: 1280px) {
 
-			#main .main {
+			.main .body {
 				padding: 2em 4em 2em 4em ;
 			}
 
-				#main .main > .image.main:first-child {
+				.main .body > .image.body:first-child {
 					margin: -4em 0 4em -4em;
 					width: calc(100% + 8em);
 				}
@@ -3338,11 +3338,11 @@ input, select, textarea {
 
 		@media screen and (max-width: 980px) {
 
-			#main .main {
+			.main .body {
 				padding: 2em 3em 2em 3em ;
 			}
 
-				#main .main > .image.main:first-child {
+				.main .body > .image.body:first-child {
 					margin: -4em 0 4em -3em;
 					width: calc(100% + 6em);
 				}
@@ -3351,11 +3351,11 @@ input, select, textarea {
 
 		@media screen and (max-width: 736px) {
 
-			#main .main {
+			.main .body {
 				padding: 3em 2em 1em 2em ;
 			}
 
-				#main .main > .image.main:first-child {
+				.main .body > .image.body:first-child {
 					margin: -3em 0 2em -2em;
 					width: calc(100% + 4em);
 				}
@@ -3364,11 +3364,11 @@ input, select, textarea {
 
 		@media screen and (max-width: 480px) {
 
-			#main .main {
+			.main .body {
 				padding: 3em 1.5em 1em 1.5em ;
 			}
 
-				#main .main > .image.main:first-child {
+				.main .body > .image.body:first-child {
 					margin: -3em 0 1.5em -1.5em;
 					width: calc(100% + 3em);
 				}
@@ -3377,21 +3377,21 @@ input, select, textarea {
 
 		@media screen and (max-width: 360px) {
 
-			#main {
+			.main {
 				border-radius: 0;
 			}
 
-				#main .main {
+				.main .body {
 					padding: 2.5em 1em 0.5em 1em ;
 				}
 
-					#main .main > .image.main:first-child {
+					.main .body > .image.body:first-child {
 						margin: -2.5em 0 1.5em -1em;
 						width: calc(100% + 2em);
 						border-radius: 0;
 					}
 
-						#main .main > .image.main:first-child img {
+						.main .body > .image.body:first-child img {
 							border-radius: 0;
 						}
 
