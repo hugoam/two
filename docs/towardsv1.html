@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>two - towards version 1.0</title>
+		<title>two - closing in on version 1.0</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/alt.css" />
@@ -76,14 +76,14 @@
                             
 <div class="doc off-2 col-8">
 <h2>Closing in on version 0.1</h2>
-<p>The <a href="https://github.com/hugoam/two">two</a> library (recently renamed) is at last very near to a first stable version 0.1. A metric ton of work has been accomplished recently to chisel the core of the library to a shape closer to its final form. The near term aim is to have for the first time a <i>stable</i> branch in the github repository, which will contain the first tagged release.</p>
+<p>The <a href="https://github.com/hugoam/two">two</a> library (previously known as "mud") is at last very near to a first stable version 0.1. A metric ton of work has been accomplished recently to chisel the core of the library to a shape closer to its final form. The near term aim is to have for the first time a <i>stable</i> branch in the github repository, which will contain the first tagged release.</p>
 <p>In its stabilized form, the library provides two main APIs, two low-level application building blocks which you can use just as well from native C++ as from higher-level language bindings:</p>
 <ul>
 <li>a stable API for mid-level graphics rendering (think scenes, shapes, meshes, models, lights, materials, passes, post-processing, etc).</li>
 <li>a stable API for fully auto-layout, stylable, declarative/immediate mode UI (with a large set of widgets, docking, tabs, nodes, text editors, inputs, curves etc).</li>
 </ul>
 <p>Each of those layers are also their own libraries, available as <a href="https://github.com/hugoam/twfx">twfx</a> and <a href="https://github.com/hugoam/twui">twui</a>, which can be used independently: they are not tied to one another. Other aspects of what was the <i>mud</i> library, namely the reflection and scripting parts, are taking a step back so that we can better focus on the two APIs above, under the umbrella of the name <i>two</i>.</p>
-<p>By having ported 35 three.js examples to <i>two</i>, we are paving the way to the final set of features which are supported by the first release: these examples exist both in the form of native C++ code, and in the form of live JavaScript examples.</p>
+<p>By having ported 35 three.js examples to <i>two</i>, we are paving the way to the final set of features which are supported by the first release: these examples exist both in the form of <a href="https://github.com/hugoam/two/tree/master/example/xx_three">native C++ code</a>, and in the form of <a href="https://github.com/hugoam/two/tree/master/example/xx_three/two">live JavaScript examples</a>.</p>
 <p>With some newly implemented JavaScript bindings, an idea we have been holding onto since long, long ago, is now much closer to reality: being able to use <i>two</i> for live-coding graphics and apps directly in the browser.</p>
 <p>To demonstrate the potential, we put together this prototype of a live-coding environment, where you can edit examples in real-time including some basic error reporting.</p>
 <p>The rest of this post goes into brief summary of the work accomplished towards making this library ready for its first stable form, so feel free to skip through the following samples.</p>
@@ -136,10 +136,10 @@
 
 <div class="doc off-2 col-8">
 <h3>codegen moved to native and javascript binder</h3>
-<p>One of the key points of the <i>two</i> library, is its extensive reflection facilities, enabled mainly by a C++ parser and code generator tool, which is used to generate higher level <i>meta</i> descriptions of all modules in the codebase and their contents.</p>
-<p>The generator, originally in python, has just been completely rewritten in C++ (now using the C API of libclang directly), to ensure its robustness and to make sure that extending it with new generators is a much more fail-proof process. It was a necessary step to implement a generator of JavaScript bindings for the whole codebase.</li>
+<p>One of the key strenghts of the <i>two</i> library, is its extensive reflection facilities, enabled mainly by a C++ parser and code generator tool, which is used to generate higher level <i>meta</i> descriptions of all modules in the codebase and their contents.</p>
+<p>The generator, originally in python, has just been completely <a href="https://github.com/hugoam/two/blob/master/src/clrefl/Generator.cpp">rewritten in C++</a> (now using the C API of libclang directly), to ensure its robustness and to make sure that extending it with new generators is a much more fail-proof process. It was a necessary step to implement a generator of JavaScript bindings for the whole codebase.</li>
 <p>Given that none of the existing solutions provided by Emscripten (namely Embind and WebIDL binder) provided all the features we needed, and since both of those solutions need an intermediate level of <i>binding code</i>/<i>interface definition</i> that would need to be generated anyway, we instead opted to directly generate the binding code itself, largely reusing the patterns used by those existing binders, but hooked straight to our generator.</p>
-<p>The implementation cost was a little bit higher, but the result is much, much more powerful. We practically have a generic C++ to JS binder, with simple annotated C++ code as input. The output is two files per module: the C glue code binding the functions, methods, members, enums, etc.., and the JS bindings wrapper. The C glue code can be reused in the future to bind other languages such as C#.</p>
+<p>The implementation cost was a little bit higher, but the result is much, much more powerful. We practically have a generic C++ to JS binder, with simple annotated C++ code as input. The output is two files per module: the <a href="https://github.com/hugoam/two/blob/master/src/bind/math.c.cpp">C glue code</a> that binds the functions, methods, members, enums etc, and the <a href="https://github.com/hugoam/two/blob/master/src/bind/math.js">JS bindings wrapper</a>. The C glue code can be reused in the future to bind other languages such as C#.</p>
 </div>
 
 <div class="doc off-2 col-8">
@@ -155,10 +155,10 @@
 <div class="doc off-2 col-8">
 <h3>webgpu prototype</h3>
 <p>This item is a bit like our own 20% project, on the scale of <i>two</i>. It wasn't practically needed for any short-term goal of the library, but it might prove to be a great investment in the future of the web. So, we allowed ourselves to start working on a first webgpu prototype.</p>
-<p>The low-level foundation on which <i>two</i> graphics are built, <a href="">bgfx</a>, abstracts different rendering backends in a nice declarative API. To advance on this task meant implementing a new experimental webgpu backend for it, which also presented itself as a great way to get familiar with the more modern explicit APIs that are D3D12, Vulkan, Metal2.</p>
-<p>Even though it is nowhere near complete, we advanced enough that a few of the basic bgfx examples run correctly on top of <a href="">dawn</a>, google's implementation of the current state of the webgpu specification.</p>
+<p>The low-level foundation on which <i>two</i> graphics are built, <a href="https://github.com/bkaradzic/bgfx">bgfx</a>, abstracts different rendering backends in a nice declarative API. To advance on this task meant implementing a new experimental webgpu backend for it, which also presented itself as a great way to get familiar with the more modern explicit APIs that are D3D12, Vulkan, Metal2.</p>
+<p>Even though it is nowhere near complete, we advanced enough that a few of the basic bgfx examples run correctly on top of <a href="https://dawn.googlesource.com/dawn">dawn</a>, google's implementation of the current state of the webgpu specification.</p>
 <p>This means that, as soon as browsers start providing access to webgpu, <i>two</i> will be on the front-line as one of the first libraries to support it, so that, pretty soon, apps using <i>two</i> can leverage the full power of your gpu, even in the browser.</p>
-<p>If you are curious, the current state of the webgpu backend source for bgfx can be found <a href="">here</a>.</p>
+<p>If you are curious, the current state of the webgpu backend source for bgfx can be found <a href="https://github.com/hugoam/bgfx/blob/master/src/renderer_webgpu.cpp">here</a>.</p>
 </div>
 <div class="doc off-1 col-10">
     <span class="image fit"><img src="images/webgpu.png" alt="" /></span>
@@ -166,7 +166,7 @@
 
 <div class="doc off-2 col-8">
 <h3>last steps to v0.1</h3>
-<p>As of the present post, the master branch of <i>two</i> is now officially the <a href="https://github.com/hugoam/two">stable branch</a>, although it will only be truly so once we can tag the first release. This means that <i>two</i> is now in a phase of last refinements and polishing. The plan is to use the following weeks/months to let the remaining issues emerge and be fixed, and gather an more precise picture of what flaws in the API the user encounter, and how it should ultimately be.</p>
+<p>As of the present post, the master branch of <i>two</i> is now officially the <i>stable branch</i>, although it will only be truly so once we can tag the first release. This means that <i>two</i> is now in a phase of last refinements and polishing with that milestone in sight. The plan is to use the following weeks/months to let the remaining issues emerge and be fixed, and gather an more precise picture of what flaws in the API the user encounter, and how it should ultimately be.</p>
 <p>This is a necessary step in order for people to finally be able to use a version of <i>two</i> worth using, so we look forward to it being completed.</p>
 <p>So, see you soon in the issues section of the github repo :)</p>
 </div>
