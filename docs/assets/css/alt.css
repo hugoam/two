@@ -117,8 +117,8 @@ input, select, textarea {
 
 	body, input, select, textarea {
 		/*font-family: "Source Sans Pro", Helvetica, sans-serif;*/
-        font-family: "Cabin", Helvetica, sans-serif;
-        font-family: Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+        font-family: Segoe UI, Cabin, Helvetica, sans-serif;
+        /*font-family: Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
         /*font-family: "Lato", Helvetica, Arial, sans-serif;*/
 		font-size: 16pt;
 		font-weight: 400;
@@ -3495,8 +3495,8 @@ input, select, textarea {
     .doc {
         text-align: left;
         font-size: 0.8em;
-        font-family: "Cabin", Helvetica, sans-serif;
-        font-family: Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+        font-family: Segoe UI, Cabin, Helvetica, sans-serif;
+        /*font-family: Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;*/
         font-weight: 500;
     }
     
