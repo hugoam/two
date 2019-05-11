@@ -120,7 +120,7 @@
 <p>A long-standing issue and challenge in finalizing <i>two</i> was to achieve what we call <i>decent compile times</i>. Which is the main item that led us to migrate from the STL.</p>
 <p>The most essential step in achieving decent speed, we found out, is to be able to separate template class <a href="https://github.com/hugoam/two/blob/master/src/stl/vector.h">declarations</a> from their <a href="https://github.com/hugoam/two/blob/master/src/stl/vector.hpp">implementation</a>, and instantiate those only in a few select translation units. This cannot be done with the regular STL because of the way it's structured (in monolithic headers)</p>
 <p>For this reason, we replaced 99% of our STL usage with our customized flavour of <a href="https://github.com/mendsley/tinystl">tinystl</a>. Doing so, we drove compile times down from more than 4 minutes to about 40 seconds (with a bunch of other tweaks). Vanilla STL can still be used through a compiler switch.</p>
-<p>The next logical step has been to provide amalgamated single-file versions of each module of the library, for which we wrote a quick and simple amalgamator. Using these files, compilation time can be driven down even further, to about 10 seconds (by including all modules implementations from one single translation unit).</li>
+<p>The next logical step has been to provide <a href="https://github.com/hugoam/two/blob/master/dist/two">amalgamated single-file versions</a> of each module of the library, for which we wrote a quick and simple amalgamator. Using these files, compilation time can be driven down even further, to about 10 seconds (by including all modules implementations from one single translation unit).</li>
 </div>
 
 <div class="doc off-2 col-8">
