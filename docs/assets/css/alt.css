@@ -116,7 +116,7 @@ input, select, textarea {
 	}
 
 	body, input, select, textarea {
-        font-family: Roboto, Segoe UI, Cabin, Helvetica, sans-serif;
+        font-family: Roboto, Segoe UI, Helvetica, sans-serif;
 		font-size: 16pt;
 		font-weight: 400;
 		line-height: 1.45;
@@ -3492,8 +3492,7 @@ input, select, textarea {
     .doc {
         text-align: left;
         font-size: 0.8em;
-        font-family: Roboto, Segoe UI, Cabin, Helvetica, sans-serif;
-        font-weight: 500;
+        font-family: Roboto, Segoe UI, Helvetica, sans-serif;
     }
     
     .doc p,
