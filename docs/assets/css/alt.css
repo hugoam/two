@@ -3495,6 +3495,7 @@ input, select, textarea {
     .doc {
         text-align: left;
         font-size: 0.8em;
+        font-family: "Cabin", Helvetica, sans-serif;
         font-family: Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
         font-weight: 500;
     }
