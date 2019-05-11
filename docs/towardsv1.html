@@ -488,13 +488,26 @@ window.onerror = function() {
         document.querySelector("#side-nav").appendChild(node);
     });
     
+    var ready = false;
+    var started = false;
+    
     function startSamples() {
-        start(two);
-        select(findSample('light/point'));
-        
-        var status = document.querySelector('#status');
-        status.parentNode.removeChild(status);
+        started = true;
+        if(ready) {
+            start(two);
+            select(findSample('light/point'));
+            
+            var status = document.querySelector('#status');
+            status.parentNode.removeChild(status);
+        }
     }
+    
+    two.onRuntimeInitialized = function() {
+        ready = true;
+        if(started) {
+            startSamples();
+        }
+    };
     
 </script>
 
