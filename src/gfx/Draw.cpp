@@ -188,7 +188,7 @@ namespace two
 		bgfx::allocTransientIndexBuffer(&index_buffer, num_indices);
 		memcpy(index_buffer.data, batch.m_indices.data(), num_indices * sizeof(uint16_t));
 
-		ProgramVersion program = m_material.program(*m_material.m_program);
+		ProgramVersion program = { *m_material.m_program };
 		m_material.submit(*program.m_program, encoder, bgfx_state);
 
 		encoder.setVertexBuffer(0, &vertex_buffer);

@@ -16,17 +16,8 @@ namespace two
 	enum ShaderOption : unsigned int
 	{
 		INSTANCING,
-		BILLBOARD,
 		SKELETON,
 		MORPHTARGET,
-		QNORMALS,
-		VFLIP,
-		MRT,
-		DEFERRED,
-		CLUSTERED,
-		BUFFER_ZONES,
-		BUFFER_LIGHTS,
-		BUFFER_MATERIALS,
 	};
 
 	export_ struct refl_ TWO_GFX_EXPORT ProgramVersion

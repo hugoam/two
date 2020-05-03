@@ -14,10 +14,8 @@ struct LightRay
     float cLoH;
     
     float LoV;
-#ifdef ANISOTROPY
     float XoH;
     float YoH;
-#endif
 
     float RoV;
     float cRoV;
@@ -29,12 +27,10 @@ LightRay calc_light_ray(Fragment fragment, vec3 l)
     vec3 N = fragment.normal;
     vec3 L = l; //normalize(l);
     vec3 H = normalize(V + L);
-	vec3 R = normalize(-reflect(L, N));
-    
-#ifdef ANISOTROPY
+    vec3 R = normalize(-reflect(L, N));
+
     vec3 B = fragment.binormal;
     vec3 T = fragment.tangent;
-#endif
 
     LightRay r;
     //r.l = l;
@@ -46,10 +42,11 @@ LightRay calc_light_ray(Fragment fragment, vec3 l)
     r.cLoH = max(dot(L, H), 0.0);
     
     r.LoV = dot(L, V);
-#ifdef ANISOTROPY
-    r.XoH = dot(T, H);
-    r.YoH = dot(B, H);
-#endif
+    if(u_anisotropy)
+    {
+        r.XoH = dot(T, H);
+        r.YoH = dot(B, H);
+    }
     
     r.RoV = dot(R, V);
     r.cRoV = max(dot(R, V), 0.0);
@@ -330,34 +327,33 @@ void direct_brdf(vec3 energy, vec3 l, Fragment fragment, Material material, inou
     LightRay ray = calc_light_ray(fragment, l);
  
     if(material.metallic < 1.0) {
-#if DIFFUSE_MODE == LAMBERT
-        diffuse += energy * material.albedo * diffuse_lambert(      ray, fragment.cNoV, material.roughness);
-#elif DIFFUSE_MODE == HALF_LAMBERT
-        diffuse += energy * material.albedo * diffuse_half_lambert( ray, fragment.cNoV, material.roughness);
-#elif DIFFUSE_MODE == OREN_NAYAR
-        diffuse += energy * material.albedo * diffuse_oren_nayar(   ray, fragment.NoV, material.roughness, material.albedo);
-#elif DIFFUSE_MODE == BURLEY
-        diffuse += energy * material.albedo * diffuse_burley(       ray, fragment.cNoV, material.roughness);
-#elif DIFFUSE_MODE == DIFFUSE_TOON
-        diffuse += energy * material.albedo * diffuse_toon(         ray, fragment.cNoV, material.roughness);
-#endif
+        if(u_pbr_diffuse_mode == LAMBERT)
+            diffuse += energy * material.albedo * diffuse_lambert(      ray, fragment.cNoV, material.roughness);
+        else if(u_pbr_diffuse_mode == HALF_LAMBERT)
+            diffuse += energy * material.albedo * diffuse_half_lambert( ray, fragment.cNoV, material.roughness);
+        else if(u_pbr_diffuse_mode == OREN_NAYAR)
+            diffuse += energy * material.albedo * diffuse_oren_nayar(   ray, fragment.NoV, material.roughness, material.albedo);
+        else if(u_pbr_diffuse_mode == BURLEY)
+            diffuse += energy * material.albedo * diffuse_burley(       ray, fragment.cNoV, material.roughness);
+        else if(u_pbr_diffuse_mode == DIFFUSE_TOON)
+            diffuse += energy * material.albedo * diffuse_toon(         ray, fragment.cNoV, material.roughness);
     }
     
 #ifdef RIM
-	float rim_light = pow(1.0 - fragment.cNoV,(1.0 - material.roughness) * 16.0);
-	diffuse += energy * rim_light * material.rim * mix(vec3(1.0), material.albedo, material.rim_tint);
+    float rim_light = pow(1.0 - fragment.cNoV,(1.0 - material.roughness) * 16.0);
+    diffuse += energy * rim_light * material.rim * mix(vec3(1.0), material.albedo, material.rim_tint);
 #endif
 
 	if (material.roughness > 0.0) {
-#if SPECULAR_MODE == SHLICK_GGX
-        specular += energy * specular_schlick_GGX(ray, fragment.cNoV, material.roughness, material.f0, material.anisotropy);
-#elif SPECULAR_MODE == BLINN
-        specular += energy * specular_blinn(      ray, fragment.cNoV, material.roughness);
-#elif SPECULAR_MODE == PHONG
-        specular += energy * specular_phong(      ray, fragment.cNoV, material.roughness);
-#elif SPECULAR_MODE == SPECULAR_TOON
-        diffuse  += energy * specular_toon(       ray, fragment.cNoV, material.roughness) * material.specular * 2.0;
-#elif SPECULAR_MODE == NO_SPECULAR
-#endif
+        if(u_pbr_specular_mode == SHLICK_GGX)
+            specular += energy * specular_schlick_GGX(ray, fragment.cNoV, material.roughness, material.f0, material.anisotropy);
+        else if(u_pbr_specular_mode == BLINN)
+            specular += energy * specular_blinn(      ray, fragment.cNoV, material.roughness);
+        else if(u_pbr_specular_mode == PHONG)
+            specular += energy * specular_phong(      ray, fragment.cNoV, material.roughness);
+        else if(u_pbr_specular_mode == SPECULAR_TOON)
+            diffuse  += energy * specular_toon(       ray, fragment.cNoV, material.roughness) * material.specular * 2.0;
+        else if(u_pbr_specular_mode == NO_SPECULAR)
+            ;
 	}
 }

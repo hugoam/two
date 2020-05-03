@@ -42,8 +42,6 @@ namespace two
 	BlockLight::BlockLight(GfxSystem& gfx)
 		: DrawBlock(gfx, type<BlockLight>())
 	{
-		m_options = { "SKY_LIGHT", "FOG" };
-
 		m_defines = {
 			{ "MAX_LIGHTS", to_string(c_max_forward_lights)  },
 			{ "MAX_SHADOWS", to_string(c_max_shadows) }
@@ -80,19 +78,18 @@ namespace two
 
 	void BlockLight::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
-		UNUSED(element);
-		if(render.m_viewport->m_clustered)
-			program.set_option(0, CLUSTERED, true);
-
-		if(render.m_env && render.m_env->m_skylight.m_enabled)
-			program.set_option(m_index, SKY_LIGHT, true);
-
-		if(render.m_env && render.m_env->m_fog.m_enabled)
-			program.set_option(m_index, FOG, true);
+		UNUSED(render); UNUSED(element); UNUSED(program);
 	}
 
 	void BlockLight::submit(Render& render, const Pass& pass) const
 	{
+		const bool clustered = render.m_viewport->m_clustered;
+		const bool skylight = render.m_env && render.m_env->m_skylight.m_enabled;
+		const bool fog = render.m_env && render.m_env->m_fog.m_enabled;
+
+		const vec4 opts = vec4(bvec4(clustered, skylight, fog, false));
+		bgfx::setViewUniform(pass.m_index, u_shot.u_zone_opts, &opts);
+
 		UNUSED(render);
 #if !ZONES_LIGHTS_BUFFER
 		GpuState<ZoneLights>::me.upload(pass.m_index, m_zones[0]);

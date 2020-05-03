@@ -156,6 +156,8 @@ namespace two
 	{
 		BgfxSystem::init(context);
 
+		m_renderer.u_render_opts = bgfx::createUniform("u_render_opts", bgfx::UniformType::Vec4);
+
 		m_flip_y = bgfx::getCaps()->originBottomLeft;
 
 		m_impl->m_meshes = make_unique<TPool<Mesh>>();

@@ -87,8 +87,6 @@ namespace two
 			unsigned int level = mode == BackgroundMode::Radiance ? 3 : 0;
 
 			ProgramVersion program = { m_skybox_program };
-			program.set_option(0, VFLIP, render.m_vflip && bgfx::getCaps()->originBottomLeft);
-
 			m_filter.source0p(texture, program, level);
 
 			mat4 skybox_matrix = bxinverse(render.m_camera->m_view);

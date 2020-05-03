@@ -1,11 +1,5 @@
-#ifdef DASH
-#define DASH_PARAMS , v_line_distance
-#else
-#define DASH_PARAMS
-#endif
-
 $input a_position, a_texcoord0, i_data0, i_data1, i_data2, i_data3
-$output v_color, v_uv0 DASH_PARAMS
+$output v_color, v_uv0, v_line_distance
 
 #define i_start i_data0.xyz
 #define i_end i_data1.xyz
@@ -35,13 +29,11 @@ void main()
     int material_index = int(u_state_material_vertex);
     LineMaterial mat = read_line_material(material_index);
     
-    #if 1 //def USE_COLOR
-        v_color = vec4((a_position.y < 0.5) ? i_color_start : i_color_end, 1.0);
-    #endif
+    v_color = vec4((a_position.y < 0.5) ? i_color_start : i_color_end, 1.0);
 
-    #ifdef DASH
+    if(u_line_dash)
         v_line_distance = (a_position.y < 0.5) ? mat.dash_scale * i_distance_start : mat.dash_scale * i_distance_end;
-    #endif
+
 
     v_uv0 = a_texcoord0;
 
@@ -115,8 +107,4 @@ void main()
     gl_Position = clip;
 
     vec4 v_position = (a_position.y < 0.5) ? start : end; // this is an approximation
-
-    //#include <logdepthbuf_vertex>
-    //#include <clipping_planes_vertex>
-    //#include <fog_vertex>
 }

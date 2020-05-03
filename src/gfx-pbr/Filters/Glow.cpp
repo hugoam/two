@@ -102,8 +102,6 @@ namespace two
 	{
 		ProgramVersion program = { block.m_merge_program };
 
-		program.set_option(block.m_index, GLOW_FILTER_BICUBIC, glow.m_bicubic_filter);
-
 		gfx.m_filter->source0(render.m_target->m_post.last());
 		gfx.m_filter->source1(render.m_target->m_cascade.m_texture);
 

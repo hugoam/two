@@ -1,10 +1,4 @@
-#ifdef DASH
-#define DASH_PARAMS , v_line_distance
-#else
-#define DASH_PARAMS
-#endif
-
-$input v_color DASH_PARAMS
+$input v_color, v_line_distance
 
 #include <common.sh>
 
@@ -15,17 +9,17 @@ void main()
     SolidMaterial matsolid = read_solid_material(material_index);
     LineMaterial  matline  = read_line_material(material_index);
     
-#include "fs_alpha.sh"
+    float alpha = matalpha.alpha;
 #include "fs_alphatest.sh"
 
-#ifdef DASH
-    if (mod(v_line_distance, matline.dash_size + matline.dash_gap) > matline.dash_size) discard; // todo - FIX
-#endif
+    if(u_line_dash)
+    {
+        if(mod(v_line_distance, matline.dash_size + matline.dash_gap) > matline.dash_size)
+            discard;
+    }
 
     vec4 color = vec4(matsolid.color.rgb, matsolid.color.a * alpha);
-#ifdef VERTEX_COLOR
-    color *= v_color;
-#endif
-
+    if(u_vertex_color)
+        color *= v_color;
     gl_FragColor = vec4(color.rgb, color.a);
 }

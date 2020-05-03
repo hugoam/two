@@ -57,7 +57,7 @@ static string godrays_mask_fragment =
 		
 	"void main() {\n"
 	"	float depth = texture2D(s_source_depth, v_uv0).x;\n"
-	"	depth = -perspectiveDepthToViewZ(depth) / u_z_far;\n"
+	"	depth = -perspectiveDepthToViewZ(depth) / u_far;\n"
 	"	depth = clamp(depth, 0.0, 1.0);\n"
 	"	gl_FragColor = vec4(1.0 - depth, 0.0, 0.0, 0.0);\n"
 	//"	gl_FragColor = vec4(1.0) - texture2D(s_source_0, v_uv0);\n"

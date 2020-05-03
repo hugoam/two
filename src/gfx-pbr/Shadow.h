@@ -21,7 +21,7 @@ namespace two
 	{
 		SHADOWS,
 		SHADOWS_PACKED,
-		SHADOWS_COMPARE,
+		SHADOWS_COMPARE, // TODO adapt to const branches
 		//CSM_BLEND, // TODO
 	};
 

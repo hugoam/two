@@ -24,10 +24,7 @@ namespace two
 		: GfxBlock(gfx, *this)
 		, m_filter(filter)
 		, m_program(gfx.programs().create("filter/gaussian_blur"))
-	{
-		m_options = { "GAUSSIAN_HORIZONTAL", "GAUSSIAN_VERTICAL" };
-		m_program.register_block(*this);
-	}
+	{}
 
 	void BlockBlur::init_block()
 	{
@@ -59,17 +56,14 @@ namespace two
 		FrameBuffer& fbo = target.m_ping_pong.swap();
 
 		Pass blur_pass = render.composite_pass("blur", fbo, rect);
-		vec4 blur_p0 = { float(lod), 0.f, 0.f, 0.f };
+		vec4 blur_p0 = { float(horizontal), float(lod), 0.f, 0.f };
 		bgfx::setUniform(u_uniform.u_blur_p0, &blur_p0);
 
 		bgfx::setUniform(u_uniform.u_blur_kernel_0_3, horizontal ? &kernel.m_horizontal[0] : &kernel.m_vertical[0]);
 		bgfx::setUniform(u_uniform.u_blur_kernel_4_7, horizontal ? &kernel.m_horizontal[4] : &kernel.m_vertical[4]);
 
-		ProgramVersion program = { m_program };
-		program.set_option(m_index, uint8_t(horizontal ? GAUSSIAN_HORIZONTAL : GAUSSIAN_VERTICAL), true);
-
 		m_filter.source0(source);
 
-		m_filter.submit(blur_pass, fbo, program, RenderQuad(rect, true));
+		m_filter.submit(blur_pass, fbo, m_program, RenderQuad(rect, true));
 	}
 }

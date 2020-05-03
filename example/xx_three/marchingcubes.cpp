@@ -290,7 +290,7 @@ vector<ExMaterial> gen_materials(GfxSystem& gfx, const string& prefix)
 
 	add("chrome", [&](Material& m, ColourHSL& hsl) { m.m_program = &lambert; hsl = { 0.f, 0.f, 1.f }; });
 	
-	add("liquid", [&](Material& m, ColourHSL& hsl) { m.m_program = &lambert; m.m_phong.m_refraction = 0.85f;  hsl = { 0.f, 0.f, 1.f }; });
+	add("liquid", [&](Material& m, ColourHSL& hsl) { m.m_program = &lambert; m.m_lit.m_refraction = 0.85f;  hsl = { 0.f, 0.f, 1.f }; });
 	
 	add("shiny", [&](Material& m, ColourHSL& hsl) {
 		m.m_program = &pbr; m.m_pbr.m_albedo = rgb(0x550000); m.m_pbr.m_roughness = 0.1f; m.m_pbr.m_metallic = 1.f;

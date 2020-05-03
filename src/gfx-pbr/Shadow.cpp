@@ -319,6 +319,7 @@ namespace two
 		, m_block_depth(block_depth)
 		, m_block_light(block_light)
 	{
+		// TODO adapt to const branches
 		m_options = { "SHADOWS", "SHADOWS_PACKED", "SHADOWS_COMPARE" }; // TODO "CSM_BLEND"
 		m_modes = { "PCF_LEVEL" };
 

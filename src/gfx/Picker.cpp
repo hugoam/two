@@ -120,8 +120,8 @@ namespace two
 				Material& material = elem.m_mesh->m_material ? *elem.m_mesh->m_material : *item.m_material;
 
 				ProgramVersion program = { m_program };
-				program.set_option(0, BILLBOARD, item.m_flags & ItemFlag::Billboard);
 
+				// @todo reuse logic from Renderer to make sure this is correct
 				uint64_t render_state = BGFX_STATE_DEFAULT;
 				material.state(render_state);
 				item.submit(encoder, render_state, elem);

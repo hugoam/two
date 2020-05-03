@@ -5,7 +5,9 @@ $input v_view, v_position, v_normal, v_tangent, v_color, v_uv0, v_uv1, v_binorma
 
 void main()
 {
+    vec2 uv = v_uv0;
     vec3 normal = normalize(v_normal);
+    
     int material_index = int(u_state_material);
     AlphaMaterial matalpha = read_alpha_material(material_index);
     

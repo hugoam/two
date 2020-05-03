@@ -20,13 +20,13 @@ void main()
     int zone_index = int(u_state_zone);
     Zone zone = read_zone(zone_index);
     
-#ifdef RADIANCE_ENVMAP
-    vec3 env = ibl_reflect(fragment.view, fragment.normal, 0.0);
-    env *= zone.radiance * zone.energy;
-#else
     vec3 env = vec3_splat(1.0);
-#endif
     
+    if(u_radiance_envmap)
+    {
+        env = ibl_reflect(fragment.view, fragment.normal, 0.0);
+        env *= zone.radiance * zone.energy;
+    }
 
     gl_FragColor = vec4(matpbr.albedo * env, alpha);
 }

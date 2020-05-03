@@ -1,11 +1,13 @@
-#ifdef RADIANCE_ENVMAP
-    diffuse += ibl_diffuse(fragment.normal) * PI * zone.energy;
-#ifdef REFRACTION
-    vec3 envspec = ibl_refract(fragment.view, fragment.normal, material.refraction, env_brdf_miplevel(material));
-#else
-    vec3 envspec = ibl_reflect(fragment.view, fragment.normal, env_brdf_miplevel(material));
-#endif
-    specular += envspec * zone.radiance * zone.energy;
-#endif
+
+    if(u_radiance_envmap)
+    {
+        diffuse += ibl_diffuse(fragment.normal) * PI * zone.energy;
+        vec3 envspec;
+        if(u_refraction)
+            envspec = ibl_refract(fragment.view, fragment.normal, matlit.refraction, env_brdf_miplevel(material));
+        else
+            envspec = ibl_reflect(fragment.view, fragment.normal, env_brdf_miplevel(material));
+        specular += envspec * zone.radiance * zone.energy;
+    }
     diffuse += zone.ambient * PI;
 

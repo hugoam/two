@@ -1,4 +1,4 @@
-$input v_view, v_position, v_normal, v_color, v_uv0, v_uv1, v_light
+$input v_view, v_position, v_normal, v_tangent, v_color, v_uv0, v_uv1, v_binormal, v_light
 
 #include <encode.sh>
 #include <pbr/pbr.sh>
@@ -15,11 +15,7 @@ void main()
 #include "fs_phong_material.sh"
     PhongMaterial material = matphong;
 
-#ifdef DEFERRED
-    #include "fs_out_gbuffer.sh"
-#else
-    #include "fs_lambert.sh"
-    #include "fs_out_pbr.sh"
-    #include "fs_fog_simple.sh"
-#endif
+#include "fs_lambert.sh"
+#include "fs_out_pbr.sh"
+#include "fs_fog_simple.sh"
 }

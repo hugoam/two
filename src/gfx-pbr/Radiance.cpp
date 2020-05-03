@@ -39,7 +39,7 @@ namespace two
 		, m_copy(copy)
 		, m_prefilter_program(gfx.programs().create("filter/prefilter_envmap"))
 	{
-		m_options = { "RADIANCE_ENVMAP", "RADIANCE_CUBE" };
+		m_options = { "RADIANCE_CUBE" };
 
 		m_prefilter_program.register_block(filter);
 		m_prefilter_program.register_block(*this);
@@ -91,18 +91,20 @@ namespace two
 
 	void BlockRadiance::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
-		const bool enable = !element.m_material->m_lit.m_no_envmap;
 		Texture* radiance = radiancemap(render.m_env->m_radiance);
-
-		if(enable && radiance)
-			program.set_option(m_index, RADIANCE_ENVMAP);
-		if(enable && radiance && radiance->m_is_cube)
+		if(radiance && radiance->m_is_cube)
 			program.set_option(m_index, RADIANCE_CUBE);
 	}
 
 	void BlockRadiance::submit(Render& render, const Pass& pass) const
 	{
 		UNUSED(render);
+
+		Texture* const radiance = radiancemap(render.m_env->m_radiance);
+		const bool envmap = radiance != nullptr;
+		vec4 opts = vec4(bvec4(envmap, false, false, false));
+		bgfx::setViewUniform(pass.m_index, u_radiance.u_radiance_opts, &opts);
+
 		uint32_t stage = uint32_t(TextureSampler::Radiance);
 		bgfx::setViewUniform(pass.m_index, u_radiance.s_radiance, &stage);
 	}

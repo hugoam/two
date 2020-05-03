@@ -107,8 +107,8 @@ static string bokeh_fragment =
 		"col += texture2D(s_source_0, v_uv0 + (vec2( 0.0,   0.4 ) * aspect) * dofblur4);\n"
 		
 		"gl_FragColor = vec4(col.rgb / 41.0, 1.0);\n"
-		//"gl_FragColor = vec4(vec3_splat(-viewZ / u_z_far), 1.0);\n"
-		//"gl_FragColor = vec4(vec3_splat(1.0 + viewZ / u_z_far), 1.0);\n"
+		//"gl_FragColor = vec4(vec3_splat(-viewZ / u_far), 1.0);\n"
+		//"gl_FragColor = vec4(vec3_splat(1.0 + viewZ / u_far), 1.0);\n"
 		
 	"}\n";
 

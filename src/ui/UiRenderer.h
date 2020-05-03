@@ -137,15 +137,11 @@ namespace two
 		void end_layer(Frame& frame);
 		void draw_frame(const Frame& frame);
 
-		void log_FPS();
-
 	protected:
 		Vg& m_vg;
 		size_t m_debug_batch = 0;
 
 		struct Impl;
 		unique<Impl> m_impl;
-
-		Clock m_clock;
 	};
 }

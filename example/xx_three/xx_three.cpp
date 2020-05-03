@@ -24,7 +24,6 @@ using namespace two;
 #define MULTI_WINDOW 0
 #define MULTI_VIEWPORT 0
 
-
 // todo js:
 // fix black helmet before envmap is filtered
 // xx_light_point has weird white light near camera

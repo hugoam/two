@@ -85,7 +85,7 @@ void apply_fog(Fragment fragment, inout vec3 emission, inout vec3 ambient, inout
 
     if (bool(u_fog_depth_enabled)) {
 
-        float fog_z = smoothstep(u_fog_depth_begin, u_z_far, -fragment.position.z);
+        float fog_z = smoothstep(u_fog_depth_begin, u_far, -fragment.position.z);
         fog_amount = pow(fog_z, u_fog_depth_curve);
         
         if (bool(u_fog_transmit_enabled)) {

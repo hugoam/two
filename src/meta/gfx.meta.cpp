@@ -2155,7 +2155,6 @@ namespace two
 			{ t, offsetof(two::MaterialPbr, m_clearcoat_gloss), type<float>(), "clearcoat_gloss", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialPbr, m_anisotropy), type<two::MaterialParam<float>>(), "anisotropy", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialPbr, m_subsurface), type<two::MaterialParam<float>>(), "subsurface", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialPbr, m_refraction), type<two::MaterialParam<float>>(), "refraction", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialPbr, m_depth), type<two::MaterialParam<float>>(), "depth", &depth_default, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialPbr, m_transmission), type<two::MaterialParam<two::Colour>>(), "transmission", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialPbr, m_deep_parallax), type<bool>(), "deep_parallax", &deep_parallax_default, Member::Value, nullptr },
@@ -2176,7 +2175,6 @@ namespace two
 		static two::MaterialParam<two::Colour> specular_default = {rgb(0x111111),nullptr};
 		static two::MaterialParam<float> shininess_default = {30.f,nullptr};
 		static two::MaterialParam<float> reflectivity_default = {1.f,nullptr};
-		static two::MaterialParam<float> refraction_default = {0.f,nullptr};
 		static two::PhongEnvBlendMode env_blend_default = two::PhongEnvBlendMode::Mul;
 		static bool toon_default = false;
 		// constructors
@@ -2193,7 +2191,6 @@ namespace two
 			{ t, offsetof(two::MaterialPhong, m_specular), type<two::MaterialParam<two::Colour>>(), "specular", &specular_default, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialPhong, m_shininess), type<two::MaterialParam<float>>(), "shininess", &shininess_default, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialPhong, m_reflectivity), type<two::MaterialParam<float>>(), "reflectivity", &reflectivity_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialPhong, m_refraction), type<two::MaterialParam<float>>(), "refraction", &refraction_default, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialPhong, m_env_blend), type<two::PhongEnvBlendMode>(), "env_blend", &env_blend_default, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialPhong, m_toon), type<bool>(), "toon", &toon_default, Member::Value, nullptr }
 		};

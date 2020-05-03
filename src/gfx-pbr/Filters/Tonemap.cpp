@@ -26,13 +26,7 @@ namespace two
 	BlockTonemap::BlockTonemap(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy)
 		: GfxBlock(gfx, *this)
 		, m_program(gfx.programs().create("filter/tonemap"))
-	{
-		UNUSED(filter); UNUSED(copy);
-		m_options = { "TO_GAMMA", "ADJUST_BCS", "COLOR_LUT" };
-		m_modes = { "TONEMAP_MODE" };
-
-		m_program.register_block(*this);
-	}
+	{}
 
 	void BlockTonemap::init_block()
 	{
@@ -46,25 +40,16 @@ namespace two
 
 		ProgramVersion program = { block.m_program };
 
-		program.set_mode(block.m_index, TONEMAP_MODE, uint8_t(tonemap.m_mode));
-		program.set_option(block.m_index, TO_GAMMA, render.m_viewport->m_to_gamma);
-
 		gfx.m_filter->source0(render.m_target->m_post.last());
 
 		if(tonemap.m_color_lut)
-		{
-			program.set_option(block.m_index, COLOR_LUT, true);
 			gfx.m_filter->source1(*tonemap.m_color_lut);
-		}
 
 		GpuState<Tonemap>::me.upload(tonemap);
+		GpuState<Tonemap>::me.options(tonemap, render.m_viewport->m_to_gamma, bcs.m_enabled);
 
 		if(bcs.m_enabled)
-		{
-			program.set_option(block.m_index, ADJUST_BCS, true);
-
 			GpuState<BCS>::me.upload(bcs);
-		}
 
 		const Pass pass = render.composite_pass("tonemap");
 		gfx.m_filter->quad(pass, *render.m_fbo, program);

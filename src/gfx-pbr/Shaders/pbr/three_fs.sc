@@ -6,11 +6,8 @@ $input v_view, v_position, v_normal, v_tangent, v_color, v_uv0, v_uv1, v_binorma
 #define BRDF_STANDARD
 #include <pbr/light_brdf_three.sh>
 #include <pbr/radiance.sh>
-#include <fog.sh>
-
-#ifdef GI_CONETRACE
 #include <gi/conetrace.sh>
-#endif
+#include <fog.sh>
 
 void main()
 {
@@ -18,11 +15,7 @@ void main()
 
 #include "fs_pbr_material.sh"
 
-#ifdef DEFERRED
-    #include "fs_out_gbuffer.sh"
-#else
-    #include "fs_three.sh"
-    #include "fs_out_pbr.sh"
-    #include "fs_fog_simple.sh"
-#endif
+#include "fs_three.sh"
+#include "fs_out_pbr.sh"
+#include "fs_fog_simple.sh"
 }

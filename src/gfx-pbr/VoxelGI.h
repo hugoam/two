@@ -18,11 +18,6 @@ namespace gfx
 	export_ TWO_GFX_EXPORT func_ LightmapAtlas& lightmap(Gnode& parent, uint32_t resolution, float density = 8.f, const string& save_path = "");
 }
 
-	enum ShaderOptionGI : unsigned int
-	{
-		GI_CONETRACE
-	};
-
 	enum class GIProbeMode
 	{
 		Voxelize,

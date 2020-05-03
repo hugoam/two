@@ -1,10 +1,4 @@
-#ifdef DASH
-#define DASH_PARAMS , v_line_distance
-#else
-#define DASH_PARAMS
-#endif
-
-$input v_color, v_uv0 DASH_PARAMS
+$input v_color, v_uv0, v_line_distance
 
 #include <common.sh>
 
@@ -15,17 +9,18 @@ void main()
     SolidMaterial matsolid = read_solid_material(material_index);
     LineMaterial  matline  = read_line_material(material_index);
     
+    vec2 uv = v_uv0;
 #include "fs_alpha.sh"
 #include "fs_alphatest.sh"
-
-    vec2 uv = v_uv0;
     
-    #ifdef DASH
+    if(u_line_dash)
+    {
         if (uv.y < - 1.0 || uv.y > 1.0) discard; // discard endcaps
         if (mod(v_line_distance, matline.dash_size + matline.dash_gap) > matline.dash_size) discard; // todo - FIX
-    #endif
-
-    if (abs(uv.y) > 1.0) {
+    }
+    
+    if (abs(uv.y) > 1.0)
+    {
         float a = uv.x;
         float b = (uv.y > 0.0) ? uv.y - 1.0 : uv.y + 1.0;
         float len2 = a * a + b * b;

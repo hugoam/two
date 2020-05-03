@@ -77,7 +77,13 @@ static string translucent_fragment =
 		"diffuse += scatteringIllu * attenuation * energy;\n"
 	"}\n"
 
+	"float env_brdf_miplevel_scatter(TranslucentMaterial mat)\n"
+	"{\n"
+		"return env_specular_miplevel_phong(mat.phong);\n"
+	"}\n"
+
 	"#define direct_brdf direct_scatter\n"
+	"#define env_brdf_miplevel env_brdf_miplevel_scatter\n"
 
 	"void main()\n"
 	"{\n"

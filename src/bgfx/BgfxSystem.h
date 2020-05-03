@@ -83,8 +83,13 @@ namespace two
 		attr_ float m_frame_time = 0.f;
 		attr_ float m_delta_time = 0.f;
 
+		attr_ float m_fps = 0.f;
+		attr_ float m_ms = 0.f;
+
 		bool m_capture = false;
 		size_t m_capture_every = 0;
+
+		//Clock m_clock;
 	};
 }
 

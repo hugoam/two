@@ -16,17 +16,16 @@
 
 namespace two
 {
-    export_ enum ShaderOptionLight : unsigned int;
-    export_ enum ShaderOptionRadiance : unsigned int;
-    export_ enum ShaderOptionShadow : unsigned int;
-    export_ enum ShaderModeShadow : unsigned int;
-    export_ enum ShadowFilterMode : unsigned int;
-    export_ enum ShaderOptionBlur : unsigned int;
-    export_ enum ShaderOptionDofBlur : unsigned int;
-    export_ enum ShaderOptionGlow : unsigned int;
-    export_ enum TonemapShaderOption : unsigned int;
-    export_ enum TonemapShaderMode : unsigned int;
-    export_ enum class TonemapMode : unsigned int;
+    enum ShaderOptionLight : unsigned int;
+    enum ShaderOptionRadiance : unsigned int;
+    enum ShaderOptionShadow : unsigned int;
+    enum ShaderModeShadow : unsigned int;
+    enum ShadowFilterMode : unsigned int;
+    enum ShaderOptionDofBlur : unsigned int;
+    enum ShaderOptionGlow : unsigned int;
+    enum TonemapShaderOption : unsigned int;
+    enum TonemapShaderMode : unsigned int;
+    enum class TonemapMode : unsigned int;
     
     
 	export_ class BlockGeometry;

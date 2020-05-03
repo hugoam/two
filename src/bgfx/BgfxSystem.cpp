@@ -22,6 +22,8 @@ module two.bgfx;
 #include <bgfx/BgfxSystem.h>
 #endif
 
+#define DEBUG_FPS 1
+
 namespace two
 {
 	BgfxContext::BgfxContext(BgfxSystem& gfx, const string& name, const uvec2& size, bool fullscreen, bool main, bool init)
@@ -134,5 +136,25 @@ namespace two
 		m_frame_time = time - m_time;
 		m_time = time;
 		m_delta_time = m_frame_time;
+
+		static size_t prevframe = 0;
+		static float prevtime;
+
+		if(time - prevtime >= 4.f)
+		{
+			const size_t frames = m_frame - prevframe;
+			const float delta = time - prevtime;
+
+			m_ms = (delta / frames) * 1000.f;
+			m_fps = (frames / delta);
+
+			prevtime = time;
+			prevframe = m_frame;
+
+#if DEBUG_FPS
+			printf("INFO: frame %.2f\n", m_ms);
+			printf("INFO: fps %.2f\n", m_fps);
+#endif
+		}
 	}
 }

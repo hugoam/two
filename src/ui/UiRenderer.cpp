@@ -167,8 +167,6 @@ namespace two
 
 	void UiRenderer::render(Layer& target, uint16_t view, float pixel_ratio, const Colour& colour)
 	{
-		this->log_FPS();
-
 		m_debug_batch = 0;
 		static size_t prevBatch = 0;
 

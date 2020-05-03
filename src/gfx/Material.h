@@ -72,19 +72,6 @@ namespace two
 		Face
 	};
 
-	export_ enum ShaderOptionBase : unsigned int
-	{
-		VERTEX_COLOR,
-		DOUBLE_SIDED,
-		FLAT_SHADED,
-	};
-
-	export_ enum ShaderOptionAlpha : unsigned int
-	{
-		ALPHA_MAP,
-		ALPHA_TEST,
-	};
-
 	export_ enum class refl_ TextureChannel : unsigned int
 	{
 		Red,
@@ -134,8 +121,6 @@ namespace two
 #if 0
 		BillboardMode m_billboard_mode;
 #endif
-		
-		static ShaderBlock s_block;
 	};
 
 	export_ struct refl_ TWO_GFX_EXPORT MaterialUser
@@ -153,8 +138,6 @@ namespace two
 		attr_ vec4 m_attr3 = vec4(0.f);
 		attr_ vec4 m_attr4 = vec4(0.f);
 		attr_ vec4 m_attr5 = vec4(0.f);
-
-		static ShaderBlock s_block;
 	};
 
 	export_ struct refl_ TWO_GFX_EXPORT MaterialAlpha
@@ -164,33 +147,17 @@ namespace two
 
 		attr_ bool m_alpha_test = false;
 		attr_ bool m_is_alpha = false;
-
-		static ShaderBlock s_block;
 	};
 
 	export_ struct refl_ TWO_GFX_EXPORT MaterialSolid
 	{
 		attr_ MaterialParam<Colour> m_colour = { Colour::White, nullptr };
-
-		static ShaderBlock s_block;
-	};
-
-	export_ enum ShaderOptionSolid : unsigned int
-	{
-		COLOR_MAP,
-	};
-
-	export_ enum ShaderOptionLine : unsigned int
-	{
-		DASH,
 	};
 
 	export_ struct refl_ TWO_GFX_EXPORT MaterialPoint
 	{
 		attr_ gpu_ float m_point_size = 1.f;
 		attr_ gpu_ bool m_project = false;
-
-		static ShaderBlock s_block;
 	};
 
 	export_ struct refl_ TWO_GFX_EXPORT MaterialLine
@@ -202,8 +169,6 @@ namespace two
 		attr_ gpu_ float m_dash_size = 1.f;
 		attr_ gpu_ float m_dash_gap = 1.f;
 		// resolution
-
-		static ShaderBlock s_block;
 	};
 
 	export_ struct refl_ TWO_GFX_EXPORT MaterialFresnel
@@ -213,8 +178,6 @@ namespace two
 		attr_ gpu_ float m_fresnel_scale = 1.f;
 		attr_ gpu_ float m_fresnel_bias = 0.01f;
 		attr_ gpu_ float m_fresnel_power = 5.f;
-
-		static ShaderBlock s_block;
 	};
 
 	export_ enum class refl_ PbrDiffuseMode : unsigned int
@@ -235,46 +198,6 @@ namespace two
 		Disabled,
 	};
 
-	export_ enum ShaderOptionLit : unsigned int
-	{
-		NORMAL_MAP,
-		EMISSIVE,
-		AMBIENT_OCCLUSION,
-		LIGHTMAP,
-		DISPLACEMENT
-	};
-
-	export_ enum ShaderOptionPbr : unsigned int
-	{
-		ALBEDO_MAP,
-		ROUGHNESS_MAP,
-		METALLIC_MAP,
-		//REFRACTION,
-		//ANISOTROPY,
-		DEPTH_MAPPING,
-		DEEP_PARALLAX,
-	};
-
-	export_ enum ShaderModePbr : unsigned int
-	{
-		DIFFUSE_MODE,
-		SPECULAR_MODE,
-	};
-
-	export_ enum ShaderOptionPhong : unsigned int
-	{
-		DIFFUSE_MAP,
-		SPECULAR_MAP,
-		SHININESS_MAP,
-		REFRACTION,
-		TOON,
-	};
-
-	export_ enum ShaderModePhong : unsigned int
-	{
-		ENV_BLEND,
-	};
-
 	export_ struct refl_ TWO_GFX_EXPORT MaterialLit
 	{
 		attr_ gpu_ MaterialParam<Colour> m_emissive = { rgba(0x00000000), nullptr };
@@ -288,9 +211,9 @@ namespace two
 		attr_ gpu_ MaterialParam<float> m_occlusion;
 		attr_ gpu_ MaterialParam<float> m_lightmap;
 
-		attr_ bool m_no_envmap = false;
+		attr_ gpu_ MaterialParam<float> m_refraction = { 0.f, nullptr }; // 0.98f if active
 
-		static ShaderBlock s_block;
+		attr_ bool m_no_envmap = false;
 	};
 
 	export_ struct refl_ TWO_GFX_EXPORT MaterialPbr
@@ -313,7 +236,6 @@ namespace two
 		attr_ gpu_ float m_clearcoat_gloss;
 		attr_ gpu_ MaterialParam<float> m_anisotropy;
 		attr_ gpu_ MaterialParam<float> m_subsurface;
-		attr_ gpu_ MaterialParam<float> m_refraction;
 		attr_ gpu_ MaterialParam<float> m_depth = { -0.02f, nullptr };
 		attr_ gpu_ MaterialParam<Colour> m_transmission;
 
@@ -323,8 +245,6 @@ namespace two
 		attr_ PbrSpecularMode m_specular_mode = PbrSpecularMode::SchlickGGX;
 
 		table<MaterialFlag, bool> m_flags;
-
-		static ShaderBlock s_block;
 	};
 
 	export_ enum class refl_ PhongEnvBlendMode : unsigned int
@@ -341,13 +261,10 @@ namespace two
 		attr_ gpu_ MaterialParam<float> m_shininess = { 30.f, nullptr };
 
 		attr_ gpu_ MaterialParam<float> m_reflectivity = { 1.f, nullptr };
-		attr_ gpu_ MaterialParam<float> m_refraction = { 0.f, nullptr }; // 0.98f if active
 
 		attr_ PhongEnvBlendMode m_env_blend = PhongEnvBlendMode::Mul;
 
 		attr_ bool m_toon = false;
-
-		static ShaderBlock s_block;
 	};
 
 	export_ class refl_ TWO_GFX_EXPORT BlockMaterial : public GfxBlock
@@ -399,10 +316,9 @@ namespace two
 		function<void(bgfx::Encoder&)> m_submit;
 
 		void state(uint64_t& bgfx_state) const;
-		ProgramVersion program(const Program& program) const;
-		ProgramVersion program(const Program& program, const Item& item, const ModelElem& elem) const;
 
-		void submit(const Program& program, bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin = nullptr) const;
+		void submit(const Program& program, bgfx::Encoder& encoder, uint64_t& bgfx_state, bool colours = true) const;
+		void submit(const Program& program, const Item& item, const ModelElem& elem, bgfx::Encoder& encoder, uint64_t& bgfx_state) const;
 
 		static GfxSystem* ms_gfx;
 	};

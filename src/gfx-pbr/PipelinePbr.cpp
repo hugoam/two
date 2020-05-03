@@ -458,7 +458,7 @@ namespace gfx
 			if(element.m_material->m_base.m_depth_draw == DepthDraw::Enabled)
 				element.m_bgfx_state |= BGFX_STATE_WRITE_Z;
 
-			element.m_program.set_option(0, DEFERRED, true);
+			//element.set_program(geometry);
 			return true;
 		};
 

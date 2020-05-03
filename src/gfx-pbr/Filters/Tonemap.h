@@ -14,18 +14,6 @@
 
 namespace two
 {
-	enum TonemapShaderOption : unsigned int
-	{
-		TO_GAMMA,
-		ADJUST_BCS,
-		COLOR_LUT,
-	};
-
-	enum TonemapShaderMode : unsigned int
-	{
-		TONEMAP_MODE,
-	};
-
 	export_ enum class refl_ TonemapMode : unsigned int
 	{
 		Linear,

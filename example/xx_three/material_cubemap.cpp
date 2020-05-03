@@ -72,7 +72,7 @@ EX(xx_material_cubemap)
 		Material& material2 = app.m_gfx.materials().create("material2", [&](Material& m) {
 			m.m_program = &program;
 			m.m_phong.m_diffuse = rgb(0xffee00);
-			m.m_phong.m_refraction = 0.95f;
+			m.m_lit.m_refraction = 0.95f;
 		});
 
 		Material& material1 = app.m_gfx.materials().create("material1", [&](Material& m) {

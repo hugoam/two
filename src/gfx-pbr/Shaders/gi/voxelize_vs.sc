@@ -23,7 +23,7 @@ $output g_position, g_normal, g_color, g_texcoord0
 
 void main()
 {
-#include "modelview.sh"
+#include "vs_modelview.sh"
 
     mat4 normalModelView = transpose(inverse(modelView));
     

@@ -151,7 +151,7 @@ namespace two
 
 		void upload(bgfx::Encoder& encoder, const MaterialLit& block) const
 		{
-			vec4 p0 = { block.m_normal.m_value, PAD, PAD, PAD };
+			vec4 p0 = { block.m_normal.m_value, block.m_refraction.m_value, PAD, PAD };
 			encoder.setUniform(u_lit_p0, &p0);
 
 			vec4 emissive = to_vec4(block.m_emissive.m_value);
@@ -188,7 +188,7 @@ namespace two
 			vec4 pbr_p0 = { block.m_specular, block.m_metallic.m_value, block.m_roughness.m_value, PAD };
 			encoder.setUniform(u_pbr_p0, &pbr_p0);
 
-			vec4 pbr_p1 = { block.m_anisotropy.m_value, block.m_refraction.m_value, block.m_subsurface.m_value, block.m_depth.m_value };
+			vec4 pbr_p1 = { block.m_anisotropy.m_value, block.m_subsurface.m_value, block.m_depth.m_value, PAD };
 			encoder.setUniform(u_pbr_p1, &pbr_p1);
 
 			//vec4 pbr_channels = { float(block.m_roughness.m_channel), float(block.m_metallic.m_channel), float(block.m_occlusion.m_channel), PAD };
@@ -224,7 +224,7 @@ namespace two
 			vec4 specular = { to_vec3(block.m_specular.m_value), 1.f };
 			encoder.setUniform(u_specular, &specular);
 
-			vec4 p0 = { block.m_shininess.m_value, block.m_reflectivity.m_value, block.m_refraction.m_value, PAD };
+			vec4 p0 = { block.m_shininess.m_value, block.m_reflectivity.m_value, PAD, PAD };
 			encoder.setUniform(u_phong_p0, &p0);
 		}
 

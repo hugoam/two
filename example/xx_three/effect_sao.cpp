@@ -106,8 +106,8 @@ static string sao_fragment =
 	"	vec3 position = getViewPosition(v_uv0, depth);\n"
 
 	"	// precompute some variables require in getOcclusion.\n"
-	"	float scaleDividedByCameraFar = u_scale / u_z_far;\n"
-	"	float minResolutionMultipliedByCameraFar = u_minResolution * u_z_far;\n"
+	"	float scaleDividedByCameraFar = u_scale / u_far;\n"
+	"	float minResolutionMultipliedByCameraFar = u_minResolution * u_far;\n"
 	"	vec3 normal = getViewNormal(position, v_uv0);\n"
 
 	"	// jsfiddle that shows sample pattern: https://jsfiddle.net/a16ff1p7/\n"

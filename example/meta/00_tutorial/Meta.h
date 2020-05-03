@@ -44,7 +44,7 @@ namespace mud
             {  },
             // constructors
             {
-                { type<MyObject>(), [](Ref ref, array<Var> args) { new(&val<MyObject>(ref)) MyObject( val<ShapeType>(args[0]), val<mud::Colour>(args[1]) ); }, { { "shape", var(ShapeType()) }, { "colour", var(mud::Colour()) } } }
+                { type<MyObject>(), [](Ref ref, array<Var> args) { new(&val<MyObject>(ref)) MyObject( val<ShapeType>(args[0]), val<two::Colour>(args[1]) ); }, { { "shape", var(ShapeType()) }, { "colour", var(two::Colour()) } } }
             },
             // copy constructor
             {
@@ -55,8 +55,8 @@ namespace mud
                 { type<MyObject>(), member_address(&MyObject::m_number), type<int>(), "number", var(int(0)), Member::Value, nullptr },
                 { type<MyObject>(), member_address(&MyObject::m_name), type<std::string>(), "name", var(std::string()), Member::Value, nullptr },
                 { type<MyObject>(), member_address(&MyObject::m_shape), type<ShapeType>(), "shape", var(ShapeType()), Member::Value, nullptr },
-                { type<MyObject>(), member_address(&MyObject::m_position), type<mud::vec3>(), "position", var(mud::vec3()), Member::Value, nullptr },
-                { type<MyObject>(), member_address(&MyObject::m_colour), type<mud::Colour>(), "colour", var(mud::Colour()), Member::Value, nullptr },
+                { type<MyObject>(), member_address(&MyObject::m_position), type<two::vec3>(), "position", var(two::vec3()), Member::Value, nullptr },
+                { type<MyObject>(), member_address(&MyObject::m_colour), type<two::Colour>(), "colour", var(two::Colour()), Member::Value, nullptr },
                 { type<MyObject>(), member_address(&MyObject::m_floats), type<std::vector<float>>(), "floats", var(std::vector<float>()), Member::Value, nullptr }
             },
             // methods

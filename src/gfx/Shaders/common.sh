@@ -22,19 +22,23 @@ float pow3(float x) { return x*x*x; }
 float pow4(float x) { float x2 = x*x; return x2*x2; }
 float average(vec3 color) { return dot(color, vec3_splat(0.3333)); }
 
+uniform vec4 u_render_opts;
+#define u_billboard bool(u_render_opts.x)
+#define u_qnormals  bool(u_render_opts.y)
+
 uniform vec4 u_render_p0;
-#define u_time u_render_p0.x
-#define u_origin_bottom_left u_render_p0.y
-#define u_point_size u_render_p0.zw
+#define u_time  u_render_p0.x
+#define u_vflip bool(u_render_p0.y)
+#define u_mrt   bool(u_render_p0.z)
 
 uniform vec4 u_viewport_p0;
 #define u_screen_size u_viewport_p0.xy
-#define u_pixel_size u_viewport_p0.zw
+#define u_pixel_size  u_viewport_p0.zw
 
 uniform vec4 u_camera_p0;
-#define u_z_near u_camera_p0.x
-#define u_z_far u_camera_p0.y
-#define u_fov u_camera_p0.z
+#define u_near   u_camera_p0.x
+#define u_far    u_camera_p0.y
+#define u_fov    u_camera_p0.z
 #define u_aspect u_camera_p0.w
 
 #ifdef MATERIALS_BUFFER
@@ -61,9 +65,94 @@ SAMPLER2D(s_user3, 15);
 SAMPLER2D(s_user4, 6);
 SAMPLER2D(s_user5, 7);
 
-#ifdef DISPLACEMENT
+#define u_gi_conetrace false
+
+uniform vec4 u_base_opts;
+#define u_vertex_color bool(u_base_opts.x)
+#define u_double_sided bool(u_base_opts.y)
+#define u_flat_shaded  bool(u_base_opts.z)
+
+uniform vec4 u_alpha_opts;
+#define u_alpha_test bool(u_alpha_opts.x)
+#define u_alpha_map  bool(u_alpha_opts.y)
+
+uniform vec4 u_line_opts;
+#define u_line_dash bool(u_line_opts.x)
+
+uniform vec4 u_pbr_modes;
+#define u_pbr_diffuse_mode   int(u_pbr_modes.x)
+#define u_pbr_specular_mode  int(u_pbr_modes.y)
+
+uniform vec4 u_pbr_opts0;
+#define u_albedo_map    bool(u_pbr_opts0.x)
+#define u_metallic_map  bool(u_pbr_opts0.y)
+#define u_roughness_map bool(u_pbr_opts0.z)
+
+uniform vec4 u_pbr_opts1;
+//#define u_refraction    bool(u_pbr_opts1.x)
+#define u_depth_mapping bool(u_pbr_opts1.y)
+#define u_deep_parallax bool(u_pbr_opts1.z)
+#define u_anisotropy    false
+
+uniform vec4 u_surf_opts;
+#define u_normalmap bool(u_surf_opts.x)
+#define u_displace  bool(u_surf_opts.w)
+
+uniform vec4 u_lit_opts;
+#define u_emissive   bool(u_lit_opts.x)
+#define u_occlusion  bool(u_lit_opts.y)
+#define u_lightmap   bool(u_lit_opts.z)
+#define u_refraction bool(u_lit_opts.w)
+
+uniform vec4 u_phong_modes;
+#define u_env_blend int(u_phong_modes.x)
+
+uniform vec4 u_phong_opts0;
+#define u_diffuse_map   bool(u_phong_opts0.x)
+#define u_specular_map  bool(u_phong_opts0.y)
+#define u_shininess_map bool(u_phong_opts0.z)
+
+uniform vec4 u_phong_opts1;
+#define u_toon       bool(u_phong_opts1.x)
+
+uniform vec4 u_zone_opts;
+#define u_clustered bool(u_zone_opts.x)
+#define u_skylight  bool(u_zone_opts.y)
+#define u_fog       bool(u_zone_opts.z)
+
+uniform vec4 u_radiance_opts;
+#define u_radiance_envmap bool(u_radiance_opts.x)
+
+SAMPLER2D(s_albedo, 0);
+SAMPLER2D(s_metallic, 2);
+SAMPLER2D(s_roughness, 3);
+
+SAMPLER2D(s_diffuse, 0);
+SAMPLER2D(s_specular, 2);
+SAMPLER2D(s_shininess, 3);
+
+SAMPLER2D(s_emissive, 4);
+SAMPLER2D(s_normal, 5);
+SAMPLER2D(s_ambient_occlusion, 6);
+SAMPLER2D(s_depth, 7);
 SAMPLER2D(s_displace, 7);
+SAMPLER2D(s_anisotropy, 6);
+
+SAMPLER2D(s_lightmap, 12);
+
+#if 0
+SAMPLER2D(s_refraction, 7);
+SAMPLER2D(s_subsurface, 8);
+SAMPLER2D(s_rim, 9);
+SAMPLER2D(s_clearcoat, 10);
+
+SAMPLER2D(s_albedo_detail, 11);
+SAMPLER2D(s_normal_detail, 12);
 #endif
+
+uniform vec4 u_lightmap_p0;
+#define u_lightmap_offset u_lightmap_p0.xy
+#define u_lightmap_factor u_lightmap_p0.zw
 
 float rand(vec2 uv)
 {
@@ -142,34 +231,34 @@ vec4 sample_material_texture(sampler2D tex, vec2 uv)
 float linear_depth(float depth)
 {
     depth = 2.0 * depth - 1.0;
-    return 2.0 * u_z_near * u_z_far / (u_z_far + u_z_near - depth * (u_z_far - u_z_near));
+    return 2.0 * u_near * u_far / (u_far + u_near - depth * (u_far - u_near));
 }
 
 float linearize_depth(float depth)
 {
-    float w = depth * ((u_z_far - u_z_near) / (-u_z_far * u_z_near)) + u_z_far / (u_z_far * u_z_near);
+    float w = depth * ((u_far - u_near) / (-u_far * u_near)) + u_far / (u_far * u_near);
     return -1.0 / w;
     //return rcp(w);
 }
 
 float viewZToOrthographicDepth(float viewZ)
 {
-    return (viewZ + u_z_near) / (u_z_near - u_z_far);
+    return (viewZ + u_near) / (u_near - u_far);
 }
 
 float orthographicDepthToViewZ(float linearClipZ)
 {
-    return linearClipZ * (u_z_near - u_z_far) - u_z_near;
+    return linearClipZ * (u_near - u_far) - u_near;
 }
 
 float viewZToPerspectiveDepth(float viewZ)
 {
-    return ((u_z_near + viewZ) * u_z_far) / ((u_z_far - u_z_near) * viewZ);
+    return ((u_near + viewZ) * u_far) / ((u_far - u_near) * viewZ);
 }
 
 float perspectiveDepthToViewZ(float invClipZ)
 {
-    return (u_z_near * u_z_far) / ((u_z_far - u_z_near) * invClipZ - u_z_far);
+    return (u_near * u_far) / ((u_far - u_near) * invClipZ - u_far);
 }
 
 vec4 LinearToGamma(vec4 value, float gammaFactor) {

@@ -1,13 +1,12 @@
 $input v_uv0
 
 #include <common.sh>
+#include <encode.sh>
 #include <filter.sh>
 #include <encode.sh>
 #include <spherical.sh>
 
-#if defined SOURCE_DEPTH || defined UNPACK_DEPTH
 CONST(float) depth_value_pow = 1.0;
-#endif
 
 void main()
 {
@@ -23,15 +22,17 @@ void main()
 	vec4 color = texture2DLod(s_source_0, v_uv0, u_source_0_level);
 #endif
 
-#ifdef SOURCE_DEPTH
-	color = vec4(vec3_splat(pow(color.r, depth_value_pow)), 1.0);
-#endif
+    if(u_source_depth)
+    {
+        color = vec4(vec3_splat(pow(color.r, depth_value_pow)), 1.0);
+    }
 
-#ifdef UNPACK_DEPTH
-    float depth = unpackRgbaToFloat(color);
-    color = vec4(vec3_splat(pow(depth, depth_value_pow)), 1.0);
-#endif
-
+    if(u_unpack_depth)
+    {
+        float depth = unpackRgbaToFloat(color);
+        color = vec4(vec3_splat(pow(depth, depth_value_pow)), 1.0);
+    }
+    
 #ifdef TO_SRGB
 	color.rgb = toGammaAccurate(color.rgb);
 #endif

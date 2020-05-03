@@ -31,8 +31,8 @@ public:
 
 	// advanced types
 	attr_ ShapeType m_shape = ShapeType::Sphere;
-	attr_ mud::vec3 m_position = Zero3;
-	attr_ mud::Colour m_colour = Colour::Pink;
+	attr_ two::vec3 m_position = Zero3;
+	attr_ two::Colour m_colour = Colour::Pink;
 
 	// vector types
 	attr_ std::vector<float> m_floats;

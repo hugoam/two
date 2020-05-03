@@ -254,6 +254,7 @@ static string skin_fragment =
 	"#include <pbr/light.sh>\n"
 	"#include <pbr/light_brdf_three.sh>\n"
 	"#include <pbr/radiance.sh>\n"
+	"#include <gi/conetrace.sh>\n"
 
 	"#define s_blur1 s_user0\n"
 	"#define s_blur2 s_user1\n"
@@ -315,7 +316,13 @@ static string skin_fragment =
 	"#endif\n"
 	"}\n"
 
+	"float env_brdf_miplevel_skin(SkinMaterial mat)\n"
+	"{\n"
+		"return env_specular_miplevel_phong(mat.phong);\n"
+	"}\n"
+
 	"#define direct_brdf direct_skin\n"
+	"#define env_brdf_miplevel env_brdf_miplevel_skin\n"
 
 	"void main() {\n"
 

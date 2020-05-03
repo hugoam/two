@@ -332,5 +332,7 @@ namespace two
 		vector<unique<GfxBlock>> m_gfx_blocks;
 
 		table<PassType, vector<GfxBlock*>> m_pass_blocks;
+
+		bgfx::UniformHandle u_render_opts;
 	};
 }

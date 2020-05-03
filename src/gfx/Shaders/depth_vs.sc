@@ -30,7 +30,7 @@ $output v_position, v_uv0
 
 void main()
 {
-#include "modelview.sh"
+#include "vs_modelview.sh"
 
     vec3 position = a_position.xyz;
     

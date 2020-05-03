@@ -14,12 +14,6 @@
 
 namespace two
 {
-	enum ShaderOptionLight : unsigned int
-	{
-		SKY_LIGHT,
-		FOG,
-	};
-
 	struct gpu_ GpuBone
 	{
 		attr_ mat4 matrix;
@@ -104,10 +98,12 @@ namespace two
 		{
 			void createUniforms()
 			{
-				s_zones = bgfx::createUniform("s_zones", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
-				s_lights = bgfx::createUniform("s_lights", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
+				u_zone_opts = bgfx::createUniform("u_zone_opts", bgfx::UniformType::Vec4,    1U, bgfx::UniformSet::View);
+				s_zones     = bgfx::createUniform("s_zones",     bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
+				s_lights    = bgfx::createUniform("s_lights",    bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
 			}
 
+			bgfx::UniformHandle u_zone_opts;
 			bgfx::UniformHandle s_zones;
 			bgfx::UniformHandle s_lights;
 

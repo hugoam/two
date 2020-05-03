@@ -19,7 +19,7 @@ $output v_world, v_uv0
 
 void main()
 {
-#include "modelview.sh"
+#include "vs_modelview.sh"
 
     vec3 vertex = mul(model, vec4(a_position.xyz, 1.0)).xyz;
     vec3 normal = mul(model, vec4(a_normal, 0.0)).xyz;

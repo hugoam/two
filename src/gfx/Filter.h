@@ -15,11 +15,8 @@ namespace two
 {
 	export_ enum ShaderOptionFilter : unsigned int
 	{
-		UNPACK_DEPTH,
-		SOURCE_DEPTH,
 		SOURCE_0_CUBE,
 		SOURCE_0_ARRAY,
-		DEBUG_UV,
 	};
 
 	export_ struct FilterUniform
@@ -34,6 +31,7 @@ namespace two
 			
 			u_filter_p0		= bgfx::createUniform("u_filter_p0",	bgfx::UniformType::Vec4);
 
+			u_source_opts   = bgfx::createUniform("u_source_opts",   bgfx::UniformType::Vec4);
 			u_source_levels = bgfx::createUniform("u_source_levels", bgfx::UniformType::Vec4);
 			u_source_crop	= bgfx::createUniform("u_source_crop",	 bgfx::UniformType::Vec4);
 		}
@@ -46,6 +44,7 @@ namespace two
 
 		bgfx::UniformHandle u_filter_p0;
 
+		bgfx::UniformHandle u_source_opts;
 		bgfx::UniformHandle u_source_levels;
 		bgfx::UniformHandle u_source_crop;
 	};

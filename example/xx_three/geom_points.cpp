@@ -45,6 +45,7 @@ EX(xx_geom_points)
 			m.m_program = &program;
 			m.m_base.m_shader_color = ShaderColor::Vertex;
 			m.m_point.m_point_size = 15.f;
+			m.m_point.m_project = true;
 		});
 
 		viewer.m_viewport.m_clear_colour = rgb(0x050505);

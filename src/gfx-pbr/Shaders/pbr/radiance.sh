@@ -6,8 +6,6 @@
 
 #define RADIANCE_MAX_LOD 7.0
 
-#ifdef RADIANCE_ENVMAP
-
 #ifdef RADIANCE_CUBE
 SAMPLERCUBE(s_radiance, 10);
 #else
@@ -62,6 +60,5 @@ vec3 ibl_diffuse(vec3 normal)
 #endif
 	return amb;
 }
-#endif
 
 #endif

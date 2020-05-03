@@ -2,24 +2,21 @@
 #include <pbr/bsdf.sh>
 #include <pbr/radiance.sh>
 
-#ifdef TOON
 uniform sampler2D s_gradient;
 
 vec3 gradient_energy(vec3 energy, vec3 l, vec3 normal)
 {
     float dotNL = dot(normal, l);
     vec2 coord = vec2(dotNL * 0.5 + 0.5, 0.0);
-#ifdef USE_GRADIENTMAP
-    energy *= texture2D(s_gradient, coord).rgb;
-#else
-    energy *= (coord.x < 0.7) ? vec3_splat(0.7) : vec3_splat(1.0);
-#endif
+    //if(u_gradientmap)
+    //    energy *= texture2D(s_gradient, coord).rgb;
+    //else
+        energy *= (coord.x < 0.7) ? vec3_splat(0.7) : vec3_splat(1.0);
 #ifndef PHYSICALLY_CORRECT_LIGHTS
     energy *= PI; // punctual light
 #endif
     return energy;
 }
-#endif
 
 vec3 direct_energy(vec3 energy, vec3 l, vec3 normal)
 {
@@ -43,11 +40,11 @@ vec3 direct_energy(vec3 energy, vec3 l, vec3 normal)
 
 void direct_blinn_phong(vec3 energy, vec3 l, Fragment fragment, PhongMaterial material, inout vec3 diffuse, inout vec3 specular) {
 
-#ifdef TOON
-    vec3 irradiance = gradient_energy(energy, l, fragment.normal);
-#else
-    vec3 irradiance = direct_energy(energy, l, fragment.normal);
-#endif
+    vec3 irradiance;
+    if(u_toon)
+        irradiance = gradient_energy(energy, l, fragment.normal);
+    else
+        irradiance = direct_energy(energy, l, fragment.normal);
 
     diffuse += irradiance * BRDF_Diffuse_Lambert(material.diffuse);
     specular += irradiance * BRDF_Specular_BlinnPhong(l, fragment, material.specular, material.shininess) * 1.0; //material.specularStrength;
@@ -81,13 +78,12 @@ void env_blend_op(PhongMaterial material, vec3 color, inout vec3 light, float fa
 {
     float specularStrength = 1.0; // can be sampled from a specular map
     float amount = specularStrength * material.reflectivity;
-#if ENV_BLEND == 0 // MULTIPLY
-    light = mix(light, light * color, amount);
-#elif ENV_BLEND == 1 // MIX
-    light = mix(light, color * factor, amount);
-#elif ENV_BLEND == 2 // ADD
-    light += color * factor * amount;
-#endif
+    if(u_env_blend == 0) // MULTIPLY
+        light = mix(light, light * color, amount);
+    else if(u_env_blend == 1) // MIX
+        light = mix(light, color * factor, amount);
+    else if(u_env_blend == 2) // ADD
+        light += color * factor * amount;
 }
 
 void env_brdf_blend(PhongMaterial material, vec3 color, inout vec3 diffuse, inout vec3 specular)

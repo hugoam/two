@@ -100,8 +100,6 @@ vec3 light_hemisphere(vec3 l, vec3 ground, vec3 sky, Fragment fragment) {
 
 #include <pbr/shadow.sh>
 
-#ifdef CLUSTERED
 #include <pbr/light_cluster.sh>
-#endif
 
 #endif

@@ -15,11 +15,7 @@ void main()
 #include "fs_phong_material.sh"
     PhongMaterial material = matphong;
     
-#ifdef DEFERRED
-    #include "fs_out_gbuffer.sh"
-#else
-    #include "fs_phong.sh"
-    #include "fs_out_pbr.sh"
-    #include "fs_fog_simple.sh"
-#endif
+#include "fs_phong.sh"
+#include "fs_out_pbr.sh"
+#include "fs_fog_simple.sh"
 }

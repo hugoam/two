@@ -8,6 +8,7 @@ void main()
     AlphaMaterial matalpha = read_alpha_material(material_index);
     SolidMaterial matsolid = read_solid_material(material_index);
     
+    vec2 uv = v_uv0;
 #include "fs_alpha.sh"
 #include "fs_alphatest.sh"
     

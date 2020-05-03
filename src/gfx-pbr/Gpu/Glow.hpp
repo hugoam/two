@@ -25,7 +25,7 @@ namespace two
 
 		void upload(const Glow& glow)
 		{
-			vec4 glow_p0 = { 0.f, glow.m_bloom, glow.m_bleed_threshold, glow.m_bleed_scale };
+			vec4 glow_p0 = { float(glow.m_bicubic_filter), glow.m_bloom, glow.m_bleed_threshold, glow.m_bleed_scale };
 			bgfx::setUniform(u_glow_p0, &glow_p0);
 
 			vec4 glow_p1 = { glow.m_intensity, 0.f, 0.f, 0.f }; // float(render.m_target->m_size.x), float(render.m_target->m_size.y)

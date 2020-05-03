@@ -31,11 +31,8 @@ namespace two
 		gfx.m_filter = this;
 
 		m_options = {
-			"UNPACK_DEPTH",
-			"SOURCE_DEPTH",
 			"SOURCE_0_CUBE",
 			"SOURCE_0_ARRAY",
-			"FILTER_DEBUG_UV"
 		};
 	}
 
@@ -62,8 +59,9 @@ namespace two
 		const vec4 levels = { float(level), 0.f, 0.f, 0.f };
 		bgfx::setUniform(u_uniform.u_source_levels, &levels);
 
-		program.set_option(m_index, SOURCE_DEPTH, texture.m_is_depth);
-		program.set_option(m_index, UNPACK_DEPTH, texture.m_is_depth_packed);
+		const vec4 opts = vec4(bvec4(texture.m_is_depth, texture.m_is_depth_packed, false, false));
+		bgfx::setUniform(u_uniform.u_source_opts, &opts);
+
 		program.set_option(m_index, SOURCE_0_ARRAY, texture.m_is_array);
 		program.set_option(m_index, SOURCE_0_CUBE, texture.m_is_cube);
 	}

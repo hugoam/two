@@ -17,7 +17,7 @@ $input a_position, a_normal, a_color0 SKELETON_INPUTS INSTANCING_INPUTS
 
 void main()
 {
-#include "modelview.sh"
+#include "vs_modelview.sh"
 
 	vec3 vertex = mul(modelView, vec4(a_position.xyz, 1.0)).xyz;
     gl_Position = mul(u_proj, vec4(vertex, 1.0));
