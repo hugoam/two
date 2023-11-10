@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8' >
+    <meta charset='utf-8'>
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+        <title>Emscripten-Generated Code</title>
+        <style>
+            *, *:before, *:after {
+                box-sizing: border-box;
+            }
+            .tiles {
+                position: absolute;
+                display: grid;
+                padding: 5%;
+                grid-template-columns: auto auto auto;
+                grid-template-rows: auto auto;
+                grid-column-gap: 1%;
+                grid-row-gap: 2.5%;
+                height: 90%;
+                width: 100%;
+                top: 0;
+                z-index: 1;
+                pointer-events: none;
+            }
+            .tile { pointer-events: none; }
+            .left-half, .right-half { position: absolute; top: 0px; height: 100%; }
+            .left-half { left: 0px; width: 100%; }
+            .right-half { right: 0px; width: 0%; }
+            .button { padding: 0.2em; }
+            .button:hover { background-color: #007acc; }
+            .emscripten { padding-right: 0; margin-left: auto; margin-right: auto; display: block; }
+            .app {
+                top: 0px; left: 0px; margin: 0px; border: 0; width: 100%; height: 100%;
+                overflow: hidden;
+                display: block;
+            }
+            textarea.emscripten { font-family: monospace; width: 80%; }
+            div.emscripten { text-align: center; }
+            div.emscripten_border { border: 1px solid black; }
+            canvas.emscripten { border: 0px none; background-color: black; }
+            .spinner {
+                height: 50px; width: 50px; margin: 0px auto;
+                animation: rotation 0.8s linear infinite;
+                border: 10px solid rgb(0,150,240);
+                border-top: 10px solid rgb(100,0,200);
+                border-radius: 100%;
+                background-color: rgb(200,100,250);
+            }
+            @keyframes rotation {
+                from {transform: rotate(0deg);}
+                to {transform: rotate(360deg);}
+            }
+        </style>
+</head>
+<body>
+
+<div class='left-half'>
+    <canvas class='emscripten app' id='canvas' oncontextmenu='event.preventDefault()'></canvas>
+    <div class='emscripten' id='status'>Downloading...</div>
+    <figure style='overflow:visible;' id='spinner'><div class='spinner'></div></figure>
+    <div class='emscripten'>
+        <progress value='0' max='100' id='progress' hidden=1></progress>    
+    </div>
+    <div class='tiles'>
+        <div class='tile' id='tile0'></div>
+        <div class='tile' id='tile1'></div>
+        <div class='tile' id='tile2'></div>
+        <div class='tile' id='tile3'></div>
+        <div class='tile' id='tile4'></div>
+        <div class='tile' id='tile5'></div>
+        <!--<div class='tile'><canvas class='emscripten app' id='canvas5' oncontextmenu='event.preventDefault()'></canvas></div>-->
+    </div>
+    <div class='nav'>
+        <button onclick='prev()'>prev</button>
+        <button onclick='next()'>next</button>
+    </div>
+</div>
+
+<div class='right-half'>
+    <div id='editor' style='width:100%;height:100%;'></div>
+</div>
+        
+<!--script src='example.js'></script>-->
+<script src='moduletwo.js'></script>
+<script type='text/javascript'>
+    var contexts = [];
+    var app = null;
+    var loaded = {};
+
+    for(var i = 0; i < 6; ++i) {
+        var tile = document.querySelector('#tile' + i.toString());
+        contexts.push({ element: tile });
+    }
+    
+    function render(two, app, win) {
+        app.begin_frame();
+        var ui = win.ui.begin();
+        for(var i = 0; i < contexts.length; ++i) {
+
+            var context = contexts[i];
+            var rect = context.element.getBoundingClientRect();
+            var rect4 = new two.vec4(rect.x, rect.y, rect.width, rect.height);
+            var panel = two.ui.viewport(ui, rect4);
+            if (context.init) {
+                panel.clear();
+            }
+            if (context.update) {
+                context.update(two, app, panel, context.init);
+            }
+            context.init = false;
+        }
+        app.end_frame();
+        window.requestAnimationFrame(function() {
+            render(two, app, win);
+        });
+    }
+    
+    function start(two) {
+        console.log('run app');
+        app = new two.Shell('/data/', '', false);
+        var win = app.window('two', new two.uvec2(1600, 900), false);
+        win.ui_window.colour = new two.Colour(1.0);
+        //two.gfx.setup_pipeline_minimal(app.gfx);
+        two.gfx.setup_pipeline_pbr(app.gfx);
+        render(two, app, win);
+    }
+    
+    function restart(context, sample, script) {
+        console.log('recompiling script ' + sample.name);
+        context.update = new Function('two', 'app', 'panel', 'init', script);
+        context.init = true;
+    }
+    
+    function load(context, sample) {
+        console.log('load script ' + sample.file)
+        fetch('xx_three/' + sample.file + '.js')
+            .then(response => response.text())
+            .then((script) => {
+                restart(context, sample, script);
+            });
+    }
+    
+    function activate(context, sample) {
+        var urls = [];
+        for(var i = 0; i < sample.deps.length; ++i) {
+            var path = sample.deps[i];
+            if(!(path in loaded))
+                urls.push('data/xx_three/' + path);
+        }
+        
+        Promise.all(urls.map(url => fetch(url).then(resp => resp.arrayBuffer())))
+        .then(buffers => {
+            for(var i = 0; i < buffers.length; ++i) {
+                var path = sample.deps[i];
+                var bytes = new Uint8Array(buffers[i]);
+                console.log(['add file', path, bytes]);
+                app.add_file('data/' + path, bytes, true);
+            }
+            load(context, sample);
+        });
+    }
+    
+    var samples = [
+        { name: 'depth/texture',     deps: [] },
+      //{ name: 'geom/dynamic',      deps: [] },
+        { name: 'geom/instances',    deps: [] },
+        { name: 'geom/lines',        deps: [] },
+      //{ name: 'geom/points_hw',    deps: [] },
+        { name: 'geom/points',       deps: [] },
+        { name: 'geom/rawshader',    deps: [] },
+        { name: 'geom/selective',    deps: [] },
+      //{ name: 'geom/sprites',      deps: [] },
+        { name: 'hierarchy',         deps: [] },
+        { name: 'hierarchy2',        deps: [] },
+        { name: 'light/hemisphere',  deps: ['models/Flamingo.glb'] },
+      //{ name: 'light/point',       deps: ['textures/disturb.jpg'] },
+        { name: 'lines/dashed',      deps: [] },
+        { name: 'lines/fat',         deps: [] },
+        { name: 'loader/gltf',       deps: ['textures/cube/bridge.jpg.cube',
+                                            'textures/cube/bridge/px.jpg', 'textures/cube/bridge/nx.jpg', 'textures/cube/bridge/py.jpg',
+                                            'textures/cube/bridge/ny.jpg', 'textures/cube/bridge/pz.jpg', 'textures/cube/bridge/nz.jpg',
+                                            'models/DamagedHelmet.gltf',
+                                            'models/DamagedHelmet.bin',
+                                            'models/DamagedHelmet/Default_albedo.jpg',
+                                            'models/DamagedHelmet/Default_AO.jpg',
+                                            'models/DamagedHelmet/Default_emissive.jpg',
+                                            'models/DamagedHelmet/Default_metalRoughness.jpg',
+                                            'models/DamagedHelmet/Default_normal.jpg'] },
+        { name: 'loader/ply',        deps: ['models/dolphins.ply',
+                                            'models/Lucy100k.ply'] },
+      //{ name: 'marchingcubes',     deps: [] },
+        { name: 'material/array',    deps: ['textures/cube/pisaHDR.hdr.cube',
+                                            'textures/cube/pisaHDR/px.hdr', 'textures/cube/pisaHDR/nx.hdr', 'textures/cube/pisaHDR/py.hdr',
+                                            'textures/cube/pisaHDR/ny.hdr', 'textures/cube/pisaHDR/pz.hdr', 'textures/cube/pisaHDR/nz.hdr'] },
+        { name: 'material/cubemap',  deps: ['textures/cube/royal.jpg.cube',
+                                            'textures/cube/royal/px.jpg', 'textures/cube/royal/nx.jpg', 'textures/cube/royal/py.jpg',
+                                            'textures/cube/royal/ny.jpg', 'textures/cube/royal/pz.jpg', 'textures/cube/royal/nz.jpg',
+                                            'models/WaltHead.obj',
+                                            'models/WaltHead.mtl'] },
+        { name: 'material/displace', deps: ['textures/cube/royal.jpg.cube',
+                                            'textures/cube/royal/px.jpg', 'textures/cube/royal/nx.jpg', 'textures/cube/royal/py.jpg',
+                                            'textures/cube/royal/ny.jpg', 'textures/cube/royal/pz.jpg', 'textures/cube/royal/nz.jpg',
+                                            'models/ninjaHead_Low.obj',
+                                            'textures/ninja/ao.jpg',
+                                            'textures/ninja/normal.jpg',
+                                            'textures/ninja/displacement.jpg'] },
+        { name: 'material/skin',     deps: ['models/LeePerrySmith.glb',
+                                            'textures/LeePerrySmith/Diff.jpg',
+                                            'textures/LeePerrySmith/Norm.jpg'] },
+        { name: 'material/three',    deps: ['textures/cube/pisaHDR.hdr.cube',
+                                            'textures/cube/pisaHDR/px.hdr', 'textures/cube/pisaHDR/nx.hdr', 'textures/cube/pisaHDR/py.hdr',
+                                            'textures/cube/pisaHDR/ny.hdr', 'textures/cube/pisaHDR/pz.hdr', 'textures/cube/pisaHDR/nz.hdr',
+                                            'models/Cerberus.obj',
+                                            'textures/cerberus/Cerberus_A.jpg',
+                                            'textures/cerberus/Cerberus_N.jpg',
+                                            'textures/cerberus/Cerberus_RM.jpg'] },
+        { name: 'material/scatter',  deps: ['models/bunny.obj',
+                                            'textures/bunny_thickness.jpg'] },
+        { name: 'perf',              deps: [] },
+        { name: 'perf/twosided',     deps: ['textures/cube/royal.jpg.cube',
+                                            'textures/cube/royal/px.jpg', 'textures/cube/royal/nx.jpg', 'textures/cube/royal/py.jpg',
+                                            'textures/cube/royal/ny.jpg', 'textures/cube/royal/pz.jpg', 'textures/cube/royal/nz.jpg'] },
+        { name: 'effect',            deps: [] },
+        { name: 'effect/bloom',      deps: ['models/PrimaryIonDrive.glb'] },
+        { name: 'effect/dof',        deps: ['textures/cube/royal.jpg.cube',
+                                            'textures/cube/royal/px.jpg', 'textures/cube/royal/nx.jpg', 'textures/cube/royal/py.jpg',
+                                            'textures/cube/royal/ny.jpg', 'textures/cube/royal/pz.jpg', 'textures/cube/royal/nz.jpg'] },
+      //{ name: 'effect/glitch',     deps: [] },
+        { name: 'effect/godrays',    deps: ['models/tree.obj'] },
+        { name: 'effect/halftone',   deps: [] },
+      //{ name: 'effect/sao',        deps: [] },
+        { name: 'effect/sobel',      deps: [] },
+        { name: 'post/fxaa',         deps: [] },
+        { name: 'cubemap/dynamic',   deps: ['textures/cabin.jpg'] },
+        { name: 'refraction/mesh',   deps: ['textures/cube/park.jpg.cube',
+                                            'textures/cube/park/px.jpg', 'textures/cube/park/nx.jpg', 'textures/cube/park/py.jpg',
+                                            'textures/cube/park/ny.jpg', 'textures/cube/park/pz.jpg', 'textures/cube/park/nz.jpg',
+                                            'models/Lucy100k.ply'] },
+        { name: 'refraction/balls',  deps: ['textures/cube/park.jpg.cube',
+                                            'textures/cube/park/px.jpg', 'textures/cube/park/nx.jpg', 'textures/cube/park/py.jpg',
+                                            'textures/cube/park/ny.jpg', 'textures/cube/park/pz.jpg', 'textures/cube/park/nz.jpg'] },
+        { name: 'shader',            deps: [] },
+        { name: 'shader/lava',       deps: ['textures/lava/cloud.png',
+                                            'textures/lava/lavatile.jpg'] },
+      //{ name: 'shader/ocean',      deps: [] },
+      //{ name: 'shadow/point',      deps: [] },
+        { name: 'tiled/forward',     deps: ['models/WaltHead.obj',
+                                            'models/WaltHead.mtl'] },
+        { name: 'clustered',         deps: ['models/WaltHead.obj',
+                                            'models/WaltHead.mtl'] },
+    ];
+    
+    for(var i = 0; i < samples.length; ++i) {
+        samples[i].file = samples[i].name.replace('/', '_');
+    }
+    
+    var cursor = 13;
+    
+    function updateTiles(count = 6) {
+        for(var i = 0; i < count; ++i) {
+            var context = contexts[i];
+            context.sample = samples[cursor + i]; //findSample(active[i])
+            activate(context, context.sample);
+        }
+    }
+    
+    function next() {
+        cursor += 6;
+        updateTiles(6);
+    }
+    
+    function prev() {
+        cursor -= 6;
+        updateTiles(6);
+    }
+    
+    function findSample(name) {
+        for(var i = 0; i < samples.length; ++i) {
+            if(samples[i].name == name) {
+                return samples[i];
+            }
+        }
+    }
+    
+    two.onRuntimeInitialized = function() {
+        start(two);
+        
+        updateTiles();
+    };
+
+</script>
+
+<script>
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'two.wasm', true)
+    xhr.responseType = 'arraybuffer';
+    xhr.onload = function() {
+        two.wasmBinary = xhr.response;
+        var script = document.createElement('script');
+        script.src = 'two.js';
+        script.onload = function(script){
+            /*two().then(function(two) {
+                start(two);
+            });*/
+        };
+        document.body.appendChild(script);
+    };
+    xhr.send(null);
+</script>
+
+</body>
+</html>

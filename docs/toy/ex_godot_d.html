@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Emscripten-Generated Code</title>
+        <style>
+            .emscripten { padding-right: 0; margin-left: auto; margin-right: auto; display: block; }
+            .app {
+                position: absolute;
+                top: 0px; left: 0px; margin: 0px; border: 0; width: 100%; height: 100%;
+                overflow: hidden;
+                display: block;
+            }
+            textarea.emscripten { font-family: monospace; width: 80%; }
+            div.emscripten { text-align: center; }
+            div.emscripten_border { border: 1px solid black; }
+            /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
+            canvas.emscripten { border: 0px none; background-color: black; }
+            .spinner {
+                height: 50px; width: 50px; margin: 0px auto;
+                animation: rotation 0.8s linear infinite;
+                border: 10px solid rgb(0,150,240);
+                border-top: 10px solid rgb(100,0,200);
+                border-radius: 100%;
+                background-color: rgb(200,100,250);
+            }
+            @keyframes rotation {
+                from {transform: rotate(0deg);}
+                to {transform: rotate(360deg);}
+            }
+        </style>
+    </head>
+    <body>
+        <hr/>
+        <div class="emscripten_border">
+            <canvas class="emscripten app" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+            <div class="emscripten" id="status">Downloading...</div>
+            <figure style="overflow:visible;" id="spinner"><div class="spinner"></div><center style="margin-top:0.5em"><strong>emscripten</strong></center></figure>
+            <div class="emscripten">
+                <progress value="0" max="100" id="progress" hidden=1></progress>    
+            </div>
+        </div>
+        <hr/>
+        <script>
+        var Module;
+        (async () => {
+            var statusElement = document.getElementById("status")
+                , progressElement = document.getElementById("progress")
+                , spinnerElement = document.getElementById("spinner");
+            Module = {
+                preRun: [],
+                postRun: [],
+                print: function(e) {
+                    1 < arguments.length && (e = Array.prototype.slice.call(arguments).join(" ")),
+                    console.log(e)
+                },
+                printErr: function(e) {
+                    1 < arguments.length && (e = Array.prototype.slice.call(arguments).join(" ")),
+                    console.error(e)
+                },
+                canvas: function() {
+                    var e = document.getElementById("canvas");
+                    return e.addEventListener("webglcontextlost", function(e) {
+                        alert("WebGL context lost. You will need to reload the page."),
+                        e.preventDefault()
+                    }, !1),
+                    e
+                }(),
+                setStatus: function(e) {
+                    if (Module.setStatus.last || (Module.setStatus.last = {
+                        time: Date.now(),
+                        text: ""
+                    }),
+                    e !== Module.setStatus.last.text) {
+                        var t = e.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/)
+                            , n = Date.now();
+                        t && n - Module.setStatus.last.time < 30 || (Module.setStatus.last.time = n,
+                        Module.setStatus.last.text = e,
+                        t ? (e = t[1],
+                        progressElement.value = 100 * parseInt(t[2]),
+                        progressElement.max = 100 * parseInt(t[4]),
+                        progressElement.hidden = !1,
+                        spinnerElement.hidden = !1) : (progressElement.value = null,
+                        progressElement.max = null,
+                        progressElement.hidden = !0,
+                        e || (spinnerElement.style.display = "none")),
+                        statusElement.innerHTML = e)
+                    }
+                },
+                totalDependencies: 0,
+                monitorRunDependencies: function(e) {
+                    this.totalDependencies = Math.max(this.totalDependencies, e),
+                    Module.setStatus(e ? "Preparing... (" + (this.totalDependencies - e) + "/" + this.totalDependencies + ")" : "All downloads complete.")
+                }
+            };
+            Module.setStatus("Downloading..."),
+            window.onerror = function(e) {
+                Module.setStatus("Exception thrown, see JavaScript console"),
+                spinnerElement.style.display = "none",
+                Module.setStatus = function(e) {
+                    e && Module.printErr("[post-exception status] " + e)
+                }
+            }
+        
+            {
+                const adapter = await navigator.gpu.requestAdapter();
+                const device = await adapter.requestDevice();
+                Module.preinitializedWebGPUDevice = device;
+            }
+        
+            {
+                const js = document.createElement('script');
+                js.async = true;
+                js.src = 'ex_godot_d.js';
+                document.body.appendChild(js);
+            }
+        })();
+        </script>
+        <!--<script type='text/javascript'>
+            var statusElement = document.getElementById('status');
+            var progressElement = document.getElementById('progress');
+            var spinnerElement = document.getElementById('spinner');
+            var Module = {
+                preRun: [],
+                postRun: [],
+                print: (function() {
+                    return function(text) {
+                        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+                        console.log(text);
+                    };
+                })(),
+                printErr: function(text) {
+                    if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+                    if (0) { // XXX disabled for safety typeof dump == 'function') {
+                        dump(text + '\n'); // fast, straight to the real console
+                    } else {
+                        console.error(text);
+                    }
+                },
+                canvas: (function() {
+                    var canvas = document.getElementById('canvas');
+                    // As a default initial behavior, pop up an alert when webgl context is lost. To make your
+                    // application robust, you may want to override this behavior before shipping!
+                    // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
+                    canvas.addEventListener("webglcontextlost", function(e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+                    return canvas;
+                })(),
+                setStatus: function(text) {
+                    if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
+                    if (text === Module.setStatus.text) return;
+                    var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+                    var now = Date.now();
+                    if (m && now - Date.now() < 30) return; // if this is a progress update, skip it if too soon
+                    if (m) {
+                        text = m[1];
+                        progressElement.value = parseInt(m[2])*100;
+                        progressElement.max = parseInt(m[4])*100;
+                        progressElement.hidden = false;
+                        spinnerElement.hidden = false;
+                    } else {
+                        progressElement.value = null;
+                        progressElement.max = null;
+                        progressElement.hidden = true;
+                        if (!text) spinnerElement.hidden = true;
+                    }
+                    statusElement.innerHTML = text;
+                },
+                totalDependencies: 0,
+                monitorRunDependencies: function(left) {
+                    this.totalDependencies = Math.max(this.totalDependencies, left);
+                    Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+                }
+            };
+            Module.setStatus('Downloading...');
+            window.onerror = function() {
+                Module.setStatus('Exception thrown, see JavaScript console');
+                spinnerElement.style.display = 'none';
+                Module.setStatus = function(text) {
+                    if (text) Module.printErr('[post-exception status] ' + text);
+                };
+            };
+            {
+                const adapter = await navigator.gpu.requestAdapter();
+                const device = await adapter.requestDevice();
+                Module.preinitializedWebGPUDevice = device;
+            }
+        </script>-->
+        <!--<script async type="text/javascript" src="ex_godot_d.js"></script>-->
+        <!--<script>
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'ex_godot_d.wasm', true)
+        xhr.responseType = 'arraybuffer';
+        xhr.onload = function() {
+          Module.wasmBinary = xhr.response;
+          var script = document.createElement('script');
+          script.src = "ex_godot_d.js";
+          document.body.appendChild(script);
+        };
+        xhr.send(null);
+        </script>-->
+    </body>
+</html>
+
+

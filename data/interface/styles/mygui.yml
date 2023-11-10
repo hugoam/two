@@ -1,0 +1,177 @@
+{
+"includes" :
+[
+],
+"colours" :
+{
+    "White" : [1, 1, 1, 1]
+},
+"styles" :
+[
+    {   
+        "selector" : "Window",
+        "empty" : true
+    },
+    {   
+        "selector" : "Label, Title, Item, TypeIn, TextEdit, TypeLabel, WrapButton, MultiButton, ToolButton, WindowHeader, WindowHeaderMovable, TabHeader, ColumnHeader, SliderDisplay, RadioChoiceItem",
+        "text_colour" : "White",
+        "skin_padding" : [4]
+    },
+    {   
+        "selector" : "TabHeader",
+        "skin_padding" : [8, 6, 8, 4]
+    },
+    {   
+        "selector" : "Tab, DockTab",
+        "image_skin" : ["mygui/tab", 4, 8, 6, 5],
+        "padding" : [4, 2, 6, 4]
+    },
+    {   
+        "selector" : "DockTab",
+        "padding" : [0]
+    },
+    {   
+        "selector" : "TabHeader",
+        "image_skin" : ["mygui/tab_button", 6, 6, 9, 4]
+    },
+    {   
+        "selector" : "WindowHeader, WindowHeaderMovable",
+        "commentimage_skin" : ["mygui/windowheader", 7, 10, 9, 17],
+        "commentimage_skin2" : ["mygui/windowheader_darker", 7, 10, 32, 17],
+        "image_skin" : ["mygui/windowheader_darker", 7, 10, 32, 17],
+        "size" : [0, 30],
+        "padding" : [10, 4, 10, 4]
+    },
+    {   
+        "selector" : "WindowBody, Popup, ColourPopup",
+        "skin_margin" : [0, -3, 0, 0],
+        "image_skin" : ["mygui/windowbody_black", 4, 4, 6, 6],
+        "padding" : [10, 4, 10, 4]
+    },
+    {   
+        "selector" : "WindowFooter",
+        "background_colour" : [0.25, 0.25, 0.25, 1],
+        "size" : [0, 8]
+    },
+    {   
+        "selector" : "DropdownList, Menu, MenuList, SubMenuList, Dockbar, Expandbox, TreeNode, Node, NodePlug",
+        "image_skin" : ["mygui/frame_assym", 4, 4, 6, 6]
+    },
+    {   
+        "selector" : "Dockbar, Expandbox",
+        "padding" : [4]
+    },
+    {   
+        "selector" : "TypeIn, Dropdown, DropdownInput, TypedownInput, Fillbar, Slider, Input<string>",
+        "image_skin" : ["mygui/editbox", 6, 6, 8, 8]
+    },
+    {   
+        "selector" : "DropdownToggle",
+        "skin_padding" : [4],
+        "image" : "mygui/arrow_down"
+    },
+    {   
+        "selector" : "ColumnHeader",
+        "image_skin" : ["mygui/tableheader", 6, 6, 8, 8]
+    },
+    {   
+        "selector" : "Button, Toggle, DockToggle, ToolButton, RadioChoice, NodeHeader",
+        "copy_skin" : "Label",
+        "skin_padding" : [8, 4, 8, 4],
+        "image_skin" : ["mygui/button", 6, 6, 8, 8]
+    },
+    {   
+        "selector" : "Checkbox",
+        "image" : "mygui/checkbox"
+    },
+    {   
+        "selector" : "ExpandboxToggle, TreeNodeToggle",
+        "image" : "arrow_right_15",
+        "hovered" : {
+            "image" : "arrow_right_15"
+        },
+        "active, active|hovered" : {
+            "image" : "arrow_down_15"
+        }
+    },
+    {   
+        "selector" : "ScrollUp",
+        "image" : "mygui/arrow_up"
+    },
+    {   
+        "selector" : "ScrollDown",
+        "image" : "mygui/arrow_down"
+    },
+    {   
+        "selector" : "ScrollLeft",
+        "image" : "mygui/arrow_left"
+    },
+    {   
+        "selector" : "ScrollRight",
+        "image" : "mygui/arrow_right"
+    },
+    {   
+        "selector" : "Scroller",
+        "padding" : [2, 2, 1, 1]
+    },
+    {   
+        "selector" : "CloseButton",
+        "image" : "mygui/closebutton"
+    },
+    {   
+        "selector" : "SliderKnob",
+        "image_skin" : ["mygui/sliderknobx", 1, 1, 3, 3],
+        "size" : [7, 22]
+    },
+    {   
+        "selector" : "Filler",
+        "background_colour" : [1, 1, 1, 0.3]
+    },
+    {   
+        "selector" : "Progfiller",
+        "image_skin" : ["mygui/button_active", 6, 6, 8, 8]
+    },
+    {   
+        "selector" : "ScrollerKnob",
+        "align" : ["CENTER", "LEFT"],
+        "image_skin" : ["mygui/scrollerknoby", 5, 2, 7, 4]
+    },
+    {   
+        "selector" : "DropdownChoice",
+        "hovered" : {
+            "background_colour" : [0.337, 0.502, 0.761, 1],
+            "linear_gradient" : [-15, 15],
+            "text_colour" : [0,0,0,1]
+        }
+    },
+    {   
+        "selector" : "ExpandboxBody, Tab, Header",
+        "padding" : [4],
+        "spacing" : [4]
+    },
+    {   
+        "selector" : "TabHeader",
+        "decline" : ["hovered", "active", "active|hovered"]
+    },
+    {   
+        "selector" : "ScrollerKnob",
+        "decline" : ["hovered", "pressed", "active"]
+    },
+    {   
+        "selector" : "CloseButton, ScrollUp, ScrollDown, ScrollLeft, ScrollRight, SliderKnob, DropdownToggle",
+        "decline" : ["hovered", "pressed"]
+    },
+    {   
+        "selector" : "TypeIn, Dropdown, DropdownInput, TypedownInput, Fillbar, Slider, Input<string>",
+        "decline" : ["hovered", "pressed", "active", "active|hovered"]
+    },
+    {   
+        "selector" : "Button, Toggle, DockToggle, ToolButton, RadioChoice, NodeHeader",
+        "decline" : ["hovered", "pressed", "active"]
+    },
+    {   
+        "selector" : "Checkbox",
+        "decline" : ["hovered", "pressed", "active", "active|hovered", "active|pressed"]
+    }
+]
+}

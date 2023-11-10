@@ -1,0 +1,18 @@
+os:
+  - Visual Studio 2017
+
+environment:
+  matrix:
+  - TOOLSET: vs2017
+
+configuration:
+  - Debug
+  - Release
+
+install:
+  - git submodule update --init
+  - bin\windows\genie %TOOLSET%
+
+build:
+  project: build/projects/$(TOOLSET)/two.sln
+  verbosity: normal

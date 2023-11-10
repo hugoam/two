@@ -1,0 +1,54 @@
+[submodule "3rdparty/stb"]
+	path = 3rdparty/stb
+	url = https://github.com/nothings/stb
+[submodule "3rdparty/lua"]
+	path = 3rdparty/lua
+	url = https://github.com/lua/lua
+[submodule "3rdparty/nanovg-layers"]
+	path = 3rdparty/nanovg-layers
+	url = https://github.com/hugoam/nanovg
+[submodule "3rdparty/GENie"]
+	path = 3rdparty/GENie
+	url = https://github.com/hugoam/GENie
+[submodule "3rdparty/vg-renderer"]
+	path = 3rdparty/vg-renderer
+	url = https://github.com/hugoam/vg-renderer
+[submodule "3rdparty/FastNoise"]
+	path = 3rdparty/FastNoise
+	url = https://github.com/Auburns/FastNoise
+[submodule "3rdparty/vorbis"]
+	path = 3rdparty/vorbis
+	url = https://github.com/xiph/vorbis
+[submodule "3rdparty/ogg"]
+	path = 3rdparty/ogg
+	url = https://github.com/xiph/ogg
+[submodule "3rdparty/glfw"]
+	path = 3rdparty/glfw
+	url = https://github.com/glfw/glfw
+[submodule "3rdparty/json11"]
+	path = 3rdparty/json11
+	url = https://github.com/dropbox/json11
+[submodule "3rdparty/wren"]
+	path = 3rdparty/wren
+	url = https://github.com/munificent/wren
+[submodule "3rdparty/fcontext"]
+	path = 3rdparty/fcontext
+	url = https://github.com/septag/deboost.context
+[submodule "3rdparty/tracy"]
+	path = 3rdparty/tracy
+	url = https://github.com/wolfpld/tracy
+[submodule "3rdparty/xatlas"]
+	path = 3rdparty/xatlas
+	url = https://github.com/jpcy/xatlas
+[submodule "3rdparty/meshoptimizer"]
+	path = 3rdparty/meshoptimizer
+	url = https://github.com/zeux/meshoptimizer
+[submodule "3rdparty/culling"]
+	path = 3rdparty/culling
+	url = https://github.com/hugoam/MaskedOcclusionCulling
+[submodule "3rdparty/libzmq"]
+	path = 3rdparty/libzmq
+	url = https://github.com/zeromq/libzmq
+[submodule "3rdparty/cppzmq"]
+	path = 3rdparty/cppzmq
+	url = https://github.com/zeromq/cppzmq
