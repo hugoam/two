@@ -1,0 +1,32 @@
+{
+"includes":
+[
+    "blendish.yml"
+],
+"colours" :
+{
+    "Black" : [0, 0, 0, 1],
+    "Grey275" : [0.275, 0.275, 0.275, 1],
+    "Grey090" : [0.090, 0.090, 0.090, 1]
+},
+"styles" :
+[
+    {
+        "selector" : "Tab, DockWindow",
+        "background_colour" : "Grey090"
+    },
+    {
+        "selector" : "Window, Node, Tab, List, ColumnHeader",
+        "border_colour" : "Grey275",
+        "border_width" : [1]
+    }, 
+    {
+        "selector" : "Window, Node",
+        "background_colour" : "Black"
+    }, 
+    {
+        "selector" : "Canvas",
+        "background_colour" : "Black"
+    }
+]
+}

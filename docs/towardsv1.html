@@ -1,0 +1,580 @@
+<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>two - closing in on version 1.0</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/alt.css" />
+		<link rel="stylesheet" href="assets/css/prism.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+        
+        <meta property="og:site_name" content="toy engine" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="two - closing in on version 1.0" />
+        <meta property="og:description" content="two is a c++ toolkit for rapid development of live graphical apps and games." />
+        <meta property="og:url" content="https://toyengine.io/" />
+        <meta property="og:image" content="images/toythumb.jpg">
+        
+        <style>
+            .livecode {
+                position: relative;
+                display: grid;
+                grid-template-columns: 7em calc(55% - 7em) 45%;
+                grid-template-rows: auto;
+                height: 100%;
+                width: 100%;
+                top: 0;
+                z-index: 1;
+            }
+            .side-nav { color: white; background-color: #1d1f21; font-family: Consolas, 'Courier New', monospace; }
+            .navbutton { padding: 0em; font-size: 0.7em; }
+            .navbutton:hover { background-color: #007acc; }
+            .emscripten { padding-right: 0; margin-left: auto; margin-right: auto; display: block; }
+            .app {
+                position: relative;
+                top: 0px; left: 0px; margin: 0px; border: 0; width: 100%; height: 100%;
+                overflow: hidden;
+                display: block;
+            }
+            textarea.emscripten { font-family: monospace; width: 80%; }
+            div.emscripten { text-align: center; }
+            canvas.emscripten { border: 0px none; background-color: black; }
+            .left-half { position:relative; }
+            .status {
+                position: absolute; top: 0px; left: 0px;
+                width: 100%; height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        </style>
+	</head>
+	<body class="is-preload">
+
+        <nav id="nav">
+            <ul>
+                <li><a href="https://github.com/hugoam/two"><img src="logo/libtwo.png" alt="" style="display: inline; height: 52px; margin-top: 5px; text-align: left;"/></a/</li>
+                <li><a href="https://github.com/hugoam/two"><span class="icon minor fa-github"></span></a></li>
+                <li><a href="https://twitter.com/hugoamnov"><span class="icon minor fa-twitter"></span></a></li>
+                <li><a href="https://www.patreon.com/libtwo"><img class="ui image" src="images/patreon.png"></a></li>
+            </ul>
+        </nav>
+
+        <div class="main">
+            <section class="body special">
+                <div class="container">
+                    <div class="row gtr-100 gtr-uniform">
+
+<div class="doc off-1 col-10">
+    <span class="image fit"><img src="media/samples0.gif" alt="" /></span>
+</div>
+                            
+<div class="doc off-2 col-8">
+<h2>Closing in on version 0.1</h2>
+<p>The <a href="https://github.com/hugoam/two">two</a> library (previously known as <i>mud</i>) is at last very near to a first stable version 0.1. A metric ton of work has been accomplished recently to chisel the core of the library to a shape closer to its final form. The near term aim is to have for the first time a <i>stable</i> branch in the github repository, which will contain the first tagged release.</p>
+<p>In its stabilized form, the library provides two main APIs, two low-level application building blocks which you can use just as well from native C++ as from higher-level language bindings:</p>
+<ul>
+<li>a stable API for mid-level graphics rendering (think scenes, shapes, meshes, models, lights, materials, passes, post-processing, etc).</li>
+<li>a stable API for fully auto-layout, stylable, declarative/immediate mode UI (with a large set of widgets, docking, tabs, nodes, text editors, inputs, curves etc).</li>
+</ul>
+<p>Each of those layers are also their own libraries, available as <a href="https://github.com/hugoam/twfx">twfx</a> and <a href="https://github.com/hugoam/twui">twui</a>, which can be used independently: they are not tied to one another. Other aspects of what was the <i>mud</i> library, namely the reflection and scripting parts, are taking a step back so that we can better focus on the two APIs above, under the umbrella of the name <i>two</i>.</p>
+<p>By having ported 35 three.js examples to <i>two</i>, we are paving the way to the final set of features which are supported by the first release: these examples exist both in the form of <a href="https://github.com/hugoam/two/tree/master/example/xx_three">native C++ code</a>, and in the form of <a href="https://github.com/hugoam/two/tree/master/example/xx_three/two">JavaScript code</a> which is the version in the live examples below.</a>.</p>
+<p>With some newly implemented JavaScript bindings, an idea we have been holding onto since long, long ago, is now much closer to reality: being able to use <i>two</i> for live-coding graphics and apps directly in the browser.</p>
+<p>To demonstrate the potential, we put together this prototype of a live-coding environment, where you can edit examples in real-time including some basic error reporting.</p>
+<p>The rest of this post goes into brief summary of the work accomplished towards making this library ready for its first stable form, so feel free to skip through the following samples. The live-coding editor exists also as a <a href="https://hugoam.github.io/two/editor/editor">standalone page</a>.</p>
+</div>
+
+                    </div >
+                </div>
+            </section>
+        </div>
+            
+<div class="livecode">
+    <div id='side-nav' class='side-nav' style="list-style: none;">
+    </div>
+
+    <div class='left-half'>
+        <canvas class='emscripten app' id='canvas' oncontextmenu='event.preventDefault()'></canvas>
+        <div id='status' class='status'><button id='start' class='button' onclick='startSamples()'>start samples</button></div>
+    </div>
+
+    <div class='right-half'>
+        <div id='editor' style='width:100%;height:100%;'></div>
+    </div>
+</div>
+
+        <div class="main">
+            <section class="body special">
+                <div class="container">
+                    <div class="row gtr-100 gtr-uniform">
+
+
+
+<div class="doc off-2 col-8">
+<h3>STL migration and compile-time improvements</h3>
+<p>A long-standing issue and challenge in finalizing <i>two</i> was to achieve what we call <i>decent compile times</i>. Which is the main item that led us to migrate from the STL.</p>
+<p>The most essential step in achieving decent speed, we found out, is to be able to separate template class <a href="https://github.com/hugoam/two/blob/master/src/stl/vector.h">declarations</a> from their <a href="https://github.com/hugoam/two/blob/master/src/stl/vector.hpp">implementation</a>, and instantiate those only in a few select translation units. This cannot be done with the regular STL because of the way it's structured (in monolithic headers)</p>
+<p>For this reason, we replaced 99% of our STL usage with our customized flavour of <a href="https://github.com/mendsley/tinystl">tinystl</a>. Doing so, we drove compile times down from more than 4 minutes to about 40 seconds (with a bunch of other tweaks). Vanilla STL can still be used through a compiler switch.</p>
+<p>The next logical step has been to provide <a href="https://github.com/hugoam/two/blob/master/dist/two">amalgamated single-file versions</a> of each module of the library, for which we wrote a quick and simple amalgamator. Using these files, compilation time can be driven down even further, to about 10 seconds (by including all modules implementations from one single translation unit).</li>
+</div>
+
+<div class="doc off-2 col-8">
+<h3>leaner graphics library</h3>
+<p>An important condition to bringing <i>two</i> to its first officially stable iteration, is ensuring a varied set of classic 3D graphics examples work correctly and reliably. This is what led us to to implement a selection of various <a href="https://github.com/mrdoob/three.js/">three.js</a> examples. In the process, we ensured <i>two</i> can do mostly anything that <i>three.js</i> can do. <small>(note: If you want to familiarize yourself with the library, porting more of those examples is a great way to do so!)</small></p>
+<p>In the process, we solved one of the last remaining design issues, and un-inverted the infortunate <i>inversion of control</i> OOP design of the renderer, which used to delegate rendering tasks to a loosely coupled sequence of passes, and made it quite harder to do control rendering directly.</p>
+<p>A renderer is now a simple function which you compose and implement in any way you want using the render primitives and built-in passes. As a result, writing your own rendering/post-processing logic is now way simpler than it used to be, and the effects examples demonstrate that nicely.</p>
+<p>As a result the graphics API is now much closer to the <i>top-down, don't invert control but rather layer APIs of increasing complexity</i> idea which is our preferred philosophy of minimal software design.</p>
+<p>A range of other features were also introduced, including <i>morph targets, point light shadows, atlasing of all shadows in a single atlas, cube environment maps, reflection probes, more built-in shapes (tetrahedron, icosahedron, torus etc)</i>, and <i>curves/lines/points rendering support</i>.</p>
+</div>
+<div class="doc off-1 col-10">
+    <span class="image fit"><img src="media/webgfx.png" alt="" /></span>
+</div>
+
+
+<div class="doc off-2 col-8">
+<h3>codegen moved to native and javascript binder</h3>
+<p>One of the key strenghts of the <i>two</i> library, is its extensive reflection facilities, enabled mainly by a C++ parser and code generator tool, which is used to generate higher level <i>meta</i> descriptions of all modules in the codebase and their contents.</p>
+<p>The generator, originally in python, has just been completely <a href="https://github.com/hugoam/two/blob/master/src/clrefl/Generator.cpp">rewritten in C++</a> (now using the C API of libclang directly), to ensure its robustness and to make sure that extending it with new generators is a much more fail-proof process. It was a necessary step to implement a generator of JavaScript bindings for the whole codebase.</li>
+<p>Given that none of the existing solutions provided by Emscripten (namely Embind and WebIDL binder) provided all the features we needed, and since both of those solutions need an intermediate level of <i>binding code</i>/<i>interface definition</i> that would need to be generated anyway, we instead opted to directly generate the binding code itself, largely reusing the patterns used by those existing binders, but hooked straight to our generator.</p>
+<p>The implementation cost was a little bit higher, but the result is much, much more powerful. We practically have a generic C++ to JS binder, with simple annotated C++ code as input. The output is two files per module: the <a href="https://github.com/hugoam/two/blob/master/src/bind/math.c.cpp">C glue code</a> that binds the functions, methods, members, enums etc, and the <a href="https://github.com/hugoam/two/blob/master/src/bind/math.js">JS bindings wrapper</a>. The C glue code can be reused in the future to bind other languages such as C#.</p>
+</div>
+
+<div class="doc off-2 col-8">
+<h3>dusting off the UI library</h3>
+<p>The UI library is the flip side of <i>two</i>, a neat piece of engineering. It combines an immediate-like declarative API with all the layout and styling power of a retained UI solution. As far as development goes, this part of library is much older, and as such it was already that much closer to a stable state. Some of the recent work has been dusting off some neglected parts of it, and implementing a new <i>dear imgui</i> theme and example.</p>
+<p>Similarly to how three.js is a standard to strive to equal on the graphics side, we want to ensure our UI library is at least as robust and reliable as <a href="https://github.com/ocornut/imgui">dear imgui</a>. By implementing both the same theme and the same example UI, we can ensure the quality of our solution, by allowing both to be compared both side to side, and ensuring that the <i>two</i> version behaves just as well.</p>
+<p>The distance that separates us from a first stable version lies in fixing a few remaining issues and flaws in the internals of the library. The API has been mostly stable for the last months, so we are pretty close.</p>
+</div>
+<div class="doc off-1 col-10">
+    <span class="image fit"><img src="media/ui0.gif" alt="" /></span>
+</div>
+
+<div class="doc off-2 col-8">
+<h3>webgpu prototype</h3>
+<p>This item is a bit like our own 20% project, on the scale of <i>two</i>. It wasn't practically needed for any short-term goal of the library, but it might prove to be a great investment in the future of the web. So, we allowed ourselves to start working on a first webgpu prototype.</p>
+<p>The low-level foundation on which <i>two</i> graphics are built, <a href="https://github.com/bkaradzic/bgfx">bgfx</a>, abstracts different rendering backends in a nice declarative API. To advance on this task meant implementing a new experimental webgpu backend for it, which also presented itself as a great way to get familiar with the more modern explicit APIs that are D3D12, Vulkan, Metal2.</p>
+<p>Even though it is nowhere near complete, we advanced enough that a few of the basic bgfx examples run correctly on top of <a href="https://dawn.googlesource.com/dawn">dawn</a>, google's implementation of the current state of the webgpu specification.</p>
+<p>This means that, as soon as browsers start providing access to webgpu, <i>two</i> will be on the front-line as one of the first libraries to support it, so that, pretty soon, apps using <i>two</i> can leverage the full power of your gpu, even in the browser.</p>
+<p>If you are curious, the current state of the webgpu backend source for bgfx can be found <a href="https://github.com/hugoam/bgfx/blob/master/src/renderer_webgpu.cpp">here</a>.</p>
+</div>
+<div class="doc off-1 col-10">
+    <span class="image fit"><img src="images/webgpu.png" alt="" /></span>
+</div>
+
+<div class="doc off-2 col-8">
+<h3>last steps to v0.1</h3>
+<p>As of the present post, the master branch of <i>two</i> is now officially the <i>stable branch</i>, although it will only be truly so once we can tag the first release. This means that <i>two</i> is now in a phase of last refinements and polishing with that milestone in sight. The plan is to use the following weeks/months to let the remaining issues emerge and be fixed, and gather an more precise picture of what flaws in the API the user encounter, and how it should ultimately be.</p>
+<p>This is a necessary step in order for people to finally be able to use a version of <i>two</i> worth using, so we look forward to it being completed.</p>
+<p>So, see you soon in the issues section of the github repo :)</p>
+</div>
+                  
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer id="footer">
+            <p class="copyright">&copy; Hugo Amiard. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+        </footer>
+
+<script type='text/javascript'>
+var two = {
+    preRun: [],
+    postRun: [],
+    print: (function() {
+        return function(text) {
+            if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+            console.log(text);
+        };
+    })(),
+    printErr: function(text) {
+        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+        if (0) { // XXX disabled for safety typeof dump == 'function') {
+            dump(text + '\n'); // fast, straight to the real console
+        } else {
+            console.error(text);
+        }
+    },
+    canvas: (function() {
+        var canvas = document.getElementById('canvas');
+        canvas.addEventListener("webglcontextlost", function(e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+        return canvas;
+    })(),
+    setStatus: function(text) {
+    },
+    totalDependencies: 0,
+    monitorRunDependencies: function(left) {
+        this.totalDependencies = Math.max(this.totalDependencies, left);
+        two.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+    }
+};
+two.setStatus('Downloading...');
+window.onerror = function() {
+    two.setStatus('Exception thrown, see JavaScript console');
+    two.setStatus = function(text) {
+        if (text) two.printErr('[post-exception status] ' + text);
+    };
+};
+</script>
+<!--<script src='editor/moduletwo.js'></script>-->
+<script type='text/javascript'>
+    var init = true;
+    var editor = null;
+    var app = null;
+    var loaded = {};
+    var errors = [];
+    var context = {};
+    
+    function updateErrors(markers) {
+        model = editor.getModel();
+        monaco.editor.setModelMarkers(model, 'two', markers);
+    }
+    
+    function pushError(e) {
+        var line = 0;
+        var column = 0;
+        var stack = e.stack.split('\n');
+        
+        var location;
+        if(window.chrome) {
+            var level = stack.find(l => l.indexOf('at update (') !== -1);
+            var start = level.indexOf('(') + 1;
+            var end   = level.indexOf(')', start);
+            location = level.substring(start, end);
+        }
+        else {
+            var level = stack.find(l => l.indexOf('update@') !== -1);
+            location = level.substring(level.indexOf('update@'));
+            //line = e.lineNumber;
+            //column = e.columnNumber;
+        }
+        
+        var elems = location.split(':');
+        line   = parseInt(elems[elems.length - 2]);
+        column = parseInt(elems[elems.length - 1]);
+        
+        console.error(e);
+        
+        var marker = {
+            startColumn: column, endColumn: column+1,
+            startLineNumber: line-1, endLineNumber: line-1,
+            message: 'error (' + line.toString() + ':' + column.toString() + '): ' + e.message,
+            severity: monaco.MarkerSeverity.Error
+        };
+        
+        errors.push(marker);
+    }
+    
+    function render(two, app, win) {
+        app.begin_frame();
+        var panel = win.ui.begin();
+        if (init) {
+            panel.clear();
+        }
+        if (typeof update !== 'undefined') {
+            try {
+                update(two, app, panel, context, init);
+            }
+            catch(e) {
+                pushError(e);
+            }
+            init = false;
+        }
+        app.end_frame();
+        
+        updateErrors(errors);
+        
+        window.requestAnimationFrame(function() {
+            render(two, app, win);
+        });
+    }
+    
+    function start(two) {
+        console.log('run app');
+        app = new two.Shell('/data/', '', false);
+        var win = app.window('two', new two.uvec2(1600, 900), false);
+        //two.gfx.setup_pipeline_minimal(app.gfx);
+        two.gfx.setup_pipeline_pbr(app.gfx);
+        render(two, app, win);
+    }
+    
+    function load(sample) {
+        console.log('load script ' + sample.file)
+        fetch('editor/xx_three/' + sample.file + '.js')
+            .then(response => response.text())
+            .then((script) => {
+                //console.log(script);
+                editor.setValue(script);
+            });
+    }
+    
+    function select(sample) {
+        var urls = [];
+        for(var i = 0; i < sample.deps.length; ++i) {
+            var path = sample.deps[i];
+            if(!(path in loaded))
+                urls.push('editor/data/xx_three/' + path);
+        }
+        
+        Promise.all(urls.map(url => fetch(url).then(resp => resp.arrayBuffer())))
+        .then(buffers => {
+            for(var i = 0; i < buffers.length; ++i) {
+                var path = sample.deps[i];
+                var bytes = new Uint8Array(buffers[i]);
+                console.log(['add file', path, bytes]);
+                app.add_file('data/' + path, bytes, true);
+            }
+            load(sample);
+        });
+    }
+    
+    var prev = null;
+    function loadjs(script) {
+
+        var element = document.createElement('script');
+        document.body.appendChild(element);
+        
+        if (false) {
+            var text = document.createTextNode(script);
+            try {
+                element.appendChild(text);
+            }
+            catch(e) {
+                pushError(e);
+            }
+            init = true;
+        }
+        else {
+            var blob = new Blob([script], { type: 'text/javascript' });
+            var url = window.URL.createObjectURL(blob);
+            element.src = url;
+            element.onload = function() { init = true; };
+            element.onerror = function(e) { pushError(e); };
+        }
+
+        if (prev) document.body.removeChild(prev);
+        prev = element;
+    }
+    
+    function restart(script) {
+        console.log('recompiling script');
+        
+        errors = [];
+        
+        var text =  'function update(two, app, panel, context, init) {\n'
+            + script
+            + '}\n';
+        
+        loadjs(text);
+    }
+    
+    var samples = [
+      //{ name: 'ui',                deps: [] },
+        { name: 'depth/texture',     deps: [] },
+      //{ name: 'geom/dynamic',      deps: [] },
+        { name: 'geom/instances',    deps: [] },
+        { name: 'geom/lines',        deps: [] },
+      //{ name: 'geom/points_hw',    deps: [] },
+        { name: 'geom/points',       deps: [] },
+        { name: 'geom/rawshader',    deps: [] },
+        { name: 'geom/selective',    deps: [] },
+        { name: 'geom/sprites',      deps: ['textures/sprites/circle.png'] },
+        { name: 'hierarchy',         deps: [] },
+        { name: 'hierarchy2',        deps: [] },
+        { name: 'light/hemisphere',  deps: ['models/Flamingo.glb'] },
+        { name: 'light/point',       deps: ['textures/disturb.jpg'] },
+        { name: 'lines/dashed',      deps: [] },
+        { name: 'lines/fat',         deps: [] },
+        { name: 'loader/gltf',       deps: ['textures/cube/bridge.jpg.cube',
+                                            'textures/cube/bridge/px.jpg', 'textures/cube/bridge/nx.jpg', 'textures/cube/bridge/py.jpg',
+                                            'textures/cube/bridge/ny.jpg', 'textures/cube/bridge/pz.jpg', 'textures/cube/bridge/nz.jpg',
+                                            'models/DamagedHelmet.gltf',
+                                            'models/DamagedHelmet.bin',
+                                            'models/DamagedHelmet/Default_albedo.jpg',
+                                            'models/DamagedHelmet/Default_AO.jpg',
+                                            'models/DamagedHelmet/Default_emissive.jpg',
+                                            'models/DamagedHelmet/Default_metalRoughness.jpg',
+                                            'models/DamagedHelmet/Default_normal.jpg'] },
+        { name: 'loader/ply',        deps: ['models/dolphins.ply',
+                                            'models/Lucy100k.ply'] },
+        { name: 'marchingcubes',     deps: [] },
+        { name: 'material/array',    deps: ['textures/cube/pisaHDR.hdr.cube',
+                                            'textures/cube/pisaHDR/px.hdr', 'textures/cube/pisaHDR/nx.hdr', 'textures/cube/pisaHDR/py.hdr',
+                                            'textures/cube/pisaHDR/ny.hdr', 'textures/cube/pisaHDR/pz.hdr', 'textures/cube/pisaHDR/nz.hdr'] },
+        { name: 'material/cubemap',  deps: ['textures/cube/royal.jpg.cube',
+                                            'textures/cube/royal/px.jpg', 'textures/cube/royal/nx.jpg', 'textures/cube/royal/py.jpg',
+                                            'textures/cube/royal/ny.jpg', 'textures/cube/royal/pz.jpg', 'textures/cube/royal/nz.jpg',
+                                            'models/WaltHead.obj',
+                                            'models/WaltHead.mtl'] },
+        { name: 'material/displace', deps: ['textures/cube/royal.jpg.cube',
+                                            'textures/cube/royal/px.jpg', 'textures/cube/royal/nx.jpg', 'textures/cube/royal/py.jpg',
+                                            'textures/cube/royal/ny.jpg', 'textures/cube/royal/pz.jpg', 'textures/cube/royal/nz.jpg',
+                                            'models/ninjaHead_Low.obj',
+                                            'textures/ninja/ao.jpg',
+                                            'textures/ninja/normal.jpg',
+                                            'textures/ninja/displacement.jpg'] },
+        { name: 'material/skin',     deps: ['models/LeePerrySmith.glb',
+                                            'textures/LeePerrySmith/Diff.jpg',
+                                            'textures/LeePerrySmith/Norm.jpg'] },
+        { name: 'material/three',    deps: ['textures/cube/pisaHDR.hdr.cube',
+                                            'textures/cube/pisaHDR/px.hdr', 'textures/cube/pisaHDR/nx.hdr', 'textures/cube/pisaHDR/py.hdr',
+                                            'textures/cube/pisaHDR/ny.hdr', 'textures/cube/pisaHDR/pz.hdr', 'textures/cube/pisaHDR/nz.hdr',
+                                            'models/Cerberus.obj',
+                                            'textures/cerberus/Cerberus_A.jpg',
+                                            'textures/cerberus/Cerberus_N.jpg',
+                                            'textures/cerberus/Cerberus_RM.jpg'] },
+        { name: 'material/scatter',  deps: ['models/bunny.obj',
+                                            'textures/bunny_thickness.jpg'] },
+        { name: 'perf',              deps: [] },
+        { name: 'perf/twosided',     deps: ['textures/cube/royal.jpg.cube',
+                                            'textures/cube/royal/px.jpg', 'textures/cube/royal/nx.jpg', 'textures/cube/royal/py.jpg',
+                                            'textures/cube/royal/ny.jpg', 'textures/cube/royal/pz.jpg', 'textures/cube/royal/nz.jpg'] },
+        { name: 'effect',            deps: [] },
+        { name: 'effect/bloom',      deps: ['models/PrimaryIonDrive.glb'] },
+        { name: 'effect/dof',        deps: ['textures/cube/royal.jpg.cube',
+                                            'textures/cube/royal/px.jpg', 'textures/cube/royal/nx.jpg', 'textures/cube/royal/py.jpg',
+                                            'textures/cube/royal/ny.jpg', 'textures/cube/royal/pz.jpg', 'textures/cube/royal/nz.jpg'] },
+      //{ name: 'effect/glitch',     deps: [] },
+        { name: 'effect/godrays',    deps: ['models/tree.obj'] },
+        { name: 'effect/halftone',   deps: [] },
+      //{ name: 'effect/sao',        deps: [] },
+        { name: 'effect/sobel',      deps: [] },
+        { name: 'post/fxaa',         deps: [] },
+        { name: 'cubemap/dynamic',   deps: ['textures/cabin.jpg'] },
+        { name: 'refraction/mesh',   deps: ['textures/cube/park.jpg.cube',
+                                            'textures/cube/park/px.jpg', 'textures/cube/park/nx.jpg', 'textures/cube/park/py.jpg',
+                                            'textures/cube/park/ny.jpg', 'textures/cube/park/pz.jpg', 'textures/cube/park/nz.jpg',
+                                            'models/Lucy100k.ply'] },
+        { name: 'refraction/balls',  deps: ['textures/cube/park.jpg.cube',
+                                            'textures/cube/park/px.jpg', 'textures/cube/park/nx.jpg', 'textures/cube/park/py.jpg',
+                                            'textures/cube/park/ny.jpg', 'textures/cube/park/pz.jpg', 'textures/cube/park/nz.jpg'] },
+        { name: 'shader',            deps: [] },
+        { name: 'shader/lava',       deps: ['textures/lava/cloud.png',
+                                            'textures/lava/lavatile.jpg'] },
+      //{ name: 'shader/ocean',      deps: [] },
+        { name: 'shadow/point',      deps: [] },
+        { name: 'tiled/forward',     deps: ['models/WaltHead.obj',
+                                            'models/WaltHead.mtl'] },
+        { name: 'clustered',         deps: ['models/WaltHead.obj',
+                                            'models/WaltHead.mtl'] },
+    ];
+    
+    function findSample(name) {
+        for(var i = 0; i < samples.length; ++i) {
+            if(samples[i].name == name) {
+                return samples[i];
+            }
+        }
+    }
+    
+    samples.forEach(function(sample) {
+        sample.file = sample.name.replace('/', '_');
+        
+        var node = document.createElement('li');
+        node.className = 'navbutton';
+        node.onclick = function(event) {
+            console.log(sample.file);
+            select(sample);
+        };
+        
+        var textnode = document.createTextNode(sample.name);
+        node.appendChild(textnode);
+        
+        document.querySelector("#side-nav").appendChild(node);
+    });
+    
+    var ready = false;
+    var started = false;
+    
+    function startSamples() {
+        started = true;
+        if(ready) {
+            start(two);
+            select(findSample('light/point'));
+            
+            var status = document.querySelector('#status');
+            status.parentNode.removeChild(status);
+        }
+    }
+    
+    two.onRuntimeInitialized = function() {
+        ready = true;
+        if(started) {
+            startSamples();
+        }
+    };
+    
+</script>
+
+<script src='editor/monaco/min/vs/loader.js'></script>
+<script>
+    function setTheme(name, path) {
+        fetch(path)
+            .then(data => data.json())
+            .then(theme => {
+                //console.log(theme);
+                monaco.editor.defineTheme(name, theme);
+                monaco.editor.setTheme(name);
+            });
+    }
+    
+    require.config({ paths: { 'vs': 'editor/monaco/min/vs' }});
+    require(['vs/editor/editor.main'], function() {
+    
+        monaco.languages.typescript.javascriptDefaults.setCompilerOptions({ noLib: true, allowNonTsExtensions: true });
+        
+        monaco.languages.registerHoverProvider('javascript', {
+            provideHover: function (model, position) {
+                return {
+                    range: new monaco.Range(1, 1, model.getLineCount(), model.getLineMaxColumn(model.getLineCount())),
+                    contents: []
+                };
+            }
+        });
+        
+        monaco.languages.registerCompletionItemProvider('javascript', {
+            provideCompletionItems: function(model, position) {
+                return { suggestions: [] };
+            }
+        });
+        
+        editor = monaco.editor.create(document.getElementById('editor'), {
+            value: '',
+            language: 'javascript'
+        });
+        
+        setTheme('tomorrow-night', 'editor/themes/Tomorrow-Night.json')
+          
+        editor.getModel().onDidChangeContent((event) => {
+            restart(editor.getValue());
+        });
+    });
+</script>
+
+<script>
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'two.wasm', true)
+    xhr.responseType = 'arraybuffer';
+    xhr.onload = function() {
+        two.wasmBinary = xhr.response;
+        var script = document.createElement('script');
+        script.src = 'two.js';
+        script.onload = function(script){
+            /*two().then(function(two) {
+                start(two);
+            });*/
+        };
+        document.body.appendChild(script);
+    };
+    xhr.send(null);
+</script>
+
+        <!-- Scripts -->
+        <script src="assets/js/prism.js"></script>
+	</body>
+</html>

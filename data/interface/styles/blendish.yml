@@ -1,0 +1,229 @@
+{
+"colours" :
+{
+    "White" : [1, 1, 1, 1],
+    "Black" : [0, 0, 0, 1],
+    "ActiveBlue" : [0.337, 0.502, 0.761, 1],
+    "AlphaGrey" : [1, 1, 1, 0.3],
+    "GreyOverlay" : [0.098, 0.098, 0.098, 0.902],
+    "Grey706" : [0.706, 0.706, 0.706, 1],
+    "Grey650" : [0.650, 0.650, 0.650, 1],
+    "Grey600" : [0.600, 0.600, 0.600, 1],
+    "Grey392" : [0.392, 0.392, 0.392, 1],
+    "Grey335" : [0.335, 0.335, 0.335, 1],
+    "Grey275" : [0.275, 0.275, 0.275, 1],
+    "Grey146" : [0.146, 0.146, 0.146, 1],
+    "Grey090" : [0.090, 0.090, 0.090, 1]
+},
+"styles" :
+[
+    {
+        "selector" : "Item, Label, Title, TextEdit, TypeLabel, TypeZone, SliderDisplay, RadioChoiceItem",
+        "text_colour" : "White",
+        "skin_padding" : [4]
+    },
+    {
+        "selector" : "Blendish, BlendishDark, BlendishClear",
+        "copy_skin" : "Label",
+        "border_colour" : "Grey146",
+        "border_width" : [1],
+        "corner_radius" : [4],
+        "linear_gradient" : [15, -15]
+    },
+    {
+        "selector" : "BlendishDark",
+        "background_colour" : "Grey275"
+    },
+    {
+        "selector" : "BlendishClear",
+        "background_colour" : "Grey600"
+    },
+    {
+        "selector" : "Dockbar, Menubar, WindowHeader, WindowHeaderMovable, WindowFooter, NodeBody",
+        "copy_skin" : "BlendishDark"
+    },
+    {
+        "selector" : "Filler, Slider, Scroller, ScrollerKnob, NumberField",
+        "copy_skin" : "Blendish"
+    },
+    {
+        "selector" : "Checkbox, Toggle, DockToggle, ToolButton, CloseButton, RadioChoice, Dropdown, DropdownInput, TabHeader",
+        "copy_skin" : "BlendishDark",
+        "hovered" : {
+            "background_colour" : "Grey335"
+        }
+    },
+    {
+        "selector" : "Button, Slider, TypeIn, Input<string>, NumberField, TypedownInput",
+        "copy_skin" : "BlendishClear",
+        "hovered" : {
+            "background_colour" : "Grey650"
+        }
+    },
+    {
+        "selector" : "NumberField, Slider, TypeIn, Input<string>, TypedownInput",
+        "linear_gradient" : [0, 25],
+        "focused" : {
+            "background_colour" : "Grey600"
+        }
+    },
+    {
+        "selector" : "Button, Toggle, DockToggle, ToolButton, RadioChoice, Dropdown, DropdownInput, TabHeader",
+        "pressed, selected, active, pressed|active" : {
+            "linear_gradient" : [-15, 15]
+        }
+    },
+    {
+        "selector" : "Toggle, DockToggle, ToolButton, RadioChoice, TabHeader",
+        "active, active|hovered, pressed|hovered" : {
+            "background_colour" : "ActiveBlue"
+        },
+        "active" : {
+            "text_colour" : "Black"
+        }
+    },
+    {
+        "selector" : "DropdownChoice",
+        "text_colour" : "White",
+        "hovered" : {
+            "background_colour" : "ActiveBlue",
+            "linear_gradient" : [-15, 15],
+            "text_colour" : "Black"
+        }
+    },
+    {
+        "selector" : "TabHeader",
+        "border_width" : [0],
+        "corner_radius" : [4, 4, 0, 0]
+    },   
+    {
+        "selector" : "MultiButton, ExpandboxHeader, TreeNodeHeader",
+        "copy_skin" : "Label",
+        "hovered" : {
+            "border_colour" : "AlphaGrey",
+            "border_width" : [2]
+        },
+        "selected" : {
+            "background_colour" : "AlphaGrey"
+        }
+    },
+    {
+        "selector" : "Checkbox",
+        "size" : [16],
+        "active, active|hovered" : {
+            "overlay" : "blendish_check",
+            "skin_padding" : [2, 2, 0, 0]
+        }
+    },
+    {
+        "selector" : "RadioSwitch, ColourSlab, ColourDisplay, ColourToggle",
+        "corner_radius" : [4]
+    },
+    {
+        "selector" : "RadioChoice",
+        "weak_corners" : true
+    },
+    {
+        "selector" : "Slider",
+        "corner_radius" : [10]
+    },
+    {
+        "selector" : "SliderKnob",
+        "flow" : "OVERLAY"
+    },
+    {
+        "selector" : "Filler",
+        "background_colour" : [0.447, 0.447, 0.447, 1],
+        "linear_gradient" : [15, -5],
+        "weak_corners" : true
+    },
+    {
+        "selector" : "Menubar, WindowHeader, WindowHeaderMovable, WindowFooter, NodeBody",
+        "padding" : [4, 2, 4, 2],
+        "weak_corners" : true
+    },
+    {
+        "selector" : "Tab",
+        "corner_radius" : [0, 4, 4, 4]
+    },
+    {
+        "selector" : "DockWindow",
+        "corner_radius" : [3]
+    },
+    {
+        "selector" : "Window, Node",
+        "background_colour" : "Black",
+        "corner_radius" : [10],
+        "shadow" : [2, 2, 7, 2],
+        "selected" : {
+            "shadow" : [0, 0, 7, 2],
+            "shadow_colour" : "Black"
+        }
+    }, 
+    {
+        "selector" : "Node",
+        "padding" : [-5, 0, -5, 0]
+    },
+    {
+        "selector" : "WindowBody",
+        "padding" : [10, 4, 4, 4]
+    },
+    {
+        "selector" : "WindowSizerLeft, WindowSizerRight",
+        "size" : [0, 8]
+    },
+    {
+        "selector" : "CloseButton",
+        "border_width" : [0],
+        "skin_padding" : [2]
+    },
+    {
+        "selector" : "Scroller, ScrollerKnob",
+        "corner_radius" : [6]
+    },
+    {
+        "selector" : "Scroller",
+        "background_colour" : [0.314, 0.314, 0.314, 0.706],
+        "linear_gradient" : [-15, 15]
+    },
+    {
+        "selector" : "ScrollerKnob",
+        "background_colour" : [0.502, 0.502, 0.502, 1],
+        "linear_gradient" : [5, -5],
+        "hovered, pressed" : {
+            "background_colour" : [0.542, 0.542, 0.542, 1]
+        }
+    },
+    {
+        "selector" : "DropdownToggle",
+        "image" : "blendish_updown"
+    },
+    {
+        "selector" : "ExpandboxToggle, TreeNodeToggle",
+        "image" : "arrow_right_15",
+        "active" : {
+            "image" : "arrow_down_15"
+        },
+        "disabled" : {
+            "image" : "empty_15"
+        }
+    },
+    {
+        "selector" : "Tooltip, DropdownList, MenuList, SubMenuList, Popup, ColourPopup",
+        "background_colour" : "GreyOverlay",
+        "text_colour" : [0.627, 0.627, 0.627, 1]
+    }, 
+    {
+        "selector" : "Menubar",
+        "padding" : [8, 2, 8, 2]
+    },
+    {
+        "selector" : "Dockbar, Toolbar, Tab, Header, Scrollbar",
+        "padding" : [6]
+    },
+    {
+        "selector" : "Dockbar, Toolbar, Menubar, Header",
+        "spacing" : [6]
+    }
+]
+}

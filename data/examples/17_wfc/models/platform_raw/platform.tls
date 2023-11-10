@@ -1,0 +1,106 @@
+{
+    "name" : "platform",
+    "tile_size" : [20.0, 20.0, 20.0],
+    "tile_scale" : [0.05, 0.05, 0.05],
+    "tiles" :
+    [
+        {
+            "name" : "empty",
+            "symmetry" : "X",
+            "weight" : 10.0
+        },
+        {
+            "name" : "cube_frame",
+            "symmetry" : "X",
+            "weight" : 1.0
+        },
+        {
+            "name" : "cube_covered",
+            "symmetry" : "X",
+            "weight" : 1.0
+        },
+        {
+            "name" : "cube_covered_angle",
+            "symmetry" : "L",
+            "weight" : 1.0
+        },
+        {
+            "name" : "cube_covered_side",
+            "symmetry" : "T",
+            "weight" : 1.0
+        },
+        {
+            "name" : "corner_frame",
+            "symmetry" : "L",
+            "weight" : 1.0
+        },
+        {
+            "name" : "corner_covered",
+            "symmetry" : "L",
+            "weight" : 1.0
+        },
+        {
+            "name" : "empty_covered",
+            "symmetry" : "X",
+            "weight" : 1.0
+        },
+        {
+            "name" : "empty_covered_hole_angle",
+            "symmetry" : "L",
+            "weight" : 1.0
+        },
+        {
+            "name" : "empty_covered_hole_side",
+            "symmetry" : "T",
+            "weight" : 1.0
+        }
+    ],
+    "neighbors" :
+    [
+        { "tiles" : ["empty", "empty"] },
+        { "tiles" : ["empty", "cube_frame"] },
+        { "tiles" : ["empty", "cube_covered_angle"] },
+        { "tiles" : ["empty", "cube_covered_side" ], "flip" : [0, 3] },
+        { "tiles" : ["empty", "corner_frame"] },
+        { "tiles" : ["empty", "corner_covered"] },
+        { "tiles" : ["empty", "empty_covered_hole_side"], "flip" : [0, 3] },
+        { "tiles" : ["cube_frame", "corner_frame"], "flip" : [0, 1] },
+        { "tiles" : ["cube_frame", "cube_covered_angle"] },
+        { "tiles" : ["cube_frame", "cube_covered_side"], "flip" : [0, 3] },
+        { "tiles" : ["cube_covered", "cube_covered"] },
+        { "tiles" : ["cube_covered", "cube_covered_side"], "flip" : [0, 1] },
+        { "tiles" : ["cube_covered_angle", "cube_covered_angle"], "flip" : [0, 1] },
+        { "tiles" : ["cube_covered_angle", "cube_covered_side"] },
+        { "tiles" : ["cube_covered_side", "cube_covered_side"] },
+        { "tiles" : ["corner_covered", "corner_covered"], "flip" : [0, 1] },
+        { "tiles" : ["corner_covered", "cube_covered_side"] },
+        { "tiles" : ["corner_covered", "cube_covered_angle"], "flip" : [0, 1] },
+        { "tiles" : ["empty_covered", "cube_covered"] },
+        { "tiles" : ["empty_covered", "empty_covered_hole_angle"], "flip" : [0, 1] },
+        { "tiles" : ["empty_covered", "empty_covered_hole_side"], "flip" : [0, 1] },
+        { "tiles" : ["empty_covered_hole_angle", "empty_covered_hole_angle"], "flip" : [0, 1] },
+        { "tiles" : ["empty_covered_hole_angle", "cube_covered"] },
+        { "tiles" : ["empty_covered_hole_side", "empty_covered_hole_side"] },
+        { "tiles" : ["empty_covered_hole_side", "empty_covered_hole_side"], "flip" : [1, 3] },
+        { "tiles" : ["empty_covered_hole_side", "empty_covered_hole_angle"] },
+        
+        { "vertical" : true, "tiles" : ["empty", "empty"] },
+        { "vertical" : true, "tiles" : ["empty", "cube_frame"] },
+        { "vertical" : true, "tiles" : ["empty", "cube_covered"] },
+        { "vertical" : true, "tiles" : ["empty", "cube_covered_angle"] },
+        { "vertical" : true, "tiles" : ["empty", "cube_covered_side"] },
+        { "vertical" : true, "tiles" : ["empty", "corner_frame"] },
+        { "vertical" : true, "tiles" : ["empty", "corner_covered"] },
+        { "vertical" : true, "tiles" : ["empty", "empty_covered"] },
+        { "vertical" : true, "tiles" : ["empty", "empty_covered_hole_angle"] },
+        { "vertical" : true, "tiles" : ["empty", "empty_covered_hole_side"] },
+        
+        { "vertical" : true, "tiles" : ["cube_frame", "cube_frame"] },
+        { "vertical" : true, "tiles" : ["cube_frame", "cube_covered"] },
+        { "vertical" : true, "tiles" : ["cube_frame", "cube_covered_angle"] },
+        { "vertical" : true, "tiles" : ["cube_frame", "cube_covered_side"] },
+        
+        { "vertical" : true, "tiles" : ["corner_frame", "corner_frame"] },
+        { "vertical" : true, "tiles" : ["corner_frame", "corner_covered"] }
+    ]
+}

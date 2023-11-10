@@ -1,0 +1,36 @@
+#include <std/std_detect.h>
+#include <std/preimport.h>
+
+#ifdef __GLIBCXX__
+#define _GLIBCXX_ALGORITHM
+#define _GLIBCXX_BITSET
+#define _GLIBCXX_IOSFWD
+#define _GLIBCXX_ITERATOR
+#define _GLIBCXX_LOCALE
+#define _GLIBCXX_MEMORY
+#define _GLIBCXX_SSTREAM
+#define _GLIBCXX_STACK
+#define _GLIBCXX_STDEXCEPT
+#define _GLIBCXX_STRING
+#define _GLIBCXX_UTILITY
+#define _GLIBCXX_VECTOR
+#define _GLIBCXX_MAP
+#define _GLIBCXX_CSTRING
+#define _GLIBCXX_FUNCTIONAL
+
+#define _GLIBCXX_STD_FUNCTION_H  // <bits/std_function.h>
+#define _ALIGNED_BUFFER_H        // <ext/aligned_buffer.h>
+
+#include <string.h>
+
+#include <debug/debug.h>   // Missing include.
+#endif
+
+export module std.regex;
+import std.core;
+import std.io;
+
+export
+{
+#include <regex>
+}

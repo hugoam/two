@@ -1,0 +1,24 @@
+#include <math/Axes.h>
+#include <math/Axis.h>
+#include <math/Colour.h>
+#include <math/Curve.h>
+#include <math/Forward.h>
+#include <math/Grid.h>
+#include <math/Image.h>
+#include <math/Image256.h>
+#include <math/ImageAtlas.h>
+#include <math/Interp.h>
+#include <math/Math.h>
+#include <math/Random.h>
+#include <math/Range.h>
+#include <math/Stat.h>
+#include <math/Stream.h>
+#include <math/Structs.h>
+#include <math/Timer.h>
+#include <math/Types.h>
+#include <math/Vec.h>
+#include <math/VecJson.h>
+#ifdef TWO_MODULES
+#include <math/Stat.hpp>
+#include <math/Vec.hpp>
+#endif

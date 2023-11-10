@@ -1,0 +1,148 @@
+ {
+ "colours":
+ {
+    "White" : [1, 1, 1, 1]
+ },
+ "styles" :
+ [
+    {
+        "selector" : "Label, Title, Item, TypeIn, TextEdit, TypeLabel, Button, WrapButton, MultiButton, ToolButton, WindowHeader, WindowHeaderMovable, TabHeader, ColumnHeader, SliderDisplay, RadioChoiceItem",
+        "text_colour" : "White",
+        "text_size" : 14,
+        "skin_padding" : [6]
+    },
+    {
+        "selector" : "Button, DropdownInput, Toggle, DockToggle, Menu, ToolButton",
+        "skin_padding" : [8, 4, 8, 4],
+        "image_skin" : ["tbb/button", 12, 12, 12, 12, 7]
+    },
+    {
+        "selector" : "CloseButton",
+        "image" : "tbb/window_close"
+    },
+    {
+        "selector" : "Checkbox",
+        "image" : "tbb/checkbox",
+        "active" : {
+            "overlay" : "tbb/checkbox_active"
+        }
+    },
+    {
+        "selector" : "TypeIn, Input<string>, TypedownInput, List, SelectList",
+        "image_skin" : ["tbb/editfield", 12, 12, 12, 12, 4]
+    },
+    {
+        "selector" : "ExpandboxToggle, TreeNodeToggle",
+        "image" : "tbb/toggle_section_icon",
+        "skin_padding" : [6, 0, 6, 0]
+    },
+    {
+        "selector" : "TabHeader",
+        "image_skin" : ["tbb/tab_button_top", 12, 12, 12, 12, 6]
+    },
+    {
+        "selector" : "RadioChoice",
+        "skin_padding" : [8, 4, 8, 4],
+        "image_skin" : ["tbb/button_grouped_x_middle", 12, 12, 12, 12, 7]
+    },
+    {
+        "selector" : "DropdownToggle",
+        "image" : "tbb/arrow_down"
+    },
+    {
+        "selector" : "Tab, DropdownList, Dockbar",
+        "image_skin" : ["tbb/window", 16, 16, 16, 16, 12]
+    },
+    {
+        "selector" : "Expandbox",
+        "image_skin" : ["tbb/container", 12, 12, 12, 12, 6]
+    },
+    {
+        "selector" : "Window, DockWindow, DockBox, Node",
+        "image_skin" : ["tbb/window", 16, 16, 16, 16, 12],
+        "selected" : {
+            "shadow" : [0, 0, 7, 2],
+            "shadow_colour" : "White"
+        }
+    },
+    {
+        "selector" : "ExpandboxHeader, WindowHeader, WindowHeaderMovable, NodeBody, NodeIn, NodeOut",
+        "padding" : [10, 2, 10, 2],
+        "image_skin" : ["tbb/window_mover_overlay", 7, 7, 7, 7, 3],
+        "commenttile" : "tbb/window_mover_bg_tile"
+    },
+    {
+        "selector" : "WindowFooter",
+        "commentflow" : "OVERLAY",
+        "commentspace" : ["READING", "EXPAND", "EXPAND"]
+    },
+    {
+        "selector" : "WindowSizerLeft",
+        "opacity" : "VOID"
+    },
+    {
+        "selector" : "WindowSizerRight",
+        "image" : "tbb/resizer",
+        "align" : ["RIGHT", "RIGHT"],
+        "skin_align" : ["RIGHT", "RIGHT"]
+    },   
+    {
+        "selector" : "WindowBody",
+        "padding" : [10, 4, 10, 10]
+    },
+    {
+        "selector" : "Dockbox",
+        "image_skin" : ["tbb/frame_shadow", 16, 16, 16, 16, 12]
+    },
+    {
+        "selector" : "ScrollUp, ScrollDown, ScrollLeft, ScrollRight",
+        "image" : "null"
+    },
+    {
+        "selector" : "Scrollbar",
+        "padding" : [8, 0, 0, 0]
+    },
+    {
+        "selector" : "Scroller",
+        "commentsize" : [13, 0],
+        "image_skin" : ["tbb/scroll_bg_y", 11, 11, 11, 11, 5]
+    },
+    {
+        "selector" : "ScrollerKnob",
+        "commentsize" : [13, 0],
+        "image_skin" : ["tbb/scroll_fg_y", 11, 11, 11, 11, 5]
+    
+    },
+    {
+        "selector" : "Slider",
+        "image_skin" : ["tbb/slider_bg_x", 9, 9, 9, 9, 6, "DIM_X"],
+        "align" : ["LEFT", "CENTER"]
+    },
+    {
+        "selector" : "SliderKnob",
+        "image" : "tbb/slider_handle"
+    },
+    {
+        "selector" : "WrapButton, MultiButton, ColumnHeader",
+        "image_skin" : ["tbb/item", 7, 7, 7, 7]
+    },
+    {
+        "selector" : "DropdownChoice",
+        "hovered" : {
+            "image_skin" : ["tbb/item_focused", 7, 7, 7, 7]
+        }
+    },
+    {
+        "selector" : "WrapButton, MultiButton",
+        "decline" : ["hovered", "pressed", "selected"]
+    },
+    {
+        "selector" : "Button, Checkbox, CloseButton, RadioChoice, DropdownInput",
+        "decline" : ["pressed"]
+    },
+    {
+        "selector" : "ExpandboxToggle, TreeNodeTogglen, TabHeader",
+        "decline" : ["active"]
+    }
+]
+}

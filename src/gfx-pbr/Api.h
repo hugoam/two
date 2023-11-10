@@ -1,0 +1,32 @@
+#ifndef TWO_MODULES
+#include <gfx/Node3.h>
+#include <gfx/Graph.h>
+#include <gfx/Scene.h>
+#include <gfx/GfxSystem.h>
+#endif
+#include <gfx-pbr/Forward.h>
+#include <gfx-pbr/Lighting.h>
+#include <gfx-pbr/Lightmap.h>
+#include <gfx-pbr/PipelinePbr.h>
+#include <gfx-pbr/Radiance.h>
+#include <gfx-pbr/ReflectionProbe.h>
+#include <gfx-pbr/ReflectionAtlas.h>
+#include <gfx-pbr/Shadow.h>
+#include <gfx-pbr/ShadowAtlas.h>
+#include <gfx-pbr/ShadowCSM.h>
+#include <gfx-pbr/Types.h>
+#include <gfx-pbr/VoxelGI.h>
+#include <gfx-pbr/Filters/Blur.h>
+#include <gfx-pbr/Filters/DofBlur.h>
+#include <gfx-pbr/Filters/Glow.h>
+#include <gfx-pbr/Filters/Tonemap.h>
+#include <gfx-pbr/Handles.h>
+#ifdef TWO_MODULES
+#include <gfx-pbr/Gpu/Zone.hpp>
+#include <gfx-pbr/Gpu/Light.hpp>
+#include <gfx-pbr/Gpu/VoxelGI.hpp>
+#include <gfx-pbr/Gpu/Blur.hpp>
+#include <gfx-pbr/Gpu/DofBlur.hpp>
+#include <gfx-pbr/Gpu/Glow.hpp>
+#include <gfx-pbr/Gpu/Tonemap.hpp>
+#endif

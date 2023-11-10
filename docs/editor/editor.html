@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8' >
+    <meta charset='utf-8'>
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+        <title>Emscripten-Generated Code</title>
+        <style>
+            .left-half, .right-half, .side-nav { position: absolute; top: 0px; height: 100%; }
+            .side-nav { left: 0px; width: 9em; }
+            .left-half { left: 9em; width: calc(55% - 9em); }
+            .right-half { right: 0px; width: 45%; }
+            .side-nav { color: white; background-color: #1d1f21; font-family: Consolas, 'Courier New', monospace; }
+            .button { padding: 0.2em; font-size: 0.9em; }
+            .button:hover { background-color: #007acc; }
+            .emscripten { padding-right: 0; margin-left: auto; margin-right: auto; display: block; }
+            .app {
+                position: absolute;
+                top: 0px; left: 0px; margin: 0px; border: 0; width: 100%; height: 100%;
+                overflow: hidden;
+                display: block;
+            }
+            textarea.emscripten { font-family: monospace; width: 80%; }
+            div.emscripten { text-align: center; }
+            div.emscripten_border { border: 1px solid black; }
+            canvas.emscripten { border: 0px none; background-color: black; }
+            .spinner {
+                height: 50px; width: 50px; margin: 0px auto;
+                animation: rotation 0.8s linear infinite;
+                border: 10px solid rgb(0,150,240);
+                border-top: 10px solid rgb(100,0,200);
+                border-radius: 100%;
+                background-color: rgb(200,100,250);
+            }
+            @keyframes rotation {
+                from {transform: rotate(0deg);}
+                to {transform: rotate(360deg);}
+            }
+        </style>
+</head>
+<body>
+
+<div id='side-nav' class='side-nav' style="list-style: none;">
+</div>
+
+<div class='left-half'>
+    <canvas class='emscripten app' id='canvas' oncontextmenu='event.preventDefault()'></canvas>
+    <div class='emscripten' id='status'>Downloading...</div>
+    <figure style='overflow:visible;' id='spinner'><div class='spinner'></div></figure>
+    <div class='emscripten'>
+        <progress value='0' max='100' id='progress' hidden=1></progress>    
+    </div>
+</div>
+
+<div class='right-half'>
+    <div id='editor' style='width:100%;height:100%;'></div>
+</div>
+        
+<script type='text/javascript'>
+var statusElement = document.getElementById('status');
+var progressElement = document.getElementById('progress');
+var spinnerElement = document.getElementById('spinner');
+var two = {
+    preRun: [],
+    postRun: [],
+    print: (function() {
+        return function(text) {
+            if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+            console.log(text);
+        };
+    })(),
+    printErr: function(text) {
+        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+        if (0) { // XXX disabled for safety typeof dump == 'function') {
+            dump(text + '\n'); // fast, straight to the real console
+        } else {
+            console.error(text);
+        }
+    },
+    canvas: (function() {
+        var canvas = document.getElementById('canvas');
+        canvas.addEventListener("webglcontextlost", function(e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+        return canvas;
+    })(),
+    setStatus: function(text) {
+        if (!two.setStatus.last) two.setStatus.last = { time: Date.now(), text: '' };
+        if (text === two.setStatus.text) return;
+        var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+        var now = Date.now();
+        if (m && now - Date.now() < 30) return; // if this is a progress update, skip it if too soon
+        if (m) {
+            text = m[1];
+            progressElement.value = parseInt(m[2])*100;
+            progressElement.max = parseInt(m[4])*100;
+            progressElement.hidden = false;
+            spinnerElement.hidden = false;
+        } else {
+            progressElement.value = null;
+            progressElement.max = null;
+            progressElement.hidden = true;
+            if (!text) spinnerElement.hidden = true;
+        }
+        statusElement.innerHTML = text;
+    },
+    totalDependencies: 0,
+    monitorRunDependencies: function(left) {
+        this.totalDependencies = Math.max(this.totalDependencies, left);
+        two.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+    }
+};
+two.setStatus('Downloading...');
+window.onerror = function() {
+    two.setStatus('Exception thrown, see JavaScript console');
+    spinnerElement.style.display = 'none';
+    two.setStatus = function(text) {
+        if (text) two.printErr('[post-exception status] ' + text);
+    };
+};
+</script>
+<script src='moduletwo.js'></script>
+<script type='text/javascript'>
+    var init = true;
+    var editor = null;
+    var app = null;
+    var loaded = {};
+    var errors = [];
+    var context = {};
+    
+    function updateErrors(markers) {
+        model = editor.getModel();
+        monaco.editor.setModelMarkers(model, 'two', markers);
+    }
+    
+    function pushError(e) {
+        var line = 0;
+        var column = 0;
+        var stack = e.stack.split('\n');
+        
+        var location;
+        if(window.chrome) {
+            var level = stack.find(l => l.indexOf('at update (') !== -1);
+            var start = level.indexOf('(') + 1;
+            var end   = level.indexOf(')', start);
+            location = level.substring(start, end);
+        }
+        else {
+            var level = stack.find(l => l.indexOf('update@') !== -1);
+            location = level.substring(level.indexOf('update@'));
+            //line = e.lineNumber;
+            //column = e.columnNumber;
+        }
+        
+        var elems = location.split(':');
+        line   = parseInt(elems[elems.length - 2]);
+        column = parseInt(elems[elems.length - 1]);
+        
+        console.error(e);
+        
+        var marker = {
+            startColumn: column, endColumn: column+1,
+            startLineNumber: line-1, endLineNumber: line-1,
+            message: 'error (' + line.toString() + ':' + column.toString() + '): ' + e.message,
+            severity: monaco.MarkerSeverity.Error
+        };
+        
+        errors.push(marker);
+    }
+    
+    function render(two, app, win) {
+        app.begin_frame();
+        var panel = win.ui.begin();
+        if (init) {
+            panel.clear();
+        }
+        if (typeof update !== 'undefined') {
+            try {
+                update(two, app, panel, context, init);
+            }
+            catch(e) {
+                pushError(e);
+            }
+            init = false;
+        }
+        app.end_frame();
+        
+        updateErrors(errors);
+        
+        window.requestAnimationFrame(function() {
+            render(two, app, win);
+        });
+    }
+    
+    function start(two) {
+        console.log('run app');
+        app = new two.Shell('/data/', '', false);
+        var win = app.window('two', new two.uvec2(1600, 900), false);
+        //two.gfx.setup_pipeline_minimal(app.gfx);
+        two.gfx.setup_pipeline_pbr(app.gfx);
+        render(two, app, win);
+    }
+    
+    function load(sample) {
+        console.log('load script ' + sample.file)
+        fetch('xx_three/' + sample.file + '.js')
+            .then(response => response.text())
+            .then((script) => {
+                //console.log(script);
+                editor.setValue(script);
+            });
+    }
+    
+    function select(sample) {
+        var urls = [];
+        for(var i = 0; i < sample.deps.length; ++i) {
+            var path = sample.deps[i];
+            if(!(path in loaded))
+                urls.push('data/xx_three/' + path);
+        }
+        
+        Promise.all(urls.map(url => fetch(url).then(resp => resp.arrayBuffer())))
+        .then(buffers => {
+            for(var i = 0; i < buffers.length; ++i) {
+                var path = sample.deps[i];
+                var bytes = new Uint8Array(buffers[i]);
+                console.log(['add file', path, bytes]);
+                app.add_file('data/' + path, bytes, true);
+            }
+            load(sample);
+        });
+    }
+    
+    var prev = null;
+    function loadjs(script) {
+
+        var element = document.createElement('script');
+        document.body.appendChild(element);
+        
+        if (false) {
+            var text = document.createTextNode(script);
+            try {
+                element.appendChild(text);
+            }
+            catch(e) {
+                pushError(e);
+            }
+            init = true;
+        }
+        else {
+            var blob = new Blob([script], { type: 'text/javascript' });
+            var url = window.URL.createObjectURL(blob);
+            element.src = url;
+            element.onload = function() { init = true; };
+            element.onerror = function(e) { pushError(e); };
+        }
+
+        if (prev) document.body.removeChild(prev);
+        prev = element;
+    }
+    
+    function restart(script) {
+        console.log('recompiling script');
+        
+        errors = [];
+        
+        var text =  'function update(two, app, panel, context, init) {\n'
+            + script
+            + '}\n';
+        
+        loadjs(text);
+    }
+    
+    var samples = [
+      //{ name: 'ui',                deps: [] },
+        { name: 'depth/texture',     deps: [] },
+      //{ name: 'geom/dynamic',      deps: [] },
+        { name: 'geom/instances',    deps: [] },
+        { name: 'geom/lines',        deps: [] },
+      //{ name: 'geom/points_hw',    deps: [] },
+        { name: 'geom/points',       deps: [] },
+        { name: 'geom/rawshader',    deps: [] },
+        { name: 'geom/selective',    deps: [] },
+        { name: 'geom/sprites',      deps: ['textures/sprites/circle.png'] },
+        { name: 'hierarchy',         deps: [] },
+        { name: 'hierarchy2',        deps: [] },
+        { name: 'light/hemisphere',  deps: ['models/Flamingo.glb'] },
+        { name: 'light/point',       deps: ['textures/disturb.jpg'] },
+        { name: 'lines/dashed',      deps: [] },
+        { name: 'lines/fat',         deps: [] },
+        { name: 'loader/gltf',       deps: ['textures/cube/bridge.jpg.cube',
+                                            'textures/cube/bridge/px.jpg', 'textures/cube/bridge/nx.jpg', 'textures/cube/bridge/py.jpg',
+                                            'textures/cube/bridge/ny.jpg', 'textures/cube/bridge/pz.jpg', 'textures/cube/bridge/nz.jpg',
+                                            'models/DamagedHelmet.gltf',
+                                            'models/DamagedHelmet.bin',
+                                            'models/DamagedHelmet/Default_albedo.jpg',
+                                            'models/DamagedHelmet/Default_AO.jpg',
+                                            'models/DamagedHelmet/Default_emissive.jpg',
+                                            'models/DamagedHelmet/Default_metalRoughness.jpg',
+                                            'models/DamagedHelmet/Default_normal.jpg'] },
+        { name: 'loader/ply',        deps: ['models/dolphins.ply',
+                                            'models/Lucy100k.ply'] },
+        { name: 'marchingcubes',     deps: [] },
+        { name: 'material/array',    deps: ['textures/cube/pisaHDR.hdr.cube',
+                                            'textures/cube/pisaHDR/px.hdr', 'textures/cube/pisaHDR/nx.hdr', 'textures/cube/pisaHDR/py.hdr',
+                                            'textures/cube/pisaHDR/ny.hdr', 'textures/cube/pisaHDR/pz.hdr', 'textures/cube/pisaHDR/nz.hdr'] },
+        { name: 'material/cubemap',  deps: ['textures/cube/royal.jpg.cube',
+                                            'textures/cube/royal/px.jpg', 'textures/cube/royal/nx.jpg', 'textures/cube/royal/py.jpg',
+                                            'textures/cube/royal/ny.jpg', 'textures/cube/royal/pz.jpg', 'textures/cube/royal/nz.jpg',
+                                            'models/WaltHead.obj',
+                                            'models/WaltHead.mtl'] },
+        { name: 'material/displace', deps: ['textures/cube/royal.jpg.cube',
+                                            'textures/cube/royal/px.jpg', 'textures/cube/royal/nx.jpg', 'textures/cube/royal/py.jpg',
+                                            'textures/cube/royal/ny.jpg', 'textures/cube/royal/pz.jpg', 'textures/cube/royal/nz.jpg',
+                                            'models/ninjaHead_Low.obj',
+                                            'textures/ninja/ao.jpg',
+                                            'textures/ninja/normal.jpg',
+                                            'textures/ninja/displacement.jpg'] },
+        { name: 'material/skin',     deps: ['models/LeePerrySmith.glb',
+                                            'textures/LeePerrySmith/Diff.jpg',
+                                            'textures/LeePerrySmith/Norm.jpg'] },
+        { name: 'material/three',    deps: ['textures/cube/pisaHDR.hdr.cube',
+                                            'textures/cube/pisaHDR/px.hdr', 'textures/cube/pisaHDR/nx.hdr', 'textures/cube/pisaHDR/py.hdr',
+                                            'textures/cube/pisaHDR/ny.hdr', 'textures/cube/pisaHDR/pz.hdr', 'textures/cube/pisaHDR/nz.hdr',
+                                            'models/Cerberus.obj',
+                                            'textures/cerberus/Cerberus_A.jpg',
+                                            'textures/cerberus/Cerberus_N.jpg',
+                                            'textures/cerberus/Cerberus_RM.jpg'] },
+        { name: 'material/scatter',  deps: ['models/bunny.obj',
+                                            'textures/bunny_thickness.jpg'] },
+        { name: 'perf',              deps: [] },
+        { name: 'perf/twosided',     deps: ['textures/cube/royal.jpg.cube',
+                                            'textures/cube/royal/px.jpg', 'textures/cube/royal/nx.jpg', 'textures/cube/royal/py.jpg',
+                                            'textures/cube/royal/ny.jpg', 'textures/cube/royal/pz.jpg', 'textures/cube/royal/nz.jpg'] },
+        { name: 'effect',            deps: [] },
+        { name: 'effect/bloom',      deps: ['models/PrimaryIonDrive.glb'] },
+        { name: 'effect/dof',        deps: ['textures/cube/royal.jpg.cube',
+                                            'textures/cube/royal/px.jpg', 'textures/cube/royal/nx.jpg', 'textures/cube/royal/py.jpg',
+                                            'textures/cube/royal/ny.jpg', 'textures/cube/royal/pz.jpg', 'textures/cube/royal/nz.jpg'] },
+      //{ name: 'effect/glitch',     deps: [] },
+        { name: 'effect/godrays',    deps: ['models/tree.obj'] },
+        { name: 'effect/halftone',   deps: [] },
+      //{ name: 'effect/sao',        deps: [] },
+        { name: 'effect/sobel',      deps: [] },
+        { name: 'post/fxaa',         deps: [] },
+        { name: 'cubemap/dynamic',   deps: ['textures/cabin.jpg'] },
+        { name: 'refraction/mesh',   deps: ['textures/cube/park.jpg.cube',
+                                            'textures/cube/park/px.jpg', 'textures/cube/park/nx.jpg', 'textures/cube/park/py.jpg',
+                                            'textures/cube/park/ny.jpg', 'textures/cube/park/pz.jpg', 'textures/cube/park/nz.jpg',
+                                            'models/Lucy100k.ply'] },
+        { name: 'refraction/balls',  deps: ['textures/cube/park.jpg.cube',
+                                            'textures/cube/park/px.jpg', 'textures/cube/park/nx.jpg', 'textures/cube/park/py.jpg',
+                                            'textures/cube/park/ny.jpg', 'textures/cube/park/pz.jpg', 'textures/cube/park/nz.jpg'] },
+        { name: 'shader',            deps: [] },
+        { name: 'shader/lava',       deps: ['textures/lava/cloud.png',
+                                            'textures/lava/lavatile.jpg'] },
+      //{ name: 'shader/ocean',      deps: [] },
+        { name: 'shadow/point',      deps: [] },
+        { name: 'tiled/forward',     deps: ['models/WaltHead.obj',
+                                            'models/WaltHead.mtl'] },
+        { name: 'clustered',         deps: ['models/WaltHead.obj',
+                                            'models/WaltHead.mtl'] },
+    ];
+    
+    function findSample(name) {
+        for(var i = 0; i < samples.length; ++i) {
+            if(samples[i].name == name) {
+                return samples[i];
+            }
+        }
+    }
+    
+    samples.forEach(function(sample) {
+        sample.file = sample.name.replace('/', '_');
+        
+        var node = document.createElement('li');
+        node.className = 'button';
+        node.onclick = function(event) {
+            console.log(sample.file);
+            select(sample);
+        };
+        
+        var textnode = document.createTextNode(sample.name);
+        node.appendChild(textnode);
+        
+        document.querySelector("#side-nav").appendChild(node);
+    });
+    
+    two.onRuntimeInitialized = function() {
+        start(two);
+        select(findSample('light/point'));
+        //select(findSample('ui'));
+    };
+    
+</script>
+
+<script src='monaco/min/vs/loader.js'></script>
+<script>
+    function setTheme(name, path) {
+        fetch(path)
+            .then(data => data.json())
+            .then(theme => {
+                //console.log(theme);
+                monaco.editor.defineTheme(name, theme);
+                monaco.editor.setTheme(name);
+            });
+    }
+    
+    require.config({ paths: { 'vs': 'monaco/min/vs' }});
+    require(['vs/editor/editor.main'], function() {
+        editor = monaco.editor.create(document.getElementById('editor'), {
+            value: '',
+            language: 'javascript'
+        });
+        
+        monaco.languages.registerHoverProvider('javascript', {
+            provideHover: function (model, position) {
+                return {
+                    range: new monaco.Range(1, 1, model.getLineCount(), model.getLineMaxColumn(model.getLineCount())),
+                    contents: []
+                };
+            }
+        });
+        
+        setTheme('tomorrow-night', 'themes/Tomorrow-Night.json')
+          
+        editor.getModel().onDidChangeContent((event) => {
+            restart(editor.getValue());
+        });
+    });
+</script>
+
+<script>
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'two.wasm', true)
+    xhr.responseType = 'arraybuffer';
+    xhr.onload = function() {
+        two.wasmBinary = xhr.response;
+        var script = document.createElement('script');
+        script.src = 'two.js';
+        script.onload = function(script){
+            /*two().then(function(two) {
+                start(two);
+            });*/
+        };
+        document.body.appendChild(script);
+    };
+    xhr.send(null);
+</script>
+
+</body>
+</html>
