@@ -11,7 +11,7 @@
 
 namespace two
 {
-	class Type;
+	export_ class Type;
 
 	export_ template <class T>
 	using unqual_type = remove_cv<remove_reference<T>>;

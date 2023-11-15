@@ -10,10 +10,10 @@
 #include <math/Axis.h>
 #include <math/Forward.h>
 
-#ifndef TWO_MODULES
-#define CONSTEXPR constexpr
-#else
+#if defined TWO_MODULES && defined _MSC_VER
 #define CONSTEXPR
+#else
+#define CONSTEXPR constexpr
 #endif
 
 namespace two
@@ -212,13 +212,13 @@ namespace two
 
 namespace two
 {
-	export_ CONSTEXPR vec3 x3 = { 1.f, 0.f, 0.f };
-	export_ CONSTEXPR vec3 y3 = { 0.f, 1.f, 0.f };
-	export_ CONSTEXPR vec3 z3 = { 0.f, 0.f, 1.f };
+	export_ CONSTEXPR TWO_MATH_EXPORT vec3 x3 = { 1.f, 0.f, 0.f };
+	export_ CONSTEXPR TWO_MATH_EXPORT vec3 y3 = { 0.f, 1.f, 0.f };
+	export_ CONSTEXPR TWO_MATH_EXPORT vec3 z3 = { 0.f, 0.f, 1.f };
 
-	export_ CONSTEXPR quat ZeroQuat = { 0.f, 0.f, 0.f, 1.f };
+	export_ inline CONSTEXPR quat ZeroQuat = { 0.f, 0.f, 0.f, 1.f };
 
-	export_ CONSTEXPR vec4 Rect4 = { 0.f, 0.f, 1.f, 1.f };
+	export_ inline CONSTEXPR vec4 Rect4 = { 0.f, 0.f, 1.f, 1.f };
 
 	export_ inline bool rect_intersects(const vec4& first, const vec4& second)
 	{

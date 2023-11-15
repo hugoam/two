@@ -27,10 +27,8 @@ namespace two
 	using stl::array;
 	using stl::span;
 
-    struct Filepath;
-    struct swallow;
-    class NonCopy;
-    class Movabl;
+    export_ struct Filepath;
+    export_ struct swallow;
 }
 
 #ifdef TWO_META_GENERATOR // #ifdef TWO_META_GENERATOR

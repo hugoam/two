@@ -41,7 +41,7 @@ namespace two
 #define TEXTURE_DEPTH 0
 #endif
 
-	TWO_GFX_EXPORT const bgfx::VertexLayout& vertex_decl(uint32_t vertex_format);
+	export_ TWO_GFX_EXPORT const bgfx::VertexLayout& vertex_decl(uint32_t vertex_format);
 
 	export_ enum class refl_ TextureSampler : unsigned int
 	{

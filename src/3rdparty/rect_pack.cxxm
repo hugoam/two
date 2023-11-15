@@ -1,0 +1,16 @@
+module;
+#include <cstddef>
+#include <cstdlib>
+export module stb.rect_pack;
+
+export
+{
+// Very ugly hack, apparently exporting extern "C" {} block is problematic
+#ifdef __clang__
+#undef __cplusplus
+#endif
+#include <stb_rect_pack.h>
+}
+
+#define STB_RECT_PACK_IMPLEMENTATION
+#include <stb_rect_pack.h>

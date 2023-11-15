@@ -1,0 +1,18 @@
+module;
+#include <cstddef>
+#include <cstdint>
+#include <cstdlib>
+#include <emmintrin.h>
+export module stb.image;
+
+export
+{
+// Very ugly hack, apparently exporting extern "C" {} block is problematic
+#ifdef __clang__
+#undef __cplusplus
+#endif
+#include <stb_image.h>
+}
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>

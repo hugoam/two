@@ -8,7 +8,6 @@ import <memory>;
 
 export
 {
-#define JSON11_STD_MODULES
 #include <json11.hpp>
 }
 

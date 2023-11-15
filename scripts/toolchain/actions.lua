@@ -47,29 +47,18 @@ function write_api(m)
     f:close()
 end
 
-function write_module_xx(m, hack2)
+function write_module_xx(m)
     local p = io.printf
     p("module;")
-    p("#include <cpp/preimport.h>")
+    p("#include <infra/Cpp20.h>")
     p("#include <infra/Config.h>")
     p("")
-    if not hack2 then
-        p("export module " .. m.dotname .. ";")
-    else
-        p("export module TWO(" .. m.dotname2 .. ");")
-    end
-    p("import std.core;")
-  --p("import std.io;")
-    p("import std.threading;")
-    p("import std.regex;")
+    p("export module " .. m.dotname .. ";")
+    p("import std;")
     p("")
     for _, dep in ipairs(m.deps or {}) do
         if dep.cppmodule then
-            if not hack2 then
-                p("export import " .. dep.dotname .. ";")
-            else
-                p("export import TWO(" .. dep.dotname2 .. ");")
-            end
+            p("export import " .. dep.dotname .. ";")
         end
     end
     p("")
@@ -82,21 +71,14 @@ function write_module_xx(m, hack2)
 end
 
 function write_ixx(m)
-	local f, err = io.open(path.join(m.path, m.dotname .. ".ixx"), "wb")
+	local f, err = io.open(path.join(m.path, m.dotname2 .. ".ixx"), "wb")
     io.output(f)
     write_module_xx(m)
     f:close()
 end
 
-function write_ixx2(m)
-	local f, err = io.open(path.join(m.path, m.dotname2 .. ".ixx"), "wb")
-    io.output(f)
-    write_module_xx(m, true)
-    f:close()
-end
-
-function write_mxx(m)
-	local f, err = io.open(path.join(m.path, m.dotname .. ".mxx"), "wb")
+function write_cxxm(m)
+	local f, err = io.open(path.join(m.path, m.dotname2 .. ".cxxm"), "wb")
     io.output(f)
     write_module_xx(m)
     f:close()
@@ -105,9 +87,8 @@ end
 function bootstrap(modules)
     for _, m in ipairs(modules) do
       --write_api(m)
-        write_ixx(m)
-        write_ixx2(m)
-      --write_mxx(m)
+      --write_ixx(m)
+        write_cxxm(m)
     end
 end
 

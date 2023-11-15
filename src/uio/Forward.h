@@ -21,17 +21,14 @@
 
 namespace two
 {
-    enum class EditNestMode : unsigned int;
-    enum class EditorHint : unsigned int;
-    
-    
-    class DispatchItem;
-    struct SectionAction;
-    struct Section;
-    class DispatchSelector;
-    struct EditSpec;
-    class ScriptEditor;
-    class DispatchInput;
+    export_ enum class EditNestMode : unsigned int;
+    export_ enum class EditorHint : unsigned int;
+
+    export_ class DispatchItem;
+    export_ class DispatchSelector;
+    export_ struct EditSpec;
+    export_ class ScriptEditor;
+    export_ class DispatchInput;
 }
 
 #ifdef TWO_META_GENERATOR

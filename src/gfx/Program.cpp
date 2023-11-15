@@ -10,6 +10,11 @@ module;
 #include <bx/readerwriter.h>
 #include <bgfx/bgfx.h>
 #include <gfx/Cpp20.h>
+namespace bgfx
+{
+	int compileShader(int _argc, const char* _argv[]);
+	void getShaderError(char* _outputText, uint16_t& _outputSize);
+}
 module two.gfx;
 #else
 #include <cstring>
@@ -34,13 +39,12 @@ module two.gfx;
 #include <gfx/Shader.h>
 #include <gfx/Renderer.h>
 #include <gfx/Pipeline.h>
-#endif
-
 namespace bgfx
 {
 	int compileShader(int _argc, const char* _argv[]);
 	void getShaderError(char* _outputText, uint16_t& _outputSize);
 }
+#endif
 
 namespace two
 {

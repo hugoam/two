@@ -43,7 +43,6 @@ namespace ui
 
 namespace two
 {
-    export_ enum class Axis : unsigned int;
     export_ enum class FlowAxis : unsigned int;
     export_ enum class Pivot : unsigned int;
     export_ enum class Align : unsigned int;

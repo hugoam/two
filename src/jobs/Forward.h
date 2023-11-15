@@ -9,5 +9,5 @@
 
 namespace two
 {
-	class JobSystem;
+	export_ class JobSystem;
 }

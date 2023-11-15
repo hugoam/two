@@ -4,11 +4,13 @@
 
 #pragma once
 
-#include <stl/string.h>
-#include <infra/Forward.h>
-
+#ifndef TWO_MODULES
 #include <cstdio>
 #include <cassert>
+#endif
+
+#include <stl/string.h>
+#include <infra/Forward.h>
 
 namespace two
 {

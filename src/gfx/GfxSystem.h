@@ -54,10 +54,12 @@ namespace two
 		vector<Viewport*> m_viewports;
 	};
 
-	template <class T_Asset>
+#ifndef TWO_MODULES
+	template <class T>
 	class TPool;
+#endif
 
-	template <class T_Asset>
+	export_ template <class T_Asset>
 	class AssetStore;
 
 	export_ struct LocatedFile

@@ -1,27 +1,52 @@
 -- two library
 -- std module
 
-function std_module(name)
-project("std_" .. name)
-    cxxmodule("std." .. name)
+project("std")
     kind "StaticLib"
-    
+
+    removeflags { "Cpp17" }
+    flags {
+        "CppLatest",
+        "CppModules",
+    }
+
     includedirs {
         path.join(TWO_SRC_DIR),
         path.join(TWO_SRC_DIR, "3rdparty"),
     }
-    
-    files {
-        path.join(TWO_SRC_DIR, "3rdparty/std", "**.h"),
-        path.join(TWO_SRC_DIR, "3rdparty/std", "std.cpp"),
-        path.join(TWO_SRC_DIR, "3rdparty/std", "std." .. name  .. ".mxx"),
-    }
-    
-    return dep("std", name, true)
-end
 
-std = {}
-std.core      = std_module("core")
-std.io        = std_module("io")
-std.regex     = std_module("regex")
-std.threading = std_module("threading")
+    cxxheaderunits {
+        --"cmath",
+        "initializer_list",
+        "atomic",
+        "memory",
+        "tuple",
+        "vector",
+        "string",
+        "set",
+        "map",
+        "unordered_set",
+        "unordered_map",
+        "algorithm",
+        "random",
+        "functional",
+        "thread",
+        "condition_variable",
+        "mutex",
+        "fstream",
+        "iostream",
+        "regex", -- @todo use re2
+    }
+
+    files {
+        path.join(TWO_SRC_DIR, "3rdparty/std", "std.cxxm"),
+    }
+
+    cxxmodules {
+        std = path.join(TWO_SRC_DIR, "3rdparty/std", "std.cxxm"),
+    }
+
+    buildoptions { "-Wno-pragma-system-header-outside-header" }
+
+printf("std")
+std = dep(nil, "std", false)

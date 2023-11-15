@@ -1,8 +1,8 @@
 -- two library
 -- stb 3rdparty module
 
-function stb_module(name)
-local m = dep('stb', name, true)
+function stb_module(name, cppmodule)
+local m = dep('stb', name, cppmodule)
     kind "StaticLib"
     
     includedirs {
@@ -12,12 +12,12 @@ local m = dep('stb', name, true)
     
     files {
         path.join(TWO_3RDPARTY_DIR, "stb", "stb_" .. name .. ".h"),
-        path.join(TWO_SRC_DIR, "3rdparty", "stb_" .. name .. ".cpp"),
-        path.join(TWO_SRC_DIR, "3rdparty", "stb." .. name .. ".mxx"),
     }
-        
-    mxx({ path.join(TWO_SRC_DIR, "3rdparty", "stb_" .. name .. ".cpp") }, m)
-    
+
+    if not cppmodule or not _OPTIONS["cpp-modules"] then
+        files { path.join(TWO_SRC_DIR, "3rdparty", "stb_" .. name .. ".cpp") }
+    end
+
     configuration { "*-gcc*" }
         buildoptions {
             "-Wno-unused-but-set-variable",
@@ -28,5 +28,6 @@ local m = dep('stb', name, true)
 end
 
 stb = {}
-stb.image     = stb_module("image")
-stb.rect_pack = stb_module("rect_pack")
+-- @todo fix module on clang
+stb.image     = stb_module("image", false)
+stb.rect_pack = stb_module("rect_pack", false)

@@ -22,8 +22,8 @@ namespace two
 	constexpr size_t CACHELINE_SIZE = 64;
 #endif
 
-	struct Job;
-	class JobSystem;
+	export_ struct Job;
+	export_ class JobSystem;
 
 	using JobFunc = void(*)(void*, JobSystem&, Job*);
 	using JobStorage = void*[JOB_PADDING];

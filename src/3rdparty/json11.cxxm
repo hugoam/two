@@ -1,0 +1,12 @@
+module;
+#include <cassert>
+#define JSON11_MODULE
+export module json11;
+import std;
+
+export
+{
+#include <json11.hpp>
+}
+
+#include <json11.cpp>

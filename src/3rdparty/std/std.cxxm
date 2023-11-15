@@ -1,0 +1,26 @@
+module;
+export module std;
+
+export import <initializer_list>;
+export import <atomic>;
+export import <memory>;
+export import <tuple>;
+export import <vector>;
+export import <string>;
+export import <set>;
+export import <map>;
+export import <unordered_set>;
+export import <unordered_map>;
+export import <algorithm>;
+export import <random>;
+export import <functional>;
+export import <thread>;
+export import <condition_variable>;
+export import <mutex>;
+export import <fstream>;
+export import <iostream>;
+export import <regex>;
+
+export
+{
+}

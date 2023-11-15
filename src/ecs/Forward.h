@@ -13,15 +13,15 @@
 
 namespace two
 {
-	template <class T> struct ComponentHandle;
-	template <class T> struct EntityHandle;
+	export_ template <class T> struct ComponentHandle;
+	export_ template <class T> struct EntityHandle;
 
-	struct Entity;
-	struct Entt;
-	class OEntt;
-	class ECS;
-	class GridECS;
-	class Complex;
+	export_ struct Entity;
+	export_ struct Entt;
+	export_ class OEntt;
+	export_ class ECS;
+	export_ class GridECS;
+	export_ class Complex;
 }
 
 #ifdef TWO_META_GENERATOR

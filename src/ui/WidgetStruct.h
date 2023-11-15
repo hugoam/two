@@ -33,14 +33,14 @@ namespace two
 		Widget(Widget* parent, void* identity);
 		~Widget();
 
-		meth_ bool focused() { return (m_state & FOCUSED) != 0; }
-		meth_ bool hovered() { return (m_state & HOVERED) != 0; }
-		meth_ bool pressed() { return (m_state & PRESSED) != 0; }
-		meth_ bool activated() { return (m_state & ACTIVATED) != 0; }
-		meth_ bool active() { return (m_state & ACTIVE) != 0; }
-		meth_ bool selected() { return (m_state & SELECTED) != 0; }
-		meth_ bool modal() { return (m_state & FOCUSED) != 0; }
-		meth_ bool closed() { return (m_state & CLOSED) != 0; }
+		meth_ inline bool focused() { return (m_state & FOCUSED) != 0; }
+		meth_ inline bool hovered() { return (m_state & HOVERED) != 0; }
+		meth_ inline bool pressed() { return (m_state & PRESSED) != 0; }
+		meth_ inline bool activated() { return (m_state & ACTIVATED) != 0; }
+		meth_ inline bool active() { return (m_state & ACTIVE) != 0; }
+		meth_ inline bool selected() { return (m_state & SELECTED) != 0; }
+		meth_ inline bool modal() { return (m_state & FOCUSED) != 0; }
+		meth_ inline bool closed() { return (m_state & CLOSED) != 0; }
 
 		meth_ UiWindow& ui_window();
 		meth_ Ui& ui();
@@ -52,16 +52,16 @@ namespace two
 
 		meth_ void toggle_state(WidgetState state);
 
-		meth_ void disable_state(WidgetState state) { if(m_state & state) this->toggle_state(state); }
-		meth_ void set_state(WidgetState state, bool enabled) { enabled ? enable_state(state) : disable_state(state); }
-		meth_ void enable_state(WidgetState state) { if(!(m_state & state)) this->toggle_state(state); }
+		meth_ inline void disable_state(WidgetState state) { if(m_state & state) this->toggle_state(state); }
+		meth_ inline void set_state(WidgetState state, bool enabled) { enabled ? enable_state(state) : disable_state(state); }
+		meth_ inline void enable_state(WidgetState state) { if(!(m_state & state)) this->toggle_state(state); }
 
-		meth_ void clear_focus() { this->parent_modal().set_modal(nullptr, device_mask(DeviceType::Keyboard)); }
-		meth_ void take_focus() { if(!this->modal()) this->take_modal(device_mask(DeviceType::Keyboard)); }
-		meth_ void yield_focus() { this->yield_modal(); }
+		meth_ inline void clear_focus() { this->parent_modal().set_modal(nullptr, device_mask(DeviceType::Keyboard)); }
+		meth_ inline void take_focus() { if(!this->modal()) this->take_modal(device_mask(DeviceType::Keyboard)); }
+		meth_ inline void yield_focus() { this->yield_modal(); }
 
-		meth_ void take_modal(uint32_t device_filter = uint32_t(DeviceMask::All)) { this->parent_modal().set_modal(this, device_filter); }
-		meth_ void yield_modal() { this->parent_modal().set_modal(nullptr, 0); }
+		meth_ inline void take_modal(uint32_t device_filter = uint32_t(DeviceMask::All)) { this->parent_modal().set_modal(this, device_filter); }
+		meth_ inline void yield_modal() { this->parent_modal().set_modal(nullptr, 0); }
 
 		void set_modal(Widget* widget, uint32_t device_filter);
 
@@ -94,8 +94,8 @@ namespace two
 
 		Widget& layer();
 
-		bool once() { if((m_state & CREATED) != 0) { disable_state(CREATED); return true; } return false; }
-		Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 }) { if(!m_frame.d_style) { m_frame.solver(style, length, index); m_open = open; } return *this; }
+		inline bool once() { if((m_state & CREATED) != 0) { disable_state(CREATED); return true; } return false; }
+		inline Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 }) { if(!m_frame.d_style) { m_frame.solver(style, length, index); m_open = open; } return *this; }
 	};
 
 namespace ui

@@ -3,6 +3,9 @@
 #include <infra/Config.h>
 
 export_ namespace stl
+{}
+
+namespace stl
 {
 	export_ template <bool Test, class T = void>
 	struct enable_if_base {};
@@ -143,17 +146,17 @@ export_ namespace stl
 	constexpr bool __is_invocable_impl<Result, Ret, void_t<typename Result::type>>
 		= is_void<Ret> || is_same<typename Result::type, Ret>; //is_convertible<typename Result::type, Ret>>::type
 
-	template<class F, class... Args>
+	export_ template<class F, class... Args>
 	constexpr bool is_invocable = __is_invocable_impl<invoke_result<F, Args...>, void>;
 
-	template<class Ret, class F, class... Args>
+	export_ template<class Ret, class F, class... Args>
 	constexpr bool is_invocable_r = __is_invocable_impl<invoke_result<F, Args...>, Ret>;
 
 #elif 0
-	template <class, class T, class... Args>
+	export_ template <class, class T, class... Args>
 	constexpr bool is_invocable = false;
 
-	template <class T, class... Args>
+	export_ template <class T, class... Args>
 	constexpr bool is_invocable<void_t<decltype(declval<T>()(declval<Args>()...))>, T, Args...> = true;
 #elif 1
 	template <class F, class... Args>
@@ -167,7 +170,7 @@ export_ namespace stl
 		static constexpr bool value = decltype(test<F>(0))::value;
 	};
 
-	template <class, class T, class... Args>
+	export_ template <class, class T, class... Args>
 	constexpr bool is_invocable = is_invocable_base<T, Args...>::value;
 #endif
 

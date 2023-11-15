@@ -243,10 +243,8 @@ namespace two
 	using stl::array;
 	using stl::span;
 
-    struct Filepath;
+    export_ struct Filepath;
     struct swallow;
-    class NonCopy;
-    class Movabl;
 }
 
 #ifdef TWO_META_GENERATOR // #ifdef TWO_META_GENERATOR
@@ -353,21 +351,6 @@ namespace two
 }
 
 
-#include <stdint.h>
-#include <stl/limits.h>
-
-
-
-namespace two
-{
-	export_ class TWO_INFRA_EXPORT NonCopy
-	{
-	public:
-		NonCopy() {}
-		NonCopy(const NonCopy&) = delete;
-		NonCopy& operator=(const NonCopy&) = delete;
-	};
-}
 //#include <infra/Arena.h>
 
 

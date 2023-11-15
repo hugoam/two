@@ -680,7 +680,7 @@ namespace clgen
 		auto s = [&](const string& s) { i--; write_line(t, i, s); i++; };
 
 		p("module;");
-		p("#include <cpp/preimport.h>");
+		p("#include <infra/Cpp20.h>");
 		p("#include <infra/Config.h>");
 		p("");
 		p("export module " + to_upper(m.m_namespace) + "(" + m.m_dotname + ");");
@@ -703,7 +703,7 @@ namespace clgen
 		auto s = [&](const string& s) { i--; write_line(t, i, s); i++; };
 
 		p("module;");
-		p("#include <cpp/preimport.h>");
+		p("#include <infra/Cpp20.h>");
 		p("#include <infra/Config.h>");
 		p("");
 		p("export module " + to_upper(m.m_namespace) + "2(" + m.m_dotname + ", meta);");

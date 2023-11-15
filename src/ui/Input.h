@@ -33,10 +33,10 @@ namespace ui
 	export_ TWO_UI_EXPORT func_ bool drag_float(Widget& parent, float& value, float step = 0.1f);
 	
 	export_ template <class T>
-	inline enable_if<!is_number<T>, bool> input(Widget& parent, T& value);
+	enable_if<!is_number<T>, bool> input(Widget& parent, T& value);
 
 	export_ template <class T>
-	inline enable_if<is_number<T>, bool> input(Widget& parent, T& value, StatDef<T> def = {});
+	enable_if<is_number<T>, bool> input(Widget& parent, T& value, StatDef<T> def = {});
 
 	export_ TWO_UI_EXPORT func_ bool float2_input(Widget& parent, span<cstring> labels, span<float> vals, StatDef<float> def = { limits<float>::min(), limits<float>::max(), 0.01f });
 	export_ TWO_UI_EXPORT func_ bool float3_input(Widget& parent, span<cstring> labels, span<float> vals, StatDef<float> def = { limits<float>::min(), limits<float>::max(), 0.01f });
@@ -98,8 +98,8 @@ namespace ui
 	export_ func_ inline bool color_field(Widget& parent, cstring name, Colour& value, bool reverse = false) { return do_field([&](Widget& self) { return color_toggle_edit(self, value); }, parent, name, reverse); }
 	export_ func_ inline void color_display_field(Widget& parent, cstring name, const Colour& value, bool reverse = false) { do_field([&](Widget& self) { color_display(self, value); return false; }, parent, name, reverse); }
 
-	template <> func_ bool input<bool>(Widget& parent, bool& value);
-	template <> func_ bool input<string>(Widget& parent, string& value);
+	export_ template <> func_ bool input<bool>(Widget& parent, bool& value);
+	export_ template <> func_ bool input<string>(Widget& parent, string& value);
 
 #ifndef TWO_META_GENERATOR
 	export_ func_ extern template bool input<int>(Widget& parent, int& value, StatDef<int> def);

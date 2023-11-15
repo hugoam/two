@@ -21,7 +21,6 @@
 #include <infra/Global.h>
 #include <infra/Limits.h>
 #include <infra/Log.h>
-#include <infra/NonCopy.h>
 #include <infra/Pragma.h>
 #include <infra/Reverse.h>
 #include <infra/StringOps.h>

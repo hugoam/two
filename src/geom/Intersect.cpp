@@ -18,24 +18,6 @@ module two.geom;
 #include <geom/Aabb.h>
 #endif
 
-#ifdef TWO_MODULES
-// TODO (hugoam) modules FUCK THIS SHIT
-namespace two
-{
-	namespace
-	{
-		template <class T>
-		inline void swap(T& t1, T& t2)
-		{
-			T temp = move(t1);
-			t1 = move(t2);
-			t2 = move(temp);
-		}
-	}
-}
-
-#endif
-
 namespace two
 {
 	float ray_aabb_intersection_dist(const vec3& bmin, const vec3& bmax, const Ray& ray)

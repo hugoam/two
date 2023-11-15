@@ -20,7 +20,7 @@ namespace two
 		virtual void clear() = 0;
 	};
 
-	template <class T>
+	export_ template <class T>
 	class SparsePool;
 
 	export_ template <class T>
@@ -45,7 +45,7 @@ namespace two
 		uint32_t m_handle = UINT32_MAX;
 	};
 
-	template <class T>
+	export_ template <class T>
 	struct OwnedHandle;
 
 	template <class T>

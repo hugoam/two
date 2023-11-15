@@ -31,7 +31,7 @@ namespace bx
 
 namespace two
 {
-	class BgfxSystem;
+	export_ class BgfxSystem;
 
 #if defined TWO_CONTEXT_GLFW
 	export_ class TWO_BGFX_EXPORT BgfxContext : public GlfwContext

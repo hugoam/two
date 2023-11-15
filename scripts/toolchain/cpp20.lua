@@ -14,9 +14,9 @@ function modules(m)
     removeflags { "Cpp17" }
     flags {
         "CppLatest",
-        --"CppModules",
+        "CppModules",
     }
-    
+
     defines { "_CRT_NO_VA_START_VALIDATION" }
 
     if _ACTION == "vs2017"
@@ -27,31 +27,23 @@ function modules(m)
             path.join(m.path, m.dotname2 .. ".ixx"),
         }
     else
-        files {
-            path.join(m.path, m.dotname .. ".mxx"),
-        }
-        
-        links {
-            "std_core",
-            "std_io",
-            "std_threading",
-            "std_regex",
-        }
-    end
-end
+        if not m.nomodule then
+            local cxxmodule = path.join(m.path, m.dotname2 .. ".cxxm")
+            files { cxxmodule }
+            local modules = {}
+            modules[m.dotname] = cxxmodule
+            cxxmodules(modules)
 
-function mxx(cpps, m)
-    if not _OPTIONS["cpp-modules"] then
-        return
-    end
-    
-    local cxxmodules = {}
+            --cxxmodules {
+            --    path.join(m.path, m.dotname2 .. ".cxxm"),
+            --}
 
-    for _, cpp in ipairs(cpps) do
-        local relcpp = path.getrelative(TWO_DIR, cpp)
-      --print("module for " .. relcpp .. " = " .. m.dotname)
-        cxxmodules[relcpp] = m.dotname
-    end
+            buildoptions {
+                "-Wno-include-angled-in-module-purview",
+                "-Wno-experimental-header-units",
+            }
+        end
 
-    cxxmodule(cxxmodules)
+        links { "std" }
+    end
 end

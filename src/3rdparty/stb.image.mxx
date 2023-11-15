@@ -1,8 +1,0 @@
-#include <cpp/preimport.h>
-
-export module stb.image;
-
-export
-{
-#include <stb_image.h>
-}

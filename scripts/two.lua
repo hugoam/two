@@ -1,13 +1,12 @@
 -- two library
 
 function two_module()
-    configuration { "cpp-modules" }
+    if _OPTIONS["cpp-modules"] then
         defines {
             "TWO_MODULES",
             "TWO_STD_MODULES",
         }
-
-    configuration {}
+    end
 
     if _OPTIONS["webcompile"] then
         configuration { "wasm*" }

@@ -14,7 +14,7 @@
 
 namespace two
 {
-	struct ShellContext;
-	class ShellWindow;
-    class Shell;
+	export_ struct ShellContext;
+	export_ class ShellWindow;
+    export_ class Shell;
 }

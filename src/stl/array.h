@@ -10,7 +10,7 @@
 
 namespace stl
 {
-	template<typename T, size_t N>
+	export_ template<typename T, size_t N>
 	constexpr size_t array_size(T(&a)[N]) { UNUSED(a); return N; }
 
 	export_ template <class T, size_t Size>

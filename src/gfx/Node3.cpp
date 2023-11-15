@@ -90,8 +90,6 @@ namespace two
 		//printf("orientation %f, %f, %f, %f\n", m_rotation.x, bone.m_rotation.y, bone.m_rotation.z, bone.m_rotation.w);)
 	}
 
-	static uint16_t s_node_index = 0;
-
 	Node3::Node3()
 	{}
 

@@ -1,7 +1,7 @@
 module;
-#include <cpp/preimport.h>
+#include <infra/Cpp20.h>
 
-export module rect_pack;
+export module stb.rect_pack;
 
 export
 {

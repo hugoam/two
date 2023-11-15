@@ -16,6 +16,6 @@
 
 namespace two
 {
-    class BgfxContext;
-    class BgfxSystem;
+    export_ class BgfxContext;
+    export_ class BgfxSystem;
 }

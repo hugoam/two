@@ -1,0 +1,12 @@
+module;
+#include <infra/Cpp20.h>
+#include <infra/Config.h>
+
+#include <cmath>
+
+export module two.infra;
+
+import std;
+
+#include <infra/Api.h>
+

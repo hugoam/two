@@ -115,7 +115,7 @@ namespace two
 		void spawn(float dt);
 		uint32_t render(const SpriteAtlas& atlas, const mat4& view, const vec3& eye, uint32_t first, uint32_t max, ParticleSort* outSort, ParticleVertex* outVertices);
 
-		inline void write_vertex(ParticleVertex*& dest, ParticleVertex vertex);
+		void write_vertex(ParticleVertex*& dest, ParticleVertex vertex);
 
 		float m_time = 0.0f;
 		float m_dt = 0.0f;

@@ -6,7 +6,6 @@
 
 #include <infra/Cpp20.h>
 #ifdef TWO_MODULES
-#define _GLIBCXX_TYPE_TRAITS
 #include <xmmintrin.h>
 #include <bx/bx.h>
 #include <bgfx/bgfx.h>

@@ -13,7 +13,7 @@ namespace two
 {
 	export_ constexpr unsigned int c_max_types = 1000U;
 
-	class Type;
+	export_ class Type;
 
 	export_ template <class T>
 	Type& type();

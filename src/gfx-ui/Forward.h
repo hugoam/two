@@ -30,14 +30,14 @@ namespace ui
 namespace two
 {
 	class Object;
-    class SpaceSheet;
-    struct ViewerStyles;
-    class ViewerController;
-    class Viewer;
-    class SceneViewer;
-    class OrbitController;
-    class TrackballController;
-    class FreeOrbitController;
-	class OrbitControls;
-    class SpaceViewport;
+    export_ class SpaceSheet;
+    export_ struct ViewerStyles;
+    export_ class ViewerController;
+    export_ class Viewer;
+    export_ class SceneViewer;
+    export_ class OrbitController;
+    export_ class TrackballController;
+    export_ class FreeOrbitController;
+	export_ class OrbitControls;
+    export_ class SpaceViewport;
 }

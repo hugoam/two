@@ -27,8 +27,6 @@ function dep(namespace, name, cppmodule, usage_decl, deps)
         kind = "StaticLib",
     }
 
-    two_module()
-
     if cppmodule then
         modules(m)
     end
@@ -154,17 +152,14 @@ function decl(m)
             path.join(m.path, "**.cpp"),
         }
     end
-    
-    local cpps = os.matchfiles(path.join(m.path, "**.cpp"))
-    mxx(cpps, m)
-    
+
     defines { m.idname:upper() .. "_LIB" }
     defines { m.idname:upper() .. "_EXPORT=TWO_EXPORT" }
-    
+
     --vpaths { [name] = { "**.h", "**.cpp" } }
-    
+
     modules(m)
-    
+
     if m.self_decl then
         m.self_decl()
     end
