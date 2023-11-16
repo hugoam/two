@@ -708,6 +708,7 @@ function toolchain(_buildDir, _libDir)
 		buildoptions { "-m64" }
 
 	configuration { "linux-clang" }
+		linkoptions { "-fuse-ld=lld" }
 
 	configuration { "linux-gcc-6" }
 		buildoptions {

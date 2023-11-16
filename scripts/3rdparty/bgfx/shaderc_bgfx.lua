@@ -272,8 +272,8 @@ project "glslang"
 		buildoptions {
 			"-Wno-ignored-qualifiers",
 			"-Wno-implicit-fallthrough",
-			"-Wno-logical-op",
-			"-Wno-maybe-uninitialized",
+			--"-Wno-logical-op",
+			--"-Wno-maybe-uninitialized",
 			"-Wno-missing-field-initializers",
 			"-Wno-reorder",
 			"-Wno-return-type",

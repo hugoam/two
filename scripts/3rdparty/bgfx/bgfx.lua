@@ -69,7 +69,7 @@ project "bimg_encode"
     configuration { "mingw* or linux or osx or wasm*" }
         buildoptions {
             "-Wno-undef",
-            "-Wno-class-memaccess",
+            --"-Wno-class-memaccess",
         }
 
     configuration { "osx or *-clang* or wasm*" }

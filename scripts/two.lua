@@ -35,13 +35,16 @@ if not _OPTIONS["compile-only"] then
     dofile(path.join(TWO_DIR, "scripts/3rdparty/lua.lua"))
     dofile(path.join(TWO_DIR, "scripts/3rdparty/wren.lua"))
     dofile(path.join(TWO_DIR, "scripts/3rdparty/mikktspace.lua"))
-    dofile(path.join(TWO_DIR, "scripts/3rdparty/zeromq.lua"))
     dofile(path.join(TWO_DIR, "scripts/3rdparty/vg.lua"))
     dofile(path.join(TWO_DIR, "scripts/3rdparty/bgfx/bgfx.lua"))
     group "3rdparty"
     dofile(path.join(TWO_DIR, "scripts/3rdparty/meshoptimizer.lua"))
     dofile(path.join(TWO_DIR, "scripts/3rdparty/xatlas.lua"))
     dofile(path.join(TWO_DIR, "scripts/3rdparty/fastnoise.lua"))
+
+    if _OPTIONS["tools"] then
+        dofile(path.join(TWO_DIR, "scripts/3rdparty/zeromq.lua"))
+    end
 
     if _OPTIONS["culling"] then
         dofile(path.join(TWO_DIR, "scripts/3rdparty/culling.lua"))
