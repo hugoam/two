@@ -145,13 +145,13 @@ namespace two
 
 			if(refl)
 			{
-				Module& refl = push(m_modules, root, dist, nemespace, name + ".refl");
+				Module& meta = push(m_modules, root, dist, nemespace, name + ".meta");
 
 				string meta_h = "meta/" + replace(name, "-", ".") + ".meta.h";
 				string conv_h = "meta/" + replace(name, "-", ".") + ".conv.h";
 				string meta_cpp = "meta/" + replace(name, "-", ".") + ".meta.cpp";
 
-				refl.m_files = { meta_h, conv_h, meta_cpp };
+				meta.m_files = { meta_h, conv_h, meta_cpp };
 			}
 		}
 
@@ -230,24 +230,33 @@ int main(int argc, char *argv[])
 		"//  See the attached LICENSE.txt file or https://www.gnu.org/licenses/gpl-3.0.en.html.",
 	};
 
-	string twosrc  = "d:/Documents/Programmation/toy/two/src";
-	string twodist = "d:/Documents/Programmation/toy/two/dist";
-	string toysrc  = "d:/Documents/Programmation/toy/src";
-	string toydist = "d:/Documents/Programmation/toy/dist";
+	string root = argv[1];
+	#if JSON
+	string json_file = argv[2];
+	#endif
+
+	string two_src  = root + "/src";
+	string two_dist = root + "/dist";
+	#if AMALG_TOY
+	string toy_src  = root_toy + "/src";
+	string toy_dist = root_toy + "/dist";
+	#endif
 
 	Amalgamator amalgamator;
 	amalgamator.m_filter = filter;
 
 	for(string module : { "infra", "jobs", "type", "tree", "pool", "refl", "ecs", "srlz", "math", "geom", "noise", "wfc", "fract", "lang", "ctx", "ui", "uio", "snd" })
-		amalgamator.add(twosrc, twodist, "two", module, module);
+		amalgamator.add(two_src, two_dist, "two", module, module);
 	for(string module : { "ctx-glfw", "ctx-wasm", "ctx-win" })
-		amalgamator.add(twosrc, twodist, "two", module, module);
+		amalgamator.add(two_src, two_dist, "two", module, module);
 	for(string module : { "ui-vg", "ui-nvg" })
-		amalgamator.add(twosrc, twodist, "two", module, module);
+		amalgamator.add(two_src, two_dist, "two", module, module);
 	for(string module : { "bgfx", "gfx", "gltf", "gfx-pbr", "gfx-obj", "gfx-gltf", "gfx-ui", "gfx-edit", "tool", "wfc-gfx", "frame" })
-		amalgamator.add(twosrc, twodist, "two", module, module);
+		amalgamator.add(two_src, two_dist, "two", module, module);
+	#if AMALG_TOY
 	for(string module : { "util", "core", "visu", "block", "edit", "shell" })
-		amalgamator.add(toysrc, toydist, "toy", module, module);
+		amalgamator.add(toy_src, toy_dist, "toy", module, module);
+	#endif
 
 	//amalgamator.run(true);
 	amalgamator.run(false);

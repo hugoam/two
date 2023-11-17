@@ -27,7 +27,8 @@ function amalgamate(modules)
         local dir = os.getcwd()
         os.chdir(m.root)
         local jsonfile = m.path .. "/amalg.json"
-        os.execute(path.join(TWO_DIR, "bin/amalg") .. " " .. jsonfile)
+        local cmd = path.join(TWO_DIR, "bin/amalg") .. " " .. '"' .. TWO_DIR .. '"'
+        os.execute(cmd)
         os.chdir(dir)
     end
 end
