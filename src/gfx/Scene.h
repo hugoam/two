@@ -124,4 +124,5 @@ namespace two
 	export_ TWO_GFX_EXPORT void gather_occluders(Scene& scene, const Camera& camera, vector<Item*>& occluders);
 	export_ TWO_GFX_EXPORT void gather_lights(Scene& scene, vector<Light*>& lights);
 
-	export_ TWO_GFX_EXPORT void gather_render(Scene& scene, Render& render)
+	export_ TWO_GFX_EXPORT void gather_render(Scene& scene, Render& render);
+}
