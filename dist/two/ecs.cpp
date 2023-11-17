@@ -1,9 +1,19 @@
-#include <two/ecs.h>
 #include <two/infra.h>
-#include <two/type.h>
 
+#ifndef USE_STL
+module two.ecs;
 
+namespace stl
+{
+	using namespace two;
+	template class TWO_ECS_EXPORT vector<Buffer*>;
+	template class TWO_ECS_EXPORT vector<EntityStream*>;
+	template class TWO_ECS_EXPORT vector<EntityStream>;
+	template class TWO_ECS_EXPORT vector<unique<Buffer>>;
+}
+#endif
 
+module;
 module two.ecs;
 
 namespace two
@@ -32,19 +42,7 @@ namespace two
 			this->add_part(ref);
 	}
 }
-#ifndef USE_STL
-module two.ecs;
-
-namespace stl
-{
-	using namespace two;
-	template class TWO_ECS_EXPORT vector<Buffer*>;
-	template class TWO_ECS_EXPORT vector<EntityStream*>;
-	template class TWO_ECS_EXPORT vector<EntityStream>;
-	template class TWO_ECS_EXPORT vector<unique<Buffer>>;
-}
-#endif
-
+module;
 module two.ecs;
 
 namespace two
@@ -58,7 +56,7 @@ namespace two
     template <> TWO_ECS_EXPORT Type& type<two::Complex>() { static Type ty("Complex", sizeof(two::Complex)); return ty; }
 }
 
-
+module;
 module two.ecs;
 
 namespace two

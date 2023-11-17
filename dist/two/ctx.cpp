@@ -1,10 +1,29 @@
-#include <two/math.h>
-#include <two/ctx.h>
 #include <two/infra.h>
-#include <two/type.h>
 
+module;
+module two.ctx;
 
+namespace two
+{
+    // Exported types
+    template <> TWO_CTX_EXPORT Type& type<two::Key>() { static Type ty("Key", sizeof(two::Key)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::MouseButtonCode>() { static Type ty("MouseButtonCode", sizeof(two::MouseButtonCode)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::InputMod>() { static Type ty("InputMod", sizeof(two::InputMod)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::DeviceType>() { static Type ty("DeviceType", sizeof(two::DeviceType)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::EventType>() { static Type ty("EventType", sizeof(two::EventType)); return ty; }
+    
+    
+    template <> TWO_CTX_EXPORT Type& type<two::RenderSystem>() { static Type ty("RenderSystem", sizeof(two::RenderSystem)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::Context>() { static Type ty("Context", sizeof(two::Context)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::InputEvent>() { static Type ty("InputEvent", sizeof(two::InputEvent)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::MouseEvent>() { static Type ty("MouseEvent", type<two::InputEvent>(), sizeof(two::MouseEvent)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::KeyEvent>() { static Type ty("KeyEvent", type<two::InputEvent>(), sizeof(two::KeyEvent)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::ControlNode>() { static Type ty("ControlNode", sizeof(two::ControlNode)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::Keyboard>() { static Type ty("Keyboard", sizeof(two::Keyboard)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::Mouse>() { static Type ty("Mouse", sizeof(two::Mouse)); return ty; }
+}
 
+module;
 module two.ctx;
 
 namespace two
@@ -29,32 +48,58 @@ namespace two
 
 }
 
+module;
 module two.ctx;
 
 namespace two
 {
-    // Exported types
-    template <> TWO_CTX_EXPORT Type& type<two::Key>() { static Type ty("Key", sizeof(two::Key)); return ty; }
-    template <> TWO_CTX_EXPORT Type& type<two::MouseButtonCode>() { static Type ty("MouseButtonCode", sizeof(two::MouseButtonCode)); return ty; }
-    template <> TWO_CTX_EXPORT Type& type<two::InputMod>() { static Type ty("InputMod", sizeof(two::InputMod)); return ty; }
-    template <> TWO_CTX_EXPORT Type& type<two::DeviceType>() { static Type ty("DeviceType", sizeof(two::DeviceType)); return ty; }
-    template <> TWO_CTX_EXPORT Type& type<two::EventType>() { static Type ty("EventType", sizeof(two::EventType)); return ty; }
-    
-    
-    template <> TWO_CTX_EXPORT Type& type<two::RenderSystem>() { static Type ty("RenderSystem", sizeof(two::RenderSystem)); return ty; }
-    template <> TWO_CTX_EXPORT Type& type<two::Context>() { static Type ty("Context", sizeof(two::Context)); return ty; }
-    template <> TWO_CTX_EXPORT Type& type<two::InputEvent>() { static Type ty("InputEvent", sizeof(two::InputEvent)); return ty; }
-    template <> TWO_CTX_EXPORT Type& type<two::MouseEvent>() { static Type ty("MouseEvent", type<two::InputEvent>(), sizeof(two::MouseEvent)); return ty; }
-    template <> TWO_CTX_EXPORT Type& type<two::KeyEvent>() { static Type ty("KeyEvent", type<two::InputEvent>(), sizeof(two::KeyEvent)); return ty; }
-    template <> TWO_CTX_EXPORT Type& type<two::ControlNode>() { static Type ty("ControlNode", sizeof(two::ControlNode)); return ty; }
-    template <> TWO_CTX_EXPORT Type& type<two::Keyboard>() { static Type ty("Keyboard", sizeof(two::Keyboard)); return ty; }
-    template <> TWO_CTX_EXPORT Type& type<two::Mouse>() { static Type ty("Mouse", sizeof(two::Mouse)); return ty; }
+	EventDispatcher::EventDispatcher(ControlNode* control_node)
+		: m_control_node(*control_node)
+	{
+		m_event_batches.resize(100);
+	}
+
+	void EventDispatcher::update()
+	{
+		for(size_t i = 0; i < m_top; ++i)
+		{
+			m_event_batches[i].clear();
+
+			if(m_event_batches[i].m_control_node)
+			{
+				m_event_batches[i].m_control_node->m_events = nullptr;
+				m_event_batches[i].m_control_node = nullptr;
+			}
+		}
+
+		m_top = 0;
+	}
+
+	void EventDispatcher::receive_event(InputEvent& event, ControlNode& receiver)
+	{
+		if(!receiver.m_events)
+		{
+			receiver.m_events = &m_event_batches[m_top++];
+			receiver.m_events->m_control_node = &receiver;
+		}
+
+		receiver.m_events->m_events[event.m_deviceType][event.m_eventType] = &event;
+		if(event.m_key != -1)
+			receiver.m_events->m_keyed_events[event.m_deviceType][event.m_eventType][event.m_key] = &event;
+	}
+
+	ControlNode* EventDispatcher::dispatch_event(InputEvent& event, ControlNode* topReceiver)
+	{
+		event.m_receiver = topReceiver ? topReceiver : m_control_node.control_event(event);
+
+		// @todo dispatch to all receivers from the lowest controller to the top : problem is declaration order is bottom-up so in the wrong order
+		event.m_receiver->receive_event(event); // @kludge to call transform_event
+		this->receive_event(event, *event.m_receiver);
+		return event.m_receiver;
+	}
 }
 
-#ifndef TWO_CPP_20
-#include <cstdio>
-#endif
-
+module;
 module two.ctx;
 
 
@@ -264,58 +309,70 @@ namespace two
 	{
 		m_mouse.dispatch_secondary(MouseEvent(m_deviceType, EventType::Stroked, mouse_event), m_pressed, m_pressed_event.m_pos);
 	}
+
+	InputContext::InputContext()
+		: EventDispatcher(this)
+		, m_keyboard(*this)
+		, m_mouse(*this, m_keyboard)
+	{}
+
+	void InputContext::init(Context& context)
+	{
+		context.init_input(m_mouse, m_keyboard);
+	}
+
+	void InputContext::begin_frame()
+	{}
+
+	void InputContext::end_frame()
+	{
+		m_mouse.m_events.clear();
+		m_keyboard.m_events.clear();
+
+		EventDispatcher::update();
+	}
+
+	ControlNode* InputContext::control_event(InputEvent& event)
+	{
+		UNUSED(event);
+		return this;
+	}
+
+	void InputContext::receive_event(InputEvent& inputEvent)
+	{
+		UNUSED(inputEvent);
+	}
+
+	KeyEvent ControlNode::key_event(Key code, EventType event_type, InputMod modifier)
+	{
+		if(!m_events) return KeyEvent();
+		KeyEvent* event = static_cast<KeyEvent*>(m_events->m_keyed_events[DeviceType::Keyboard][event_type][int(code)]);
+		return event && fits_modifier(event->m_modifiers, modifier) ? *event : KeyEvent();
+	}
+
+	MouseEvent ControlNode::mouse_event(DeviceType device, EventType event_type, InputMod modifier, bool consume)
+	{
+		if(!m_events) return MouseEvent();
+		MouseEvent* event = static_cast<MouseEvent*>(m_events->m_events[device][event_type]);
+		if(event && fits_modifier(event->m_modifiers, modifier))
+		{
+			MouseEvent result = *event;;
+			if(consume)
+				event->consume(*this);
+			return result;
+		}
+		return MouseEvent();
+	}
 }
-
-#ifndef TWO_CPP_20
-#include <cstdio>
-#endif
-
+#ifndef USE_STL
 module two.ctx;
 
-namespace two
+namespace stl
 {
-	EventDispatcher::EventDispatcher(ControlNode* control_node)
-		: m_control_node(*control_node)
-	{
-		m_event_batches.resize(100);
-	}
-
-	void EventDispatcher::update()
-	{
-		for(size_t i = 0; i < m_top; ++i)
-		{
-			m_event_batches[i].clear();
-
-			if(m_event_batches[i].m_control_node)
-			{
-				m_event_batches[i].m_control_node->m_events = nullptr;
-				m_event_batches[i].m_control_node = nullptr;
-			}
-		}
-
-		m_top = 0;
-	}
-
-	void EventDispatcher::receive_event(InputEvent& event, ControlNode& receiver)
-	{
-		if(!receiver.m_events)
-		{
-			receiver.m_events = &m_event_batches[m_top++];
-			receiver.m_events->m_control_node = &receiver;
-		}
-
-		receiver.m_events->m_events[event.m_deviceType][event.m_eventType] = &event;
-		if(event.m_key != -1)
-			receiver.m_events->m_keyed_events[event.m_deviceType][event.m_eventType][event.m_key] = &event;
-	}
-
-	ControlNode* EventDispatcher::dispatch_event(InputEvent& event, ControlNode* topReceiver)
-	{
-		event.m_receiver = topReceiver ? topReceiver : m_control_node.control_event(event);
-
-		// @todo dispatch to all receivers from the lowest controller to the top : problem is declaration order is bottom-up so in the wrong order
-		event.m_receiver->receive_event(event); // @kludge to call transform_event
-		this->receive_event(event, *event.m_receiver);
-		return event.m_receiver;
-	}
+	using namespace two;
+	template class TWO_CTX_EXPORT vector<EventBatch>;
+	template class TWO_CTX_EXPORT vector<KeyEvent>;
+	template class TWO_CTX_EXPORT vector<MouseEvent>;
+	template class TWO_CTX_EXPORT unordered_map<int, InputEvent*>;
 }
+#endif

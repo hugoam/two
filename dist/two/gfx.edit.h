@@ -1,17 +1,19 @@
 #pragma once
 
-#include <two/gfx.h>
 #include <two/geom.h>
-#include <two/ui.h>
-#include <two/srlz.h>
-#include <two/uio.h>
+#include <two/gfx.h>
 #include <two/gfx.pbr.h>
+#include <two/gfx.ui.h>
+#include <two/infra.h>
 #include <two/lang.h>
 #include <two/math.h>
 #include <two/refl.h>
-#include <two/gfx.ui.h>
-#include <two/infra.h>
+#include <two/srlz.h>
 #include <two/type.h>
+#include <two/ui.h>
+#include <two/uio.h>
+
+
 
 
 
@@ -22,6 +24,11 @@
 
 namespace two
 {
+}
+
+namespace two
+{
+	TWO_GFX_EDIT_EXPORT void prefab_edit(Widget& parent, GfxSystem& gfx, PrefabNode& node, PrefabNode*& selected);
 }
 
 
@@ -60,19 +67,8 @@ namespace two
 }
 
 
-
-namespace two
-{
-	TWO_GFX_EDIT_EXPORT void prefab_edit(Widget& parent, GfxSystem& gfx, PrefabNode& node, PrefabNode*& selected);
-}
-
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
 
 
 namespace two

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <two/math.h>
 #include <two/infra.h>
 #include <two/type.h>
 
@@ -14,75 +13,75 @@
 
 namespace two
 {
-    enum DrawMode : unsigned int;
-    enum class PrimitiveType : unsigned int;
-    enum class SymbolDetail : unsigned short;
-	enum class CatmullType : unsigned int;
+    export_ enum DrawMode : unsigned int;
+    export_ enum class PrimitiveType : unsigned int;
+    export_ enum class SymbolDetail : unsigned short;
+	export_ enum class CatmullType : unsigned int;
     
-    class Shape;
-    class ShapeVar;
-    struct Line;
-    struct Rect;
-    struct Quad;
-    struct Grid2;
-    struct Triangle;
-    struct Circle;
-    struct Torus;
-	struct TorusKnot;
-    struct Ring;
-    struct Ellipsis;
-    struct Arc;
-    struct ArcLine;
-    struct Cylinder;
-    struct Capsule;
-    struct Cube;
-	struct Tetraedr;
-    struct Sphere;
-    struct SphereRing;
-    struct Spheroid;
-	struct Icosaedr;
-    struct Aabb;
-	class Curve2;
-	class Curve3;
-	struct CurveBezierCubic;
-	struct CurveBezierCubic3;
-	struct CurveBezierQuadratic;
-	struct CurveBezierQuadratic3;
-	struct CurveCatmullRom3;
-	struct CurveLine;
-	struct CurveLine3;
-	struct CurveSpline;
-	struct CurveSpline3;
-    struct Plane;
-    struct Plane3;
-    struct Face3;
-    struct Segment;
-    struct Ray;
-    struct Plane6;
-    struct Point8;
-    struct VertexAttribute;
-    struct Vertex;
-    struct Tri;
-    struct ShapeVertex;
-    struct ShapeTriangle;
-    struct MeshAdapter;
-    class Geometry;
-    struct MeshPacker;
-	class MarchingCubes;
-    class Distribution;
-    class Poisson;
-    class RandomShapePoint;
-    struct Polygon;
-    struct Box;
-    struct Points;
-    struct Grid3;
-    struct ConvexHull;
-    struct Symbol;
-    struct ShapeSize;
-    struct ProcShape;
-    struct CompoundShape;
-    struct DispatchDrawProcShape;
-    class IcoSphere;
+    export_ class Shape;
+    export_ class ShapeVar;
+    export_ struct Line;
+    export_ struct Rect;
+    export_ struct Quad;
+    export_ struct Grid2;
+    export_ struct Triangle;
+    export_ struct Circle;
+    export_ struct Torus;
+	export_ struct TorusKnot;
+    export_ struct Ring;
+    export_ struct Ellipsis;
+    export_ struct Arc;
+    export_ struct ArcLine;
+    export_ struct Cylinder;
+    export_ struct Capsule;
+    export_ struct Cube;
+	export_ struct Tetraedr;
+    export_ struct Sphere;
+    export_ struct SphereRing;
+    export_ struct Spheroid;
+	export_ struct Icosaedr;
+    export_ struct Aabb;
+	export_ class Curve2;
+	export_ class Curve3;
+	export_ struct CurveBezierCubic;
+	export_ struct CurveBezierCubic3;
+	export_ struct CurveBezierQuadratic;
+	export_ struct CurveBezierQuadratic3;
+	export_ struct CurveCatmullRom3;
+	export_ struct CurveLine;
+	export_ struct CurveLine3;
+	export_ struct CurveSpline;
+	export_ struct CurveSpline3;
+    export_ struct Plane;
+    export_ struct Plane3;
+    export_ struct Face3;
+    export_ struct Segment;
+    export_ struct Ray;
+    export_ struct Plane6;
+    export_ struct Point8;
+    export_ struct VertexAttribute;
+    export_ struct Vertex;
+    export_ struct Tri;
+    export_ struct ShapeVertex;
+    export_ struct ShapeTriangle;
+    export_ struct MeshAdapter;
+    export_ class Geometry;
+    export_ struct MeshPacker;
+	export_ class MarchingCubes;
+    export_ class Distribution;
+    export_ class Poisson;
+    export_ class RandomShapePoint;
+    export_ struct Polygon;
+    export_ struct Box;
+    export_ struct Points;
+    export_ struct Grid3;
+    export_ struct ConvexHull;
+    export_ struct Symbol;
+    export_ struct ShapeSize;
+    export_ struct ProcShape;
+    export_ struct CompoundShape;
+    export_ struct DispatchDrawProcShape;
+    export_ class IcoSphere;
 }
 
 #ifdef TWO_META_GENERATOR
@@ -90,209 +89,15 @@ namespace two
 #include <stl/span.h>
 namespace stl
 {
-	export_ extern template struct refl_ span_ span<two::vec3>;
+	extern template struct refl_ span_ span<two::vec3>;
 
-	export_ extern template class refl_ seque_ vector<two::vec2>;
-	export_ extern template class refl_ seque_ vector<two::vec4>;
-	export_ extern template class refl_ seque_ vector<two::ivec4>;
+	extern template class refl_ seque_ vector<two::vec2>;
+	extern template class refl_ seque_ vector<two::vec4>;
+	extern template class refl_ seque_ vector<two::ivec4>;
 
-	export_ extern template class refl_ seque_ vector<two::Circle>;
+	extern template class refl_ seque_ vector<two::Circle>;
 }
 #endif
-//#include <geom/Shapes.h>
-
-namespace two
-{
-	export_ struct refl_ TWO_GEOM_EXPORT Aabb
-	{
-	public:
-		constr_ Aabb();
-		constr_ Aabb(const vec3& center, const vec3& extents);
-
-		attr_ vec3 m_center;
-		attr_ vec3 m_extents;
-		attr_ bool m_empty;
-
-		vec3 bmin() const;
-		vec3 bmax() const;
-
-		bool intersects(const Aabb& other) const;
-
-		void merge(const vec3& point);
-		void merge(const Aabb& other);
-
-		bool cull(const vec3& point) const;
-		bool cull(span<vec3> points) const;
-	};
-
-	export_ TWO_GEOM_EXPORT Aabb aabb(const vec3& min, const vec3& max);
-
-	export_ TWO_GEOM_EXPORT Aabb face_aabb(const vec3* vertices);
-	export_ TWO_GEOM_EXPORT Aabb face_aabb(const Face3& face);
-}
-
-
-#include <stl/vector.h>
-
-namespace two
-{
-	class refl_ Curve2
-	{
-	public:
-		meth_ virtual vec2 point(float t) const = 0;
-	};
-
-	class refl_ Curve3
-	{
-	public:
-		meth_ virtual vec3 point(float t) const = 0;
-		//virtual vec2 point(float t) const = 0;
-
-		//meth_ float length() const;
-
-		vec3 tangent(float t) const;
-
-		vector<vec3> points(size_t subdiv = 5) const;
-
-		vector<float> lengths() const;
-		vector<float> lengths(size_t subdiv) const;
-
-		struct FrenetFrames
-		{
-			vector<vec3> tangents;
-			vector<vec3> normals;
-			vector<vec3> binormals;
-		};
-
-		// see http://www.cs.indiana.edu/pub/techreports/TR425.pdf
-		FrenetFrames frenet_frames(size_t segments, bool closed);
-
-		size_t m_curved_subdiv = 200;
-	};
-
-	struct Curve3Sampler
-	{
-		Curve3Sampler(Curve3& curve);
-
-		void subdiv(size_t subdiv);
-		vector<vec3> points(size_t subdiv = 5) const;
-		vec3 point(float u) const;
-		vec3 tangent(float u) const;
-		float at(float u) const;
-		float at_distance(float distance) const;
-
-		Curve3& m_curve;
-		vector<float> m_lengths;
-		bool m_dirty = false;
-	};
-
-	struct refl_ CurveSpline : public Curve2
-	{
-		virtual vec2 point(float t) const override;
-
-		attr_ vector<vec2> m_points;
-	};
-
-	struct refl_ CurveSpline3 : public Curve3
-	{
-		virtual vec3 point(float t) const override;
-
-		attr_ vector<vec3> m_points;
-	};
-
-	struct CurveEllipse
-	{
-		vec2 m_a = vec2(0.f);
-		vec2 m_radius = vec2(1.f);
-		float m_angle[2] = { 0.f, c_2pi };
-
-		bool m_clockwise = false;
-		float m_rotation = 0.f;
-
-		vec2 point(float t);
-	};
-
-	struct CurveArcCurve : public CurveEllipse
-	{};
-
-	struct refl_ CurveBezierCubic : public Curve2
-	{
-		virtual vec2 point(float t) const override;
-
-		attr_ vec2 v0;
-		attr_ vec2 v1;
-		attr_ vec2 v2;
-		attr_ vec2 v3;
-	};
-
-	struct refl_ CurveBezierCubic3 : public Curve3
-	{
-		virtual vec3 point(float t) const override;
-
-		attr_ vec3 v0;
-		attr_ vec3 v1;
-		attr_ vec3 v2;
-		attr_ vec3 v3;
-	};
-
-	struct refl_ CurveLine : public Curve2
-	{
-		virtual vec2 point(float t) const override;
-
-		attr_ vec2 v0;
-		attr_ vec2 v1;
-	};
-
-	struct refl_ CurveLine3 : public Curve3
-	{
-		virtual vec3 point(float t) const override;
-
-		attr_ vec3 v0;
-		attr_ vec3 v1;
-	};
-
-	struct refl_ CurveBezierQuadratic : public Curve2
-	{
-		virtual vec2 point(float t) const override;
-
-		attr_ vec2 v0;
-		attr_ vec2 v1;
-		attr_ vec2 v2;
-	};
-
-	struct refl_ CurveBezierQuadratic3 : public Curve3
-	{
-		virtual vec3 point(float t) const override;
-
-		attr_ vec3 v0;
-		attr_ vec3 v1;
-		attr_ vec3 v2;
-	};
-
-	enum class refl_ CatmullType : unsigned int
-	{
-		Centripetal,
-		Chordal,
-		CatmullRom
-	};
-
-	struct refl_ CurveCatmullRom3 : public Curve3
-	{
-		constr_ CurveCatmullRom3();
-		constr_ CurveCatmullRom3(const vector<vec3>& points, bool closed = false, CatmullType curve_type = CatmullType::Centripetal, float tension = 0.5f);
-
-		virtual vec3 point(float t) const override;
-
-		meth_ void add_point(const vec3& point);
-
-		attr_ vector<vec3> m_points = {};
-		attr_ bool m_closed = false;
-		attr_ CatmullType m_curve_type = CatmullType::Centripetal;
-		attr_ float m_tension = 0.5f;
-	};
-}
-
-
 
 namespace two
 {
@@ -333,6 +138,7 @@ namespace two
 
 	export_ inline float distance(const Plane& plane, const vec3& p);
 	export_ inline vec3 project(const Plane& plane, const vec3& p);
+	export_ inline Plane operator*(const mat4& mat, const Plane& p);
 
 	export_ inline Plane normalize(const Plane& plane);
 
@@ -374,329 +180,6 @@ namespace two
 
 
 
-namespace two
-{
-	inline float distance(const Plane& plane, const vec3& p)
-	{
-		return dot(plane.m_normal, p) - plane.m_distance;
-	}
-
-	inline vec3 project(const Plane& plane, const vec3& p)
-	{
-		return p - plane.m_normal * distance(plane, p);
-	}	// Implementation
-
-	inline Plane operator*(const mat4& mat, const Plane& p)
-	{
-		//const mat4 normalmat = transpose(inverse(mat));
-		const vec3 point = p.m_normal * -p.m_distance;
-		const vec3 refpoint = mulp(mat, point);
-		const vec3 normal = muln(mat, p.m_normal);
-		const float d = dot(-refpoint, normal);
-		return { normal, d };
-	}
-
-	inline Plane::Plane(const vec3& normal, float distance)
-		: m_normal(normal), m_distance(distance)
-	{}
-
-	inline Plane::Plane(float a, float b, float c, float d)
-		: m_normal(a, b, c), m_distance(d)
-	{}
-
-	inline Plane::Plane(const vec3& point, const vec3& normal)
-		: m_normal(normal), m_distance(dot(normal, point))
-	{}
-
-	inline Plane::Plane(const vec3& p1, const vec3& p2, const vec3& p3, Clockwise dir)
-		: m_normal(normalize(dir == CLOCKWISE ? cross(p1 - p3, p1 - p2)
-											  : cross(p1 - p2, p1 - p3)))
-		, m_distance(dot(m_normal, p1))
-	{}
-
-	inline Plane normalize(const Plane& plane)
-	{
-		float l = length(plane.m_normal);
-		if(l == 0)
-			return { vec3(0.f), 0.f };
-		return { plane.m_normal / l, plane.m_distance / l };
-	}
-
-	inline Ray to_ray(const vec3& pos, const vec3& dir, float distance) { return { pos, pos + dir * distance, dir, 1.f / dir }; };
-	inline Segment to_segment(const Ray& ray) { return { ray.m_start, ray.m_end }; }
-
-	inline Plane6::Plane6() {}
-	inline Plane6::Plane6(Plane right, Plane left, Plane up, Plane down, Plane near, Plane far) : m_right(right), m_left(left), m_up(up), m_down(down), m_near(near), m_far(far) {}
-
-	inline Point8::Point8() {}
-	inline Point8::Point8(vec3 a, vec3 b, vec3 c, vec3 d, vec3 e, vec3 f, vec3 g, vec3 h) : m_a(a), m_b(b), m_c(c), m_d(d), m_e(e), m_f(f), g(g), m_h(h) {}
-}
-
-
-
-namespace two
-{
-	export_ TWO_GEOM_EXPORT vec3 circumcenter(const vec3& a, const vec3& b, const vec3& c);
-
-	export_ TWO_GEOM_EXPORT bool segment_triangle_intersection(const vec3& sp, const vec3& sq, const vec3& a, const vec3& b, const vec3& c, float& t);
-	export_ TWO_GEOM_EXPORT bool segment_aabb_intersection(const vec3& sp, const vec3& sq, const vec3& amin, const vec3& amax, float& tmin, float& tmax);
-	export_ TWO_GEOM_EXPORT bool segment_aabb_intersection_2d(const vec2& p, const vec2& q, const vec2& bmin, const vec2& bmax);
-
-	export_ TWO_GEOM_EXPORT bool ray_aabb_intersection(const vec3& min, const vec3& max, const Ray& R);
-	export_ TWO_GEOM_EXPORT bool ray_aabb_intersection(const vec3& min, const vec3& max, const Ray& R, vec3& result);
-	export_ TWO_GEOM_EXPORT bool line_circle_intersection(const vec3& l0, const vec3& l1, const vec3& c0, float r, vec3& r0, vec3& r1);
-	export_ TWO_GEOM_EXPORT bool circle_circle_intersection(const vec3& c0, float r0, const vec3& c1, float r1, vec3& p1, vec3& p2);
-	export_ TWO_GEOM_EXPORT vec3 plane_segment_intersection(const Plane& P, const Segment& S);
-	export_ TWO_GEOM_EXPORT vec3 plane_segment_intersection(const vec3& N, float d, const vec3& L1, const vec3& L2);
-	export_ TWO_GEOM_EXPORT vec3 plane_segment_intersection(const vec3& P1, const vec3& P2, const vec3& P3, const vec3& L1, const vec3& L2);
-	export_ TWO_GEOM_EXPORT vec3 plane_3_intersection(const Plane& plane0, const Plane& plane1, const Plane& plane2);
-	export_ TWO_GEOM_EXPORT bool frustum_aabb_intersection(const Plane6& planes, const Aabb& aabb);
-	export_ TWO_GEOM_EXPORT bool sphere_aabb_intersection(const vec3& center, float radius, const Aabb& aabb);
-
-	export_ TWO_GEOM_EXPORT vec3 nearest_point_on_face(const Face3& face, const vec3& point);
-	export_ TWO_GEOM_EXPORT vec3 nearest_point_on_line(const vec3& origin, const vec3& dir, const vec3& point);
-
-	inline vec4 sphere_plane_intersection(const vec3& sphere_position, float sphere_radius_squared, const vec3& plane_normal, float plane_d)
-	{
-		const float d = dot(sphere_position, plane_normal) + plane_d;
-		const float rr = sphere_radius_squared - d * d;
-		return { sphere_position - plane_normal * d, rr };
-	}
-
-	// this version returns a false-positive intersection in a small area near the origin of the cone extended outward by the sphere's radius.
-	inline bool sphere_cone_intersection_fast(const vec3& sphere_position, float sphere_radius_squared, const vec3& cone_position, const vec3& cone_axis, float cone_sin_inverse, float cone_cos_squared)
-	{
-		const vec3 u = cone_position - (sphere_radius_squared * cone_sin_inverse) * cone_axis;
-		vec3 d = sphere_position - u;
-		float e = dot(cone_axis, d);
-		float dd = dot(d, d);
-		// we do the e>0 last here to avoid a branch
-		return (e * e >= dd * cone_cos_squared && e > 0);
-	}
-
-	inline bool sphere_cone_intersection(const vec3& sphere_position, float sphere_radius_squared, const vec3& cone_position, const vec3& cone_axis, float cone_sin_inverse, float cone_cos_squared)
-	{
-		if(sphere_cone_intersection_fast(sphere_position, sphere_radius_squared, cone_position, cone_axis, cone_sin_inverse, cone_cos_squared))
-		{
-			vec3 d = sphere_position - cone_position;
-			float e = -dot(cone_axis, d);
-			float dd = dot(d, d);
-			if(e * e >= dd * (1 - cone_cos_squared) && e > 0)
-				return dd <= sphere_radius_squared * sphere_radius_squared;
-			return true;
-		}
-		return false;
-	}
-}
-
-
-#include <stl/vector.h>
-
-
-namespace two
-{
-	export_ enum refl_ DrawMode : unsigned int
-	{
-		OUTLINE = 0,
-		PLAIN = 1
-	};
-
-	export_ enum class refl_ PrimitiveType : unsigned int
-	{
-		Points = 0,
-		Lines = 1,
-		LineStrip = 2,
-		Triangles = 3,
-		TriangleStrip = 4,
-		TriangleFan = 5,
-		Count
-	};
-
-	export_ struct VertexAttribute
-	{
-		enum Enum
-		{
-			Position = 1 << 0,
-			Position4 = 1 << 1,
-			QPosition = 1 << 2,
-			Normal = 1 << 3,
-			QNormal = 1 << 4,
-			Colour = 1 << 5,
-			Tangent = 1 << 6,
-			QTangent = 1 << 7,
-			Bitangent = 1 << 8,
-			TexCoord0 = 1 << 9,
-			QTexCoord0 = 1 << 10,
-			TexCoord1 = 1 << 11,
-			QTexCoord1 = 1 << 12,
-			Joints = 1 << 13,
-			Weights = 1 << 14,
-			MorphPosition0 = 1 << 15,
-			MorphPosition1 = 1 << 16,
-			MorphPosition2 = 1 << 17,
-			MorphPosition3 = 1 << 18,
-			MorphNormal0 = 1 << 19,
-			MorphNormal1 = 1 << 20,
-			MorphNormal2 = 1 << 21,
-			MorphNormal3 = 1 << 22,
-
-			Count = 1 << 17
-		};
-	};
-
-	export_ using ShapeIndex = uint16_t;
-	
-	export_ struct TWO_GEOM_EXPORT Vertex
-	{
-		static const uint32_t vertex_format = VertexAttribute::Position;
-		vec3 m_position;
-	};
-
-	export_ struct TWO_GEOM_EXPORT Tri
-	{
-		uint32_t a, b, c;
-	};
-
-	export_ struct TWO_GEOM_EXPORT ShapeVertex
-	{
-		static const uint32_t vertex_format = VertexAttribute::Position | VertexAttribute::Normal | VertexAttribute::Colour
-										    | VertexAttribute::Tangent| VertexAttribute::TexCoord0 | VertexAttribute::Joints | VertexAttribute::Weights;
-		vec3 m_position; vec3 m_normal; uint32_t m_colour; vec4 m_tangent; vec2 m_uv0; uint32_t m_joints; vec4 m_weights;
-	};
-
-	export_ struct TWO_GEOM_EXPORT ShapeTriangle
-	{
-		uint32_t a, b, c;
-	};
-
-	export_ size_t vertex_attribute_size(VertexAttribute::Enum attribute);
-
-	export_ uint32_t vertex_size(uint32_t vertex_format);
-
-	export_ size_t vertex_offset(uint32_t vertex_format, VertexAttribute::Enum attribute);
-
-	export_ struct refl_ TWO_GEOM_EXPORT MeshAdapter
-	{
-		MeshAdapter() {}
-		MeshAdapter(uint32_t vertex_format, span<void> vertices, span<void> indices = {}, bool index32 = false);
-		MeshAdapter(uint32_t vertex_count, MeshPacker& geom);
-
-		attr_ uint32_t m_vertex_format = 0;
-		attr_ bool m_index32 = false;
-
-		attr_ uint32_t m_vertex_count = 0;
-		attr_ uint32_t m_index_count = 0;
-
-		attr_ uint32_t m_vertex_stride = 0;
-
-		template <class T>
-		struct Cursor
-		{
-			T* p = nullptr; uint32_t s;
-			inline void init(void* data) { p = (T*)data; s = uint32_t(sizeof(T)); }
-			inline void init(uint32_t vertex_format, VertexAttribute::Enum attr, void* data)
-			{
-				if((vertex_format & attr) != 0) this->init(data);
-			}
-			inline void init(uint32_t vertex_format, VertexAttribute::Enum attr, void* data, uint32_t stride)
-			{
-				if((vertex_format & attr) != 0)
-					p = (T*)((char*)data + vertex_offset(vertex_format, attr));
-				s = stride;
-			}
-			inline void next() { p = (T*)((char*)p + s); }
-			inline void write(const T& val) { *p = val; this->next(); }
-			inline T read() { T val = *p; this->next(); return val; }
-			inline operator bool() { return p != nullptr; }
-		};
-
-		struct Pointers
-		{
-			Cursor<uint16_t> m_index;
-			Cursor<uint32_t> m_index32;
-
-			Cursor<vec3> m_position;
-			Cursor<vec4> m_position4;
-			Cursor<vec3> m_normal;
-			Cursor<uint32_t> m_colour;
-			Cursor<vec4> m_tangent;
-			Cursor<vec3> m_bitangent;
-			Cursor<vec2> m_uv0;
-			Cursor<vec2> m_uv1;
-			Cursor<uint32_t> m_joints;
-			Cursor<vec4> m_weights;
-
-			Cursor<half3> m_qposition;
-			Cursor<uint32_t> m_qnormal;
-			Cursor<uint32_t> m_qtangent;
-			Cursor<half2> m_quv0;
-			Cursor<half2> m_quv1;
-		};
-
-		Pointers m_start;
-		Pointers m_cursor;
-
-		//void* m_index = nullptr;
-
-		uint32_t m_vertex = 0;
-		uint32_t m_offset = 0;
-
-		template <class T>
-		struct Bounds { T lo = T(FLT_MAX); T hi = T(-FLT_MAX); void add(const T& val) { lo = min(val, lo); hi = max(val, hi); } };
-		Bounds<vec3> m_aabb = {};
-		Bounds<vec2> m_uv0_rect = {};
-		Bounds<vec2> m_uv1_rect = {};
-
-		meth_ void rewind();
-		meth_ void copy(MeshAdapter& dest);
-		meth_ void xcopy(MeshAdapter& dest, const mat4& transform);
-		meth_ void next();
-
-		MeshAdapter read() const;
-
-		meth_ MeshAdapter& position(const vec3& p);
-		meth_ MeshAdapter& position4(const vec4& p);
-		meth_ MeshAdapter& normal(const vec3& n);
-		meth_ MeshAdapter& colour(const Colour& c);
-		meth_ MeshAdapter& tangent(const vec4& t);
-		meth_ MeshAdapter& bitangent(const vec3& b);
-		meth_ MeshAdapter& uv0(const vec2& uv);
-		meth_ MeshAdapter& uv1(const vec2& uv);
-		meth_ MeshAdapter& joints(const uint32_t& j);
-		meth_ MeshAdapter& weights(const vec4& w);
-
-		MeshAdapter& colour(const vec3& c);
-
-		// direct functions (faster, no bounds computation)
-		MeshAdapter& dposition(const vec3& p);
-		MeshAdapter& duv0(const vec2& uv);
-		MeshAdapter& duv1(const vec2& uv);
-
-		vec3 position();
-		vec3 normal();
-		Colour colour();
-		vec4 tangent();
-		vec3 bitangent();
-		vec2 uv0();
-		vec2 uv1();
-		uint32_t joints();
-		vec4 weights();
-		uint16_t index();
-		uint32_t index32();
-
-		void index(uint32_t i);
-		void line(uint32_t a, uint32_t b);
-		void tri(uint32_t a, uint32_t b, uint32_t c);
-		void quad(uint32_t a, uint32_t b, uint32_t c, uint32_t d);
-
-		MeshAdapter& qposition(const vec3& p);
-		MeshAdapter& qnormal(const vec3& n);
-		MeshAdapter& qtangent(const vec4& t);
-		MeshAdapter& quv0(const vec2& uv);
-		MeshAdapter& quv1(const vec2& uv);
-	};
-}
-
 
 
 namespace two
@@ -704,12 +187,12 @@ namespace two
 	export_ class refl_ TWO_GEOM_EXPORT Shape
 	{
 	public:
-		Shape(Type& type) : m_type(type), m_center(vec3(0.f)) {}
-		Shape(Type& type, const vec3& center) : m_type(type), m_center(center) {}
+		inline Shape(Type& type) : m_type(type), m_center(vec3(0.f)) {}
+		inline Shape(Type& type, const vec3& center) : m_type(type), m_center(center) {}
 		virtual ~Shape() {}
 
-		Shape(const Shape& other) : m_type(other.m_type) { *this = other; }
-		Shape& operator=(const Shape& other) { m_center = other.m_center; return *this; }
+		inline Shape(const Shape& other) : m_type(other.m_type) { *this = other; }
+		inline Shape& operator=(const Shape& other) { m_center = other.m_center; return *this; }
 
 		attr_ Type& m_type;
 		// @todo add this to reflection need to fix serialization (must either be an argument of child constructors or init members directly)
@@ -721,114 +204,21 @@ namespace two
 	export_ class refl_ TWO_GEOM_EXPORT ShapeVar
 	{
 	public:
-		constr_ ShapeVar() : m_shape() {}
-		constr_ ShapeVar(const Shape& shape) : m_shape(shape.clone()) {}
+		constr_ inline ShapeVar() : m_shape() {}
+		constr_ inline ShapeVar(const Shape& shape) : m_shape(shape.clone()) {}
 
-		ShapeVar(const ShapeVar& other) { *this = other; }
-		ShapeVar& operator=(const ShapeVar& other) { if(other.m_shape) m_shape = other.m_shape->clone(); return *this; }
+		inline ShapeVar(const ShapeVar& other) { *this = other; }
+		inline ShapeVar& operator=(const ShapeVar& other) { if(other.m_shape) m_shape = other.m_shape->clone(); return *this; }
 
-		attr_ Shape& shape() { return *m_shape; }
+		attr_ inline Shape& shape() { return *m_shape; }
 
-		operator Shape&() { return *m_shape; }
-		operator const Shape&() const { return *m_shape; }
-		Shape& operator*() const { return *m_shape; }
+		inline operator Shape&() { return *m_shape; }
+		inline operator const Shape&() const { return *m_shape; }
+		inline Shape& operator*() const { return *m_shape; }
 
 		object<Shape> m_shape;
 	};
 }
-
-namespace two
-{
-	export_ class refl_ TWO_GEOM_EXPORT Geometry final : public Shape
-	{
-	public:
-		constr_ Geometry();
-
-		vector<Vertex> m_vertices;
-		vector<Tri> m_triangles;
-
-		vec3 m_bounds_min;
-		vec3 m_bounds_max;
-
-		void allocate(size_t vertex_count, size_t tri_count);
-
-		span<Vertex> vertices() { return { &m_vertices[0], m_vertices.size() }; }
-		span<uint32_t> indices() { return { &m_triangles[0].a, m_triangles.size() / 3 }; }
-
-		virtual object<Shape> clone() const;
-	};
-
-	export_ struct refl_ TWO_GEOM_EXPORT MeshPacker
-	{
-		constr_ MeshPacker();
-
-		uint32_t vertex_format() const;
-		uint32_t vertex_count() const { return uint32_t(m_positions.size()); }
-		uint32_t index_count() const { return uint32_t(m_indices.size()); }
-		uint32_t face_count() const { return m_indices.empty() ? this->vertex_count() / 3 : this->index_count() / 3; }
-
-		attr_ PrimitiveType m_primitive = PrimitiveType::Triangles;
-
-		attr_ vector<vec3> m_positions;		// Position
-		attr_ vector<vec3> m_normals;		// Normal
-		attr_ vector<Colour> m_colours;		// Colour
-		attr_ vector<uint32_t> m_ucolours;	// Colour
-		attr_ vector<vec4> m_tangents;		// Tangent
-		attr_ vector<vec3> m_bitangents;	// Bitangent
-		attr_ vector<vec2> m_uv0s;			// Texture Coordinates 0
-		attr_ vector<vec2> m_uv1s;			// Texture Coordinates 1
-		attr_ vector<ivec4> m_bones;		// Bones Indices
-		attr_ vector<vec4> m_weights;		// Bones Weights
-
-		attr_ vector<uint32_t> m_indices;
-
-		meth_ void position(const vec3& p) { m_positions.push_back(p); }
-		meth_ void normal(const vec3& n) { m_normals.push_back(n); }
-		meth_ void colour(const Colour& c) { m_colours.push_back(c); }
-		meth_ void tangent(const vec4& t) { m_tangents.push_back(t); }
-		meth_ void bitangent(const vec3& b) { m_bitangents.push_back(b); }
-		meth_ void uv0(const vec2& uv) { m_uv0s.push_back(uv); }
-		meth_ void uv1(const vec2& uv) { m_uv1s.push_back(uv); }
-		meth_ void bones(const ivec4& j) { m_bones.push_back(j); }
-		meth_ void weights(const vec4& w) { m_weights.push_back(w); }
-
-		meth_ void index(uint32_t i) { m_indices.push_back(i); }
-
-		attr_ bool m_quantize = false;
-
-		meth_ void resize(uint32_t vertex_count, uint32_t index_count, uint32_t vertex_format);
-		meth_ void clear();
-		meth_ void pack(MeshAdapter& writer) const;
-		meth_ void xpack(MeshAdapter& writer, const mat4& transform) const;
-		meth_ void unpack(const MeshAdapter& reader, const mat4& transform);
-
-		void bake(bool normals, bool tangents);
-
-		meth_ void gen_normals(bool area_weighted = true);
-		meth_ void gen_flat_normals();
-		meth_ void gen_tangents();
-
-		meth_ void smooth_normals();
-	};
-
-	export_ TWO_GEOM_EXPORT void generate_mikkt_tangents(span<ShapeIndex> indices, span<ShapeVertex> vertices);
-}
-
-
-#include <stl/vector.h>
-
-namespace two
-{
-	export_ TWO_GEOM_EXPORT vector<vec3> hilbert2d(vec3 center = vec3(0.f), float size = 10.f, int iterations = 1, 
-												   uint v0 = 0, uint v1 = 1, uint v2 = 2, uint v3 = 3);
-
-	export_ TWO_GEOM_EXPORT vector<vec3> hilbert3d(vec3 center = vec3(0.f), float size = 10.f, int iterations = 1,
-												   uint v0 = 0, uint v1 = 1, uint v2 = 2, uint v3 = 3, uint v4 = 4, uint v5 = 5, uint v6 = 6, uint v7 = 7);
-}
-
-
-
-
 
 namespace two
 {
@@ -863,11 +253,11 @@ namespace two
 		constr_ Quad();
 		constr_ Quad(const vec3& a, const vec3& b, const vec3& c, const vec3& d);
 
-		Quad(const vec2& size, const vec3& x = X3, const vec3& y = Y3);
-		Quad(const vec2& offset, const vec2& size, const vec3& x = X3, const vec3& y = Y3);
-		Quad(const vec3& center, const vec2& size, const vec3& x = X3, const vec3& y = Y3);
-		Quad(const vec3& center, const vec2& offset, const vec2& size, const vec3& x = X3, const vec3& y = Y3);
-		Quad(float size, const vec3& x = X3, const vec3& y = Y3);
+		Quad(const vec2& size, const vec3& x = x3, const vec3& y = y3);
+		Quad(const vec2& offset, const vec2& size, const vec3& x = x3, const vec3& y = y3);
+		Quad(const vec3& center, const vec2& size, const vec3& x = x3, const vec3& y = y3);
+		Quad(const vec3& center, const vec2& offset, const vec2& size, const vec3& x = x3, const vec3& y = y3);
+		Quad(float size, const vec3& x = x3, const vec3& y = y3);
 		Quad(const Rect& rect);
 
 		Quad& operator=(const Quad& other) = default;
@@ -1107,6 +497,614 @@ namespace two
 	};
 }
 
+
+
+namespace two
+{
+	export_ enum refl_ DrawMode : unsigned int
+	{
+		OUTLINE = 0,
+		PLAIN = 1
+	};
+
+	export_ enum class refl_ PrimitiveType : unsigned int
+	{
+		Points = 0,
+		Lines = 1,
+		LineStrip = 2,
+		Triangles = 3,
+		TriangleStrip = 4,
+		TriangleFan = 5,
+		Count
+	};
+
+	export_ struct VertexAttribute
+	{
+		enum Enum
+		{
+			Position = 1 << 0,
+			Position4 = 1 << 1,
+			QPosition = 1 << 2,
+			Normal = 1 << 3,
+			QNormal = 1 << 4,
+			Colour = 1 << 5,
+			Tangent = 1 << 6,
+			QTangent = 1 << 7,
+			Bitangent = 1 << 8,
+			TexCoord0 = 1 << 9,
+			QTexCoord0 = 1 << 10,
+			TexCoord1 = 1 << 11,
+			QTexCoord1 = 1 << 12,
+			Joints = 1 << 13,
+			Weights = 1 << 14,
+			MorphPosition0 = 1 << 15,
+			MorphPosition1 = 1 << 16,
+			MorphPosition2 = 1 << 17,
+			MorphPosition3 = 1 << 18,
+			MorphNormal0 = 1 << 19,
+			MorphNormal1 = 1 << 20,
+			MorphNormal2 = 1 << 21,
+			MorphNormal3 = 1 << 22,
+
+			Count = 1 << 17
+		};
+	};
+
+	export_ using ShapeIndex = uint16_t;
+	
+	export_ struct TWO_GEOM_EXPORT Vertex
+	{
+		static const uint32_t vertex_format = VertexAttribute::Position;
+		vec3 m_position;
+	};
+
+	export_ struct TWO_GEOM_EXPORT Tri
+	{
+		uint32_t a, b, c;
+	};
+
+	export_ struct TWO_GEOM_EXPORT ShapeVertex
+	{
+		static const uint32_t vertex_format = VertexAttribute::Position | VertexAttribute::Normal | VertexAttribute::Colour
+										    | VertexAttribute::Tangent| VertexAttribute::TexCoord0 | VertexAttribute::Joints | VertexAttribute::Weights;
+		vec3 m_position; vec3 m_normal; uint32_t m_colour; vec4 m_tangent; vec2 m_uv0; uint32_t m_joints; vec4 m_weights;
+	};
+
+	export_ struct TWO_GEOM_EXPORT ShapeTriangle
+	{
+		uint32_t a, b, c;
+	};
+
+	export_ size_t vertex_attribute_size(VertexAttribute::Enum attribute);
+
+	export_ uint32_t vertex_size(uint32_t vertex_format);
+
+	export_ size_t vertex_offset(uint32_t vertex_format, VertexAttribute::Enum attribute);
+
+	export_ struct refl_ TWO_GEOM_EXPORT MeshAdapter
+	{
+		MeshAdapter() {}
+		MeshAdapter(uint32_t vertex_format, span<void> vertices, span<void> indices = {}, bool index32 = false);
+		MeshAdapter(uint32_t vertex_count, MeshPacker& geom);
+
+		attr_ uint32_t m_vertex_format = 0;
+		attr_ bool m_index32 = false;
+
+		attr_ uint32_t m_vertex_count = 0;
+		attr_ uint32_t m_index_count = 0;
+
+		attr_ uint32_t m_vertex_stride = 0;
+
+		template <class T>
+		struct Cursor
+		{
+			T* p = nullptr; uint32_t s;
+			inline void init(void* data) { p = (T*)data; s = uint32_t(sizeof(T)); }
+			inline void init(uint32_t vertex_format, VertexAttribute::Enum attr, void* data)
+			{
+				if((vertex_format & attr) != 0) this->init(data);
+			}
+			inline void init(uint32_t vertex_format, VertexAttribute::Enum attr, void* data, uint32_t stride)
+			{
+				if((vertex_format & attr) != 0)
+					p = (T*)((char*)data + vertex_offset(vertex_format, attr));
+				s = stride;
+			}
+			inline void next() { p = (T*)((char*)p + s); }
+			inline void write(const T& val) { *p = val; this->next(); }
+			inline T read() { T val = *p; this->next(); return val; }
+			inline operator bool() { return p != nullptr; }
+		};
+
+		struct Pointers
+		{
+			Cursor<uint16_t> m_index;
+			Cursor<uint32_t> m_index32;
+
+			Cursor<vec3> m_position;
+			Cursor<vec4> m_position4;
+			Cursor<vec3> m_normal;
+			Cursor<uint32_t> m_colour;
+			Cursor<vec4> m_tangent;
+			Cursor<vec3> m_bitangent;
+			Cursor<vec2> m_uv0;
+			Cursor<vec2> m_uv1;
+			Cursor<uint32_t> m_joints;
+			Cursor<vec4> m_weights;
+
+			Cursor<half3> m_qposition;
+			Cursor<uint32_t> m_qnormal;
+			Cursor<uint32_t> m_qtangent;
+			Cursor<half2> m_quv0;
+			Cursor<half2> m_quv1;
+		};
+
+		Pointers m_start;
+		Pointers m_cursor;
+
+		//void* m_index = nullptr;
+
+		uint32_t m_vertex = 0;
+		uint32_t m_offset = 0;
+
+		template <class T>
+		struct Bounds { T lo = T(FLT_MAX); T hi = T(-FLT_MAX); void add(const T& val) { lo = min(val, lo); hi = max(val, hi); } };
+		Bounds<vec3> m_aabb = {};
+		Bounds<vec2> m_uv0_rect = {};
+		Bounds<vec2> m_uv1_rect = {};
+
+		meth_ void rewind();
+		meth_ void copy(MeshAdapter& dest);
+		meth_ void xcopy(MeshAdapter& dest, const mat4& transform);
+		meth_ void next();
+
+		MeshAdapter read() const;
+
+		meth_ MeshAdapter& position(const vec3& p);
+		meth_ MeshAdapter& position4(const vec4& p);
+		meth_ MeshAdapter& normal(const vec3& n);
+		meth_ MeshAdapter& colour(const Colour& c);
+		meth_ MeshAdapter& tangent(const vec4& t);
+		meth_ MeshAdapter& bitangent(const vec3& b);
+		meth_ MeshAdapter& uv0(const vec2& uv);
+		meth_ MeshAdapter& uv1(const vec2& uv);
+		meth_ MeshAdapter& joints(const uint32_t& j);
+		meth_ MeshAdapter& weights(const vec4& w);
+
+		MeshAdapter& colour(const vec3& c);
+
+		// direct functions (faster, no bounds computation)
+		MeshAdapter& dposition(const vec3& p);
+		MeshAdapter& duv0(const vec2& uv);
+		MeshAdapter& duv1(const vec2& uv);
+
+		vec3 position();
+		vec3 normal();
+		Colour colour();
+		vec4 tangent();
+		vec3 bitangent();
+		vec2 uv0();
+		vec2 uv1();
+		uint32_t joints();
+		vec4 weights();
+		uint16_t index();
+		uint32_t index32();
+
+		void index(uint32_t i);
+		void line(uint32_t a, uint32_t b);
+		void tri(uint32_t a, uint32_t b, uint32_t c);
+		void quad(uint32_t a, uint32_t b, uint32_t c, uint32_t d);
+
+		MeshAdapter& qposition(const vec3& p);
+		MeshAdapter& qnormal(const vec3& n);
+		MeshAdapter& qtangent(const vec4& t);
+		MeshAdapter& quv0(const vec2& uv);
+		MeshAdapter& quv1(const vec2& uv);
+	};
+}
+
+
+
+namespace two
+{
+	export_ TWO_GEOM_EXPORT vec3 circumcenter(const vec3& a, const vec3& b, const vec3& c);
+
+	export_ TWO_GEOM_EXPORT bool segment_triangle_intersection(const vec3& sp, const vec3& sq, const vec3& a, const vec3& b, const vec3& c, float& t);
+	export_ TWO_GEOM_EXPORT bool segment_aabb_intersection(const vec3& sp, const vec3& sq, const vec3& amin, const vec3& amax, float& tmin, float& tmax);
+	export_ TWO_GEOM_EXPORT bool segment_aabb_intersection_2d(const vec2& p, const vec2& q, const vec2& bmin, const vec2& bmax);
+
+	export_ TWO_GEOM_EXPORT bool ray_aabb_intersection(const vec3& min, const vec3& max, const Ray& R);
+	export_ TWO_GEOM_EXPORT bool ray_aabb_intersection(const vec3& min, const vec3& max, const Ray& R, vec3& result);
+	export_ TWO_GEOM_EXPORT bool line_circle_intersection(const vec3& l0, const vec3& l1, const vec3& c0, float r, vec3& r0, vec3& r1);
+	export_ TWO_GEOM_EXPORT bool circle_circle_intersection(const vec3& c0, float r0, const vec3& c1, float r1, vec3& p1, vec3& p2);
+	export_ TWO_GEOM_EXPORT vec3 plane_segment_intersection(const Plane& P, const Segment& S);
+	export_ TWO_GEOM_EXPORT vec3 plane_segment_intersection(const vec3& N, float d, const vec3& L1, const vec3& L2);
+	export_ TWO_GEOM_EXPORT vec3 plane_segment_intersection(const vec3& P1, const vec3& P2, const vec3& P3, const vec3& L1, const vec3& L2);
+	export_ TWO_GEOM_EXPORT vec3 plane_3_intersection(const Plane& plane0, const Plane& plane1, const Plane& plane2);
+	export_ TWO_GEOM_EXPORT bool frustum_aabb_intersection(const Plane6& planes, const Aabb& aabb);
+	export_ TWO_GEOM_EXPORT bool sphere_aabb_intersection(const vec3& center, float radius, const Aabb& aabb);
+
+	export_ TWO_GEOM_EXPORT vec3 nearest_point_on_face(const Face3& face, const vec3& point);
+	export_ TWO_GEOM_EXPORT vec3 nearest_point_on_line(const vec3& origin, const vec3& dir, const vec3& point);
+
+	export_ inline vec4 sphere_plane_intersection(const vec3& sphere_position, float sphere_radius_squared, const vec3& plane_normal, float plane_d)
+	{
+		const float d = dot(sphere_position, plane_normal) + plane_d;
+		const float rr = sphere_radius_squared - d * d;
+		return { sphere_position - plane_normal * d, rr };
+	}
+
+	// this version returns a false-positive intersection in a small area near the origin of the cone extended outward by the sphere's radius.
+	export_ inline bool sphere_cone_intersection_fast(const vec3& sphere_position, float sphere_radius_squared, const vec3& cone_position, const vec3& cone_axis, float cone_sin_inverse, float cone_cos_squared)
+	{
+		const vec3 u = cone_position - (sphere_radius_squared * cone_sin_inverse) * cone_axis;
+		vec3 d = sphere_position - u;
+		float e = dot(cone_axis, d);
+		float dd = dot(d, d);
+		// we do the e>0 last here to avoid a branch
+		return (e * e >= dd * cone_cos_squared && e > 0);
+	}
+
+	export_ inline bool sphere_cone_intersection(const vec3& sphere_position, float sphere_radius_squared, const vec3& cone_position, const vec3& cone_axis, float cone_sin_inverse, float cone_cos_squared)
+	{
+		if(sphere_cone_intersection_fast(sphere_position, sphere_radius_squared, cone_position, cone_axis, cone_sin_inverse, cone_cos_squared))
+		{
+			vec3 d = sphere_position - cone_position;
+			float e = -dot(cone_axis, d);
+			float dd = dot(d, d);
+			if(e * e >= dd * (1 - cone_cos_squared) && e > 0)
+				return dd <= sphere_radius_squared * sphere_radius_squared;
+			return true;
+		}
+		return false;
+	}
+}
+
+
+//#include <geom/Shapes.h>
+
+namespace two
+{
+	export_ struct refl_ TWO_GEOM_EXPORT Aabb
+	{
+	public:
+		constr_ Aabb();
+		constr_ Aabb(const vec3& center, const vec3& extents);
+
+		attr_ vec3 m_center;
+		attr_ vec3 m_extents;
+		attr_ bool m_empty;
+
+		vec3 bmin() const;
+		vec3 bmax() const;
+
+		bool intersects(const Aabb& other) const;
+
+		void merge(const vec3& point);
+		void merge(const Aabb& other);
+
+		bool cull(const vec3& point) const;
+		bool cull(span<vec3> points) const;
+	};
+
+	export_ TWO_GEOM_EXPORT Aabb aabb(const vec3& min, const vec3& max);
+
+	export_ TWO_GEOM_EXPORT Aabb face_aabb(const vec3* vertices);
+	export_ TWO_GEOM_EXPORT Aabb face_aabb(const Face3& face);
+}
+
+
+
+namespace two
+{
+	class refl_ Curve2
+	{
+	public:
+		meth_ virtual vec2 point(float t) const = 0;
+	};
+
+	class refl_ Curve3
+	{
+	public:
+		meth_ virtual vec3 point(float t) const = 0;
+		//virtual vec2 point(float t) const = 0;
+
+		//meth_ float length() const;
+
+		vec3 tangent(float t) const;
+
+		vector<vec3> points(size_t subdiv = 5) const;
+
+		vector<float> lengths() const;
+		vector<float> lengths(size_t subdiv) const;
+
+		struct FrenetFrames
+		{
+			vector<vec3> tangents;
+			vector<vec3> normals;
+			vector<vec3> binormals;
+		};
+
+		// see http://www.cs.indiana.edu/pub/techreports/TR425.pdf
+		FrenetFrames frenet_frames(size_t segments, bool closed);
+
+		size_t m_curved_subdiv = 200;
+	};
+
+	struct Curve3Sampler
+	{
+		Curve3Sampler(Curve3& curve);
+
+		void subdiv(size_t subdiv);
+		vector<vec3> points(size_t subdiv = 5) const;
+		vec3 point(float u) const;
+		vec3 tangent(float u) const;
+		float at(float u) const;
+		float at_distance(float distance) const;
+
+		Curve3& m_curve;
+		vector<float> m_lengths;
+		bool m_dirty = false;
+	};
+
+	struct refl_ CurveSpline : public Curve2
+	{
+		virtual vec2 point(float t) const override;
+
+		attr_ vector<vec2> m_points;
+	};
+
+	struct refl_ CurveSpline3 : public Curve3
+	{
+		virtual vec3 point(float t) const override;
+
+		attr_ vector<vec3> m_points;
+	};
+
+	struct CurveEllipse
+	{
+		vec2 m_a = vec2(0.f);
+		vec2 m_radius = vec2(1.f);
+		float m_angle[2] = { 0.f, c_2pi };
+
+		bool m_clockwise = false;
+		float m_rotation = 0.f;
+
+		vec2 point(float t);
+	};
+
+	struct CurveArcCurve : public CurveEllipse
+	{};
+
+	struct refl_ CurveBezierCubic : public Curve2
+	{
+		virtual vec2 point(float t) const override;
+
+		attr_ vec2 v0;
+		attr_ vec2 v1;
+		attr_ vec2 v2;
+		attr_ vec2 v3;
+	};
+
+	struct refl_ CurveBezierCubic3 : public Curve3
+	{
+		virtual vec3 point(float t) const override;
+
+		attr_ vec3 v0;
+		attr_ vec3 v1;
+		attr_ vec3 v2;
+		attr_ vec3 v3;
+	};
+
+	struct refl_ CurveLine : public Curve2
+	{
+		virtual vec2 point(float t) const override;
+
+		attr_ vec2 v0;
+		attr_ vec2 v1;
+	};
+
+	struct refl_ CurveLine3 : public Curve3
+	{
+		virtual vec3 point(float t) const override;
+
+		attr_ vec3 v0;
+		attr_ vec3 v1;
+	};
+
+	struct refl_ CurveBezierQuadratic : public Curve2
+	{
+		virtual vec2 point(float t) const override;
+
+		attr_ vec2 v0;
+		attr_ vec2 v1;
+		attr_ vec2 v2;
+	};
+
+	struct refl_ CurveBezierQuadratic3 : public Curve3
+	{
+		virtual vec3 point(float t) const override;
+
+		attr_ vec3 v0;
+		attr_ vec3 v1;
+		attr_ vec3 v2;
+	};
+
+	enum class refl_ CatmullType : unsigned int
+	{
+		Centripetal,
+		Chordal,
+		CatmullRom
+	};
+
+	struct refl_ CurveCatmullRom3 : public Curve3
+	{
+		constr_ CurveCatmullRom3();
+		constr_ CurveCatmullRom3(const vector<vec3>& points, bool closed = false, CatmullType curve_type = CatmullType::Centripetal, float tension = 0.5f);
+
+		virtual vec3 point(float t) const override;
+
+		meth_ void add_point(const vec3& point);
+
+		attr_ vector<vec3> m_points = {};
+		attr_ bool m_closed = false;
+		attr_ CatmullType m_curve_type = CatmullType::Centripetal;
+		attr_ float m_tension = 0.5f;
+	};
+}
+
+
+
+namespace two
+{
+	inline float distance(const Plane& plane, const vec3& p)
+	{
+		return dot(plane.m_normal, p) - plane.m_distance;
+	}
+
+	inline vec3 project(const Plane& plane, const vec3& p)
+	{
+		return p - plane.m_normal * distance(plane, p);
+	}	// Implementation
+
+	inline Plane operator*(const mat4& mat, const Plane& p)
+	{
+		//const mat4 normalmat = transpose(inverse(mat));
+		const vec3 point = p.m_normal * -p.m_distance;
+		const vec3 refpoint = mulp(mat, point);
+		const vec3 normal = muln(mat, p.m_normal);
+		const float d = dot(-refpoint, normal);
+		return { normal, d };
+	}
+
+	inline Plane::Plane(const vec3& normal, float distance)
+		: m_normal(normal), m_distance(distance)
+	{}
+
+	inline Plane::Plane(float a, float b, float c, float d)
+		: m_normal(a, b, c), m_distance(d)
+	{}
+
+	inline Plane::Plane(const vec3& point, const vec3& normal)
+		: m_normal(normal), m_distance(dot(normal, point))
+	{}
+
+	inline Plane::Plane(const vec3& p1, const vec3& p2, const vec3& p3, Clockwise dir)
+		: m_normal(normalize(dir == CLOCKWISE ? cross(p1 - p3, p1 - p2)
+											  : cross(p1 - p2, p1 - p3)))
+		, m_distance(dot(m_normal, p1))
+	{}
+
+	inline Plane normalize(const Plane& plane)
+	{
+		float l = length(plane.m_normal);
+		if(l == 0)
+			return { vec3(0.f), 0.f };
+		return { plane.m_normal / l, plane.m_distance / l };
+	}
+
+	inline Ray to_ray(const vec3& pos, const vec3& dir, float distance) { return { pos, pos + dir * distance, dir, 1.f / dir }; };
+	inline Segment to_segment(const Ray& ray) { return { ray.m_start, ray.m_end }; }
+
+	inline Plane6::Plane6() {}
+	inline Plane6::Plane6(Plane right, Plane left, Plane up, Plane down, Plane near, Plane far) : m_right(right), m_left(left), m_up(up), m_down(down), m_near(near), m_far(far) {}
+
+	inline Point8::Point8() {}
+	inline Point8::Point8(vec3 a, vec3 b, vec3 c, vec3 d, vec3 e, vec3 f, vec3 g, vec3 h) : m_a(a), m_b(b), m_c(c), m_d(d), m_e(e), m_f(f), g(g), m_h(h) {}
+}
+
+
+
+namespace two
+{
+	export_ class refl_ TWO_GEOM_EXPORT Geometry final : public Shape
+	{
+	public:
+		constr_ Geometry();
+
+		vector<Vertex> m_vertices;
+		vector<Tri> m_triangles;
+
+		vec3 m_bounds_min;
+		vec3 m_bounds_max;
+
+		void allocate(size_t vertex_count, size_t tri_count);
+
+		span<Vertex> vertices() { return { &m_vertices[0], m_vertices.size() }; }
+		span<uint32_t> indices() { return { &m_triangles[0].a, m_triangles.size() / 3 }; }
+
+		virtual object<Shape> clone() const;
+	};
+
+	export_ struct refl_ TWO_GEOM_EXPORT MeshPacker
+	{
+		constr_ MeshPacker();
+
+		uint32_t vertex_format() const;
+		uint32_t vertex_count() const { return uint32_t(m_positions.size()); }
+		uint32_t index_count() const { return uint32_t(m_indices.size()); }
+		uint32_t face_count() const { return m_indices.empty() ? this->vertex_count() / 3 : this->index_count() / 3; }
+
+		attr_ PrimitiveType m_primitive = PrimitiveType::Triangles;
+
+		attr_ vector<vec3> m_positions;		// Position
+		attr_ vector<vec3> m_normals;		// Normal
+		attr_ vector<Colour> m_colours;		// Colour
+		attr_ vector<uint32_t> m_ucolours;	// Colour
+		attr_ vector<vec4> m_tangents;		// Tangent
+		attr_ vector<vec3> m_bitangents;	// Bitangent
+		attr_ vector<vec2> m_uv0s;			// Texture Coordinates 0
+		attr_ vector<vec2> m_uv1s;			// Texture Coordinates 1
+		attr_ vector<ivec4> m_bones;		// Bones Indices
+		attr_ vector<vec4> m_weights;		// Bones Weights
+
+		attr_ vector<uint32_t> m_indices;
+
+		meth_ void position(const vec3& p) { m_positions.push_back(p); }
+		meth_ void normal(const vec3& n) { m_normals.push_back(n); }
+		meth_ void colour(const Colour& c) { m_colours.push_back(c); }
+		meth_ void tangent(const vec4& t) { m_tangents.push_back(t); }
+		meth_ void bitangent(const vec3& b) { m_bitangents.push_back(b); }
+		meth_ void uv0(const vec2& uv) { m_uv0s.push_back(uv); }
+		meth_ void uv1(const vec2& uv) { m_uv1s.push_back(uv); }
+		meth_ void bones(const ivec4& j) { m_bones.push_back(j); }
+		meth_ void weights(const vec4& w) { m_weights.push_back(w); }
+
+		meth_ void index(uint32_t i) { m_indices.push_back(i); }
+
+		attr_ bool m_quantize = false;
+
+		meth_ void resize(uint32_t vertex_count, uint32_t index_count, uint32_t vertex_format);
+		meth_ void clear();
+		meth_ void pack(MeshAdapter& writer) const;
+		meth_ void xpack(MeshAdapter& writer, const mat4& transform) const;
+		meth_ void unpack(const MeshAdapter& reader, const mat4& transform);
+
+		void bake(bool normals, bool tangents);
+
+		meth_ void gen_normals(bool area_weighted = true);
+		meth_ void gen_flat_normals();
+		meth_ void gen_tangents();
+
+		meth_ void smooth_normals();
+	};
+
+	export_ TWO_GEOM_EXPORT void generate_mikkt_tangents(span<ShapeIndex> indices, span<ShapeVertex> vertices);
+}
+
+
+
+namespace two
+{
+	export_ TWO_GEOM_EXPORT vector<vec3> hilbert2d(vec3 center = vec3(0.f), float size = 10.f, int iterations = 1, 
+												   uint v0 = 0, uint v1 = 1, uint v2 = 2, uint v3 = 3);
+
+	export_ TWO_GEOM_EXPORT vector<vec3> hilbert3d(vec3 center = vec3(0.f), float size = 10.f, int iterations = 1,
+												   uint v0 = 0, uint v1 = 1, uint v2 = 2, uint v3 = 3, uint v4 = 4, uint v5 = 5, uint v6 = 6, uint v7 = 7);
+}
+
+
+
 namespace two
 {
 	export_ class refl_ TWO_GEOM_EXPORT Distribution
@@ -1161,8 +1159,9 @@ namespace two
 		vector2d<vector<Point>> m_grid;
 	};
 
-	TWO_GEOM_EXPORT func_ vector<vec3> distribute_poisson(vec2 size, float radius);
+	export_ TWO_GEOM_EXPORT func_ vector<vec3> distribute_poisson(vec2 size, float radius);
 }
+
 
 
 namespace two
@@ -1175,6 +1174,7 @@ namespace two
 
 	export_ TWO_GEOM_EXPORT vector<vec3> distribute_shape(const Shape& shape, size_t count);
 }
+
 
 
 namespace two
@@ -1260,8 +1260,8 @@ namespace two
 		Symbol(cstring image, float alpha = 1.f);
 		Symbol(const Image256& image256, float alpha = 1.f);
 
-		constr_ static Symbol plain(Colour colour, bool overlay = false) { return Symbol(colour, Colour(0.f, 0.f), overlay); }
-		constr_ static Symbol wire(Colour colour, bool overlay = false) { return Symbol(Colour(0.f, 0.f), colour, overlay); }
+		constr_ static inline Symbol plain(Colour colour, bool overlay = false) { return Symbol(colour, Colour(0.f, 0.f), overlay); }
+		constr_ static inline Symbol wire(Colour colour, bool overlay = false) { return Symbol(Colour(0.f, 0.f), colour, overlay); }
 
 		bool operator==(const Symbol& other) const;
 
@@ -1281,13 +1281,9 @@ namespace two
 	};
 }
 
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
 
 
 namespace two
@@ -1357,6 +1353,7 @@ namespace two
 }
 
 
+
 namespace two
 {
 	// port of http://webglsamples.org/blob/blob.html
@@ -1410,12 +1407,12 @@ namespace two
 		meth_ void render(MeshPacker& output) const;
 	};
 
-	TWO_GEOM_EXPORT func_ void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract, const Colour& colour);
-	TWO_GEOM_EXPORT func_ void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract);
+	export_ TWO_GEOM_EXPORT func_ void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract, const Colour& colour);
+	export_ TWO_GEOM_EXPORT func_ void add_ball(MarchingCubes& cubes, const vec3& ball, float strength, float subtract);
 
-	TWO_GEOM_EXPORT func_ void add_planeX(MarchingCubes& cubes, float strength, float subtract);
-	TWO_GEOM_EXPORT func_ void add_planeY(MarchingCubes& cubes, float strength, float subtract);
-	TWO_GEOM_EXPORT func_ void add_planeZ(MarchingCubes& cubes, float strength, float subtract);
+	export_ TWO_GEOM_EXPORT func_ void add_planeX(MarchingCubes& cubes, float strength, float subtract);
+	export_ TWO_GEOM_EXPORT func_ void add_planeY(MarchingCubes& cubes, float strength, float subtract);
+	export_ TWO_GEOM_EXPORT func_ void add_planeZ(MarchingCubes& cubes, float strength, float subtract);
 }
 
 
@@ -1485,10 +1482,6 @@ namespace two
 
 
 
-#ifndef TWO_CPP_20
-#include <stl/vector.h>
-#endif
-
 namespace two
 {
 	export_ struct TWO_GEOM_EXPORT CompoundShape
@@ -1535,6 +1528,13 @@ namespace two
 }
 
 
+
+
+
+namespace two
+{
+	export_ TWO_GEOM_EXPORT CompoundShape shape_compound(const ProcShape& shape, const Spheroid& spheroid);
+}
 
 namespace two
 {
@@ -1593,9 +1593,6 @@ namespace two
 }
 
 
-#include <stdint.h>
-#include <stl/vector.h>
-#include <stl/map.h>
 
 namespace two
 {
@@ -1641,7 +1638,6 @@ namespace two
 }
 
 
-#include <stl/span.h>
 
 namespace two
 {
@@ -1676,25 +1672,16 @@ namespace two
 
 namespace two
 {
-	TWO_GEOM_EXPORT CompoundShape shape_compound(const ProcShape& shape, const Spheroid& spheroid);
-}
-
-
-
-namespace two
-{
 	export_ TWO_GEOM_EXPORT ShapeSize size_shape_lines(const ProcShape& shape, const Triangle& triangle);
 	export_ TWO_GEOM_EXPORT void draw_shape_lines(const ProcShape& shape, const Triangle& triangle, MeshAdapter& writer);
 
 	export_ TWO_GEOM_EXPORT ShapeSize size_shape_triangles(const ProcShape& shape, const Triangle& triangle);
 	export_ TWO_GEOM_EXPORT void draw_shape_triangles(const ProcShape& shape, const Triangle& triangle, MeshAdapter& writer);
 }
+#ifdef TWO_MODULES
 
 
 
-#include <cstring>
-
-#include <cassert>
 
 namespace two
 {
@@ -1808,3 +1795,4 @@ namespace two
 	inline void MeshAdapter::tri(uint32_t a, uint32_t b, uint32_t c) { index(a); index(b); index(c); }
 	inline void MeshAdapter::quad(uint32_t a, uint32_t b, uint32_t c, uint32_t d) { tri(a, b, c); tri(c, d, a); }
 }
+#endif

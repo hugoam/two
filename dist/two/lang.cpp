@@ -1,41 +1,7 @@
-#include <two/pool.h>
-#include <two/lang.h>
-#include <two/math.h>
-#include <two/refl.h>
 #include <two/infra.h>
-#include <two/type.h>
+#include <two/lang.h>
 
-#ifndef USE_STL
-module two.lang;
-
-typedef struct WrenHandle WrenHandle;
-
-namespace stl
-{
-	using namespace two;
-	template class TWO_LANG_EXPORT vector<Pipe*>;
-	template class TWO_LANG_EXPORT vector<Valve*>;
-	template class TWO_LANG_EXPORT vector<ProcessInput*>;
-	template class TWO_LANG_EXPORT vector<ProcessOutput*>;
-	template class TWO_LANG_EXPORT vector<Process*>;
-	template class TWO_LANG_EXPORT vector<Script*>;
-	template class TWO_LANG_EXPORT vector<VisualScript*>;
-	template class TWO_LANG_EXPORT vector<TextScript*>;
-	template class TWO_LANG_EXPORT vector<StreamBranch>;
-	template class TWO_LANG_EXPORT vector<StreamModifier>;
-	template class TWO_LANG_EXPORT vector<unique<Valve>>;
-	template class TWO_LANG_EXPORT vector<unique<Pipe>>;
-	template class TWO_LANG_EXPORT vector<unique<Process>>;
-	template class TWO_LANG_EXPORT vector<unique<Call>>;
-	template class TWO_LANG_EXPORT unordered_map<int, ScriptError>;
-	template class TWO_LANG_EXPORT unordered_map<void*, const TextScript*>;
-	template class TWO_LANG_EXPORT unordered_map<string, WrenFunctionDecl>;
-
-	template class TWO_LANG_EXPORT vector<WrenHandle*>;
-	template class TWO_LANG_EXPORT unordered_map<void*, WrenHandle*>;
-}
-#endif
-
+module;
 module two.lang;
 
 namespace two
@@ -70,23 +36,505 @@ namespace two
     template <> TWO_LANG_EXPORT Type& type<two::WrenInterpreter>() { static Type ty("WrenInterpreter", type<two::Interpreter>(), sizeof(two::WrenInterpreter)); return ty; }
 }
 
-#ifndef TWO_CPP_20
-#include <cassert>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <cstdarg>
-#include <cstring>
-#endif
-
+module;
 module two.lang;
 
-extern "C"
+namespace two
 {
-#include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
+	ProcessValue::ProcessValue(VisualScript& script, const Var& value)
+		: Process(script, value == Var(Ref()) ? "Ref" : type(value).m_name, type<ProcessValue>())
+		, m_output(*this, "output", OUTPUT_VALVE, value, false, false)
+	{
+		m_output.m_edit = true;
+		m_output.m_stream.write(value);
+		m_state = COMPUTED;
+	}
+
+	ProcessValue::ProcessValue(VisualScript& script, Type& type)
+		: ProcessValue(script, meta(type).m_empty_var)
+	{}
+
+	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, const Constructor& constructor)
+		: Process(script, meta(type).m_name, two::type<ProcessCreate>())
+		, m_object_type(type)
+		, m_injector(constructor)
+		, m_output(*this, "output", OUTPUT_VALVE, is_struct(type) ? meta(type).m_empty_var : Var(meta(type).m_empty_ref), false, is_struct(type) ? false : true)
+		, m_pool(is_struct(type) ? nullptr : g_pools[m_object_type.m_id].get())
+	{
+		for(const Param& param : m_injector.m_constructor.m_params)
+			//if(param.m_mode == INPUT_PARAM)
+			if(param.m_index > 0) // skip first, it's the object reference
+				m_input_params.push_back(oconstruct<Valve>(*this, param));
+	}
+
+	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, ConstructorIndex constructor)
+		: ProcessCreate(script, type, *cls(type).constructor(constructor))
+	{}
+
+	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, size_t num_args)
+		: ProcessCreate(script, type, *cls(type).constructor(num_args))
+	{}
+
+	void ProcessCreate::clear()
+	{
+		for(Ref& object : m_persistent_objects)
+			m_pool->destroy(object);
+		m_persistent_objects.clear();
+	}
+
+	void ProcessCreate::process(const StreamLocation& branch)
+	{
+		for(size_t i = 1; i < m_injector.m_args.size(); ++i)
+			m_injector.m_args[i] = m_inputs[i - 1]->read(branch);
+
+		if(is_struct(m_object_type))
+		{
+			Var& value = m_output.m_stream.branch(branch.m_index).m_value;
+			m_injector.inject(value);
+		}
+		else
+		{
+			Ref object = m_injector.inject(*m_pool);
+			m_output.m_stream.write(branch, object);
+			m_persistent_objects.push_back(object);
+		}
+	}
+
+	ProcessCallable::ProcessCallable(VisualScript& script, Callable& callable)
+		: Process(script, callable.m_name, type<ProcessCallable>())
+		, m_parameters(callable.m_params.size() + (callable.m_return_type == g_qvoid ? 0 : 1))
+		, m_callable(callable)
+	{
+		for(const Param& param : callable.m_params)
+			m_params.push_back(oconstruct<Valve>(*this, param));
+
+		if(callable.m_return_type != g_qvoid)
+			m_result = oconstruct<Valve>(*this, "result", OUTPUT_VALVE, meta(*callable.m_return_type.m_type).m_empty_var, false, false);
+	}
+
+	void ProcessCallable::process(const StreamLocation& branch)
+	{
+		for(Valve* valve : m_inputs)
+			m_parameters[valve->m_index] = valve->read(branch);
+		for(Valve* valve : m_outputs)
+			m_parameters[m_inputs.size() + valve->m_index] = valve->m_stream.m_default;
+
+		if(m_result)
+		{
+			Var& value = m_result->m_stream.branch(branch.m_index).m_value;
+			//m_callable(to_array(m_parameters), value);
+			m_result->m_stream.branch(branch.m_index).write(value);
+		}
+		else
+		{
+			static Var unused;
+			//m_callable(to_array(m_parameters), unused);
+		}
+
+		for(const Param& param : m_callable.m_params)
+			if(param.output())
+			{
+				m_params[param.m_index]->m_stream.write(branch, m_parameters[param.m_index]);
+			}
+	}
+
+	ProcessScript::ProcessScript(VisualScript& script, VisualScript& target)
+		: ProcessCallable(script, target)
+		, m_target(target)
+	{}
+
+	ProcessFunction::ProcessFunction(VisualScript& script, Function& function)
+		: ProcessCallable(script, function)
+		, m_function(function)
+	{}
+
+	ProcessMethod::ProcessMethod(VisualScript& script, Method& method)
+		: ProcessCallable(script, method)
+		, m_method(method)
+		, m_object(*this, "object", OUTPUT_VALVE, meta(*method.m_object_type).m_empty_ref, false, true)
+	{
+		m_parameters.resize(m_parameters.size() + 1);
+	}
+
+	void ProcessMethod::process(const StreamLocation& branch)
+	{
+		ProcessCallable::process(branch);
+		m_object.m_stream.write(branch, m_parameters[0]);
+	}
+
+	ProcessGetMember::ProcessGetMember(VisualScript& script, Member& member)
+		: Process(script, member.m_name, type<ProcessGetMember>())
+		, m_member(member)
+		, m_input_object(*this, "object", INPUT_VALVE, meta(*member.m_object_type).m_empty_ref, false, true)
+		, m_output(*this, member.m_name, OUTPUT_VALVE, member.m_default_value, false, !(member.is_value()))
+	{}
+
+	void ProcessGetMember::process(const StreamLocation& branch)
+	{
+		const Var& object = m_input_object.read(branch);
+		Var& value = m_output.m_stream.branch(branch.m_index).m_value;
+		//m_member.get(object.m_ref, value);
+		value = m_member.get(object.m_ref);
+	}
+
+	ProcessSetMember::ProcessSetMember(VisualScript& script, Member& member)
+		: Process(script, member.m_name, type<ProcessSetMember>())
+		, m_member(member)
+		, m_input_object(*this, "object", INPUT_VALVE, meta(*member.m_object_type).m_empty_ref, false, true)
+		, m_input_value(*this, member.m_name, INPUT_VALVE, member.m_default_value, false, false)
+		, m_output_object(*this, "object", OUTPUT_VALVE, meta(*member.m_object_type).m_empty_ref, false, true)
+	{}
+
+	void ProcessSetMember::process(const StreamLocation& branch)
+	{
+		const Var& object = m_input_object.read(branch);
+		const Var& value = m_input_value.read(branch);
+		m_member.set(object.m_ref, value.m_ref);
+
+		m_output_object.m_stream.write(branch, object);
+	}
+
+	ProcessDisplay::ProcessDisplay(VisualScript& script)
+		: Process(script, "Display", type<ProcessDisplay>())
+		, m_input_value(*this, "input", INPUT_VALVE)
+	{}
+
+	void ProcessDisplay::process(const StreamLocation& branch)
+	{
+		UNUSED(branch);
+		if(m_update_display)
+			m_update_display(*this);
+	}
 }
+#ifndef USE_STL
+module two.lang;
+
+typedef struct WrenHandle WrenHandle;
+
+namespace stl
+{
+	using namespace two;
+	template class TWO_LANG_EXPORT vector<Pipe*>;
+	template class TWO_LANG_EXPORT vector<Valve*>;
+	template class TWO_LANG_EXPORT vector<ProcessInput*>;
+	template class TWO_LANG_EXPORT vector<ProcessOutput*>;
+	template class TWO_LANG_EXPORT vector<Process*>;
+	template class TWO_LANG_EXPORT vector<Script*>;
+	template class TWO_LANG_EXPORT vector<VisualScript*>;
+	template class TWO_LANG_EXPORT vector<TextScript*>;
+	template class TWO_LANG_EXPORT vector<StreamBranch>;
+	template class TWO_LANG_EXPORT vector<StreamModifier>;
+	template class TWO_LANG_EXPORT vector<unique<Valve>>;
+	template class TWO_LANG_EXPORT vector<unique<Pipe>>;
+	template class TWO_LANG_EXPORT vector<unique<Process>>;
+	template class TWO_LANG_EXPORT vector<unique<Call>>;
+	template class TWO_LANG_EXPORT unordered_map<int, ScriptError>;
+	template class TWO_LANG_EXPORT unordered_map<void*, const TextScript*>;
+	template class TWO_LANG_EXPORT unordered_map<string, WrenFunctionDecl>;
+
+	template class TWO_LANG_EXPORT vector<WrenHandle*>;
+	template class TWO_LANG_EXPORT unordered_map<void*, WrenHandle*>;
+}
+#endif
+
+module;
+module two.lang;
+
+namespace two
+{
+	Script::Script(Type& type, const string& name, const Signature& signature)
+		: Callable(name.c_str(), signature.m_params, signature.m_return_type)
+		, m_index(index(two::type<Script>(), Ref(this, type)))
+		, m_type(type)
+		, m_name(name)
+		, m_signature(signature)
+	{
+		Callable::m_name = m_name.c_str();
+		m_signature.m_params = m_params;
+	}
+
+	Script::~Script()
+	{
+		unindex(type<Script>(), m_index);
+	}
+
+	Interpreter::Interpreter()
+	{}
+
+	Var Interpreter::get(const string& name, const Type& type) { UNUSED(name); UNUSED(type); return Var(); }
+	void Interpreter::set(const string& name, const Var& value) { UNUSED(name); UNUSED(value); }
+
+	Var Interpreter::getx(span<cstring> path, const Type& type) { UNUSED(path); UNUSED(type); return Var(); }
+	void Interpreter::setx(span<cstring> path, const Var& value) { UNUSED(path); UNUSED(value); }
+
+	void Interpreter::call(const TextScript& script, span<void*> args, void*& result)
+	{
+		m_script = &script;
+		script.m_runtime_errors.clear();
+		script.m_compile_errors.clear();
+
+		for(const Param& param : script.m_signature.m_params)
+		{
+			this->set(param.m_name, Ref(args[param.m_index], *param.m_type));
+		}
+
+		this->call(script.m_script, nullptr);
+		UNUSED(result);
+	}
+
+	string Interpreter::flush()
+	{
+		string output = m_output;
+		m_output = "";
+		return output;
+	}
+
+	TextScript::TextScript(const string& name, Language language, const Signature& signature)
+		: Script(type<TextScript>(), name, signature)
+		, m_language(language)
+	{}
+
+	void TextScript::operator()(span<void*> args, void*& result) const
+	{
+		m_interpreter->call(*this, args, result);
+	}
+
+	ScriptClass::ScriptClass(const string& name, span<Type*> parts)
+		: m_name(name)
+		, m_class_type(m_name.c_str())
+		, m_class(m_class_type)
+		, m_prototype(m_class_type, parts)
+	{}
+}
+
+module;
+module two.lang;
+
+namespace two
+{
+	StreamBranch::StreamBranch() {}
+	StreamBranch::StreamBranch(Stream* stream, const Var& value, StreamIndex index)
+		: m_stream(stream)
+		, m_index(index)
+		, m_depth(index.size() - 1)
+		, m_value(value)
+	{}
+
+	StreamBranch& StreamBranch::add_branch()
+	{
+		StreamIndex branch_index = m_index;
+		branch_index.push_back(m_branches.size());
+		m_branches.push_back({ m_stream, m_stream->m_default, branch_index });
+		return m_branches.back();
+	}
+
+	void StreamBranch::resize(size_t size)
+	{
+		for(size_t i = m_branches.size(); i < size; ++i)
+			this->add_branch();
+	}
+
+	void StreamBranch::clear()
+	{
+		m_branches.clear();
+	}
+
+	void StreamBranch::copy(const StreamBranch& source)
+	{
+		if(m_branches.size() == source.m_branches.size())
+		{
+			for(size_t i = 0; i < m_branches.size(); ++i)
+				m_branches[i].copy(source.m_branches[i]);
+		}
+		else
+		{
+			*this = source;
+		}
+	}
+
+	StreamBranch& StreamBranch::branch(const StreamIndex& index)
+	{
+		if(index.size() > m_depth + 1)
+		{
+			size_t at = index[m_depth + 1];
+			while(at >= m_branches.size())
+				this->add_branch();
+			return m_branches[at].branch(index);
+		}
+		else
+		{
+			return *this;
+		}
+	}
+
+	StreamBranch* StreamBranch::find_branch(const StreamIndex& index, size_t depth)
+	{
+		if(m_branches.empty())
+			return this;
+		else if(m_branches.size() <= index[depth])
+			return nullptr;
+		else
+			return m_branches[index[depth]].find_branch(index, depth + 1);
+	}
+
+	void StreamBranch::write(const Var& value, bool multiplex)
+	{
+		if(multiplex && !(value == Var(Ref())) && is_sequence(type(value)))
+		{
+			Iterable& it = iter(value);
+			this->resize(it.size(value));
+
+			it.iteratei(value, [&](size_t i, Ref element) {
+				m_branches[i].m_value = element;
+			});
+		}
+		else
+		{
+			m_value = value;
+		}
+	}
+
+	bool StreamBranch::read(Var& value, const Type* expected_type, bool ref)
+	{
+		if(!expected_type)
+		{
+			value = m_value.m_ref;
+			return true;
+		}
+		bool result = convert(m_value, *expected_type, value, ref);
+#if 0
+		if(!result)
+			warn("No conversion possible from %s to %s : dest set to None", type(source).m_name, output.m_name);
+#endif
+		return result;
+	}
+
+	Stream::Stream()
+		: StreamBranch(this, Var(), { 0 })
+	{}
+
+	Stream::Stream(const Var& value, bool nullable, bool reference)
+		: StreamBranch(this, value, { 0 })
+		, m_default(value)
+		, m_type(value == Var(Ref()) ? &type<Ref>() : &type(value))
+		, m_nullable(nullable)
+		, m_reference(reference)
+	{}
+
+	Stream::Stream(const Stream& stream)
+		: Stream(stream.m_default, stream.m_nullable, stream.m_reference)
+	{
+		*this = stream;
+	}
+
+	Stream& Stream::operator=(const Stream& stream)
+	{
+		this->copy(stream);
+		this->compute();
+		return *this;
+	}
+
+	bool compare_tip(const Topology& topology, const Topology& other)
+	{
+		size_t depth = other.size();
+		return equal(topology.end() - depth, topology.end(), other.begin(), other.end());
+	}
+
+	StreamBranch* Stream::match_branch(const StreamLocation& source)
+	{
+		if(source.m_topology.size() > 0 && m_topology.size() > 0)
+			if(compare_tip(source.m_topology, m_topology))
+			{
+				size_t offset = source.m_topology.size() - m_topology.size();
+				return this->find_branch(source.m_index, offset + 1);
+			}
+
+		return this->find_branch(source.m_index, m_depth + 1);
+	}
+
+	void Stream::compute()
+	{
+		m_size = 0;
+		m_topology.clear();
+
+		if(m_branches.size() == 0)
+			return;
+
+		m_topology.resize(100, SIZE_MAX);
+
+		this->visit(false, [&](StreamBranch& branch) {
+			if(branch.m_branches.size() == 0)
+				++m_size;
+			
+			if(m_topology[branch.m_depth] == SIZE_MAX)
+				m_topology[branch.m_depth] = branch.m_branches.size();
+			else if(m_topology[branch.m_depth] != branch.m_branches.size())
+				m_topology[branch.m_depth] = 0;
+		});
+
+		remove_if(m_topology, [](size_t& val) { return val == 0 || val == SIZE_MAX; });
+	}
+
+	void Stream::flatten(Stream& source)
+	{
+		if(source.m_branches.empty())
+			return;
+
+		m_branches.clear();
+
+		m_value = meta(*m_type).m_empty_var;
+		Sequence& seq = sequence(m_value);
+		Var element = meta(*iter(*m_type).m_element_type).m_empty_var;
+
+		source.visit(true, [&](StreamBranch& branch)
+		{
+			branch.read(element, iter(*m_type).m_element_type, m_reference);
+			seq.add(m_value, element);
+		});
+	}
+
+	void Stream::graft(Stream& source)
+	{
+		Iterable& iterable = iter(source.m_value);
+		this->resize(iterable.size(source.m_value));
+
+		size_t index = 0;
+		iterable.iterate(source.m_value, [&](Ref element)
+		{
+			m_branches[index++].m_value = element;
+		});
+	}
+
+	void Stream::read(Stream& source)
+	{
+		*this = source; // why is this needed :/
+		
+		m_num_invalid = 0;
+		source.visit(true, [&](StreamBranch& source_branch)
+		{
+			StreamBranch& branch = this->branch(source_branch.m_index);
+			bool success = source_branch.read(branch.m_value, m_type, m_reference);
+			branch.m_valid = success && (m_nullable || !branch.m_value.null());
+			if(!branch.m_valid)
+				m_num_invalid++;
+		});
+	}
+
+	void Stream::validate()
+	{
+		m_num_invalid = 0;
+		this->visit(true, [&](StreamBranch& branch)
+		{
+			branch.m_valid = m_nullable || !branch.m_value.null();
+			if(!branch.m_valid)
+				m_num_invalid++;
+		});
+	}
+}
+
+module;
+module two.lang;
+
 
 #define TWO_LUA_DEBUG 0
 #define TWO_LUA_DEBUG_IO 0
@@ -197,7 +645,7 @@ namespace two
 		Stack(lua_State* state, int num = 1) : m_state(state), m_num(num) {}
 		~Stack() { assert(lua_gettop(m_state) >= m_num); if(m_num >= 1) lua_pop(m_state, m_num); }
 
-		Stack& operator=(Stack&& other) { using stl::swap; swap(m_state, other.m_state); swap(m_num, other.m_num); return *this; }
+		Stack& operator=(Stack&& other) { using two::swap; swap(m_state, other.m_state); swap(m_num, other.m_num); return *this; }
 		Stack(Stack&& other) : m_state(other.m_state), m_num(other.m_num) { other.m_num = 0; }
 
 		Stack operator+(Stack&& other) && { Stack obj(m_state, m_num + other.m_num); m_num = 0; other.m_num = 0; return obj; }
@@ -355,9 +803,9 @@ namespace two
 		if(var.none() || var.null())
 			return push_null(state);
 		// kludge
-		else if(var.m_mode == REF && type(var).is<Member>())
+		else if(var.m_mode == VarMode::Ref && type(var).is<Member>())
 			return push_ref(state, var.m_ref);
-		else if(var.m_mode == REF && type(var).is<Callable>())
+		else if(var.m_mode == VarMode::Ref && type(var).is<Callable>())
 			return push_callable(state, val<Callable>(var.m_ref));
 		else if(is_sequence(type(var)))
 			return push_sequence(state, var);
@@ -373,7 +821,7 @@ namespace two
 
 	inline void read_value(lua_State* state, int index, Var& value)
 	{
-		if(value.m_mode == REF && value.m_ref == Ref())
+		if(value.m_mode == VarMode::Ref && value.m_ref == Ref())
 			value = read_ref(state, index);
 		else if(type(value).is<Type>())
 			value = read_type(state, index);
@@ -512,7 +960,7 @@ namespace two
 			success &= !arg.none();
 			success &= param.nullable() || !arg.null();
 			if(!success)
-				printf("[ERROR] lua -> %s wrong argument %s, expect %s%s, got %s%s\n",
+				error("lua -> %s wrong argument %s, expect %s%s, got %s%s\n",
 					   callable.m_name, param.m_name, param.m_type->m_name, param.nullable() ? "" : " (non null)", type(arg).m_name, arg.null() ? " (null)" : "");
 		};
 		for(size_t i = 0; i < vars.m_count; ++i)
@@ -910,7 +1358,7 @@ namespace two
 
 			for(size_t i = 0; i < e.m_names.size(); ++i)
 			{
-				set_table(m_state, e.m_names[i], e.varn(i));
+				set_table(m_state, e.m_names[i], e.varn(uint32_t(i)));
 			}
 		}
 
@@ -918,7 +1366,7 @@ namespace two
 		{
 			if(!g_meta[type.m_id])
 			{
-				printf("[warning] lua - type %s doesn't have reflection meta type\n", type.m_name);
+				warn("lua - type %s doesn't have reflection meta type\n", type.m_name);
 				return;
 			}
 
@@ -986,7 +1434,7 @@ namespace two
 	{
 		System& system = System::instance();
 
-		//printf("[info] Declaring lua Meta info\n");
+		//info("declaring lua Meta info");
 		//system.dumpMetaInfo();
 
 		for(Namespace& location : system.m_namespaces)
@@ -1048,968 +1496,8 @@ namespace two
 
 }
 
-
+module;
 module two.lang;
-
-namespace two
-{
-	Script::Script(Type& type, const string& name, const Signature& signature)
-		: Callable(name.c_str(), signature.m_params, signature.m_return_type)
-		, m_index(index(two::type<Script>(), Ref(this, type)))
-		, m_type(type)
-		, m_name(name)
-		, m_signature(signature)
-	{
-		Callable::m_name = m_name.c_str();
-		m_signature.m_params = m_params;
-	}
-
-	Script::~Script()
-	{
-		unindex(type<Script>(), m_index);
-	}
-
-	Interpreter::Interpreter()
-	{}
-
-	Var Interpreter::get(const string& name, const Type& type) { UNUSED(name); UNUSED(type); return Var(); }
-	void Interpreter::set(const string& name, const Var& value) { UNUSED(name); UNUSED(value); }
-
-	Var Interpreter::getx(span<cstring> path, const Type& type) { UNUSED(path); UNUSED(type); return Var(); }
-	void Interpreter::setx(span<cstring> path, const Var& value) { UNUSED(path); UNUSED(value); }
-
-	void Interpreter::call(const TextScript& script, span<void*> args, void*& result)
-	{
-		m_script = &script;
-		script.m_runtime_errors.clear();
-		script.m_compile_errors.clear();
-
-		for(const Param& param : script.m_signature.m_params)
-		{
-			this->set(param.m_name, Ref(args[param.m_index], *param.m_type));
-		}
-
-		this->call(script.m_script, nullptr);
-		UNUSED(result);
-	}
-
-	string Interpreter::flush()
-	{
-		string output = m_output;
-		m_output = "";
-		return output;
-	}
-
-	TextScript::TextScript(const string& name, Language language, const Signature& signature)
-		: Script(type<TextScript>(), name, signature)
-		, m_language(language)
-	{}
-
-	void TextScript::operator()(span<void*> args, void*& result) const
-	{
-		m_interpreter->call(*this, args, result);
-	}
-
-	ScriptClass::ScriptClass(const string& name, span<Type*> parts)
-		: m_name(name)
-		, m_class_type(m_name.c_str())
-		, m_class(m_class_type)
-		, m_prototype(m_class_type, parts)
-	{}
-}
-
-
-module two.lang;
-
-namespace two
-{
-	StreamBranch::StreamBranch() {}
-	StreamBranch::StreamBranch(Stream* stream, const Var& value, StreamIndex index)
-		: m_stream(stream)
-		, m_index(index)
-		, m_depth(index.size() - 1)
-		, m_value(value)
-	{}
-
-	StreamBranch& StreamBranch::add_branch()
-	{
-		StreamIndex branch_index = m_index;
-		branch_index.push_back(m_branches.size());
-		m_branches.push_back({ m_stream, m_stream->m_default, branch_index });
-		return m_branches.back();
-	}
-
-	void StreamBranch::resize(size_t size)
-	{
-		for(size_t i = m_branches.size(); i < size; ++i)
-			this->add_branch();
-	}
-
-	void StreamBranch::clear()
-	{
-		m_branches.clear();
-	}
-
-	void StreamBranch::copy(const StreamBranch& source)
-	{
-		if(m_branches.size() == source.m_branches.size())
-		{
-			for(size_t i = 0; i < m_branches.size(); ++i)
-				m_branches[i].copy(source.m_branches[i]);
-		}
-		else
-		{
-			*this = source;
-		}
-	}
-
-	StreamBranch& StreamBranch::branch(const StreamIndex& index)
-	{
-		if(index.size() > m_depth + 1)
-		{
-			size_t at = index[m_depth + 1];
-			while(at >= m_branches.size())
-				this->add_branch();
-			return m_branches[at].branch(index);
-		}
-		else
-		{
-			return *this;
-		}
-	}
-
-	StreamBranch* StreamBranch::find_branch(const StreamIndex& index, size_t depth)
-	{
-		if(m_branches.empty())
-			return this;
-		else if(m_branches.size() <= index[depth])
-			return nullptr;
-		else
-			return m_branches[index[depth]].find_branch(index, depth + 1);
-	}
-
-	void StreamBranch::write(const Var& value, bool multiplex)
-	{
-		if(multiplex && !(value == Ref()) && is_sequence(type(value)))
-		{
-			Iterable& it = iter(value);
-			this->resize(it.size(value));
-
-			it.iteratei(value, [&](size_t i, Ref element) {
-				m_branches[i].m_value = element;
-			});
-		}
-		else
-		{
-			m_value = value;
-		}
-	}
-
-	bool StreamBranch::read(Var& value, const Type* expected_type, bool ref)
-	{
-		if(!expected_type)
-		{
-			value = m_value.m_ref;
-			return true;
-		}
-		bool result = convert(m_value, *expected_type, value, ref);
-#if 0
-		if(!result)
-			printf("[warning] No conversion possible from %s to %s : dest set to None\n", type(source).m_name, output.m_name);
-#endif
-		return result;
-	}
-
-	Stream::Stream()
-		: StreamBranch(this, Var(), { 0 })
-	{}
-
-	Stream::Stream(const Var& value, bool nullable, bool reference)
-		: StreamBranch(this, value, { 0 })
-		, m_default(value)
-		, m_type(value == Ref() ? &type<Ref>() : &type(value))
-		, m_nullable(nullable)
-		, m_reference(reference)
-	{}
-
-	Stream::Stream(const Stream& stream)
-		: Stream(stream.m_default, stream.m_nullable, stream.m_reference)
-	{
-		*this = stream;
-	}
-
-	Stream& Stream::operator=(const Stream& stream)
-	{
-		this->copy(stream);
-		this->compute();
-		return *this;
-	}
-
-	bool compare_tip(const Topology& topology, const Topology& other)
-	{
-		size_t depth = other.size();
-		return equal(topology.end() - depth, topology.end(), other.begin(), other.end());
-	}
-
-	StreamBranch* Stream::match_branch(const StreamLocation& source)
-	{
-		if(source.m_topology.size() > 0 && m_topology.size() > 0)
-			if(compare_tip(source.m_topology, m_topology))
-			{
-				size_t offset = source.m_topology.size() - m_topology.size();
-				return this->find_branch(source.m_index, offset + 1);
-			}
-
-		return this->find_branch(source.m_index, m_depth + 1);
-	}
-
-	void Stream::compute()
-	{
-		m_size = 0;
-		m_topology.clear();
-
-		if(m_branches.size() == 0)
-			return;
-
-		m_topology.resize(100, SIZE_MAX);
-
-		this->visit(false, [&](StreamBranch& branch) {
-			if(branch.m_branches.size() == 0)
-				++m_size;
-			
-			if(m_topology[branch.m_depth] == SIZE_MAX)
-				m_topology[branch.m_depth] = branch.m_branches.size();
-			else if(m_topology[branch.m_depth] != branch.m_branches.size())
-				m_topology[branch.m_depth] = 0;
-		});
-
-		remove_if(m_topology, [](size_t& val) { return val == 0 || val == SIZE_MAX; });
-	}
-
-	void Stream::flatten(Stream& source)
-	{
-		if(source.m_branches.empty())
-			return;
-
-		m_branches.clear();
-
-		m_value = meta(*m_type).m_empty_var;
-		Sequence& seq = sequence(m_value);
-		Var element = meta(*iter(*m_type).m_element_type).m_empty_var;
-
-		source.visit(true, [&](StreamBranch& branch)
-		{
-			branch.read(element, iter(*m_type).m_element_type, m_reference);
-			seq.add(m_value, element);
-		});
-	}
-
-	void Stream::graft(Stream& source)
-	{
-		Iterable& iterable = iter(source.m_value);
-		this->resize(iterable.size(source.m_value));
-
-		size_t index = 0;
-		iterable.iterate(source.m_value, [&](Ref element)
-		{
-			m_branches[index++].m_value = element;
-		});
-	}
-
-	void Stream::read(Stream& source)
-	{
-		*this = source; // why is this needed :/
-		
-		m_num_invalid = 0;
-		source.visit(true, [&](StreamBranch& source_branch)
-		{
-			StreamBranch& branch = this->branch(source_branch.m_index);
-			bool success = source_branch.read(branch.m_value, m_type, m_reference);
-			branch.m_valid = success && (m_nullable || !branch.m_value.null());
-			if(!branch.m_valid)
-				m_num_invalid++;
-		});
-	}
-
-	void Stream::validate()
-	{
-		m_num_invalid = 0;
-		this->visit(true, [&](StreamBranch& branch)
-		{
-			branch.m_valid = m_nullable || !branch.m_value.null();
-			if(!branch.m_valid)
-				m_num_invalid++;
-		});
-	}
-}
-
-
-module two.lang;
-
-namespace two
-{
-	ProcessValue::ProcessValue(VisualScript& script, const Var& value)
-		: Process(script, value == Ref() ? "Ref" : type(value).m_name, type<ProcessValue>())
-		, m_output(*this, "output", OUTPUT_VALVE, value, false, false)
-	{
-		m_output.m_edit = true;
-		m_output.m_stream.write(value);
-		m_state = COMPUTED;
-	}
-
-	ProcessValue::ProcessValue(VisualScript& script, Type& type)
-		: ProcessValue(script, meta(type).m_empty_var)
-	{}
-
-	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, const Constructor& constructor)
-		: Process(script, meta(type).m_name, two::type<ProcessCreate>())
-		, m_object_type(type)
-		, m_injector(constructor)
-		, m_output(*this, "output", OUTPUT_VALVE, is_struct(type) ? meta(type).m_empty_var : Var(meta(type).m_empty_ref), false, is_struct(type) ? false : true)
-		, m_pool(is_struct(type) ? nullptr : g_pools[m_object_type.m_id].get())
-	{
-		for(const Param& param : m_injector.m_constructor.m_params)
-			//if(param.m_mode == INPUT_PARAM)
-			if(param.m_index > 0) // skip first, it's the object reference
-				m_input_params.push_back(oconstruct<Valve>(*this, param));
-	}
-
-	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, ConstructorIndex constructor)
-		: ProcessCreate(script, type, *cls(type).constructor(constructor))
-	{}
-
-	ProcessCreate::ProcessCreate(VisualScript& script, Type& type, size_t num_args)
-		: ProcessCreate(script, type, *cls(type).constructor(num_args))
-	{}
-
-	void ProcessCreate::clear()
-	{
-		for(Ref& object : m_persistent_objects)
-			m_pool->destroy(object);
-		m_persistent_objects.clear();
-	}
-
-	void ProcessCreate::process(const StreamLocation& branch)
-	{
-		for(size_t i = 1; i < m_injector.m_args.size(); ++i)
-			m_injector.m_args[i] = m_inputs[i - 1]->read(branch);
-
-		if(is_struct(m_object_type))
-		{
-			Var& value = m_output.m_stream.branch(branch.m_index).m_value;
-			m_injector.inject(value);
-		}
-		else
-		{
-			Ref object = m_injector.inject(*m_pool);
-			m_output.m_stream.write(branch, object);
-			m_persistent_objects.push_back(object);
-		}
-	}
-
-	ProcessCallable::ProcessCallable(VisualScript& script, Callable& callable)
-		: Process(script, callable.m_name, type<ProcessCallable>())
-		, m_parameters(callable.m_params.size() + (callable.m_return_type == g_qvoid ? 0 : 1))
-		, m_callable(callable)
-	{
-		for(const Param& param : callable.m_params)
-			m_params.push_back(oconstruct<Valve>(*this, param));
-
-		if(callable.m_return_type != g_qvoid)
-			m_result = oconstruct<Valve>(*this, "result", OUTPUT_VALVE, meta(*callable.m_return_type.m_type).m_empty_var, false, false);
-	}
-
-	void ProcessCallable::process(const StreamLocation& branch)
-	{
-		for(Valve* valve : m_inputs)
-			m_parameters[valve->m_index] = valve->read(branch);
-		for(Valve* valve : m_outputs)
-			m_parameters[m_inputs.size() + valve->m_index] = valve->m_stream.m_default;
-
-		if(m_result)
-		{
-			Var& value = m_result->m_stream.branch(branch.m_index).m_value;
-			//m_callable(to_array(m_parameters), value);
-			m_result->m_stream.branch(branch.m_index).write(value);
-		}
-		else
-		{
-			static Var unused;
-			//m_callable(to_array(m_parameters), unused);
-		}
-
-		for(const Param& param : m_callable.m_params)
-			if(param.output())
-			{
-				m_params[param.m_index]->m_stream.write(branch, m_parameters[param.m_index]);
-			}
-	}
-
-	ProcessScript::ProcessScript(VisualScript& script, VisualScript& target)
-		: ProcessCallable(script, target)
-		, m_target(target)
-	{}
-
-	ProcessFunction::ProcessFunction(VisualScript& script, Function& function)
-		: ProcessCallable(script, function)
-		, m_function(function)
-	{}
-
-	ProcessMethod::ProcessMethod(VisualScript& script, Method& method)
-		: ProcessCallable(script, method)
-		, m_method(method)
-		, m_object(*this, "object", OUTPUT_VALVE, meta(*method.m_object_type).m_empty_ref, false, true)
-	{
-		m_parameters.resize(m_parameters.size() + 1);
-	}
-
-	void ProcessMethod::process(const StreamLocation& branch)
-	{
-		ProcessCallable::process(branch);
-		m_object.m_stream.write(branch, m_parameters[0]);
-	}
-
-	ProcessGetMember::ProcessGetMember(VisualScript& script, Member& member)
-		: Process(script, member.m_name, type<ProcessGetMember>())
-		, m_member(member)
-		, m_input_object(*this, "object", INPUT_VALVE, meta(*member.m_object_type).m_empty_ref, false, true)
-		, m_output(*this, member.m_name, OUTPUT_VALVE, member.m_default_value, false, !(member.is_value()))
-	{}
-
-	void ProcessGetMember::process(const StreamLocation& branch)
-	{
-		const Var& object = m_input_object.read(branch);
-		Var& value = m_output.m_stream.branch(branch.m_index).m_value;
-		//m_member.get(object.m_ref, value);
-		value = m_member.get(object.m_ref);
-	}
-
-	ProcessSetMember::ProcessSetMember(VisualScript& script, Member& member)
-		: Process(script, member.m_name, type<ProcessSetMember>())
-		, m_member(member)
-		, m_input_object(*this, "object", INPUT_VALVE, meta(*member.m_object_type).m_empty_ref, false, true)
-		, m_input_value(*this, member.m_name, INPUT_VALVE, member.m_default_value, false, false)
-		, m_output_object(*this, "object", OUTPUT_VALVE, meta(*member.m_object_type).m_empty_ref, false, true)
-	{}
-
-	void ProcessSetMember::process(const StreamLocation& branch)
-	{
-		const Var& object = m_input_object.read(branch);
-		const Var& value = m_input_value.read(branch);
-		m_member.set(object.m_ref, value.m_ref);
-
-		m_output_object.m_stream.write(branch, object);
-	}
-
-	ProcessDisplay::ProcessDisplay(VisualScript& script)
-		: Process(script, "Display", type<ProcessDisplay>())
-		, m_input_value(*this, "input", INPUT_VALVE)
-	{}
-
-	void ProcessDisplay::process(const StreamLocation& branch)
-	{
-		UNUSED(branch);
-		if(m_update_display)
-			m_update_display(*this);
-	}
-}
-
-
-module two.lang;
-
-#include <cstdio>
-
-#include <algorithm>
-
-#define TWO_DEBUG_SCRIPT
-
-namespace two
-{
-	template <class T, class V>
-	inline auto remove_pt(vector<T>& vec, V& value)
-	{
-		auto pos = find_if(vec.begin(), vec.end(), [&](auto& pt) { return pt.get() == &value; });
-		vec.erase(pos);
-	}
-
-	template <> void to_value<StreamIndex>(const string& str, StreamIndex& val) { UNUSED(str); UNUSED(val); }
-	template <> void to_string<StreamIndex>(const StreamIndex& val, string& str) { str += "{"; for(size_t i : val) str += to_string(i) + ","; str.pop_back(); str += "}"; }
-
-	Valve::Valve(Process& process, cstring name, ValveKind kind, const Var& value, bool nullable, bool reference)
-		: m_process(process)
-		, m_index(kind == INPUT_VALVE ? process.m_inputs.size() : process.m_outputs.size())
-		, m_name(name)
-		, m_kind(kind)
-		, m_stream(value, nullable, reference)
-		, m_edit(false)
-	{
-		if(kind == INPUT_VALVE)
-			process.m_inputs.push_back(this);
-		if(kind == OUTPUT_VALVE)
-			process.m_outputs.push_back(this);
-
-		if(kind == INPUT_VALVE)
-		{
-			m_stream.write(value, false);
-			m_stream.validate();
-			// @todo merge these two operations ? should we validate every time we write ?
-		}
-	}
-
-	Valve::Valve(Process& process, const Param& param)
-		: Valve(process, param.m_name, param.output() ? OUTPUT_VALVE : INPUT_VALVE, param.default_val(), param.nullable(), param.reference())
-	{}
-
-	Valve::~Valve()
-	{
-		for(Pipe* pipe : m_pipes)
-			m_process.m_script.disconnect(*pipe);
-	}
-
-	string Valve::error_info()
-	{
-		string errors;
-		m_stream.visit(true, [&](StreamBranch& branch)
-		{
-			if(!branch.m_valid)
-			{
-				//errors += "";
-				//errors += "\n";
-			}
-		});
-		if(m_stream.m_num_invalid > 0)
-			return to_string(m_stream.m_num_invalid) + " errors\n" + errors;
-		else
-			return "";
-	}
-
-	string Valve::param_info()
-	{
-		string info;
-
-		info += to_string(m_stream.m_size);
-		info += " elements\n";
-
-		m_stream.visit(true, [&](StreamBranch& branch)
-		{
-			info += to_string(branch.m_index);
-			if(branch.m_value == Ref())
-				info += "null";
-			else
-			{
-				info += "(" + string(meta(branch.m_value).m_name) + ") ";
-				if(g_convert[type(branch.m_value).m_id])
-					info += to_string(branch.m_value.m_ref);
-				info += "\n";
-			}
-		});
-		if(info.size() > 1000)
-			info.resize(1000);
-		return info;
-	}
-
-	bool Valve::check(const StreamLocation& location)
-	{
-		//if(!m_stream.m_type || m_stream.m_type->is(type<Ref>())) return true;
-		StreamBranch* stream_branch = m_stream.match_branch(location);
-		return stream_branch ? stream_branch->m_valid : false;
-	}
-
-	const Var& Valve::read(const StreamLocation& location)
-	{
-		StreamBranch* stream_branch = m_stream.match_branch(location);
-		assert(stream_branch);
-		return stream_branch->m_value;
-	}
-
-	object<Pipe> Valve::try_connect(Valve& output, StreamModifier modifier)
-	{
-		if(!m_pipes.empty())
-			m_process.m_script.disconnect(*m_pipes[0]);
-
-		return oconstruct<Pipe>(output, *this, modifier);
-	}
-
-	void Valve::propagate()
-	{
-		for(Pipe* pipe : m_pipes)
-			pipe->propagate();
-	}
-
-	Pipe::Pipe(Valve& output, Valve& input, StreamModifier modifier)
-		: m_output(output)
-		, m_input(input)
-		, m_modifier(modifier)
-	{
-		// the output plug is actually the input of the pipe itself
-		// conversely the input plug receives what gets out of the pipe
-
-		m_output.m_pipes.push_back(this);
-		m_input.m_pipes.push_back(this);
-
-		m_output.m_process.connected(input.m_process);
-
-		if(!input.m_process.m_script.m_locked)
-			this->propagate();
-	}
-
-	Pipe::~Pipe()
-	{
-		remove(m_output.m_pipes, this);
-		remove(m_input.m_pipes, this);
-	}
-	
-	void dump_stream(Stream& stream, const string& name)
-	{
-		printf("[info] Dump tree %s\n", name.c_str());
-		stream.visit(true, [&](StreamBranch& branch)
-		{
-			for(size_t d = 0; d < branch.m_depth; ++d)
-				printf("    ");
-			printf("Branch %s value %s\n", to_string(branch.m_index).c_str(), convert(type(branch.m_value)).m_to_string ? to_string(branch.m_value.m_ref).c_str()
-																														: to_name(type(branch.m_value), branch.m_value.m_ref).c_str());
-		});
-	}
-
-	void Pipe::propagate()
-	{
-		if(m_modifier == SM_FLATTEN)
-			m_input.m_stream.flatten(m_output.m_stream);
-		else if(m_modifier == SM_GRAFT)
-			m_input.m_stream.graft(m_output.m_stream);
-		else
-			m_input.m_stream.read(m_output.m_stream);
-
-		m_input.m_process.invalidate();
-
-		//dump_stream(m_input.m_stream, m_input.m_process.m_title + " " + m_input.m_name);
-	}
-
-	Process::Process(VisualScript& script, cstring title, Type& type)
-		: m_type(type)
-		, m_script(script)
-		, m_index(script.m_processes.size())
-		, m_title(title)
-		, m_position{ 0, 0 }
-	{}
-
-	Process::~Process()
-	{}
-
-	Valve& Process::out_flow()
-	{
-		if(!m_out_flow)
-			m_out_flow = oconstruct<Valve>(*this, "out", FLOW_VALVE_OUT);
-		return *m_out_flow;
-	}
-
-	Valve& Process::in_flow()
-	{
-		if(!m_in_flow)
-			m_in_flow = oconstruct<Valve>(*this, "in", FLOW_VALVE_IN);
-		return *m_in_flow;
-	}
-
-	void Process::recompute()
-	{
-		//printf("[debug] Process %s executing\n", m_title.c_str());
-		this->execute();
-		m_state = COMPUTED;
-
-		if(m_callback)
-			m_callback(*this);
-
-		for(Valve* output : m_outputs)
-			output->propagate();
-
-		if(m_out_flow)
-			m_out_flow->propagate();
-	}
-
-	void Process::execute()
-	{
-		//printf("execute process %s\n", m_title.c_str());
-		this->clear();
-
-		this->execution_flow();
-
-		m_execution_flow.visit(true, [this](StreamBranch& branch) {
-			this->process_branch({ branch.m_index, m_execution_flow.m_topology });
-		});
-
-		for(Valve* output : m_outputs)
-		{
-			output->m_stream.compute();
-		}
-
-		if(m_out_flow)
-			m_out_flow->m_stream = m_execution_flow;
-	}
-
-	Valve& Process::find_master_input()
-	{
-		Valve* masterInput = m_inputs[0];
-
-		// Process stream flow is the flow of the input with most branches
-		for(Valve* input : m_inputs)
-			if(input->m_stream.m_size > masterInput->m_stream.m_size)
-				masterInput = input;
-
-		if(m_in_flow && m_in_flow->m_stream.m_size > masterInput->m_stream.m_size)
-			masterInput = m_in_flow.get();
-
-		return *masterInput;
-	}
-
-	void Process::execution_flow()
-	{
-		if(m_inputs.empty())
-			return;
-
-		Valve& masterInput = m_master_input ? *m_master_input : this->find_master_input();
-		
-		m_execution_flow.copy(masterInput.m_stream);
-
-		if(m_secondary_input != nullptr)
-			m_execution_flow.visit(true, [&](StreamBranch& branch) {
-				branch.copy(m_secondary_input->m_stream);
-			});
-
-		m_execution_flow.compute();
-	}
-
-	bool Process::validate_inputs(const StreamLocation& branch)
-	{
-		bool valid = true;
-		for(Valve* input : m_inputs)
-		{
-			bool check = input->check(branch);
-			valid = valid && check;
-#ifdef TWO_DEBUG_SCRIPT
-			if(!check)
-				printf("[warning] vislang - wrong parameter for process %s, input %s, branch %s\n", m_title.c_str(), input->m_name.c_str(), to_string(branch.m_index).c_str());
-#endif
-		}
-		return valid;
-	}
-
-	void Process::process_branch(const StreamLocation& branch)
-	{
-		if(!this->validate_inputs(branch))
-		{
-#ifdef TWO_DEBUG_SCRIPT
-			//if(!branch.empty()) // @todo this doesn't work (branches are never empty :/
-				printf("[warning] vislang - process %s failed for branch %s\n", m_title.c_str(), to_string(branch.m_index).c_str());
-#endif
-			for(Valve* valve : m_outputs)
-				valve->m_stream.write(branch, Var());
-			return;
-		}
-
-		this->process(branch);
-	}
-
-	Process& Process::flow(Valve& valve)
-	{
-		m_script.connect(valve, this->in_flow());
-		return *this;
-	}
-
-	Valve* Process::pipe(span<Valve*> outputParams, Process* flow, span<StreamModifier> modifiers)
-	{
-		this->plug(outputParams, flow, modifiers);
-		return m_outputs.size() > 0 ? &this->output() : nullptr;
-	}
-
-	Process& Process::plug(span<Valve*> outputParams, Process* flow, span<StreamModifier> modifiers)
-	{
-		if(flow)
-			this->flow(flow->out_flow());
-		size_t num_inputs = min(m_inputs.size(), outputParams.size());
-		for(size_t i = 0; i < num_inputs; ++i)
-			m_script.connect(*outputParams[i], *m_inputs[i], modifiers.size() > i ? modifiers[i] : SM_NONE);
-		return *this;
-	}
-
-	Process& Process::combine_flow(size_t masterInput, size_t secondaryInput)
-	{
-		m_master_input = m_inputs[masterInput];
-		m_secondary_input = m_inputs[secondaryInput];
-		return *this;
-	}
-
-	void Process::connected(Process& output)
-	{
-		output.m_edge = false;
-		output.m_state = UNCOMPUTED;
-	}
-
-	int Process::visit_order()
-	{
-		if(!m_dirty)
-			return m_order;
-
-		m_order = 0;
-		m_dirty = false;
-
-		if(m_out_flow)
-			for(Pipe* pipe : m_out_flow->m_pipes)
-			{
-				Process& process = pipe->m_input.m_process;
-				m_order = min(m_order, process.visit_order() - 1);
-			}
-
-		for(Valve* valve : m_outputs)
-			for(Pipe* pipe : valve->m_pipes)
-			{
-				Process& process = pipe->m_input.m_process;
-				m_order = min(m_order, process.visit_order() - 1);
-			}
-
-		return m_order;
-	}
-
-	VisualScript::VisualScript(const string& name, const Signature& signature)
-		: Script(type<VisualScript>(), name, signature)
-	{
-		if(!signature.m_return_type.isvoid())
-			this->node<ProcessOutput>(Param("return", *signature.m_return_type.m_type));
-
-		for(const Param& param : signature.m_params)
-			if(!param.output())
-				this->node<ProcessInput>(param);
-			else if(param.output())
-				this->node<ProcessOutput>(param);
-	}
-
-	void VisualScript::remove(Process& process)
-	{
-		remove_pt(m_processes, process);
-
-		size_t index = 0;
-		for(auto& element : m_processes)
-			element->m_index = index++;
-	}
-
-	void VisualScript::lock()
-	{
-		m_locked = true;
-	}
-
-	void VisualScript::unlock(bool execute)
-	{
-		m_locked = false;
-		if(execute)
-		{
-			this->reorder();
-			this->execute();
-		}
-	}
-
-	void VisualScript::reorder()
-	{
-		for(auto& process : m_processes)
-			process->m_dirty = true;
-
-		for(auto& process : m_processes)
-			if(process->m_edge)
-				process->visit_order();
-
-		m_execution.clear();
-		for(auto& process : m_processes)
-			m_execution.push_back(process.get());
-
-		//quicksort<Process*>(m_execution, [](Process* lhs, Process* rhs) { return lhs->m_order < rhs->m_order; });
-		std::sort(m_execution.begin(), m_execution.end(), [](Process* lhs, Process* rhs) { return lhs->m_order < rhs->m_order; });
-	}
-
-	void VisualScript::connect(Valve& output, Valve& input, StreamModifier modifier)
-	{
-		object<Pipe> pipe = input.try_connect(output, modifier);
-		if(pipe)
-			m_pipes.push_back(move(pipe));
-		if(!m_locked)
-			this->execute();
-	}
-
-	void VisualScript::disconnect(Pipe& pipe)
-	{
-		remove_pt(m_pipes, pipe);
-	}
-
-	Valve& VisualScript::input(const string& name)
-	{
-		for(ProcessInput* input : m_inputs)
-			if(input->m_name == name)
-				return input->m_output;
-		return m_inputs[0]->m_output;
-	}
-
-	void VisualScript::execute(bool uncomputed)
-	{
-		for(Process* process : m_execution)
-		{
-			printf("[debug] vislang - eval process %s\n", process->m_title.c_str());
-			if(!uncomputed || (!process->computed() && !process->locked()))
-			{
-				printf("[debug] vislang - run process %s\n", process->m_title.c_str());
-				process->recompute();
-			}
-		}
-	}
-
-	void VisualScript::operator()(span<void*> args, void*& result) const
-	{
-		// @kludge: ugly cast until we decide something on this callable constness mess
-		VisualScript& self = const_cast<VisualScript&>(*this);
-		self.lock();
-		for(size_t i = 0; i < m_inputs.size(); ++i)
-			m_inputs[i]->m_output.m_stream.write(Ref(args[i], *m_signature.m_params[i].m_type));
-		self.unlock(false);
-
-		self.reorder();
-		self.execute(false);
-		UNUSED(result);
-	}
-
-	ProcessInput::ProcessInput(VisualScript& script, const Param& param)
-		: Process(script, param.m_name, type<ProcessInput>())
-		, Param(param)
-		, m_output(*this, param.m_name, OUTPUT_VALVE, param.default_val(), param.nullable(), param.reference())
-	{
-		script.m_inputs.push_back(this);
-	}
-
-	ProcessOutput::ProcessOutput(VisualScript& script, const Param& param)
-		: Process(script, param.m_name, type<ProcessOutput>())
-		, Param(param)
-		, m_input(*this, param.m_name, INPUT_VALVE, param.default_val(), param.nullable(), param.reference())
-	{
-		script.m_outputs.push_back(this);
-	}
-}
-
-#ifndef TWO_CPP_20
-#include <cassert>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <cstdarg>
-#include <cctype>
-#include <cstring>
-#endif
-
-module two.lang;
-
-extern "C"
-{
-#include <wren.h>
-
-void wrenBegin(WrenVM* vm);
-
-void wrenAssignVariable(WrenVM* vm, const char* module, const char* name,
-						int value_slot);
-}
 
 //#define TWO_WREN_DEBUG_DECLS
 //#define TWO_WREN_DEBUG
@@ -2038,7 +1526,7 @@ namespace two
 			}
 		}
 		else
-			printf("[ERROR] wren -> %s:%i %s\n", module, line, message);
+			error("wren -> %s:%i %s\n", module, line, message);
 	}
 
 	void wren_print(WrenVM* vm, const char* text)
@@ -2258,7 +1746,7 @@ namespace two
 			if(!success)
 			{
 #ifdef TWO_WREN_DEBUG
-				printf("[ERROR] wren -> wrong argument %s, expect type %s, got %s\n", callable.m_params[i].m_name, type(callable.m_params[i].m_value).m_name, type(vars[i]).m_name);
+				error("wren -> wrong argument %s, expect type %s, got %s\n", callable.m_params[i].m_name, type(callable.m_params[i].m_value).m_name, type(vars[i]).m_name);
 #endif
 				return false;
 			}
@@ -2278,14 +1766,14 @@ namespace two
 				push_value(vm, 0, call.m_result);
 		}
 		else
-			printf("[ERROR] wren -> %s wrong arguments\n", call.m_callable->m_name);
+			error("wren -> %s wrong arguments\n", call.m_callable->m_name);
 	}
 
 	inline void call_function(WrenVM* vm, size_t num_args)
 	{
 		const Callable& callable = val<Callable>(wren_ref(vm, 0));
 #ifdef TWO_WREN_DEBUG
-		printf("[info] wren -> call function %s\n", callable.m_name);
+		info("wren -> call function %s\n", callable.m_name);
 #endif
 		Call& call = cached_call(callable);
 		call_cpp(vm, call, 1, num_args);
@@ -2301,7 +1789,7 @@ namespace two
 	{
 		const Callable& callable = val<Callable>(read_ref(vm, 0));
 #ifdef TWO_WREN_DEBUG
-		printf("[info] wren -> call method %s\n", callable.m_name);
+		info("wren -> call method %s\n", callable.m_name);
 #endif
 		Call& call = cached_call(callable);
 		call_cpp(vm, call, 1, num_args + 1);
@@ -2327,7 +1815,7 @@ namespace two
 	inline void call_wren_virtual(WrenVM* vm, Method& method, Ref object, span<Var> parameters)
 	{
 #ifdef TWO_WREN_DEBUG
-		printf("[info] wren -> call wren %s\n", method.m_name);
+		info("wren -> call wren %s\n", method.m_name);
 #endif
 		WrenHandle* hmethod = g_wren_methods[method.m_index];
 		WrenHandle* hobject = g_wren_objects[object.m_value];
@@ -2338,7 +1826,7 @@ namespace two
 	{
 		const Member& member = val<Member>(read_ref(vm, 0));
 #ifdef TWO_WREN_DEBUG
-		printf("[info] wren -> get member %s\n", member.m_name);
+		info("wren -> get member %s\n", member.m_name);
 #endif
 		Ref object = read_ref(vm, 1);
 		Ref value = member.cast_get(object);
@@ -2349,7 +1837,7 @@ namespace two
 	{
 		const Member& member = val<Member>(read_ref(vm, 0));
 #ifdef TWO_WREN_DEBUG
-		printf("[info] wren -> set member %s\n", member.m_name);
+		info("wren -> set member %s\n", member.m_name);
 #endif
 		Ref object = read_ref(vm, 1);
 #ifdef TWO_WREN_OPTIMIZE_SET_MEMBER
@@ -2384,7 +1872,7 @@ namespace two
 		const Constructor* constructor = &val<Constructor>(read_ref(vm, 0));
 		if(!constructor) return;
 #ifdef TWO_WREN_DEBUG
-		printf("[info] wren -> construct %s\n", constructor->m_name);
+		info("wren -> construct %s\n", constructor->m_name);
 #endif
 		Call& construct = cached_call(*constructor);
 		if(read_params(vm, *construct.m_callable, construct.m_args, 1, 2))
@@ -2399,7 +1887,7 @@ namespace two
 		const CopyConstructor* constructor = &val<CopyConstructor>(read_ref(vm, 0));
 		if(!constructor) return;
 #ifdef TWO_WREN_DEBUG
-		printf("[info] wren -> copy construct %s\n", constructor->m_name);
+		info("wren -> copy construct %s\n", constructor->m_name);
 #endif
 		
 		Ref object = alloc_object(vm, 0, 1, *constructor->m_object_type);
@@ -2413,7 +1901,7 @@ namespace two
 		const Constructor* constructor = &val<Constructor>(read_ref(vm, 0));
 		if(!constructor) return;
 #ifdef TWO_WREN_DEBUG
-		printf("[info] wren -> construct %s\n", constructor->m_name);
+		info("wren -> construct %s\n", constructor->m_name);
 #endif
 		Call& construct = cached_call(*constructor);
 		VirtualMethod virtual_method = [=](Method& method, Ref object, span<Var> args) { wren->virtual_call(method, object, args); };
@@ -2586,7 +2074,7 @@ namespace two
 
 		if(result != WREN_RESULT_SUCCESS)
 		{
-			printf("[ERROR] could not declare wren class %s\n", name.c_str());
+			error("could not declare wren class %s", name.c_str());
 			return;
 		}
 
@@ -2629,7 +2117,7 @@ namespace two
 				const char* name = wrenGetSlotString(vm, 1);
 				Type* type = system().find_type(name);
 				if(g_wren_types[type->m_id] != nullptr)
-					printf("[warning] type %s already fetched\n", name);
+					warn("type %s already fetched", name);
 				else
 				{
 					alloc_ref(vm, 0, 0, Ref(type));
@@ -3142,7 +2630,7 @@ namespace two
 		{
 			if(!g_meta[type.m_id])
 			{
-				printf("[warning] wren - type %s doesn't have reflection meta type\n", type.m_name);
+				warn("wren - type %s doesn't have reflection meta type\n", type.m_name);
 				return;
 			}
 
@@ -3317,5 +2805,480 @@ namespace two
 	void WrenInterpreter::create_virtual(Ref object)
 	{
 		m_virtual_scripts[object.m_value] = m_script;
+	}
+}
+
+module;
+#include <cstdio>
+module two.lang;
+
+#define TWO_DEBUG_SCRIPT
+
+namespace two
+{
+	template <class T, class V>
+	inline auto remove_pt(vector<T>& vec, V& value)
+	{
+		auto pos = find_if(vec.begin(), vec.end(), [&](auto& pt) { return pt.get() == &value; });
+		vec.erase(pos);
+	}
+
+	template <> void to_value<StreamIndex>(const string& str, StreamIndex& val) { UNUSED(str); UNUSED(val); }
+	template <> void to_string<StreamIndex>(const StreamIndex& val, string& str) { str += "{"; for(size_t i : val) str += to_string(i) + ","; str.pop_back(); str += "}"; }
+
+	Valve::Valve(Process& process, cstring name, ValveKind kind, const Var& value, bool nullable, bool reference)
+		: m_process(process)
+		, m_index(kind == INPUT_VALVE ? process.m_inputs.size() : process.m_outputs.size())
+		, m_name(name)
+		, m_kind(kind)
+		, m_stream(value, nullable, reference)
+		, m_edit(false)
+	{
+		if(kind == INPUT_VALVE)
+			process.m_inputs.push_back(this);
+		if(kind == OUTPUT_VALVE)
+			process.m_outputs.push_back(this);
+
+		if(kind == INPUT_VALVE)
+		{
+			m_stream.write(value, false);
+			m_stream.validate();
+			// @todo merge these two operations ? should we validate every time we write ?
+		}
+	}
+
+	Valve::Valve(Process& process, const Param& param)
+		: Valve(process, param.m_name, param.output() ? OUTPUT_VALVE : INPUT_VALVE, param.default_val(), param.nullable(), param.reference())
+	{}
+
+	Valve::~Valve()
+	{
+		for(Pipe* pipe : m_pipes)
+			m_process.m_script.disconnect(*pipe);
+	}
+
+	string Valve::error_info()
+	{
+		string errors;
+		m_stream.visit(true, [&](StreamBranch& branch)
+		{
+			if(!branch.m_valid)
+			{
+				//errors += "";
+				//errors += "\n";
+			}
+		});
+		if(m_stream.m_num_invalid > 0)
+			return to_string(m_stream.m_num_invalid) + " errors\n" + errors;
+		else
+			return "";
+	}
+
+	string Valve::param_info()
+	{
+		string info;
+
+		info += to_string(m_stream.m_size);
+		info += " elements\n";
+
+		m_stream.visit(true, [&](StreamBranch& branch)
+		{
+			info += to_string(branch.m_index);
+			if(branch.m_value == Var(Ref()))
+				info += "null";
+			else
+			{
+				info += "(" + string(meta(branch.m_value).m_name) + ") ";
+				if(g_convert[type(branch.m_value).m_id])
+					info += to_string(branch.m_value.m_ref);
+				info += "\n";
+			}
+		});
+		if(info.size() > 1000)
+			info.resize(1000);
+		return info;
+	}
+
+	bool Valve::check(const StreamLocation& location)
+	{
+		//if(!m_stream.m_type || m_stream.m_type->is(type<Ref>())) return true;
+		StreamBranch* stream_branch = m_stream.match_branch(location);
+		return stream_branch ? stream_branch->m_valid : false;
+	}
+
+	const Var& Valve::read(const StreamLocation& location)
+	{
+		StreamBranch* stream_branch = m_stream.match_branch(location);
+		assert(stream_branch);
+		return stream_branch->m_value;
+	}
+
+	object<Pipe> Valve::try_connect(Valve& output, StreamModifier modifier)
+	{
+		if(!m_pipes.empty())
+			m_process.m_script.disconnect(*m_pipes[0]);
+
+		return oconstruct<Pipe>(output, *this, modifier);
+	}
+
+	void Valve::propagate()
+	{
+		for(Pipe* pipe : m_pipes)
+			pipe->propagate();
+	}
+
+	Pipe::Pipe(Valve& output, Valve& input, StreamModifier modifier)
+		: m_output(output)
+		, m_input(input)
+		, m_modifier(modifier)
+	{
+		// the output plug is actually the input of the pipe itself
+		// conversely the input plug receives what gets out of the pipe
+
+		m_output.m_pipes.push_back(this);
+		m_input.m_pipes.push_back(this);
+
+		m_output.m_process.connected(input.m_process);
+
+		if(!input.m_process.m_script.m_locked)
+			this->propagate();
+	}
+
+	Pipe::~Pipe()
+	{
+		remove(m_output.m_pipes, this);
+		remove(m_input.m_pipes, this);
+	}
+	
+	void dump_stream(Stream& stream, const string& name)
+	{
+		info("dump tree %s", name.c_str());
+		stream.visit(true, [&](StreamBranch& branch)
+		{
+			for(size_t d = 0; d < branch.m_depth; ++d)
+				printf("    ");
+			printf("Branch %s value %s\n", to_string(branch.m_index).c_str(), convert(type(branch.m_value)).m_to_string ? to_string(branch.m_value.m_ref).c_str()
+																														: to_name(type(branch.m_value), branch.m_value.m_ref).c_str());
+		});
+	}
+
+	void Pipe::propagate()
+	{
+		if(m_modifier == SM_FLATTEN)
+			m_input.m_stream.flatten(m_output.m_stream);
+		else if(m_modifier == SM_GRAFT)
+			m_input.m_stream.graft(m_output.m_stream);
+		else
+			m_input.m_stream.read(m_output.m_stream);
+
+		m_input.m_process.invalidate();
+
+		//dump_stream(m_input.m_stream, m_input.m_process.m_title + " " + m_input.m_name);
+	}
+
+	Process::Process(VisualScript& script, cstring title, Type& type)
+		: m_type(type)
+		, m_script(script)
+		, m_index(script.m_processes.size())
+		, m_title(title)
+		, m_position{ 0, 0 }
+	{}
+
+	Process::~Process()
+	{}
+
+	Valve& Process::out_flow()
+	{
+		if(!m_out_flow)
+			m_out_flow = oconstruct<Valve>(*this, "out", FLOW_VALVE_OUT);
+		return *m_out_flow;
+	}
+
+	Valve& Process::in_flow()
+	{
+		if(!m_in_flow)
+			m_in_flow = oconstruct<Valve>(*this, "in", FLOW_VALVE_IN);
+		return *m_in_flow;
+	}
+
+	void Process::recompute()
+	{
+		//printf("[debug] Process %s executing\n", m_title.c_str());
+		this->execute();
+		m_state = COMPUTED;
+
+		if(m_callback)
+			m_callback(*this);
+
+		for(Valve* output : m_outputs)
+			output->propagate();
+
+		if(m_out_flow)
+			m_out_flow->propagate();
+	}
+
+	void Process::execute()
+	{
+		//printf("execute process %s\n", m_title.c_str());
+		this->clear();
+
+		this->execution_flow();
+
+		m_execution_flow.visit(true, [this](StreamBranch& branch) {
+			this->process_branch({ branch.m_index, m_execution_flow.m_topology });
+		});
+
+		for(Valve* output : m_outputs)
+		{
+			output->m_stream.compute();
+		}
+
+		if(m_out_flow)
+			m_out_flow->m_stream = m_execution_flow;
+	}
+
+	Valve& Process::find_master_input()
+	{
+		Valve* masterInput = m_inputs[0];
+
+		// Process stream flow is the flow of the input with most branches
+		for(Valve* input : m_inputs)
+			if(input->m_stream.m_size > masterInput->m_stream.m_size)
+				masterInput = input;
+
+		if(m_in_flow && m_in_flow->m_stream.m_size > masterInput->m_stream.m_size)
+			masterInput = m_in_flow.get();
+
+		return *masterInput;
+	}
+
+	void Process::execution_flow()
+	{
+		if(m_inputs.empty())
+			return;
+
+		Valve& masterInput = m_master_input ? *m_master_input : this->find_master_input();
+		
+		m_execution_flow.copy(masterInput.m_stream);
+
+		if(m_secondary_input != nullptr)
+			m_execution_flow.visit(true, [&](StreamBranch& branch) {
+				branch.copy(m_secondary_input->m_stream);
+			});
+
+		m_execution_flow.compute();
+	}
+
+	bool Process::validate_inputs(const StreamLocation& branch)
+	{
+		bool valid = true;
+		for(Valve* input : m_inputs)
+		{
+			bool check = input->check(branch);
+			valid = valid && check;
+#ifdef TWO_DEBUG_SCRIPT
+			if(!check)
+				warn("vislang - wrong parameter for process %s, input %s, branch %s\n", m_title.c_str(), input->m_name.c_str(), to_string(branch.m_index).c_str());
+#endif
+		}
+		return valid;
+	}
+
+	void Process::process_branch(const StreamLocation& branch)
+	{
+		if(!this->validate_inputs(branch))
+		{
+#ifdef TWO_DEBUG_SCRIPT
+			//if(!branch.empty()) // @todo this doesn't work (branches are never empty :/
+				warn("vislang - process %s failed for branch %s", m_title.c_str(), to_string(branch.m_index).c_str());
+#endif
+			for(Valve* valve : m_outputs)
+				valve->m_stream.write(branch, Var());
+			return;
+		}
+
+		this->process(branch);
+	}
+
+	Process& Process::flow(Valve& valve)
+	{
+		m_script.connect(valve, this->in_flow());
+		return *this;
+	}
+
+	Valve* Process::pipe(span<Valve*> outputParams, Process* flow, span<StreamModifier> modifiers)
+	{
+		this->plug(outputParams, flow, modifiers);
+		return m_outputs.size() > 0 ? &this->output() : nullptr;
+	}
+
+	Process& Process::plug(span<Valve*> outputParams, Process* flow, span<StreamModifier> modifiers)
+	{
+		if(flow)
+			this->flow(flow->out_flow());
+		size_t num_inputs = min(m_inputs.size(), outputParams.size());
+		for(size_t i = 0; i < num_inputs; ++i)
+			m_script.connect(*outputParams[i], *m_inputs[i], modifiers.size() > i ? modifiers[i] : SM_NONE);
+		return *this;
+	}
+
+	Process& Process::combine_flow(size_t masterInput, size_t secondaryInput)
+	{
+		m_master_input = m_inputs[masterInput];
+		m_secondary_input = m_inputs[secondaryInput];
+		return *this;
+	}
+
+	void Process::connected(Process& output)
+	{
+		output.m_edge = false;
+		output.m_state = UNCOMPUTED;
+	}
+
+	int Process::visit_order()
+	{
+		if(!m_dirty)
+			return m_order;
+
+		m_order = 0;
+		m_dirty = false;
+
+		if(m_out_flow)
+			for(Pipe* pipe : m_out_flow->m_pipes)
+			{
+				Process& process = pipe->m_input.m_process;
+				m_order = min(m_order, process.visit_order() - 1);
+			}
+
+		for(Valve* valve : m_outputs)
+			for(Pipe* pipe : valve->m_pipes)
+			{
+				Process& process = pipe->m_input.m_process;
+				m_order = min(m_order, process.visit_order() - 1);
+			}
+
+		return m_order;
+	}
+
+	VisualScript::VisualScript(const string& name, const Signature& signature)
+		: Script(type<VisualScript>(), name, signature)
+	{
+		if(!signature.m_return_type.isvoid())
+			this->node<ProcessOutput>(Param("return", *signature.m_return_type.m_type));
+
+		for(const Param& param : signature.m_params)
+			if(!param.output())
+				this->node<ProcessInput>(param);
+			else if(param.output())
+				this->node<ProcessOutput>(param);
+	}
+
+	void VisualScript::remove(Process& process)
+	{
+		remove_pt(m_processes, process);
+
+		size_t index = 0;
+		for(auto& element : m_processes)
+			element->m_index = index++;
+	}
+
+	void VisualScript::lock()
+	{
+		m_locked = true;
+	}
+
+	void VisualScript::unlock(bool execute)
+	{
+		m_locked = false;
+		if(execute)
+		{
+			this->reorder();
+			this->execute();
+		}
+	}
+
+	void VisualScript::reorder()
+	{
+		for(auto& process : m_processes)
+			process->m_dirty = true;
+
+		for(auto& process : m_processes)
+			if(process->m_edge)
+				process->visit_order();
+
+		m_execution.clear();
+		for(auto& process : m_processes)
+			m_execution.push_back(process.get());
+
+		//quicksort<Process*>(m_execution, [](Process* lhs, Process* rhs) { return lhs->m_order < rhs->m_order; });
+#ifndef TWO_MODULES
+		// TODO (hugoam) fix swap() ADL issues
+		std::sort(m_execution.begin(), m_execution.end(), [](Process* lhs, Process* rhs) { return lhs->m_order < rhs->m_order; });
+#endif
+	}
+
+	void VisualScript::connect(Valve& output, Valve& input, StreamModifier modifier)
+	{
+		object<Pipe> pipe = input.try_connect(output, modifier);
+		if(pipe)
+			m_pipes.push_back(move(pipe));
+		if(!m_locked)
+			this->execute();
+	}
+
+	void VisualScript::disconnect(Pipe& pipe)
+	{
+		remove_pt(m_pipes, pipe);
+	}
+
+	Valve& VisualScript::input(const string& name)
+	{
+		for(ProcessInput* input : m_inputs)
+			if(input->m_name == name)
+				return input->m_output;
+		return m_inputs[0]->m_output;
+	}
+
+	void VisualScript::execute(bool uncomputed)
+	{
+		for(Process* process : m_execution)
+		{
+			printf("[debug] vislang - eval process %s\n", process->m_title.c_str());
+			if(!uncomputed || (!process->computed() && !process->locked()))
+			{
+				printf("[debug] vislang - run process %s\n", process->m_title.c_str());
+				process->recompute();
+			}
+		}
+	}
+
+	void VisualScript::operator()(span<void*> args, void*& result) const
+	{
+		// @kludge: ugly cast until we decide something on this callable constness mess
+		VisualScript& self = const_cast<VisualScript&>(*this);
+		self.lock();
+		for(size_t i = 0; i < m_inputs.size(); ++i)
+			m_inputs[i]->m_output.m_stream.write(Ref(args[i], *m_signature.m_params[i].m_type));
+		self.unlock(false);
+
+		self.reorder();
+		self.execute(false);
+		UNUSED(result);
+	}
+
+	ProcessInput::ProcessInput(VisualScript& script, const Param& param)
+		: Process(script, param.m_name, type<ProcessInput>())
+		, Param(param)
+		, m_output(*this, param.m_name, OUTPUT_VALVE, param.default_val(), param.nullable(), param.reference())
+	{
+		script.m_inputs.push_back(this);
+	}
+
+	ProcessOutput::ProcessOutput(VisualScript& script, const Param& param)
+		: Process(script, param.m_name, type<ProcessOutput>())
+		, Param(param)
+		, m_input(*this, param.m_name, INPUT_VALVE, param.default_val(), param.nullable(), param.reference())
+	{
+		script.m_outputs.push_back(this);
 	}
 }

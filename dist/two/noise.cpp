@@ -1,7 +1,4 @@
-#include <two/noise.h>
-#include <two/math.h>
 #include <two/infra.h>
-#include <two/type.h>
 
 
 #include <climits>
@@ -87,7 +84,7 @@ namespace two
 	template struct TWO_NOISE_EXPORT vector3d<float>;
 }
 #endif
-
+module;
 module two.noise;
 
 namespace two

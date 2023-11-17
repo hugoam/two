@@ -1,11 +1,5 @@
-#include <two/jobs.h>
 #include <two/infra.h>
-#include <two/type.h>
 
-
-namespace two
-{
-}
 #ifndef USE_STL
 module two.jobs;
 
@@ -16,35 +10,9 @@ namespace stl
 }
 #endif
 
+module;
+//#include <Tracy.hpp>
 module two.jobs;
-
-namespace two
-{
-    // Exported types
-    
-    
-    template <> TWO_JOBS_EXPORT Type& type<two::JobSystem>() { static Type ty("JobSystem", sizeof(two::JobSystem)); return ty; }
-}
-#include <stl/vector.hpp>
-#include <stl/span.h>
-#include <stl/math.h>
-#include <stl/algorithm.h>
-
-#include <cassert>
-#include <cmath>
-#include <random>
-
-#include <atomic>
-#include <thread>
-
-#include <condition_variable>
-#include <mutex>
-
-#ifndef TWO_PLATFORM_EMSCRIPTEN
-#include <immintrin.h>
-#endif
-
-#include <Tracy.hpp>
 
 #define __i386__
 
@@ -137,7 +105,7 @@ namespace two
 		{
 			m_thread_states = aligned_vector<ThreadState>(num_threads + adoptable_threads);
 
-			printf("[info] jobs - job system running on %i worker threads\n", int(num_threads));
+			info("jobs - job system running on %i worker threads", int(num_threads));
 
 			for(size_t i = 0, n = m_thread_states.size(); i < n; i++)
 			{
@@ -277,7 +245,9 @@ namespace two
 
 			if(job->function) //[[likely]]
 			{
+#ifndef TWO_MODULES
 				ZoneScopedN("job");
+#endif
 				job->function(job->storage, *this, job);
 			}
 
@@ -400,4 +370,21 @@ namespace two
 		UNUSED(state);
 		s_thread_state = nullptr;
 	}
+}
+
+module;
+module two.jobs; 
+
+namespace two
+{
+}
+module;
+module two.jobs;
+
+namespace two
+{
+    // Exported types
+    
+    
+    template <> TWO_JOBS_EXPORT Type& type<two::JobSystem>() { static Type ty("JobSystem", sizeof(two::JobSystem)); return ty; }
 }

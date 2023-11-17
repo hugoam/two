@@ -1,9 +1,9 @@
 #pragma once
 
-#include <two/srlz.h>
+#include <two/infra.h>
 #include <two/math.h>
 #include <two/refl.h>
-#include <two/infra.h>
+#include <two/srlz.h>
 #include <two/type.h>
 
 
@@ -49,29 +49,30 @@ struct glTFNodeExtras;
 struct glTFScene;
 struct glTF;
 
+
 using stl::vector;
 using stl::string;
 
 #ifndef USE_STL
 namespace stl
 {
-	export_ extern template class refl_ seque_ vector<glTFAnimationSampler>;
-	export_ extern template class refl_ seque_ vector<glTFAnimationChannel>;
-	export_ extern template class refl_ seque_ vector<glTFMorphTarget>;
-	export_ extern template class refl_ seque_ vector<glTFPrimitive>;
-	export_ extern template class refl_ seque_ vector<glTFBuffer>;
-	export_ extern template class refl_ seque_ vector<glTFBufferView>;
-	export_ extern template class refl_ seque_ vector<glTFAccessor>;
-	export_ extern template class refl_ seque_ vector<glTFImage>;
-	export_ extern template class refl_ seque_ vector<glTFTexture>;
-	export_ extern template class refl_ seque_ vector<glTFMaterial>;
-	export_ extern template class refl_ seque_ vector<glTFMesh>;
-	export_ extern template class refl_ seque_ vector<glTFNode>;
-	export_ extern template class refl_ seque_ vector<glTFSkin>;
-	export_ extern template class refl_ seque_ vector<glTFAnimation>;
-	export_ extern template class refl_ seque_ vector<glTFCamera>;
-	export_ extern template class refl_ seque_ vector<glTFSampler>;
-	export_ extern template class refl_ seque_ vector<glTFScene>;
+	extern template class refl_ seque_ vector<glTFAnimationSampler>;
+	extern template class refl_ seque_ vector<glTFAnimationChannel>;
+	extern template class refl_ seque_ vector<glTFMorphTarget>;
+	extern template class refl_ seque_ vector<glTFPrimitive>;
+	extern template class refl_ seque_ vector<glTFBuffer>;
+	extern template class refl_ seque_ vector<glTFBufferView>;
+	extern template class refl_ seque_ vector<glTFAccessor>;
+	extern template class refl_ seque_ vector<glTFImage>;
+	extern template class refl_ seque_ vector<glTFTexture>;
+	extern template class refl_ seque_ vector<glTFMaterial>;
+	extern template class refl_ seque_ vector<glTFMesh>;
+	extern template class refl_ seque_ vector<glTFNode>;
+	extern template class refl_ seque_ vector<glTFSkin>;
+	extern template class refl_ seque_ vector<glTFAnimation>;
+	extern template class refl_ seque_ vector<glTFCamera>;
+	extern template class refl_ seque_ vector<glTFSampler>;
+	extern template class refl_ seque_ vector<glTFScene>;
 }
 #endif
 
@@ -414,7 +415,7 @@ namespace two
 
 	export_ TWO_GLTF_EXPORT void setup_nodes(glTF& gltf);
 
-	template <class T>
+	export_ template <class T>
 	vector<T> unpack_accessor(const glTF& gltf, size_t accessor, bool for_vertex)
 	{
 		vector<double> attribs = decode_accessor(gltf, accessor, for_vertex);
@@ -423,7 +424,7 @@ namespace two
 		return ret;
 	}
 
-	template <class T, size_t size>
+	export_ template <class T, size_t size>
 	vector<T> unpack_accessor(const glTF& gltf, size_t accessor, bool for_vertex)
 	{
 		vector<double> attribs = decode_accessor(gltf, accessor, for_vertex);
@@ -433,7 +434,7 @@ namespace two
 		return ret;
 	}
 
-	template <class T>
+	export_ template <class T>
 	int pack_accessor(glTF& gltf, int buffer_index, glTFAccessor& accessor, span<T> values, bool for_vertex)
 	{
 		vector<double> attribs(values.size());
@@ -441,7 +442,7 @@ namespace two
 		return encode_accessor(gltf, buffer_index, accessor, attribs, for_vertex);
 	}
 
-	template <class T, size_t size>
+	export_ template <class T, size_t size>
 	int pack_accessor(glTF& gltf, int buffer_index, glTFAccessor& accessor, span<T> values, bool for_vertex)
 	{
 		vector<double> attribs(values.size() * size);
@@ -450,7 +451,7 @@ namespace two
 		return encode_accessor(gltf, buffer_index, accessor, attribs, for_vertex);
 	}
 
-	template <class T, size_t size>
+	export_ template <class T, size_t size>
 	int pack_accessor_float(glTF& gltf, int buffer_index, span<T> values, bool for_vertex)
 	{
 		static_assert(size > 0 && size <= 4, "incorrect size");
@@ -461,13 +462,9 @@ namespace two
 	}
 }
 
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
 
 
 namespace two

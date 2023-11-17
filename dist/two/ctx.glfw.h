@@ -1,10 +1,37 @@
 #pragma once
 
-#include <two/math.h>
 #include <two/ctx.h>
 #include <two/infra.h>
+#include <two/math.h>
 #include <two/type.h>
 
+
+
+#include <GLFW/glfw3.h>
+
+#if defined TWO_PLATFORM_WINDOWS
+#define WIN32_LEAN_AND_MEAN
+#define GLFW_EXPOSE_NATIVE_WIN32
+#elif defined TWO_PLATFORM_LINUX
+#define GLFW_EXPOSE_NATIVE_X11
+#define GLFW_EXPOSE_NATIVE_GLX
+#elif defined TWO_PLATFORM_OSX
+#define GLFW_EXPOSE_NATIVE_COCOA
+#endif
+
+#include <GLFW/glfw3native.h>
+
+#if defined TWO_PLATFORM_WINDOWS
+#undef max
+#undef min
+#undef near
+#undef far
+#undef NEAR
+#undef FAR
+#undef OPAQUE
+#elif defined TWO_PLATFORM_LINUX
+#undef None
+#endif
 
 
 //#ifdef TWO_CTX_GLFW
@@ -47,6 +74,10 @@ namespace two
 
 
 
+#include <stdint.h>
+#include <stl/string.h>
+#include <stl/vector.h>
+
 
 
 #ifndef TWO_CTX_GLFW_EXPORT
@@ -55,16 +86,11 @@ namespace two
 
 namespace two
 {
-    class GlfwContext;
+    export_ class GlfwContext;
 }
-
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
 
 namespace two
 {

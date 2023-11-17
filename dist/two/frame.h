@@ -1,15 +1,7 @@
 #pragma once
 
-#include <two/gfx.h>
-#include <two/ui.h>
-#include <two/geom.h>
-#include <two/jobs.h>
-#include <two/ecs.h>
-#include <two/math.h>
-#include <two/gfx.ui.h>
 #include <two/infra.h>
 #include <two/type.h>
-
 
 
 
@@ -20,17 +12,16 @@
 
 namespace two
 {
-	struct ShellContext;
-	class ShellWindow;
-    class Shell;
+	export_ struct ShellContext;
+	export_ class ShellWindow;
+    export_ class Shell;
 }
-
 
 #define GLOBAL_VG 0
 
 namespace two
 {
-	struct refl_ ShellContext
+	export_ struct refl_ ShellContext
 	{
 		Docksystem m_docksystem;
 		attr_ Widget* m_screen = nullptr;
@@ -40,7 +31,7 @@ namespace two
 	using ShellUpdate = void(*)(Shell&, ShellWindow&);
 	//using ShellUpdate = std::function<void(Shell&)>;
 
-	class refl_ ShellWindow : public GfxWindow
+	export_ class refl_ ShellWindow : public GfxWindow
 	{
 	public:
 		ShellWindow(GfxSystem& gfx, uint32_t index, const string& name, const uvec2& size, bool fullscreen = false);
@@ -58,7 +49,7 @@ namespace two
 		//virtual void end_frame() override;
 	};
 
-	class refl_ Shell
+	export_ class refl_ Shell
 	{
 	public:
 		constr_ Shell(const string& resource_path, const string& exec_path = "", bool window = true);
@@ -95,17 +86,13 @@ namespace two
 		ShellUpdate m_pump = nullptr;
 	};
 
-	void shell_context(Widget& parent, ShellContext& context);
+	export_ void shell_context(Widget& parent, ShellContext& context);
 }
 
 
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
 
 
 namespace two

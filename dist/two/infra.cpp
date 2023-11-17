@@ -1,10 +1,120 @@
 #include <two/infra.h>
 
+#ifndef USE_STL
+module two.infra;
 
-#ifndef TWO_CPP_20
-#include <cmath>
+namespace stl
+{
+	using namespace two;
+	template class TWO_INFRA_EXPORT vector<string>;
+	template class TWO_INFRA_EXPORT vector<uchar>;
+}
 #endif
 
+module;
+module two.infra;
+
+#if defined _WIN32
+#include <windows.h>
+#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+#endif
+#endif
+
+namespace two
+{
+	void init_console()
+	{
+#if defined _WIN32
+		HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+		DWORD mode = 0;
+		GetConsoleMode(handle, &mode);
+		mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+		SetConsoleMode(handle, mode);
+#endif
+	}
+}
+module;
+module two.infra;
+
+namespace two
+{
+    // Exported types
+    
+    
+}
+
+module;
+module two.infra;
+
+namespace two
+{
+#ifdef TWO_MODULES
+	using stl::string;
+#endif
+
+	template <> void to_string(const bool&    value, string& str) { str.resize(snprintf(nullptr, 0, "%d",   value)); sprintf(&str[0], "%d",   value); }
+	template <> void to_string(const char&    value, string& str) { str.resize(snprintf(nullptr, 0, "%d",   value)); sprintf(&str[0], "%d",   value); }
+	template <> void to_string(const schar&   value, string& str) { str.resize(snprintf(nullptr, 0, "%d",   value)); sprintf(&str[0], "%d",   value); }
+	template <> void to_string(const uchar&   value, string& str) { str.resize(snprintf(nullptr, 0, "%u",   value)); sprintf(&str[0], "%u",   value); }
+	template <> void to_string(const short&   value, string& str) { str.resize(snprintf(nullptr, 0, "%d",   value)); sprintf(&str[0], "%d",   value); }
+	template <> void to_string(const int&     value, string& str) { str.resize(snprintf(nullptr, 0, "%d",   value)); sprintf(&str[0], "%d",   value); }
+	template <> void to_string(const long&    value, string& str) { str.resize(snprintf(nullptr, 0, "%ld",  value)); sprintf(&str[0], "%ld",  value); }
+	template <> void to_string(const llong&   value, string& str) { str.resize(snprintf(nullptr, 0, "%lld", value)); sprintf(&str[0], "%lld", value); }
+	template <> void to_string(const ushort&  value, string& str) { str.resize(snprintf(nullptr, 0, "%u",   value)); sprintf(&str[0], "%u",   value); }
+	template <> void to_string(const uint&    value, string& str) { str.resize(snprintf(nullptr, 0, "%u",   value)); sprintf(&str[0], "%u",   value); }
+	template <> void to_string(const ulong&   value, string& str) { str.resize(snprintf(nullptr, 0, "%lu",  value)); sprintf(&str[0], "%lu",  value); }
+	template <> void to_string(const ullong&  value, string& str) { str.resize(snprintf(nullptr, 0, "%llu", value)); sprintf(&str[0], "%llu", value); }
+	template <> void to_string(const float&   value, string& str) { str.resize(snprintf(nullptr, 0, "%f",   value)); sprintf(&str[0], "%f",   value); }
+	template <> void to_string(const double&  value, string& str) { str.resize(snprintf(nullptr, 0, "%f",   value)); sprintf(&str[0], "%f",   value); }
+	template <> void to_string(const ldouble& value, string& str) { str.resize(snprintf(nullptr, 0, "%Lf",  value)); sprintf(&str[0], "%Lf",  value); }
+}
+
+module;
+module two.infra;
+
+namespace two
+{
+#ifdef TWO_MODULES
+	using stl::string;
+#endif
+
+#ifndef USE_STL
+	template <> void to_value(const string& str, bool& val) { val = atoi(str.c_str()) != 0; } //str == "true" ? true : false; }
+	template <> void to_value(const string& str, char& val) { val = char(atoi(str.c_str())); }
+	template <> void to_value(const string& str, schar& val) { val = schar(atoi(str.c_str())); }
+	template <> void to_value(const string& str, short& val) { val = short(atoi(str.c_str())); }
+	template <> void to_value(const string& str, int& val) { val = atoi(str.c_str()); }
+	template <> void to_value(const string& str, long& val) { val = atoi(str.c_str()); }
+	template <> void to_value(const string& str, llong& val) { val = atoi(str.c_str()); }
+	template <> void to_value(const string& str, uchar& val) { val = uchar(atoi(str.c_str())); }
+	template <> void to_value(const string& str, ushort& val) { val = ushort(atoi(str.c_str())); }
+	template <> void to_value(const string& str, uint& val) { val = atoi(str.c_str()); }
+	template <> void to_value(const string& str, ulong& val) { val = atoi(str.c_str()); }
+	template <> void to_value(const string& str, ullong& val) { val = atoi(str.c_str()); }
+	template <> void to_value(const string& str, float& val) { val = float(atof(str.c_str())); }
+	template <> void to_value(const string& str, double& val) { val = atof(str.c_str()); } //sscanf(str.c_str(), "%lf", &val); }
+	template <> void to_value(const string& str, ldouble& val) { val = atof(str.c_str()); }
+#else
+	template <> void to_value(const string& str, bool& val) { val = std::stoi(str) != 0; } //str == "true" ? true : false; }
+	template <> void to_value(const string& str, char& val) { val = char(std::stoi(str)); }
+	template <> void to_value(const string& str, schar& val) { val = schar(std::stoi(str)); }
+	template <> void to_value(const string& str, short& val) { val = short(std::stoi(str)); }
+	template <> void to_value(const string& str, int& val) { val = std::stoi(str); }
+	template <> void to_value(const string& str, long& val) { val = std::stoi(str); }
+	template <> void to_value(const string& str, llong& val) { val = std::stoi(str); }
+	template <> void to_value(const string& str, uchar& val) { val = uchar(std::stoi(str)); }
+	template <> void to_value(const string& str, ushort& val) { val = ushort(std::stoi(str)); }
+	template <> void to_value(const string& str, uint& val) { val = std::stoi(str); }
+	template <> void to_value(const string& str, ulong& val) { val = std::stoi(str); }
+	template <> void to_value(const string& str, ullong& val) { val = std::stoi(str); }
+	template <> void to_value(const string& str, float& val) { val = std::stof(str); }
+	template <> void to_value(const string& str, double& val) { val = std::stod(str); }
+	template <> void to_value(const string& str, ldouble& val) { val = std::stod(str); }
+#endif
+}
+
+module;
 module two.infra;
 
 namespace two
@@ -48,21 +158,8 @@ namespace two
 	{}
 }
 
-#ifdef TWO_CPP_20
+module;
 #include <dirent.h>
-#else
-#include <vector>
-#include <string>
-#include <fstream>
-#include <dirent.h>
-#undef min
-#undef max
-#undef near
-#undef far
-#undef NEAR
-#undef FAR
-#endif
-
 module two.infra;
 
 #if defined _WIN32
@@ -73,6 +170,10 @@ module two.infra;
 
 namespace two
 {
+#ifdef TWO_MODULES
+	using stl::string;
+#endif
+
 	void copy_file(const string& source, const string& dest)
 	{
 		std::ifstream source_file(source.c_str(), std::ios::binary);
@@ -132,7 +233,7 @@ namespace two
 		while(std::getline(file, stdline))
 		{
 			string line = { stdline.data(), stdline.data() + stdline.size() };
-			if(line.back() == '\r') line.pop_back();
+			if(!line.empty() && line.back() == '\r') line.pop_back();
 			if(!visit_line(line))
 				return;
 		}
@@ -296,25 +397,16 @@ namespace two
 		visit_folders(path + suffix, visit_folder);
 	}
 }
-#ifndef USE_STL
+
+module;
 module two.infra;
-
-namespace stl
-{
-	using namespace two;
-	template class TWO_INFRA_EXPORT vector<string>;
-	template class TWO_INFRA_EXPORT vector<uchar>;
-}
-#endif
-
-
-module two.infra;
-
-#include <cctype>
-#include <cassert>
 
 namespace two
 {
+#ifdef TWO_MODULES
+	using stl::string;
+#endif
+
 	const size_t g_num_precision = 3;
 
 	void split(const string& str, const string& separator, span<string> output)
@@ -424,6 +516,7 @@ namespace two
 	}
 }
 
+module;
 
 #if !defined(WIN32)
 #    include <pthread.h>
@@ -453,7 +546,6 @@ namespace two
 //#include <tchar.h>*
 //#undef small
 #endif
-
 
 module two.infra;
 
@@ -511,68 +603,4 @@ namespace two
 		//SetThreadAffinityMask(GetCurrentThread(), mask);
 #endif
 	}
-}
-
-module two.infra;
-
-#include <cstdio>
-
-namespace two
-{
-	template <> void to_string(const bool&    value, string& str) { str.resize(snprintf(nullptr, 0, "%d",   value)); sprintf(&str[0], "%d",   value); }
-	template <> void to_string(const char&    value, string& str) { str.resize(snprintf(nullptr, 0, "%d",   value)); sprintf(&str[0], "%d",   value); }
-	template <> void to_string(const schar&   value, string& str) { str.resize(snprintf(nullptr, 0, "%d",   value)); sprintf(&str[0], "%d",   value); }
-	template <> void to_string(const uchar&   value, string& str) { str.resize(snprintf(nullptr, 0, "%u",   value)); sprintf(&str[0], "%u",   value); }
-	template <> void to_string(const short&   value, string& str) { str.resize(snprintf(nullptr, 0, "%d",   value)); sprintf(&str[0], "%d",   value); }
-	template <> void to_string(const int&     value, string& str) { str.resize(snprintf(nullptr, 0, "%d",   value)); sprintf(&str[0], "%d",   value); }
-	template <> void to_string(const long&    value, string& str) { str.resize(snprintf(nullptr, 0, "%ld",  value)); sprintf(&str[0], "%ld",  value); }
-	template <> void to_string(const llong&   value, string& str) { str.resize(snprintf(nullptr, 0, "%lld", value)); sprintf(&str[0], "%lld", value); }
-	template <> void to_string(const ushort&  value, string& str) { str.resize(snprintf(nullptr, 0, "%u",   value)); sprintf(&str[0], "%u",   value); }
-	template <> void to_string(const uint&    value, string& str) { str.resize(snprintf(nullptr, 0, "%u",   value)); sprintf(&str[0], "%u",   value); }
-	template <> void to_string(const ulong&   value, string& str) { str.resize(snprintf(nullptr, 0, "%lu",  value)); sprintf(&str[0], "%lu",  value); }
-	template <> void to_string(const ullong&  value, string& str) { str.resize(snprintf(nullptr, 0, "%llu", value)); sprintf(&str[0], "%llu", value); }
-	template <> void to_string(const float&   value, string& str) { str.resize(snprintf(nullptr, 0, "%f",   value)); sprintf(&str[0], "%f",   value); }
-	template <> void to_string(const double&  value, string& str) { str.resize(snprintf(nullptr, 0, "%f",   value)); sprintf(&str[0], "%f",   value); }
-	template <> void to_string(const ldouble& value, string& str) { str.resize(snprintf(nullptr, 0, "%Lf",  value)); sprintf(&str[0], "%Lf",  value); }
-}
-
-module two.infra;
-
-#include <cstdlib>
-
-namespace two
-{
-#ifndef USE_STL
-	template <> void to_value(const string& str, bool& val) { val = atoi(str.c_str()) != 0; } //str == "true" ? true : false; }
-	template <> void to_value(const string& str, char& val) { val = char(atoi(str.c_str())); }
-	template <> void to_value(const string& str, schar& val) { val = schar(atoi(str.c_str())); }
-	template <> void to_value(const string& str, short& val) { val = short(atoi(str.c_str())); }
-	template <> void to_value(const string& str, int& val) { val = atoi(str.c_str()); }
-	template <> void to_value(const string& str, long& val) { val = atoi(str.c_str()); }
-	template <> void to_value(const string& str, llong& val) { val = atoi(str.c_str()); }
-	template <> void to_value(const string& str, uchar& val) { val = uchar(atoi(str.c_str())); }
-	template <> void to_value(const string& str, ushort& val) { val = ushort(atoi(str.c_str())); }
-	template <> void to_value(const string& str, uint& val) { val = atoi(str.c_str()); }
-	template <> void to_value(const string& str, ulong& val) { val = atoi(str.c_str()); }
-	template <> void to_value(const string& str, ullong& val) { val = atoi(str.c_str()); }
-	template <> void to_value(const string& str, float& val) { val = float(atof(str.c_str())); }
-	template <> void to_value(const string& str, double& val) { val = atof(str.c_str()); } //sscanf(str.c_str(), "%lf", &val); }
-	template <> void to_value(const string& str, ldouble& val) { val = atof(str.c_str()); }
-#else
-	template <> void to_value(const string& str, bool& val) { val = std::stoi(str) != 0; } //str == "true" ? true : false; }
-	template <> void to_value(const string& str, char& val) { val = char(std::stoi(str)); }
-	template <> void to_value(const string& str, schar& val) { val = schar(std::stoi(str)); }
-	template <> void to_value(const string& str, short& val) { val = short(std::stoi(str)); }
-	template <> void to_value(const string& str, int& val) { val = std::stoi(str); }
-	template <> void to_value(const string& str, long& val) { val = std::stoi(str); }
-	template <> void to_value(const string& str, llong& val) { val = std::stoi(str); }
-	template <> void to_value(const string& str, uchar& val) { val = uchar(std::stoi(str)); }
-	template <> void to_value(const string& str, ushort& val) { val = ushort(std::stoi(str)); }
-	template <> void to_value(const string& str, uint& val) { val = std::stoi(str); }
-	template <> void to_value(const string& str, ulong& val) { val = std::stoi(str); }
-	template <> void to_value(const string& str, ullong& val) { val = std::stoi(str); }
-	template <> void to_value(const string& str, float& val) { val = std::stof(str); }
-	template <> void to_value(const string& str, double& val) { val = std::stod(str); }
-	template <> void to_value(const string& str, ldouble& val) { val = std::stod(str); }
-#endif
 }

@@ -1,20 +1,19 @@
 #pragma once
 
-#include <two/gfx.h>
-#include <two/geom.h>
-#include <two/ui.h>
-#include <two/srlz.h>
-#include <two/uio.h>
-#include <two/gfx.pbr.h>
-#include <two/tree.h>
-#include <two/lang.h>
-#include <two/gfx.edit.h>
-#include <two/math.h>
-#include <two/refl.h>
 #include <two/ctx.h>
+#include <two/geom.h>
+#include <two/gfx.h>
+#include <two/gfx.pbr.h>
 #include <two/gfx.ui.h>
 #include <two/infra.h>
+#include <two/lang.h>
+#include <two/math.h>
+#include <two/refl.h>
+#include <two/srlz.h>
+#include <two/tree.h>
 #include <two/type.h>
+#include <two/ui.h>
+#include <two/uio.h>
 
 
 
@@ -77,6 +76,7 @@ namespace two
 		virtual void undo() = 0;
 	};
 }
+
 
 
 
@@ -417,6 +417,7 @@ namespace two
 }
 
 
+
 namespace two
 {
 	export_ class refl_ TWO_TOOL_EXPORT RotateAction : public TransformAction
@@ -444,6 +445,7 @@ namespace two
 		virtual object<TransformAction> create_action(span<Transform*> transforms);
 	};
 }
+
 
 
 namespace two
@@ -475,6 +477,7 @@ namespace two
 	};
 
 }
+
 
 
 namespace two
@@ -558,12 +561,12 @@ namespace two
 	{
 		ViewTools(ToolContext& context) : m_context(context) {}
 		ToolContext& m_context;
-		ViewTool m_top		= { m_context, "Top View",	   Y3 };
-		ViewTool m_bottom	= { m_context, "Bottom View", -Y3 };
-		ViewTool m_front	= { m_context, "Front View",  -Z3 };
-		ViewTool m_back		= { m_context, "Back View",	   Z3 };
-		ViewTool m_left		= { m_context, "Left View",	   X3 };
-		ViewTool m_right	= { m_context, "Right View",  -X3 };
+		ViewTool m_top		= { m_context, "Top View",	   y3 };
+		ViewTool m_bottom	= { m_context, "Bottom View", -y3 };
+		ViewTool m_front	= { m_context, "Front View",  -z3 };
+		ViewTool m_back		= { m_context, "Back View",	   z3 };
+		ViewTool m_left		= { m_context, "Left View",	   x3 };
+		ViewTool m_right	= { m_context, "Right View",  -x3 };
 	};
 }
 
@@ -631,13 +634,9 @@ namespace two
 	TWO_TOOL_EXPORT void edit_context(Widget& parent, EditContext& context, bool tools = false);
 }
 
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
 
 
 namespace two
@@ -712,8 +711,8 @@ namespace two
 		Plane m_plane;
 	};
 
-	inline unique<WorkPlaneTool> xy_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "XY Work Plane", Plane{ vec3(0.f), X3, Y3 }); }
-	inline unique<WorkPlaneTool> yz_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "YZ Work Plane", Plane{ vec3(0.f), Y3, Z3 }); }
-	inline unique<WorkPlaneTool> xz_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "XZ Work Plane", Plane{ vec3(0.f), X3, Z3 }); }
+	inline unique<WorkPlaneTool> xy_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "XY Work Plane", Plane{ vec3(0.f), x3, y3 }); }
+	inline unique<WorkPlaneTool> yz_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "YZ Work Plane", Plane{ vec3(0.f), y3, z3 }); }
+	inline unique<WorkPlaneTool> xz_work_plane_tool(ToolContext& context) { return make_unique<WorkPlaneTool>(context, "XZ Work Plane", Plane{ vec3(0.f), x3, z3 }); }
 }
 

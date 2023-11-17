@@ -1,38 +1,11 @@
-#include <two/ui.h>
-#include <two/ui.vg.h>
-#include <two/math.h>
 #include <two/infra.h>
-#include <two/type.h>
-
-#ifndef USE_STL
-module two.ui.vg;
-
-namespace stl
-{
-	using namespace two;
-	template class TWO_UI_VG_EXPORT vector<vg::GlyphPosition>;
-	template class TWO_UI_VG_EXPORT unordered_map<string, vg::FontHandle>;
-}
-#endif
 
 
-
-module two.ui-vg;
-
-namespace two
-{
-    // Exported types
-    
-}
-
-#ifndef TWO_CPP_20
-#include <cmath>
-#include <cfloat>
-#endif
-
+module;
 #include <vg/vg.h>
 #include <bgfx/bgfx.h>
-
+#include <stb_image.h>
+#include <stb_truetype.h>
 module two.ui.vg;
 
 #define ANGLED_WHEEL 0
@@ -136,12 +109,14 @@ namespace two
 		bgfx::setViewMode(view, bgfx::ViewMode::Sequential);
 		bgfx::setViewName(view, "ui");
 
-		vg::beginFrame(m_vg, uint16_t(rect.width), uint16_t(rect.height), pixel_ratio);
+		vg::begin(m_vg, view, uint16_t(rect.width), uint16_t(rect.height), pixel_ratio);
 	}
 
 	void VgVg::end_frame(uint16_t view)
 	{
-		vg::endFrame(m_vg, view);
+		UNUSED(view);
+		vg::end(m_vg);
+		vg::frame(m_vg);
 	}
 
 	bool VgVg::clipped(const vec4& rect)
@@ -460,3 +435,23 @@ namespace two
 		return dim == Axis::X ? text_size(text, len, paint).x : text_size(text, len, paint).y;
 	}
 }
+
+
+module;
+module two.ui.vg;
+
+namespace two
+{
+    // Exported types
+    
+}
+#ifndef USE_STL
+module two.ui.vg;
+
+namespace stl
+{
+	using namespace two;
+	template class TWO_UI_VG_EXPORT vector<vg::GlyphPosition>;
+	template class TWO_UI_VG_EXPORT unordered_map<string, vg::FontHandle>;
+}
+#endif

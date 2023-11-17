@@ -1,11 +1,23 @@
-#include <two/geom.h>
-#include <two/math.h>
-#include <two/fract.h>
 #include <two/infra.h>
-#include <two/type.h>
 
+module;
+module two.fract;
 
+namespace two
+{
+    // Exported types
+    template <> TWO_FRACT_EXPORT Type& type<two::PatternSampling>() { static Type ty("PatternSampling", sizeof(two::PatternSampling)); return ty; }
+    
+    template <> TWO_FRACT_EXPORT Type& type<stl::vector<two::Image256>>() { static Type ty("vector<two::Image256>", sizeof(stl::vector<two::Image256>)); return ty; }
+    
+    template <> TWO_FRACT_EXPORT Type& type<two::Circlifier>() { static Type ty("Circlifier", sizeof(two::Circlifier)); return ty; }
+    template <> TWO_FRACT_EXPORT Type& type<two::Pattern>() { static Type ty("Pattern", sizeof(two::Pattern)); return ty; }
+    template <> TWO_FRACT_EXPORT Type& type<two::FractTab>() { static Type ty("FractTab", sizeof(two::FractTab)); return ty; }
+    template <> TWO_FRACT_EXPORT Type& type<two::Fract>() { static Type ty("Fract", sizeof(two::Fract)); return ty; }
+    template <> TWO_FRACT_EXPORT Type& type<two::FractSample>() { static Type ty("FractSample", sizeof(two::FractSample)); return ty; }
+}
 
+module;
 module two.fract;
 
 namespace two
@@ -74,25 +86,24 @@ namespace two
 				}
 	}
 }
+#ifndef USE_STL
+module two.fract;
 
-#ifndef TWO_CPP_20
-#include <cstdlib>
-#include <cstdio>
-#include <cmath>
-#include <ctime>
+namespace stl
+{
+	using namespace two;
+	template class TWO_FRACT_EXPORT vector<FractTab>;
+	template class TWO_FRACT_EXPORT vector<Pixircle>;
+}
 #endif
 
+module;
 module two.fract;
 
 #define PI 3.14159f
 #define COEFF_TRANS 1.5f
 #define COEFF_ROTATION 15
 #define COEFF_V 0.004
-
-#ifndef TWO_CPP_20
-#include <cstdio>
-#include <stl/string.h>
-#endif
 
 float rnd_float()
 {
@@ -169,7 +180,7 @@ namespace two
 		
 		normal = vec3(a, b, 0.f);
 		if(normal == vec3(0.f))
-			normal = X3;
+			normal = x3;
 		else
 			normal = normalize(normal);
 
@@ -296,7 +307,7 @@ namespace two
 		for(size_t y = 0; y < subdiv.y; ++y)
 			for(size_t x = 0; x < subdiv.x; ++x)
 			{
-				const uvec2 coord = uvec2(x, y);
+				const uvec2 coord = uvec2(uint(x), uint(y));
 				Rect rect(vec2(coord) / vec2(subdiv), vec2(1.f) / vec2(subdiv));
 				images.emplace_back();
 				this->render(rect, pattern, resolution, images.back());
@@ -363,30 +374,4 @@ namespace two
 	{
 		m_fract.render(m_rect, pattern, m_resolution, image);
 	}
-}
-#ifndef USE_STL
-module two.fract;
-
-namespace stl
-{
-	using namespace two;
-	template class TWO_FRACT_EXPORT vector<FractTab>;
-	template class TWO_FRACT_EXPORT vector<Pixircle>;
-}
-#endif
-
-module two.fract;
-
-namespace two
-{
-    // Exported types
-    template <> TWO_FRACT_EXPORT Type& type<two::PatternSampling>() { static Type ty("PatternSampling", sizeof(two::PatternSampling)); return ty; }
-    
-    template <> TWO_FRACT_EXPORT Type& type<stl::vector<two::Image256>>() { static Type ty("vector<two::Image256>", sizeof(stl::vector<two::Image256>)); return ty; }
-    
-    template <> TWO_FRACT_EXPORT Type& type<two::Circlifier>() { static Type ty("Circlifier", sizeof(two::Circlifier)); return ty; }
-    template <> TWO_FRACT_EXPORT Type& type<two::Pattern>() { static Type ty("Pattern", sizeof(two::Pattern)); return ty; }
-    template <> TWO_FRACT_EXPORT Type& type<two::FractTab>() { static Type ty("FractTab", sizeof(two::FractTab)); return ty; }
-    template <> TWO_FRACT_EXPORT Type& type<two::Fract>() { static Type ty("Fract", sizeof(two::Fract)); return ty; }
-    template <> TWO_FRACT_EXPORT Type& type<two::FractSample>() { static Type ty("FractSample", sizeof(two::FractSample)); return ty; }
 }

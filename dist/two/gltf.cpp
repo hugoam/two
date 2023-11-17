@@ -1,19 +1,7 @@
-#include <two/pool.h>
-#include <two/geom.h>
-#include <two/srlz.h>
-#include <two/gltf.h>
-#include <two/math.h>
-#include <two/refl.h>
 #include <two/infra.h>
-#include <two/type.h>
 
 
-#ifndef TWO_CPP_20
-#include <cassert>
-#include <iostream>
-#include <fstream>
-#endif
-
+module;
 module two.gltf;
 
 #include <cstdio>
@@ -66,7 +54,7 @@ namespace two
 			}
 	}
 
-	export_ template <class T>
+	template <class T>
 	inline T bread(std::istream& stream) { T result; stream.read((char*)&result, sizeof(T)); return result; }
 
 	void parse_glb(const string& path, Json& json, vector<uint8_t>& buffer)
@@ -80,7 +68,7 @@ namespace two
 
 		if(magic != 0x46546C67 || version != 2)
 		{
-			printf("[ERROR] .glb contents invalid\n");
+			error(".glb contents invalid");
 			return;
 		}
 
@@ -362,38 +350,7 @@ namespace two
 		pack_json_file(packer, Ref(&gltf), path + "/" + file + ".repack.gltf");
 	}
 }
-#ifndef USE_STL
-module two.gltf;
-
-namespace stl
-{
-	using namespace two;
-	template class TWO_GLTF_EXPORT vector<int>;
-	template class TWO_GLTF_EXPORT vector<double>;
-	template class TWO_GLTF_EXPORT vector<uchar>;
-	template class TWO_GLTF_EXPORT vector<vector<uchar>>;
-	template class TWO_GLTF_EXPORT vector<glTFAnimationSampler>;
-	template class TWO_GLTF_EXPORT vector<glTFAnimationChannel>;
-	template class TWO_GLTF_EXPORT vector<glTFMorphTarget>;
-	template class TWO_GLTF_EXPORT vector<glTFPrimitive>;
-	template class TWO_GLTF_EXPORT vector<glTFBuffer>;
-	template class TWO_GLTF_EXPORT vector<glTFBufferView>;
-	template class TWO_GLTF_EXPORT vector<glTFAccessor>;
-	template class TWO_GLTF_EXPORT vector<glTFImage>;
-	template class TWO_GLTF_EXPORT vector<glTFTexture>;
-	template class TWO_GLTF_EXPORT vector<glTFMaterial>;
-	template class TWO_GLTF_EXPORT vector<glTFMesh>;
-	template class TWO_GLTF_EXPORT vector<glTFNode>;
-	template class TWO_GLTF_EXPORT vector<glTFSkin>;
-	template class TWO_GLTF_EXPORT vector<glTFAnimation>;
-	template class TWO_GLTF_EXPORT vector<glTFCamera>;
-	template class TWO_GLTF_EXPORT vector<glTFSampler>;
-	template class TWO_GLTF_EXPORT vector<glTFScene>;
-	template class TWO_GLTF_EXPORT unordered_map<string, int>;
-	template class TWO_GLTF_EXPORT unordered_map<int, int>;
-}
-#endif
-
+module;
 module two.gltf;
 
 namespace two
@@ -452,3 +409,34 @@ namespace two
     template <> TWO_GLTF_EXPORT Type& type<glTFScene>() { static Type ty("glTFScene", sizeof(glTFScene)); return ty; }
     template <> TWO_GLTF_EXPORT Type& type<glTF>() { static Type ty("glTF", sizeof(glTF)); return ty; }
 }
+#ifndef USE_STL
+module two.gltf;
+
+namespace stl
+{
+	using namespace two;
+	template class TWO_GLTF_EXPORT vector<int>;
+	template class TWO_GLTF_EXPORT vector<double>;
+	template class TWO_GLTF_EXPORT vector<uchar>;
+	template class TWO_GLTF_EXPORT vector<vector<uchar>>;
+	template class TWO_GLTF_EXPORT vector<glTFAnimationSampler>;
+	template class TWO_GLTF_EXPORT vector<glTFAnimationChannel>;
+	template class TWO_GLTF_EXPORT vector<glTFMorphTarget>;
+	template class TWO_GLTF_EXPORT vector<glTFPrimitive>;
+	template class TWO_GLTF_EXPORT vector<glTFBuffer>;
+	template class TWO_GLTF_EXPORT vector<glTFBufferView>;
+	template class TWO_GLTF_EXPORT vector<glTFAccessor>;
+	template class TWO_GLTF_EXPORT vector<glTFImage>;
+	template class TWO_GLTF_EXPORT vector<glTFTexture>;
+	template class TWO_GLTF_EXPORT vector<glTFMaterial>;
+	template class TWO_GLTF_EXPORT vector<glTFMesh>;
+	template class TWO_GLTF_EXPORT vector<glTFNode>;
+	template class TWO_GLTF_EXPORT vector<glTFSkin>;
+	template class TWO_GLTF_EXPORT vector<glTFAnimation>;
+	template class TWO_GLTF_EXPORT vector<glTFCamera>;
+	template class TWO_GLTF_EXPORT vector<glTFSampler>;
+	template class TWO_GLTF_EXPORT vector<glTFScene>;
+	template class TWO_GLTF_EXPORT unordered_map<string, int>;
+	template class TWO_GLTF_EXPORT unordered_map<int, int>;
+}
+#endif

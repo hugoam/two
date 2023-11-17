@@ -1,29 +1,9 @@
-#include <two/gfx.h>
-#include <two/gfx.gltf.h>
-#include <two/pool.h>
-#include <two/geom.h>
-#include <two/srlz.h>
-#include <two/gltf.h>
-#include <two/math.h>
 #include <two/infra.h>
-#include <two/type.h>
-#include <two/gltf.refl.h>
 
 
-module two.gfx-gltf;
-
-namespace two
-{
-    // Exported types
-    
-    
-    template <> TWO_GFX_GLTF_EXPORT Type& type<two::ImporterGltf>() { static Type ty("ImporterGltf", sizeof(two::ImporterGltf)); return ty; }
-}
-
-
+module;
 //#include <base64.h>
 #include <bgfx/bgfx.h>
-
 module two.gfx.gltf;
 
 #include <cstdio>
@@ -90,9 +70,13 @@ namespace two
 
 	static vector<uint8_t> read_base64_uri(const string& uri)
 	{
-		//std::string base64 = uri.substr(uri.find(",") + 1).c_str();
-		string decoded;// = decode_base64(base64).c_str();
-		return {};//convert<uint8_t>(decoded);
+		UNUSED(uri);
+#if 0
+		string base64 = uri.substr(uri.find(",") + 1).c_str();
+		string decoded = decode_base64(base64).c_str();
+		convert<uint8_t>(decoded);
+#endif
+		return {};
 	}
 
 	vector<uint8_t> read_uri(const string& base_path, const string& uri)
@@ -118,7 +102,7 @@ namespace two
 		{
 			string name = state.m_file + to_string(state.m_images.size());
 			Texture& texture = state.m_gfx.textures().create(name.c_str());
-			load_texture_mem(state.m_gfx, texture, data);
+			texture.load_mem(state.m_gfx, data);
 			state.m_images.push_back(&texture);
 		};
 
@@ -273,8 +257,6 @@ namespace two
 				{
 					MeshPacker morph;
 					
-					auto test = gltf.m_accessors[morph_target.POSITION].type;
-
 					if(morph_target.POSITION != -1)
 						morph.m_positions = unpack_accessor<vec3, 3>(gltf, morph_target.POSITION, true);
 					if(morph_target.NORMAL != -1)
@@ -301,7 +283,7 @@ namespace two
 				if(packer.m_tangents.empty() && !packer.m_normals.empty() && !packer.m_uv0s.empty())
 					packer.gen_tangents();
 				if(packer.m_tangents.empty() && packer.m_uv0s.empty())
-					printf("[warning] mesh %s imported without tangents (no uvs)\n", name.c_str());
+					warn("mesh %s imported without tangents (no uvs)", name.c_str());
 
 				bool optimize = config.m_optimize_geometry;
 #ifdef TWO_PLATFORM_EMSCRIPTEN
@@ -428,7 +410,7 @@ namespace two
 		for(size_t i = 0; i < gltf.m_nodes.size(); i++)
 		{
 			if(gltf.m_nodes[i].mesh != -1)
-				gltf.m_meshes[gltf.m_nodes[i].mesh].node = i;
+				gltf.m_meshes[gltf.m_nodes[i].mesh].node = int(i);
 
 			for(size_t j = 0; j < gltf.m_nodes[i].children.size(); j++)
 			{
@@ -440,7 +422,7 @@ namespace two
 
 	void create_bone(const glTF& gltf, const glTFNode& node, Skeleton& skeleton, uint32_t parent)
 	{
-		//printf("[info]      - adding bone %s index %i\n", node.name.c_str(), skeleton.m_bones.size());
+		//info("     - adding bone %s index %i", node.name.c_str(), skeleton.m_bones.size());
 		uint32_t bone = skeleton.add_bone(node.name.c_str(), parent);
 
 		for(int child : node.children)
@@ -452,7 +434,7 @@ namespace two
 	{
 		const glTFNode& skeleton_node = gltf.m_nodes[node];
 
-		printf("[info] Gltf - adding skeleton %s\n", skeleton_node.name.c_str());
+		info("Gltf - adding skeleton %s", skeleton_node.name.c_str());
 		model.m_rig->m_skeleton = { skeleton_node.name.c_str(), num_bones };
 		state.m_skeletons[node] = &model.m_rig->m_skeleton;
 
@@ -475,7 +457,7 @@ namespace two
 
 		for(glTFSkin& gltf_skin : gltf.m_skins)
 		{
-			printf("[info] Gltf - adding skin %s\n", gltf_skin.name.c_str());
+			info("gltf - adding skin %s", gltf_skin.name.c_str());
 			model.m_rig->m_skins.push_back({ *state.m_skeletons[gltf_skin.skeleton], int(gltf_skin.joints.size()) }); // gltf_skin.name
 			Skin& skin = model.m_rig->m_skins.back();
 
@@ -512,7 +494,7 @@ namespace two
 
 		animation.m_length = 0.f;
 
-		printf("[info] Gltf - importing animation %s\n", animation.m_name.c_str());
+		info("gltf - importing animation %s", animation.m_name.c_str());
 
 		for(const glTFAnimationChannel& channel : gltf_anim.channels)
 		{
@@ -602,7 +584,7 @@ namespace two
 				: config.m_transform * derive_transform(gltf, node);
 
 			state.m_nodes.push_back(Node3(transform, node.parent));
-			Node3& n = state.m_nodes.back();
+			//Node3& n = state.m_nodes.back();
 
 			if(node.mesh > -1)
 			{
@@ -649,7 +631,7 @@ namespace two
 
 	void ImporterGltf::import(Import& state, const string& filepath, const ImportConfig& config)
 	{
-		printf("[info] gltf - loading scene %s\n", filepath.c_str());
+		info("gltf - loading scene %s", filepath.c_str());
 
 		glTF gltf = { &m_gfx };
 		unpack_gltf(state.m_path, state.m_file, gltf);
@@ -659,7 +641,7 @@ namespace two
 
 	void ImporterGltf::import_model(Model& model, const string& filepath, const ImportConfig& config)
 	{
-		printf("[info] gltf - loading model %s\n", filepath.c_str());
+		info("gltf - loading model %s", filepath.c_str());
 
 		Import state = { m_gfx, filepath, config };
 
@@ -685,7 +667,7 @@ namespace two
 
 	void ImporterGltf::import_prefab(Prefab& prefab, const string& filepath, const ImportConfig& config)
 	{
-		printf("[info] gltf - loading prefab %s\n", filepath.c_str());
+		info("gltf - loading prefab %s", filepath.c_str());
 
 		Import state = { m_gfx, filepath, config };
 
@@ -700,7 +682,7 @@ namespace two
 	void ImporterGltf::repack(const string& filepath, const ImportConfig& config)
 	{
 		UNUSED(config);
-		printf("[info] gltf - repacking asset %s\n", filepath.c_str());
+		info("gltf - repacking asset %s", filepath.c_str());
 
 		string path = file_directory(filepath);
 		string file = file_name(filepath);
@@ -709,4 +691,14 @@ namespace two
 		unpack_gltf(path, file, gltf);
 		export_repack(gltf, path, file);
 	}
+}
+module;
+module two.gfx.gltf;
+
+namespace two
+{
+    // Exported types
+    
+    
+    template <> TWO_GFX_GLTF_EXPORT Type& type<two::ImporterGltf>() { static Type ty("ImporterGltf", sizeof(two::ImporterGltf)); return ty; }
 }

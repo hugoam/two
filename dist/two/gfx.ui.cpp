@@ -1,36 +1,8 @@
-#include <two/gfx.h>
-#include <two/geom.h>
-#include <two/ui.h>
-#include <two/tree.h>
-#include <two/math.h>
-#include <two/gfx.ui.h>
-#include <two/ctx.h>
 #include <two/infra.h>
-#include <two/type.h>
 
 
-module two.gfx-ui;
-
-namespace two
-{
-    // Exported types
-    template <> TWO_GFX_UI_EXPORT Type& type<two::ui::OrbitMode>() { static Type ty("OrbitMode", sizeof(two::ui::OrbitMode)); return ty; }
-    
-    
-    template <> TWO_GFX_UI_EXPORT Type& type<two::SpaceSheet>() { static Type ty("SpaceSheet", type<two::Ui>(), sizeof(two::SpaceSheet)); return ty; }
-    template <> TWO_GFX_UI_EXPORT Type& type<two::ViewerController>() { static Type ty("ViewerController", sizeof(two::ViewerController)); return ty; }
-    template <> TWO_GFX_UI_EXPORT Type& type<two::Viewer>() { static Type ty("Viewer", type<two::Widget>(), sizeof(two::Viewer)); return ty; }
-    template <> TWO_GFX_UI_EXPORT Type& type<two::SceneViewer>() { static Type ty("SceneViewer", type<two::Viewer>(), sizeof(two::SceneViewer)); return ty; }
-    template <> TWO_GFX_UI_EXPORT Type& type<two::OrbitController>() { static Type ty("OrbitController", type<two::ViewerController>(), sizeof(two::OrbitController)); return ty; }
-    template <> TWO_GFX_UI_EXPORT Type& type<two::TrackballController>() { static Type ty("TrackballController", type<two::ViewerController>(), sizeof(two::TrackballController)); return ty; }
-    template <> TWO_GFX_UI_EXPORT Type& type<two::OrbitControls>() { static Type ty("OrbitControls", type<two::ViewerController>(), sizeof(two::OrbitControls)); return ty; }
-    template <> TWO_GFX_UI_EXPORT Type& type<two::FreeOrbitController>() { static Type ty("FreeOrbitController", type<two::OrbitController>(), sizeof(two::FreeOrbitController)); return ty; }
-}
-
-
+module;
 module two.gfx.ui;
-
-#include <cstdio>
 
 namespace two
 {
@@ -109,8 +81,8 @@ namespace two
 		Ray ray = m_viewer.m_viewport.ray(event.m_relative);
 
 		vec3 p0 = m_quad->m_node.position();
-		vec3 p1 = p0 + m_quad->m_node.axis(X3);
-		vec3 p2 = p0 + m_quad->m_node.axis(Y3);
+		vec3 p1 = p0 + m_quad->m_node.axis(x3);
+		vec3 p2 = p0 + m_quad->m_node.axis(y3);
 
 		vec3 pos = plane_segment_intersection(p0, p1, p2, ray.m_start, ray.m_end);
 
@@ -126,10 +98,27 @@ namespace two
 		//inputEvent.dispatch(m_mouse, m_keyboard);
 	}
 }
+module;
+module two.gfx.ui;
 
+namespace two
+{
+    // Exported types
+    template <> TWO_GFX_UI_EXPORT Type& type<two::ui::OrbitMode>() { static Type ty("OrbitMode", sizeof(two::ui::OrbitMode)); return ty; }
+    
+    
+    template <> TWO_GFX_UI_EXPORT Type& type<two::SpaceSheet>() { static Type ty("SpaceSheet", type<two::Ui>(), sizeof(two::SpaceSheet)); return ty; }
+    template <> TWO_GFX_UI_EXPORT Type& type<two::ViewerController>() { static Type ty("ViewerController", sizeof(two::ViewerController)); return ty; }
+    template <> TWO_GFX_UI_EXPORT Type& type<two::Viewer>() { static Type ty("Viewer", type<two::Widget>(), sizeof(two::Viewer)); return ty; }
+    template <> TWO_GFX_UI_EXPORT Type& type<two::SceneViewer>() { static Type ty("SceneViewer", type<two::Viewer>(), sizeof(two::SceneViewer)); return ty; }
+    template <> TWO_GFX_UI_EXPORT Type& type<two::OrbitController>() { static Type ty("OrbitController", type<two::ViewerController>(), sizeof(two::OrbitController)); return ty; }
+    template <> TWO_GFX_UI_EXPORT Type& type<two::TrackballController>() { static Type ty("TrackballController", type<two::ViewerController>(), sizeof(two::TrackballController)); return ty; }
+    template <> TWO_GFX_UI_EXPORT Type& type<two::OrbitControls>() { static Type ty("OrbitControls", type<two::ViewerController>(), sizeof(two::OrbitControls)); return ty; }
+    template <> TWO_GFX_UI_EXPORT Type& type<two::FreeOrbitController>() { static Type ty("FreeOrbitController", type<two::OrbitController>(), sizeof(two::FreeOrbitController)); return ty; }
+}
 
+module;
 #include <bgfx/bgfx.h>
-
 module two.gfx.ui;
 
 namespace two
@@ -270,7 +259,7 @@ namespace two
 
 	void OrbitController::set_eye(const quat& rotation)
 	{
-		vec3 direction = rotate(rotation, -Z3);
+		vec3 direction = rotate(rotation, -z3);
 		m_camera.m_eye = m_camera.m_target - direction * m_distance;
 		//m_camera.m_target = m_position;
 	}
@@ -333,6 +322,11 @@ namespace two
 
 	void OrbitControls::update(Widget& widget, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat)
 	{
+		this->update(widget, widget.m_frame.m_size, fov, eye, target, up, mat);
+	}
+
+	void OrbitControls::update(ControlNode& input, const vec2& size, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat)
+	{
 		auto getAutoRotationAngle = [&]() -> float { return 2.f * c_pi / 60.f / 60.f * autoRotateSpeed; };
 
 		auto getZoomScale = [&]() -> float { return pow(0.95f, zoomSpeed); };
@@ -366,11 +360,11 @@ namespace two
 				float targetDistance = length(offset);
 
 				// half of the fov is center to top of screen
-				targetDistance *= tan((fov / 2.f) * c_pi / 180.0);
+				targetDistance *= tan((fov / 2.f) * c_pi / 180.f);
 
 				// we use only clientHeight here so aspect ratio does not distort speed
-				panLeft(2 * delta.x * targetDistance / widget.m_frame.m_size.y); // , object.matrix);
-				panUp(2 * delta.y * targetDistance / widget.m_frame.m_size.y); // , object.matrix);
+				panLeft(2 * delta.x * targetDistance / size.y); // , object.matrix);
+				panUp(2 * delta.y * targetDistance / size.y); // , object.matrix);
 
 			}
 			else {
@@ -410,7 +404,7 @@ namespace two
 		};
 #endif
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 		{
 			bool mod = event.m_modifiers != InputMod::None;
 			state = mod ? State::Pan : State::Rotate;
@@ -420,14 +414,14 @@ namespace two
 				panStart = event.m_relative;
 		}
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Pressed))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseMiddle, EventType::Pressed))
 		{
 			state = State::Dolly;
 			if(enableZoom)
 				dollyStart = event.m_relative;
 		}
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseRight, EventType::Pressed))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseRight, EventType::Pressed))
 		{
 			state = State::Pan;
 			if(enablePan)
@@ -439,8 +433,8 @@ namespace two
 			rotateEnd = event.m_relative;
 			rotateDelta = (rotateEnd - rotateStart) * rotateSpeed;
 
-			rotateLeft(2 * c_pi * rotateDelta.x / widget.m_frame.m_size.y); // yes, height
-			rotateUp(2 * c_pi * rotateDelta.y / widget.m_frame.m_size.y);
+			rotateLeft(2 * c_pi * rotateDelta.x / size.y); // yes, height
+			rotateUp(2 * c_pi * rotateDelta.y / size.y);
 
 			rotateStart = rotateEnd;
 		};
@@ -470,7 +464,7 @@ namespace two
 			panStart = panEnd;
 		};
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::Mouse, EventType::Moved))
+		if(MouseEvent event = input.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
 			if(state == State::Rotate && enableRotate)
 			{
@@ -486,14 +480,14 @@ namespace two
 			}
 		}
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Released))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseLeft, EventType::Released))
 			state = State::None;
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Released))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseMiddle, EventType::Released))
 			state = State::None;
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseRight, EventType::Released))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseRight, EventType::Released))
 			state = State::None;
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
 			if(enabled == false || enableZoom == false || (state != State::None && state != State::Rotate)) return;
 
@@ -950,6 +944,11 @@ namespace two
 
 	void TrackballController::update(Widget& widget, vec3& eye, vec3& target, vec3& up)
 	{
+		this->update(widget, widget.m_frame.m_size, eye, target, up);
+	}
+
+	void TrackballController::update(ControlNode& input, const vec2& size, vec3& eye, vec3& target, vec3& up)
+	{
 		m_to_eye = eye - m_target;
 
 		if(!m_noRotate) this->rotateCamera(eye, up);
@@ -979,74 +978,74 @@ namespace two
 		{
 			for(State state : { State::Rotate, State::Zoom, State::Pan })
 			{
-				if(KeyEvent event = widget.key_event(m_keys[state], EventType::Pressed))
+				if(KeyEvent event = input.key_event(m_keys[state], EventType::Pressed))
 				{
 					m_state = state;
 					m_prevState = m_state;
 				}
 
-				if(KeyEvent event = widget.key_event(m_keys[state], EventType::Released))
+				if(KeyEvent event = input.key_event(m_keys[state], EventType::Released))
 				{
 					m_state = m_prevState;
 				}
 			}
 		}
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 		{
 			m_state = State::Rotate;
 			if(!m_noRotate)
 			{
-				m_moveCurr = getMouseOnCircle(widget.m_frame.m_size, event.m_relative);
+				m_moveCurr = getMouseOnCircle(size, event.m_relative);
 				m_movePrev = m_moveCurr;
 			}
 		}
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Pressed))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseMiddle, EventType::Pressed))
 		{
 			m_state = State::Zoom;
 			if(!m_noZoom)
 			{
-				m_zoomStart = getMouseOnScreen(widget.m_frame.m_size, event.m_relative);
+				m_zoomStart = getMouseOnScreen(size, event.m_relative);
 				m_zoomEnd = m_zoomStart;
 			}
 		}
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseRight, EventType::Pressed))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseRight, EventType::Pressed))
 		{
 			m_state = State::Pan;
 			if(!m_noPan)
 			{
-				m_panStart = getMouseOnScreen(widget.m_frame.m_size, event.m_relative);
+				m_panStart = getMouseOnScreen(size, event.m_relative);
 				m_panEnd = m_panStart;
 			}
 		}
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::Mouse, EventType::Moved))
+		if(MouseEvent event = input.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
 			if(m_state == State::Rotate && !m_noRotate)
 			{
 				m_movePrev = m_moveCurr;
-				m_moveCurr = getMouseOnCircle(widget.m_frame.m_size, event.m_relative);
+				m_moveCurr = getMouseOnCircle(size, event.m_relative);
 			}
 			else if(m_state == State::Zoom && !m_noZoom)
 			{
-				m_zoomEnd = getMouseOnScreen(widget.m_frame.m_size, event.m_relative);
+				m_zoomEnd = getMouseOnScreen(size, event.m_relative);
 			}
 			else if(m_state == State::Pan && !m_noPan)
 			{
-				m_panEnd = getMouseOnScreen(widget.m_frame.m_size, event.m_relative);
+				m_panEnd = getMouseOnScreen(size, event.m_relative);
 			}
 		}
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Released))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseLeft, EventType::Released))
 			m_state = State::None;
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Released))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseMiddle, EventType::Released))
 			m_state = State::None;
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseRight, EventType::Released))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseRight, EventType::Released))
 			m_state = State::None;
 
-		if(MouseEvent event = widget.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
 			if(m_noZoom != true)
 			{
@@ -1201,6 +1200,7 @@ namespace ui
 
 	void viewport_picker(Viewer& viewer, Widget& widget, vector<Ref>& selection)
 	{
+		UNUSED(selection);
 		if(MouseEvent event = widget.mouse_event(DeviceType::Mouse, EventType::Moved, InputMod::None, false))
 		{
 			auto callback = [&](Item* item) { viewer.m_hovered = item; };
@@ -1282,12 +1282,12 @@ namespace ui
 
 		const KeyMove moves[12] =
 		{
-			{ Key::Up,   -Z3 * 2.f }, { Key::W,  -Z3 * 2.f },
-			{ Key::Down,  Z3 * 2.f }, { Key::S,   Z3 * 2.f },
-			{ Key::Left, -X3 * 1.f }, { Key::A,  -X3 * 1.f },
-			{ Key::Right, X3 * 1.f }, { Key::D,   X3 * 1.f },
-			{ Key::T,	  Y3 * 1.f }, { Key::Z,  -Y3 * 1.f },
-			{ Key::G,	 -Y3 * 1.f }, { Key::X,   Y3 * 1.f },
+			{ Key::Up,   -z3 * 2.f }, { Key::W,  -z3 * 2.f },
+			{ Key::Down,  z3 * 2.f }, { Key::S,   z3 * 2.f },
+			{ Key::Left, -x3 * 1.f }, { Key::A,  -x3 * 1.f },
+			{ Key::Right, x3 * 1.f }, { Key::D,   x3 * 1.f },
+			{ Key::T,	  y3 * 1.f }, { Key::Z,  -y3 * 1.f },
+			{ Key::G,	 -y3 * 1.f }, { Key::X,   y3 * 1.f },
 		};
 
 		for(const KeyMove& key_move : moves)
@@ -1325,7 +1325,7 @@ namespace ui
 		OrbitController& orbit = mode == Mode::Isometric ? ui::isometric_controller(viewer)
 														 : ui::orbit_controller(viewer);
 
-		orbit.set_target(entity.m_position + Y3 * 2.f);
+		orbit.set_target(entity.m_position + y3 * 2.f);
 
 		if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
 		{
@@ -1349,7 +1349,7 @@ namespace ui
 			if(mode != Mode::ThirdPerson)
 			{
 				Ray ray = viewer.m_viewport.ray(event.m_relative);
-				vec3 target = plane_segment_intersection(Plane(Y3, entity.m_position.y), to_segment(ray));
+				vec3 target = plane_segment_intersection(Plane(y3, entity.m_position.y), to_segment(ray));
 				if(mode == Mode::Isometric)
 				{
 					entity.m_rotation = look_at(entity.m_position, target);
@@ -1362,7 +1362,7 @@ namespace ui
 			}
 			else
 			{
-				entity.m_rotation = rotate(entity.m_rotation, Y3, angle.x);
+				entity.m_rotation = rotate(entity.m_rotation, y3, angle.x);
 				angles.y += angle.y;
 				angles.y = min(c_pi2 - 0.01f, max(-c_pi2 + 0.01f, angles.y));
 			}
@@ -1370,7 +1370,7 @@ namespace ui
 
 		if(mode == Mode::ThirdPerson)
 		{
-			orbit.set_eye(aiming ? rotate(entity.m_rotation, X3, angles.y) : entity.m_rotation);
+			orbit.set_eye(aiming ? rotate(entity.m_rotation, x3, angles.y) : entity.m_rotation);
 			aiming = true;
 		}
 
@@ -1410,10 +1410,10 @@ namespace ui
 
 		const KeyMove moves[8] =
 		{
-			{ Key::Up,    -Z3 }, { Key::W, -Z3 },
-			{ Key::Down,   Z3 }, { Key::S,  Z3 },
-			{ Key::Left,  -X3 }, { Key::A, -X3 },
-			{ Key::Right,  X3 }, { Key::D,  X3 },
+			{ Key::Up,    -z3 }, { Key::W, -z3 },
+			{ Key::Down,   z3 }, { Key::S,  z3 },
+			{ Key::Left,  -x3 }, { Key::A, -x3 },
+			{ Key::Right,  x3 }, { Key::D,  x3 },
 		};
 
 		for(const KeyMove& key_move : moves)
@@ -1422,7 +1422,7 @@ namespace ui
 }
 }
 
-
+module;
 module two.gfx.ui;
 
 namespace two

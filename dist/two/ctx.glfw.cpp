@@ -1,11 +1,8 @@
 #include <two/ctx.glfw.h>
-#include <two/math.h>
-#include <two/ctx.h>
 #include <two/infra.h>
-#include <two/type.h>
 
-
-module two.ctx-glfw;
+module;
+module two.ctx.glfw;
 
 namespace two
 {
@@ -14,39 +11,13 @@ namespace two
     template <> TWO_CTX_GLFW_EXPORT Type& type<two::GlfwContext>() { static Type ty("GlfwContext", type<two::Context>()); return ty; }
 }
 
-//#include <gfx/Cpp20.h>
-#ifndef TWO_CPP_20
-#include <cstdio>
-#endif
 
-
-#include <GLFW/glfw3.h>
-
-#if defined TWO_PLATFORM_WINDOWS
-	#define GLFW_EXPOSE_NATIVE_WIN32
-#elif defined TWO_PLATFORM_LINUX
-	#define GLFW_EXPOSE_NATIVE_X11
-	#define GLFW_EXPOSE_NATIVE_GLX
-#elif defined TWO_PLATFORM_OSX
-	#define GLFW_EXPOSE_NATIVE_COCOA
-#endif
-
-#include <GLFW/glfw3native.h>
-
-#if defined TWO_PLATFORM_WINDOWS
-	#undef max
-	#undef min
-	#undef near
-	#undef far
-	#undef NEAR
-	#undef FAR
-#endif
-
+module;
 module two.ctx.glfw;
 
 void glfw_error(int error, const char* desc)
 {
-	printf("[ERROR] ctx glfw - GLFW %d: %s\n", error, desc);
+	two::error("ctx glfw - GLFW %d: %s", error, desc);
 }
 
 namespace two
@@ -209,13 +180,13 @@ namespace two
 
 	void GlfwContext::init_context()
 	{
-		printf("[info] ctx glfw - creating GLFW context. GLFW version %i.%i\n", GLFW_VERSION_MAJOR, GLFW_VERSION_MINOR);
+		info("ctx glfw - creating GLFW context. GLFW version %i.%i", GLFW_VERSION_MAJOR, GLFW_VERSION_MINOR);
 
 		glfwSetErrorCallback(glfw_error);
 
 		if(!glfwInit())
 		{
-			printf("[ERROR] ctx glfw - failed to init GLFW.\n");
+			error("ctx glfw - failed to init GLFW.");
 			return;
 		}
 

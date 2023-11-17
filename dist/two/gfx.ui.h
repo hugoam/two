@@ -1,15 +1,7 @@
 #pragma once
 
-#include <two/gfx.h>
-#include <two/geom.h>
-#include <two/ui.h>
-#include <two/tree.h>
-#include <two/ecs.h>
-#include <two/math.h>
-#include <two/ctx.h>
 #include <two/infra.h>
 #include <two/type.h>
-
 
 
 
@@ -29,16 +21,16 @@ namespace ui
 namespace two
 {
 	class Object;
-    class SpaceSheet;
-    struct ViewerStyles;
-    class ViewerController;
-    class Viewer;
-    class SceneViewer;
-    class OrbitController;
-    class TrackballController;
-    class FreeOrbitController;
-	class OrbitControls;
-    class SpaceViewport;
+    export_ class SpaceSheet;
+    export_ struct ViewerStyles;
+    export_ class ViewerController;
+    export_ class Viewer;
+    export_ class SceneViewer;
+    export_ class OrbitController;
+    export_ class TrackballController;
+    export_ class FreeOrbitController;
+	export_ class OrbitControls;
+    export_ class SpaceViewport;
 }
 
 
@@ -73,13 +65,9 @@ namespace two
 	};
 }
 
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
 
 
 namespace two
@@ -97,6 +85,7 @@ namespace two
     export_ template <> TWO_GFX_UI_EXPORT Type& type<two::OrbitControls>();
     export_ template <> TWO_GFX_UI_EXPORT Type& type<two::FreeOrbitController>();
 }
+
 
 
 namespace two
@@ -247,8 +236,9 @@ namespace two
 		void reset(vec3& eye, vec3& target, vec3& up);
 
 		virtual void process(Viewer& viewer) override;
-		void update(Widget& widget, vec3& eye, vec3& target, vec3& up);
 
+		void update(Widget& widget, vec3& eye, vec3& target, vec3& up);
+		void update(ControlNode& input, const vec2& size, vec3& eye, vec3& target, vec3& up);
 	};
 
 	// This set of controls performs orbiting, dollying (zooming), and panning.
@@ -324,6 +314,7 @@ namespace two
 		virtual void process(Viewer& viewer) override;
 
 		void update(Widget& widget, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat);
+		void update(ControlNode& input, const vec2& size, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat);
 
 	private:
 		enum class State { None = -1, Rotate = 0, Dolly = 1, Pan = 2, TouchRotate = 3, TouchDollyPan = 4 };

@@ -1,13 +1,9 @@
 #pragma once
 
-#include <two/pool.h>
-#include <two/jobs.h>
 #include <two/infra.h>
 #include <two/type.h>
 
 
-
-#include <stl/swap.h>
 
 
 
@@ -17,16 +13,15 @@
 
 namespace two
 {
-	template <class T> struct ComponentHandle;
-	template <class T> struct EntityHandle;
+	export_ template <class T> struct ComponentHandle;
+	export_ template <class T> struct EntityHandle;
 
-    class Prototype;
-	struct Entity;
-	struct Entt;
-	class OEntt;
-	class ECS;
-	class GridECS;
-	class Complex;
+	export_ struct Entity;
+	export_ struct Entt;
+	export_ class OEntt;
+	export_ class ECS;
+	export_ class GridECS;
+	export_ class Complex;
 }
 
 #ifdef TWO_META_GENERATOR
@@ -35,19 +30,18 @@ namespace stl
 {
 }
 #endif
-#include <stdint.h>
 
 namespace two
 {
-	template <size_t EcsType, size_t Index>
+	export_ template <size_t EcsType, size_t Index>
 	struct TypeBuffer
 	{};
 
-	template <class T>
+	export_ template <class T>
 	struct TypedBuffer
 	{};
 
-	struct refl_ struct_ TWO_ECS_EXPORT Entity
+	export_ struct refl_ struct_ TWO_ECS_EXPORT Entity
 	{
 		explicit operator bool() const { return m_handle != UINT32_MAX; }
 		//operator uint32_t() const { return m_handle; }
@@ -57,7 +51,7 @@ namespace two
 
 		void destroy(); // { if(m_handle != UINT32_MAX) s_ecs[m_ecs]->destroy(m_handle); }
 
-		void swap(Entity& other) { using two::swap; swap(m_handle, other.m_handle); swap(m_stream, other.m_stream); swap(m_ecs, other.m_ecs); }
+		void swap(Entity& other) { using stl::swap; swap(m_handle, other.m_handle); swap(m_stream, other.m_stream); swap(m_ecs, other.m_ecs); }
 
 		uint8_t m_ecs = UINT8_MAX;
 		uint16_t m_stream = UINT16_MAX;
@@ -66,7 +60,7 @@ namespace two
 		uint64_t as_uint() { return uint64_t(m_ecs) << 48ULL | uint64_t(m_stream) << 32ULL | uint64_t(m_handle); }
 	};
 
-	struct refl_ struct_ TWO_ECS_EXPORT Entt
+	export_ struct refl_ struct_ TWO_ECS_EXPORT Entt
 	{
 		GridECS* m_ecs = nullptr;
 		uint32_t m_handle = UINT32_MAX;
@@ -75,7 +69,7 @@ namespace two
 		T& comp();
 	};
 
-	class refl_ TWO_ECS_EXPORT OEntt : public Entt
+	export_ class refl_ TWO_ECS_EXPORT OEntt : public Entt
 	{
 	public:
 		OEntt() {}
@@ -93,17 +87,12 @@ namespace two
 }
 
 
-#include <stdint.h>
-#include <stl/memory.h>
-#include <stl/map.h>
-#include <stl/string.h>
+
+
+
 
 #define TWO_ECS_TYPED
 
-#include <stl/swap.h>
-#include <stl/vector.h>
-#ifdef TWO_ECS_TYPED
-#endif
 
 namespace two
 {
@@ -159,7 +148,7 @@ namespace two
 
 namespace two
 {
-	class BufferArray
+	export_ class BufferArray
 	{
 	public:
 		BufferArray();
@@ -216,7 +205,7 @@ namespace two
 
 	using cstring = const char*;
 
-	class EntityStream : public BufferArray
+	export_ class EntityStream : public BufferArray
 	{
 	public:
 		EntityStream();
@@ -227,10 +216,10 @@ namespace two
 
 		cstring m_name;
 		uint16_t m_index;
-		uint64_t m_prototype;
+		uint64_t m_prototype = 0;
 	};
 
-	class GridECS : public BufferArray
+	export_ class GridECS : public BufferArray
 	{
 	public:
 		vector<uint32_t> m_available;
@@ -242,7 +231,7 @@ namespace two
 		void destroy(uint32_t handle);
 	};
 
-	class ECS
+	export_ class ECS
 	{
 	public:
 		uint8_t m_index = 0;
@@ -310,7 +299,7 @@ namespace two
 		void loop_ent(T_Function action);
 	};
 
-	template <unsigned EcsType, unsigned NumComponents>
+	export_ template <unsigned EcsType, unsigned NumComponents>
 	class tECS : public ECS
 	{
 	public:
@@ -339,12 +328,12 @@ namespace two
 	inline T* try_asa(const Entity* entity) { if(entity && isa<T>(*entity)) return &asa<T>(*entity); else return nullptr; }
 
 #ifdef TWO_ECS_TYPED
-	struct EntityRef {};
+	export_ struct EntityRef {};
 
 	export_ template <> TWO_ECS_EXPORT Type& type<EntityRef>();
 
-	inline Ref ent_ref(uint32_t entity) { return Ref((void*)uintptr_t(entity), type<EntityRef>()); }
-	inline uint32_t as_ent(const Ref& ref) { return ref.m_type->is<EntityRef>() ? uint32_t((uintptr_t)ref.m_value) : UINT32_MAX; }
+	export_ inline Ref ent_ref(uint32_t entity) { return Ref((void*)uintptr_t(entity), type<EntityRef>()); }
+	export_ inline uint32_t as_ent(const Ref& ref) { return ref.m_type->is<EntityRef>() ? uint32_t((uintptr_t)ref.m_value) : UINT32_MAX; }
 #endif
 
 	inline string entity_prototype(const Entity& entity)
@@ -353,7 +342,7 @@ namespace two
 		return stream.m_name;
 	}
 
-	template <class T>
+	export_ template <class T>
 	struct refl_ struct_ ComponentHandle : public Entity
 	{
 		ComponentHandle();
@@ -369,7 +358,7 @@ namespace two
 		const T& operator*() const;
 	};
 
-	template <class T>
+	export_ template <class T>
 	struct refl_ struct_ nocopy_ EntityHandle : public ComponentHandle<T>
 	{
 		EntityHandle();
@@ -385,79 +374,6 @@ namespace two
 		operator Entity() const;
 	};
 }
-//#include <ecs/ECS.hpp>
-
-
-#include <stl/vector.h>
-#include <stl/span.h>
-
-namespace two
-{
-	export_ class refl_ TWO_ECS_EXPORT Complex
-	{
-	public:
-		constr_ Complex(uint32_t id, Type& type);
-		constr_ Complex(uint32_t id, Type& type, span<Ref> parts);
-		virtual ~Complex();
-
-		template <class... T_Parts>
-		Complex(uint32_t id, Type& type, T_Parts&&... parts)
-			: Complex(id, type)
-		{
-			swallow{ (this->add_part(Ref(&parts, two::type<type_class<T_Parts>>())), 1)... };
-		}
-
-		attr_ uint32_t m_id;
-		attr_ Type& m_type;
-		attr_ Prototype& m_prototype;
-
-		attr_ vector<Ref> m_parts;
-
-		meth_ void setup(span<Ref> parts);
-
-		meth_ void add_part(Ref part) { m_parts[m_prototype.part_index(type(part))] = part; }
-		meth_ bool has_part(Type& type) { return m_prototype.has_part(type); }
-		meth_ Ref part(Type& type) { return m_parts[m_prototype.part_index(type)]; }
-		meth_ Ref try_part(Type& type) { if(has_part(type)) return this->part(type); else return Ref(); }
-	};
-
-	export_ template <class T>
-	inline bool is(Complex& complex) { return complex.m_type.template is<T>() || complex.has_part(type<T>()); }
-
-	export_ template <class T>
-	inline T& as(Complex& complex) { return *static_cast<T*>(complex.part(type<T>()).m_value); }
-
-	export_ template <class T>
-	inline T* try_as(Complex& complex) { return is<T>(complex) ? *as<T>(complex) : nullptr; }
-}
-
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
-#endif
-
-
-
-namespace two
-{
-    // Exported types
-    
-    
-    export_ template <> TWO_ECS_EXPORT Type& type<two::Entity>();
-    export_ template <> TWO_ECS_EXPORT Type& type<two::Entt>();
-    export_ template <> TWO_ECS_EXPORT Type& type<two::OEntt>();
-    export_ template <> TWO_ECS_EXPORT Type& type<two::Complex>();
-}
-
-
-
-#include <stl/tuple.h>
-#include <stl/algorithm.h>
-
-//#include <cstdio>
-#include <cassert>
 
 namespace two
 {
@@ -602,7 +518,11 @@ namespace two
 	inline T& BufferArray::get(uint32_t handle)
 	{
 		const uint32_t index = m_handles[handle];
-		return this->buffer<T>().m_data[index];
+		TBuffer<T>& buffer = this->buffer<T>();
+#ifndef TWO_MODULES
+		TWO_ASSERT(buffer.m_data.size() > index, "Accessing out of bounds component %s at index %d", type<T>().m_name, index);
+#endif
+		return buffer.m_data[index];
 	}
 
 	inline EntityStream::EntityStream() {}
@@ -907,8 +827,6 @@ namespace two
 	inline EntityHandle<T>::operator Entity() const { return { this->m_handle, this->m_stream }; }
 }
 
-#include <stl/tuple.h>
-
 namespace two
 {
 	template <class... Types, size_t... Is, class T_Function>
@@ -945,3 +863,63 @@ namespace two
 		return for_components_impl<Types...>(job_system, parent, ecs, action, index_tuple<sizeof...(Types)>());
 	}
 }
+
+
+
+namespace two
+{
+	export_ class refl_ TWO_ECS_EXPORT Complex
+	{
+	public:
+		constr_ Complex(uint32_t id, Type& type);
+		constr_ Complex(uint32_t id, Type& type, span<Ref> parts);
+		virtual ~Complex();
+
+		template <class... T_Parts>
+		Complex(uint32_t id, Type& type, T_Parts&&... parts)
+			: Complex(id, type)
+		{
+			swallow{ (this->add_part(Ref(&parts, two::type<type_class<T_Parts>>())), 1)... };
+		}
+
+		attr_ uint32_t m_id;
+		attr_ Type& m_type;
+		attr_ Prototype& m_prototype;
+
+		attr_ vector<Ref> m_parts;
+
+		meth_ void setup(span<Ref> parts);
+
+		meth_ void add_part(Ref part) { m_parts[m_prototype.part_index(type(part))] = part; }
+		meth_ bool has_part(Type& type) { return m_prototype.has_part(type); }
+		meth_ Ref part(Type& type) { return m_parts[m_prototype.part_index(type)]; }
+		meth_ Ref try_part(Type& type) { if(has_part(type)) return this->part(type); else return Ref(); }
+	};
+
+	export_ template <class T>
+	inline bool is(Complex& complex) { return complex.m_type.template is<T>() || complex.has_part(type<T>()); }
+
+	export_ template <class T>
+	inline T& as(Complex& complex) { return *static_cast<T*>(complex.part(type<T>()).m_value); }
+
+	export_ template <class T>
+	inline T* try_as(Complex& complex) { return is<T>(complex) ? *as<T>(complex) : nullptr; }
+}
+
+
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#endif
+
+
+namespace two
+{
+    // Exported types
+    
+    
+    export_ template <> TWO_ECS_EXPORT Type& type<two::Entity>();
+    export_ template <> TWO_ECS_EXPORT Type& type<two::Entt>();
+    export_ template <> TWO_ECS_EXPORT Type& type<two::OEntt>();
+    export_ template <> TWO_ECS_EXPORT Type& type<two::Complex>();
+}
+#ifdef TWO_MODULES
+#endif

@@ -1,12 +1,9 @@
 #pragma once
 
-#include <two/pool.h>
-#include <two/type.h>
 #include <two/infra.h>
+#include <two/type.h>
 
 
-
-#include <stl/vector.h>
 
 
 
@@ -16,36 +13,35 @@
 
 namespace two
 {
-    enum class ConstructorIndex : unsigned int;
-    enum class TypeClass : unsigned int;
+    export_ enum class ConstructorIndex : unsigned int;
+    export_ enum class TypeClass : unsigned int;
     
-	struct QualType;
-    class Param;
-    class Signature;
-    class Callable;
-    class Function;
-	struct Operator;
-    class Method;
-    class Constructor;
-    class CopyConstructor;
-    class Destructor;
-    struct Call;
-    class Meta;
-    class Static;
-    class Member;
-	struct Alias;
-    class Class;
-    class Convert;
-    class TypeConverter;
-    class Enum;
-    class Injector;
-    class Creator;
-    class Iterable;
-    class Sequence;
-    class Namespace;
-    class Module;
-    class System;
-	class Prototype;
+	export_ struct QualType;
+    export_ class Param;
+    export_ class Signature;
+    export_ class Callable;
+    export_ class Function;
+	export_ struct Operator;
+    export_ class Method;
+    export_ class Constructor;
+    export_ class CopyConstructor;
+    export_ class Destructor;
+    export_ struct Call;
+    export_ class Meta;
+    export_ class Static;
+    export_ class Member;
+	export_ struct Alias;
+    export_ class Class;
+    export_ class Convert;
+    export_ class TypeConverter;
+    export_ class Enum;
+    export_ class Injector;
+    export_ class Creator;
+    export_ class Iterable;
+    export_ class Sequence;
+    export_ class Namespace;
+    export_ class Module;
+    export_ class System;
 }
 
 #ifdef TWO_META_GENERATOR
@@ -53,23 +49,18 @@ namespace two
 #include <stl/vector.h>
 namespace stl
 {
-	export_ extern template struct refl_ span_ span<two::Type*>;
+	extern template struct refl_ span_ span<two::Type*>;
 
-	export_ extern template class refl_ seque_ vector<two::Var>;
-	export_ extern template class refl_ seque_ vector<void*>;
+	extern template class refl_ seque_ vector<two::Var>;
+	extern template class refl_ seque_ vector<void*>;
 
-	export_ extern template class refl_ seque_ vector<two::Module*>;
-	export_ extern template class refl_ seque_ vector<two::Type*>;
-	export_ extern template class refl_ seque_ vector<two::Alias*>;
-	export_ extern template class refl_ seque_ vector<two::Function*>;
+	extern template class refl_ seque_ vector<two::Module*>;
+	extern template class refl_ seque_ vector<two::Type*>;
+	extern template class refl_ seque_ vector<two::Alias*>;
+	extern template class refl_ seque_ vector<two::Function*>;
 }
 #endif
 
-
-#include <stl/vector.h>
-#include <stl/span.h>
-
-#include <stdint.h>
 
 namespace two
 {
@@ -261,11 +252,8 @@ namespace two
 }
 
 
-#include <stl/span.h>
 
 
-#include <stl/vector.h>
-#include <stl/string.h>
 
 namespace two
 {
@@ -481,6 +469,148 @@ namespace two
 	Member& member(T_Return(T::*meth)(T_Params...) const) { return cls<T>().member(member_address(meth)); }
 }
 
+
+
+namespace two
+{
+	export_ class TWO_REFL_EXPORT Iterable
+	{
+	public:
+		Type* m_element_type;
+
+		using Size = size_t(*)(void*); Size m_size;
+		using At = void*(*)(void*, size_t); At m_at;
+
+		inline size_t size(Ref vec) const { return m_size(vec.m_value); }
+		inline Ref at(Ref vec, size_t i) const { return Ref(m_at(vec.m_value, i), *m_element_type); }
+		inline Ref front(Ref vec) const { return at(vec, 0); }
+		inline Ref back(Ref vec) const { return at(vec, size(vec) - 1); }
+
+		template <class Visitor>
+		void iterate(Ref vec, Visitor visitor) const
+		{
+			const size_t count = this->size(vec);
+			for(size_t i = 0; i < count; ++i)
+				visitor(this->at(vec, i));
+		}
+
+		template <class Visitor>
+		void iteratei(Ref vec, Visitor visitor) const
+		{
+			const size_t count = this->size(vec);
+			for(size_t i = 0; i < count; ++i)
+				visitor(i, this->at(vec, i));
+		}
+	};
+
+	export_ class TWO_REFL_EXPORT Sequence
+	{
+	public:
+		using Push = void(*)(void*); Push m_push;
+		using Add = void(*)(void*, void*); Add m_add;
+		using Remove = void(*)(void*, void*); Remove m_remove;
+
+		inline void push(Ref vec) const { m_push(vec.m_value); }
+		inline void add(Ref vec, Ref element) const { m_add(vec.m_value, element.m_value); }
+		inline void remove(Ref vec, Ref element) const { m_remove(vec.m_value, element.m_value); }
+	};
+}
+
+
+
+namespace two
+{
+	export_ class refl_ TWO_REFL_EXPORT Enum
+	{
+	public:
+		Enum(Type& type, bool scoped, span<cstring> names, span<uint32_t> values, span<void*> vars);
+
+		Type& m_type;
+
+		bool m_scoped = true;
+		span<cstring> m_names;
+		span<uint32_t> m_values;
+		span<void*> m_vars;
+		vector<cstring> m_reverse;
+
+		uint32_t value(cstring name);
+		uint32_t value(Ref value);
+		uint32_t index(cstring name);
+		uint32_t index(Ref value);
+		cstring name(uint32_t value) { return m_reverse[value]; }
+		Ref var(uint32_t value);
+		//Var varn(uint32_t index) { const Var& value = meta(m_type).m_empty_var; copy_construct(value, m_vars[index]); return value; }
+		Ref varn(uint32_t index) { return Ref(m_vars[index], m_type); }
+		void varn(uint32_t index, Ref value) { copy_construct(value, this->varn(index)); }
+	};
+}
+
+
+
+
+
+namespace two
+{
+	export_ struct refl_ TWO_REFL_EXPORT Call
+	{
+	public:
+		constr_ Call();
+		constr_ Call(const Callable& callable, vector<Var> args);
+		Call(const Callable& callable);
+		Call(const Callable& callable, Ref object);
+
+		void prepare();
+		bool validate();
+
+		const Var& operator()();
+		const Var& operator()(Ref object);
+
+		const Callable* m_callable = nullptr;
+		attr_ vector<Var> m_args;
+		attr_ vector<void*> m_vargs;
+		attr_ Var m_result;
+	};
+}
+
+namespace two
+{
+	export_ class refl_ TWO_REFL_EXPORT Injector : public Call
+	{
+	public:
+		Injector(const Constructor& constructor);
+		Injector(Type& type, size_t arguments);
+		Injector(Type& type, ConstructorIndex constructor = ConstructorIndex::Default);
+
+		Type& m_object_type;
+		const Constructor& m_constructor;
+		
+		void inject(Var& value);
+		Ref inject(Pool& pool);
+
+		Var injectvar();
+		Ref injectpool();
+
+		void destroy(Ref object);
+	};
+
+	export_ class refl_ TWO_REFL_EXPORT Creator
+	{
+	public:
+		Creator(Type& type);
+
+		attr_ Type& m_type;
+		attr_ bool m_construct;
+		attr_ Type* m_prototype;
+		attr_ Injector& injector() const { return *m_injector; }
+
+		object<Injector> m_injector;
+
+		void set_prototype(Type& prototype);
+	};
+}
+
+
+
 namespace two
 {
 	export_ using cstring = const char*;
@@ -647,155 +777,8 @@ namespace two
 }
 
 
-#include <stl/vector.h>
-#include <stl/span.h>
-
-namespace two
-{
-	export_ class refl_ TWO_REFL_EXPORT Enum
-	{
-	public:
-		Enum(Type& type, bool scoped, span<cstring> names, span<uint32_t> values, span<void*> vars);
-
-		Type& m_type;
-
-		bool m_scoped = true;
-		span<cstring> m_names;
-		span<uint32_t> m_values;
-		span<void*> m_vars;
-		vector<cstring> m_reverse;
-
-		uint32_t value(cstring name);
-		uint32_t value(Ref value);
-		uint32_t index(cstring name);
-		uint32_t index(Ref value);
-		cstring name(uint32_t value) { return m_reverse[value]; }
-		Ref var(uint32_t value);
-		//Var varn(uint32_t index) { const Var& value = meta(m_type).m_empty_var; copy_construct(value, m_vars[index]); return value; }
-		Ref varn(uint32_t index) { return Ref(m_vars[index], m_type); }
-		void varn(uint32_t index, Ref value) { copy_construct(value, this->varn(index)); }
-	};
-}
 
 
-#include <stl/vector.h>
-
-
-#include <stl/vector.h>
-
-namespace two
-{
-	export_ struct refl_ TWO_REFL_EXPORT Call
-	{
-	public:
-		constr_ Call();
-		constr_ Call(const Callable& callable, vector<Var> args);
-		Call(const Callable& callable);
-		Call(const Callable& callable, Ref object);
-
-		void prepare();
-		bool validate();
-
-		const Var& operator()();
-		const Var& operator()(Ref object);
-
-		const Callable* m_callable = nullptr;
-		attr_ vector<Var> m_args;
-		attr_ vector<void*> m_vargs;
-		attr_ Var m_result;
-	};
-}
-
-namespace two
-{
-	export_ class refl_ TWO_REFL_EXPORT Injector : public Call
-	{
-	public:
-		Injector(const Constructor& constructor);
-		Injector(Type& type, size_t arguments);
-		Injector(Type& type, ConstructorIndex constructor = ConstructorIndex::Default);
-
-		Type& m_object_type;
-		const Constructor& m_constructor;
-		
-		void inject(Var& value);
-		Ref inject(Pool& pool);
-
-		Var injectvar();
-		Ref injectpool();
-
-		void destroy(Ref object);
-	};
-
-	export_ class refl_ TWO_REFL_EXPORT Creator
-	{
-	public:
-		Creator(Type& type);
-
-		attr_ Type& m_type;
-		attr_ bool m_construct;
-		attr_ Type* m_prototype;
-		attr_ Injector& injector() const { return *m_injector; }
-
-		object<Injector> m_injector;
-
-		void set_prototype(Type& prototype);
-	};
-}
-
-
-
-namespace two
-{
-	export_ class TWO_REFL_EXPORT Iterable
-	{
-	public:
-		Type* m_element_type;
-
-		using Size = size_t(*)(void*); Size m_size;
-		using At = void*(*)(void*, size_t); At m_at;
-
-		inline size_t size(Ref vec) const { return m_size(vec.m_value); }
-		inline Ref at(Ref vec, size_t i) const { return Ref(m_at(vec.m_value, i), *m_element_type); }
-		inline Ref front(Ref vec) const { return at(vec, 0); }
-		inline Ref back(Ref vec) const { return at(vec, size(vec) - 1); }
-
-		template <class Visitor>
-		void iterate(Ref vec, Visitor visitor) const
-		{
-			const size_t count = this->size(vec);
-			for(size_t i = 0; i < count; ++i)
-				visitor(this->at(vec, i));
-		}
-
-		template <class Visitor>
-		void iteratei(Ref vec, Visitor visitor) const
-		{
-			const size_t count = this->size(vec);
-			for(size_t i = 0; i < count; ++i)
-				visitor(i, this->at(vec, i));
-		}
-	};
-
-	export_ class TWO_REFL_EXPORT Sequence
-	{
-	public:
-		using Push = void(*)(void*); Push m_push;
-		using Add = void(*)(void*, void*); Add m_add;
-		using Remove = void(*)(void*, void*); Remove m_remove;
-
-		inline void push(Ref vec) const { m_push(vec.m_value); }
-		inline void add(Ref vec, Ref element) const { m_add(vec.m_value, element.m_value); }
-		inline void remove(Ref vec, Ref element) const { m_remove(vec.m_value, element.m_value); }
-	};
-}
-
-
-
-
-#include <stl/vector.h>
-#include <stl/span.h>
-#include <stl/string.h>
 
 namespace two
 {
@@ -817,7 +800,6 @@ namespace two
 }
 
 
-#include <stl/algorithm.h>
 
 namespace two
 {
@@ -954,20 +936,16 @@ namespace two
 }
 
 
-#include <stl/function.h>
 
 namespace two
 {
-	//export_ extern template class refl_ function<void(Method&, Ref, span<Var>)>;
+	//extern template class refl_ function<void(Method&, Ref, span<Var>)>;
 	export_ using VirtualMethod = function<void(Method&, Ref, span<Var>)>;
 
 	export_ template <> TWO_REFL_EXPORT Type& type<VirtualMethod>();
 }
 
 
-#include <stl/vector.h>
-
-#include <stdint.h>
 
 namespace two
 {
@@ -1010,7 +988,6 @@ namespace two
 }
 
 
-#include <stl/vector.h>
 
 namespace two
 {
@@ -1064,13 +1041,9 @@ namespace two
 	inline Function& func(T_Function func) { return System::instance().function(reinterpret_cast<FunctionPointer>(func)); }
 }
 
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
 
 
 namespace two
@@ -1096,13 +1069,13 @@ namespace two
     export_ template <> TWO_REFL_EXPORT Type& type<two::Constructor>();
     export_ template <> TWO_REFL_EXPORT Type& type<two::CopyConstructor>();
     export_ template <> TWO_REFL_EXPORT Type& type<two::Destructor>();
+    export_ template <> TWO_REFL_EXPORT Type& type<two::Call>();
     export_ template <> TWO_REFL_EXPORT Type& type<two::Meta>();
     export_ template <> TWO_REFL_EXPORT Type& type<two::Convert>();
     export_ template <> TWO_REFL_EXPORT Type& type<two::Static>();
     export_ template <> TWO_REFL_EXPORT Type& type<two::Member>();
     export_ template <> TWO_REFL_EXPORT Type& type<two::Class>();
     export_ template <> TWO_REFL_EXPORT Type& type<two::Enum>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Call>();
     export_ template <> TWO_REFL_EXPORT Type& type<two::Injector>();
     export_ template <> TWO_REFL_EXPORT Type& type<two::Creator>();
     export_ template <> TWO_REFL_EXPORT Type& type<two::Namespace>();

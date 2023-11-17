@@ -1,14 +1,7 @@
 #pragma once
 
-#include <two/gfx.h>
-#include <two/geom.h>
-#include <two/srlz.h>
-#include <two/gltf.h>
-#include <two/math.h>
-#include <two/refl.h>
 #include <two/infra.h>
 #include <two/type.h>
-
 
 
 
@@ -38,13 +31,9 @@ namespace two
 	};
 }
 
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
 
 
 namespace two

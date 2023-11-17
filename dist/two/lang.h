@@ -1,9 +1,8 @@
 #pragma once
 
-#include <two/pool.h>
-#include <two/refl.h>
 #include <two/infra.h>
 #include <two/type.h>
+
 
 
 
@@ -14,35 +13,35 @@
 
 namespace two
 {
-    enum class Language : unsigned int;
-    enum StreamModifier : unsigned int;
-    enum ValveKind : unsigned int;
+    export_ enum class Language : unsigned int;
+    export_ enum StreamModifier : unsigned int;
+    export_ enum ValveKind : unsigned int;
     
-    class Script;
-    class TextScript;
-	struct ScriptError;
-    class Interpreter;
-    class ScriptClass;
-    class LuaInterpreter;
-    struct StreamLocation;
-    class StreamBranch;
-    class Stream;
-    class Valve;
-    class Pipe;
-    class Process;
-    class VisualScript;
-    class ProcessInput;
-    class ProcessOutput;
-    class ProcessValue;
-    class ProcessCreate;
-    class ProcessCallable;
-    class ProcessScript;
-    class ProcessFunction;
-    class ProcessMethod;
-    class ProcessGetMember;
-    class ProcessSetMember;
-    class ProcessDisplay;
-    class WrenInterpreter;
+    export_ class Script;
+    export_ class TextScript;
+	export_ struct ScriptError;
+    export_ class Interpreter;
+    export_ class ScriptClass;
+    export_ class LuaInterpreter;
+    export_ struct StreamLocation;
+    export_ class StreamBranch;
+    export_ class Stream;
+    export_ class Valve;
+    export_ class Pipe;
+    export_ class Process;
+    export_ class VisualScript;
+    export_ class ProcessInput;
+    export_ class ProcessOutput;
+    export_ class ProcessValue;
+    export_ class ProcessCreate;
+    export_ class ProcessCallable;
+    export_ class ProcessScript;
+    export_ class ProcessFunction;
+    export_ class ProcessMethod;
+    export_ class ProcessGetMember;
+    export_ class ProcessSetMember;
+    export_ class ProcessDisplay;
+    export_ class WrenInterpreter;
 }
 
 #ifdef TWO_META_GENERATOR
@@ -70,7 +69,7 @@ namespace two
 		Signature m_signature;
 	};
 
-	enum class refl_ Language : unsigned int
+	export_ enum class refl_ Language : unsigned int
 	{
 		Cpp,
 		Lua,
@@ -172,6 +171,9 @@ namespace two
 		unique<LuaContext> m_context;
 	};
 }
+
+
+
 
 
 namespace two
@@ -280,49 +282,6 @@ namespace two
 		void compute();
 	};
 }
-
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
-#endif
-
-
-
-namespace two
-{
-    // Exported types
-    export_ template <> TWO_LANG_EXPORT Type& type<two::Language>();
-    
-    
-    export_ template <> TWO_LANG_EXPORT Type& type<two::Script>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ScriptError>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::TextScript>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::Interpreter>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ScriptClass>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::LuaInterpreter>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::StreamBranch>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::Stream>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::Valve>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::Pipe>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::Process>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::VisualScript>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessInput>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessOutput>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessValue>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessCreate>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessCallable>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessScript>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessFunction>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessMethod>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessGetMember>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessSetMember>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessDisplay>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::WrenInterpreter>();
-}
-
-
 
 namespace two
 {
@@ -525,6 +484,18 @@ namespace two
 	};
 }
 
+extern "C"
+{
+#include <wren.h>
+
+void wrenBegin(WrenVM* vm);
+
+void wrenAssignVariable(WrenVM* vm, const char* module, const char* name,
+						int value_slot);
+}
+
+
+
 namespace two
 {
 	export_ class refl_ TWO_LANG_EXPORT ProcessValue : public Process
@@ -660,6 +631,7 @@ namespace two
 }
 
 
+
 namespace two
 {
 	class WrenContext;
@@ -695,6 +667,50 @@ namespace two
 	};
 }
 
+
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#endif
+
+
+namespace two
+{
+    // Exported types
+    export_ template <> TWO_LANG_EXPORT Type& type<two::Language>();
+    
+    
+    export_ template <> TWO_LANG_EXPORT Type& type<two::Script>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ScriptError>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::TextScript>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::Interpreter>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ScriptClass>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::LuaInterpreter>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::StreamBranch>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::Stream>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::Valve>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::Pipe>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::Process>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::VisualScript>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessInput>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessOutput>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessValue>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessCreate>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessCallable>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessScript>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessFunction>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessMethod>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessGetMember>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessSetMember>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessDisplay>();
+    export_ template <> TWO_LANG_EXPORT Type& type<two::WrenInterpreter>();
+}
+
+
+extern "C"
+{
+#include <lua.h>
+#include <lauxlib.h>
+#include <lualib.h>
+}
 
 
 

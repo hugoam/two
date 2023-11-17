@@ -1,17 +1,17 @@
 #pragma once
 
-#include <two/gfx.h>
-#include <two/geom.h>
-#include <two/ui.h>
-#include <two/srlz.h>
-#include <two/uio.h>
-#include <two/tree.h>
-#include <two/wfc.h>
-#include <two/math.h>
 #include <two/ctx.h>
+#include <two/geom.h>
+#include <two/gfx.h>
 #include <two/gfx.ui.h>
 #include <two/infra.h>
+#include <two/math.h>
+#include <two/srlz.h>
+#include <two/tree.h>
 #include <two/type.h>
+#include <two/ui.h>
+#include <two/uio.h>
+#include <two/wfc.h>
 
 
 
@@ -26,13 +26,9 @@ namespace two
     class WfcBlock;
 }
 
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
 
 
 namespace two
@@ -43,6 +39,7 @@ namespace two
     export_ template <> TWO_WFC_GFX_EXPORT Type& type<two::TileModel>();
     export_ template <> TWO_WFC_GFX_EXPORT Type& type<two::WfcBlock>();
 }
+
 
 namespace two
 {

@@ -1,28 +1,14 @@
-#include <two/ui.vg.h>
-#include <two/frame.h>
 #include <two/infra.h>
-#include <two/type.h>
 
 
+module;
+#include <bx/allocator.h>
+#include <bgfx/bgfx.h>
 module two.frame;
-
-namespace two
-{
-    // Exported types
-    
-    
-    template <> TWO_FRAME_EXPORT Type& type<two::ShellContext>() { static Type ty("ShellContext", sizeof(two::ShellContext)); return ty; }
-    template <> TWO_FRAME_EXPORT Type& type<two::ShellWindow>() { static Type ty("ShellWindow", type<two::GfxWindow>(), sizeof(two::ShellWindow)); return ty; }
-    template <> TWO_FRAME_EXPORT Type& type<two::Shell>() { static Type ty("Shell", sizeof(two::Shell)); return ty; }
-}
-//#include <frame/Types.h>
-
 
 #ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten/emscripten.h>
 #endif
-
-#include <stl/vector.hpp>
 
 //#define TWO_GFX_DEFERRED
 
@@ -65,7 +51,7 @@ namespace two
 #endif
 			
 
-		m_reset_vg = [](GfxWindow& context, Vg& vg) { return vg.load_texture(context.m_target->m_diffuse.m_tex.idx); };
+		m_reset_vg = [](GfxWindow& context, void* vg) { return ((Vg*)vg)->load_texture(context.m_target->m_diffuse.m_tex.idx); };
 
 		m_ui_window.init();
 		m_ui = m_ui_window.m_ui.get();
@@ -82,8 +68,8 @@ namespace two
 	void ShellWindow::render_frame()
 	{
 		GfxWindow::render_frame();
-		bgfx::setViewFrameBuffer(240 + m_index, m_target->m_backbuffer.m_fbo);
-		m_ui_window.render_frame(240 + m_index);
+		bgfx::setViewFrameBuffer(uint16_t(240 + m_index), m_target->m_backbuffer.m_fbo);
+		m_ui_window.render_frame(uint16_t(240 + m_index));
 	}
 
     Shell::Shell(const string& resource_path, const string& exec_path, bool window)
@@ -158,7 +144,7 @@ namespace two
 
 	ShellWindow& Shell::window(const string& name, const uvec2& size, bool fullscreen)
 	{
-		const uint32_t index = m_windows.size();
+		const uint32_t index = uint32_t(m_windows.size());
 		m_windows.push_back(construct<ShellWindow>(m_gfx, index, name, size, fullscreen));
 		return *m_windows.back();
 	}
@@ -184,4 +170,16 @@ namespace two
 		context.m_dockbar = &ui::dockbar(board, context.m_docksystem);
 #endif
 	}
+}
+module;
+module two.frame;
+
+namespace two
+{
+    // Exported types
+    
+    
+    template <> TWO_FRAME_EXPORT Type& type<two::ShellContext>() { static Type ty("ShellContext", sizeof(two::ShellContext)); return ty; }
+    template <> TWO_FRAME_EXPORT Type& type<two::ShellWindow>() { static Type ty("ShellWindow", type<two::GfxWindow>(), sizeof(two::ShellWindow)); return ty; }
+    template <> TWO_FRAME_EXPORT Type& type<two::Shell>() { static Type ty("Shell", sizeof(two::Shell)); return ty; }
 }

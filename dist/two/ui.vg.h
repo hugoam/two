@@ -1,7 +1,5 @@
 #pragma once
 
-#include <two/ui.h>
-#include <two/math.h>
 #include <two/infra.h>
 #include <two/type.h>
 
@@ -119,13 +117,8 @@ namespace two
     class VgVg;
 }
 
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
 
 namespace two
 {

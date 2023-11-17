@@ -4,17 +4,6 @@
 
 
 
-#include <stl/new.h>
-#include <stl/move.h>
-
-
-#include <stl/move.h>
-#include <stl/traits.h>
-
-
-#include <stl/stddef.h>
-#include <stdint.h>
-
 
 
 #ifndef TWO_TYPE_EXPORT
@@ -23,18 +12,18 @@
 
 namespace two
 {
-    enum VarMode : unsigned int;
+    export_ enum class VarMode : unsigned int;
     
-    struct Address;
-    class Type;
-    class Ref;
-    class None;
-    class Any;
-    class Var;
-    class DoubleDispatch;
-    class Indexer;
-    class Index;
-	class Prototype;
+    export_ struct Address;
+    export_ class Type;
+    export_ class Ref;
+    export_ class None;
+    export_ class Any;
+    export_ class Var;
+    export_ class DoubleDispatch;
+    export_ class Indexer;
+    export_ class Index;
+	export_ class Prototype;
 }
 
 #ifdef TWO_META_GENERATOR
@@ -42,12 +31,10 @@ namespace two
 #include <stl/vector.h>
 namespace stl
 {
-	export_ extern template class refl_ seque_ vector<string>;
-	export_ extern template class refl_ seque_ vector<two::Ref>;
+	extern template class refl_ seque_ vector<string>;
+	extern template class refl_ seque_ vector<two::Ref>;
 }
 #endif
-
-
 
 export_ namespace two
 {}
@@ -56,7 +43,7 @@ namespace two
 {
 	export_ constexpr unsigned int c_max_types = 1000U;
 
-	class Type;
+	export_ class Type;
 
 	export_ template <class T>
 	Type& type();
@@ -68,96 +55,15 @@ namespace two
 	inline const T& as(const U& object) { return static_cast<const T&>(object); }
 }
 
-namespace two // export_ namespace two// @todo evaluate export at namespace level ?
-{
-	export_ using cstring = const char*;
-
-	export_ struct TWO_TYPE_EXPORT Address
-	{
-		char value[16];
-		bool operator==(const Address& other) const;
-	};
-
-	export_ class refl_ TWO_TYPE_EXPORT Type
-	{
-	public:
-		explicit Type();
-		explicit Type(const char* name, size_t size = 0);
-		explicit Type(const char* name, Type& base, size_t size = 0);
-		~Type();
-
-		Type(Type&) = delete;
-		Type& operator=(const Type&) = delete;
-
-		Type(Type&&) = delete;
-
-		attr_ uint32_t m_id;
-		attr_ cstring m_name;
-		attr_ size_t m_size;
-		attr_ Type* m_base = nullptr;
-
-		bool is(const Type& type) const;
-
-		template <class T>
-		inline bool is() const { return this->is(two::type<T>()); }
-
-		static Type& type() { static Type ty(0); return ty; }
-
-		size_t m_debug_count;
-		size_t m_debug_memory;
-
-	private:
-		Type(int);
-	};
-
-	export_ template <> inline Type& type<Type>() { return Type::type(); }
-
-	template <class T>
-	struct Typed
-	{
-		static Type& type()
-		{
-			static_assert(sizeof(T) == 0, "Types must be declared by defining a type<T>() function");
-			static Type ty("INVALID"); return ty;
-		}
-	};
-
-	export_ template <class T>
-	inline Type& type() { return Typed<T>::type(); }
-
-	export_ template <class T, class U>
-	inline bool is(const U& object) { return object.m_type.template is<T>(); }
-
-	export_ template <class T, class U>
-	inline T* try_as(U& object) { if(object.m_type.template is<T>()) return &static_cast<T&>(object); else return nullptr; }
-
-	export_ template <class T, class U>
-	inline const T* try_as(const U& object) { if(object.m_type.template is<T>()) return &static_cast<const T&>(object); else return nullptr; }
-	
-	export_ template <class T, class U>
-	constexpr size_t member_offset(U T::*member)
-	{
-		return (char*)&((T*)nullptr->*member) - (char*)nullptr;
-	}
-
-	export_ template <class T_Method>
-	Address member_address(T_Method p)
-	{
-		Address result = {};
-		for(size_t i = 0; i < sizeof p; ++i)
-			result.value[i] = reinterpret_cast<char*>(&p)[i];
-		return result;
-	}
-}
 
 
 
 
-#include <stl/traits.h>
+
 
 namespace two
 {
-	class Type;
+	export_ class Type;
 
 	export_ template <class T>
 	using unqual_type = remove_cv<remove_reference<T>>;
@@ -227,9 +133,135 @@ namespace two
 
 	export_ inline const Type& type(Ref ref) { return *ref.m_type; }
 }
-//#include <type/Types.h>
 
-#include <cassert>
+
+
+namespace two // export_ namespace two// @todo evaluate export at namespace level ?
+{
+	export_ using cstring = const char*;
+
+	export_ struct TWO_TYPE_EXPORT Address
+	{
+		char value[16];
+		bool operator==(const Address& other) const;
+	};
+
+	export_ class refl_ TWO_TYPE_EXPORT Type
+	{
+	public:
+		explicit Type();
+		explicit Type(const char* name, size_t size = 0);
+		explicit Type(const char* name, Type& base, size_t size = 0);
+		~Type();
+
+		Type(Type&) = delete;
+		Type& operator=(const Type&) = delete;
+
+		Type(Type&&) = delete;
+
+		attr_ uint32_t m_id;
+		attr_ cstring m_name;
+		attr_ size_t m_size;
+		attr_ Type* m_base = nullptr;
+
+		bool is(const Type& type) const;
+
+		template <class T>
+		inline bool is() const { return this->is(two::type<T>()); }
+
+		static Type& type() { static Type ty(0); return ty; }
+
+		size_t m_debug_count;
+		size_t m_debug_memory;
+
+	private:
+		Type(int);
+	};
+
+	export_ template <> inline Type& type<Type>() { return Type::type(); }
+
+	template <class T>
+	struct Typed
+	{
+		static Type& type()
+		{
+#ifndef TWO_MODULES
+			static_assert(sizeof(T) == 0, "Types must be declared by defining a type<T>() function");
+#endif
+			static Type ty("INVALID"); return ty;
+		}
+	};
+
+	export_ template <class T>
+	inline Type& type() { return Typed<T>::type(); }
+
+	export_ template <class T, class U>
+	inline bool is(const U& object) { return object.m_type.template is<T>(); }
+
+	export_ template <class T, class U>
+	inline T* try_as(U& object) { if(object.m_type.template is<T>()) return &static_cast<T&>(object); else return nullptr; }
+
+	export_ template <class T, class U>
+	inline const T* try_as(const U& object) { if(object.m_type.template is<T>()) return &static_cast<const T&>(object); else return nullptr; }
+	
+	export_ template <class T, class U>
+	constexpr size_t member_offset(U T::*member)
+	{
+		return (char*)&((T*)nullptr->*member) - (char*)nullptr;
+	}
+
+	export_ template <class T_Method>
+	Address member_address(T_Method p)
+	{
+		Address result = {};
+		for(size_t i = 0; i < sizeof p; ++i)
+			result.value[i] = reinterpret_cast<char*>(&p)[i];
+		return result;
+	}
+}
+
+namespace two
+{
+	export_ class TWO_TYPE_EXPORT DoubleDispatch
+	{
+	public:
+		DoubleDispatch()
+			: m_branches()
+		{}
+
+		void resize(Type& first, Type& second)
+		{
+			if(first.m_id + 1U > m_branches.size())
+				m_branches.resize(first.m_id + 1U);
+			if(second.m_id + 1U > m_branches[first.m_id].size())
+				m_branches[first.m_id].resize(second.m_id + 1U);
+		}
+
+		void dispatch(Ref first, Ref second)
+		{
+			return m_branches[first.m_type->m_id][second.m_type->m_id](first, second);
+		}
+
+		bool check(Ref first, Ref second)
+		{
+			return check(*first.m_type, *second.m_type);
+		}
+
+		bool check(const Type& first, const Type& second)
+		{
+			if(m_branches.size() > first.m_id && m_branches[first.m_id].size() > second.m_id)
+				return m_branches[first.m_id][second.m_id] != nullptr;
+			return false;
+		}
+
+		vector<vector<void (*)(Ref, Ref)>> m_branches;
+	};
+}
+
+
+
+
+//#include <type/Types.h>
 
 namespace two
 {
@@ -270,10 +302,9 @@ namespace two
 	export_ template <>
 	inline void* val<void*>(const Ref& ref) { return ref.m_value; }
 
-	template <class T>
-	export_ inline T* try_val(Ref object) { if(object && type(object).template is<T>()) return &val<T>(object); else return nullptr; }
+	export_ template <class T>
+	inline T* try_val(Ref object) { if(object && type(object).template is<T>()) return &val<T>(object); else return nullptr; }
 }
-
 
 
 #if defined __GNUC__
@@ -316,8 +347,6 @@ namespace two
 }
 
 
-#include <stdint.h>
-#include <stl/swap.h>
 
 namespace two
 {
@@ -360,37 +389,37 @@ namespace two
 		Storage m_storage;
 	};
 
-	export_ enum VarMode : unsigned int
+	export_ enum class VarMode : unsigned int
 	{
-		VAL,
-		REF
+		Val,
+		Ref
 	};
 
 	export_ class refl_ TWO_TYPE_EXPORT Var
 	{
 	public:
-		Var() : m_mode(VAL), m_any(), m_ref() {}
-		Var(const Any& val) : m_mode(VAL), m_any(val), m_ref(m_any.ref()) {}
-		Var(const Ref& ref) : m_mode(REF), m_ref(ref) {}
+		Var() : m_mode(VarMode::Val), m_any(), m_ref() {}
+		Var(const Any& val) : m_mode(VarMode::Val), m_any(val), m_ref(m_any.ref()) {}
+		Var(const Ref& ref) : m_mode(VarMode::Ref), m_ref(ref) {}
 
-		Var(const Var& other) : m_mode(other.m_mode), m_any(other.m_any), m_ref(m_mode == VAL ? m_any.ref() : other.m_ref) {}
-		Var& operator=(const Var& other) { m_mode = other.m_mode; if(m_mode == VAL) { m_any = other.m_any; m_ref = m_any.ref(); } else m_ref = other.m_ref; return *this; }
-		Var& operator=(const Ref& ref) { m_mode = REF; m_ref = ref; return *this; }
+		Var(const Var& other) : m_mode(other.m_mode), m_any(other.m_any), m_ref(m_mode == VarMode::Val ? m_any.ref() : other.m_ref) {}
+		Var& operator=(const Var& other) { m_mode = other.m_mode; if(m_mode == VarMode::Val) { m_any = other.m_any; m_ref = m_any.ref(); } else m_ref = other.m_ref; return *this; }
+		Var& operator=(const Ref& ref) { m_mode = VarMode::Ref; m_ref = ref; return *this; }
 
 		VarMode m_mode;
 		Any m_any;
 		Ref m_ref;
 
-		bool operator==(const Var& other) const { return m_mode == other.m_mode && (m_mode == VAL ? m_any == other.m_any : m_ref == other.m_ref); }
+		bool operator==(const Var& other) const { return m_mode == other.m_mode && (m_mode == VarMode::Val ? m_any == other.m_any : m_ref == other.m_ref); }
 
 		explicit operator bool() const { return this->none(); }
 
-		inline void copy(const Ref& ref) { if(m_mode == VAL) m_any = ref; else m_ref = ref; }
+		inline void copy(const Ref& ref) { if(m_mode == VarMode::Val) m_any = ref; else m_ref = ref; }
 
-		inline bool null() const { return m_mode == VAL ? false : m_ref.m_value == nullptr; }
-		inline bool none() const { return m_mode == VAL ? !m_any : false; }
-		inline void set(Ref value) { if(m_mode == VAL) m_any = value; else m_ref = value; }
-		inline void clear() { m_mode = VAL; m_any = Any(); }
+		inline bool null() const { return m_mode == VarMode::Val ? false : m_ref.m_value == nullptr; }
+		inline bool none() const { return m_mode == VarMode::Val ? !m_any : false; }
+		inline void set(Ref value) { if(m_mode == VarMode::Val) m_any = value; else m_ref = value; }
+		inline void clear() { m_mode = VarMode::Val; m_any = Any(); }
 
 		inline operator const Ref&() const { return m_ref; }
 		inline operator Ref&() { return m_ref; }
@@ -399,14 +428,9 @@ namespace two
 	export_ inline const Type& type(const Var& var) { return *var.m_ref.m_type; }
 }
 
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
-
 
 namespace two
 {
@@ -435,9 +459,9 @@ namespace two
     export_ template <> TWO_TYPE_EXPORT Type& type<stl::vector<two::Ref>>();
     
     export_ template <> TWO_TYPE_EXPORT Type& type<two::Ref>();
+    export_ template <> TWO_TYPE_EXPORT Type& type<two::Var>();
     export_ template <> TWO_TYPE_EXPORT Type& type<two::Indexer>();
     export_ template <> TWO_TYPE_EXPORT Type& type<two::Index>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<two::Var>();
     export_ template <> TWO_TYPE_EXPORT Type& type<two::Prototype>();
 }
 
@@ -534,7 +558,7 @@ namespace two
 
 	export_ template <class T, class U>
 	inline enable_if<ValueSemantic<T>, void>
-		setval(Var& var, U&& value) { if(var.m_mode == VAL) { setval<T>(var.m_any, value); /*setval(var.m_ref, val<T>(var.m_any));*/ } else setval<T>(var.m_ref, value); }
+		setval(Var& var, U&& value) { if(var.m_mode == VarMode::Val) { setval<T>(var.m_any, value); /*setval(var.m_ref, val<T>(var.m_any));*/ } else setval<T>(var.m_ref, value); }
 
 	export_ template <class T, class U>
 	inline enable_if<!ValueSemantic<T>, void>
@@ -567,7 +591,6 @@ namespace two
 
 	export_ inline Var var(cstring value) { return Ref(const_cast<char*>(value), type<cstring>()); }
 }
-//#include <type/Any.h>
 
 
 
@@ -615,47 +638,6 @@ namespace two
 
 
 
-
-#include <stl/vector.h>
-
-namespace two
-{
-	export_ class TWO_TYPE_EXPORT DoubleDispatch
-	{
-	public:
-		DoubleDispatch()
-			: m_branches()
-		{}
-
-		void resize(Type& first, Type& second)
-		{
-			if(first.m_id + 1U > m_branches.size())
-				m_branches.resize(first.m_id + 1U);
-			if(second.m_id + 1U > m_branches[first.m_id].size())
-				m_branches[first.m_id].resize(second.m_id + 1U);
-		}
-
-		void dispatch(Ref first, Ref second)
-		{
-			return m_branches[first.m_type->m_id][second.m_type->m_id](first, second);
-		}
-
-		bool check(Ref first, Ref second)
-		{
-			return check(*first.m_type, *second.m_type);
-		}
-
-		bool check(const Type& first, const Type& second)
-		{
-			if(m_branches.size() > first.m_id && m_branches[first.m_id].size() > second.m_id)
-				return m_branches[first.m_id][second.m_id] != nullptr;
-			return false;
-		}
-
-		vector<vector<void (*)(Ref, Ref)>> m_branches;
-	};
-}
-
 namespace two
 {
 	export_ template <class T, class T_Function, class T_Return, class... Args>
@@ -681,11 +663,7 @@ namespace two
 }
 
 
-#include <stdint.h>
-#include <stl/vector.h>
 
-
-#include <stl/memory.h>
 
 #ifdef TWO_TRACK_MEMORY
 #include <stl/traits.h>
@@ -789,8 +767,6 @@ namespace two
 //#include <type/TypeUtils.h>
 
 
-#include <stl/vector.h>
-#include <stl/string.h>
 //#include <type/Types.h>
 
 namespace two // export_ namespace two// @todo evaluate export at namespace level ?
@@ -829,18 +805,16 @@ namespace two // export_ namespace two// @todo evaluate export at namespace leve
 }
 
 
-#include <stl/vector.h>
-#include <stl/span.h>
 
 namespace two
 {
-	/*	A Prototype represent a fixed layout of parts for an object, allowing for fast part query 
-			It is a broader definition of a type, different from the C++ class, it defines a finite object
-			with a finite set of capabilities, which is a sum of components : its parts
-
-			The parts are members of a prototype, whereas additionnal components are called plugs, 
-			and are not part of the object in itself : they can be here or not here, whereas the parts are always here
-	*/
+	// A Prototype represent a fixed layout of parts for an object, allowing for fast part query 
+	// It is a broader definition of a type, different from the C++ class, it defines a finite object
+	// with a finite set of capabilities, which is a sum of components : its parts
+	//
+	// The parts are members of a prototype, whereas additionnal components are called plugs, 
+	// and are not part of the object in itself : they can be here or not here, whereas the parts are always here
+	//
 
 	export_ class refl_ TWO_TYPE_EXPORT Prototype
 	{
@@ -859,9 +833,9 @@ namespace two
 		vector<size_t> m_hash_parts;
 	};
 
-	export_ extern TWO_TYPE_EXPORT vector<Prototype*> g_prototypes;
+	extern TWO_TYPE_EXPORT vector<Prototype*> g_prototypes;
 
-	inline Prototype& proto(Type& type) { return *g_prototypes[type.m_id]; }
+	export_ inline Prototype& proto(Type& type) { return *g_prototypes[type.m_id]; }
 }
 
 

@@ -1,19 +1,164 @@
-#include <two/gfx.h>
-#include <two/pool.h>
-#include <two/geom.h>
-#include <two/ui.h>
-#include <two/uio.h>
-#include <two/gfx.pbr.h>
-#include <two/srlz.h>
-#include <two/tree.h>
-#include <two/gfx.edit.h>
-#include <two/math.h>
-#include <two/refl.h>
-#include <two/gfx.ui.h>
 #include <two/infra.h>
-#include <two/type.h>
 
 
+module;
+module two.gfx-edit;
+
+namespace two
+{
+	struct ParticleEditorState : public NodeState
+	{
+		ParticleEditorState() {}
+		Flow m_particles;
+	};
+
+	void cube_test(Gnode& parent)
+	{
+		Gnode& self = gfx::node(parent);
+		gfx::shape(self, Cube(1.f), Symbol());
+	}
+
+	void particle_editor_viewer(Widget& parent, Flow& particles)
+	{
+		SceneViewer& viewer = ui::scene_viewer(parent, vec2(500.f));
+		ui::orbit_controller(viewer);
+
+		//viewer.m_clear_colour = Colour::DarkGrey;
+		//viewer.m_camera.set_isometric(SOUTH, vec3(0.f));
+
+		Gnode& scene = viewer.m_scene.begin();
+		gfx::flows(scene, particles);
+
+		Shape* shape = particles.m_shape.m_shape.get();
+		if(shape)
+			gfx::shape(scene, *shape, Symbol());
+
+		cube_test(scene);
+	}
+
+	enum ParticleEditSwitch
+	{
+		OPEN_PARTICLES = 1 << 0,
+		SAVE_PARTICLES = 1 << 1
+	};
+
+	void open_particles(Widget& parent, GfxSystem& system, Flow& generator)
+	{
+		static string location = "";
+		if(select_value(parent, OPEN_PARTICLES, location, true))
+		{
+			if(file_exists(system.m_resource_path + "/" + location))
+			{
+				unpack_json_file(Ref(&generator), system.m_resource_path + "/" + location);
+			}
+		}
+	}
+
+	void save_particles(Widget& parent, GfxSystem& system, Flow& generator)
+	{
+		static string destination = "";
+		if(select_value(parent, SAVE_PARTICLES, destination, true))
+		{
+			pack_json_file(Ref(&generator), system.m_resource_path + "/" + destination);
+		}
+	}
+
+	void particle_edit(Widget& parent, GfxSystem& system, Flow& generator)
+	{
+		Section& self = section(parent, "Particle Editor");
+
+		object_edit(*self.m_body, Ref(&generator));
+		particle_editor_viewer(self, generator);
+
+		if(ui::modal_button(self, *self.m_toolbar, "Open", OPEN_PARTICLES))
+			open_particles(self, system, generator);
+		if(ui::modal_button(self, *self.m_toolbar, "Save", SAVE_PARTICLES))
+			save_particles(self, system, generator);
+	}
+
+	void particle_editor(Widget& parent, GfxSystem& system)
+	{
+		Widget& self = ui::sheet(parent);
+		ParticleEditorState& state = self.state<ParticleEditorState>();
+		particle_edit(self, system, state.m_particles);
+	}
+}
+
+module;
+module two.gfx-edit;
+
+namespace two
+{
+#if 0
+	TreeNode& prefab_node(Widget& parent, PrefabNode* parent_node, PrefabNode& node, PrefabNode*& selected)
+	{
+		TreeNode& self = ui::tree_node(parent, to_string(var(node.m_prefab_type)).c_str());
+
+		if(self.m_header->activated())
+			selected = &node;
+
+		self.m_header->set_state(ACTIVE, selected == &node);
+
+		if(ui::button(*self.m_header, "+").activated())
+		{
+			node.m_nodes.push_back({});
+			selected = &node.m_nodes.back();
+		}
+		if(ui::button(*self.m_header, "X").activated())
+		{
+			if(selected == &node)
+				selected = parent_node;
+			vector_remove_object(parent_node->m_nodes, node);
+			return self;
+		}
+
+		for(PrefabNode& child : node.m_nodes)
+			prefab_node(*self.m_body, &node, child, selected);
+
+		return self;
+	}
+
+	void prefab_structure(Widget& parent, PrefabNode& node, PrefabNode*& selected)
+	{
+		Section& self = section(parent, "Prefab Graph");
+		prefab_node(*self.m_body, nullptr, node, selected);
+	}
+
+	Widget& prefab_inspector(Widget& parent, PrefabNode& node)
+	{
+		Section& self = section(parent, "Prefab Inspector");
+
+		static cstring types[6] = { "None", "Item", "Model", "Shape", "Flare", "Light" };
+		static vector<Function*> functions = { nullptr, &function(gfx::item), &function(gfx::model), &function(gfx::shape), &function(&gfx::particles), &function(gfx::light) };
+
+		static cstring columns[2] = { "field", "value" };
+		Widget& table = ui::table(*self.m_body, { columns, 2 }, {});
+
+		Widget& row = ui::row(table);
+		ui::label(row, "type");
+		if(ui::dropdown_input(row, { types, 6 }, (uint32_t&)node.m_prefab_type))
+			node.m_call = { *functions[size_t(node.m_prefab_type)] };
+
+		object_edit(table, Ref(&node.m_transform), EditorHint::Rows);
+		if(node.m_call.m_callable)
+			call_edit(table, node.m_call);
+
+		return self;
+	}
+
+	void prefab_edit(Widget& parent, GfxSystem& gfx, PrefabNode& node, PrefabNode*& selected)
+	{
+		UNUSED(gfx);
+		Widget& self = ui::sheet(parent);
+
+		prefab_structure(self, node, selected);
+
+		if(selected)
+			prefab_inspector(self, *selected);
+	}
+#endif
+}
+module;
 module two.gfx-edit;
 
 namespace two
@@ -48,8 +193,8 @@ namespace two
 		if(!animated.m_playing.empty())
 		{
 			AnimPlay& play = animated.m_playing.back();
-			ui::slider_field<float>(table, "speed", play.m_speed, { -5.f, 5.f, 0.01f });
-			ui::slider_field<float>(table, "timeline", play.m_cursor, { 0.f, play.m_animation->m_length, 0.01f });
+			ui::slider_field(table, "speed", play.m_speed, { -5.f, 5.f, 0.01f });
+			ui::slider_field(table, "timeline", play.m_cursor, { 0.f, play.m_animation->m_length, 0.01f });
 		}
 
 		Table& playing = ui::table(self, { "Animation", "Time" }, { 0.6f, 0.4f });
@@ -104,8 +249,8 @@ namespace two
 		for(int i = 0; i < stats->numViews; ++i)
 		{
 			const bgfx::ViewStats& view_stats = stats->viewStats[i];
-			double gpu_time = 1000.0f * view_stats.gpuTimeElapsed / (double)stats->gpuTimerFreq;
-			double cpu_time = 1000.0f * view_stats.cpuTimeElapsed / (double)stats->cpuTimerFreq;
+			double gpu_time = 1000.0f * (view_stats.gpuTimeEnd - view_stats.gpuTimeBegin) / (double)stats->gpuTimerFreq;
+			double cpu_time = 1000.0f * (view_stats.cpuTimeEnd - view_stats.cpuTimeBegin) / (double)stats->cpuTimerFreq;
 
 			Widget& row = ui::row(table);
 			ui::label(row, view_stats.name);
@@ -116,13 +261,14 @@ namespace two
 
 	SceneViewer& asset_empty_viewer(Widget& parent, Ref object, vec3 offset, float radius)
 	{
+		UNUSED(object);
 		static float time = 0.f;
 		time += 0.01f;
 
 		SceneViewer& viewer = ui::scene_viewer(parent, vec2(200.f));
-		viewer.m_camera.m_eye = radius * 2.5f * Z3;
+		viewer.m_camera.m_eye = radius * 2.5f * z3;
 
-		quat rotation = axis_angle(Y3, fmod(time, c_2pi));
+		quat rotation = axis_angle(y3, fmod(time, c_2pi));
 
 		Gnode& scene = viewer.m_scene.begin();
 		gfx::node(scene, offset, rotation); // object
@@ -419,162 +565,4 @@ namespace two
 
 	}
 
-}
-
-
-module two.gfx-edit;
-
-namespace two
-{
-	struct ParticleEditorState : public NodeState
-	{
-		ParticleEditorState() {}
-		Flow m_particles;
-	};
-
-	void cube_test(Gnode& parent)
-	{
-		Gnode& self = gfx::node(parent);
-		gfx::shape(self, Cube(1.f), Symbol());
-	}
-
-	void particle_editor_viewer(Widget& parent, Flow& particles)
-	{
-		SceneViewer& viewer = ui::scene_viewer(parent, vec2(500.f));
-		ui::orbit_controller(viewer);
-
-		//viewer.m_clear_colour = Colour::DarkGrey;
-		//viewer.m_camera.set_isometric(SOUTH, vec3(0.f));
-
-		Gnode& scene = viewer.m_scene.begin();
-		gfx::flows(scene, particles);
-
-		Shape* shape = particles.m_shape.m_shape.get();
-		if(shape)
-			gfx::shape(scene, *shape, Symbol());
-
-		cube_test(scene);
-	}
-
-	enum ParticleEditSwitch
-	{
-		OPEN_PARTICLES = 1 << 0,
-		SAVE_PARTICLES = 1 << 1
-	};
-
-	void open_particles(Widget& parent, GfxSystem& system, Flow& generator)
-	{
-		static string location = "";
-		if(select_value(parent, OPEN_PARTICLES, location, true))
-		{
-			if(file_exists(system.m_resource_path + "/" + location))
-			{
-				unpack_json_file(Ref(&generator), system.m_resource_path + "/" + location);
-			}
-		}
-	}
-
-	void save_particles(Widget& parent, GfxSystem& system, Flow& generator)
-	{
-		static string destination = "";
-		if(select_value(parent, SAVE_PARTICLES, destination, true))
-		{
-			pack_json_file(Ref(&generator), system.m_resource_path + "/" + destination);
-		}
-	}
-
-	void particle_edit(Widget& parent, GfxSystem& system, Flow& generator)
-	{
-		Section& self = section(parent, "Particle Editor");
-
-		object_edit(*self.m_body, Ref(&generator));
-		particle_editor_viewer(self, generator);
-
-		if(ui::modal_button(self, *self.m_toolbar, "Open", OPEN_PARTICLES))
-			open_particles(self, system, generator);
-		if(ui::modal_button(self, *self.m_toolbar, "Save", SAVE_PARTICLES))
-			save_particles(self, system, generator);
-	}
-
-	void particle_editor(Widget& parent, GfxSystem& system)
-	{
-		Widget& self = ui::sheet(parent);
-		ParticleEditorState& state = self.state<ParticleEditorState>();
-		particle_edit(self, system, state.m_particles);
-	}
-}
-
-
-module two.gfx-edit;
-
-namespace two
-{
-#if 0
-	TreeNode& prefab_node(Widget& parent, PrefabNode* parent_node, PrefabNode& node, PrefabNode*& selected)
-	{
-		TreeNode& self = ui::tree_node(parent, to_string(var(node.m_prefab_type)).c_str());
-
-		if(self.m_header->activated())
-			selected = &node;
-
-		self.m_header->set_state(ACTIVE, selected == &node);
-
-		if(ui::button(*self.m_header, "+").activated())
-		{
-			node.m_nodes.push_back({});
-			selected = &node.m_nodes.back();
-		}
-		if(ui::button(*self.m_header, "X").activated())
-		{
-			if(selected == &node)
-				selected = parent_node;
-			vector_remove_object(parent_node->m_nodes, node);
-			return self;
-		}
-
-		for(PrefabNode& child : node.m_nodes)
-			prefab_node(*self.m_body, &node, child, selected);
-
-		return self;
-	}
-
-	void prefab_structure(Widget& parent, PrefabNode& node, PrefabNode*& selected)
-	{
-		Section& self = section(parent, "Prefab Graph");
-		prefab_node(*self.m_body, nullptr, node, selected);
-	}
-
-	Widget& prefab_inspector(Widget& parent, PrefabNode& node)
-	{
-		Section& self = section(parent, "Prefab Inspector");
-
-		static cstring types[6] = { "None", "Item", "Model", "Shape", "Flare", "Light" };
-		static vector<Function*> functions = { nullptr, &function(gfx::item), &function(gfx::model), &function(gfx::shape), &function(&gfx::particles), &function(gfx::light) };
-
-		static cstring columns[2] = { "field", "value" };
-		Widget& table = ui::table(*self.m_body, { columns, 2 }, {});
-
-		Widget& row = ui::row(table);
-		ui::label(row, "type");
-		if(ui::dropdown_input(row, { types, 6 }, (uint32_t&)node.m_prefab_type))
-			node.m_call = { *functions[size_t(node.m_prefab_type)] };
-
-		object_edit(table, Ref(&node.m_transform), EditorHint::Rows);
-		if(node.m_call.m_callable)
-			call_edit(table, node.m_call);
-
-		return self;
-	}
-
-	void prefab_edit(Widget& parent, GfxSystem& gfx, PrefabNode& node, PrefabNode*& selected)
-	{
-		UNUSED(gfx);
-		Widget& self = ui::sheet(parent);
-
-		prefab_structure(self, node, selected);
-
-		if(selected)
-			prefab_inspector(self, *selected);
-	}
-#endif
 }

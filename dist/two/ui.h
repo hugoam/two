@@ -1,8 +1,5 @@
 #pragma once
 
-#include <two/tree.h>
-#include <two/math.h>
-#include <two/ctx.h>
 #include <two/infra.h>
 #include <two/type.h>
 
@@ -14,116 +11,111 @@
 #define TWO_UI_EXPORT TWO_IMPORT
 #endif
 
-#undef TWO_UI_DRAW_CACHE
-
 namespace two
 {
 namespace ui
 {
-    enum class PopupFlags : unsigned int;
+    export_ enum class PopupFlags : unsigned int;
     
     
-    struct DropdownStyles;
-    struct MenuStyles;
-    struct ToolbarStyles;
-    struct TableStyles;
-    struct ExpandboxStyles;
-    struct TreeNodeStyles;
-    struct TabberStyles;
-    struct DragPoint;
-    struct CursorStyles;
-    struct DockStyles;
-    struct SliderState;
-    struct SliderMetrics;
-    struct NodeStyles;
-    struct CanvasStyles;
-    struct ScrollbarStyles;
-    struct WindowStyles;
-    struct FileStyles;
-    class Sequence;
+    export_ struct DropdownStyles;
+    export_ struct MenuStyles;
+    export_ struct ToolbarStyles;
+    export_ struct TableStyles;
+    export_ struct ExpandboxStyles;
+    export_ struct TreeNodeStyles;
+    export_ struct TabberStyles;
+    export_ struct DragPoint;
+    export_ struct CursorStyles;
+    export_ struct DockStyles;
+    export_ struct SliderState;
+    export_ struct SliderMetrics;
+    export_ struct NodeStyles;
+    export_ struct CanvasStyles;
+    export_ struct ScrollbarStyles;
+    export_ struct WindowStyles;
+    export_ struct FileStyles;
+    export_ class Sequence;
 }
 }
 
 namespace two
 {
-    enum class Axis : unsigned int;
-    enum class FlowAxis : unsigned int;
-    enum class Pivot : unsigned int;
-    enum class Align : unsigned int;
-    enum class Solver : unsigned int;
-    enum class AutoLayout : unsigned int;
-    enum class LayoutFlow : unsigned int;
-    enum class Sizing : unsigned int;
-    enum class Preset : unsigned int;
-    enum class Clip : unsigned int;
-    enum class Opacity : unsigned int;
-    enum WidgetState : unsigned int;
-    enum DirtyLayout : unsigned int;
-    enum class CodePalette : unsigned char;
-    enum class TextFocusMode : unsigned int;
-    enum class WindowState : unsigned int;
-    enum class DropState : unsigned int;
-    
-    template <class T> struct v2;
-    
-    class Style;
-	struct Subskin;
-    struct Space;
-    struct Styles;
-    struct UiRect;
-    class Frame;
-    class Widget;
-    struct TextGlyph;
-    struct TextRow;
-    struct Shadow;
-    struct Paint;
-    struct TextPaint;
-	struct TextMarker;
-    struct Gradient;
-    struct TextCursor;
-    struct TextSelection;
-    class Text;
-    class TextEdit;
-	struct Clipboard;
-    struct NodeConnection;
-    class Vg;
-    class UiRenderer;
-    class UiWindow;
-    class User;
-    struct KeyCombo;
-    class EventDispatch;
-    struct Identifier;
-    struct LanguageDefinition;
-    class Layer;
-    struct Layout;
-    class FrameSolver;
-    class RowSolver;
-    class CustomSolver;
-    class TableSolver;
-    class LineSolver;
-    class GridSolver;
-    class ScrollSheet;
-    class Tabber;
-    class Expandbox;
-    class TreeNode;
-    class Table;
-    struct Dock;
-    class Docksystem;
-    class Dockable;
-    class Docker;
-    class Dockspace;
-    class Dockbar;
-    class NodePlug;
-    class Node;
-    struct CanvasConnect;
-    class Canvas;
-    struct DropAction;
-    class Ui;
-    class Window;
-    struct ImageSkin;
-    struct InkStyle;
-    class Options;
-    class Styler;
+    export_ enum class FlowAxis : unsigned int;
+    export_ enum class Pivot : unsigned int;
+    export_ enum class Align : unsigned int;
+    export_ enum class Solver : unsigned int;
+    export_ enum class AutoLayout : unsigned int;
+    export_ enum class LayoutFlow : unsigned int;
+    export_ enum class Sizing : unsigned int;
+    export_ enum class Preset : unsigned int;
+    export_ enum class Clip : unsigned int;
+    export_ enum class Opacity : unsigned int;
+    export_ enum WidgetState : unsigned int;
+    export_ enum DirtyLayout : unsigned int;
+    export_ enum class CodePalette : unsigned char;
+    export_ enum class TextFocusMode : unsigned int;
+    export_ enum class WindowState : unsigned int;
+    export_ enum class DropState : unsigned int;
+
+    export_ class Style;
+	export_ struct Subskin;
+    export_ struct Space;
+    export_ struct Styles;
+    export_ struct UiRect;
+    export_ class Frame;
+    export_ class Widget;
+    export_ struct TextGlyph;
+    export_ struct TextRow;
+    export_ struct Shadow;
+    export_ struct Paint;
+    export_ struct TextPaint;
+	export_ struct TextMarker;
+    export_ struct Gradient;
+    export_ struct TextCursor;
+    export_ struct TextSelection;
+    export_ class Text;
+    export_ class TextEdit;
+	export_ struct Clipboard;
+    export_ struct NodeConnection;
+    export_ class Vg;
+    export_ class UiRenderer;
+    export_ class UiWindow;
+    export_ class User;
+    export_ struct KeyCombo;
+    export_ class EventDispatch;
+    export_ struct Identifier;
+    export_ struct LanguageDefinition;
+    export_ class Layer;
+    export_ struct Layout;
+    export_ class FrameSolver;
+    export_ class RowSolver;
+    export_ class CustomSolver;
+    export_ class TableSolver;
+    export_ class LineSolver;
+    export_ class GridSolver;
+    export_ class ScrollSheet;
+    export_ class Tabber;
+    export_ class Expandbox;
+    export_ class TreeNode;
+    export_ class Table;
+    export_ struct Dock;
+    export_ class Docksystem;
+    export_ class Dockable;
+    export_ class Docker;
+    export_ class Dockspace;
+    export_ class Dockbar;
+    export_ class NodePlug;
+    export_ class Node;
+    export_ struct CanvasConnect;
+    export_ class Canvas;
+    export_ struct DropAction;
+    export_ class Ui;
+    export_ class Window;
+    export_ struct ImageSkin;
+    export_ struct InkStyle;
+    export_ class Options;
+    export_ class Styler;
 }
 
 #ifdef TWO_META_GENERATOR
@@ -131,13 +123,10 @@ namespace two
 #include <stl/span.h>
 
 
-#include <stl/memory.h>
-#include <stl/function.h>
 
 
 
-#include <stl/stddef.h>
-#include <stl/table.h>
+
 
 namespace two
 {
@@ -255,13 +244,13 @@ namespace two
 		Hollow = 2
 	};
 
-	export_ extern template struct refl_ array_ struct_ v2<bool>;
-	export_ extern template struct refl_ array_ struct_ v2<size_t>;
-	export_ extern template struct refl_ array_ struct_ v2<AutoLayout>;
-	export_ extern template struct refl_ array_ struct_ v2<Sizing>;
-	export_ extern template struct refl_ array_ struct_ v2<Align>;
-	export_ extern template struct refl_ array_ struct_ v2<Pivot>;
+	extern template struct refl_ array_ struct_ v2<bool>;
+	extern template struct refl_ array_ struct_ v2<AutoLayout>;
+	extern template struct refl_ array_ struct_ v2<Sizing>;
+	extern template struct refl_ array_ struct_ v2<Align>;
+	extern template struct refl_ array_ struct_ v2<Pivot>;
 }
+
 
 
 namespace two
@@ -419,6 +408,7 @@ namespace two
 		return { inkstyle.m_text_font.c_str(), inkstyle.m_text_colour, inkstyle.m_text_size, inkstyle.m_align, inkstyle.m_text_break, inkstyle.m_text_wrap };
 	}
 }
+
 
 
 namespace two
@@ -619,18 +609,559 @@ namespace two
 namespace stl
 {
 	export_ using cstring = const char*;
-	export_ extern template struct refl_ span_ span<float>;
-	export_ extern template struct refl_ span_ span<cstring>;
+	extern template struct refl_ span_ span<float>;
+	extern template struct refl_ span_ span<cstring>;
 
-	//export_ extern template class refl_ seque_ vector<string>;
-	export_ extern template class refl_ seque_ vector<two::Space>;
-	export_ extern template class refl_ seque_ vector<two::Subskin>;
+	//extern template class refl_ seque_ vector<string>;
+	extern template class refl_ seque_ vector<two::Space>;
+	extern template class refl_ seque_ vector<two::Subskin>;
 }
 #endif
 
+namespace two
+{
+namespace ui
+{
+	export_ struct TableStyles
+	{
+		void reset();
+		Style row; Style row_odd; Style row_even; Style separator;
+	};
 
-#include <stl/decls.h>
-#include <stl/span.h>
+	export_ TWO_UI_EXPORT TableStyles& table_styles();
+
+	export_ struct ExpandboxStyles
+	{
+		void reset();
+		Style expandbox; Style header; Style toggle; Style body;
+	};
+
+	export_ TWO_UI_EXPORT ExpandboxStyles& expandbox_styles();
+
+	export_ struct TreeNodeStyles
+	{
+		void reset();
+		Style treenode; Style header; Style toggle; Style no_toggle; Style body;
+	};
+
+	export_ TWO_UI_EXPORT TreeNodeStyles& treenode_styles();
+
+	export_ struct TabberStyles
+	{
+		void reset();
+		Style tab; Style tab_button; Style tabber; Style head; Style edge; Style body;
+	};
+
+	export_ TWO_UI_EXPORT TabberStyles& tabber_styles();
+
+	export_ TWO_UI_EXPORT func_ ScrollSheet& select_list(Widget& parent);
+
+	// @todo reflection for span<T>
+	export_ TWO_UI_EXPORT func_ Table& columns(Widget& parent, span<float> weights);
+	export_ TWO_UI_EXPORT func_ Table& table(Widget& parent, span<cstring> columns, span<float> weights);
+	export_ TWO_UI_EXPORT func_ Widget& table_row(Widget& parent);
+	export_ TWO_UI_EXPORT func_ Widget& table_separator(Widget& parent);
+
+	export_ TWO_UI_EXPORT Expandbox& expandbox(Widget& parent, span<cstring> elements, bool open = true);
+	export_ TWO_UI_EXPORT func_ Expandbox& expandbox(Widget& parent, cstring name, bool open = true);
+
+	export_ TWO_UI_EXPORT TreeNode& tree_node(Widget& parent, span<cstring> elements, bool leaf = false, bool open = true);
+	export_ TWO_UI_EXPORT func_ TreeNode& tree_node(Widget& parent, cstring name, bool leaf = false, bool open = true);
+	export_ TWO_UI_EXPORT func_ Widget& tree(Widget& parent);
+
+	export_ TWO_UI_EXPORT func_ Widget* tab(Tabber& tabber, cstring name);
+	export_ TWO_UI_EXPORT func_ Tabber& tabber(Widget& parent);
+}
+}
+
+
+
+
+
+
+
+namespace two
+{
+	export_ struct TWO_UI_EXPORT TextGlyph
+	{
+		const char* m_position;
+		vec4 m_rect;
+	};
+
+	export_ struct TWO_UI_EXPORT TextRow
+	{
+		const char* m_start;
+		const char* m_end;
+		size_t m_start_index;
+		size_t m_end_index;
+		vec4 m_rect;
+
+		vector<TextGlyph> m_glyphs;
+	};
+
+	export_ inline TextRow text_row(const char* str, const char* start, const char* end, const vec4& rect)
+	{
+		return { start, end, size_t(start - str), size_t(end - str), rect, {} };
+	}
+
+	TWO_UI_EXPORT bool is_separator(char c);
+
+	TWO_UI_EXPORT size_t word_begin(const string& text, size_t index);
+	TWO_UI_EXPORT size_t word_end(const string& text, size_t index);
+	TWO_UI_EXPORT string word_at(const string& text, size_t index);
+
+	TWO_UI_EXPORT size_t line_begin(const string& text, size_t index);
+	TWO_UI_EXPORT size_t line_end(const string& text, size_t index);
+
+	TWO_UI_EXPORT string text_line(const string& text, size_t index);
+	TWO_UI_EXPORT size_t text_column(const string& text, size_t index);
+
+	TWO_UI_EXPORT void replace_tabs(string& text, size_t tab_size = 4);
+
+	export_ struct refl_ TWO_UI_EXPORT TextCursor
+	{
+		TextCursor() {}
+		TextCursor(size_t index, uvec2 grid_index) : m_index(index), m_grid_index(grid_index) {}
+
+		bool operator==(const TextCursor& other) const { return m_index == other.m_index && m_grid_index == other.m_grid_index; }
+
+		operator size_t() const { return size_t(m_index); }
+
+		size_t m_index = SIZE_MAX;
+		uvec2 m_grid_index = { UINT_MAX, UINT_MAX };
+	};
+
+	export_ struct refl_ TWO_UI_EXPORT TextSelection
+	{
+		TextSelection() {}
+		TextSelection(TextCursor cursor, size_t start, size_t end, bool insert_mode) : m_cursor(cursor), m_start(start), m_end(end), m_insert_mode(insert_mode) {}
+		TextCursor m_cursor;
+		size_t m_start = SIZE_MAX;
+		size_t m_end = SIZE_MAX;
+		bool m_insert_mode = false;
+	};
+
+	using PaletteIndex = uint16_t;
+	using ColourPalette = span<uint32_t>;
+
+	export_ enum class TextMarkerKind
+	{
+		Error,
+	};
+
+	export_ struct refl_ TWO_UI_EXPORT TextMarker
+	{
+		TextMarkerKind m_type;
+		size_t m_line;
+		size_t m_column;
+		string m_message;
+		PaletteIndex m_colour;
+		PaletteIndex m_highlight;
+	};
+
+	export_ class refl_ TWO_UI_EXPORT Text
+	{
+	public:
+		Text(Frame& frame);
+
+		void update_style();
+
+		void set_lines(size_t lines);
+		void set_text(const string& text);
+
+		float line_height() const;
+		float compute_height() const;
+		float compute_width() const;
+		vec2 compute_text_size();
+
+		void break_text_rows();
+
+		vec4 interval_rect(const TextRow& row, size_t start, size_t end) const;
+		vec4 interval_rect(size_t start, size_t end) const;
+
+		size_t text_row_index(size_t index) const;
+		const TextRow& text_row_at(size_t index) const;
+
+		size_t char_at(const vec2& pos) const;
+		TextCursor cursor_at(const vec2& pos) const;
+
+		TextCursor to_cursor(size_t index) const;
+		TextCursor to_cursor(const uvec2& grid_index) const;
+
+		TextCursor clamp_cursor(int index) const;
+		TextCursor clamp_cursor(const ivec2& grid_index) const;
+
+		vec4 cursor_rect(size_t index) const;
+
+		enum Palette : uint8_t
+		{
+			Default = 0,
+			Background,
+			Cursor,
+			Selection,
+			LineNumber,
+			CurrentLineFill,
+			CurrentLineFillInactive,
+			CurrentLineEdge,
+			Count
+		};
+
+	public:
+		Frame& m_frame;
+		string m_text;
+		size_t m_num_lines;
+
+		vector<TextRow> m_text_rows;
+
+		TextPaint m_text_paint;
+
+		struct ColorSection
+		{
+			size_t m_start;
+			size_t m_end;
+			PaletteIndex m_colour;
+		};
+
+		vector<ColorSection> m_sections;
+
+		vector<TextMarker> m_markers;
+
+	public:
+		static Vg* s_vg;
+	};
+
+	TWO_UI_EXPORT Colour palette_colour(const ColourPalette& palette, PaletteIndex color_index);
+	TWO_UI_EXPORT Paint palette_paint(const ColourPalette& palette, PaletteIndex color_index);
+	TWO_UI_EXPORT TextPaint palette_text_paint(const Text& text, const ColourPalette& palette, PaletteIndex color_index);
+
+	TWO_UI_EXPORT void draw_text(Vg& vg, const vec2& padding, const Text& text);
+	TWO_UI_EXPORT void draw_editor_text(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette);
+	TWO_UI_EXPORT void draw_text_selection(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const TextSelection& selection, const ColourPalette& palette, bool current_line);
+}
+
+namespace two
+{
+	using cstring = const char*;
+
+	export_ class refl_ TWO_UI_EXPORT Vg
+	{
+	public:
+		Vg(cstring resource_path);
+		virtual ~Vg();
+
+		// init
+		virtual void setup_context() = 0;
+		virtual void release_context() = 0;
+
+		// setup
+		virtual void load_default_font() = 0;
+		virtual void load_font(cstring name) = 0;
+		virtual void load_image_RGBA(Image& image, const unsigned char* data) = 0;
+		virtual void load_image(Image& image) = 0;
+		virtual void unload_image(Image& image) = 0;
+		virtual uint16_t load_texture(uint16_t texture) = 0;
+
+		// rendering
+		virtual void begin_frame(uint16_t view, const vec4& rect, float pixel_ratio = 1.f, const Colour& colour = Colour(0.f)) = 0;
+		virtual void end_frame(uint16_t view) = 0;
+
+		// drawing
+		virtual void begin_target() = 0;
+		virtual void end_target() = 0;
+
+#ifdef TWO_UI_DRAW_CACHE
+		virtual void begin_cached(Layer& layer) = 0;
+		virtual void end_cached() = 0;
+
+		virtual void draw_layer(Layer& layer, const vec2& position = vec2(0.f), float scale = 1.f) = 0;
+#endif
+
+		virtual void begin_layer(Layer& layer, const vec2& position = vec2(0.f), float scale = 1.f) = 0;
+		virtual void end_layer() = 0;
+
+		virtual void begin_update(const vec2& position, float scale) = 0;
+		virtual void end_update() = 0;
+
+		virtual bool clipped(const vec4& rect) = 0;
+		virtual void clip(const vec4& rect) = 0;
+		virtual void unclip() = 0;
+
+		virtual void begin_path() = 0;
+		virtual void move_to(const vec2& p) = 0;
+		virtual void line_to(const vec2& p) = 0;
+		virtual void close_path() = 0;
+
+		virtual void path_line(const vec2& p1, const vec2& p2) = 0;
+		virtual void path_bezier(const vec2& p1, const vec2& c1, const vec2& c2, const vec2& p2, bool straighten = false) = 0;
+		virtual void path_rect(const vec4& rect, const vec4& corners, float border) = 0;
+		virtual void path_circle(const vec2& center, float r) = 0;
+
+		virtual void fill(const Gradient& gradient, const vec2& start, const vec2& end) = 0;
+		virtual void fill(const Paint& paint) = 0;
+		virtual void stroke(const Paint& paint) = 0;
+
+		virtual void stroke_gradient(const Gradient& paint, float width, const vec2& start, const vec2& end) = 0;
+
+		virtual void draw_shadow(const vec4& rect, const vec4& corner, const Shadow& shadows) = 0;
+		virtual void draw_texture(uint16_t texture, const vec4& rect, const vec4& image_rect) = 0;
+		virtual void draw_text(const vec2& offset, const char* start, const char* end, const TextPaint& paint) = 0;
+
+		virtual void draw_color_wheel(const vec2& center, float r0, float r1) = 0;
+		virtual void draw_color_triangle(const vec2& center, float r0, float hue, float s, float l) = 0;
+
+		virtual void debug_rect(const vec4& rect, const Colour& colour);
+
+		virtual void break_text(cstring text, size_t len, const vec2& space, const TextPaint& paint, vector<TextRow>& rows);
+
+		void fill_text(cstring text, size_t len, const vec4& rect, const TextPaint& paint, TextRow& row);
+		void break_text_width(const char* text, const char* start, const char* end, const vec4& rect, const TextPaint& paint, TextRow& textRow);
+		void break_text_returns(const char* text, const char* start, const char* end, const vec4& rect, const TextPaint& paint, TextRow& textRow);
+
+		virtual void break_next_row(const char* text, const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row) = 0;
+		virtual void break_glyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow) = 0;
+
+		virtual float line_height(const TextPaint& paint) = 0;
+		virtual float text_size(cstring text, size_t len, Axis dim, const TextPaint& paint) = 0;
+		virtual vec2 text_size(cstring text, size_t len, const TextPaint& paint) = 0;
+
+		void draw_rect(const vec4& rect, const Paint& paint, const vec4& corners = vec4(0.f));
+
+		cstring font_path(cstring font);
+
+	protected:
+		struct Impl;
+		unique<Impl> m_impl;
+
+		bool m_null = false;
+	};
+
+	export_ TWO_UI_EXPORT vec4 select_corners(const Frame& frame);
+	export_ TWO_UI_EXPORT float content_position(const Frame& frame, const vec2& content, const vec2& padded_pos, const vec2& padded_size, Axis dim);
+
+	export_ TWO_UI_EXPORT void draw_frame(Vg& vg, const Frame& frame, const vec4& rect);
+	export_ TWO_UI_EXPORT void draw_content(Vg& vg, const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
+	export_ TWO_UI_EXPORT void draw_background(Vg& vg, const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
+	export_ TWO_UI_EXPORT void draw_rect(Vg& vg, const vec4& rect, const vec4& corners, const InkStyle& inkstyle);
+	export_ TWO_UI_EXPORT void draw_image(Vg& vg, const Image& image, const vec4& rect);
+	export_ TWO_UI_EXPORT void draw_image_stretch(Vg& vg, const Image& image, const vec4& rect, const vec2& stretch = { 1.f, 1.f });
+	export_ TWO_UI_EXPORT void draw_skin_image(Vg& vg, const Frame& frame, int section, vec4 rect);
+
+	export_ class TWO_UI_EXPORT UiRenderer
+	{
+	public:
+		UiRenderer(Vg& vg);
+		virtual ~UiRenderer();
+
+		void render(Layer& layer, uint16_t view, float pixel_ratio, const Colour& colour = Colour(0.f));// = 1.f);
+
+		// drawing implementation
+		void render_layer(Layer& layer);
+
+		void begin_layer(Frame& frame);
+		void begin_frame(Frame& frame);
+		void render_frame(Frame& frame);
+		void end_frame(Frame& frame);
+		void end_layer(Frame& frame);
+		void draw_frame(const Frame& frame);
+
+		void log_FPS();
+
+	protected:
+		Vg& m_vg;
+		size_t m_debug_batch = 0;
+
+		struct Impl;
+		unique<Impl> m_impl;
+
+		Clock m_clock;
+	};
+}
+
+namespace two
+{
+	export_ struct refl_ TWO_UI_EXPORT Clipboard
+	{
+		Clipboard() {}
+		Clipboard(const string& text, bool line_mode) : m_text(text), m_line_mode(line_mode) {}
+		attr_ string m_text = "";
+		attr_ bool m_line_mode = false;
+		attr_ vector<string> m_pasted = {};
+	};
+
+	export_ class refl_ TWO_UI_EXPORT UiWindow
+	{
+	public:
+		UiWindow(Context& context, Vg& vg, User* user = nullptr);
+		~UiWindow();
+
+		void init();
+		bool input_frame();
+		void render_frame(uint16_t view);
+		void shutdown();
+
+		meth_ void reset_styles();
+
+		void resize(const uvec2& size, const uvec2& fb_size);
+
+		Image& create_image(cstring image, const uvec2& size, span<uint8_t> data, bool filtering = true);
+		void remove_image(Image& image);
+		Image* find_image(cstring name);
+
+	protected:
+		void init_resources();
+		void load_resources();
+
+	public:
+		attr_ const string m_resource_path;
+
+		attr_ Context& m_context;
+		attr_ Vg& m_vg;
+
+		UiRenderer m_renderer;
+
+		vector<unique<Image>> m_images;
+		ImageAtlas m_atlas;
+
+		attr_ uvec2 m_size;
+		attr_ Colour m_colour = Colour(0.f);
+		attr_ bool m_shutdown = false;
+
+		Clipboard m_clipboard;
+
+		unique<Ui> m_ui;
+
+		User* m_user = nullptr;
+	};
+}
+
+
+
+
+
+
+
+namespace two
+{
+	export_ struct refl_ TWO_UI_EXPORT UiRect
+	{
+		attr_ vec2 m_position = vec2(0.f);
+		attr_ vec2 m_size = vec2(0.f);
+		attr_ vec2 m_content = vec2(0.f);
+		attr_ vec2 m_span = vec2(1.f);
+		attr_ float m_scale = 1.f;
+	};
+}
+
+namespace two
+{
+	using cstring = const char*;
+
+	enum DirtyLayout : unsigned int
+	{
+		CLEAN,				// Frame doesn't need update
+		DIRTY_REDRAW,		// The parent layout has changed
+		DIRTY_PARENT,		// The parent layout has changed
+		DIRTY_LAYOUT,		// The frame layout has changed
+		DIRTY_FORCE_LAYOUT	// The frame layout has changed
+	};
+
+	export_ class refl_ TWO_UI_EXPORT Frame : public UiRect
+	{
+	public:
+		Frame(Frame* parent, Widget& widget);
+		virtual ~Frame();
+
+		bool empty() const;
+
+		inline bool opaque() const { return m_opacity == Opacity::Opaque; }
+		inline bool hollow() const { return m_opacity == Opacity::Hollow; }
+
+		void set_caption(cstring text);
+		void set_icon(Image* image);
+		Image* icon() const;
+		cstring caption() const;
+
+		void size_caption();
+
+		Frame& root();
+		Layer& layer();
+
+		FrameSolver& solver(Style& style, Axis length = Axis::None, v2<uint> index = { 0, 0 });
+
+		DirtyLayout clearDirty() { DirtyLayout dirty = d_dirty; d_dirty = CLEAN; return dirty; }
+		void set_dirty(DirtyLayout dirty) { if(dirty > d_dirty) d_dirty = dirty; }
+		void mark_dirty(DirtyLayout dirty);
+
+		void update_style(bool reset = false);
+		void update_state(WidgetState state);
+		void update_inkstyle(InkStyle& inkstyle, bool reset = false);
+
+		void set_size(Axis dim, float size);
+		void set_span(Axis dim, float span);
+		void set_position(Axis dim, float position);
+
+		inline void set_position(const vec2& pos) { set_position(Axis::X, pos.x), set_position(Axis::Y, pos.y); }
+		inline void set_size(const vec2& size) { set_size(Axis::X, size.x); set_size(Axis::Y, size.y); }
+
+		// global to local
+		void integrate_position(Frame& root, vec2& global);
+		inline vec2 integrate_position(const vec2& pos, Frame& root) { vec2 local = pos; integrate_position(root, local); return local; }
+		inline vec2 local_position(const vec2& pos) { return integrate_position(pos, root()); }
+
+		// local to global
+		void derive_position(Frame& root, vec2& local);
+		inline vec2 derive_position(const vec2& pos, Frame& root) { vec2 local = pos; derive_position(root, local); return local; }
+		inline vec2 derive_position(const vec2& pos) { return derive_position(pos, root()); }
+		inline vec2 absolute_position() { return derive_position({ 0.f, 0.f }); }
+
+		float derive_scale(Frame& root);
+		inline float absolute_scale() { return this->derive_scale(root()); }
+
+		void clamp_to_parent();
+
+		vec4 content_rect() const;
+
+		bool inside(const vec2& pos);
+		bool inside_abs(const vec2& pos) { return this->inside(local_position(pos)); }
+
+		bool first(const Frame& frame);
+		bool last(const Frame& frame);
+
+		void transfer_pixel_span(Frame& prev, Frame& next, Axis dim, float pixelSpan);
+
+		void relayout();
+
+		void sync_solver(FrameSolver& solver);
+		void read_solver(FrameSolver& solver);
+
+		void debug_print(bool commit);
+
+	public:
+		Widget& d_widget;
+		Frame* d_parent;
+		DirtyLayout d_dirty = DIRTY_FORCE_LAYOUT;
+		v2<uint> d_index = { 0, 0 };
+
+		Opacity m_opacity = Opacity::Clear;
+
+		Style* d_style = nullptr;
+		Layout* d_layout = nullptr;
+		InkStyle* d_inkstyle = nullptr;
+
+	public:
+		string d_caption = "";
+		Image* d_icon = nullptr;
+
+		unique<FrameSolver> m_solver;
+
+		unique<Layer> m_layer;
+		unique<Text> m_text;
+
+		static Vg* s_vg;
+	};
+}
+
+
 
 namespace two
 {
@@ -656,7 +1187,7 @@ namespace two
 
 namespace ui
 {
-	export_ TWO_UI_EXPORT func_ Widget& widget(Widget& parent, Style& style, bool open = false, Axis length = Axis::None, v2<size_t> index = { 0, 0 });
+	export_ TWO_UI_EXPORT func_ Widget& widget(Widget& parent, Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 });
 	export_ TWO_UI_EXPORT Widget& widget(Widget& parent, Style& style, void* identity);
 
 	export_ TWO_UI_EXPORT func_ Widget& item(Widget& parent, Style& style, cstring content = nullptr);
@@ -668,6 +1199,161 @@ namespace ui
 	export_ TWO_UI_EXPORT func_ Widget& spanner(Widget& parent, Style& style, Axis dim, float span);
 }
 }
+
+namespace two
+{
+	using FrameFilter = bool(*)(Frame&);
+
+#ifndef _MSC_VER
+	extern template class Graph<Widget>;
+#endif
+
+	export_ class refl_ TWO_UI_EXPORT Widget : public Graph<Widget>, public ControlNode
+	{
+	public:
+		Widget();
+		Widget(Widget* parent, void* identity);
+		~Widget();
+
+		meth_ inline bool focused() { return (m_state & FOCUSED) != 0; }
+		meth_ inline bool hovered() { return (m_state & HOVERED) != 0; }
+		meth_ inline bool pressed() { return (m_state & PRESSED) != 0; }
+		meth_ inline bool activated() { return (m_state & ACTIVATED) != 0; }
+		meth_ inline bool active() { return (m_state & ACTIVE) != 0; }
+		meth_ inline bool selected() { return (m_state & SELECTED) != 0; }
+		meth_ inline bool modal() { return (m_state & FOCUSED) != 0; }
+		meth_ inline bool closed() { return (m_state & CLOSED) != 0; }
+
+		meth_ UiWindow& ui_window();
+		meth_ Ui& ui();
+		meth_ Widget& parent_modal();
+
+		meth_ void clear();
+
+		void set_content(cstring content);
+
+		meth_ void toggle_state(WidgetState state);
+
+		meth_ inline void disable_state(WidgetState state) { if(m_state & state) this->toggle_state(state); }
+		meth_ inline void set_state(WidgetState state, bool enabled) { enabled ? enable_state(state) : disable_state(state); }
+		meth_ inline void enable_state(WidgetState state) { if(!(m_state & state)) this->toggle_state(state); }
+
+		meth_ inline void clear_focus() { this->parent_modal().set_modal(nullptr, device_mask(DeviceType::Keyboard)); }
+		meth_ inline void take_focus() { if(!this->modal()) this->take_modal(device_mask(DeviceType::Keyboard)); }
+		meth_ inline void yield_focus() { this->yield_modal(); }
+
+		meth_ inline void take_modal(uint32_t device_filter = uint32_t(DeviceMask::All)) { this->parent_modal().set_modal(this, device_filter); }
+		meth_ inline void yield_modal() { this->parent_modal().set_modal(nullptr, 0); }
+
+		void set_modal(Widget* widget, uint32_t device_filter);
+
+		Widget* pinpoint(vec2 pos);
+		Widget* pinpoint(vec2 pos, const FrameFilter& filter);
+
+		//inline bool fits_modifier(InputMod modifier, InputMod mask) { return mask == InputMod::Any || modifier == mask; }
+		//
+		//meth_ KeyEvent key_event(Key code, EventType event_type, InputMod modifier = InputMod::Any);
+		//meth_ KeyEvent key_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(code, EventType::Stroked, modifier); }
+		//meth_ KeyEvent char_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(translate(code), EventType::Stroked, modifier); }
+		//
+		//meth_ MouseEvent mouse_event(DeviceType device, EventType event_type, InputMod modifier = InputMod::None, bool consume = true);
+		
+		void transform_event(InputEvent& event);
+
+		virtual ControlNode* control_event(InputEvent& event) override;
+		virtual void receive_event(InputEvent& event) override;
+		//virtual ControlNode* propagate_event(InputEvent& event) override;
+
+		attr_ Frame m_frame;
+		attr_ WidgetState m_state = CREATED;
+		attr_ uint32_t m_switch = 0;
+		attr_ uint32_t m_index = 0;
+		attr_ bool m_open = false;
+		attr_ Widget* m_body = nullptr;
+
+		using CustomRender = function<void(const Frame&, const vec4&, Vg&)>;
+		CustomRender m_custom_draw;
+
+		Widget& layer();
+
+		inline bool once() { if((m_state & CREATED) != 0) { disable_state(CREATED); return true; } return false; }
+		inline Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 }) { if(!m_frame.d_style) { m_frame.solver(style, length, index); m_open = open; } return *this; }
+	};
+
+namespace ui
+{
+	export_ template <class T>
+	inline T& twidget(Widget& parent, Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 })
+	{
+		T& self = parent.subi<T>(&style); self.init(style, open, length, index); return self;
+	}
+}
+}
+
+
+
+#define TWO_UI_SEQUENCE_REFS
+
+namespace two
+{
+	export_ class refl_ TWO_UI_EXPORT ScrollSheet : public Widget
+	{
+	public:
+		ScrollSheet(Widget* parent, void* identity) : Widget(parent, identity) {}
+		Widget* m_scroll_zone;
+	};
+
+namespace ui
+{
+	export_ class refl_ TWO_UI_EXPORT Sequence : public Widget
+	{
+	public:
+		Sequence(Widget* parent, void* identity) : Widget(parent, identity) {}
+#ifdef TWO_UI_SEQUENCE_REFS
+		vector<Ref>* m_selection = nullptr;
+#else
+		vector<Widget*> m_selection;
+#endif
+	};
+}
+
+	export_ class refl_ TWO_UI_EXPORT Tabber : public Widget
+	{
+	public:
+		Tabber(Widget* parent, void* identity) : Widget(parent, identity) {}
+		Widget* m_head = nullptr;
+		size_t m_index = 0;
+		size_t m_active = 0;
+	};
+
+	export_ class refl_ TWO_UI_EXPORT Expandbox : public Widget
+	{
+	public:
+		Expandbox(Widget* parent, void* identity) : Widget(parent, identity) {}
+		Widget* m_header = nullptr;
+	};
+
+	export_ class refl_ TWO_UI_EXPORT TreeNode : public Widget
+	{
+	public:
+		TreeNode(Widget* parent, void* identity) : Widget(parent, identity) {}
+		Widget* m_header = nullptr;
+	};
+
+	export_ class refl_ TWO_UI_EXPORT Table : public Widget
+	{
+	public:
+		Table(Widget* parent, void* identity, span<float> weights);
+		Table(Widget* parent, void* identity, size_t columns);
+		vector<float> m_weights;
+	};
+}
+
+
+
+
+
+
 
 namespace two
 {
@@ -783,69 +1469,6 @@ namespace ui
 }
 
 
-namespace two
-{
-namespace ui
-{
-	export_ struct TableStyles
-	{
-		void reset();
-		Style row; Style row_odd; Style row_even; Style separator;
-	};
-
-	export_ TWO_UI_EXPORT TableStyles& table_styles();
-
-	export_ struct ExpandboxStyles
-	{
-		void reset();
-		Style expandbox; Style header; Style toggle; Style body;
-	};
-
-	export_ TWO_UI_EXPORT ExpandboxStyles& expandbox_styles();
-
-	export_ struct TreeNodeStyles
-	{
-		void reset();
-		Style treenode; Style header; Style toggle; Style no_toggle; Style body;
-	};
-
-	export_ TWO_UI_EXPORT TreeNodeStyles& treenode_styles();
-
-	export_ struct TabberStyles
-	{
-		void reset();
-		Style tab; Style tab_button; Style tabber; Style head; Style edge; Style body;
-	};
-
-	export_ TWO_UI_EXPORT TabberStyles& tabber_styles();
-
-	export_ TWO_UI_EXPORT func_ ScrollSheet& select_list(Widget& parent);
-
-	// @todo reflection for span<T>
-	export_ TWO_UI_EXPORT func_ Table& columns(Widget& parent, span<float> weights);
-	export_ TWO_UI_EXPORT func_ Table& table(Widget& parent, span<cstring> columns, span<float> weights);
-	export_ TWO_UI_EXPORT func_ Widget& table_row(Widget& parent);
-	export_ TWO_UI_EXPORT func_ Widget& table_separator(Widget& parent);
-
-	export_ TWO_UI_EXPORT Expandbox& expandbox(Widget& parent, span<cstring> elements, bool open = true);
-	export_ TWO_UI_EXPORT func_ Expandbox& expandbox(Widget& parent, cstring name, bool open = true);
-
-	export_ TWO_UI_EXPORT TreeNode& tree_node(Widget& parent, span<cstring> elements, bool leaf = false, bool open = true);
-	export_ TWO_UI_EXPORT func_ TreeNode& tree_node(Widget& parent, cstring name, bool leaf = false, bool open = true);
-	export_ TWO_UI_EXPORT func_ Widget& tree(Widget& parent);
-
-	export_ TWO_UI_EXPORT func_ Widget* tab(Tabber& tabber, cstring name);
-	export_ TWO_UI_EXPORT func_ Tabber& tabber(Widget& parent);
-}
-}
-
-
-
-
-
-
-#include <stl/string.h>
-#include <stl/map.h>
 
 namespace two
 {
@@ -931,6 +1554,105 @@ namespace two
 {
 namespace ui
 {
+	export_ struct DockStyles
+	{
+		void reset();
+		Style docktab; Style placeholder; Style docksection; Style dockline; Style dockspace; Style docktoggle; Style dockdiv; Style docktabs; Style dockbar;
+		//Style dockdiv; Style dockbox;
+	};
+
+	export_ TWO_UI_EXPORT DockStyles& dock_styles();
+
+	export_ TWO_UI_EXPORT Widget& dockline(Widget& parent, uint16_t index, Axis dim);
+	export_ TWO_UI_EXPORT Tabber& docksection(Widget& parent);
+
+	export_ TWO_UI_EXPORT func_ Dockspace& dockspace(Widget& parent, Docksystem& docksystem);
+	export_ TWO_UI_EXPORT func_ Dockbar& dockbar(Widget& parent, Docksystem& docksystem);
+
+	export_ TWO_UI_EXPORT func_ Widget* dockitem(Widget& parent, Docksystem& docksystem, Dock& dock);
+
+	export_ TWO_UI_EXPORT Widget* dockitem(Docker& docker, cstring name, span<uint16_t> dockid = {}, float span = 0.f);
+}
+}
+
+
+
+
+
+
+
+namespace two
+{
+namespace ui
+{
+	export_ struct TWO_UI_EXPORT SliderState
+	{
+		float m_pre_span;
+		float m_knob_span;
+		float m_post_span;
+	};
+
+	export_ struct TWO_UI_EXPORT SliderMetrics
+	{
+		SliderMetrics(float min, float max, float step_length = 1.f, float knob_length = 0.f);
+
+		float m_min;
+		float m_max;
+		float m_range;
+		float m_step_length;
+		float m_knob_length;
+
+		float m_num_steps;
+
+		float offset(float cursor) const;
+		float cursor(float value, float cursor) const;
+
+		SliderState compute(float value);
+	};
+
+	export_ TWO_UI_EXPORT bool slider(Widget& parent, Style& style, float& value, SliderMetrics metrics, Axis dim = Axis::X, bool relative = false, bool fill = true, Style* knob_style = nullptr);
+	export_ TWO_UI_EXPORT bool slider(Widget& parent, float& value, SliderMetrics metrics, Axis dim = Axis::X, bool relative = false, bool fill = true, Style* knob_style = nullptr);
+}
+}
+
+namespace two
+{
+namespace ui
+{
+	export_ struct ScrollbarStyles
+	{
+		void reset();
+		Style scrollbar; Style scroll_up; Style scroll_down; Style scroll_left; Style scroll_right; Style scroller; Style scroller_knob;
+	};
+
+	export_ TWO_UI_EXPORT ScrollbarStyles& scrollbar_styles();
+
+	export_ TWO_UI_EXPORT bool overflow(Frame& frame, Frame& content, Axis dim);
+	export_ TWO_UI_EXPORT Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Axis dim, v2<uint> grid_index = { 0, 0 });
+}
+}
+
+namespace two
+{
+namespace ui
+{
+	export_ TWO_UI_EXPORT void draw_grid(const Frame& frame, const vec4& rect, Vg& vg);
+
+	export_ TWO_UI_EXPORT func_ ScrollSheet& scroll_sheet(Widget& parent, Style& style = styles().scrollsheet, Style* surface_style = nullptr);
+	export_ TWO_UI_EXPORT func_ ScrollSheet& scroll_plan(Widget& parent, Style& style = styles().scrollsheet);
+
+	export_ TWO_UI_EXPORT func_ Widget& scrollable(Widget& parent);
+
+	export_ TWO_UI_EXPORT void autofit_scroll_plan(ScrollSheet& scroll_sheet, span<Widget*> elements);
+}
+}
+
+
+
+namespace two
+{
+namespace ui
+{
 	export_ struct CursorStyles
 	{
 		void reset();
@@ -960,31 +1682,6 @@ namespace ui
 }
 
 
-namespace two
-{
-namespace ui
-{
-	export_ struct DockStyles
-	{
-		void reset();
-		Style docktab; Style placeholder; Style docksection; Style dockline; Style dockspace; Style docktoggle; Style dockdiv; Style docktabs; Style dockbar;
-		//Style dockdiv; Style dockbox;
-	};
-
-	export_ TWO_UI_EXPORT DockStyles& dock_styles();
-
-	export_ TWO_UI_EXPORT Widget& dockline(Widget& parent, uint16_t index, Axis dim);
-	export_ TWO_UI_EXPORT Tabber& docksection(Widget& parent);
-
-	export_ TWO_UI_EXPORT func_ Dockspace& dockspace(Widget& parent, Docksystem& docksystem);
-	export_ TWO_UI_EXPORT func_ Dockbar& dockbar(Widget& parent, Docksystem& docksystem);
-
-	export_ TWO_UI_EXPORT func_ Widget* dockitem(Widget& parent, Docksystem& docksystem, Dock& dock);
-
-	export_ TWO_UI_EXPORT Widget* dockitem(Docker& docker, cstring name, span<uint16_t> dockid = {}, float span = 0.f);
-}
-}
-
 
 namespace two
 {
@@ -1005,10 +1702,10 @@ namespace ui
 	export_ TWO_UI_EXPORT func_ bool drag_float(Widget& parent, float& value, float step = 0.1f);
 	
 	export_ template <class T>
-	inline enable_if<!is_number<T>, bool> input(Widget& parent, T& value);
+	enable_if<!is_number<T>, bool> input(Widget& parent, T& value);
 
 	export_ template <class T>
-	inline enable_if<is_number<T>, bool> input(Widget& parent, T& value, StatDef<T> def = {});
+	enable_if<is_number<T>, bool> input(Widget& parent, T& value, StatDef<T> def = {});
 
 	export_ TWO_UI_EXPORT func_ bool float2_input(Widget& parent, span<cstring> labels, span<float> vals, StatDef<float> def = { limits<float>::min(), limits<float>::max(), 0.01f });
 	export_ TWO_UI_EXPORT func_ bool float3_input(Widget& parent, span<cstring> labels, span<float> vals, StatDef<float> def = { limits<float>::min(), limits<float>::max(), 0.01f });
@@ -1070,8 +1767,8 @@ namespace ui
 	export_ func_ inline bool color_field(Widget& parent, cstring name, Colour& value, bool reverse = false) { return do_field([&](Widget& self) { return color_toggle_edit(self, value); }, parent, name, reverse); }
 	export_ func_ inline void color_display_field(Widget& parent, cstring name, const Colour& value, bool reverse = false) { do_field([&](Widget& self) { color_display(self, value); return false; }, parent, name, reverse); }
 
-	template <> func_ bool input<bool>(Widget& parent, bool& value);
-	template <> func_ bool input<string>(Widget& parent, string& value);
+	export_ template <> func_ bool input<bool>(Widget& parent, bool& value);
+	export_ template <> func_ bool input<string>(Widget& parent, string& value);
 
 #ifndef TWO_META_GENERATOR
 	export_ func_ extern template bool input<int>(Widget& parent, int& value, StatDef<int> def);
@@ -1091,7 +1788,7 @@ namespace ui
 	template <> func_ bool field<float>(Widget& parent, cstring name, float& value, StatDef<float> def, bool reverse = false
 #endif
 
-	inline void field_label(Widget& parent, cstring field, cstring value)
+	export_ inline void field_label(Widget& parent, cstring field, cstring value)
 	{
 		Widget& self = row(parent);
 		label(self, field);
@@ -1103,420 +1800,6 @@ namespace ui
 
 
 
-namespace two
-{
-namespace ui
-{
-	export_ struct TWO_UI_EXPORT SliderState
-	{
-		float m_pre_span;
-		float m_knob_span;
-		float m_post_span;
-	};
-
-	export_ struct TWO_UI_EXPORT SliderMetrics
-	{
-		SliderMetrics(float min, float max, float step_length = 1.f, float knob_length = 0.f);
-
-		float m_min;
-		float m_max;
-		float m_range;
-		float m_step_length;
-		float m_knob_length;
-
-		float m_num_steps;
-
-		float offset(float cursor) const;
-		float cursor(float value, float cursor) const;
-
-		SliderState compute(float value);
-	};
-
-	export_ TWO_UI_EXPORT bool slider(Widget& parent, Style& style, float& value, SliderMetrics metrics, Axis dim = Axis::X, bool relative = false, bool fill = true, Style* knob_style = nullptr);
-	export_ TWO_UI_EXPORT bool slider(Widget& parent, float& value, SliderMetrics metrics, Axis dim = Axis::X, bool relative = false, bool fill = true, Style* knob_style = nullptr);
-}
-}
-
-
-//#include <cinttypes>
-#include <climits>
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/memory.h>
-
-
-
-
-
-namespace two
-{
-	export_ struct refl_ TWO_UI_EXPORT UiRect
-	{
-		attr_ vec2 m_position = vec2(0.f);
-		attr_ vec2 m_size = vec2(0.f);
-		attr_ vec2 m_content = vec2(0.f);
-		attr_ vec2 m_span = vec2(1.f);
-		attr_ float m_scale = 1.f;
-	};
-}
-
-namespace two
-{
-	using cstring = const char*;
-
-	enum DirtyLayout : unsigned int
-	{
-		CLEAN,				// Frame doesn't need update
-		DIRTY_REDRAW,		// The parent layout has changed
-		DIRTY_PARENT,		// The parent layout has changed
-		DIRTY_LAYOUT,		// The frame layout has changed
-		DIRTY_FORCE_LAYOUT	// The frame layout has changed
-	};
-
-	export_ class refl_ TWO_UI_EXPORT Frame : public UiRect
-	{
-	public:
-		Frame(Frame* parent, Widget& widget);
-		virtual ~Frame();
-
-		bool empty() const;
-
-		inline bool opaque() const { return m_opacity == Opacity::Opaque; }
-		inline bool hollow() const { return m_opacity == Opacity::Hollow; }
-
-		void set_caption(cstring text);
-		void set_icon(Image* image);
-		Image* icon() const;
-		cstring caption() const;
-
-		void size_caption();
-
-		Frame& root();
-		Layer& layer();
-
-		FrameSolver& solver(Style& style, Axis length = Axis::None, v2<size_t> index = { 0, 0 });
-
-		DirtyLayout clearDirty() { DirtyLayout dirty = d_dirty; d_dirty = CLEAN; return dirty; }
-		void set_dirty(DirtyLayout dirty) { if(dirty > d_dirty) d_dirty = dirty; }
-		void mark_dirty(DirtyLayout dirty);
-
-		void update_style(bool reset = false);
-		void update_state(WidgetState state);
-		void update_inkstyle(InkStyle& inkstyle, bool reset = false);
-
-		void set_size(Axis dim, float size);
-		void set_span(Axis dim, float span);
-		void set_position(Axis dim, float position);
-
-		inline void set_position(const vec2& pos) { set_position(Axis::X, pos.x), set_position(Axis::Y, pos.y); }
-		inline void set_size(const vec2& size) { set_size(Axis::X, size.x); set_size(Axis::Y, size.y); }
-
-		// global to local
-		void integrate_position(Frame& root, vec2& global);
-		inline vec2 integrate_position(const vec2& pos, Frame& root) { vec2 local = pos; integrate_position(root, local); return local; }
-		inline vec2 local_position(const vec2& pos) { return integrate_position(pos, root()); }
-
-		// local to global
-		void derive_position(Frame& root, vec2& local);
-		inline vec2 derive_position(const vec2& pos, Frame& root) { vec2 local = pos; derive_position(root, local); return local; }
-		inline vec2 derive_position(const vec2& pos) { return derive_position(pos, root()); }
-		inline vec2 absolute_position() { return derive_position({ 0.f, 0.f }); }
-
-		float derive_scale(Frame& root);
-		inline float absolute_scale() { return this->derive_scale(root()); }
-
-		void clamp_to_parent();
-
-		vec4 content_rect() const;
-
-		bool inside(const vec2& pos);
-		bool inside_abs(const vec2& pos) { return this->inside(local_position(pos)); }
-
-		bool first(const Frame& frame);
-		bool last(const Frame& frame);
-
-		void transfer_pixel_span(Frame& prev, Frame& next, Axis dim, float pixelSpan);
-
-		void relayout();
-
-		void sync_solver(FrameSolver& solver);
-		void read_solver(FrameSolver& solver);
-
-		void debug_print(bool commit);
-
-	public:
-		Widget& d_widget;
-		Frame* d_parent;
-		DirtyLayout d_dirty = DIRTY_FORCE_LAYOUT;
-		v2<size_t> d_index = { 0, 0 };
-
-		Opacity m_opacity = Opacity::Clear;
-
-		Style* d_style = nullptr;
-		Layout* d_layout = nullptr;
-		InkStyle* d_inkstyle = nullptr;
-
-	public:
-		string d_caption = "";
-		Image* d_icon = nullptr;
-
-		unique<FrameSolver> m_solver;
-
-		unique<Layer> m_layer;
-		unique<Text> m_text;
-
-		static Vg* s_vg;
-	};
-}
-
-namespace two
-{
-	using FrameFilter = bool(*)(Frame&);
-
-#ifndef _MSC_VER
-	export_ extern template class Graph<Widget>;
-#endif
-
-	export_ class refl_ TWO_UI_EXPORT Widget : public Graph<Widget>, public ControlNode
-	{
-	public:
-		Widget();
-		Widget(Widget* parent, void* identity);
-		~Widget();
-
-		meth_ bool focused() { return (m_state & FOCUSED) != 0; }
-		meth_ bool hovered() { return (m_state & HOVERED) != 0; }
-		meth_ bool pressed() { return (m_state & PRESSED) != 0; }
-		meth_ bool activated() { return (m_state & ACTIVATED) != 0; }
-		meth_ bool active() { return (m_state & ACTIVE) != 0; }
-		meth_ bool selected() { return (m_state & SELECTED) != 0; }
-		meth_ bool modal() { return (m_state & FOCUSED) != 0; }
-		meth_ bool closed() { return (m_state & CLOSED) != 0; }
-
-		meth_ UiWindow& ui_window();
-		meth_ Ui& ui();
-		meth_ Widget& parent_modal();
-
-		meth_ void clear();
-
-		void set_content(cstring content);
-
-		meth_ void toggle_state(WidgetState state);
-
-		meth_ void disable_state(WidgetState state) { if(m_state & state) this->toggle_state(state); }
-		meth_ void set_state(WidgetState state, bool enabled) { enabled ? enable_state(state) : disable_state(state); }
-		meth_ void enable_state(WidgetState state) { if(!(m_state & state)) this->toggle_state(state); }
-
-		meth_ void clear_focus() { this->parent_modal().set_modal(nullptr, device_mask(DeviceType::Keyboard)); }
-		meth_ void take_focus() { if(!this->modal()) this->take_modal(device_mask(DeviceType::Keyboard)); }
-		meth_ void yield_focus() { this->yield_modal(); }
-
-		meth_ void take_modal(uint32_t device_filter = uint32_t(DeviceMask::All)) { this->parent_modal().set_modal(this, device_filter); }
-		meth_ void yield_modal() { this->parent_modal().set_modal(nullptr, 0); }
-
-		void set_modal(Widget* widget, uint32_t device_filter);
-
-		Widget* pinpoint(vec2 pos);
-		Widget* pinpoint(vec2 pos, const FrameFilter& filter);
-
-		inline bool fits_modifier(InputMod modifier, InputMod mask) { return mask == InputMod::Any || modifier == mask; }
-
-		meth_ KeyEvent key_event(Key code, EventType event_type, InputMod modifier = InputMod::Any);
-		meth_ KeyEvent key_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(code, EventType::Stroked, modifier); }
-		meth_ KeyEvent char_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(translate(code), EventType::Stroked, modifier); }
-
-		meth_ MouseEvent mouse_event(DeviceType device, EventType event_type, InputMod modifier = InputMod::None, bool consume = true);
-		
-		void transform_event(InputEvent& event);
-		ControlNode* control_event(InputEvent& event);
-		void receive_event(InputEvent& event);
-		ControlNode* propagate_event(InputEvent& event);
-
-		attr_ Frame m_frame;
-		attr_ WidgetState m_state = CREATED;
-		attr_ uint32_t m_switch = 0;
-		attr_ uint32_t m_index = 0;
-		attr_ bool m_open = false;
-		attr_ Widget* m_body = nullptr;
-
-		using CustomRender = function<void(const Frame&, const vec4&, Vg&)>;
-		CustomRender m_custom_draw;
-
-		Widget& layer();
-
-		bool once() { if((m_state & CREATED) != 0) { disable_state(CREATED); return true; } return false; }
-		Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<size_t> index = { 0, 0 }) { if(!m_frame.d_style) { m_frame.solver(style, length, index); m_open = open; } return *this; }
-	};
-
-namespace ui
-{
-	export_ template <class T>
-	inline T& twidget(Widget& parent, Style& style, bool open = false, Axis length = Axis::None, v2<size_t> index = { 0, 0 })
-	{
-		T& self = parent.subi<T>(&style); self.init(style, open, length, index); return self;
-	}
-}
-}
-
-
-namespace two
-{
-	export_ struct TWO_UI_EXPORT TextGlyph
-	{
-		const char* m_position;
-		vec4 m_rect;
-	};
-
-	export_ struct TWO_UI_EXPORT TextRow
-	{
-		const char* m_start;
-		const char* m_end;
-		size_t m_start_index;
-		size_t m_end_index;
-		vec4 m_rect;
-
-		vector<TextGlyph> m_glyphs;
-	};
-
-	inline TextRow text_row(const char* str, const char* start, const char* end, const vec4& rect)
-	{
-		return { start, end, size_t(start - str), size_t(end - str), rect, {} };
-	}
-
-	TWO_UI_EXPORT bool is_separator(char c);
-
-	TWO_UI_EXPORT size_t word_begin(const string& text, size_t index);
-	TWO_UI_EXPORT size_t word_end(const string& text, size_t index);
-	TWO_UI_EXPORT string word_at(const string& text, size_t index);
-
-	TWO_UI_EXPORT size_t line_begin(const string& text, size_t index);
-	TWO_UI_EXPORT size_t line_end(const string& text, size_t index);
-
-	TWO_UI_EXPORT string text_line(const string& text, size_t index);
-	TWO_UI_EXPORT size_t text_column(const string& text, size_t index);
-
-	TWO_UI_EXPORT void replace_tabs(string& text, size_t tab_size = 4);
-
-	export_ struct refl_ TWO_UI_EXPORT TextCursor
-	{
-		TextCursor() {}
-		TextCursor(size_t index, uvec2 grid_index) : m_index(index), m_grid_index(grid_index) {}
-
-		bool operator==(const TextCursor& other) const { return m_index == other.m_index && m_grid_index == other.m_grid_index; }
-
-		operator size_t() const { return size_t(m_index); }
-
-		size_t m_index = SIZE_MAX;
-		uvec2 m_grid_index = { UINT_MAX, UINT_MAX };
-	};
-
-	export_ struct refl_ TWO_UI_EXPORT TextSelection
-	{
-		TextSelection() {}
-		TextSelection(TextCursor cursor, size_t start, size_t end, bool insert_mode) : m_cursor(cursor), m_start(start), m_end(end), m_insert_mode(insert_mode) {}
-		TextCursor m_cursor;
-		size_t m_start = SIZE_MAX;
-		size_t m_end = SIZE_MAX;
-		bool m_insert_mode = false;
-	};
-
-	using PaletteIndex = uint16_t;
-	using ColourPalette = span<uint32_t>;
-
-	enum class TextMarkerKind
-	{
-		Error,
-	};
-
-	export_ struct refl_ TWO_UI_EXPORT TextMarker
-	{
-		TextMarkerKind m_type;
-		size_t m_line;
-		size_t m_column;
-		string m_message;
-		PaletteIndex m_colour;
-		PaletteIndex m_highlight;
-	};
-
-	export_ class refl_ TWO_UI_EXPORT Text
-	{
-	public:
-		Text(Frame& frame);
-
-		void update_style();
-
-		void set_lines(size_t lines);
-		void set_text(const string& text);
-
-		float line_height() const;
-		float compute_height() const;
-		float compute_width() const;
-		vec2 compute_text_size();
-
-		void break_text_rows();
-
-		vec4 interval_rect(const TextRow& row, size_t start, size_t end) const;
-		vec4 interval_rect(size_t start, size_t end) const;
-
-		size_t text_row_index(size_t index) const;
-		const TextRow& text_row_at(size_t index) const;
-
-		size_t char_at(const vec2& pos) const;
-		TextCursor cursor_at(const vec2& pos) const;
-
-		TextCursor to_cursor(size_t index) const;
-		TextCursor to_cursor(const uvec2& grid_index) const;
-
-		TextCursor clamp_cursor(int index) const;
-		TextCursor clamp_cursor(const ivec2& grid_index) const;
-
-		vec4 cursor_rect(size_t index) const;
-
-		enum Palette : uint8_t
-		{
-			Default = 0,
-			Background,
-			Cursor,
-			Selection,
-			LineNumber,
-			CurrentLineFill,
-			CurrentLineFillInactive,
-			CurrentLineEdge,
-			Count
-		};
-
-	public:
-		Frame& m_frame;
-		string m_text;
-		size_t m_num_lines;
-
-		vector<TextRow> m_text_rows;
-
-		TextPaint m_text_paint;
-
-		struct ColorSection
-		{
-			size_t m_start;
-			size_t m_end;
-			PaletteIndex m_colour;
-		};
-
-		vector<ColorSection> m_sections;
-
-		vector<TextMarker> m_markers;
-
-	public:
-		static Vg* s_vg;
-	};
-
-	TWO_UI_EXPORT Colour palette_colour(const ColourPalette& palette, PaletteIndex color_index);
-	TWO_UI_EXPORT Paint palette_paint(const ColourPalette& palette, PaletteIndex color_index);
-	TWO_UI_EXPORT TextPaint palette_text_paint(const Text& text, const ColourPalette& palette, PaletteIndex color_index);
-
-	TWO_UI_EXPORT void draw_text(Vg& vg, const vec2& padding, const Text& text);
-	TWO_UI_EXPORT void draw_editor_text(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette);
-	TWO_UI_EXPORT void draw_text_selection(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const TextSelection& selection, const ColourPalette& palette, bool current_line);
-}
 
 namespace two
 {
@@ -1867,41 +2150,6 @@ namespace ui
 
 namespace two
 {
-namespace ui
-{
-	export_ struct ScrollbarStyles
-	{
-		void reset();
-		Style scrollbar; Style scroll_up; Style scroll_down; Style scroll_left; Style scroll_right; Style scroller; Style scroller_knob;
-	};
-
-	export_ TWO_UI_EXPORT ScrollbarStyles& scrollbar_styles();
-
-	export_ TWO_UI_EXPORT bool overflow(Frame& frame, Frame& content, Axis dim);
-	export_ TWO_UI_EXPORT Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Axis dim, v2<size_t> grid_index = { 0, 0 });
-}
-}
-
-
-
-namespace two
-{
-namespace ui
-{
-	export_ TWO_UI_EXPORT void draw_grid(const Frame& frame, const vec4& rect, Vg& vg);
-
-	export_ TWO_UI_EXPORT func_ ScrollSheet& scroll_sheet(Widget& parent, Style& style = styles().scrollsheet, Style* surface_style = nullptr);
-	export_ TWO_UI_EXPORT func_ ScrollSheet& scroll_plan(Widget& parent, Style& style = styles().scrollsheet);
-
-	export_ TWO_UI_EXPORT func_ Widget& scrollable(Widget& parent);
-
-	export_ TWO_UI_EXPORT void autofit_scroll_plan(ScrollSheet& scroll_sheet, span<Widget*> elements);
-}
-}
-
-
-namespace two
-{
 	export_ struct TWO_UI_EXPORT Section : public Widget
 	{
 		Section(Widget* parent, void* identity) : Widget(parent, identity) {}
@@ -1911,6 +2159,7 @@ namespace two
 	export_ TWO_UI_EXPORT Section& section(Widget& parent, const string& name, bool no_toolbar = false);
 	export_ TWO_UI_EXPORT bool section_action(Section& parent, const string& name);
 }
+
 
 
 namespace two
@@ -1930,14 +2179,9 @@ namespace ui
 }
 }
 
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
-
 
 namespace two
 {
@@ -1961,7 +2205,6 @@ namespace two
     export_ template <> TWO_UI_EXPORT Type& type<stl::vector<two::Subskin>>();
     
     export_ template <> TWO_UI_EXPORT Type& type<two::Space>();
-    export_ template <> TWO_UI_EXPORT Type& type<two::v2<size_t>>();
     export_ template <> TWO_UI_EXPORT Type& type<two::v2<two::AutoLayout>>();
     export_ template <> TWO_UI_EXPORT Type& type<two::v2<two::Sizing>>();
     export_ template <> TWO_UI_EXPORT Type& type<two::v2<two::Align>>();
@@ -2050,7 +2293,6 @@ namespace ui
 }
 
 
-#include <stl/string.h>
 
 struct dirent;
 
@@ -2082,208 +2324,13 @@ namespace ui
 
 namespace two
 {
-	using cstring = const char*;
-
-	export_ class refl_ TWO_UI_EXPORT Vg
-	{
-	public:
-		Vg(cstring resource_path);
-		virtual ~Vg();
-
-		// init
-		virtual void setup_context() = 0;
-		virtual void release_context() = 0;
-
-		// setup
-		virtual void load_default_font() = 0;
-		virtual void load_font(cstring name) = 0;
-		virtual void load_image_RGBA(Image& image, const unsigned char* data) = 0;
-		virtual void load_image(Image& image) = 0;
-		virtual void unload_image(Image& image) = 0;
-		virtual uint16_t load_texture(uint16_t texture) = 0;
-
-		// rendering
-		virtual void begin_frame(uint16_t view, const vec4& rect, float pixel_ratio = 1.f, const Colour& colour = Colour(0.f)) = 0;
-		virtual void end_frame(uint16_t view) = 0;
-
-		// drawing
-		virtual void begin_target() = 0;
-		virtual void end_target() = 0;
-
-#ifdef TWO_UI_DRAW_CACHE
-		virtual void begin_cached(Layer& layer) = 0;
-		virtual void end_cached() = 0;
-
-		virtual void draw_layer(Layer& layer, const vec2& position = vec2(0.f), float scale = 1.f) = 0;
-#endif
-
-		virtual void begin_layer(Layer& layer, const vec2& position = vec2(0.f), float scale = 1.f) = 0;
-		virtual void end_layer() = 0;
-
-		virtual void begin_update(const vec2& position, float scale) = 0;
-		virtual void end_update() = 0;
-
-		virtual bool clipped(const vec4& rect) = 0;
-		virtual void clip(const vec4& rect) = 0;
-		virtual void unclip() = 0;
-
-		virtual void begin_path() = 0;
-		virtual void move_to(const vec2& p) = 0;
-		virtual void line_to(const vec2& p) = 0;
-		virtual void close_path() = 0;
-
-		virtual void path_line(const vec2& p1, const vec2& p2) = 0;
-		virtual void path_bezier(const vec2& p1, const vec2& c1, const vec2& c2, const vec2& p2, bool straighten = false) = 0;
-		virtual void path_rect(const vec4& rect, const vec4& corners, float border) = 0;
-		virtual void path_circle(const vec2& center, float r) = 0;
-
-		virtual void fill(const Gradient& gradient, const vec2& start, const vec2& end) = 0;
-		virtual void fill(const Paint& paint) = 0;
-		virtual void stroke(const Paint& paint) = 0;
-
-		virtual void stroke_gradient(const Gradient& paint, float width, const vec2& start, const vec2& end) = 0;
-
-		virtual void draw_shadow(const vec4& rect, const vec4& corner, const Shadow& shadows) = 0;
-		virtual void draw_texture(uint16_t texture, const vec4& rect, const vec4& image_rect) = 0;
-		virtual void draw_text(const vec2& offset, const char* start, const char* end, const TextPaint& paint) = 0;
-
-		virtual void draw_color_wheel(const vec2& center, float r0, float r1) = 0;
-		virtual void draw_color_triangle(const vec2& center, float r0, float hue, float s, float l) = 0;
-
-		virtual void debug_rect(const vec4& rect, const Colour& colour);
-
-		virtual void break_text(cstring text, size_t len, const vec2& space, const TextPaint& paint, vector<TextRow>& rows);
-
-		void fill_text(cstring text, size_t len, const vec4& rect, const TextPaint& paint, TextRow& row);
-		void break_text_width(const char* text, const char* start, const char* end, const vec4& rect, const TextPaint& paint, TextRow& textRow);
-		void break_text_returns(const char* text, const char* start, const char* end, const vec4& rect, const TextPaint& paint, TextRow& textRow);
-
-		virtual void break_next_row(const char* text, const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row) = 0;
-		virtual void break_glyphs(const vec4& rect, const TextPaint& paint, TextRow& textRow) = 0;
-
-		virtual float line_height(const TextPaint& paint) = 0;
-		virtual float text_size(cstring text, size_t len, Axis dim, const TextPaint& paint) = 0;
-		virtual vec2 text_size(cstring text, size_t len, const TextPaint& paint) = 0;
-
-		void draw_rect(const vec4& rect, const Paint& paint, const vec4& corners = vec4(0.f));
-
-		cstring font_path(cstring font);
-
-	protected:
-		struct Impl;
-		unique<Impl> m_impl;
-
-		bool m_null = false;
-	};
-
-	export_ TWO_UI_EXPORT vec4 select_corners(const Frame& frame);
-	export_ TWO_UI_EXPORT float content_position(const Frame& frame, const vec2& content, const vec2& padded_pos, const vec2& padded_size, Axis dim);
-
-	export_ TWO_UI_EXPORT void draw_frame(Vg& vg, const Frame& frame, const vec4& rect);
-	export_ TWO_UI_EXPORT void draw_content(Vg& vg, const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
-	export_ TWO_UI_EXPORT void draw_background(Vg& vg, const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
-	export_ TWO_UI_EXPORT void draw_rect(Vg& vg, const vec4& rect, const vec4& corners, const InkStyle& inkstyle);
-	export_ TWO_UI_EXPORT void draw_image(Vg& vg, const Image& image, const vec4& rect);
-	export_ TWO_UI_EXPORT void draw_image_stretch(Vg& vg, const Image& image, const vec4& rect, const vec2& stretch = { 1.f, 1.f });
-	export_ TWO_UI_EXPORT void draw_skin_image(Vg& vg, const Frame& frame, int section, vec4 rect);
-
-	export_ class TWO_UI_EXPORT UiRenderer
-	{
-	public:
-		UiRenderer(Vg& vg);
-		virtual ~UiRenderer();
-
-		void render(Layer& layer, uint16_t view, float pixel_ratio, const Colour& colour = Colour(0.f));// = 1.f);
-
-		// drawing implementation
-		void render_layer(Layer& layer);
-
-		void begin_layer(Frame& frame);
-		void begin_frame(Frame& frame);
-		void render_frame(Frame& frame);
-		void end_frame(Frame& frame);
-		void end_layer(Frame& frame);
-		void draw_frame(const Frame& frame);
-
-		void log_FPS();
-
-	protected:
-		Vg& m_vg;
-		size_t m_debug_batch = 0;
-
-		struct Impl;
-		unique<Impl> m_impl;
-
-		Clock m_clock;
-	};
-}
-
-namespace two
-{
-	export_ struct refl_ TWO_UI_EXPORT Clipboard
-	{
-		Clipboard() {}
-		Clipboard(const string& text, bool line_mode) : m_text(text), m_line_mode(line_mode) {}
-		attr_ string m_text = "";
-		attr_ bool m_line_mode = false;
-		attr_ vector<string> m_pasted = {};
-	};
-
-	export_ class refl_ TWO_UI_EXPORT UiWindow
-	{
-	public:
-		UiWindow(Context& context, Vg& vg, User* user = nullptr);
-		~UiWindow();
-
-		void init();
-		bool input_frame();
-		void render_frame(uint16_t view);
-		void shutdown();
-
-		meth_ void reset_styles();
-
-		void resize(const uvec2& size, const uvec2& fb_size);
-
-		Image& create_image(cstring image, const uvec2& size, span<uint8_t> data, bool filtering = true);
-		void remove_image(Image& image);
-		Image* find_image(cstring name);
-
-	protected:
-		void init_resources();
-		void load_resources();
-
-	public:
-		attr_ const string m_resource_path;
-
-		attr_ Context& m_context;
-		attr_ Vg& m_vg;
-
-		UiRenderer m_renderer;
-
-		vector<unique<Image>> m_images;
-		ImageAtlas m_atlas;
-
-		attr_ uvec2 m_size;
-		attr_ Colour m_colour = Colour(0.f);
-		attr_ bool m_shutdown = false;
-
-		Clipboard m_clipboard;
-
-		unique<Ui> m_ui;
-
-		User* m_user = nullptr;
-	};
-}
-
-
-namespace two
-{
 	export_ class refl_ TWO_UI_EXPORT User
 	{
 	public:
 		vector<Ref> m_selection;
 	};
 }
+
 
 
 namespace two
@@ -2332,11 +2379,46 @@ namespace ui
 	export_ TWO_UI_EXPORT func_ Widget& console(Widget& parent, string& feed, string& line, string& command, size_t num_lines = 0);
 }
 }
-//#include <ui/Edit/Lang.h>
 
 
-#include <stdint.h>
-#include <stl/vector.h>
+
+namespace two
+{
+	struct Identifier
+	{
+		uvec2 m_location;
+		string m_declaration;
+	};
+
+	struct LanguageDefinition
+	{
+		string m_name;
+		vector<string> m_punctuation;
+		vector<string> m_operators;
+		unordered_set<string> m_keywords;
+		unordered_map<string, Identifier> m_identifiers;
+		unordered_map<string, Identifier> m_functions;
+		unordered_map<string, Identifier> m_preproc_identifiers;
+		string m_comment_start;
+		string m_comment_end;
+
+		struct StringToken { string token; PaletteIndex color; };
+		struct RegexToken { std::regex token; PaletteIndex color; };
+		vector<StringToken> m_regex_string_tokens;
+		vector<RegexToken> m_regex_tokens;
+
+		bool m_case_sensitive;
+	};
+
+	export_ LanguageDefinition& LanguageCpp();
+	export_ LanguageDefinition& LanguageHLSL();
+	export_ LanguageDefinition& LanguageGLSL();
+	export_ LanguageDefinition& LanguageC();
+	export_ LanguageDefinition& LanguageLua();
+	export_ LanguageDefinition& LanguageWren();
+}
+
+
 
 namespace two
 {
@@ -2392,6 +2474,7 @@ namespace two
 		vector<Layer*> d_sublayers;
 	};
 }
+
 
 
 namespace two
@@ -2488,7 +2571,7 @@ namespace two
 		bool d_content_expand = false;
 		float d_total_span;
 
-		v2<size_t> d_index;
+		v2<uint> d_index;
 
 		FrameSolver* d_prev = nullptr;
 		size_t d_count = 0;
@@ -2560,68 +2643,6 @@ namespace two
 }
 
 
-
-#define TWO_UI_SEQUENCE_REFS
-
-namespace two
-{
-	export_ class refl_ TWO_UI_EXPORT ScrollSheet : public Widget
-	{
-	public:
-		ScrollSheet(Widget* parent, void* identity) : Widget(parent, identity) {}
-		Widget* m_scroll_zone;
-	};
-
-namespace ui
-{
-	export_ class refl_ TWO_UI_EXPORT Sequence : public Widget
-	{
-	public:
-		Sequence(Widget* parent, void* identity) : Widget(parent, identity) {}
-#ifdef TWO_UI_SEQUENCE_REFS
-		vector<Ref>* m_selection = nullptr;
-#else
-		vector<Widget*> m_selection;
-#endif
-	};
-}
-
-	export_ class refl_ TWO_UI_EXPORT Tabber : public Widget
-	{
-	public:
-		Tabber(Widget* parent, void* identity) : Widget(parent, identity) {}
-		Widget* m_head = nullptr;
-		size_t m_index = 0;
-		size_t m_active = 0;
-	};
-
-	export_ class refl_ TWO_UI_EXPORT Expandbox : public Widget
-	{
-	public:
-		Expandbox(Widget* parent, void* identity) : Widget(parent, identity) {}
-		Widget* m_header = nullptr;
-	};
-
-	export_ class refl_ TWO_UI_EXPORT TreeNode : public Widget
-	{
-	public:
-		TreeNode(Widget* parent, void* identity) : Widget(parent, identity) {}
-		Widget* m_header = nullptr;
-	};
-
-	export_ class refl_ TWO_UI_EXPORT Table : public Widget
-	{
-	public:
-		Table(Widget* parent, void* identity, span<float> weights);
-		Table(Widget* parent, void* identity, size_t columns);
-		vector<float> m_weights;
-	};
-}
-
-
-#include <stl/vector.h>
-#include <stl/map.h>
-#include <stl/string.h>
 
 namespace two
 {
@@ -2706,6 +2727,7 @@ namespace two
 		size_t m_current_tab = SIZE_MAX;
 	};
 }
+
 
 
 namespace two
@@ -2832,48 +2854,3 @@ namespace two
 	};
 }
 
-
-
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/unordered_map.h>
-#include <stl/unordered_set.h>
-#include <stl/map.h>
-
-#include <regex>
-
-namespace two
-{
-	struct Identifier
-	{
-		uvec2 m_location;
-		string m_declaration;
-	};
-
-	struct LanguageDefinition
-	{
-		string m_name;
-		vector<string> m_punctuation;
-		vector<string> m_operators;
-		unordered_set<string> m_keywords;
-		unordered_map<string, Identifier> m_identifiers;
-		unordered_map<string, Identifier> m_functions;
-		unordered_map<string, Identifier> m_preproc_identifiers;
-		string m_comment_start;
-		string m_comment_end;
-
-		struct StringToken { string token; PaletteIndex color; };
-		struct RegexToken { std::regex token; PaletteIndex color; };
-		vector<StringToken> m_regex_string_tokens;
-		vector<RegexToken> m_regex_tokens;
-
-		bool m_case_sensitive;
-	};
-
-	LanguageDefinition& LanguageCpp();
-	LanguageDefinition& LanguageHLSL();
-	LanguageDefinition& LanguageGLSL();
-	LanguageDefinition& LanguageC();
-	LanguageDefinition& LanguageLua();
-	LanguageDefinition& LanguageWren();
-}

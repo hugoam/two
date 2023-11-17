@@ -6,21 +6,22 @@
 
 
 
+
 #ifndef TWO_POOL_EXPORT
 #define TWO_POOL_EXPORT TWO_IMPORT
 #endif
 
 namespace two
 {
-	template <class T> class VecPool;
-	template <class T> class TPool;
+	export_ template <class T> class VecPool;
+	export_ template <class T> class TPool;
 
-	template <class T> struct SparseHandle;
-	template <class T> struct OwnedHandle;
+	export_ template <class T> struct SparseHandle;
+	export_ template <class T> struct OwnedHandle;
 
-	class HandlePool;
-    class Pool;
-    class ObjectPool;
+	export_ class HandlePool;
+    export_ class Pool;
+    export_ class ObjectPool;
 }
 
 #ifdef TWO_META_GENERATOR
@@ -31,14 +32,9 @@ namespace stl
 #endif
 
 
-#include <stl/memory.h>
-#include <stl/vector.h>
-//  Copyright (c) 2023 Hugo Amiard hugo.amiard@laposte.net
 
 
-#include <stl/span.h>
 
-#include <cstddef>
 
 namespace two
 {
@@ -118,153 +114,17 @@ namespace two
 		vector<unique<Pool>> m_pools;
 	};
 
-	//export_ extern TWO_POOL_EXPORT vector<unique<Pool>> g_pool_makers;
+	//export_extern TWO_POOL_EXPORT vector<unique<Pool>> g_pool_makers;
 	export_ extern TWO_POOL_EXPORT vector<unique<Pool>> g_pools;
 
-	template <class T>
+	export_ template <class T>
 	inline TPool<T>& global_pool();
 }
-//  Copyright (c) 2023 Hugo Amiard hugo.amiard@laposte.net
-
-
-#include <stl/unordered_map.h>
-#include <stl/vector.h>
-
-#include <stdint.h>
-
-namespace two
-{
-	export_ class refl_ TWO_POOL_EXPORT HandlePool
-	{
-	public:
-		virtual ~HandlePool() {}
-		virtual void clear() = 0;
-	};
-
-	template <class T>
-	class SparsePool;
-
-	export_ template <class T>
-	struct refl_ struct_ SparseHandle
-	{
-		SparseHandle();
-		SparseHandle(SparsePool<T>& pool, uint32_t handle);
-
-		explicit operator bool() const;
-
-		void destroy();
-
-		operator T&();
-		operator const T&() const;
-
-		T* operator->();
-		T& operator*();
-		const T* operator->() const;
-		const T& operator*() const;
-
-		SparsePool<T>* m_pool = nullptr;
-		uint32_t m_handle = UINT32_MAX;
-	};
-
-	template <class T>
-	struct OwnedHandle;
-
-	template <class T>
-	struct DestroyHandle
-	{
-		static void destroy(const OwnedHandle<T>& handle) { UNUSED(handle); }
-	};
-
-	export_ template <class T>
-	struct refl_ struct_ nocopy_ OwnedHandle : public SparseHandle<T>
-	{
-		OwnedHandle();
-		OwnedHandle(SparsePool<T>& pool, uint32_t handle);
-		~OwnedHandle();
-
-		OwnedHandle(OwnedHandle& other) = delete;
-		OwnedHandle& operator=(OwnedHandle& other) = delete;
-
-		OwnedHandle(OwnedHandle&& other);
-		OwnedHandle& operator=(OwnedHandle&& other);
-
-		void swap(OwnedHandle& other);
-
-		operator SparseHandle<T>() const;
-	};
-
-	export_ class TWO_POOL_EXPORT SparseHandles
-	{
-	public:
-		SparseHandles();
-
-		void ensure(uint32_t capacity);
-
-		uint32_t alloc();
-		uint32_t alloc(uint32_t count);
-		void add(uint32_t handle);
-
-		uint32_t create();
-		uint32_t create(uint32_t count);
-		uint32_t remove(uint32_t handle);
-
-		void clear();
-
-		uint32_t& operator[](uint32_t at);
-
-		uint32_t size() const;
-		uint32_t count() const;
-
-		uint32_t reverse(uint32_t index) const;
-		uint32_t handle(uint32_t index) const;
-
-	private:
-		vector<uint32_t> m_indices;
-		vector<uint32_t> m_handles;
-	};
-
-	export_ template <class T>
-	class SparsePool : public HandlePool
-	{
-	public:
-		SparsePool();
-		~SparsePool();
-
-		template <class... Types>
-		inline OwnedHandle<T> create(Types&&... args);
-
-		void destroy(uint32_t handle);
-		T& get(uint32_t handle);
-
-		virtual void clear();
-
-	public:
-		SparseHandles m_handles;
-		vector<T> m_objects;
-		vector<uint32_t> m_available;
-	};
-}
-
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
-#endif
 
 
 
-namespace two
-{
-    // Exported types
-    
-    
-    export_ template <> TWO_POOL_EXPORT Type& type<two::Pool>();
-    export_ template <> TWO_POOL_EXPORT Type& type<two::HandlePool>();
-}
 
 
-#include <stl/vector.h>
 
 namespace two
 {
@@ -298,17 +158,6 @@ namespace two
 		static int s_count;
 	};
 }
-
-
-
-//  Copyright (c) 2023 Hugo Amiard hugo.amiard@laposte.net
-
-
-#include <stl/new.h>
-#include <stl/move.h>
-
-
-#include <stl/algorithm.h>
 
 namespace two
 {
@@ -503,11 +352,138 @@ namespace two
 		return as<TPool<T>>(*g_pools[type<T>().m_id].get());
 	}
 }
-//  Copyright (c) 2023 Hugo Amiard hugo.amiard@laposte.net
 
 
-#include <stl/algorithm.h>
-#include <stl/swap.h>
+
+namespace two
+{
+	export_ class refl_ TWO_POOL_EXPORT HandlePool
+	{
+	public:
+		virtual ~HandlePool() {}
+		virtual void clear() = 0;
+	};
+
+	export_ template <class T>
+	class SparsePool;
+
+	export_ template <class T>
+	struct refl_ struct_ SparseHandle
+	{
+		SparseHandle();
+		SparseHandle(SparsePool<T>& pool, uint32_t handle);
+
+		explicit operator bool() const;
+
+		void destroy();
+
+		operator T&();
+		operator const T&() const;
+
+		T* operator->();
+		T& operator*();
+		const T* operator->() const;
+		const T& operator*() const;
+
+		SparsePool<T>* m_pool = nullptr;
+		uint32_t m_handle = UINT32_MAX;
+	};
+
+	export_ template <class T>
+	struct OwnedHandle;
+
+	template <class T>
+	struct DestroyHandle
+	{
+		static void destroy(const OwnedHandle<T>& handle) { UNUSED(handle); }
+	};
+
+	export_ template <class T>
+	struct refl_ struct_ nocopy_ OwnedHandle : public SparseHandle<T>
+	{
+		OwnedHandle();
+		OwnedHandle(SparsePool<T>& pool, uint32_t handle);
+		~OwnedHandle();
+
+		OwnedHandle(OwnedHandle& other) = delete;
+		OwnedHandle& operator=(OwnedHandle& other) = delete;
+
+		OwnedHandle(OwnedHandle&& other);
+		OwnedHandle& operator=(OwnedHandle&& other);
+
+		void swap(OwnedHandle& other);
+
+		operator SparseHandle<T>() const;
+	};
+
+	export_ class TWO_POOL_EXPORT SparseHandles
+	{
+	public:
+		SparseHandles();
+
+		void ensure(uint32_t capacity);
+
+		uint32_t alloc();
+		uint32_t alloc(uint32_t count);
+		void add(uint32_t handle);
+
+		uint32_t create();
+		uint32_t create(uint32_t count);
+		uint32_t remove(uint32_t handle);
+
+		void clear();
+
+		uint32_t& operator[](uint32_t at);
+
+		uint32_t size() const;
+		uint32_t count() const;
+
+		uint32_t reverse(uint32_t index) const;
+		uint32_t handle(uint32_t index) const;
+
+	private:
+		vector<uint32_t> m_indices;
+		vector<uint32_t> m_handles;
+	};
+
+	export_ template <class T>
+	class SparsePool : public HandlePool
+	{
+	public:
+		SparsePool();
+		~SparsePool();
+
+		template <class... Types>
+		inline OwnedHandle<T> create(Types&&... args);
+
+		void destroy(uint32_t handle);
+		T& get(uint32_t handle);
+
+		virtual void clear();
+
+	public:
+		SparseHandles m_handles;
+		vector<T> m_objects;
+		vector<uint32_t> m_available;
+	};
+}
+
+
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#endif
+
+
+namespace two
+{
+    // Exported types
+    
+    
+    export_ template <> TWO_POOL_EXPORT Type& type<two::Pool>();
+    export_ template <> TWO_POOL_EXPORT Type& type<two::HandlePool>();
+}
+#ifdef TWO_MODULES
+
+
 
 namespace two
 {
@@ -663,3 +639,5 @@ namespace two
 		m_available.clear();
 	}
 }
+#endif
+

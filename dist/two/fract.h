@@ -1,9 +1,10 @@
 #pragma once
 
 #include <two/geom.h>
-#include <two/math.h>
 #include <two/infra.h>
+#include <two/math.h>
 #include <two/type.h>
+
 
 
 
@@ -28,33 +29,10 @@ namespace two
 #include <stl/vector.h>
 namespace stl
 {
-	export_ extern template class refl_ seque_ vector<two::Circle>;
-	export_ extern template class refl_ seque_ vector<two::Image256>;
+	extern template class refl_ seque_ vector<two::Circle>;
+	extern template class refl_ seque_ vector<two::Image256>;
 }
 #endif
-
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
-#endif
-
-
-
-namespace two
-{
-    // Exported types
-    export_ template <> TWO_FRACT_EXPORT Type& type<two::PatternSampling>();
-    
-    export_ template <> TWO_FRACT_EXPORT Type& type<stl::vector<two::Image256>>();
-    
-    export_ template <> TWO_FRACT_EXPORT Type& type<two::Circlifier>();
-    export_ template <> TWO_FRACT_EXPORT Type& type<two::Pattern>();
-    export_ template <> TWO_FRACT_EXPORT Type& type<two::FractTab>();
-    export_ template <> TWO_FRACT_EXPORT Type& type<two::Fract>();
-    export_ template <> TWO_FRACT_EXPORT Type& type<two::FractSample>();
-}
 
 namespace two
 {
@@ -89,6 +67,26 @@ namespace two
 		vector2d<Pixircle> m_pixircles;
 	};
 }
+
+
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#endif
+
+
+namespace two
+{
+    // Exported types
+    export_ template <> TWO_FRACT_EXPORT Type& type<two::PatternSampling>();
+    
+    export_ template <> TWO_FRACT_EXPORT Type& type<stl::vector<two::Image256>>();
+    
+    export_ template <> TWO_FRACT_EXPORT Type& type<two::Circlifier>();
+    export_ template <> TWO_FRACT_EXPORT Type& type<two::Pattern>();
+    export_ template <> TWO_FRACT_EXPORT Type& type<two::FractTab>();
+    export_ template <> TWO_FRACT_EXPORT Type& type<two::Fract>();
+    export_ template <> TWO_FRACT_EXPORT Type& type<two::FractSample>();
+}
+
 
 namespace two
 {

@@ -1,9 +1,9 @@
 #pragma once
 
 #include <two/geom.h>
-#include <two/srlz.h>
-#include <two/math.h>
 #include <two/infra.h>
+#include <two/math.h>
+#include <two/srlz.h>
 #include <two/type.h>
 
 
@@ -30,13 +30,9 @@ namespace two
     class Patternset;
 }
 
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
 
 
 namespace two
@@ -51,6 +47,7 @@ namespace two
     export_ template <> TWO_WFC_EXPORT Type& type<two::WaveTileset>();
     export_ template <> TWO_WFC_EXPORT Type& type<two::TileWave>();
 }
+
 
 namespace two
 {

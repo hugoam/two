@@ -1,8 +1,7 @@
 #pragma once
 
-#include <two/math.h>
-#include <two/type.h>
 #include <two/infra.h>
+#include <two/type.h>
 
 
 
@@ -16,93 +15,30 @@
 
 namespace two
 {
-    enum class Key : uint16_t;
-    enum MouseButtonCode : unsigned int;
-    enum class InputMod : uint8_t;
-    enum class DeviceType : unsigned int;
-    enum class DeviceMask : unsigned int;
-    enum class EventType : unsigned int;
+    export_ enum class Key : uint16_t;
+    export_ enum MouseButtonCode : unsigned int;
+    export_ enum class InputMod : uint8_t;
+    export_ enum class DeviceType : unsigned int;
+    export_ enum class DeviceMask : unsigned int;
+    export_ enum class EventType : unsigned int;
     
     
-    class RenderSystem;
-    class Context;
-    struct InputEvent;
-    struct MouseEvent;
-    struct KeyEvent;
-    struct ModalControl;
-    class ControlNode;
-    struct EventBatch;
-    class EventDispatcher;
-    class InputDevice;
-    class Keyboard;
-    class MouseButton;
-    class Mouse;
-}
-
-namespace two
-{
-	using cstring = const char*;
-
-	export_ class refl_ TWO_CTX_EXPORT RenderSystem
-	{
-	public:
-		RenderSystem(const string& resource_path, bool manual_render);
-		virtual ~RenderSystem() {}
-
-		virtual bool begin_frame() = 0;
-		virtual void end_frame() = 0;
-
-		const string m_resource_path;
-		const bool m_manual_render;
-	};
-
-	export_ class refl_ TWO_CTX_EXPORT Context
-	{
-	public:
-		Context(RenderSystem& render_system, const string& title, const uvec2& size, bool fullscreen = false, bool main = true);
-		virtual ~Context();
-
-		RenderSystem& m_render_system;
-		attr_ const string m_resource_path;
-
-		attr_ string m_title;
-		attr_ uvec2 m_size;
-		attr_ uvec2 m_fb_size;
-		attr_ bool m_fullscreen = false;
-		attr_ bool m_is_main = true;
-
-		attr_ float m_pixel_ratio = 1.f;
-
-		size_t m_handle = 0;
-		void* m_native_handle = nullptr;
-		void* m_native_target = nullptr;
-
-		attr_ bool m_active = true;
-		attr_ bool m_shutdown = false;
-
-		attr_ vec2 m_cursor;
-		attr_ bool m_mouse_lock = false;
-
-		meth_ virtual void reset_fb(const uvec2& size) = 0;
-		meth_ virtual void init_input(Mouse& mouse, Keyboard& keyboard) = 0;
-
-		meth_ virtual bool begin_frame() = 0;
-		meth_ virtual void render_frame() = 0;
-		meth_ virtual void end_frame() = 0;
-
-		meth_ virtual void lock_mouse(bool locked) = 0;
-	};
-
+    export_ class RenderSystem;
+    export_ class Context;
+    export_ struct InputEvent;
+    export_ struct MouseEvent;
+    export_ struct KeyEvent;
+    export_ struct ModalControl;
+    export_ class ControlNode;
+    export_ struct EventBatch;
+    export_ class EventDispatcher;
+    export_ class InputDevice;
+    export_ class Keyboard;
+    export_ class MouseButton;
+    export_ class Mouse;
 }
 
 
-#include <stdint.h>
-
-
-
-
-
-#include <stdint.h>
 
 export_ namespace two
 {}
@@ -260,7 +196,7 @@ namespace two
 		Translated = uint16_t(1 << 15) // last bit reserved for translated flag
 	};
 
-	inline Key translate(Key key) { return Key(unsigned(key) | unsigned(Key::Translated)); }
+	export_ inline Key translate(Key key) { return Key(unsigned(key) | unsigned(Key::Translated)); }
 
 	export_ enum refl_ MouseButtonCode : unsigned int
 	{
@@ -334,7 +270,7 @@ namespace two
 		
 		meth_ inline InputEvent& consume(ControlNode& consumer) { m_consumer = &consumer; return *this; }
 		meth_ inline bool valid() { return m_deviceType != DeviceType::None && m_consumer == nullptr; }
-		operator bool() { return this->valid(); }
+		inline operator bool() { return this->valid(); }
 
 		//bool operator==(const InputEvent& other) const { UNUSED(other); return false; }
 	};
@@ -352,7 +288,7 @@ namespace two
 
 		MouseEvent() : InputEvent() {}
 		MouseEvent(DeviceType deviceType, EventType eventType, vec2 pos, InputMod modifiers = InputMod::None)
-			: InputEvent(deviceType, eventType, modifiers), m_pos(pos)
+			: InputEvent(deviceType, eventType, modifiers), m_pos(pos), m_relative(pos)
 		{
 			if(deviceType == DeviceType::MouseLeft)
 				m_button = LEFT_BUTTON;
@@ -389,6 +325,8 @@ namespace two
 	};
 }
 
+
+
 namespace two
 {
 	export_ struct ModalControl
@@ -402,11 +340,19 @@ namespace two
 	{
 	public:
 		virtual ControlNode* control_event(InputEvent& event) = 0;
-		virtual ControlNode* propagate_event(InputEvent& inputEvent) = 0;
+		//virtual ControlNode* propagate_event(InputEvent& inputEvent) = 0;
 		virtual void receive_event(InputEvent& inputEvent) = 0;
 
-		virtual void take_modal(uint32_t device_filter = uint32_t(DeviceMask::All)) = 0;
-		virtual void yield_modal() = 0;
+		//virtual void take_modal(uint32_t device_filter = uint32_t(DeviceMask::All)) = 0;
+		//virtual void yield_modal() = 0;
+
+		inline bool fits_modifier(InputMod modifier, InputMod mask) { return mask == InputMod::Any || modifier == mask; }
+
+		meth_ KeyEvent key_event(Key code, EventType event_type, InputMod modifier = InputMod::Any);
+		meth_ KeyEvent key_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(code, EventType::Stroked, modifier); }
+		meth_ KeyEvent char_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(translate(code), EventType::Stroked, modifier); }
+
+		meth_ MouseEvent mouse_event(DeviceType device, EventType event_type, InputMod modifier = InputMod::None, bool consume = true);
 
 		EventBatch* m_events = nullptr;
 		ModalControl m_control = {};
@@ -417,11 +363,78 @@ namespace two
 
 namespace two
 {
+#ifdef TWO_MODULES
+	using stl::string;
+#endif
+	using cstring = const char*;
+
+	export_ class refl_ TWO_CTX_EXPORT RenderSystem
+	{
+	public:
+		RenderSystem(const string& resource_path, bool manual_render);
+		virtual ~RenderSystem() {}
+
+		virtual bool begin_frame() = 0;
+		virtual void end_frame() = 0;
+
+		const string m_resource_path;
+		const bool m_manual_render;
+	};
+
+	export_ class refl_ TWO_CTX_EXPORT Context
+	{
+	public:
+		Context(RenderSystem& render_system, const string& title, const uvec2& size, bool fullscreen = false, bool main = true);
+		virtual ~Context();
+
+		RenderSystem& m_render_system;
+		attr_ const string m_resource_path;
+
+		attr_ string m_title;
+		attr_ uvec2 m_size;
+		attr_ uvec2 m_fb_size;
+		attr_ bool m_fullscreen = false;
+		attr_ bool m_is_main = true;
+
+		attr_ float m_pixel_ratio = 1.f;
+
+		size_t m_handle = 0;
+		void* m_native_handle = nullptr;
+		void* m_native_target = nullptr;
+
+		attr_ bool m_active = true;
+		attr_ bool m_shutdown = false;
+
+		attr_ vec2 m_cursor;
+		attr_ bool m_mouse_lock = false;
+
+		meth_ virtual void reset_fb(const uvec2& size) = 0;
+		meth_ virtual void init_input(Mouse& mouse, Keyboard& keyboard) = 0;
+
+		meth_ virtual bool begin_frame() = 0;
+		meth_ virtual void render_frame() = 0;
+		meth_ virtual void end_frame() = 0;
+
+		meth_ virtual void lock_mouse(bool locked) = 0;
+	};
+
+}
+
+
+
+
+
+namespace two
+{
 	export_ template <class T>
 	struct EventMap
 	{
 		table<DeviceType, table<EventType, T>> m_events = {};
+#ifdef TWO_MODULES
+		table<DeviceType, table<EventType, unordered_map<int, T>>> m_keyed_events = {};
+#else
 		table<DeviceType, table<EventType, map<int, T>>> m_keyed_events = {};
+#endif
 
 		void clear() { *this = {}; }
 	};
@@ -527,15 +540,28 @@ namespace two
 
 		vector<MouseEvent> m_events;
 	};
+
+	export_ class TWO_CTX_EXPORT InputContext : public ControlNode, public EventDispatcher
+	{
+	public:
+		InputContext();
+
+		void init(Context& context);
+
+		void begin_frame();
+		void end_frame();
+
+		virtual ControlNode* control_event(InputEvent& event) override;
+		virtual void receive_event(InputEvent& inputEvent) override;
+
+		Keyboard m_keyboard;
+		Mouse m_mouse;
+	};
 }
 
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
 
 
 namespace two

@@ -1,277 +1,61 @@
-#include <two/math.h>
 #include <two/infra.h>
-#include <two/type.h>
 
 
-
+module;
 module two.math;
 
 namespace two
 {
-	Colour Colour::Black(0.f, 0.f, 0.f);
-	Colour Colour::AlphaBlack(0.f, 0.f, 0.f, 0.5f);
-	Colour Colour::Red(1.f, 0.f, 0.f);
-	Colour Colour::Green(0.f, 1.f, 0.f);
-	Colour Colour::NeonGreen(0.f, 1.f, 0.2f);
-	Colour Colour::Blue(0.f, 0.f, 1.f);
-	Colour Colour::Pink(1.f, 0.2f, 1.f);
-	Colour Colour::Cyan(0.f, 1.f, 1.f);
-	Colour Colour::Yellow(1.f, 1.f, 0.f);
-	Colour Colour::White(1.f, 1.f, 1.f);
-	Colour Colour::AlphaWhite(1.f, 1.f, 1.f, 0.5f);
-	Colour Colour::LightGrey(0.6f, 0.6f, 0.6f);
-	Colour Colour::MidGrey(0.45f, 0.45f, 0.45f);
-	Colour Colour::DarkGrey(0.3f, 0.3f, 0.3f);
-	Colour Colour::AlphaGrey(0.45f, 0.45f, 0.45f, 0.5f);
-	Colour Colour::Transparent(0.f, 0.f, 0.f, 0.f);
-	Colour Colour::Invisible(0.f, 0.f, 0.f, 0.0001f);
-	Colour Colour::None(0.f, 0.f, 0.f, 0.f);
+	const double c_tick_interval = 0.02;
 
-	Colour::Colour()
-		: r(1.f), g(1.f), b(1.f), a(1.f)
-	{}
+    Clock::Clock()
+        : m_last(clock())
+		, m_last_tick(0)
+    {}
 
-	Colour::Colour(float v, float a)
-		: r(v), g(v), b(v), a(a)
-	{}
+    void Clock::update()
+    {
+		m_last = clock();
+    }
 
-	Colour::Colour(float r, float g, float b, float a)
-		: r(r), g(g), b(b), a(a)
-	{}
-
-	Colour Colour::hsl(float h, float s, float l)
+	size_t Clock::readTick()
 	{
-		return two::hsl(h, s, l);
+		return size_t(this->read() / c_tick_interval);
 	}
 
-	uint32_t to_rgba(const Colour& colour)
+	size_t Clock::stepTick()
 	{
-		uint32_t rgba = 0;
-		rgba |= uint8_t(clamp(colour.r, 0.f, 1.f) * 255.f) << 24;
-		rgba |= uint8_t(clamp(colour.g, 0.f, 1.f) * 255.f) << 16;
-		rgba |= uint8_t(clamp(colour.b, 0.f, 1.f) * 255.f) << 8;
-		rgba |= uint8_t(clamp(colour.a, 0.f, 1.f) * 255.f);
-		return rgba;
+		size_t tick = this->readTick();
+		size_t delta = tick - m_last_tick;
+
+		m_last_tick = tick;
+		return delta;
 	}
 
-	uint32_t to_abgr(float r, float g, float b, float a)
+    double Clock::read()
+    {
+        double timeStep = static_cast<double>(clock() - m_last) / CLOCKS_PER_SEC;
+        return timeStep;
+    }
+
+	double Clock::step()
 	{
-		//Colour col = clamp_colour(colour);
-		uint32_t rgba = 0;
-		rgba |= uint8_t(clamp(r, 0.f, 1.f) * 255.f);
-		rgba |= uint8_t(clamp(g, 0.f, 1.f) * 255.f) << 8;
-		rgba |= uint8_t(clamp(b, 0.f, 1.f) * 255.f) << 16;
-		rgba |= uint8_t(clamp(a, 0.f, 1.f) * 255.f) << 24;
-		return rgba;
-	}
-
-	uint32_t to_abgr(const Colour& colour)
-	{
-		uint32_t rgba = 0;
-		rgba |= uint8_t(clamp(colour.r, 0.f, 1.f) * 255.f);
-		rgba |= uint8_t(clamp(colour.g, 0.f, 1.f) * 255.f) << 8;
-		rgba |= uint8_t(clamp(colour.b, 0.f, 1.f) * 255.f) << 16;
-		rgba |= uint8_t(clamp(colour.a, 0.f, 1.f) * 255.f) << 24;
-		return rgba;
-	}
-	
-	Colour rgb(uint32_t rgba)
-	{
-		Colour colour;
-		colour.r = ((rgba >> 16) & 0xFF) / 255.f;
-		colour.g = ((rgba >> 8)  & 0xFF) / 255.f;
-		colour.b = ((rgba >> 0)  & 0xFF) / 255.f;
-		return colour;
-	}
-
-	Colour rgba(uint32_t rgba)
-	{
-		Colour colour;
-		colour.r =  (rgba >> 24) / 255.f;
-		colour.g = ((rgba >> 16) & 0xFF) / 255.f;
-		colour.b = ((rgba >> 8)  & 0xFF) / 255.f;
-		colour.a = ((rgba >> 0)  & 0xFF) / 255.f;
-		return colour;
-	}
-
-	Colour abgr(uint32_t abgr)
-	{
-		Colour colour;
-		colour.r = ((abgr >> 0)  & 0xFF) / 255.f;
-		colour.g = ((abgr >> 8)  & 0xFF) / 255.f;
-		colour.b = ((abgr >> 16) & 0xFF) / 255.f;
-		colour.a =  (abgr >> 24) / 255.f;
-		return colour;
-	}
-
-	inline float to_linear(float value)
-	{
-		return value < 0.04045 ? float(value * (1.0 / 12.92)) : float(pow((value + 0.055) * (1.0 / (1 + 0.055)), 2.4));
-	}
-
-	inline float to_gamma(float value)
-	{
-		return value > 0.0031308 ? float(value * 12.92) : float(pow(abs(value), 1.0 / 2.4) * 1.055 - 0.055);
-	}
-
-	Colour to_linear(const Colour& colour)
-	{
-		return Colour(to_linear(colour.r), to_linear(colour.g), to_linear(colour.b), colour.a);
-	}
-
-	Colour to_gamma(const Colour& colour)
-	{
-		return Colour(to_gamma(colour.r), to_gamma(colour.g), to_gamma(colour.b), colour.a);
-	}
-
-	Colour to_srgb(const Colour& colour)
-	{
-		return Colour(to_gamma(colour.r), to_gamma(colour.g), to_gamma(colour.b), colour.a);
-	}
-
-	float hue_to_rgb(float p, float q, float t)
-	{
-		if(t < 0.f) t += 1.f;
-		if(t > 1.f) t -= 1.f;
-		if(t < 1.f / 6.f) return p + (q - p) * 6.f * t;
-		if(t < 1.f / 2.f) return q;
-		if(t < 2.f / 3.f) return p + (q - p) * (2.f / 3.f - t) * 6.f;
-		return p;
-	}
-
-	Colour hsv(float h, float s, float v)
-	{
-		// @todo
-		return hsl(h, s, v);
-	}
-
-	Colour hsl(float h, float s, float l)
-	{
-		float r, g, b;
-
-		if(s == 0.f)
-		{
-			r = g = b = l; // achromatic
-		}
-		else
-		{
-			float q = l < 0.5f ? l * (1.f + s) : l + s - l * s;
-			float p = 2.f * l - q;
-			r = hue_to_rgb(p, q, h + 1.f / 3.f);
-			g = hue_to_rgb(p, q, h);
-			b = hue_to_rgb(p, q, h - 1.f / 3.f);
-		}
-		return { r, g, b };
-	}
-
-	Colour to_rgba(const ColourHSL& colour)
-	{
-		return hsl(colour.h, colour.s, colour.l);
-	}
-
-	ColourHSL to_hsl(float r, float g, float b)
-	{
-		float lmax = max(r, max(g, b));
-		float lmin = min(r, min(g, b));
-		float h, s, l;
-		h = s = l = (lmax + lmin) / 2.f;
-
-		if(lmax == lmin)
-		{
-			h = s = 0.f; // achromatic
-		}
-		else
-		{
-			float d = lmax - lmin;
-			s = l > 0.5f ? d / (2.f - lmax - lmin) : d / (lmax + lmin);
-			if(lmax == r) h = (g - b) / d + (g < b ? 6.f : 0.f);
-			if(lmax == g) h = (b - r) / d + 2.f;
-			if(lmax == b) h = (r - g) / d + 4.f;
-			h /= 6.f;
-		}
-
-		return { h, s, l, 1.f };
-	}
-
-	ColourHSL to_hsl(const Colour& colour)
-	{
-		return to_hsl(colour.r, colour.g, colour.b);
-	}
-
-	ColourHSL to_hsla(const Colour& colour)
-	{
-		return to_hsl(colour.r, colour.g, colour.b);
+		double step = this->read();
+		this->update();
+		return step;
 	}
 }
 
-
+module;
 module two.math;
 
 namespace two
 {
-	template <class T>
-	ValueCurve<T>::ValueCurve() {}
-	template <class T>
-	ValueCurve<T>::ValueCurve(span<T> keys) : m_keys(keys.begin(), keys.end()) {}
-	template <class T>
-	ValueCurve<T>::~ValueCurve() {}
-
-	template <class T>
-	T ValueCurve<T>::sample_curve(float t)
-	{
-		uint32_t key = uint32_t(t * (m_keys.size() - 1));
-		float interval = 1.f / float(m_keys.size() - 1);
-		float ttmod = fmod(t, interval) / interval;
-
-		return lerp(m_keys[key], m_keys[key + 1], ttmod);
-	}
-
 	template struct TWO_MATH_EXPORT ValueCurve<vec3>;
 	template struct TWO_MATH_EXPORT ValueCurve<quat>;
 	template struct TWO_MATH_EXPORT ValueCurve<float>;
 	template struct TWO_MATH_EXPORT ValueCurve<uint32_t>;
 	template struct TWO_MATH_EXPORT ValueCurve<Colour>;
-
-	template <class T>
-	ValueTrack<T>::ValueTrack() {}
-	template <class T>
-	ValueTrack<T>::ValueTrack(TrackMode mode, ValueCurve<T> curve, ValueCurve<T> min_curve, ValueCurve<T> max_curve) : m_mode(mode), m_curve(curve), m_min_curve(min_curve), m_max_curve(max_curve) {}
-	template <class T>
-	ValueTrack<T>::ValueTrack(T value) : m_mode(TrackMode::Constant), m_value(value) {}
-	template <class T>
-	ValueTrack<T>::ValueTrack(T min, T max) : m_mode(TrackMode::ConstantRandom), m_min(min), m_max(max) {}
-	template <class T>
-	ValueTrack<T>::ValueTrack(span<T> values) : m_mode(TrackMode::Curve), m_curve(values) {}
-	template <class T>
-	ValueTrack<T>::ValueTrack(span<T> min_values, span<T> max_values) : m_mode(TrackMode::CurveRandom), m_min_curve(min_values), m_max_curve(max_values) {}
-	template <class T>
-	ValueTrack<T>::~ValueTrack() {}
-
-	template <class T>
-	void ValueTrack<T>::set_mode(TrackMode mode)
-	{
-		if(mode == TrackMode::Constant)
-			*this = ValueTrack<T>(T());
-		else if(mode == TrackMode::ConstantRandom)
-			*this = ValueTrack<T>(T(), T());
-		else if(mode == TrackMode::Curve)
-			*this = ValueTrack<T>(vector<T>(2, T()));
-		else if(mode == TrackMode::CurveRandom)
-			*this = ValueTrack<T>(vector<T>(2, T()), vector<T>(2, T()));
-	}
-
-	template <class T>
-	T ValueTrack<T>::sample(float t, float seed)
-	{
-		if(m_mode == TrackMode::Constant)
-			return m_value;
-		else if(m_mode == TrackMode::ConstantRandom)
-			return lerp(m_min, m_max, seed);
-		else if(m_mode == TrackMode::Curve)
-			return m_curve.sample_curve(t);
-		else if(m_mode == TrackMode::CurveRandom || true)
-			return lerp(m_min_curve.sample_curve(t), m_max_curve.sample_curve(t), seed);
-	}
 
 	template struct TWO_MATH_EXPORT ValueTrack<vec3>;
 	template struct TWO_MATH_EXPORT ValueTrack<quat>;
@@ -279,12 +63,83 @@ namespace two
 	template struct TWO_MATH_EXPORT ValueTrack<uint32_t>;
 	template struct TWO_MATH_EXPORT ValueTrack<Colour>;
 }
+module;
+module two.math;
 
-#ifndef TWO_CPP_20
-#include <cstring>
-#include <cstdio>
-#endif
+namespace two
+{
+    // Exported types
+    template <> TWO_MATH_EXPORT Type& type<two::Axis>() { static Type ty("Axis", sizeof(two::Axis)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::Axes>() { static Type ty("Axes", sizeof(two::Axes)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::SignedAxis>() { static Type ty("SignedAxis", sizeof(two::SignedAxis)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::Side>() { static Type ty("Side", sizeof(two::Side)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::Clockwise>() { static Type ty("Clockwise", sizeof(two::Clockwise)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::TrackMode>() { static Type ty("TrackMode", sizeof(two::TrackMode)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::Spectrum>() { static Type ty("Spectrum", sizeof(two::Spectrum)); return ty; }
+    
+    template <> TWO_MATH_EXPORT Type& type<stl::span<uint8_t>>() { static Type ty("span<uint8_t>", sizeof(stl::span<uint8_t>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<stl::span<int>>() { static Type ty("span<int>", sizeof(stl::span<int>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<stl::span<float>>() { static Type ty("span<float>", sizeof(stl::span<float>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<stl::span<uint32_t>>() { static Type ty("span<uint32_t>", sizeof(stl::span<uint32_t>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<stl::span<two::vec3>>() { static Type ty("span<two::vec3>", sizeof(stl::span<two::vec3>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<stl::span<two::quat>>() { static Type ty("span<two::quat>", sizeof(stl::span<two::quat>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<stl::span<two::Colour>>() { static Type ty("span<two::Colour>", sizeof(stl::span<two::Colour>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<stl::span<two::uvec3>>() { static Type ty("span<two::uvec3>", sizeof(stl::span<two::uvec3>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<stl::vector<int>>() { static Type ty("vector<int>", sizeof(stl::vector<int>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<stl::vector<float>>() { static Type ty("vector<float>", sizeof(stl::vector<float>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<stl::vector<uint32_t>>() { static Type ty("vector<uint32_t>", sizeof(stl::vector<uint32_t>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<stl::vector<two::vec3>>() { static Type ty("vector<two::vec3>", sizeof(stl::vector<two::vec3>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<stl::vector<two::quat>>() { static Type ty("vector<two::quat>", sizeof(stl::vector<two::quat>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<stl::vector<two::Colour>>() { static Type ty("vector<two::Colour>", sizeof(stl::vector<two::Colour>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<stl::vector<two::uvec3>>() { static Type ty("vector<two::uvec3>", sizeof(stl::vector<two::uvec3>)); return ty; }
+    
+    template <> TWO_MATH_EXPORT Type& type<two::v2<float>>() { static Type ty("v2<float>", sizeof(two::v2<float>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::v3<float>>() { static Type ty("v3<float>", sizeof(two::v3<float>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::v4<float>>() { static Type ty("v4<float>", sizeof(two::v4<float>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::v2<int>>() { static Type ty("v2<int>", sizeof(two::v2<int>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::v3<int>>() { static Type ty("v3<int>", sizeof(two::v3<int>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::v4<int>>() { static Type ty("v4<int>", sizeof(two::v4<int>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::v2<uint>>() { static Type ty("v2<uint>", sizeof(two::v2<uint>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::v3<uint>>() { static Type ty("v3<uint>", sizeof(two::v3<uint>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::v4<uint>>() { static Type ty("v4<uint>", sizeof(two::v4<uint>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::v2<bool>>() { static Type ty("v2<bool>", sizeof(two::v2<bool>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::v3<bool>>() { static Type ty("v3<bool>", sizeof(two::v3<bool>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::v4<bool>>() { static Type ty("v4<bool>", sizeof(two::v4<bool>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::mat3>() { static Type ty("mat3", sizeof(two::mat3)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::mat4>() { static Type ty("mat4", sizeof(two::mat4)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::quat>() { static Type ty("quat", type<two::v4<float>>(), sizeof(two::quat)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::Transform>() { static Type ty("Transform", sizeof(two::Transform)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::ColourHSL>() { static Type ty("ColourHSL", sizeof(two::ColourHSL)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::Colour>() { static Type ty("Colour", sizeof(two::Colour)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<float>>() { static Type ty("ValueCurve<float>", sizeof(two::ValueCurve<float>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<uint32_t>>() { static Type ty("ValueCurve<uint32_t>", sizeof(two::ValueCurve<uint32_t>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<two::vec3>>() { static Type ty("ValueCurve<two::vec3>", sizeof(two::ValueCurve<two::vec3>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<two::quat>>() { static Type ty("ValueCurve<two::quat>", sizeof(two::ValueCurve<two::quat>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<two::Colour>>() { static Type ty("ValueCurve<two::Colour>", sizeof(two::ValueCurve<two::Colour>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<two::vec3>>() { static Type ty("ValueTrack<two::vec3>", sizeof(two::ValueTrack<two::vec3>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<two::quat>>() { static Type ty("ValueTrack<two::quat>", sizeof(two::ValueTrack<two::quat>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<float>>() { static Type ty("ValueTrack<float>", sizeof(two::ValueTrack<float>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<uint32_t>>() { static Type ty("ValueTrack<uint32_t>", sizeof(two::ValueTrack<uint32_t>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<two::Colour>>() { static Type ty("ValueTrack<two::Colour>", sizeof(two::ValueTrack<two::Colour>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::Image>() { static Type ty("Image", sizeof(two::Image)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::Palette>() { static Type ty("Palette", sizeof(two::Palette)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::Image256>() { static Type ty("Image256", sizeof(two::Image256)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::ImageAtlas>() { static Type ty("ImageAtlas", sizeof(two::ImageAtlas)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::TextureAtlas>() { static Type ty("TextureAtlas", type<two::ImageAtlas>(), sizeof(two::TextureAtlas)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::Sprite>() { static Type ty("Sprite", type<two::Image>(), sizeof(two::Sprite)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::SpriteAtlas>() { static Type ty("SpriteAtlas", type<two::ImageAtlas>(), sizeof(two::SpriteAtlas)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::Range<two::vec3>>() { static Type ty("Range<two::vec3>", sizeof(two::Range<two::vec3>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::Range<two::quat>>() { static Type ty("Range<two::quat>", sizeof(two::Range<two::quat>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::Range<float>>() { static Type ty("Range<float>", sizeof(two::Range<float>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::Range<uint32_t>>() { static Type ty("Range<uint32_t>", sizeof(two::Range<uint32_t>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::Range<two::Colour>>() { static Type ty("Range<two::Colour>", sizeof(two::Range<two::Colour>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::StatDef<int>>() { static Type ty("StatDef<int>", sizeof(two::StatDef<int>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::StatDef<float>>() { static Type ty("StatDef<float>", sizeof(two::StatDef<float>)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::Time>() { static Type ty("Time", sizeof(two::Time)); return ty; }
+    template <> TWO_MATH_EXPORT Type& type<two::TimeSpan>() { static Type ty("TimeSpan", sizeof(two::TimeSpan)); return ty; }
+}
 
+module;
 module two.math;
 
 namespace two
@@ -406,10 +261,11 @@ namespace two
 	}
 }
 
-
-module two.ui;
-
+module;
 #include <cstring>
+#include <stb_rect_pack.h>
+#include <stb_image.h>
+module two.math;
 
 namespace two
 {
@@ -605,7 +461,7 @@ namespace two
 	}
 }
 
-
+module;
 module two.math;
 
 namespace two
@@ -637,530 +493,9 @@ namespace two
 	//Var interpolate(Ref a, Ref b, float t) { Var result = meta(a).m_empty_var; Lerp::me().dispatch(result.m_ref, a, b, t); return result; }
 }
 
-
+module;
 #include <cstdlib>
 module two.math;
-
-namespace two
-{
-	template struct Range<vec3>;
-    template struct Range<quat>;
-    template struct Range<float>;
-    template struct Range<uint32_t>;
-    template struct Range<Colour>;
-
-#ifndef M_PI
-	const float c_pi = 3.14159265358979323846f;
-#else
-	const float c_pi = M_PI;
-#endif
-	const float c_invpi = 1.f / c_pi;
-	const float c_2pi = c_pi * 2.f;
-	const float c_tau = c_pi * 2.f;
-	const float c_pi2 = c_pi / 2.f;
-	const float c_pi4 = c_pi / 4.f;
-
-	void register_math_conversions()
-	{
-#if 0
-		dispatch_branch<float, vec3, copy_convert<float, vec3>>(TypeConverter::me());
-		TypeConverter::me().default_converter<vec3, ivec3>();
-		TypeConverter::me().default_converter<vec3, uvec3>();
-#endif
-	}
-
-	quat average_quat(quat& cumulative, const quat& rotation, const quat& first, uint32_t count)
-	{
-		if(dot(rotation, first) < 0.f)
-			return average_quat(cumulative, inverse(rotation), first, count);
-
-		float factor = 1.f / float(count);
-		cumulative += rotation;
-		return normalize(cumulative * factor);
-	}
-
-	Transform average_transforms(span<Transform*> transforms)
-	{
-		Transform average;
-		average.m_scale = vec3(0.f);
-
-		quat cumulative = { 0.f, 0.f, 0.f, 0.f };
-
-		uint32_t count = 0;
-		for(Transform* transform : transforms)
-		{
-			average.m_position += transform->m_position;
-			average.m_scale += transform->m_scale;
-			average.m_rotation = average_quat(cumulative, transform->m_rotation, transforms[0]->m_rotation, ++count);
-		}
-		average.m_position = average.m_position / float(transforms.size());
-		average.m_scale = average.m_scale / float(transforms.size());
-
-		return average;
-	}
-
-	float nsinf(float a) { return (sinf(a) + 1.f) / 2.f; } // @kludge can't be inline because we identify reflected functions through their pointer 
-	float ncosf(float a) { return (cosf(a) + 1.f) / 2.f; }
-
-	double nsin(double a) { return (sin(a) + 1.0) / 2.0; }
-	double ncos(double a) { return (cos(a) + 1.0) / 2.0; }
-
-	quat look_dir(const vec3& direction, const vec3& forward)
-	{
-		const vec3 dir = normalize(direction);
-		const float d = dot(forward, dir);
-
-		if(abs(d - (-1.0f)) < 0.000001f)
-			return axis_angle(Y3, c_pi);
-		if(abs(d - (1.0f)) < 0.000001f)
-			return ZeroQuat;
-
-		const vec3 axis = normalize(cross(forward, dir));
-		return axis_angle(axis, acos(d));
-	}
-
-	quat look_at(const vec3& source, const vec3& dest, const vec3& forward)
-	{
-		const vec3 direction = normalize(dest - source);
-		return look_dir(direction, forward);
-	}
-
-	uint32_t pack4(const vec4& colour)
-	{
-		vec4 clamped = clamp(colour * 255.f, 0.f, 255.f);
-		uint32_t rgba = 0;
-		rgba |= uint32_t(clamped[0]) << 24;
-		rgba |= uint32_t(clamped[1]) << 16;
-		rgba |= uint32_t(clamped[2]) << 8;
-		rgba |= uint32_t(clamped[3]);
-		return rgba;
-	}
-
-	uint32_t pack3(const vec3& colour)
-	{
-		vec3 clamped = clamp(colour * 255.f, 0.f, 255.f);
-		uint32_t rgb = 0;
-		rgb |= uint32_t(clamped[0]) << 16;
-		rgb |= uint32_t(clamped[1]) << 8;
-		rgb |= uint32_t(clamped[2]) << 0;
-		return rgb;
-	}
-
-	vec3 unpack3(uint32_t rgb)
-	{
-		float x = ((rgb >> 16) & 0xFF) / 255.f;
-		float y = ((rgb >> 8) & 0xFF) / 255.f;
-		float z = ((rgb >> 0) & 0xFF) / 255.f;
-		return { x, y, z };
-	}
-
-	vec4 unpack4(uint32_t rgba)
-	{
-		float x = (rgba >> 24) / 255.f;
-		float y = ((rgba >> 16) & 0xFF) / 255.f;
-		float z = ((rgba >> 8) & 0xFF) / 255.f;
-		float w = ((rgba >> 0) & 0xFF) / 255.f;
-		return { x, y, z, w };
-	}
-
-	Axis nearest_axis(const vec3& direction)
-	{
-		Axis axis = Axis::X;
-
-		float closest_dot = 0.f;
-		for(Axis a : { Axis::X, Axis::Y, Axis::Z })
-		{
-			float product = abs(dot(direction, to_vec3(a)));
-			if(a == Axis::X || product > closest_dot)
-			{
-				axis = a;
-				closest_dot = product;
-			}
-		}
-
-		return axis;
-	}
-
-	float shortest_angle(float a, float b)
-	{
-		return min(c_2pi - abs(a - b), abs(a - b));
-	}
-
-	float trigo_angle(const vec3& a, const vec3& b)
-	{
-		float angle = shortest_angle(a, b);
-		if(angle < 0) angle += c_2pi;
-		return angle;
-	}
-
-	float shortest_angle(const vec3& a, const vec3& b)
-	{
-		return oriented_angle(a, b, Y3);
-	}
-
-#if 0
-	float shortest_angle(const vec3& vec1, const vec3& vec2)
-	{
-		float a = angle(vec1, vec2);
-		if(a == 0.f) return a;
-
-		vec3 clockwise = rotate(vec1, a, Y3);
-		flatten(clockwise);
-
-		if(angle(vec2, clockwise) > 0.001f)
-			a = -a;
-
-		return a;
-	}
-#endif
-
-	void orthonormalize(const mat4& transform, vec3& x, vec3& y, vec3& z)
-	{
-		// Gram-Schmidt Process
-
-		x = { transform[0].x, transform[1].x, transform[2].x };
-		y = { transform[0].y, transform[1].y, transform[2].y };
-		z = { transform[0].z, transform[1].z, transform[2].z };
-
-		x = normalize(x);
-		y = (y - x * (dot(x, y)));
-		y = normalize(y);
-		z = (z - x * (dot(x, z)) - y * (dot(y, z)));
-		z = normalize(z);
-	}
-
-	mat4 orthonormalize(const mat4& transform)
-	{
-		vec3 x, y, z;
-		orthonormalize(transform, x, y, z);
-
-		mat4 result = transform;
-		result[0].x = x[0]; result[1].x = x[1]; result[1].x = x[1];
-		result[0].y = y[0]; result[1].y = y[1]; result[1].y = y[1];
-		result[0].z = z[0]; result[1].z = z[1]; result[1].z = z[1];
-
-		return result;
-	}
-
-	mat4 bias_mat()
-	{
-		return {
-			0.5f, 0.f,  0.f,  0.f,
-			0.f,  0.5f, 0.f,  0.f,
-			0.f,  0.f,  0.5f, 0.f,
-			0.5f, 0.5f, 0.5f, 1.f
-		};
-	}
-
-	mat4 bias_mat_bgfx(bool origin_bottom_left, bool homogeneous_depth)
-	{
-		const float sy = origin_bottom_left ? 0.5f : -0.5f;
-		const float sz = homogeneous_depth ? 0.5f : 1.0f;
-		const float tz = homogeneous_depth ? 0.5f : 0.0f;
-		return {
-			0.5f, 0.0f, 0.0f, 0.0f,
-			0.0f, sy,   0.0f, 0.0f,
-			0.0f, 0.0f, sz,   0.0f,
-			0.5f, 0.5f, tz,   1.0f,
-		};
-	}
-
-	mat4 rect_mat(vec4 rect)
-	{
-		return
-		{
-			rect.width, 0.f, 0.f, 0.f,
-			0.f, rect.height, 0.f, 0.f,
-			0.f, 0.f, 1.f, 0.f,
-			rect.x, rect.y, 0.f, 1.f
-		};
-	}
-
-	mat4 abs(const mat4& mat)
-	{
-		mat4 result;
-		for(mat4::length_type i = 0; i < 4; ++i)
-			for(mat4::length_type j = 0; j < 4; ++j)
-				result[i][j] = abs(mat[i][j]);
-		return result;
-	}
-
-	void grid(const uvec3& size, vector<uvec3>& output_coords)
-	{
-		for(uint z = 0; z < size.z; ++z)
-			for(uint y = 0; y < size.y; ++y)
-				for(uint x = 0; x < size.x; ++x)
-					output_coords.push_back({ x, y, z });
-	}
-
-	vec3 grid_center(const uvec3& coord, float cell_size)
-	{
-		return vec3(coord) * cell_size + cell_size * 0.5f;
-	}
-
-	vec3 grid_center(const uvec3& coord, const vec3& cell_size)
-	{
-		return vec3(coord) * cell_size + cell_size * 0.5f;
-	}
-
-	void index_list(uint32_t size, vector<uint32_t>& output_indices)
-	{
-		for(uint32_t i = 0; i < size; ++i)
-			output_indices.push_back(i);
-	}
-}
-#ifndef USE_STL
-module two.math;
-
-#include <stb_rect_pack.h>
-
-namespace stl
-{
-	using namespace two;
-	template class TWO_MATH_EXPORT vector<const char*>;
-	template class TWO_MATH_EXPORT vector<bool>;
-	template class TWO_MATH_EXPORT vector<char>;
-	template class TWO_MATH_EXPORT vector<int>;
-	template class TWO_MATH_EXPORT vector<uchar>;
-	template class TWO_MATH_EXPORT vector<ushort>;
-	template class TWO_MATH_EXPORT vector<uint>;
-	template class TWO_MATH_EXPORT vector<ulong>;
-	template class TWO_MATH_EXPORT vector<long>;
-	template class TWO_MATH_EXPORT vector<llong>;
-	template class TWO_MATH_EXPORT vector<ullong>;
-	template class TWO_MATH_EXPORT vector<float>;
-	template class TWO_MATH_EXPORT vector<uvec2>;
-	template class TWO_MATH_EXPORT vector<uvec3>;
-	template class TWO_MATH_EXPORT vector<ivec2>;
-	template class TWO_MATH_EXPORT vector<ivec3>;
-	template class TWO_MATH_EXPORT vector<ivec4>;
-	template class TWO_MATH_EXPORT vector<vec2>;
-	template class TWO_MATH_EXPORT vector<vec3>;
-	template class TWO_MATH_EXPORT vector<vec4>;
-	template class TWO_MATH_EXPORT vector<quat>;
-	template class TWO_MATH_EXPORT vector<mat4>;
-	template class TWO_MATH_EXPORT vector<Colour>;
-	template class TWO_MATH_EXPORT vector<Image>;
-	template class TWO_MATH_EXPORT vector<Sprite>;
-	template class TWO_MATH_EXPORT unordered_map<uint64_t, ushort>;
-	template class TWO_MATH_EXPORT unordered_map<ushort, ushort>;
-	//template class TWO_MATH_EXPORT unordered_map<Type*, Colour>;
-
-	template class TWO_MATH_EXPORT vector<stbrp_node>;
-}
-#endif
-
-module two.math;
-
-namespace two
-{
-    // Exported types
-    template <> TWO_MATH_EXPORT Type& type<two::Axis>() { static Type ty("Axis", sizeof(two::Axis)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::Axes>() { static Type ty("Axes", sizeof(two::Axes)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::SignedAxis>() { static Type ty("SignedAxis", sizeof(two::SignedAxis)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::Side>() { static Type ty("Side", sizeof(two::Side)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::Clockwise>() { static Type ty("Clockwise", sizeof(two::Clockwise)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::TrackMode>() { static Type ty("TrackMode", sizeof(two::TrackMode)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::Spectrum>() { static Type ty("Spectrum", sizeof(two::Spectrum)); return ty; }
-    
-    template <> TWO_MATH_EXPORT Type& type<stl::span<uint8_t>>() { static Type ty("span<uint8_t>", sizeof(stl::span<uint8_t>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<stl::span<int>>() { static Type ty("span<int>", sizeof(stl::span<int>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<stl::span<float>>() { static Type ty("span<float>", sizeof(stl::span<float>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<stl::span<uint32_t>>() { static Type ty("span<uint32_t>", sizeof(stl::span<uint32_t>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<stl::span<two::vec3>>() { static Type ty("span<two::vec3>", sizeof(stl::span<two::vec3>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<stl::span<two::quat>>() { static Type ty("span<two::quat>", sizeof(stl::span<two::quat>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<stl::span<two::Colour>>() { static Type ty("span<two::Colour>", sizeof(stl::span<two::Colour>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<stl::span<two::uvec3>>() { static Type ty("span<two::uvec3>", sizeof(stl::span<two::uvec3>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<stl::vector<int>>() { static Type ty("vector<int>", sizeof(stl::vector<int>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<stl::vector<float>>() { static Type ty("vector<float>", sizeof(stl::vector<float>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<stl::vector<uint32_t>>() { static Type ty("vector<uint32_t>", sizeof(stl::vector<uint32_t>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<stl::vector<two::vec3>>() { static Type ty("vector<two::vec3>", sizeof(stl::vector<two::vec3>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<stl::vector<two::quat>>() { static Type ty("vector<two::quat>", sizeof(stl::vector<two::quat>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<stl::vector<two::Colour>>() { static Type ty("vector<two::Colour>", sizeof(stl::vector<two::Colour>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<stl::vector<two::uvec3>>() { static Type ty("vector<two::uvec3>", sizeof(stl::vector<two::uvec3>)); return ty; }
-    
-    template <> TWO_MATH_EXPORT Type& type<two::v2<float>>() { static Type ty("v2<float>", sizeof(two::v2<float>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::v3<float>>() { static Type ty("v3<float>", sizeof(two::v3<float>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::v4<float>>() { static Type ty("v4<float>", sizeof(two::v4<float>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::v2<int>>() { static Type ty("v2<int>", sizeof(two::v2<int>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::v3<int>>() { static Type ty("v3<int>", sizeof(two::v3<int>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::v4<int>>() { static Type ty("v4<int>", sizeof(two::v4<int>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::v2<uint>>() { static Type ty("v2<uint>", sizeof(two::v2<uint>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::v3<uint>>() { static Type ty("v3<uint>", sizeof(two::v3<uint>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::v4<uint>>() { static Type ty("v4<uint>", sizeof(two::v4<uint>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::v2<bool>>() { static Type ty("v2<bool>", sizeof(two::v2<bool>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::v3<bool>>() { static Type ty("v3<bool>", sizeof(two::v3<bool>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::v4<bool>>() { static Type ty("v4<bool>", sizeof(two::v4<bool>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::mat3>() { static Type ty("mat3", sizeof(two::mat3)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::mat4>() { static Type ty("mat4", sizeof(two::mat4)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::quat>() { static Type ty("quat", type<two::v4<float>>(), sizeof(two::quat)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::Transform>() { static Type ty("Transform", sizeof(two::Transform)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::ColourHSL>() { static Type ty("ColourHSL", sizeof(two::ColourHSL)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::Colour>() { static Type ty("Colour", sizeof(two::Colour)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<float>>() { static Type ty("ValueCurve<float>", sizeof(two::ValueCurve<float>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<uint32_t>>() { static Type ty("ValueCurve<uint32_t>", sizeof(two::ValueCurve<uint32_t>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<two::vec3>>() { static Type ty("ValueCurve<two::vec3>", sizeof(two::ValueCurve<two::vec3>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<two::quat>>() { static Type ty("ValueCurve<two::quat>", sizeof(two::ValueCurve<two::quat>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<two::Colour>>() { static Type ty("ValueCurve<two::Colour>", sizeof(two::ValueCurve<two::Colour>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<two::vec3>>() { static Type ty("ValueTrack<two::vec3>", sizeof(two::ValueTrack<two::vec3>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<two::quat>>() { static Type ty("ValueTrack<two::quat>", sizeof(two::ValueTrack<two::quat>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<float>>() { static Type ty("ValueTrack<float>", sizeof(two::ValueTrack<float>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<uint32_t>>() { static Type ty("ValueTrack<uint32_t>", sizeof(two::ValueTrack<uint32_t>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<two::Colour>>() { static Type ty("ValueTrack<two::Colour>", sizeof(two::ValueTrack<two::Colour>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::Image>() { static Type ty("Image", sizeof(two::Image)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::Palette>() { static Type ty("Palette", sizeof(two::Palette)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::Image256>() { static Type ty("Image256", sizeof(two::Image256)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::ImageAtlas>() { static Type ty("ImageAtlas", sizeof(two::ImageAtlas)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::TextureAtlas>() { static Type ty("TextureAtlas", type<two::ImageAtlas>(), sizeof(two::TextureAtlas)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::Sprite>() { static Type ty("Sprite", type<two::Image>(), sizeof(two::Sprite)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::SpriteAtlas>() { static Type ty("SpriteAtlas", type<two::ImageAtlas>(), sizeof(two::SpriteAtlas)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::Range<two::vec3>>() { static Type ty("Range<two::vec3>", sizeof(two::Range<two::vec3>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::Range<two::quat>>() { static Type ty("Range<two::quat>", sizeof(two::Range<two::quat>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::Range<float>>() { static Type ty("Range<float>", sizeof(two::Range<float>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::Range<uint32_t>>() { static Type ty("Range<uint32_t>", sizeof(two::Range<uint32_t>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::Range<two::Colour>>() { static Type ty("Range<two::Colour>", sizeof(two::Range<two::Colour>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::StatDef<int>>() { static Type ty("StatDef<int>", sizeof(two::StatDef<int>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::StatDef<float>>() { static Type ty("StatDef<float>", sizeof(two::StatDef<float>)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::Time>() { static Type ty("Time", sizeof(two::Time)); return ty; }
-    template <> TWO_MATH_EXPORT Type& type<two::TimeSpan>() { static Type ty("TimeSpan", sizeof(two::TimeSpan)); return ty; }
-}
-
-#ifndef TWO_CPP_20
-#include <random>
-#endif
-
-module two.math;
-
-namespace two
-{
-	template <class T>
-	T randi(T min, T max)
-	{
-		static std::random_device device;
-		static std::mt19937 generator(device());
-		std::uniform_int_distribution<T> distribution(min, max);
-		return distribution(generator);
-	}
-
-	template <class T>
-	T randf(T min, T max)
-	{
-		static std::random_device device;
-		static std::mt19937 generator(device());
-		std::uniform_real_distribution<T> distribution(min, max);
-		return distribution(generator);
-	}
-	
-	template <class T>
-	T randi()
-	{
-		static std::random_device device;
-		static std::mt19937 generator(device());
-		static std::uniform_int_distribution<T> distribution { limits<T>::min(), limits<T>::max() };
-		return distribution(generator);
-	}
-
-	template <class T>
-	T randf()
-	{
-		static std::random_device device;
-		static std::mt19937 generator(device());
-		static std::uniform_real_distribution<T> distribution { T(0), T(1) };
-		return distribution(generator);
-	}
-
-	template TWO_MATH_EXPORT float randf();
-	template TWO_MATH_EXPORT double randf<double>();
-
-	template TWO_MATH_EXPORT float randf(float min, float max);
-	template TWO_MATH_EXPORT double randf<double>(double min, double max);
-
-	template TWO_MATH_EXPORT int randi<int>();
-	template TWO_MATH_EXPORT uint randi<uint>();
-
-	template TWO_MATH_EXPORT int randi<int>(int min, int max);
-	template TWO_MATH_EXPORT uint randi<uint>(uint min, uint max);
-	template TWO_MATH_EXPORT ulong randi<ulong>(ulong min, ulong max);
-	template TWO_MATH_EXPORT ullong randi<ullong>(ullong min, ullong max);
-}
-
-
-module two.math;
-
-namespace two
-{
-#if 0
-	Ratio::Ratio(float value)
-		: Stat<float>(m_value, def())
-		, m_value(value)
-	{}
-
-	Gauge::Gauge(float value)
-		: Stat<float>(m_value, def())
-		, m_value(value)
-	{}
-#endif
-
-	template struct TWO_MATH_EXPORT StatDef<int>;
-	template struct TWO_MATH_EXPORT StatDef<float>;
-
-	template struct TWO_MATH_EXPORT Stat<int>;
-	template struct TWO_MATH_EXPORT Stat<float>;
-}
-
-
-module two.infra;
-
-namespace two
-{
-	const double c_tick_interval = 0.02;
-
-    Clock::Clock()
-        : m_last(clock())
-		, m_last_tick(0)
-    {}
-
-    void Clock::update()
-    {
-		m_last = clock();
-    }
-
-	size_t Clock::readTick()
-	{
-		return size_t(this->read() / c_tick_interval);
-	}
-
-	size_t Clock::stepTick()
-	{
-		size_t tick = this->readTick();
-		size_t delta = tick - m_last_tick;
-
-		m_last_tick = tick;
-		return delta;
-	}
-
-    double Clock::read()
-    {
-        double timeStep = static_cast<double>(clock() - m_last) / CLOCKS_PER_SEC;
-        return timeStep;
-    }
-
-	double Clock::step()
-	{
-		double step = this->read();
-		this->update();
-		return step;
-	}
-}
-
-#ifndef TWO_CPP_20
-#include <limits>
-#endif
-
-#include <cstdlib>
-module two.math;
-
-#include <algorithm>
 
 namespace two
 {
@@ -1782,10 +1117,596 @@ namespace two
 #endif
 }
 
-
+module;
 module two.math;
 
-#include <json11.hpp>
+namespace two
+{
+	Colour Colour::Black(0.f, 0.f, 0.f);
+	Colour Colour::AlphaBlack(0.f, 0.f, 0.f, 0.5f);
+	Colour Colour::Red(1.f, 0.f, 0.f);
+	Colour Colour::Green(0.f, 1.f, 0.f);
+	Colour Colour::NeonGreen(0.f, 1.f, 0.2f);
+	Colour Colour::Blue(0.f, 0.f, 1.f);
+	Colour Colour::Pink(1.f, 0.2f, 1.f);
+	Colour Colour::Cyan(0.f, 1.f, 1.f);
+	Colour Colour::Yellow(1.f, 1.f, 0.f);
+	Colour Colour::White(1.f, 1.f, 1.f);
+	Colour Colour::AlphaWhite(1.f, 1.f, 1.f, 0.5f);
+	Colour Colour::LightGrey(0.6f, 0.6f, 0.6f);
+	Colour Colour::MidGrey(0.45f, 0.45f, 0.45f);
+	Colour Colour::DarkGrey(0.3f, 0.3f, 0.3f);
+	Colour Colour::AlphaGrey(0.45f, 0.45f, 0.45f, 0.5f);
+	Colour Colour::Transparent(0.f, 0.f, 0.f, 0.f);
+	Colour Colour::Invisible(0.f, 0.f, 0.f, 0.0001f);
+	Colour Colour::None(0.f, 0.f, 0.f, 0.f);
+
+	Colour::Colour()
+		: r(1.f), g(1.f), b(1.f), a(1.f)
+	{}
+
+	Colour::Colour(float v, float a)
+		: r(v), g(v), b(v), a(a)
+	{}
+
+	Colour::Colour(float r, float g, float b, float a)
+		: r(r), g(g), b(b), a(a)
+	{}
+
+	Colour Colour::hsl(float h, float s, float l)
+	{
+		return two::hsl(h, s, l);
+	}
+
+	uint32_t to_rgba(const Colour& colour)
+	{
+		uint32_t rgba = 0;
+		rgba |= uint8_t(clamp(colour.r, 0.f, 1.f) * 255.f) << 24;
+		rgba |= uint8_t(clamp(colour.g, 0.f, 1.f) * 255.f) << 16;
+		rgba |= uint8_t(clamp(colour.b, 0.f, 1.f) * 255.f) << 8;
+		rgba |= uint8_t(clamp(colour.a, 0.f, 1.f) * 255.f);
+		return rgba;
+	}
+
+	uint32_t to_abgr(float r, float g, float b, float a)
+	{
+		//Colour col = clamp_colour(colour);
+		uint32_t rgba = 0;
+		rgba |= uint8_t(clamp(r, 0.f, 1.f) * 255.f);
+		rgba |= uint8_t(clamp(g, 0.f, 1.f) * 255.f) << 8;
+		rgba |= uint8_t(clamp(b, 0.f, 1.f) * 255.f) << 16;
+		rgba |= uint8_t(clamp(a, 0.f, 1.f) * 255.f) << 24;
+		return rgba;
+	}
+
+	uint32_t to_abgr(const Colour& colour)
+	{
+		uint32_t rgba = 0;
+		rgba |= uint8_t(clamp(colour.r, 0.f, 1.f) * 255.f);
+		rgba |= uint8_t(clamp(colour.g, 0.f, 1.f) * 255.f) << 8;
+		rgba |= uint8_t(clamp(colour.b, 0.f, 1.f) * 255.f) << 16;
+		rgba |= uint8_t(clamp(colour.a, 0.f, 1.f) * 255.f) << 24;
+		return rgba;
+	}
+	
+	Colour rgb(uint32_t rgba)
+	{
+		Colour colour;
+		colour.r = ((rgba >> 16) & 0xFF) / 255.f;
+		colour.g = ((rgba >> 8)  & 0xFF) / 255.f;
+		colour.b = ((rgba >> 0)  & 0xFF) / 255.f;
+		return colour;
+	}
+
+	Colour rgba(uint32_t rgba)
+	{
+		Colour colour;
+		colour.r =  (rgba >> 24) / 255.f;
+		colour.g = ((rgba >> 16) & 0xFF) / 255.f;
+		colour.b = ((rgba >> 8)  & 0xFF) / 255.f;
+		colour.a = ((rgba >> 0)  & 0xFF) / 255.f;
+		return colour;
+	}
+
+	Colour abgr(uint32_t abgr)
+	{
+		Colour colour;
+		colour.r = ((abgr >> 0)  & 0xFF) / 255.f;
+		colour.g = ((abgr >> 8)  & 0xFF) / 255.f;
+		colour.b = ((abgr >> 16) & 0xFF) / 255.f;
+		colour.a =  (abgr >> 24) / 255.f;
+		return colour;
+	}
+
+	inline float to_linear(float value)
+	{
+		return value < 0.04045 ? float(value * (1.0 / 12.92)) : float(pow((value + 0.055) * (1.0 / (1 + 0.055)), 2.4));
+	}
+
+	inline float to_gamma(float value)
+	{
+		return value > 0.0031308 ? float(value * 12.92) : float(pow(abs(value), 1.0 / 2.4) * 1.055 - 0.055);
+	}
+
+	Colour to_linear(const Colour& colour)
+	{
+		return Colour(to_linear(colour.r), to_linear(colour.g), to_linear(colour.b), colour.a);
+	}
+
+	Colour to_gamma(const Colour& colour)
+	{
+		return Colour(to_gamma(colour.r), to_gamma(colour.g), to_gamma(colour.b), colour.a);
+	}
+
+	Colour to_srgb(const Colour& colour)
+	{
+		return Colour(to_gamma(colour.r), to_gamma(colour.g), to_gamma(colour.b), colour.a);
+	}
+
+	float hue_to_rgb(float p, float q, float t)
+	{
+		if(t < 0.f) t += 1.f;
+		if(t > 1.f) t -= 1.f;
+		if(t < 1.f / 6.f) return p + (q - p) * 6.f * t;
+		if(t < 1.f / 2.f) return q;
+		if(t < 2.f / 3.f) return p + (q - p) * (2.f / 3.f - t) * 6.f;
+		return p;
+	}
+
+	Colour hsv(float h, float s, float v)
+	{
+		// @todo
+		return hsl(h, s, v);
+	}
+
+	Colour hsl(float h, float s, float l)
+	{
+		float r, g, b;
+
+		if(s == 0.f)
+		{
+			r = g = b = l; // achromatic
+		}
+		else
+		{
+			float q = l < 0.5f ? l * (1.f + s) : l + s - l * s;
+			float p = 2.f * l - q;
+			r = hue_to_rgb(p, q, h + 1.f / 3.f);
+			g = hue_to_rgb(p, q, h);
+			b = hue_to_rgb(p, q, h - 1.f / 3.f);
+		}
+		return { r, g, b };
+	}
+
+	Colour to_rgba(const ColourHSL& colour)
+	{
+		return hsl(colour.h, colour.s, colour.l);
+	}
+
+	ColourHSL to_hsl(float r, float g, float b)
+	{
+		float lmax = max(r, max(g, b));
+		float lmin = min(r, min(g, b));
+		float h, s, l;
+		h = s = l = (lmax + lmin) / 2.f;
+
+		if(lmax == lmin)
+		{
+			h = s = 0.f; // achromatic
+		}
+		else
+		{
+			float d = lmax - lmin;
+			s = l > 0.5f ? d / (2.f - lmax - lmin) : d / (lmax + lmin);
+			if(lmax == r) h = (g - b) / d + (g < b ? 6.f : 0.f);
+			if(lmax == g) h = (b - r) / d + 2.f;
+			if(lmax == b) h = (r - g) / d + 4.f;
+			h /= 6.f;
+		}
+
+		return { h, s, l, 1.f };
+	}
+
+	ColourHSL to_hsl(const Colour& colour)
+	{
+		return to_hsl(colour.r, colour.g, colour.b);
+	}
+
+	ColourHSL to_hsla(const Colour& colour)
+	{
+		return to_hsl(colour.r, colour.g, colour.b);
+	}
+}
+
+module;
+module two.math;
+
+namespace two
+{
+	template <class T>
+	T randi(T min, T max)
+	{
+		static std::random_device device;
+		static std::mt19937 generator(device());
+		std::uniform_int_distribution<T> distribution(min, max);
+		return distribution(generator);
+	}
+
+	template <class T>
+	T randf(T min, T max)
+	{
+		static std::random_device device;
+		static std::mt19937 generator(device());
+		std::uniform_real_distribution<T> distribution(min, max);
+		return distribution(generator);
+	}
+	
+	template <class T>
+	T randi()
+	{
+		static std::random_device device;
+		static std::mt19937 generator(device());
+		static std::uniform_int_distribution<T> distribution { limits<T>::min(), limits<T>::max() };
+		return distribution(generator);
+	}
+
+	template <class T>
+	T randf()
+	{
+		static std::random_device device;
+		static std::mt19937 generator(device());
+		static std::uniform_real_distribution<T> distribution { T(0), T(1) };
+		return distribution(generator);
+	}
+
+	template TWO_MATH_EXPORT float randf();
+	template TWO_MATH_EXPORT double randf<double>();
+
+	template TWO_MATH_EXPORT float randf(float min, float max);
+	template TWO_MATH_EXPORT double randf<double>(double min, double max);
+
+	template TWO_MATH_EXPORT int randi<int>();
+	template TWO_MATH_EXPORT uint randi<uint>();
+
+	template TWO_MATH_EXPORT int randi<int>(int min, int max);
+	template TWO_MATH_EXPORT uint randi<uint>(uint min, uint max);
+	template TWO_MATH_EXPORT ulong randi<ulong>(ulong min, ulong max);
+	template TWO_MATH_EXPORT ullong randi<ullong>(ullong min, ullong max);
+}
+#ifndef USE_STL
+module two.math;
+
+#include <stb_rect_pack.h>
+
+namespace stl
+{
+	using namespace two;
+	template class TWO_MATH_EXPORT vector<const char*>;
+	template class TWO_MATH_EXPORT vector<bool>;
+	template class TWO_MATH_EXPORT vector<char>;
+	template class TWO_MATH_EXPORT vector<int>;
+	template class TWO_MATH_EXPORT vector<uchar>;
+	template class TWO_MATH_EXPORT vector<ushort>;
+	template class TWO_MATH_EXPORT vector<uint>;
+	template class TWO_MATH_EXPORT vector<ulong>;
+	template class TWO_MATH_EXPORT vector<long>;
+	template class TWO_MATH_EXPORT vector<llong>;
+	template class TWO_MATH_EXPORT vector<ullong>;
+	template class TWO_MATH_EXPORT vector<float>;
+	template class TWO_MATH_EXPORT vector<uvec2>;
+	template class TWO_MATH_EXPORT vector<uvec3>;
+	template class TWO_MATH_EXPORT vector<ivec2>;
+	template class TWO_MATH_EXPORT vector<ivec3>;
+	template class TWO_MATH_EXPORT vector<ivec4>;
+	template class TWO_MATH_EXPORT vector<vec2>;
+	template class TWO_MATH_EXPORT vector<vec3>;
+	template class TWO_MATH_EXPORT vector<vec4>;
+	template class TWO_MATH_EXPORT vector<quat>;
+	template class TWO_MATH_EXPORT vector<mat4>;
+	template class TWO_MATH_EXPORT vector<Colour>;
+	template class TWO_MATH_EXPORT vector<Image>;
+	template class TWO_MATH_EXPORT vector<Sprite>;
+	template class TWO_MATH_EXPORT vector<Image*>;
+	template class TWO_MATH_EXPORT unordered_map<uint64_t, ushort>;
+	template class TWO_MATH_EXPORT unordered_map<ushort, ushort>;
+	//template class TWO_MATH_EXPORT unordered_map<Type*, Colour>;
+
+	template class TWO_MATH_EXPORT vector<stbrp_node>;
+}
+#endif
+
+module;
+#include <cstdlib>
+module two.math;
+
+namespace two
+{
+	template struct Range<vec3>;
+    template struct Range<quat>;
+    template struct Range<float>;
+    template struct Range<uint32_t>;
+    template struct Range<Colour>;
+
+	template struct v2<float>;
+	template struct v3<float>;
+	template struct v4<float>;
+
+	template struct v2<int>;
+	template struct v3<int>;
+	template struct v4<int>;
+
+	template struct v2<uint>;
+	template struct v3<uint>;
+	template struct v4<uint>;
+
+	template struct v2<bool>;
+	template struct v3<bool>;
+	template struct v4<bool>;
+
+#ifndef M_PI
+	const float c_pi = 3.14159265358979323846f;
+#else
+	const float c_pi = M_PI;
+#endif
+	const float c_invpi = 1.f / c_pi;
+	const float c_2pi = c_pi * 2.f;
+	const float c_tau = c_pi * 2.f;
+	const float c_pi2 = c_pi / 2.f;
+	const float c_pi4 = c_pi / 4.f;
+
+	void register_math_conversions()
+	{
+#if 0
+		dispatch_branch<float, vec3, copy_convert<float, vec3>>(TypeConverter::me());
+		TypeConverter::me().default_converter<vec3, ivec3>();
+		TypeConverter::me().default_converter<vec3, uvec3>();
+#endif
+	}
+
+	quat average_quat(quat& cumulative, const quat& rotation, const quat& first, uint32_t count)
+	{
+		if(dot(rotation, first) < 0.f)
+			return average_quat(cumulative, inverse(rotation), first, count);
+
+		float factor = 1.f / float(count);
+		cumulative += rotation;
+		return normalize(cumulative * factor);
+	}
+
+	Transform average_transforms(span<Transform*> transforms)
+	{
+		Transform average;
+		average.m_scale = vec3(0.f);
+
+		quat cumulative = { 0.f, 0.f, 0.f, 0.f };
+
+		uint32_t count = 0;
+		for(Transform* transform : transforms)
+		{
+			average.m_position += transform->m_position;
+			average.m_scale += transform->m_scale;
+			average.m_rotation = average_quat(cumulative, transform->m_rotation, transforms[0]->m_rotation, ++count);
+		}
+		average.m_position = average.m_position / float(transforms.size());
+		average.m_scale = average.m_scale / float(transforms.size());
+
+		return average;
+	}
+
+	float nsinf(float a) { return (sinf(a) + 1.f) / 2.f; } // @kludge can't be inline because we identify reflected functions through their pointer 
+	float ncosf(float a) { return (cosf(a) + 1.f) / 2.f; }
+
+	double nsin(double a) { return (sin(a) + 1.0) / 2.0; }
+	double ncos(double a) { return (cos(a) + 1.0) / 2.0; }
+
+	quat look_dir(const vec3& direction, const vec3& forward)
+	{
+		const vec3 dir = normalize(direction);
+		const float d = dot(forward, dir);
+
+		if(abs(d - (-1.0f)) < 0.000001f)
+			return axis_angle(y3, c_pi);
+		if(abs(d - (1.0f)) < 0.000001f)
+			return ZeroQuat;
+
+		const vec3 axis = normalize(cross(forward, dir));
+		return axis_angle(axis, acos(d));
+	}
+
+	quat look_at(const vec3& source, const vec3& dest, const vec3& forward)
+	{
+		const vec3 direction = normalize(dest - source);
+		return look_dir(direction, forward);
+	}
+
+	uint32_t pack4(const vec4& colour)
+	{
+		vec4 clamped = clamp(colour * 255.f, 0.f, 255.f);
+		uint32_t rgba = 0;
+		rgba |= uint32_t(clamped[0]) << 24;
+		rgba |= uint32_t(clamped[1]) << 16;
+		rgba |= uint32_t(clamped[2]) << 8;
+		rgba |= uint32_t(clamped[3]);
+		return rgba;
+	}
+
+	uint32_t pack3(const vec3& colour)
+	{
+		vec3 clamped = clamp(colour * 255.f, 0.f, 255.f);
+		uint32_t rgb = 0;
+		rgb |= uint32_t(clamped[0]) << 16;
+		rgb |= uint32_t(clamped[1]) << 8;
+		rgb |= uint32_t(clamped[2]) << 0;
+		return rgb;
+	}
+
+	vec3 unpack3(uint32_t rgb)
+	{
+		float x = ((rgb >> 16) & 0xFF) / 255.f;
+		float y = ((rgb >> 8) & 0xFF) / 255.f;
+		float z = ((rgb >> 0) & 0xFF) / 255.f;
+		return { x, y, z };
+	}
+
+	vec4 unpack4(uint32_t rgba)
+	{
+		float x = (rgba >> 24) / 255.f;
+		float y = ((rgba >> 16) & 0xFF) / 255.f;
+		float z = ((rgba >> 8) & 0xFF) / 255.f;
+		float w = ((rgba >> 0) & 0xFF) / 255.f;
+		return { x, y, z, w };
+	}
+
+	Axis nearest_axis(const vec3& direction)
+	{
+		Axis axis = Axis::X;
+
+		float closest_dot = 0.f;
+		for(Axis a : { Axis::X, Axis::Y, Axis::Z })
+		{
+			float product = abs(dot(direction, to_vec3(a)));
+			if(a == Axis::X || product > closest_dot)
+			{
+				axis = a;
+				closest_dot = product;
+			}
+		}
+
+		return axis;
+	}
+
+	float shortest_angle(float a, float b)
+	{
+		return min(c_2pi - abs(a - b), abs(a - b));
+	}
+
+	float trigo_angle(const vec3& a, const vec3& b)
+	{
+		float angle = shortest_angle(a, b);
+		if(angle < 0) angle += c_2pi;
+		return angle;
+	}
+
+	float shortest_angle(const vec3& a, const vec3& b)
+	{
+		return oriented_angle(a, b, y3);
+	}
+
+#if 0
+	float shortest_angle(const vec3& vec1, const vec3& vec2)
+	{
+		float a = angle(vec1, vec2);
+		if(a == 0.f) return a;
+
+		vec3 clockwise = rotate(vec1, a, y3);
+		flatten(clockwise);
+
+		if(angle(vec2, clockwise) > 0.001f)
+			a = -a;
+
+		return a;
+	}
+#endif
+
+	void orthonormalize(const mat4& transform, vec3& x, vec3& y, vec3& z)
+	{
+		// Gram-Schmidt Process
+
+		x = { transform[0].x, transform[1].x, transform[2].x };
+		y = { transform[0].y, transform[1].y, transform[2].y };
+		z = { transform[0].z, transform[1].z, transform[2].z };
+
+		x = normalize(x);
+		y = (y - x * (dot(x, y)));
+		y = normalize(y);
+		z = (z - x * (dot(x, z)) - y * (dot(y, z)));
+		z = normalize(z);
+	}
+
+	mat4 orthonormalize(const mat4& transform)
+	{
+		vec3 x, y, z;
+		orthonormalize(transform, x, y, z);
+
+		mat4 result = transform;
+		result[0].x = x[0]; result[1].x = x[1]; result[1].x = x[1];
+		result[0].y = y[0]; result[1].y = y[1]; result[1].y = y[1];
+		result[0].z = z[0]; result[1].z = z[1]; result[1].z = z[1];
+
+		return result;
+	}
+
+	mat4 bias_mat()
+	{
+		return {
+			0.5f, 0.f,  0.f,  0.f,
+			0.f,  0.5f, 0.f,  0.f,
+			0.f,  0.f,  0.5f, 0.f,
+			0.5f, 0.5f, 0.5f, 1.f
+		};
+	}
+
+	mat4 bias_mat_bgfx(bool origin_bottom_left, bool homogeneous_depth)
+	{
+		const float sy = origin_bottom_left ? 0.5f : -0.5f;
+		const float sz = homogeneous_depth ? 0.5f : 1.0f;
+		const float tz = homogeneous_depth ? 0.5f : 0.0f;
+		return {
+			0.5f, 0.0f, 0.0f, 0.0f,
+			0.0f, sy,   0.0f, 0.0f,
+			0.0f, 0.0f, sz,   0.0f,
+			0.5f, 0.5f, tz,   1.0f,
+		};
+	}
+
+	mat4 rect_mat(vec4 rect)
+	{
+		return
+		{
+			rect.width, 0.f, 0.f, 0.f,
+			0.f, rect.height, 0.f, 0.f,
+			0.f, 0.f, 1.f, 0.f,
+			rect.x, rect.y, 0.f, 1.f
+		};
+	}
+
+	mat4 abs(const mat4& mat)
+	{
+		mat4 result;
+		for(mat4::length_type i = 0; i < 4; ++i)
+			for(mat4::length_type j = 0; j < 4; ++j)
+				result[i][j] = abs(mat[i][j]);
+		return result;
+	}
+
+	void grid(const uvec3& size, vector<uvec3>& output_coords)
+	{
+		for(uint z = 0; z < size.z; ++z)
+			for(uint y = 0; y < size.y; ++y)
+				for(uint x = 0; x < size.x; ++x)
+					output_coords.push_back({ x, y, z });
+	}
+
+	vec3 grid_center(const uvec3& coord, float cell_size)
+	{
+		return vec3(coord) * cell_size + cell_size * 0.5f;
+	}
+
+	vec3 grid_center(const uvec3& coord, const vec3& cell_size)
+	{
+		return vec3(coord) * cell_size + cell_size * 0.5f;
+	}
+
+	void index_list(uint32_t size, vector<uint32_t>& output_indices)
+	{
+		for(uint32_t i = 0; i < size; ++i)
+			output_indices.push_back(i);
+	}
+}
+
+module;
+module two.math;
+
 
 namespace two
 {
@@ -1825,4 +1746,28 @@ namespace two
 		values = { col.r, col.g, col.b, col.a };
 		j = values;
 	}
+}
+
+module;
+module two.math;
+
+namespace two
+{
+#if 0
+	Ratio::Ratio(float value)
+		: Stat<float>(m_value, def())
+		, m_value(value)
+	{}
+
+	Gauge::Gauge(float value)
+		: Stat<float>(m_value, def())
+		, m_value(value)
+	{}
+#endif
+
+	template struct TWO_MATH_EXPORT StatDef<int>;
+	template struct TWO_MATH_EXPORT StatDef<float>;
+
+	template struct TWO_MATH_EXPORT Stat<int>;
+	template struct TWO_MATH_EXPORT Stat<float>;
 }

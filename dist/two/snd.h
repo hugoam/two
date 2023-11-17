@@ -1,9 +1,15 @@
 #pragma once
 
-#include <two/math.h>
 #include <two/infra.h>
+#include <two/math.h>
 #include <two/type.h>
 
+
+
+
+
+#include <stl/string.h>
+#include <stl/vector.h>
 
 
 
@@ -23,14 +29,6 @@ namespace two
     class StaticSound;
     class StreamSound;
 }
-
-
-
-
-
-
-#include <stl/string.h>
-#include <stl/vector.h>
 
 
 typedef struct ALCdevice_struct ALCdevice;
@@ -216,6 +214,8 @@ namespace two
 		string m_name;
 	};
 }
+
+
 #include <stl/string.h>
 
 namespace two
@@ -243,60 +243,44 @@ namespace two
 	};
 }
 
-namespace two
-{
-	using cstring = const char*;
-
-	class TWO_SND_EXPORT OggFileBuffer : public SoundFileBuffer
-	{
-	public:	
-		OggFileBuffer();
-		~OggFileBuffer();
-
-		size_t m_chunk_size = 0;			// Size of audio buffer (250ms)
-
-		virtual void open(const string& filename) override;
-		virtual void close() override;
-		virtual void reopen() override;
-
-		virtual void seek_time(float time) override;
-		virtual void seek_bytes(long pos) override;
-
-		virtual void fill(ALuint buffer) override;
-		virtual bool fill_chunk(ALuint buffer) override;
-
-	protected:
-		bool read_buffer_info();		
-		bool read_chunk(char* chunk, size_t chunk_size);
-
-	private:
-		struct Impl;
-		unique<Impl> m_impl;
-	};
-}
-
-
+#include <stl/vector.h>
 
 namespace two
 {
-	class SharedBuffer
+	class StreamSound : public Sound
 	{
 	public:
-		SharedBuffer(const string& fileName, SoundManager& manager);
-		~SharedBuffer();
+		StreamSound(SoundImplementer& manager, SoundCallback callback = {});
+		~StreamSound();
 
-		unique<SoundFileBuffer> m_file_buffer;
+		void setup();
 
-		ALuint m_al_buffer;
+		virtual void open(const string& filename) override;
+		virtual void release() override;
 
-		void use();
-		void release();
+		virtual void update_buffers() override;
+		virtual void fill_buffers() override;
+		virtual void clear_buffers() override;
+
+		virtual void rewind() override;
+		virtual void update_play_cursor() override;
+		virtual ALfloat get_play_cursor() override;
 
 	private:
-		int m_num_users = 0;
-		SoundManager* m_manager = nullptr;
+		int m_numBuffers;
+		vector<ALuint> m_aLBuffers;
+		unique<SoundFileBuffer> m_buffer;
+
+		ALfloat m_lastOffset;
 	};
 }
+
+
+#include <stl/function.h>
+#include <stl/string.h>
+#include <stl/vector.h>
+#include <stl/memory.h>
+#include <stl/map.h>
 
 
 
@@ -324,8 +308,8 @@ namespace two
 		SoundListener();
 
 		vec3 m_position = vec3(0.f);
-		vec3 m_front = { 0.f, 0.f, -1.f }; //-Z3;
-		vec3 m_up = Y3;
+		vec3 m_front = vec3(0.f, 0.f, -1.f); //-z3;
+		vec3 m_up = y3;
 
 		void set_transform(const vec3& position, const quat& rotation);
 		void set_transform(const vec3& position, const vec3& front, const vec3& up);
@@ -336,13 +320,6 @@ namespace two
 		bool m_transformUpdated = true;
 	};
 }
-
-
-#include <stl/function.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/memory.h>
-#include <stl/map.h>
 
 #ifdef SOUND_THREADED
 //#include <thread>
@@ -484,6 +461,63 @@ namespace two
 
 
 
+
+
+namespace two
+{
+	using cstring = const char*;
+
+	class TWO_SND_EXPORT OggFileBuffer : public SoundFileBuffer
+	{
+	public:	
+		OggFileBuffer();
+		~OggFileBuffer();
+
+		size_t m_chunk_size = 0;			// Size of audio buffer (250ms)
+
+		virtual void open(const string& filename) override;
+		virtual void close() override;
+		virtual void reopen() override;
+
+		virtual void seek_time(float time) override;
+		virtual void seek_bytes(long pos) override;
+
+		virtual void fill(ALuint buffer) override;
+		virtual bool fill_chunk(ALuint buffer) override;
+
+	protected:
+		bool read_buffer_info();		
+		bool read_chunk(char* chunk, size_t chunk_size);
+
+	private:
+		struct Impl;
+		unique<Impl> m_impl;
+	};
+}
+
+namespace two
+{
+	class SharedBuffer
+	{
+	public:
+		SharedBuffer(const string& fileName, SoundManager& manager);
+		~SharedBuffer();
+
+		unique<SoundFileBuffer> m_file_buffer;
+
+		ALuint m_al_buffer;
+
+		void use();
+		void release();
+
+	private:
+		int m_num_users = 0;
+		SoundManager* m_manager = nullptr;
+	};
+}
+
+
+
 namespace two
 {
 	class StaticSound : public Sound
@@ -510,43 +544,6 @@ namespace two
 	};
 }
 
-
-
-#include <stl/vector.h>
-
-namespace two
-{
-	class StreamSound : public Sound
-	{
-	public:
-		StreamSound(SoundImplementer& manager, SoundCallback callback = {});
-		~StreamSound();
-
-		void setup();
-
-		virtual void open(const string& filename) override;
-		virtual void release() override;
-
-		virtual void update_buffers() override;
-		virtual void fill_buffers() override;
-		virtual void clear_buffers() override;
-
-		virtual void rewind() override;
-		virtual void update_play_cursor() override;
-		virtual ALfloat get_play_cursor() override;
-
-	private:
-		int m_numBuffers;
-		vector<ALuint> m_aLBuffers;
-		unique<SoundFileBuffer> m_buffer;
-
-		ALfloat m_lastOffset;
-	};
-}
-
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif

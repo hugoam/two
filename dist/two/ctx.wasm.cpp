@@ -1,6 +1,6 @@
+#include <two/ctx.h>
 #include <two/ctx.wasm.h>
 #include <two/math.h>
-#include <two/ctx.h>
 #include <two/type.h>
 
 

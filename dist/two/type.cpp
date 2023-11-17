@@ -1,16 +1,7 @@
 #include <two/infra.h>
-#include <two/type.h>
 
 
-
-module two.obj;
-
-namespace two
-{
-	AnyHandler AnyHandler::none;
-}
-
-
+module;
 module two.type;
 
 namespace two
@@ -38,13 +29,29 @@ namespace two
 		m_parts.push_back(&type);
 	}
 }
+#ifndef USE_STL
+module two.math;
 
-#ifndef TWO_CPP_20
-#include <cstring>
-#include <cstdio>
+namespace stl
+{
+	using namespace two;
+	template class TWO_TYPE_EXPORT vector<string>;
+	template class TWO_TYPE_EXPORT vector<Type*>;
+	template class TWO_TYPE_EXPORT vector<Prototype*>;
+	template class TWO_TYPE_EXPORT buf<Var>;
+	template class TWO_TYPE_EXPORT buffer<Var>;
+	template class TWO_TYPE_EXPORT vector<Var>;
+	template class TWO_TYPE_EXPORT vector<Ref>;
+	template class TWO_TYPE_EXPORT vector<void(*)(Ref, Ref)>;
+	template class TWO_TYPE_EXPORT vector<vector<void(*)(Ref, Ref)>>;
+	template class TWO_TYPE_EXPORT vector<unique<Indexer>>;
+	//template class TWO_TYPE_EXPORT unordered_set<string>;
+	template class TWO_TYPE_EXPORT unordered_map<string, string>;
+}
 #endif
 
-module two.obj;
+module;
+module two.type;
 
 namespace two
 {
@@ -75,7 +82,7 @@ namespace two
 		//printf("[debug] Type %s %i\n", name, int(m_id));
 
 		if(strcmp(name, "INVALID") == 0)
-			printf("[warning] Invalid type created, this means an lref was created for a type which isn't exported\n");
+			warn("Invalid type created, this means an lref was created for a type which isn't exported\n");
 	}
 	
 	Type::Type(const char* name, Type& base, size_t size)
@@ -97,27 +104,7 @@ namespace two
 			return false;
 	}
 }
-#ifndef USE_STL
-module two.math;
-
-namespace stl
-{
-	using namespace two;
-	template class TWO_TYPE_EXPORT vector<string>;
-	template class TWO_TYPE_EXPORT vector<Type*>;
-	template class TWO_TYPE_EXPORT vector<Prototype*>;
-	template class TWO_TYPE_EXPORT buf<Var>;
-	template class TWO_TYPE_EXPORT buffer<Var>;
-	template class TWO_TYPE_EXPORT vector<Var>;
-	template class TWO_TYPE_EXPORT vector<Ref>;
-	template class TWO_TYPE_EXPORT vector<void(*)(Ref, Ref)>;
-	template class TWO_TYPE_EXPORT vector<vector<void(*)(Ref, Ref)>>;
-	template class TWO_TYPE_EXPORT vector<unique<Indexer>>;
-	//template class TWO_TYPE_EXPORT unordered_set<string>;
-	template class TWO_TYPE_EXPORT unordered_map<string, string>;
-}
-#endif
-
+module;
 module two.type;
 
 namespace two
@@ -147,8 +134,16 @@ namespace two
     template <> TWO_TYPE_EXPORT Type& type<stl::vector<two::Ref>>() { static Type ty("vector<two::Ref>", sizeof(stl::vector<two::Ref>)); return ty; }
     
     template <> TWO_TYPE_EXPORT Type& type<two::Ref>() { static Type ty("Ref", sizeof(two::Ref)); return ty; }
+    template <> TWO_TYPE_EXPORT Type& type<two::Var>() { static Type ty("Var", sizeof(two::Var)); return ty; }
     template <> TWO_TYPE_EXPORT Type& type<two::Indexer>() { static Type ty("Indexer", sizeof(two::Indexer)); return ty; }
     template <> TWO_TYPE_EXPORT Type& type<two::Index>() { static Type ty("Index", sizeof(two::Index)); return ty; }
-    template <> TWO_TYPE_EXPORT Type& type<two::Var>() { static Type ty("Var", sizeof(two::Var)); return ty; }
     template <> TWO_TYPE_EXPORT Type& type<two::Prototype>() { static Type ty("Prototype", sizeof(two::Prototype)); return ty; }
+}
+
+module;
+module two.type;
+
+namespace two
+{
+	AnyHandler AnyHandler::none;
 }

@@ -1,992 +1,299 @@
-#include <two/ui.h>
-#include <two/pool.h>
-#include <two/uio.h>
-#include <two/lang.h>
-#include <two/tree.h>
-#include <two/ecs.h>
-#include <two/type.refl.h>
-#include <two/math.h>
-#include <two/refl.refl.h>
-#include <two/refl.h>
 #include <two/infra.h>
-#include <two/type.h>
 
 
-
+module;
 module two.uio;
 
 namespace two
 {
-	struct TypeColours : public Global<TypeColours>
+	ScriptEditor::ScriptEditor()
 	{
-		TypeColours();
-
-		Colour colour(const Type& type, const Colour& fallback) { return m_colours.find(&type) != m_colours.end() ? m_colours[&type] : fallback; }
-
-		map<const Type*, Colour> m_colours;
-	};
-
-	TypeColours::TypeColours()
-	{
-		m_colours[&type<float>()] = Colour::Cyan;
-		m_colours[&type<double>()] = Colour::Cyan;
-		m_colours[&type<int>()] = Colour::Cyan;
-		m_colours[&type<unsigned int>()] = Colour::Cyan;
-		m_colours[&type<Colour>()] = Colour::Pink;
-
-		m_colours[&type<Colour>()] = Colour::Pink;
-		m_colours[&type<vec2>()] = Colour::Pink;
-		m_colours[&type<vec3>()] = Colour::Pink;
-		m_colours[&type<quat>()] = Colour::Pink;
+		set_meta_palette(TextEdit::OkaidaPalette());
 	}
 
-	bool fits_filter(const string& name, const string& filter)
-	{
-		return filter.empty() || name.find(filter) != string::npos;
-	}
-
-	void script_canvas_insert(Canvas& canvas, Widget& parent, VisualScript& script)
-	{
-		static string filter = "";
-		ui::type_in(parent, filter);
-
-		auto add_process = [&](object<Process> process)
-		{
-			script.m_processes.push_back(move(process));
-			vec2 position = canvas.m_plan->m_frame.integrate_position(parent.m_frame.m_position, canvas.m_scroll_plan->m_frame);
-			script.m_processes.back()->m_position[0] = position.x;
-			script.m_processes.back()->m_position[1] = position.y;
-		};
-
-		Widget& board = ui::widget(parent, styles().sheet, false, Axis::X);
-
-		Widget& functions = ui::sheet(board);
-		ui::label(functions, "Functions");
-
-		for(Module* m : System::instance().m_modules)
-		{
-			ui::label(functions, m->m_name).enable_state(DISABLED);
-			for(Function* function : m->m_functions)
-				if(fits_filter(function->m_name, filter))
-					if(ui::multi_button(functions, ui::dropdown_styles().choice, { "(function)", function->m_name }).activated())
-					{
-						add_process(oconstruct<ProcessFunction>(script, *function));
-						parent.m_open = false;
-					}
-		}
-
-		Widget& values = ui::sheet(board);
-		ui::label(values, "Values");
-
-		for(Module* m : System::instance().m_modules)
-		{
-			ui::label(values, m->m_name).enable_state(DISABLED);
-			for(Type* type : m->m_types)
-				if(is_struct(*type) || is_base_type(*type))
-					if(fits_filter(type->m_name, filter))
-						if(ui::multi_button(values, ui::dropdown_styles().choice, { "(value)", type->m_name }).activated())
-						{
-							add_process(oconstruct<ProcessValue>(script, *type));
-							parent.m_open = false;
-						}
-		}
-
-		Widget& types = ui::sheet(board);
-		ui::label(types, "Objects");
-
-		for(Module* m : System::instance().m_modules)
-		{
-			ui::label(types, m->m_name).enable_state(DISABLED);
-			for(Type* type : m->m_types)
-				if(g_class[type->m_id] && !cls(*type).m_constructors.empty()) //is_struct(*type) || is_base_type(*type))
-					if(fits_filter(type->m_name, filter))
-						if(ui::multi_button(types, ui::dropdown_styles().choice, { "(class)", type->m_name }).activated())
-						{
-							add_process(oconstruct<ProcessCreate>(script, *type));
-							parent.m_open = false;
-						}
-		}
-	}
-
-	Valve& node_valve(VisualScript& script, size_t node, size_t plug, bool input) //Canvas& canvas, Valve& valve)
-	{
-		Process& process = *script.m_processes[node];
-		return input ? *process.m_inputs[plug] : *process.m_outputs[plug];
-	}
-
-	void process_valve(VisualScript& script, Canvas& canvas, Node& node, Valve& valve)
-	{
-		Colour colour = TypeColours::me.colour(*valve.m_stream.m_type, Colour::Green);
-		string icon = valve.m_stream.m_type ? "(" + string(valve.m_stream.m_type->m_name) + ")" : "";
-		bool input = (valve.m_kind == INPUT_VALVE || valve.m_kind == FLOW_VALVE_IN);
-
-		bool enabled = true;
-		if(canvas.m_connect.m_origin)
-		{
-			size_t connect_node = canvas.m_connect.m_origin->m_node->m_index;
-			size_t connect_plug = canvas.m_connect.m_origin->m_index;
-			Valve& connecting = node_valve(script, connect_node, connect_plug, canvas.m_connect.m_origin == canvas.m_connect.m_in);
-
-			bool convertible = can_convert(input ? *connecting.m_stream.m_type : *valve.m_stream.m_type,
-										   input ? *valve.m_stream.m_type : *connecting.m_stream.m_type);
-			bool conflicting = connecting.m_kind == valve.m_kind || !convertible;
-			if(&valve != &connecting && conflicting)
-				enabled = false;
-		}
-
-		NodePlug& plug = ui::node_plug(node, valve.m_name.c_str(), icon.c_str(), colour, input, enabled, !valve.m_pipes.empty());
-		
-		if(Widget* tooltip = ui::tooltip(plug, plug.m_frame))
-		{
-			string info = valve.error_info() + valve.param_info();
-			ui::label(*tooltip, info.c_str());
-		}
-	}
-
-	void process_tweakers(Widget& parent, Process& process)
-	{
-		for(Valve* output : process.m_outputs)
-			if(output->m_edit)
-			{
-				Ref value = output->m_stream.value({ 0 });
-				if(any_edit(parent, value))
-					output->propagate();
-			}
-	}
-
-	void process_display(Widget& parent, ProcessDisplay& process)
-	{
-		process.m_input_value.m_stream.visit(true, [&](StreamBranch& branch) {
-			Ref value = branch.m_value;
-			value_edit(parent, value); // value_display
-		});
-	}
-
-	cstring node_type(Process& process)
-	{
-		if(process.m_type.is<ProcessValue>())
-			return "(value)";
-		else if(process.m_type.is<ProcessCreate>())
-			return "(class)";
-		else if(process.m_type.is<ProcessCallable>())
-			return "(function)";
-		else
-			return "";
-	}
-
-	bool script_process(Canvas& canvas, VisualScript& script, Process& process)
-	{
-        UNUSED(script);
-		bool destroy = false;
-
-		Node& node = ui::node(canvas, { process.m_title.c_str() }, &process.m_position[0], process.m_order, Ref(&process));
-		if(ui::button(*node.m_header, "R").activated())
-			process.recompute();
-		if(ui::button(*node.m_header, "X").activated())
-			destroy = true;
-
-#if 0
-		if(Widget* context = ui::context(node, (1 << 0), ui::PopupModal))
-		{
-
-		}
-#endif
-
-		if(process.m_in_flow)
-			process_valve(process.m_script, canvas, node, *process.m_in_flow);
-		for(Valve* input : process.m_inputs)
-			process_valve(process.m_script, canvas, node, *input);
-
-		if(process.m_out_flow)
-			process_valve(process.m_script, canvas, node, *process.m_out_flow);
-		for(Valve* output : process.m_outputs)
-			process_valve(process.m_script, canvas, node, *output);
-
-		process_tweakers(*node.m_body, process);
-
-		if(is<ProcessDisplay>(process))
-			process_display(*node.m_body, as<ProcessDisplay>(process));
-
-		return !destroy;
-	}
-
-	NodePlug& node_plug(Canvas& canvas, Valve& valve)
-	{
-		//bool input = (valve.m_kind == INPUT_VALVE || valve.m_kind == FLOW_VALVE_IN);
-		
-		Node& node = *canvas.m_nodes[valve.m_process.m_index];
-		if(valve.m_kind == INPUT_VALVE)
-			return as<NodePlug>(*node.m_inputs->m_nodes[valve.m_process.m_in_flow ? valve.m_index + 1 : valve.m_index]);
-		if(valve.m_kind == OUTPUT_VALVE)
-			return as<NodePlug>(*node.m_outputs->m_nodes[valve.m_process.m_out_flow ? valve.m_index + 1 : valve.m_index]);
-		else if(valve.m_kind == FLOW_VALVE_IN)
-			return as<NodePlug>(*node.m_inputs->m_nodes[0]);
-		else if(valve.m_kind == FLOW_VALVE_OUT || true)
-			return as<NodePlug>(*node.m_outputs->m_nodes[0]);
-
-		//Widget& plug = input ? *node.m_inputs->m_nodes[valve.m_index] : *node.m_outputs->m_nodes[valve.m_index];
-		//return plug;
-	}
-
-	void script_pipe(Canvas& canvas, Pipe& pipe)
-	{
-		ui::node_cable(canvas, node_plug(canvas, pipe.m_output), node_plug(canvas, pipe.m_input));
-		//canvas.autoLayout();
-	}
-
-	Canvas& script_canvas(Widget& parent, VisualScript& script)
-	{
-		enum Modes { Insert = 1 << 0 };
-
-		Canvas& canvas = ui::canvas(parent, script.m_processes.size());
-
-		if(Widget* popup = ui::context(*canvas.m_scroll_plan, Insert, ui::PopupFlags::Modal))
-			script_canvas_insert(canvas, *popup, script);
-
-		Process* destroy = nullptr;
-		for(auto& process : script.m_processes)
-		{
-			if(!script_process(canvas, script, *process))
-				destroy = process.get();
-		}
-
-		for(auto& pipe : script.m_pipes)
-			script_pipe(canvas, *pipe);
-
-		NodeConnection connection = ui::canvas_connect(canvas);
-		if(connection.valid())
-		{
-			Valve& output = *script.m_processes[connection.m_out_node]->m_outputs[connection.m_out_plug];
-			Valve& input = *script.m_processes[connection.m_in_node]->m_inputs[connection.m_in_plug];
-			if(can_convert(*output.m_stream.m_type, *input.m_stream.m_type))
-				script.connect(output, input);
-		}
-
-		if(canvas.once())
-		{
-			canvas.m_frame.relayout();
-			ui::canvas_autolayout(canvas);
-		}
-
-		if(destroy)
-			script.remove(*destroy);
-
-		return canvas;
-	}
-
-	Section& visual_script_edit(Widget& parent, VisualScript& script)
-	{
-		Section& self = section(parent, script.m_name.c_str());
-
-		Canvas& canvas = script_canvas(*self.m_body, script);
-
-		if(ui::button(*self.m_toolbar, "Autolayout").activated())
-			ui::canvas_autolayout(canvas);
-
-		ui::toggle(*self.m_toolbar, canvas.m_rounded_links, "Rounded Links");
-		return self;
-	}
-}
-
-
-module two.uio;
-
-namespace two
-{
-#if 0
-	Dropper::Dropper(Widget& parent, Type& deviceType)
-		: Widget(parent, deviceType)
+	ScriptEditor::~ScriptEditor()
 	{}
 
-	void Dropper::drop(Widget& parent, , size_t index)
+	void ScriptEditor::reset_interpreters(LuaInterpreter& lua, WrenInterpreter& wren)
 	{
-		Dropper& source = static_cast<Dropper&>(*node.m_parent);
-		Widget* swap = this->swapdrop(node, source);
-		size_t swapindex = node.m_index;
+		m_lua = &lua;
+		m_wren = &wren;
 
-		if(!this->candrop(node, source))
-			return;
+		for(Script* script : m_scripts)
+			if(TextScript* text_script = try_as<TextScript>(*script))
+			{
+				if(text_script->m_language == Language::Lua)
+					text_script->m_interpreter = m_lua;
+				else if(text_script->m_language == Language::Wren)
+					text_script->m_interpreter = m_wren;
+			}
+	}
 
-		if(swap)
+	void ScriptEditor::open(Script& script)
+	{
+		add(m_scripts, &script);
+	}
+
+	void ScriptEditor::close(Script& script)
+	{
+		remove(m_scripts, &script);
+	}
+
+	TextScript& ScriptEditor::create_script(const string& name, Language language, Signature signature)
+	{
+		TextScript& script = global_pool<TextScript>().construct(name, language, signature);
+		if(language == Language::Lua)
+			script.m_interpreter = m_lua;
+		else if(language == Language::Wren)
+			script.m_interpreter = m_wren;
+		this->open(script);
+		return script;
+	}
+
+	VisualScript& ScriptEditor::create_visual(const string& name, Signature signature)
+	{
+		VisualScript& script = global_pool<VisualScript>().construct(name, signature);
+		this->open(script);
+		return script;
+	}
+
+	vector<string> lua_words()
+	{
+		return { "print" };
+	}
+
+	vector<string> meta_words()
+	{
+		vector<string> symbols = convert<string, cstring>(System::instance().meta_symbols());
+		extend(symbols, lua_words());
+		return symbols;
+	}
+
+	void script_edit_output(Widget& parent, Interpreter& interpreter)
+	{
+		Widget& self = ui::sheet(parent);
+		ui::title_header(self, "Output");
+
+		static string output = "";
+		output = interpreter.flush();
+
+		ui::text_box(self, styles().type_in, output, true, 5);
+	}
+
+	void script_edit_hover(TextEdit& edit)
+	{
+		if(edit.m_hovered_word != "")
 		{
-			if(!source.candrop(*swap, *this))
-				return;
-		}
+			vec2 hover_at = edit.m_hovered_word_rect.pos + vec2(0.f, edit.m_hovered_word_rect.height);
 
-		source.dropout(node, *this);
-		this->dropin(node, source, index);
+			//ui::rectangle(edit, edit.m_hovered_word_rect);
+			
+			Function* function = system().find_function(edit.m_hovered_word.c_str());
+			Type* type = system().find_type(edit.m_hovered_word.c_str());
+			Type* lowertype = system().find_type(to_lower(edit.m_hovered_word).c_str());
 
-		if(swap)
-		{
-			this->dropout(*swap, source);
-			source.dropin(*swap, *this, swapindex);
-		}
-	}
-#endif
-}
-
-
-module two.uio;
-
-namespace two
-{
-	void structure_node(Widget& parent, Ref object, vector<Ref>& selection)
-	{
-		TreeNode& self = ui::tree_node(parent, { object_icon(object).c_str(), object_name(object).c_str() }, false, false);
-		
-		self.set_state(SELECTED, has(selection, object));
-		
-		if(self.m_header->activated())
-			select(selection, object);
-		
-		//object_item(self, object);
-
-		for(auto& member : cls(object).m_members)
-			if(member.is_structure() && is_iterable(*member.m_type))
+			if(function || type || lowertype)
 			{
-				Var value = member.get(object);
-				iter(value).iterate(value, [&](Ref element) {
-					structure_node(self, element, selection);
-				});
-			}
-	}
-
-	void structure_view(Widget& parent, Ref object, vector<Ref>& selection)
-	{
-		ScrollSheet& sheet = ui::scroll_sheet(parent);
-		Widget& tree = ui::tree(*sheet.m_body);
-		structure_node(tree, object, selection);
-	}
-}
-
-
-module two.uio;
-
-namespace two
-{
-	DispatchSelector::DispatchSelector()
-	{}
-
-	void complex_indexer(Widget& parent, Indexer& indexer, vector<Ref>* selection)
-	{
-		Member& complex = cls(*indexer.m_type).member("complex");
-
-		Widget& self = ui::sheet(parent);
-		for(Ref component : indexer.m_objects)
-			if(component)
-			{
-				Ref object = complex.cast_get(component);
-				Widget& item = object_item(self, object);
-				if(selection)
-					ui::multiselect_logic(item, object, *selection);
-			}
-	}
-
-	void object_indexer(Widget& parent, Indexer& indexer, vector<Ref>* selection)
-	{
-		Widget& self = ui::sheet(parent);
-		for(Ref object : indexer.m_objects)
-			if(object)
-			{
-				Widget& item = object_item(self, object);
-				if(selection)
-					ui::multiselect_logic(item, object, *selection);
-			}
-	}
-
-	bool generic_object_selector(Widget& parent, Indexer& indexer, Ref& result)
-	{
-		bool changed = false;
-		Widget& self = ui::sheet(parent);
-		for(size_t id = 0; id < indexer.m_objects.size(); ++id)
-			if(indexer.m_objects[id].m_value)
-			{
-				if(object_item(self, indexer.m_objects[id], result))
+				if(Widget* popup = ui::hoverbox(edit, hover_at))
 				{
-					result = indexer.m_objects[id];
-					changed = true;
+					if(function)
+						meta_synopsis(*popup, *function);
+					else if(type || lowertype)
+						meta_synopsis(*popup, type ? *type : *lowertype);
 				}
 			}
-		return changed;
-	}
-
-	bool object_selector(Widget& parent, Indexer& indexer, Ref& result)
-	{
-		if(DispatchSelector::me().check(result))
-			return DispatchSelector::me().dispatch(result, parent);
-		else
-			return generic_object_selector(parent, indexer, result);
-	}
-
-	void object_indexer_modal(Widget& parent, Indexer& indexer)
-	{
-		Widget& self = ui::select_list(parent);
-		object_indexer(self, indexer);
-	}
-
-	bool object_selector(Widget& parent, Ref& result)
-	{
-		Widget& self = ui::sheet(parent);
-		return object_selector(self, indexer(type(result)), result);
-	}
-
-	bool object_selector_modal(Widget& screen, Widget& parent, Ref& result)
-	{
-		enum Modes { PICK = 1 << 0 };
-
-		bool changed = false;
-		if(ui::modal_button(screen, parent, ".", PICK))
-		{
-			string title = "Select " + string(type(result).m_name);
-			Widget& modal = ui::auto_modal(parent, PICK, { 600, 400 });
-			
-			Widget& self = *ui::scroll_sheet(*modal.m_body).m_body;
-			changed = object_selector(self, indexer(type(result)), result);
-			if(ui::button(*modal.m_body, "Done").activated())
-				screen.m_switch &= ~PICK;
-		}
-		return changed;
-	}
-}
-
-
-module two.uio;
-
-namespace two
-{
-	void object_injector(Widget& parent, Injector& injector)
-	{
-		Widget& self = ui::sheet(parent);
-		call_edit(self, injector);
-	}
-
-	struct CreatorState : public NodeState
-	{
-		CreatorState(Type& type) : m_type(0), m_injector(make_unique<Injector>(type)) {}
-		uint32_t m_type;
-		unique<Injector> m_injector;
-	};
-
-	bool object_creator(Widget& parent, Injector& injector)
-	{
-		Widget& self = ui::widget(parent, styles().sheet, &injector);
 		
-		Table& fields = ui::columns(self, { 0.4f, 0.6f });
-		call_edit(fields, injector);
-
-		if(ui::button(self, "Create").activated())
-		{
-			if(false)//injector.m_constructor.validate(injector.m_args, 1))
+			if(MouseEvent event = edit.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 			{
-				injector.injectpool();
-				return true;
 			}
 		}
-
-		return false;
 	}
 
-	bool object_switch_creator(Widget& parent, span<Type*> types)
+#if 0
+	Widget& error_tooltip(Widget& parent)
 	{
-		Widget& self = ui::sheet(parent);
-		ui::title(self, "Create Object");
-
-		CreatorState& state = self.state<CreatorState>(*types[0]);
-
-		if(type_selector(self, state.m_type, types))
-			state.m_injector = make_unique<Injector>(*types[state.m_type]);
-
-		return object_creator(self, *state.m_injector);
+		Widget* tooltip = ui::tooltip();
+		ui::label("Error at line %d:", errorIt->first); // Colour(1.0f, 0.2f, 0.2f, 1.0f)
+		ui::label("%s", errorIt->second.c_str()); // Colour(1.0f, 1.0f, 0.2f, 1.0f)
 	}
-
-	bool object_creator(Widget& parent, Creator& creator)
-	{
-		Widget& self = ui::sheet(parent);
-
-		ui::title(self, creator.m_prototype ? creator.m_prototype->m_name : creator.m_type.m_name);
-
-		Table& fields = ui::table(self, { "field", "value" }, { 0.3f, 0.7f });
-		call_edit(fields, creator.injector());
-
-		if(ui::button(self, "Create").activated())
-		{
-			creator.m_injector->injectpool();
-			return true;
-		}
-
-		return false;
-	}
-
-	struct ObjectCreatorState : public NodeState
-	{
-		ObjectCreatorState(Type& type) : m_creator(type) {}
-		Creator m_creator;
-	};
-
-	bool object_creator(Widget& parent, Type& type)
-	{
-		Widget& self = ui::sheet(parent);
-		ObjectCreatorState& state = self.state<ObjectCreatorState>(type);
-		return object_creator(self, state.m_creator);
-	}
-
-	struct MetaObjectCreatorState : public NodeState
-	{
-		Type* m_type = nullptr;
-	};
-
-	void meta_object_creator(Widget& parent)
-	{
-		Widget& self = ui::sheet(parent);
-		MetaObjectCreatorState& state = self.state<MetaObjectCreatorState>();
-
-		for(Type* type : System::instance().m_types)
-			if(is_root_type(*type) && !cls(*type).m_constructors.empty())
-			{
-				if(object_item(self, Ref(type)).activated())
-					state.m_type = type;
-			}
-
-		if(state.m_type)
-			object_creator(self, *state.m_type);
-	}
-}
-
-
-module two.uio;
-
-//#define EDIT_MEMBER_REF
-
-namespace two
-{
-	vector<EditSpec> g_edit_specs = vector<EditSpec>(c_max_types);
-
-	EditSpec::EditSpec(Class& cls)
-		: m_setup(true)
-	{
-		bool big_struct = is_struct(*cls.m_type) && cls.m_members.size() > 4;
-		if(big_struct || is_object(*cls.m_type))
-			m_nest_mode[0] = EditNestMode::Embed;
-		else
-			m_nest_mode[0] = EditNestMode::Inline;
-
-		//bool custom_edit = DispatchInput::me.check(*cls.m_type);
-		//m_row_mode = big_struct || is_object(*cls.m_type) ? EditNestMode::Embed : EditNestMode::Inline;
-	}
-
-	struct EditState : public NodeState
-	{
-		Ref object = {};
-	};
-
-	bool member_edit(Widget& parent, Ref object, Member& member, EditorHint hint = EditorHint::Inline)
-	{
-#ifdef EDIT_MEMBER_REF
-		Ref value = member.cast_get(object);
-		bool changed = any_edit(parent, value, member.is_link() | member.is_pointer(), hint);
-#else
-		//Var value = member.safe_get(object);
-		Var value = member.get(object);
-		bool changed = any_edit(parent, value.m_ref, member.is_link() | member.is_pointer(), hint);
-
-		if(changed && member.is_mutable() && !member.is_component())
-			member.cast_set(object, value);
-#endif
-		
-		return changed;
-	}
-
-	bool member_edit_row(Widget& parent, Ref object, Member& member)
-	{
-		Widget& self = ui::table_row(parent);
-		ui::label(self, member.m_name);
-		return member_edit(self, object, member);
-	}
-
-	bool member_edit_toggle(Widget& parent, Ref object, Member& member)
-	{
-		Widget& self = ui::row(parent);
-		if(ui::modal_button(self, self, "Edit", 1))
-		{
-			Widget& modal = ui::modal(self.parent_modal());
-			return member_edit(modal, object, member, EditorHint::Table);
-		}
-		return false;
-	}
-
-	bool member_edit_embed(Widget& parent, Ref object, Member& member)
-	{
-		return member_edit(parent, object, member, EditorHint::Rows);
-	}
-
-	bool member_edit_nested(Widget& parent, Ref object, Member& member)
-	{
-		//Widget& row = ui::table_row(parent);
-		Widget& row = ui::table_separator(parent);
-		Widget* body = ui::tree_node(row, member.m_name, false, true).m_body;
-		if(body)
-			return member_edit(*body, object, member, EditorHint::Rows);
-		return false;
-	}
-
-	EditNestMode nest_edit_mode(Member& member, size_t mode)
-	{
-		if(member.is_component()) return EditNestMode::Embed;
-		if(member.is_link() || is_basic(*member.m_type)) return EditNestMode::Inline;
-
-		if(!g_edit_specs[member.m_type->m_id].m_setup)
-			g_edit_specs[member.m_type->m_id] = { cls(*member.m_type) };
-
-		return g_edit_specs[member.m_type->m_id].m_nest_mode[mode];
-	}
-
-	bool object_edit_rows(Widget& parent, Table& table, Ref object)
-	{
-		UNUSED(parent);
-		bool changed = false;
-
-		auto member_edit = [&](Member& member)
-		{
-			EditNestMode mode = nest_edit_mode(member, 0);
-			if(mode == EditNestMode::Embed)
-				changed |= member_edit_nested(table, object, member);
-			else if(mode == EditNestMode::Modal)
-				changed |= member_edit_toggle(table, object, member);
-			else
-				changed |= member_edit_row(table, object, member);
-		};
-
-		for(Member& member : cls(object).m_members)
-			if(!member.is_component() && member.is_mutable())
-				member_edit(member);
-
-		for(Member& member : cls(object).m_members)
-			if(member.is_component() && member.is_mutable())
-				member_edit(member);
-
-		return changed;
-	}
-
-	bool object_edit_rows(Widget& parent, Ref object)
-	{
-		return object_edit_rows(parent, as<Table>(parent), object);
-	}
-
-	bool object_edit_inrow(Widget& row, Ref object)
-	{
-		bool changed = false;
-
-		auto member_edit = [&](Member& member)
-		{
-			EditNestMode mode = nest_edit_mode(member, 1);
-			if(mode == EditNestMode::Embed)
-				changed |= member_edit_embed(row, object, member);
-			else if(mode == EditNestMode::Modal)
-				changed |= member_edit_toggle(row, object, member);
-			else
-				changed |= two::member_edit(row, object, member);
-		};
-
-		for(Member& member : cls(object).m_members)
-			if(!member.is_component() && member.is_mutable())
-				member_edit(member);
-
-		for(Member& member : cls(object).m_members)
-			if(member.is_component() && member.is_mutable())
-				member_edit(member);
-
-		return changed;
-	}
-
-	bool object_edit_inline(Widget& parent, Ref object)
-	{
-		Widget& row = ui::widget(parent, styles().wrap_button);
-		return object_edit_inrow(row, object);
-	}
-
-	Widget& object_edit_inline_item(Widget& parent, Ref object)
-	{
-		Widget& row = ui::table_row(parent);
-		object_edit_inrow(row, object);
-		return row;
-	}
-
-	bool object_edit_columns(Widget& parent, Ref object)
-	{
-		static float columns[2] = { 0.33f, 0.67f };
-		Table& self = ui::columns(parent, { columns, 2 });
-		return object_edit_rows(parent, self, object);
-	}
-
-	bool object_edit_table(Widget& parent, Ref object)
-	{
-		static cstring columns[2] = { "field", "value" };
-		static float spans[2] = { 0.4f, 0.6f };
-		Table& self = ui::table(parent, { columns, 2 }, { spans, 2 });
-		return object_edit_rows(parent, self, object);
-	}
-
-	bool object_edit_expandbox(Widget& parent, Ref object)
-	{
-		Widget* body = ui::expandbox(parent, object.m_type->m_name, true).m_body;
-		if(body)
-			return object_edit_columns(*body, object);
-		return false;
-	}
-
-	bool object_edit(Widget& parent, Ref object, EditorHint hint)
-	{
-		if(hint == EditorHint::Table)
-			return object_edit_columns(parent, object);
-		else if(hint == EditorHint::Rows)
-			return object_edit_columns(parent, object);
-		else if(hint == EditorHint::Inline || true)
-			return object_edit_inline(parent, object);
-	}
-
-	bool entity_edit(Widget& parent, Entity entity, EditorHint hint)
-	{
-		UNUSED(hint);
-		bool changed = false;
-
-		static cstring columns[2] = { "field", "value" };
-		static float spans[2] = { 0.4f, 0.6f };
-		Table& self = ui::table(parent, { columns, 2 }, { spans, 2 });
-
-		EntityStream& stream = s_ecs[entity.m_ecs]->stream(entity.m_stream);
-		uint32_t index = stream.m_handles[entity.m_handle];
-		for(auto& buffer : stream.m_buffers)
-		{
-			Widget& row = ui::table_separator(self);
-			Widget* body = ui::tree_node(row, buffer->m_type->m_name, false, true).m_body;
-			if(body)
-				changed |= object_edit_columns(*body, buffer->get(index));
-		}
-
-		return changed;
-	}
-
-	bool inspector(Widget& parent, Entity entity)
-	{
-		Section& self = section(parent, "Entity Inspector", true);
-		return entity_edit(*self.m_body, entity);
-	}
-
-	bool inspector(Widget& parent, Ref object)
-	{
-		Section& self = section(parent, "Inspector", true);
-		if(object.m_type->is<EntityRef>())
-			return inspector(parent, { UINT8_MAX, UINT16_MAX, as_ent(object) });
-		else
-			return object_edit_columns(*self.m_body, object);
-	}
-
-	bool inspector(Widget& parent)
-	{
-		Section& self = section(parent, "Inspector", true);
-		EditState& state = self.state<EditState>();
-		if(state.object)
-			return object_edit_columns(*self.m_body, state.object);
-		return false;
-	}
-
-	void multi_object_edit(Widget& parent, Type& type, vector<Ref> objects)
-	{
-		ScrollSheet& scroll_sheet = ui::scroll_sheet(parent);
-		Widget& table = ui::table(*scroll_sheet.m_body, cls(type).m_field_names, {});
-
-		for(Ref object : objects)
-			object_edit_inline(table, object);
-	}
-
-	void multi_inspector(Widget& parent, Type& type, vector<Var>& objects, size_t& selected)
-	{
-		enum Modes { CREATE = 1 << 0, TYPE_INFO = 1 << 1 };
-
-		Section& self = section(parent, (string(type.m_name) + " Library").c_str());
-
-		if(ui::modal_button(self, *self.m_toolbar, "Type Info", TYPE_INFO))
-		{
-			Widget& modal = ui::auto_modal(self, TYPE_INFO, { 600, 400 });
-			meta_edit(*modal.m_body, type);
-		}
-
-		if(ui::button(*self.m_toolbar, "Add").activated())
-			objects.push_back(meta(type).m_empty_var);
-
-		if(ui::modal_button(self, *self.m_toolbar, "Create", CREATE))
-		{
-			Widget& modal = ui::auto_modal(self, CREATE);
-			bool done = object_creator(modal, type);
-			UNUSED(done);
-		}
-
-		Widget& board = ui::board(*self.m_body);
-
-		ScrollSheet& scroll_sheet = ui::scroll_sheet(board);
-		Widget& table = ui::table(*scroll_sheet.m_body, cls(type).m_field_names, {});
-
-		for(size_t i = 0; i < objects.size(); ++i)
-		{
-			Widget& row = object_edit_inline_item(table, objects[i]);
-			row.set_state(SELECTED, selected == i);
-			if(row.activated())
-				selected = i;
-		}
-	}
-}
-
-#ifndef TWO_CPP_20
-#include <stl/string.h>
 #endif
 
-module two.uio;
-
-#include <cstring>
-
-namespace two
-{
-	struct CallableEditState : public NodeState
+	Section& script_edit_code(Widget& parent, TextScript& script)
 	{
-		CallableEditState(Callable& callable) : m_call(callable) {}
-		CallableEditState(Callable& callable, Ref object) : m_call(callable, object) {}
-		Call m_call;
-	};
+		//auto run = [&] { script({}); };
+		auto reload = [&] { script.m_dirty = true; };
+		//actions.push_back({ "Run",  });
+		Section& self = section(parent, script.m_name.c_str());
 
-	bool call_edit(Widget& parent, Call& call)
-	{
-		bool method = strcmp(call.m_callable->m_params[0].m_name, "self") == 0;
-		uint16_t offset = method ? 1 : 0;
-		for(uint16_t i = offset; i < call.m_callable->m_params.size(); ++i)
-		{
-			const Param& param = call.m_callable->m_params[i];
-			bool link = is_object(type(param.default_val())) || param.nullable();
-			field_edit(parent, param.m_name, call.m_args[i].m_ref, link);
-		}
+		if(section_action(self, "Reload"))
+			reload();
 
-		/*uint16_t offset = call.m_args.size() - call.m_callable->m_params.size();
-		for(Param& param : call.m_callable->m_params)
-			field_edit(parent, param.m_name, call.m_args[param.m_index + offset], param.nullable());*/
-		return false;
-	}
-
-	void callable_edit(Widget& parent, Callable& callable)
-	{
-		Widget& self = ui::row(parent);
-		CallableEditState& state = self.state<CallableEditState>(callable);
-		call_edit(self, state.m_call);
-	}
-
-	void function_edit(Widget& parent, Function& function)
-	{
-		callable_edit(parent, function);
-	}
-
-	void method_edit(Widget& parent, Ref object, Method& method)
-	{
-		Widget& self = ui::row(parent);
-		CallableEditState& state = self.state<CallableEditState>(method, object);
-		if(ui::button(self, method.m_name).activated())
-			state.m_call();
-		call_edit(self, state.m_call);
-	}
-
-	void method_edit_modal(Widget& parent, Ref object, Method& method)
-	{
-		enum Modes { CALL = 1 << 0 };
-		string name = "Call method " + string(method.m_object_type->m_name) + "::" + method.m_name;
+		vector<string> known_words = meta_words();
+		TextEdit& edit = ui::code_edit(*self.m_body, script.m_script, 0, &known_words);
 		
-		if(ui::modal_button(parent, parent, "Call", CALL))
+		if(script.m_language == Language::Lua)
+			edit.m_language = &LanguageLua();
+		else if(script.m_language == Language::Wren)
+			edit.m_language = &LanguageWren();
+		
+		if(edit.char_stroke(Key::S, InputMod::Ctrl))
+			reload();
+
+		if(edit.m_entered)
+			script.m_script = ui::auto_indent(edit);
+
+		edit.m_text.m_markers.clear();
+		for(const auto& line_error : script.m_compile_errors)
 		{
-			Widget& modal = ui::auto_modal(parent, CALL, { 600, 400 });
-			method_edit(modal, object, method);
+			const ScriptError& error = line_error.second;
+			edit.m_text.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
 		}
-	}
 
-	void method_trigger(Widget& parent, Ref object, Method& method)
-	{
-		if(ui::modal_button(parent, parent, method.m_name, uint32_t(1 << 0)))
-			method_edit_modal(parent, object, method);
-	}
-
-	void method_hook(Widget& parent, Ref object, Method& method)
-	{
-		method_edit(parent, object, method);
-	}
-}
-
-
-module two.uio;
-
-namespace two
-{
-	string object_name(Ref object)
-	{
-		if(!object) return "null";
-		//else if(object.m_type->is<Entity>()) return to_name(val<Entity>(object).m_prototype.m_type, object);
-		else return to_name(type(object), object);
-	}
-
-	string object_icon(Ref object)
-	{
-		if(!object) return "";
-		//else if(type(object).is<Entity>()) return "(" + string(val<Entity>(object).m_prototype.m_type.m_name) + ")";
-		else return "(" + string(type(object).m_name) + ")";
-	}
-
-	void object_context(Widget& parent, Ref object, uint32_t mode)
-	{
-		Widget& self = ui::popup(parent, ui::PopupFlags::AutoModal);
-		if(!self.m_open)
-			parent.m_switch &= ~mode;
-
-		//if(meta(object).m_type_class == TypeClass::Object)
-		//	object = val<Entity>(object);
-
-		for(Method* method : cls(object).m_deep_methods)
+		for(const auto& line_error : script.m_runtime_errors)
 		{
-			Ref component = cls(object).as(object, *method->m_object_type);
-			method_hook(self, component, *method);
+			const ScriptError& error = line_error.second;
+			edit.m_text.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
 		}
-	}
 
-	Widget& object_item(Widget& parent, Ref object)
-	{
-		if(DispatchItem::me().check(object))
-			return DispatchItem::me().dispatch(object, parent);
-
-		enum Modes { Context = (1 << 0) };
-
-		Widget& self = ui::element(parent, object);
-		ui::multi_item(self, { object_icon(object).c_str(), object_name(object).c_str() });
-
-		if(MouseEvent event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
-			self.m_switch |= Context;
-		if((self.m_switch & Context) != 0)
-			object_context(self, object, Context);
+		script_edit_hover(edit);
 
 		return self;
 	}
 
-	Widget& object_button(Widget& parent, Ref object)
+	Section& script_edit(Widget& parent, TextScript& script)
 	{
-		return object_item(parent, object);
+		return script_edit_code(parent, script);
+		//Widget& span_0 = ui::layout_span(parent, 0.8f);
+		//script_edit_code(span_0, script, actions);
+		//Widget& span_1 = ui::layout_span(parent, 0.2f);
+		//script_edit_output(span_1, *script.m_interpreter);
 	}
 
-	bool object_item(Widget& parent, Ref object, Ref& selection)
+	void script_tab(Tabber& parent, ScriptEditor& editor, Script& script)
 	{
-		Widget& self = object_item(parent, object);
-		return ui::select_logic(self, object, selection);
+		if(Widget* tab = ui::tab(parent, script.m_name.c_str()))
+		{
+			Section& edit = script.m_type.is<VisualScript>()
+				? visual_script_edit(*tab, as<VisualScript>(script))
+				: script_edit(*tab, as<TextScript>(script));
+
+			if(section_action(edit, "Close"))
+				editor.close(script);
+		}
 	}
 
-	bool object_item(Widget& parent, Ref object, vector<Ref>& selection)
+	void script_editor(Widget& parent, ScriptEditor& editor)
 	{
-		Widget& self = object_item(parent, object);
-		return ui::multiselect_logic(self, object, selection);
+		enum Modes { Open = 1 << 0, Browse = 1 << 1 };
+
+		Section& self = section(parent, "Script Editor");
+
+		if(section_action(self, "New Script"))
+			editor.create_script("Untitled " + to_string(editor.m_scripts.size()), Language::Lua);
+		if(section_action(self, "New Visual Script"))
+			editor.create_visual("Untitled " + to_string(editor.m_scripts.size()));
+
+		if(ui::modal_button(self, *self.m_toolbar, "Open Script", Open))
+		{
+			Widget& modal = ui::auto_modal(self, Open, { 600, 400 });
+			Ref result = Ref(type<Script>());
+			if(object_selector(*modal.m_body, result))
+			{
+				editor.open(val<Script>(result));
+				self.m_switch &= ~Open;
+			}
+		}
+
+		if(ui::modal_button(self, *self.m_toolbar, "Browse API", Browse))
+		{
+			Widget& modal = ui::auto_modal(self, Browse, { 600, 600 });
+			meta_browser(*modal.m_body);
+			if(ui::button(*modal.m_body, "Close").activated())
+				self.m_switch &= ~Browse;
+		}
+
+		Tabber& tabber = ui::tabber(*self.m_body);
+		for(Script* script : editor.m_scripts)
+			script_tab(tabber, editor, *script);
+	}
+
+}
+
+module;
+module two.uio;
+
+namespace two
+{
+	void ui_debug_modal(Widget& parent, Widget& target)
+	{
+		Widget* current_node = &parent;
+		Widget* current_target = &target.ui();
+		while(current_target && current_node)
+		{
+			string elements[2] = { current_target->m_frame.d_style->m_name, to_string(current_target->m_control.m_mask) };
+			current_node = ui::tree_node(*current_node, { elements[0].c_str(), elements[1].c_str() }).m_body;
+			current_target = static_cast<Widget*>(current_target->m_control.m_modal);
+		}
+	}
+
+	void ui_debug_layout_node(Widget& parent, Widget& target, Widget*& selected)
+	{
+		for(auto& widget : target.m_nodes)
+		{
+			string size = "size : " + truncate_number(to_string(widget->m_frame.m_size.x)) + ", " + truncate_number(to_string(widget->m_frame.m_size.y));
+			TreeNode& node = ui::tree_node(parent, { widget->m_frame.d_style->m_name.c_str(), size.c_str() });
+			node.m_header->set_state(SELECTED, selected == widget.get());
+			if(node.m_header->activated())
+				selected = widget.get();
+			if(node.m_body)
+				ui_debug_layout_node(*node.m_body, *widget, selected);
+		}
+	}
+
+	void ui_debug_layout(Widget& parent, Widget& target, Widget*& selected)
+	{
+		ScrollSheet& scroll_sheet = ui::scroll_sheet(parent);
+		ui_debug_layout_node(*scroll_sheet.m_body, target, selected);
+	}
+
+	void ui_debug(Widget& parent, Widget& target)
+	{
+		static Widget* selected = nullptr;
+		static bool selecting = false;
+
+		Section& self = section(parent, "Ui Edit");
+		ui::toggle(*self.m_toolbar, selecting, "Select Mode");
+
+		Tabber& tabber = ui::tabber(*self.m_body);
+		if(Widget* tab = ui::tab(tabber, "Modal"))
+			ui_debug_modal(*tab, target);
+		if(Widget* tab = ui::tab(tabber, "Layout"))
+			ui_debug_layout(*tab, target, selected);
+
+		if(selected)
+			ui::rectangle(parent.ui(), { selected->m_frame.absolute_position(), selected->m_frame.m_size });
+
+		if(selecting)
+		{
+			Widget* highlighted = target.pinpoint(target.ui().m_mouse.m_pos);
+			if(highlighted)
+				ui::rectangle(parent.ui(), { highlighted->m_frame.absolute_position(), highlighted->m_frame.m_size });
+		}
+
+		if(selected)
+		{
+			if(Widget* tab = ui::tab(tabber, "Widget"))
+				object_edit(*tab, Ref(selected));
+
+			if(Widget* tab = ui::tab(tabber, "Style"))
+				object_edit(*tab, Ref(selected->m_frame.d_layout));
+			if(Widget* tab = ui::tab(tabber, "Skin"))
+				object_edit(*tab, Ref(&selected->m_frame.d_style->m_skin));
+		}
 	}
 }
 
-
+module;
 module two.uio;
 
 namespace two
@@ -1330,295 +637,93 @@ namespace two
 	}
 }
 
-
+module;
 module two.uio;
 
 namespace two
 {
-	ScriptEditor::ScriptEditor()
-	{
-		set_meta_palette(TextEdit::OkaidaPalette());
-	}
-
-	ScriptEditor::~ScriptEditor()
+	DispatchSelector::DispatchSelector()
 	{}
 
-	void ScriptEditor::reset_interpreters(LuaInterpreter& lua, WrenInterpreter& wren)
+	void complex_indexer(Widget& parent, Indexer& indexer, vector<Ref>* selection)
 	{
-		m_lua = &lua;
-		m_wren = &wren;
+		Member& complex = cls(*indexer.m_type).member("complex");
 
-		for(Script* script : m_scripts)
-			if(TextScript* text_script = try_as<TextScript>(*script))
+		Widget& self = ui::sheet(parent);
+		for(Ref component : indexer.m_objects)
+			if(component)
 			{
-				if(text_script->m_language == Language::Lua)
-					text_script->m_interpreter = m_lua;
-				else if(text_script->m_language == Language::Wren)
-					text_script->m_interpreter = m_wren;
+				Ref object = complex.cast_get(component);
+				Widget& item = object_item(self, object);
+				if(selection)
+					ui::multiselect_logic(item, object, *selection);
 			}
 	}
 
-	void ScriptEditor::open(Script& script)
-	{
-		add(m_scripts, &script);
-	}
-
-	void ScriptEditor::close(Script& script)
-	{
-		remove(m_scripts, &script);
-	}
-
-	TextScript& ScriptEditor::create_script(const string& name, Language language, Signature signature)
-	{
-		TextScript& script = global_pool<TextScript>().construct(name, language, signature);
-		if(language == Language::Lua)
-			script.m_interpreter = m_lua;
-		else if(language == Language::Wren)
-			script.m_interpreter = m_wren;
-		this->open(script);
-		return script;
-	}
-
-	VisualScript& ScriptEditor::create_visual(const string& name, Signature signature)
-	{
-		VisualScript& script = global_pool<VisualScript>().construct(name, signature);
-		this->open(script);
-		return script;
-	}
-
-	vector<string> lua_words()
-	{
-		return { "print" };
-	}
-
-	vector<string> meta_words()
-	{
-		vector<string> symbols = convert<string, cstring>(System::instance().meta_symbols());
-		extend(symbols, lua_words());
-		return symbols;
-	}
-
-	void script_edit_output(Widget& parent, Interpreter& interpreter)
+	void object_indexer(Widget& parent, Indexer& indexer, vector<Ref>* selection)
 	{
 		Widget& self = ui::sheet(parent);
-		ui::title_header(self, "Output");
-
-		static string output = "";
-		output = interpreter.flush();
-
-		ui::text_box(self, styles().type_in, output, true, 5);
+		for(Ref object : indexer.m_objects)
+			if(object)
+			{
+				Widget& item = object_item(self, object);
+				if(selection)
+					ui::multiselect_logic(item, object, *selection);
+			}
 	}
 
-	void script_edit_hover(TextEdit& edit)
+	bool generic_object_selector(Widget& parent, Indexer& indexer, Ref& result)
 	{
-		if(edit.m_hovered_word != "")
-		{
-			vec2 hover_at = edit.m_hovered_word_rect.pos + vec2(0.f, edit.m_hovered_word_rect.height);
-
-			//ui::rectangle(edit, edit.m_hovered_word_rect);
-			
-			Function* function = system().find_function(edit.m_hovered_word.c_str());
-			Type* type = system().find_type(edit.m_hovered_word.c_str());
-			Type* lowertype = system().find_type(to_lower(edit.m_hovered_word).c_str());
-
-			if(function || type || lowertype)
+		bool changed = false;
+		Widget& self = ui::sheet(parent);
+		for(size_t id = 0; id < indexer.m_objects.size(); ++id)
+			if(indexer.m_objects[id].m_value)
 			{
-				if(Widget* popup = ui::hoverbox(edit, hover_at))
+				if(object_item(self, indexer.m_objects[id], result))
 				{
-					if(function)
-						meta_synopsis(*popup, *function);
-					else if(type || lowertype)
-						meta_synopsis(*popup, type ? *type : *lowertype);
+					result = indexer.m_objects[id];
+					changed = true;
 				}
 			}
-		
-			if(MouseEvent event = edit.mouse_event(DeviceType::MouseRight, EventType::Stroked))
-			{
-			}
-		}
+		return changed;
 	}
 
-#if 0
-	Widget& error_tooltip(Widget& parent)
+	bool object_selector(Widget& parent, Indexer& indexer, Ref& result)
 	{
-		Widget* tooltip = ui::tooltip();
-		ui::label("Error at line %d:", errorIt->first); // Colour(1.0f, 0.2f, 0.2f, 1.0f)
-		ui::label("%s", errorIt->second.c_str()); // Colour(1.0f, 1.0f, 0.2f, 1.0f)
-	}
-#endif
-
-	Section& script_edit_code(Widget& parent, TextScript& script)
-	{
-		//auto run = [&] { script({}); };
-		auto reload = [&] { script.m_dirty = true; };
-		//actions.push_back({ "Run",  });
-		Section& self = section(parent, script.m_name.c_str());
-
-		if(section_action(self, "Reload"))
-			reload();
-
-		vector<string> known_words = meta_words();
-		TextEdit& edit = ui::code_edit(*self.m_body, script.m_script, 0, &known_words);
-		
-		if(script.m_language == Language::Lua)
-			edit.m_language = &LanguageLua();
-		else if(script.m_language == Language::Wren)
-			edit.m_language = &LanguageWren();
-		
-		if(edit.char_stroke(Key::S, InputMod::Ctrl))
-			reload();
-
-		if(edit.m_entered)
-			script.m_script = ui::auto_indent(edit);
-
-		edit.m_text.m_markers.clear();
-		for(const auto& line_error : script.m_compile_errors)
-		{
-			const ScriptError& error = line_error.second;
-			edit.m_text.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
-		}
-
-		for(const auto& line_error : script.m_runtime_errors)
-		{
-			const ScriptError& error = line_error.second;
-			edit.m_text.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
-		}
-
-		script_edit_hover(edit);
-
-		return self;
+		if(DispatchSelector::me().check(result))
+			return DispatchSelector::me().dispatch(result, parent);
+		else
+			return generic_object_selector(parent, indexer, result);
 	}
 
-	Section& script_edit(Widget& parent, TextScript& script)
+	void object_indexer_modal(Widget& parent, Indexer& indexer)
 	{
-		return script_edit_code(parent, script);
-		//Widget& span_0 = ui::layout_span(parent, 0.8f);
-		//script_edit_code(span_0, script, actions);
-		//Widget& span_1 = ui::layout_span(parent, 0.2f);
-		//script_edit_output(span_1, *script.m_interpreter);
+		Widget& self = ui::select_list(parent);
+		object_indexer(self, indexer);
 	}
 
-	void script_tab(Tabber& parent, ScriptEditor& editor, Script& script)
+	bool object_selector(Widget& parent, Ref& result)
 	{
-		if(Widget* tab = ui::tab(parent, script.m_name.c_str()))
-		{
-			Section& edit = script.m_type.is<VisualScript>()
-				? visual_script_edit(*tab, as<VisualScript>(script))
-				: script_edit(*tab, as<TextScript>(script));
-
-			if(section_action(edit, "Close"))
-				editor.close(script);
-		}
+		Widget& self = ui::sheet(parent);
+		return object_selector(self, indexer(type(result)), result);
 	}
 
-	void script_editor(Widget& parent, ScriptEditor& editor)
+	bool object_selector_modal(Widget& screen, Widget& parent, Ref& result)
 	{
-		enum Modes { Open = 1 << 0, Browse = 1 << 1 };
+		enum Modes { PICK = 1 << 0 };
 
-		Section& self = section(parent, "Script Editor");
-
-		if(section_action(self, "New Script"))
-			editor.create_script("Untitled " + to_string(editor.m_scripts.size()), Language::Lua);
-		if(section_action(self, "New Visual Script"))
-			editor.create_visual("Untitled " + to_string(editor.m_scripts.size()));
-
-		if(ui::modal_button(self, *self.m_toolbar, "Open Script", Open))
+		bool changed = false;
+		if(ui::modal_button(screen, parent, ".", PICK))
 		{
-			Widget& modal = ui::auto_modal(self, Open, { 600, 400 });
-			Ref result = Ref(type<Script>());
-			if(object_selector(*modal.m_body, result))
-			{
-				editor.open(val<Script>(result));
-				self.m_switch &= ~Open;
-			}
+			string title = "Select " + string(type(result).m_name);
+			Widget& modal = ui::auto_modal(parent, PICK, { 600, 400 });
+			
+			Widget& self = *ui::scroll_sheet(*modal.m_body).m_body;
+			changed = object_selector(self, indexer(type(result)), result);
+			if(ui::button(*modal.m_body, "Done").activated())
+				screen.m_switch &= ~PICK;
 		}
-
-		if(ui::modal_button(self, *self.m_toolbar, "Browse API", Browse))
-		{
-			Widget& modal = ui::auto_modal(self, Browse, { 600, 600 });
-			meta_browser(*modal.m_body);
-			if(ui::button(*modal.m_body, "Close").activated())
-				self.m_switch &= ~Browse;
-		}
-
-		Tabber& tabber = ui::tabber(*self.m_body);
-		for(Script* script : editor.m_scripts)
-			script_tab(tabber, editor, *script);
-	}
-
-}
-
-
-module two.uio;
-
-namespace two
-{
-	void ui_debug_modal(Widget& parent, Widget& target)
-	{
-		Widget* current_node = &parent;
-		Widget* current_target = &target.ui();
-		while(current_target && current_node)
-		{
-			string elements[2] = { current_target->m_frame.d_style->m_name, to_string(current_target->m_control.m_mask) };
-			current_node = ui::tree_node(*current_node, { elements[0].c_str(), elements[1].c_str() }).m_body;
-			current_target = static_cast<Widget*>(current_target->m_control.m_modal);
-		}
-	}
-
-	void ui_debug_layout_node(Widget& parent, Widget& target, Widget*& selected)
-	{
-		for(auto& widget : target.m_nodes)
-		{
-			string size = "size : " + truncate_number(to_string(widget->m_frame.m_size.x)) + ", " + truncate_number(to_string(widget->m_frame.m_size.y));
-			TreeNode& node = ui::tree_node(parent, { widget->m_frame.d_style->m_name.c_str(), size.c_str() });
-			node.m_header->set_state(SELECTED, selected == widget.get());
-			if(node.m_header->activated())
-				selected = widget.get();
-			if(node.m_body)
-				ui_debug_layout_node(*node.m_body, *widget, selected);
-		}
-	}
-
-	void ui_debug_layout(Widget& parent, Widget& target, Widget*& selected)
-	{
-		ScrollSheet& scroll_sheet = ui::scroll_sheet(parent);
-		ui_debug_layout_node(*scroll_sheet.m_body, target, selected);
-	}
-
-	void ui_debug(Widget& parent, Widget& target)
-	{
-		static Widget* selected = nullptr;
-		static bool selecting = false;
-
-		Section& self = section(parent, "Ui Edit");
-		ui::toggle(*self.m_toolbar, selecting, "Select Mode");
-
-		Tabber& tabber = ui::tabber(*self.m_body);
-		if(Widget* tab = ui::tab(tabber, "Modal"))
-			ui_debug_modal(*tab, target);
-		if(Widget* tab = ui::tab(tabber, "Layout"))
-			ui_debug_layout(*tab, target, selected);
-
-		if(selected)
-			ui::rectangle(parent.ui(), { selected->m_frame.absolute_position(), selected->m_frame.m_size });
-
-		if(selecting)
-		{
-			Widget* highlighted = target.pinpoint(target.ui().m_mouse.m_pos);
-			if(highlighted)
-				ui::rectangle(parent.ui(), { highlighted->m_frame.absolute_position(), highlighted->m_frame.m_size });
-		}
-
-		if(selected)
-		{
-			if(Widget* tab = ui::tab(tabber, "Widget"))
-				object_edit(*tab, Ref(selected));
-
-			if(Widget* tab = ui::tab(tabber, "Style"))
-				object_edit(*tab, Ref(selected->m_frame.d_layout));
-			if(Widget* tab = ui::tab(tabber, "Skin"))
-				object_edit(*tab, Ref(&selected->m_frame.d_style->m_skin));
-		}
+		return changed;
 	}
 }
 #ifndef USE_STL
@@ -1633,28 +738,423 @@ namespace stl
 }
 #endif
 
+module;
 module two.uio;
 
 namespace two
 {
-    // Exported types
-    template <> TWO_UIO_EXPORT Type& type<two::EditNestMode>() { static Type ty("EditNestMode", sizeof(two::EditNestMode)); return ty; }
-    template <> TWO_UIO_EXPORT Type& type<two::EditorHint>() { static Type ty("EditorHint", sizeof(two::EditorHint)); return ty; }
-    
-    
-    template <> TWO_UIO_EXPORT Type& type<two::ScriptEditor>() { static Type ty("ScriptEditor", sizeof(two::ScriptEditor)); return ty; }
-}
-
-
-module two.uio;
-
-namespace two
-{
-	DispatchItem::DispatchItem()
+#if 0
+	Dropper::Dropper(Widget& parent, Type& deviceType)
+		: Widget(parent, deviceType)
 	{}
+
+	void Dropper::drop(Widget& parent, , size_t index)
+	{
+		Dropper& source = static_cast<Dropper&>(*node.m_parent);
+		Widget* swap = this->swapdrop(node, source);
+		size_t swapindex = node.m_index;
+
+		if(!this->candrop(node, source))
+			return;
+
+		if(swap)
+		{
+			if(!source.candrop(*swap, *this))
+				return;
+		}
+
+		source.dropout(node, *this);
+		this->dropin(node, source, index);
+
+		if(swap)
+		{
+			this->dropout(*swap, source);
+			source.dropin(*swap, *this, swapindex);
+		}
+	}
+#endif
 }
 
+module;
+module two.uio;
 
+namespace two
+{
+	struct TypeColours : public Global<TypeColours>
+	{
+		TypeColours();
+
+		Colour colour(const Type& type, const Colour& fallback) { return m_colours.find(&type) != m_colours.end() ? m_colours[&type] : fallback; }
+
+		map<const Type*, Colour> m_colours;
+	};
+
+	TypeColours::TypeColours()
+	{
+		m_colours[&type<float>()] = Colour::Cyan;
+		m_colours[&type<double>()] = Colour::Cyan;
+		m_colours[&type<int>()] = Colour::Cyan;
+		m_colours[&type<unsigned int>()] = Colour::Cyan;
+		m_colours[&type<Colour>()] = Colour::Pink;
+
+		m_colours[&type<Colour>()] = Colour::Pink;
+		m_colours[&type<vec2>()] = Colour::Pink;
+		m_colours[&type<vec3>()] = Colour::Pink;
+		m_colours[&type<quat>()] = Colour::Pink;
+	}
+
+	bool fits_filter(const string& name, const string& filter)
+	{
+		return filter.empty() || name.find(filter) != string::npos;
+	}
+
+	void script_canvas_insert(Canvas& canvas, Widget& parent, VisualScript& script)
+	{
+		static string filter = "";
+		ui::type_in(parent, filter);
+
+		auto add_process = [&](object<Process> process)
+		{
+			script.m_processes.push_back(move(process));
+			vec2 position = canvas.m_plan->m_frame.integrate_position(parent.m_frame.m_position, canvas.m_scroll_plan->m_frame);
+			script.m_processes.back()->m_position[0] = position.x;
+			script.m_processes.back()->m_position[1] = position.y;
+		};
+
+		Widget& board = ui::widget(parent, styles().sheet, false, Axis::X);
+
+		Widget& functions = ui::sheet(board);
+		ui::label(functions, "Functions");
+
+		for(Module* m : System::instance().m_modules)
+		{
+			ui::label(functions, m->m_name).enable_state(DISABLED);
+			for(Function* function : m->m_functions)
+				if(fits_filter(function->m_name, filter))
+					if(ui::multi_button(functions, ui::dropdown_styles().choice, { "(function)", function->m_name }).activated())
+					{
+						add_process(oconstruct<ProcessFunction>(script, *function));
+						parent.m_open = false;
+					}
+		}
+
+		Widget& values = ui::sheet(board);
+		ui::label(values, "Values");
+
+		for(Module* m : System::instance().m_modules)
+		{
+			ui::label(values, m->m_name).enable_state(DISABLED);
+			for(Type* type : m->m_types)
+				if(is_struct(*type) || is_base_type(*type))
+					if(fits_filter(type->m_name, filter))
+						if(ui::multi_button(values, ui::dropdown_styles().choice, { "(value)", type->m_name }).activated())
+						{
+							add_process(oconstruct<ProcessValue>(script, *type));
+							parent.m_open = false;
+						}
+		}
+
+		Widget& types = ui::sheet(board);
+		ui::label(types, "Objects");
+
+		for(Module* m : System::instance().m_modules)
+		{
+			ui::label(types, m->m_name).enable_state(DISABLED);
+			for(Type* type : m->m_types)
+				if(g_class[type->m_id] && !cls(*type).m_constructors.empty()) //is_struct(*type) || is_base_type(*type))
+					if(fits_filter(type->m_name, filter))
+						if(ui::multi_button(types, ui::dropdown_styles().choice, { "(class)", type->m_name }).activated())
+						{
+							add_process(oconstruct<ProcessCreate>(script, *type));
+							parent.m_open = false;
+						}
+		}
+	}
+
+	Valve& node_valve(VisualScript& script, size_t node, size_t plug, bool input) //Canvas& canvas, Valve& valve)
+	{
+		Process& process = *script.m_processes[node];
+		return input ? *process.m_inputs[plug] : *process.m_outputs[plug];
+	}
+
+	void process_valve(VisualScript& script, Canvas& canvas, Node& node, Valve& valve)
+	{
+		Colour colour = TypeColours::me.colour(*valve.m_stream.m_type, Colour::Green);
+		string icon = valve.m_stream.m_type ? "(" + string(valve.m_stream.m_type->m_name) + ")" : "";
+		bool input = (valve.m_kind == INPUT_VALVE || valve.m_kind == FLOW_VALVE_IN);
+
+		bool enabled = true;
+		if(canvas.m_connect.m_origin)
+		{
+			size_t connect_node = canvas.m_connect.m_origin->m_node->m_index;
+			size_t connect_plug = canvas.m_connect.m_origin->m_index;
+			Valve& connecting = node_valve(script, connect_node, connect_plug, canvas.m_connect.m_origin == canvas.m_connect.m_in);
+
+			bool convertible = can_convert(input ? *connecting.m_stream.m_type : *valve.m_stream.m_type,
+										   input ? *valve.m_stream.m_type : *connecting.m_stream.m_type);
+			bool conflicting = connecting.m_kind == valve.m_kind || !convertible;
+			if(&valve != &connecting && conflicting)
+				enabled = false;
+		}
+
+		NodePlug& plug = ui::node_plug(node, valve.m_name.c_str(), icon.c_str(), colour, input, enabled, !valve.m_pipes.empty());
+		
+		if(Widget* tooltip = ui::tooltip(plug, plug.m_frame))
+		{
+			string info = valve.error_info() + valve.param_info();
+			ui::label(*tooltip, info.c_str());
+		}
+	}
+
+	void process_tweakers(Widget& parent, Process& process)
+	{
+		for(Valve* output : process.m_outputs)
+			if(output->m_edit)
+			{
+				Ref value = output->m_stream.value({ 0 });
+				if(any_edit(parent, value))
+					output->propagate();
+			}
+	}
+
+	void process_display(Widget& parent, ProcessDisplay& process)
+	{
+		process.m_input_value.m_stream.visit(true, [&](StreamBranch& branch) {
+			Ref value = branch.m_value;
+			value_edit(parent, value); // value_display
+		});
+	}
+
+	cstring node_type(Process& process)
+	{
+		if(process.m_type.is<ProcessValue>())
+			return "(value)";
+		else if(process.m_type.is<ProcessCreate>())
+			return "(class)";
+		else if(process.m_type.is<ProcessCallable>())
+			return "(function)";
+		else
+			return "";
+	}
+
+	bool script_process(Canvas& canvas, VisualScript& script, Process& process)
+	{
+        UNUSED(script);
+		bool destroy = false;
+
+		Node& node = ui::node(canvas, { process.m_title.c_str() }, &process.m_position[0], process.m_order, Ref(&process));
+		if(ui::button(*node.m_header, "R").activated())
+			process.recompute();
+		if(ui::button(*node.m_header, "X").activated())
+			destroy = true;
+
+#if 0
+		if(Widget* context = ui::context(node, (1 << 0), ui::PopupModal))
+		{
+
+		}
+#endif
+
+		if(process.m_in_flow)
+			process_valve(process.m_script, canvas, node, *process.m_in_flow);
+		for(Valve* input : process.m_inputs)
+			process_valve(process.m_script, canvas, node, *input);
+
+		if(process.m_out_flow)
+			process_valve(process.m_script, canvas, node, *process.m_out_flow);
+		for(Valve* output : process.m_outputs)
+			process_valve(process.m_script, canvas, node, *output);
+
+		process_tweakers(*node.m_body, process);
+
+		if(is<ProcessDisplay>(process))
+			process_display(*node.m_body, as<ProcessDisplay>(process));
+
+		return !destroy;
+	}
+
+	NodePlug& node_plug(Canvas& canvas, Valve& valve)
+	{
+		//bool input = (valve.m_kind == INPUT_VALVE || valve.m_kind == FLOW_VALVE_IN);
+		
+		Node& node = *canvas.m_nodes[valve.m_process.m_index];
+		if(valve.m_kind == INPUT_VALVE)
+			return as<NodePlug>(*node.m_inputs->m_nodes[valve.m_process.m_in_flow ? valve.m_index + 1 : valve.m_index]);
+		if(valve.m_kind == OUTPUT_VALVE)
+			return as<NodePlug>(*node.m_outputs->m_nodes[valve.m_process.m_out_flow ? valve.m_index + 1 : valve.m_index]);
+		else if(valve.m_kind == FLOW_VALVE_IN)
+			return as<NodePlug>(*node.m_inputs->m_nodes[0]);
+		else if(valve.m_kind == FLOW_VALVE_OUT || true)
+			return as<NodePlug>(*node.m_outputs->m_nodes[0]);
+
+		//Widget& plug = input ? *node.m_inputs->m_nodes[valve.m_index] : *node.m_outputs->m_nodes[valve.m_index];
+		//return plug;
+	}
+
+	void script_pipe(Canvas& canvas, Pipe& pipe)
+	{
+		ui::node_cable(canvas, node_plug(canvas, pipe.m_output), node_plug(canvas, pipe.m_input));
+		//canvas.autoLayout();
+	}
+
+	Canvas& script_canvas(Widget& parent, VisualScript& script)
+	{
+		enum Modes { Insert = 1 << 0 };
+
+		Canvas& canvas = ui::canvas(parent, script.m_processes.size());
+
+		if(Widget* popup = ui::context(*canvas.m_scroll_plan, Insert, ui::PopupFlags::Modal))
+			script_canvas_insert(canvas, *popup, script);
+
+		Process* destroy = nullptr;
+		for(auto& process : script.m_processes)
+		{
+			if(!script_process(canvas, script, *process))
+				destroy = process.get();
+		}
+
+		for(auto& pipe : script.m_pipes)
+			script_pipe(canvas, *pipe);
+
+		NodeConnection connection = ui::canvas_connect(canvas);
+		if(connection.valid())
+		{
+			Valve& output = *script.m_processes[connection.m_out_node]->m_outputs[connection.m_out_plug];
+			Valve& input = *script.m_processes[connection.m_in_node]->m_inputs[connection.m_in_plug];
+			if(can_convert(*output.m_stream.m_type, *input.m_stream.m_type))
+				script.connect(output, input);
+		}
+
+		if(canvas.once())
+		{
+			canvas.m_frame.relayout();
+			ui::canvas_autolayout(canvas);
+		}
+
+		if(destroy)
+			script.remove(*destroy);
+
+		return canvas;
+	}
+
+	Section& visual_script_edit(Widget& parent, VisualScript& script)
+	{
+		Section& self = section(parent, script.m_name.c_str());
+
+		Canvas& canvas = script_canvas(*self.m_body, script);
+
+		if(ui::button(*self.m_toolbar, "Autolayout").activated())
+			ui::canvas_autolayout(canvas);
+
+		ui::toggle(*self.m_toolbar, canvas.m_rounded_links, "Rounded Links");
+		return self;
+	}
+}
+
+module;
+module two.uio;
+
+namespace two
+{
+	void object_injector(Widget& parent, Injector& injector)
+	{
+		Widget& self = ui::sheet(parent);
+		call_edit(self, injector);
+	}
+
+	struct CreatorState : public NodeState
+	{
+		CreatorState(Type& type) : m_type(0), m_injector(make_unique<Injector>(type)) {}
+		uint32_t m_type;
+		unique<Injector> m_injector;
+	};
+
+	bool object_creator(Widget& parent, Injector& injector)
+	{
+		Widget& self = ui::widget(parent, styles().sheet, &injector);
+		
+		Table& fields = ui::columns(self, { 0.4f, 0.6f });
+		call_edit(fields, injector);
+
+		if(ui::button(self, "Create").activated())
+		{
+			if(false)//injector.m_constructor.validate(injector.m_args, 1))
+			{
+				injector.injectpool();
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	bool object_switch_creator(Widget& parent, span<Type*> types)
+	{
+		Widget& self = ui::sheet(parent);
+		ui::title(self, "Create Object");
+
+		CreatorState& state = self.state<CreatorState>(*types[0]);
+
+		if(type_selector(self, state.m_type, types))
+			state.m_injector = make_unique<Injector>(*types[state.m_type]);
+
+		return object_creator(self, *state.m_injector);
+	}
+
+	bool object_creator(Widget& parent, Creator& creator)
+	{
+		Widget& self = ui::sheet(parent);
+
+		ui::title(self, creator.m_prototype ? creator.m_prototype->m_name : creator.m_type.m_name);
+
+		Table& fields = ui::table(self, { "field", "value" }, { 0.3f, 0.7f });
+		call_edit(fields, creator.injector());
+
+		if(ui::button(self, "Create").activated())
+		{
+			creator.m_injector->injectpool();
+			return true;
+		}
+
+		return false;
+	}
+
+	struct ObjectCreatorState : public NodeState
+	{
+		ObjectCreatorState(Type& type) : m_creator(type) {}
+		Creator m_creator;
+	};
+
+	bool object_creator(Widget& parent, Type& type)
+	{
+		Widget& self = ui::sheet(parent);
+		ObjectCreatorState& state = self.state<ObjectCreatorState>(type);
+		return object_creator(self, state.m_creator);
+	}
+
+	struct MetaObjectCreatorState : public NodeState
+	{
+		Type* m_type = nullptr;
+	};
+
+	void meta_object_creator(Widget& parent)
+	{
+		Widget& self = ui::sheet(parent);
+		MetaObjectCreatorState& state = self.state<MetaObjectCreatorState>();
+
+		for(Type* type : System::instance().m_types)
+			if(is_root_type(*type) && !cls(*type).m_constructors.empty())
+			{
+				if(object_item(self, Ref(type)).activated())
+					state.m_type = type;
+			}
+
+		if(state.m_type)
+			object_creator(self, *state.m_type);
+	}
+}
+
+module;
 module two.uio;
 
 namespace two
@@ -1856,7 +1356,7 @@ namespace two
 		//if(is_struct(*value.m_type) && !nullable && !value)
 		//	return object_creator(parent, *value.m_type);
 
-		if(value == Ref() || value == Var() || type(value).is<Type>())
+		if(value == Ref() || /* @TODO fix me  value == Var() || */ type(value).is<Type>())
 			return false;
 		else if(DispatchInput::me.check(value))
 			return DispatchInput::me.dispatch(value, parent);
@@ -1893,4 +1393,490 @@ namespace two
 			parent.m_switch &= ~mode;
 		return done;
 	}
+}
+
+module;
+module two.uio;
+
+namespace two
+{
+	DispatchItem::DispatchItem()
+	{}
+}
+
+module;
+module two.uio;
+
+namespace two
+{
+	void structure_node(Widget& parent, Ref object, vector<Ref>& selection)
+	{
+		TreeNode& self = ui::tree_node(parent, { object_icon(object).c_str(), object_name(object).c_str() }, false, false);
+		
+		self.set_state(SELECTED, has(selection, object));
+		
+		if(self.m_header->activated())
+			select(selection, object);
+		
+		//object_item(self, object);
+
+		for(auto& member : cls(object).m_members)
+			if(member.is_structure() && is_iterable(*member.m_type))
+			{
+				Var value = member.get(object);
+				iter(value).iterate(value, [&](Ref element) {
+					structure_node(self, element, selection);
+				});
+			}
+	}
+
+	void structure_view(Widget& parent, Ref object, vector<Ref>& selection)
+	{
+		ScrollSheet& sheet = ui::scroll_sheet(parent);
+		Widget& tree = ui::tree(*sheet.m_body);
+		structure_node(tree, object, selection);
+	}
+}
+
+module;
+module two.uio;
+
+namespace two
+{
+	string object_name(Ref object)
+	{
+		if(!object) return "null";
+		//else if(object.m_type->is<Entity>()) return to_name(val<Entity>(object).m_prototype.m_type, object);
+		else return to_name(type(object), object);
+	}
+
+	string object_icon(Ref object)
+	{
+		if(!object) return "";
+		//else if(type(object).is<Entity>()) return "(" + string(val<Entity>(object).m_prototype.m_type.m_name) + ")";
+		else return "(" + string(type(object).m_name) + ")";
+	}
+
+	void object_context(Widget& parent, Ref object, uint32_t mode)
+	{
+		Widget& self = ui::popup(parent, ui::PopupFlags::AutoModal);
+		if(!self.m_open)
+			parent.m_switch &= ~mode;
+
+		//if(meta(object).m_type_class == TypeClass::Object)
+		//	object = val<Entity>(object);
+
+		for(Method* method : cls(object).m_deep_methods)
+		{
+			Ref component = cls(object).as(object, *method->m_object_type);
+			method_hook(self, component, *method);
+		}
+	}
+
+	Widget& object_item(Widget& parent, Ref object)
+	{
+		if(DispatchItem::me().check(object))
+			return DispatchItem::me().dispatch(object, parent);
+
+		enum Modes { Context = (1 << 0) };
+
+		Widget& self = ui::element(parent, object);
+		ui::multi_item(self, { object_icon(object).c_str(), object_name(object).c_str() });
+
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
+			self.m_switch |= Context;
+		if((self.m_switch & Context) != 0)
+			object_context(self, object, Context);
+
+		return self;
+	}
+
+	Widget& object_button(Widget& parent, Ref object)
+	{
+		return object_item(parent, object);
+	}
+
+	bool object_item(Widget& parent, Ref object, Ref& selection)
+	{
+		Widget& self = object_item(parent, object);
+		return ui::select_logic(self, object, selection);
+	}
+
+	bool object_item(Widget& parent, Ref object, vector<Ref>& selection)
+	{
+		Widget& self = object_item(parent, object);
+		return ui::multiselect_logic(self, object, selection);
+	}
+}
+
+module;
+module two.uio;
+
+//#define EDIT_MEMBER_REF
+
+namespace two
+{
+	vector<EditSpec> g_edit_specs = vector<EditSpec>(c_max_types);
+
+	EditSpec::EditSpec(Class& cls)
+		: m_setup(true)
+	{
+		bool big_struct = is_struct(*cls.m_type) && cls.m_members.size() > 4;
+		if(big_struct || is_object(*cls.m_type))
+			m_nest_mode[0] = EditNestMode::Embed;
+		else
+			m_nest_mode[0] = EditNestMode::Inline;
+
+		//bool custom_edit = DispatchInput::me.check(*cls.m_type);
+		//m_row_mode = big_struct || is_object(*cls.m_type) ? EditNestMode::Embed : EditNestMode::Inline;
+	}
+
+	struct EditState : public NodeState
+	{
+		Ref object = {};
+	};
+
+	bool member_edit(Widget& parent, Ref object, Member& member, EditorHint hint = EditorHint::Inline)
+	{
+#ifdef EDIT_MEMBER_REF
+		Ref value = member.cast_get(object);
+		bool changed = any_edit(parent, value, member.is_link() | member.is_pointer(), hint);
+#else
+		//Var value = member.safe_get(object);
+		Var value = member.get(object);
+		bool changed = any_edit(parent, value.m_ref, member.is_link() | member.is_pointer(), hint);
+
+		if(changed && member.is_mutable() && !member.is_component())
+			member.cast_set(object, value);
+#endif
+		
+		return changed;
+	}
+
+	bool member_edit_row(Widget& parent, Ref object, Member& member)
+	{
+		Widget& self = ui::table_row(parent);
+		ui::label(self, member.m_name);
+		return member_edit(self, object, member);
+	}
+
+	bool member_edit_toggle(Widget& parent, Ref object, Member& member)
+	{
+		Widget& self = ui::row(parent);
+		if(ui::modal_button(self, self, "Edit", 1))
+		{
+			Widget& modal = ui::modal(self.parent_modal());
+			return member_edit(modal, object, member, EditorHint::Table);
+		}
+		return false;
+	}
+
+	bool member_edit_embed(Widget& parent, Ref object, Member& member)
+	{
+		return member_edit(parent, object, member, EditorHint::Rows);
+	}
+
+	bool member_edit_nested(Widget& parent, Ref object, Member& member)
+	{
+		//Widget& row = ui::table_row(parent);
+		Widget& row = ui::table_separator(parent);
+		Widget* body = ui::tree_node(row, member.m_name, false, true).m_body;
+		if(body)
+			return member_edit(*body, object, member, EditorHint::Rows);
+		return false;
+	}
+
+	EditNestMode nest_edit_mode(Member& member, size_t mode)
+	{
+		if(member.is_component()) return EditNestMode::Embed;
+		if(member.is_link() || is_basic(*member.m_type)) return EditNestMode::Inline;
+
+		if(!g_edit_specs[member.m_type->m_id].m_setup)
+			g_edit_specs[member.m_type->m_id] = { cls(*member.m_type) };
+
+		return g_edit_specs[member.m_type->m_id].m_nest_mode[mode];
+	}
+
+	bool object_edit_rows(Widget& parent, Table& table, Ref object)
+	{
+		UNUSED(parent);
+		bool changed = false;
+
+		auto member_edit = [&](Member& member)
+		{
+			EditNestMode mode = nest_edit_mode(member, 0);
+			if(mode == EditNestMode::Embed)
+				changed |= member_edit_nested(table, object, member);
+			else if(mode == EditNestMode::Modal)
+				changed |= member_edit_toggle(table, object, member);
+			else
+				changed |= member_edit_row(table, object, member);
+		};
+
+		for(Member& member : cls(object).m_members)
+			if(!member.is_component() && member.is_mutable())
+				member_edit(member);
+
+		for(Member& member : cls(object).m_members)
+			if(member.is_component() && member.is_mutable())
+				member_edit(member);
+
+		return changed;
+	}
+
+	bool object_edit_rows(Widget& parent, Ref object)
+	{
+		return object_edit_rows(parent, as<Table>(parent), object);
+	}
+
+	bool object_edit_inrow(Widget& row, Ref object)
+	{
+		bool changed = false;
+
+		auto member_edit = [&](Member& member)
+		{
+			EditNestMode mode = nest_edit_mode(member, 1);
+			if(mode == EditNestMode::Embed)
+				changed |= member_edit_embed(row, object, member);
+			else if(mode == EditNestMode::Modal)
+				changed |= member_edit_toggle(row, object, member);
+			else
+				changed |= two::member_edit(row, object, member);
+		};
+
+		for(Member& member : cls(object).m_members)
+			if(!member.is_component() && member.is_mutable())
+				member_edit(member);
+
+		for(Member& member : cls(object).m_members)
+			if(member.is_component() && member.is_mutable())
+				member_edit(member);
+
+		return changed;
+	}
+
+	bool object_edit_inline(Widget& parent, Ref object)
+	{
+		Widget& row = ui::widget(parent, styles().wrap_button);
+		return object_edit_inrow(row, object);
+	}
+
+	Widget& object_edit_inline_item(Widget& parent, Ref object)
+	{
+		Widget& row = ui::table_row(parent);
+		object_edit_inrow(row, object);
+		return row;
+	}
+
+	bool object_edit_columns(Widget& parent, Ref object)
+	{
+		static float columns[2] = { 0.33f, 0.67f };
+		Table& self = ui::columns(parent, { columns, 2 });
+		return object_edit_rows(parent, self, object);
+	}
+
+	bool object_edit_table(Widget& parent, Ref object)
+	{
+		static cstring columns[2] = { "field", "value" };
+		static float spans[2] = { 0.4f, 0.6f };
+		Table& self = ui::table(parent, { columns, 2 }, { spans, 2 });
+		return object_edit_rows(parent, self, object);
+	}
+
+	bool object_edit_expandbox(Widget& parent, Ref object)
+	{
+		Widget* body = ui::expandbox(parent, object.m_type->m_name, true).m_body;
+		if(body)
+			return object_edit_columns(*body, object);
+		return false;
+	}
+
+	bool object_edit(Widget& parent, Ref object, EditorHint hint)
+	{
+		if(hint == EditorHint::Table)
+			return object_edit_columns(parent, object);
+		else if(hint == EditorHint::Rows)
+			return object_edit_columns(parent, object);
+		else if(hint == EditorHint::Inline || true)
+			return object_edit_inline(parent, object);
+	}
+
+	bool entity_edit(Widget& parent, Entity entity, EditorHint hint)
+	{
+		UNUSED(hint);
+		bool changed = false;
+
+		static cstring columns[2] = { "field", "value" };
+		static float spans[2] = { 0.4f, 0.6f };
+		Table& self = ui::table(parent, { columns, 2 }, { spans, 2 });
+
+		EntityStream& stream = s_ecs[entity.m_ecs]->stream(entity.m_stream);
+		uint32_t index = stream.m_handles[entity.m_handle];
+		for(auto& buffer : stream.m_buffers)
+		{
+			Widget& row = ui::table_separator(self);
+			Widget* body = ui::tree_node(row, buffer->m_type->m_name, false, true).m_body;
+			if(body)
+				changed |= object_edit_columns(*body, buffer->get(index));
+		}
+
+		return changed;
+	}
+
+	bool inspector(Widget& parent, Entity entity)
+	{
+		Section& self = section(parent, "Entity Inspector", true);
+		return entity_edit(*self.m_body, entity);
+	}
+
+	bool inspector(Widget& parent, Ref object)
+	{
+		Section& self = section(parent, "Inspector", true);
+		if(object.m_type->is<EntityRef>())
+			return inspector(parent, { UINT8_MAX, UINT16_MAX, as_ent(object) });
+		else
+			return object_edit_columns(*self.m_body, object);
+	}
+
+	bool inspector(Widget& parent)
+	{
+		Section& self = section(parent, "Inspector", true);
+		EditState& state = self.state<EditState>();
+		if(state.object)
+			return object_edit_columns(*self.m_body, state.object);
+		return false;
+	}
+
+	void multi_object_edit(Widget& parent, Type& type, vector<Ref> objects)
+	{
+		ScrollSheet& scroll_sheet = ui::scroll_sheet(parent);
+		Widget& table = ui::table(*scroll_sheet.m_body, cls(type).m_field_names, {});
+
+		for(Ref object : objects)
+			object_edit_inline(table, object);
+	}
+
+	void multi_inspector(Widget& parent, Type& type, vector<Var>& objects, size_t& selected)
+	{
+		enum Modes { CREATE = 1 << 0, TYPE_INFO = 1 << 1 };
+
+		Section& self = section(parent, (string(type.m_name) + " Library").c_str());
+
+		if(ui::modal_button(self, *self.m_toolbar, "Type Info", TYPE_INFO))
+		{
+			Widget& modal = ui::auto_modal(self, TYPE_INFO, { 600, 400 });
+			meta_edit(*modal.m_body, type);
+		}
+
+		if(ui::button(*self.m_toolbar, "Add").activated())
+			objects.push_back(meta(type).m_empty_var);
+
+		if(ui::modal_button(self, *self.m_toolbar, "Create", CREATE))
+		{
+			Widget& modal = ui::auto_modal(self, CREATE);
+			bool done = object_creator(modal, type);
+			UNUSED(done);
+		}
+
+		Widget& board = ui::board(*self.m_body);
+
+		ScrollSheet& scroll_sheet = ui::scroll_sheet(board);
+		Widget& table = ui::table(*scroll_sheet.m_body, cls(type).m_field_names, {});
+
+		for(size_t i = 0; i < objects.size(); ++i)
+		{
+			Widget& row = object_edit_inline_item(table, objects[i]);
+			row.set_state(SELECTED, selected == i);
+			if(row.activated())
+				selected = i;
+		}
+	}
+}
+
+module;
+module two.uio;
+
+#include <cstring>
+
+namespace two
+{
+	struct CallableEditState : public NodeState
+	{
+		CallableEditState(Callable& callable) : m_call(callable) {}
+		CallableEditState(Callable& callable, Ref object) : m_call(callable, object) {}
+		Call m_call;
+	};
+
+	bool call_edit(Widget& parent, Call& call)
+	{
+		bool method = strcmp(call.m_callable->m_params[0].m_name, "self") == 0;
+		uint16_t offset = method ? 1 : 0;
+		for(uint16_t i = offset; i < call.m_callable->m_params.size(); ++i)
+		{
+			const Param& param = call.m_callable->m_params[i];
+			bool link = is_object(type(param.default_val())) || param.nullable();
+			field_edit(parent, param.m_name, call.m_args[i].m_ref, link);
+		}
+
+		/*uint16_t offset = call.m_args.size() - call.m_callable->m_params.size();
+		for(Param& param : call.m_callable->m_params)
+			field_edit(parent, param.m_name, call.m_args[param.m_index + offset], param.nullable());*/
+		return false;
+	}
+
+	void callable_edit(Widget& parent, Callable& callable)
+	{
+		Widget& self = ui::row(parent);
+		CallableEditState& state = self.state<CallableEditState>(callable);
+		call_edit(self, state.m_call);
+	}
+
+	void function_edit(Widget& parent, Function& function)
+	{
+		callable_edit(parent, function);
+	}
+
+	void method_edit(Widget& parent, Ref object, Method& method)
+	{
+		Widget& self = ui::row(parent);
+		CallableEditState& state = self.state<CallableEditState>(method, object);
+		if(ui::button(self, method.m_name).activated())
+			state.m_call();
+		call_edit(self, state.m_call);
+	}
+
+	void method_edit_modal(Widget& parent, Ref object, Method& method)
+	{
+		enum Modes { CALL = 1 << 0 };
+		string name = "Call method " + string(method.m_object_type->m_name) + "::" + method.m_name;
+		
+		if(ui::modal_button(parent, parent, "Call", CALL))
+		{
+			Widget& modal = ui::auto_modal(parent, CALL, { 600, 400 });
+			method_edit(modal, object, method);
+		}
+	}
+
+	void method_trigger(Widget& parent, Ref object, Method& method)
+	{
+		if(ui::modal_button(parent, parent, method.m_name, uint32_t(1 << 0)))
+			method_edit_modal(parent, object, method);
+	}
+
+	void method_hook(Widget& parent, Ref object, Method& method)
+	{
+		method_edit(parent, object, method);
+	}
+}
+module;
+module two.uio;
+
+namespace two
+{
+    // Exported types
+    template <> TWO_UIO_EXPORT Type& type<two::EditNestMode>() { static Type ty("EditNestMode", sizeof(two::EditNestMode)); return ty; }
+    template <> TWO_UIO_EXPORT Type& type<two::EditorHint>() { static Type ty("EditorHint", sizeof(two::EditorHint)); return ty; }
+    
+    
+    template <> TWO_UIO_EXPORT Type& type<two::ScriptEditor>() { static Type ty("ScriptEditor", sizeof(two::ScriptEditor)); return ty; }
 }

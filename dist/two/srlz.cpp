@@ -1,16 +1,7 @@
-#include <two/srlz.h>
-#include <two/refl.h>
 #include <two/infra.h>
-#include <two/type.h>
 
 
-#ifndef TWO_CPP_20
-#include <string>
-#include <vector>
-#include <map>
-#include <cstring>
-#endif
-
+module;
 module two.srlz;
 
 #define TWO_DEBUG_SERIAL 0
@@ -23,7 +14,7 @@ namespace two
 	{
 		if(!file_exists(path))
 		{
-			printf("[ERROR] couldn't open file %s\n", path.c_str());
+			error("couldn't open file %s\n", path.c_str());
 			return;
 		}
 
@@ -42,7 +33,7 @@ namespace two
 	void dump_json_file(const string& path, const Json& value)
 	{
 		if(!file_exists(path))
-			printf("[ERROR] couldn't open file %s\n", path.c_str());
+			error("couldn't open file %s\n", path.c_str());
 		std::string text = value.dump();
 		write_file(path, string(text.data(), text.data() + text.size()));
 	}
@@ -200,7 +191,7 @@ namespace two
 
 		if(!g_class[type(value).m_id])
 		{
-			printf("[warning] unpack - type %s is not a class\n", type(value).m_name);
+			warn("unpack - type %s is not a class", type(value).m_name);
 			return;
 		}
 
@@ -396,7 +387,7 @@ namespace two
 		unpack(value, json_value);
 	}
 }
-
+module;
 module two.srlz;
 
 namespace two

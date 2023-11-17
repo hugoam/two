@@ -1,13 +1,7 @@
 #pragma once
 
-#include <two/ctx.wasm.h>
-#include <two/ctx.glfw.h>
-#include <two/ctx.win.h>
-#include <two/math.h>
-#include <two/ctx.h>
 #include <two/infra.h>
 #include <two/type.h>
-
 
 
 
@@ -17,21 +11,15 @@
 
 namespace two
 {
-    class BgfxContext;
-    class BgfxSystem;
+    export_ class BgfxContext;
+    export_ class BgfxSystem;
 }
 
 
-#include <stl/vector.h>
-
-namespace bx
-{
-	struct AllocatorI;
-}
 
 namespace two
 {
-	class BgfxSystem;
+	export_ class BgfxSystem;
 
 #if defined TWO_CONTEXT_GLFW
 	export_ class TWO_BGFX_EXPORT BgfxContext : public GlfwContext
@@ -89,13 +77,9 @@ namespace two
 }
 
 
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
 
 
 namespace two

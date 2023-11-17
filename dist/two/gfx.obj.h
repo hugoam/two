@@ -1,9 +1,5 @@
 #pragma once
 
-#include <two/gfx.h>
-#include <two/geom.h>
-#include <two/srlz.h>
-#include <two/math.h>
 #include <two/infra.h>
 #include <two/type.h>
 
@@ -18,6 +14,22 @@ namespace two
 {
     class ImporterOBJ;
 	class ImporterPLY;
+}
+
+namespace two
+{
+	export_ class refl_ TWO_GFX_OBJ_EXPORT ImporterPLY : public Importer
+	{
+	public:
+		constr_ ImporterPLY(GfxSystem& gfx);
+
+		GfxSystem& m_gfx;
+
+		meth_ virtual void import(Import& import, const string& filepath, const ImportConfig& config) override;
+		meth_ virtual void import_model(Model& model, const string& filepath, const ImportConfig& config) override;
+		meth_ virtual void import_prefab(Prefab& prefab, const string& filepath, const ImportConfig& config) override;
+		meth_ virtual void repack(const string& filepath, const ImportConfig& config) override;
+	};
 }
 
 
@@ -38,29 +50,8 @@ namespace two
 }
 
 
-namespace two
-{
-	export_ class refl_ TWO_GFX_OBJ_EXPORT ImporterPLY : public Importer
-	{
-	public:
-		constr_ ImporterPLY(GfxSystem& gfx);
-
-		GfxSystem& m_gfx;
-
-		meth_ virtual void import(Import& import, const string& filepath, const ImportConfig& config) override;
-		meth_ virtual void import_model(Model& model, const string& filepath, const ImportConfig& config) override;
-		meth_ virtual void import_prefab(Prefab& prefab, const string& filepath, const ImportConfig& config) override;
-		meth_ virtual void repack(const string& filepath, const ImportConfig& config) override;
-	};
-}
-
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
 
 
 namespace two

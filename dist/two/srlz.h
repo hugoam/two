@@ -1,8 +1,10 @@
 #pragma once
 
-#include <two/refl.h>
 #include <two/infra.h>
+#include <two/refl.h>
 #include <two/type.h>
+
+
 
 
 
@@ -82,23 +84,6 @@ namespace two
 	export_ TWO_SRLZ_EXPORT void unpack_json_file(Ref value, const string& path);
 }
 
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
-#endif
-
-
-
-namespace two
-{
-    // Exported types
-    
-    
-}
-
-
 
 
 namespace two
@@ -110,3 +95,16 @@ namespace two
 		return val<T>(value);
 	}
 }
+
+
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#endif
+
+namespace two
+{
+    // Exported types
+    
+    
+}
+#ifdef TWO_MODULES
+#endif

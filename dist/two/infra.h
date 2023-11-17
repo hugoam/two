@@ -1,88 +1,9 @@
 #pragma once
 
+#include <two/type.h>
 
 
 
-#if defined(WIN32)
-#include <malloc.h>
-#else
-#include <cstdlib>
-#endif
-
-#include <cassert>
-
-namespace two
-{
-	inline void* aligned_alloc(size_t size, size_t align) noexcept
-	{
-		assert(align && !(align & (align - 1)));
-		void* p = nullptr;
-
-		// must be a power of two and >= sizeof(void*)
-		while(align < sizeof(void*))
-			align <<= 1;
-
-#if defined(WIN32)
-		p = ::_aligned_malloc(size, align);
-#else
-		::posix_memalign(&p, align, size);
-#endif
-		return p;
-	}
-
-	inline void aligned_free(void* p) noexcept
-	{
-#if defined(WIN32)
-		::_aligned_free(p);
-#else
-		::free(p);
-#endif
-	}
-
-#ifndef USE_STL
-	template <class T>
-	class TinystlAlignedAllocator
-	{
-	public:
-		static inline T* static_allocate(size_t bytes) { return (T*)aligned_alloc(bytes, alignof(T)); };
-		static inline void static_deallocate(T* ptr, size_t /*bytes*/) { aligned_free(ptr); }
-	};
-#else
-	template <class T>
-	class STLAlignedAllocator
-	{
-		static_assert(!(alignof(T) & (alignof(T)-1)), "alignof(T) must be a power of two");
-
-	public:
-		using value_type = T;
-		using pointer = T*;
-		using const_pointer = const T*;
-		using reference = T&;
-		using const_reference = const T&;
-		using size_type = size_t;
-		using difference_type = std::ptrdiff_t;
-		using propagate_on_container_move_assignment = std::true_type;
-		using is_always_equal = std::true_type;
-
-		template <class U>
-		struct rebind { using other = STLAlignedAllocator<U>; };
-
-	public:
-		inline STLAlignedAllocator() noexcept = default;
-		inline ~STLAlignedAllocator() noexcept = default;
-
-		template <class U>
-		inline explicit STLAlignedAllocator(const STLAlignedAllocator<U>&) noexcept {}
-
-		inline pointer allocate(size_type n) noexcept { return (pointer)aligned_alloc(n * sizeof(value_type), alignof(T)); }
-		inline void deallocate(pointer p, size_type) { aligned_free(p); }
-
-		inline bool operator==(const STLAlignedAllocator<T>&) const { return true; }
-		inline bool operator!=(const STLAlignedAllocator<T>&) const { return false; }
-	};
-#endif
-}
-#include <stl/span.h>
 
 
 
@@ -91,8 +12,10 @@ namespace two
 #	pragma warning (disable : 4201) // anonymous structs are supported by all target compilers
 #	pragma warning (disable : 4251) // members are private, so there's no risk them being accessed by the user
 #	pragma warning (disable : 4577) // two doesn't use exceptions
+#	pragma warning (disable : 4459) // we are okay with hiding global declarations
 
-#ifdef TWO_CPP_20
+
+#ifdef TWO_MODULES
 #	pragma warning (disable : 4996) // with c++20 modules we can't pass _CRT_SECURE_NO_WARNINGS
 // these are warnings in the experimental Visual Studio std module
 #	pragma warning (disable : 4530) 
@@ -100,6 +23,8 @@ namespace two
 #	pragma warning (disable : 4100)
 #	pragma warning (disable : 4244)
 #	pragma warning (disable : 4522)
+#	pragma warning (disable : 5050)
+#	pragma warning (disable : 5202) // warning C5202: a global module fragment can only contain preprocessor directives
 #endif
 
 #endif
@@ -191,142 +116,11 @@ base_ static const char* dcstring;
 #include <stdint.h>
 #include <stddef.h>
 #endif
-#ifdef TWO_CPP_20
 
-#include <cassert>
-#include <stdint.h>
-#include <cfloat>
-#include <climits>
-//#include <cmath>
-#include <ctime>
-#include <cstring>
-#include <cstdio>
-#include <cstdlib>
-
-import std.core;
-import std.threading;
-import std.regex;
-#ifdef _MSC_VER
-import std.memory; // std.memory exists only in Visual Studio experimental modules
+#ifdef TWO_MODULES
 #else
-import std.io;
+#include <stl/swap.h>
 #endif
-#endif
-#include <stl/table.h>
-
-
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/function.h>
-#include <stl/span.h>
-
-#include <stl/base.h>
-
-#ifndef TWO_INFRA_EXPORT
-#define TWO_INFRA_EXPORT TWO_IMPORT
-#endif
-
-#ifdef USE_STL
-#include <cstddef>
-namespace stl
-{
-	template <class T> struct span;
-	template <class T, size_t Size> struct array;
-}
-#else
-#include <stl/decls.h>
-#endif
-
-namespace two
-{
-	using stl::array;
-	using stl::span;
-
-    export_ struct Filepath;
-    struct swallow;
-}
-
-#ifdef TWO_META_GENERATOR // #ifdef TWO_META_GENERATOR
-#include <stl/decls.h>
-namespace stl
-{
-}
-#endif
-
-namespace two
-{
-	using cstring = const char*;
-
-	export_ struct Filepath
-	{
-		string path;
-		string name;
-		string extension;
-	};
-
-	export_ TWO_INFRA_EXPORT vector<uint8_t> read_binary_file(const string& path);
-	export_ TWO_INFRA_EXPORT string read_text_file(const string& path);
-
-	export_ using LineVisitor = function<bool(const string&)>;
-	export_ TWO_INFRA_EXPORT void read_text_file(const string& path, LineVisitor visit_line);
-
-	export_ TWO_INFRA_EXPORT void write_file(const string& path, const string& content);
-	export_ TWO_INFRA_EXPORT void update_file(const string& path, const string& content);
-	export_ TWO_INFRA_EXPORT void write_binary_file(const string& path, span<uint8_t> data);
-
-	export_ TWO_INFRA_EXPORT void copy_file(const string& source, const string& dest);
-
-	export_ TWO_INFRA_EXPORT string exec_path(int argc, char* argv[]);
-
-	export_ TWO_INFRA_EXPORT bool file_exists(const string& path);
-	export_ TWO_INFRA_EXPORT bool directory_exists(const string& path);
-	export_ TWO_INFRA_EXPORT bool is_subpath(const string& path, const string& dir);
-	export_ TWO_INFRA_EXPORT string relative_to(const string& path, const string& dir);
-	export_ TWO_INFRA_EXPORT string file_directory(const string& path);
-	export_ TWO_INFRA_EXPORT string parent_directory(const string& path);
-
-	export_ TWO_INFRA_EXPORT bool create_directory(const string& path);
-	export_ TWO_INFRA_EXPORT bool create_directory_tree(const string& path);
-	export_ TWO_INFRA_EXPORT bool create_file_tree(const string& path);
-	
-	export_ using FileVisitor = function<void(const string&)>;
-
-	export_ TWO_INFRA_EXPORT void visit_files(const string& path, FileVisitor visit_file);
-	export_ TWO_INFRA_EXPORT void visit_folders(const string& path, FileVisitor visit_folder, bool ignore_symbolic = true);
-
-	export_ TWO_INFRA_EXPORT void visit_files_recursive(const string& path, FileVisitor visit_file, const string& prefix = "");
-
-	inline string file_name(const string& path)
-	{
-		string directory = file_directory(path);
-		return path.substr(directory.size() + 1);
-	}
-
-	inline string file_label(const string& path)
-	{
-		string directory = file_directory(path);
-		return path.substr(directory.size() + 1, path.rfind(".") + 1);
-	}
-
-	inline string file_noext(const string& path)
-	{
-		return path.substr(0, path.rfind("."));
-	}
-
-	inline string file_extension(const string& path)
-	{
-		return path.substr(path.rfind(".") + 1);
-	}
-}
-
-
-namespace two
-{
-	struct swallow {
-		template <class... T> swallow(T...) {}
-	};
-}
 
 
 
@@ -351,94 +145,100 @@ namespace two
 }
 
 
-//#include <infra/Arena.h>
+#include <stl/string.h>
 
+#ifndef TWO_INFRA_EXPORT
+#define TWO_INFRA_EXPORT TWO_IMPORT
+#endif
 
-#include <stl/vector.h>
+#ifdef USE_STLnamespace stl
+{
+	template <class T> struct span;
+	template <class T, size_t Size> struct array;
+}
+#else
+#include <stl/decls.h>
+#endif
 
 namespace two
 {
-#ifndef USE_STL
-	template <class T>
-	class reverse_pointer
-	{
-	public:
-		using pointer = T*;
-		using reference = T&;
+	using stl::array;
+	using stl::span;
 
-		reverse_pointer() : m_ptr() {}
-		explicit reverse_pointer(T* other) : m_ptr(other) {}
-
-		reference operator*() const
-		{
-			T* temp = m_ptr;
-			return *--temp;
-		}
-
-		pointer operator->() const
-		{
-			T* temp = m_ptr;
-			--temp;
-			return temp;
-		}
-
-		reverse_pointer& operator++() { --m_ptr; return *this; }
-		reverse_pointer operator++(int) { reverse_pointer temp = *this; --m_ptr; return temp; }
-
-		reverse_pointer& operator--() { ++m_ptr; return *this; }
-		reverse_pointer operator--(int) { reverse_pointer temp = *this; ++m_ptr; return temp; }
-
-		reverse_pointer& operator+=(size_t offset) { m_ptr -= offset; return *this; }
-		reverse_pointer& operator-=(size_t offset) { m_ptr += offset; return *this; }
-		reverse_pointer operator+(size_t offset) const { return reverse_pointer(m_ptr - offset); }
-		reverse_pointer operator-(size_t offset) const { return reverse_pointer(m_ptr + offset); }
-
-		reference operator[](size_t offset) const { return *(*this + offset); }
-
-		T* m_ptr;
-	};
-
-	template <class T1, class T2>
-	bool operator==(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return left.m_ptr == right.m_ptr; }
-
-	template <class T1, class T2>
-	bool operator!=(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return !(left == right); }
-
-	template <class T1, class T2>
-	bool operator<(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return right.m_ptr < left.m_ptr; }
-
-	template <class T1, class T2>
-	bool operator>(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return right < left; }
-
-	template <class T1, class T2>
-	bool operator<=(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return !(right < left); }
-
-	template <class T1, class T2>
-	bool operator>=(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return !(left < right); }
-#endif
-
-	export_ template <class T>
-	class reverse_adapter
-	{
-	public:
-		reverse_adapter(T& container) : m_container(container) { }
-		reverse_adapter& operator=(const reverse_adapter&) = delete;
-
-#ifndef USE_STL
-		using iterator = reverse_pointer<typename T::value_type>;
-		iterator begin() { return iterator(m_container.end()); }
-		iterator end() { return iterator(m_container.begin()); }
-#else
-		typename T::reverse_iterator begin() { return m_container.rbegin(); }
-		typename T::reverse_iterator end() { return m_container.rend(); }
-#endif
-	private:
-		T& m_container;
-	};
-
-	export_ template <class T>
-	reverse_adapter<T> reverse_adapt(T& container) { return reverse_adapter<T>(container); }
+    export_ struct Filepath;
+    export_ struct swallow;
 }
+
+#ifdef TWO_META_GENERATOR // #ifdef TWO_META_GENERATOR
+#include <stl/decls.h>
+namespace stl
+{
+}
+#endif
+
+namespace two
+{
+	export_ namespace ANSIToken
+	{
+		constexpr char Header[] = "\033[95m";
+		constexpr char OkBlue[] = "\033[94m";
+		constexpr char OkGreen[] = "\033[92m";
+		constexpr char Warn[] = "\033[93m";
+		constexpr char Fail[] = "\033[91m";
+		constexpr char End[] = "\033[0m";
+		constexpr char Bold[] = "\033[1m";
+		constexpr char Underline[] = "\033[4m";
+	};
+
+	export_ TWO_INFRA_EXPORT void init_console();
+
+	export_ template <class... Args>
+	void info(const char* message, Args&&... args)
+	{
+		printf("[info] %s", ANSIToken::OkGreen);
+		printf(message, args...);
+		printf("%s\n", ANSIToken::End);
+	}
+
+	export_ template <class... Args>
+	void warn(const char* message, Args&&... args)
+	{
+		printf("[warning] %s", ANSIToken::Warn);
+		printf(message, args...);
+		printf("%s\n", ANSIToken::End);
+	}
+
+	export_ template <class... Args>
+	void error(const char* message, Args&&... args)
+	{
+		printf("[ERROR] %s", ANSIToken::Fail);
+		printf(message, args...);
+		printf("%s\n", ANSIToken::End);
+	}
+
+#define TWO_MACRO_BLOCK_BEGIN for(;;) {
+#define TWO_MACRO_BLOCK_END break; }
+#define TWO_ASSERT(condition, message, ...)                       \
+				TWO_MACRO_BLOCK_BEGIN                             \
+					if (!(condition) )                            \
+					{                                             \
+						error("CHECK " message, ##__VA_ARGS__);   \
+						assert(false);						      \
+					}                                             \
+				TWO_MACRO_BLOCK_END
+}
+
+
+
+namespace two
+{
+	export_ struct swallow {
+		template <class... T> swallow(T...) {}
+	};
+}
+
+
+#include <stl/base.h>
 
 
 #include <stl/string.h>
@@ -499,31 +299,6 @@ namespace two
 	}
 }
 
-
-#include <stl/base.h>
-
-namespace two
-{
-	export_ template <> TWO_INFRA_EXPORT void to_string(const bool&    value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const char&    value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const schar&   value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const uchar&   value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const short&   value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const int&     value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const long&    value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const llong&   value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const ushort&  value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const uint&    value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const ulong&   value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const ullong&  value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const float&   value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const double&  value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const ldouble& value, string& str);
-}
-
-
-#include <stl/base.h>
-
 namespace two
 {
 	export_ template <> TWO_INFRA_EXPORT void to_value(const string& str, bool& val);
@@ -544,157 +319,95 @@ namespace two
 }
 
 
-#include <stdint.h>
-#include <stl/vector.h>
-//#include <stl/type_traits.h>
-
-namespace two
-{
-	// vector - string conversion
-	export_ template <class T>
-	inline void vector_to_string(const T& val, string& str)
-	{
-		for(const typename T::value_type& v : val)
-		{
-			str += to_string(v, str);
-			str += ",";
-		}
-		if(val.size() > 0)
-			str.pop_back();
-	}
-
-#if 0
-	export_ template <class T>
-	constexpr bool is_vector = false;
-	
-	export_ template <class T>
-	constexpr bool is_vector<vector<T>> = true;
-
-	export_ template <class T>
-	inline enable_if<is_vector<T>, void>
-		to_string(const T& val, string& str) { vector_to_string(val, str); }
+#if defined(WIN32)
+#include <malloc.h>
+#else
+#include <cstdlib>
 #endif
 
-	export_ template <class T>
-	inline void string_to_vector(const string& str, T& vec)
-	{
-		size_t first = 0;
-		size_t second = str.find(",");
-		const size_t end = str.size();
-
-		while(second != end)
-		{
-			second = str.find(",", first);
-			vec.push_back(to_value<class T::value_type>(str.substr(first, second - first)));
-			
-			if(second != end)
-				first = second + 1;
-		}
-	}
-
-	export_ template <class T, uint32_t size>
-	inline void array_to_string(const T& val, string& str)
-	{
-		for(uint32_t i = 0; i < size; ++i)
-		{
-			str += to_string(val[i]);
-			str += ",";
-		}
-		str.pop_back();
-	}
-
-	export_ template <class Vec, class T>
-	inline void string_to_array(const string& str, Vec& vec)
-	{
-		size_t first = 0;
-		size_t second = str.find(",");
-		const size_t end = str.size();
-
-		uint32_t i = 0;
-		while(second != end)
-		{
-			second = str.find(",", first);
-			vec[i] = to_value<T>(str.substr(first, second - first));
-
-			++i;
-			if(second != end)
-				first = second + 1;
-		}
-	}
-
-	export_ template <class T>
-	struct StringConverter
-	{
-		static inline void to(const T& val, string& str) { UNUSED(val); UNUSED(str); }
-		static inline void from(const string& str, T& val) { UNUSED(str); UNUSED(val); }
-	};
-
-	export_ template <class T>
-	struct StringConverter<vector<T>>
-	{
-		static inline void to(const vector<T>& val, string& str) { vector_to_string(val, str); }
-		static inline void from(const string& str, vector<T>& vec) { string_to_vector(str, vec); }
-	};
-
-	export_ template <class T_Enum>
-	inline void flags_from_string(const string& str, T_Enum& value)
-	{
-		vector<string> names = split(to_upper(str), "|");
-		for(const string& name : names)
-			value = static_cast<T_Enum>(value | to_value<T_Enum>(name));
-	}
-
-	export_ template <class T_Enum>
-	inline T_Enum flags_from_string(const string& str) { T_Enum value = T_Enum(0); flags_from_string(str, value); return value; }
-
-	export_ template <class T_Enum, size_t Count>
-	inline void flags_to_string(const T_Enum& value, string& str)
-	{
-		for(size_t shift = 0; shift < Count; ++shift)
-			if(value & (1 << shift))
-				str += (str.empty() ? "" : "|") + to_string<T_Enum>(static_cast<T_Enum>((1 << shift)));
-	}
-
-	export_ template <class T_Enum, size_t Count>
-	inline string flags_to_string(const T_Enum& value) { string str; flags_to_string<T_Enum, Count>(value, str); return str; }
-
-	export_ template <class T>
-	inline void to_value(const string& str, T& val) { StringConverter<T>::from(str, val); }
-
-	export_ template <class T>
-	inline void to_string(const T& val, string& str) { StringConverter<T>::to(val, str); }
-}
-
-
-#include <stl/stddef.h>
-#include <stdint.h>
 
 namespace two
 {
-	export_ TWO_INFRA_EXPORT void set_thread_name(const char* name);
-
-	export_ enum class ThreadPriority
+	inline void* aligned_alloc(size_t size, size_t align) noexcept
 	{
-		Normal,
-		Display,
-		UrgentDisplay
+		assert(align && !(align & (align - 1)));
+		void* p = nullptr;
+
+		// must be a power of two and >= sizeof(void*)
+		while(align < sizeof(void*))
+			align <<= 1;
+
+#if defined(WIN32)
+		p = ::_aligned_malloc(size, align);
+#else
+		::posix_memalign(&p, align, size);
+#endif
+		return p;
+	}
+
+	inline void aligned_free(void* p) noexcept
+	{
+#if defined(WIN32)
+		::_aligned_free(p);
+#else
+		::free(p);
+#endif
+	}
+
+#ifndef USE_STL
+	template <class T>
+	class TinystlAlignedAllocator
+	{
+	public:
+		static inline T* static_allocate(size_t bytes) { return (T*)aligned_alloc(bytes, alignof(T)); };
+		static inline void static_deallocate(T* ptr, size_t /*bytes*/) { aligned_free(ptr); }
 	};
+#else
+	export_ template <class T>
+	class STLAlignedAllocator
+	{
+		static_assert(!(alignof(T) & (alignof(T)-1)), "alignof(T) must be a power of two");
 
-	export_ TWO_INFRA_EXPORT void set_thread_priority(ThreadPriority priority);
-	export_ TWO_INFRA_EXPORT void set_thread_affinity(uint32_t mask);
+	public:
+		using value_type = T;
+		using pointer = T*;
+		using const_pointer = const T*;
+		using reference = T&;
+		using const_reference = const T&;
+		using size_type = size_t;
+		using difference_type = std::ptrdiff_t;
+		using propagate_on_container_move_assignment = std::true_type;
+		using is_always_equal = std::true_type;
+
+		template <class U>
+		struct rebind { using other = STLAlignedAllocator<U>; };
+
+	public:
+		inline STLAlignedAllocator() noexcept = default;
+		inline ~STLAlignedAllocator() noexcept = default;
+
+		template <class U>
+		inline explicit STLAlignedAllocator(const STLAlignedAllocator<U>&) noexcept {}
+
+		inline pointer allocate(size_type n) noexcept { return (pointer)aligned_alloc(n * sizeof(value_type), alignof(T)); }
+		inline void deallocate(pointer p, size_type) { aligned_free(p); }
+
+		inline bool operator==(const STLAlignedAllocator<T>&) const { return true; }
+		inline bool operator!=(const STLAlignedAllocator<T>&) const { return false; }
+	};
+#endif
 }
-//#include <infra/TypeTraits.h>
-
 
 #include <stl/type_traits.h>
 #include <stl/stddef.h>
 #include <stl/span.h>
 
+#ifndef TWO_STD_MODULES
 #include <cassert>
 #include <cstdlib>
-
 #include <atomic>
 #include <utility>
+#endif
 
 #if defined(WIN32)
 #include <malloc.h>
@@ -881,6 +594,37 @@ namespace two
 		T_FreeList m_freelist;
 	};
 }
+#include <stl/span.h>
+#ifdef TWO_MODULES
+
+#include <stddef.h>
+#include <cerrno>
+#include <wchar.h>
+
+#include <cassert>
+#include <cstdint>
+#include <climits>
+#include <cfloat>
+#include <cstring>
+#include <cstdlib>
+#include <ctime>
+#include <cstdio>
+#include <ctime>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#endif
+#include <stl/new.h>
+#include <stl/bitset.h>
+#include <stl/array.h>
+#include <stl/table.h>
+#include <stl/tuple.h>
+#include <stl/memory.h>
+#include <stl/move.h>
+#include <stl/math.h>
+#include <stl/algorithm.h>
+#include <stl/map.h>
+#include <stl/set.h>
 
 
 #include <stl/span.h>
@@ -889,13 +633,13 @@ namespace two
 
 namespace two
 {
-	template <class T>
+	export_ template <class T>
 	void copy(span<T> dest, span<T> src) { memcpy(dest.m_pointer, src.m_pointer, sizeof(T) * src.m_count); }
 
-	template <class T>
+	export_ template <class T>
 	void copy(T* dest, span<T> src) { memcpy(dest, src.m_pointer, sizeof(T) * src.m_count); }
 
-	template <class T>
+	export_ template <class T>
 	void copy(void* dest, span<T> src) { memcpy(dest, src.m_pointer, sizeof(T) * src.m_count); }
 }
 
@@ -906,7 +650,7 @@ namespace two
 namespace two
 {
 #if 0
-	template <class T_Key, class T_Value, class T_Indices, class T_Greater>
+	export_ template <class T_Key, class T_Value, class T_Indices, class T_Greater>
 	void quicksort(span<T_Key> keys, span<T_Value> values, T_Indices& indices, T_Greater greater, const size_t left, const size_t right)
 	{
 		auto swap = [&](size_t first, size_t second)
@@ -964,12 +708,12 @@ namespace two
 	}
 #endif
 	
-	template <class T, class Pred>
+	export_ template <class T, class Pred>
 	void quicksort(span<T> vec, Pred greater, const size_t left, const size_t right)
 	{
 		auto partition = [&](const size_t left, const size_t right)
 		{
-			using stl::swap;
+			using two::swap;
 			const size_t mid = left + (right - left) / 2;
 			const T& pivot = vec[mid];
 			// move the mid point value to the front.
@@ -999,14 +743,14 @@ namespace two
 			quicksort(vec, greater, part + 1, right);
 	}
 
-	template <class T, class Pred>
+	export_ template <class T, class Pred>
 	void quicksort(span<T> values, Pred greater)
 	{
 		if(values.size() > 0)
 			quicksort(values, greater, 0, values.size() - 1);
 	}
 
-	template <class T>
+	export_ template <class T>
 	void quicksort(span<T> values)
 	{
 		auto greater = [](T a, T b) { return a > b; };
@@ -1016,29 +760,332 @@ namespace two
 }
 
 
-#include <stl/type_traits.h>
-
-#if defined __GNUC__
-#   pragma GCC system_header
-#endif
+#include <stdint.h>
+#include <stl/string.h>
+#include <stl/vector.h>
+#include <stl/function.h>
+#include <stl/span.h>
 
 namespace two
 {
-	export_ template <class T>
-	constexpr bool is_object_pointer = is_pointer<T>;// && !is_function_pointer<T>;
+	using cstring = const char*;
 
-	export_ template <class T, typename = void>
-	struct is_comparable_base { constexpr static bool value = false;};
+	export_ struct Filepath
+	{
+		string path;
+		string name;
+		string extension;
+	};
 
-	export_ template <class T>
-	struct is_comparable_base<T, decltype(declval<T&>() == declval<T&>(), (void) 0)> { constexpr static bool value = true; };
+	export_ TWO_INFRA_EXPORT vector<uint8_t> read_binary_file(const string& path);
+	export_ TWO_INFRA_EXPORT string read_text_file(const string& path);
 
-	export_ template <class T>
-	constexpr bool is_comparable = is_comparable_base<T>::value;
+	export_ using LineVisitor = function<bool(const string&)>;
+	export_ TWO_INFRA_EXPORT void read_text_file(const string& path, LineVisitor visit_line);
 
-	export_ template <class T>
-	constexpr bool is_copyable = is_copy_constructible<T> && is_copy_assignable<T>;
+	export_ TWO_INFRA_EXPORT void write_file(const string& path, const string& content);
+	export_ TWO_INFRA_EXPORT void update_file(const string& path, const string& content);
+	export_ TWO_INFRA_EXPORT void write_binary_file(const string& path, span<uint8_t> data);
+
+	export_ TWO_INFRA_EXPORT void copy_file(const string& source, const string& dest);
+
+	export_ TWO_INFRA_EXPORT string exec_path(int argc, char* argv[]);
+
+	export_ TWO_INFRA_EXPORT bool file_exists(const string& path);
+	export_ TWO_INFRA_EXPORT bool directory_exists(const string& path);
+	export_ TWO_INFRA_EXPORT bool is_subpath(const string& path, const string& dir);
+	export_ TWO_INFRA_EXPORT string relative_to(const string& path, const string& dir);
+	export_ TWO_INFRA_EXPORT string file_directory(const string& path);
+	export_ TWO_INFRA_EXPORT string parent_directory(const string& path);
+
+	export_ TWO_INFRA_EXPORT bool create_directory(const string& path);
+	export_ TWO_INFRA_EXPORT bool create_directory_tree(const string& path);
+	export_ TWO_INFRA_EXPORT bool create_file_tree(const string& path);
+	
+	export_ using FileVisitor = function<void(const string&)>;
+
+	export_ TWO_INFRA_EXPORT void visit_files(const string& path, FileVisitor visit_file);
+	export_ TWO_INFRA_EXPORT void visit_folders(const string& path, FileVisitor visit_folder, bool ignore_symbolic = true);
+
+	export_ TWO_INFRA_EXPORT void visit_files_recursive(const string& path, FileVisitor visit_file, const string& prefix = "");
+
+	export_ inline string file_name(const string& path)
+	{
+		string directory = file_directory(path);
+		return path.substr(directory.size() + 1);
+	}
+
+	export_ inline string file_label(const string& path)
+	{
+		string directory = file_directory(path);
+		return path.substr(directory.size() + 1, path.rfind(".") + 1);
+	}
+
+	export_ inline string file_noext(const string& path)
+	{
+		return path.substr(0, path.rfind("."));
+	}
+
+	export_ inline string file_extension(const string& path)
+	{
+		return path.substr(path.rfind(".") + 1);
+	}
 }
+
+
+#include <stdint.h>
+#include <stl/limits.h>
+
+
+#include <stl/vector.h>
+
+namespace two
+{
+#ifndef USE_STL
+	template <class T>
+	class reverse_pointer
+	{
+	public:
+		using pointer = T*;
+		using reference = T&;
+
+		reverse_pointer() : m_ptr() {}
+		explicit reverse_pointer(T* other) : m_ptr(other) {}
+
+		reference operator*() const
+		{
+			T* temp = m_ptr;
+			return *--temp;
+		}
+
+		pointer operator->() const
+		{
+			T* temp = m_ptr;
+			--temp;
+			return temp;
+		}
+
+		reverse_pointer& operator++() { --m_ptr; return *this; }
+		reverse_pointer operator++(int) { reverse_pointer temp = *this; --m_ptr; return temp; }
+
+		reverse_pointer& operator--() { ++m_ptr; return *this; }
+		reverse_pointer operator--(int) { reverse_pointer temp = *this; ++m_ptr; return temp; }
+
+		reverse_pointer& operator+=(size_t offset) { m_ptr -= offset; return *this; }
+		reverse_pointer& operator-=(size_t offset) { m_ptr += offset; return *this; }
+		reverse_pointer operator+(size_t offset) const { return reverse_pointer(m_ptr - offset); }
+		reverse_pointer operator-(size_t offset) const { return reverse_pointer(m_ptr + offset); }
+
+		reference operator[](size_t offset) const { return *(*this + offset); }
+
+		T* m_ptr;
+	};
+
+	template <class T1, class T2>
+	bool operator==(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return left.m_ptr == right.m_ptr; }
+
+	template <class T1, class T2>
+	bool operator!=(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return !(left == right); }
+
+	template <class T1, class T2>
+	bool operator<(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return right.m_ptr < left.m_ptr; }
+
+	template <class T1, class T2>
+	bool operator>(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return right < left; }
+
+	template <class T1, class T2>
+	bool operator<=(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return !(right < left); }
+
+	template <class T1, class T2>
+	bool operator>=(const reverse_pointer<T1>& left, const reverse_pointer<T2>& right) { return !(left < right); }
+#endif
+
+	export_ template <class T>
+	class reverse_adapter
+	{
+	public:
+		reverse_adapter(T& container) : m_container(container) { }
+		reverse_adapter& operator=(const reverse_adapter&) = delete;
+
+#ifndef USE_STL
+		using iterator = reverse_pointer<typename T::value_type>;
+		iterator begin() { return iterator(m_container.end()); }
+		iterator end() { return iterator(m_container.begin()); }
+#else
+		typename T::reverse_iterator begin() { return m_container.rbegin(); }
+		typename T::reverse_iterator end() { return m_container.rend(); }
+#endif
+	private:
+		T& m_container;
+	};
+
+	export_ template <class T>
+	reverse_adapter<T> reverse_adapt(T& container) { return reverse_adapter<T>(container); }
+}
+
+
+#include <stl/base.h>
+
+namespace two
+{
+	export_ template <> TWO_INFRA_EXPORT void to_string(const bool&    value, string& str);
+	export_ template <> TWO_INFRA_EXPORT void to_string(const char&    value, string& str);
+	export_ template <> TWO_INFRA_EXPORT void to_string(const schar&   value, string& str);
+	export_ template <> TWO_INFRA_EXPORT void to_string(const uchar&   value, string& str);
+	export_ template <> TWO_INFRA_EXPORT void to_string(const short&   value, string& str);
+	export_ template <> TWO_INFRA_EXPORT void to_string(const int&     value, string& str);
+	export_ template <> TWO_INFRA_EXPORT void to_string(const long&    value, string& str);
+	export_ template <> TWO_INFRA_EXPORT void to_string(const llong&   value, string& str);
+	export_ template <> TWO_INFRA_EXPORT void to_string(const ushort&  value, string& str);
+	export_ template <> TWO_INFRA_EXPORT void to_string(const uint&    value, string& str);
+	export_ template <> TWO_INFRA_EXPORT void to_string(const ulong&   value, string& str);
+	export_ template <> TWO_INFRA_EXPORT void to_string(const ullong&  value, string& str);
+	export_ template <> TWO_INFRA_EXPORT void to_string(const float&   value, string& str);
+	export_ template <> TWO_INFRA_EXPORT void to_string(const double&  value, string& str);
+	export_ template <> TWO_INFRA_EXPORT void to_string(const ldouble& value, string& str);
+}
+
+
+#include <stdint.h>
+#include <stl/vector.h>
+//#include <stl/type_traits.h>
+
+namespace two
+{
+	// vector - string conversion
+	export_ template <class T>
+	inline void vector_to_string(const T& val, string& str)
+	{
+		for(const typename T::value_type& v : val)
+		{
+			str += to_string(v, str);
+			str += ",";
+		}
+		if(val.size() > 0)
+			str.pop_back();
+	}
+
+#if 0
+	export_ template <class T>
+	constexpr bool is_vector = false;
+	
+	export_ template <class T>
+	constexpr bool is_vector<vector<T>> = true;
+
+	export_ template <class T>
+	inline enable_if<is_vector<T>, void>
+		to_string(const T& val, string& str) { vector_to_string(val, str); }
+#endif
+
+	export_ template <class T>
+	inline void string_to_vector(const string& str, T& vec)
+	{
+		size_t first = 0;
+		size_t second = str.find(",");
+		const size_t end = str.size();
+
+		while(second != end)
+		{
+			second = str.find(",", first);
+			vec.push_back(to_value<class T::value_type>(str.substr(first, second - first)));
+			
+			if(second != end)
+				first = second + 1;
+		}
+	}
+
+	export_ template <class T, uint32_t size>
+	inline void array_to_string(const T& val, string& str)
+	{
+		for(uint32_t i = 0; i < size; ++i)
+		{
+			str += to_string(val[i]);
+			str += ",";
+		}
+		str.pop_back();
+	}
+
+	export_ template <class Vec, class T>
+	inline void string_to_array(const string& str, Vec& vec)
+	{
+		size_t first = 0;
+		size_t second = str.find(",");
+		const size_t end = str.size();
+
+		uint32_t i = 0;
+		while(second != end)
+		{
+			second = str.find(",", first);
+			vec[i] = to_value<T>(str.substr(first, second - first));
+
+			++i;
+			if(second != end)
+				first = second + 1;
+		}
+	}
+
+	export_ template <class T>
+	struct StringConverter
+	{
+		static inline void to(const T& val, string& str) { UNUSED(val); UNUSED(str); }
+		static inline void from(const string& str, T& val) { UNUSED(str); UNUSED(val); }
+	};
+
+	export_ template <class T>
+	struct StringConverter<vector<T>>
+	{
+		static inline void to(const vector<T>& val, string& str) { vector_to_string(val, str); }
+		static inline void from(const string& str, vector<T>& vec) { string_to_vector(str, vec); }
+	};
+
+	export_ template <class T_Enum>
+	inline void flags_from_string(const string& str, T_Enum& value)
+	{
+		vector<string> names = split(to_upper(str), "|");
+		for(const string& name : names)
+			value = static_cast<T_Enum>(value | to_value<T_Enum>(name));
+	}
+
+	export_ template <class T_Enum>
+	inline T_Enum flags_from_string(const string& str) { T_Enum value = T_Enum(0); flags_from_string(str, value); return value; }
+
+	export_ template <class T_Enum, size_t Count>
+	inline void flags_to_string(const T_Enum& value, string& str)
+	{
+		for(size_t shift = 0; shift < Count; ++shift)
+			if(value & (1 << shift))
+				str += (str.empty() ? "" : "|") + to_string<T_Enum>(static_cast<T_Enum>((1 << shift)));
+	}
+
+	export_ template <class T_Enum, size_t Count>
+	inline string flags_to_string(const T_Enum& value) { string str; flags_to_string<T_Enum, Count>(value, str); return str; }
+
+	export_ template <class T>
+	inline void to_value(const string& str, T& val) { StringConverter<T>::from(str, val); }
+
+	export_ template <class T>
+	inline void to_string(const T& val, string& str) { StringConverter<T>::to(val, str); }
+}
+
+
+#include <stl/stddef.h>
+#include <stdint.h>
+
+namespace two
+{
+	export_ TWO_INFRA_EXPORT void set_thread_name(const char* name);
+
+	export_ enum class ThreadPriority
+	{
+		Normal,
+		Display,
+		UrgentDisplay
+	};
+
+	export_ TWO_INFRA_EXPORT void set_thread_priority(ThreadPriority priority);
+	export_ TWO_INFRA_EXPORT void set_thread_affinity(uint32_t mask);
+}
+#ifdef TWO_MODULES
 
 
 #include <stl/vector.h>
@@ -1054,7 +1101,7 @@ namespace two
 	export_ template <class T>
 	span<T> to_array(vector<T>& vec, size_t offset, size_t count) { return { &vec[offset], count }; }
 
-	template <class T, class U>
+	export_ template <class T, class U>
 	span<T> to_array_cast(vector<U>& vec) { return{ (T*)&vec[0], vec.size() }; }
 
 	export_ template <class T>
@@ -1114,8 +1161,8 @@ namespace two
 		return result;
 	}
 
-	template <class U, class T, class F>
-	export_ vector<U> transform(span<T> vec, F func)
+	export_ template <class U, class T, class F>
+	vector<U> transform(span<T> vec, F func)
 	{
 		vector<U> result;
 		for(const T& value : vec)
@@ -1123,8 +1170,8 @@ namespace two
 		return result;
 	}
 
-	template <class V, class T, class U, class F>
-	export_ vector<V> transform(span<T> a, span<U> b, F func)
+	export_ template <class V, class T, class U, class F>
+	vector<V> transform(span<T> a, span<U> b, F func)
 	{
 		vector<V> result;
 		for(size_t i = 0; i < a.size(); ++i)
@@ -1132,14 +1179,54 @@ namespace two
 		return result;
 	}
 
-	template <class T, class F>
-	export_ vector<T> transform(size_t begin, size_t end, F func)
+	export_ template <class T, class F>
+	vector<T> transform(size_t begin, size_t end, F func)
 	{
 		vector<T> result;
 		for(size_t i = begin; i < end; ++i)
 			result.push_back(func(i));
 		return result;
 	}
+}
+
+
+#include <stl/type_traits.h>
+
+#if defined __GNUC__
+#   pragma GCC system_header
+#endif
+
+namespace two
+{
+	export_ template <class T>
+	constexpr bool is_object_pointer = is_pointer<T>;// && !is_function_pointer<T>;
+
+	export_ template <class T, typename = void>
+	struct is_comparable_base { constexpr static bool value = false;};
+
+	export_ template <class T>
+	struct is_comparable_base<T, decltype(declval<T&>() == declval<T&>(), (void) 0)> { constexpr static bool value = true; };
+
+	export_ template <class T>
+	constexpr bool is_comparable = is_comparable_base<T>::value;
+
+	export_ template <class T>
+	constexpr bool is_copyable = is_copy_constructible<T> && is_copy_assignable<T>;
+}
+#endif
+
+
+
+#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#endif
+
+
+
+namespace two
+{
+    // Exported types
+    
+    
 }
 
 

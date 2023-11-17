@@ -5,93 +5,12 @@
 #include <ui-nanovg/VgNano.h>
 
 
-
-
-
-
-#ifndef TWO_UI_NANOVG_EXPORT
-#define TWO_UI_NANOVG_EXPORT TWO_IMPORT
-#endif
-
-
-    
-    
-
-namespace std {
-
-    
-    
-}
-
-namespace two {
-namespace ui {
-
-    
-    
-}
-}
-
-namespace glm {
-
-    
-    
-}
-
-namespace two {
-namespace gfx {
-
-    
-    
-}
-}
-
-namespace json11 {
-
-    
-    
-}
-
-namespace two {
-
-    
-    
-    class VgNano;
-}
-
-namespace two {
-namespace detail {
-
-    
-    
-}
-}
-
-namespace bgfx {
-
-    
-    
-}
-
-namespace bimg {
-
-    
-    
-}
-
-namespace bx {
-
-    
-    
-}
-
-
 #include <ui-nanovg/Forward.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <obj/Type.h>
 #include <obj/Vector.h>
 #endif
-
 
 #ifndef TWO_CPP_20
 #include <stl/string.h>
@@ -201,3 +120,83 @@ namespace two
 		map<const Layer*, NVGdisplayList*> m_layers;
 	};
 }
+
+
+
+
+
+#ifndef TWO_UI_NANOVG_EXPORT
+#define TWO_UI_NANOVG_EXPORT TWO_IMPORT
+#endif
+
+
+    
+    
+
+namespace std {
+
+    
+    
+}
+
+namespace two {
+namespace ui {
+
+    
+    
+}
+}
+
+namespace glm {
+
+    
+    
+}
+
+namespace two {
+namespace gfx {
+
+    
+    
+}
+}
+
+namespace json11 {
+
+    
+    
+}
+
+namespace two {
+
+    
+    
+    class VgNano;
+}
+
+namespace two {
+namespace detail {
+
+    
+    
+}
+}
+
+namespace bgfx {
+
+    
+    
+}
+
+namespace bimg {
+
+    
+    
+}
+
+namespace bx {
+
+    
+    
+}
+

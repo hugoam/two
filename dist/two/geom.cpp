@@ -1,9 +1,343 @@
-#include <two/geom.h>
-#include <two/math.h>
 #include <two/infra.h>
-#include <two/type.h>
 
 
+module;
+module two.geom;
+
+namespace two
+{
+	Line::Line() : Shape(type<Line>()) {}
+	Line::Line(const vec3& start, const vec3& end) : Shape(type<Line>()), m_start(start), m_end(end) {}
+	object<Shape> Line::clone() const { return oconstruct<Line>(*this); }
+
+	Rect::Rect() : Shape(type<Rect>()) {}
+	Rect::Rect(const vec2& pos, const vec2& size) : Shape(type<Rect>()), m_position(pos), m_size(size) {}
+	Rect::Rect(float x, float y, float w, float h) : Shape(type<Rect>()), m_position(x, y), m_size(w, h) {}
+	object<Shape> Rect::clone() const { return oconstruct<Rect>(*this); }
+
+	Quad::Quad() : Shape(type<Quad>()) {}
+	Quad::Quad(const vec3& a, const vec3& b, const vec3& c, const vec3& d) : Shape(type<Quad>()), m_vertices{ a, b, c, d } {}
+	object<Shape> Quad::clone() const { return oconstruct<Quad>(*this); }
+
+	Polygon::Polygon() : Shape(type<Polygon>()) {}
+	Polygon::Polygon(span<vec3> vertices) : Shape(type<Polygon>()), m_vertices(vertices.begin(), vertices.end()) {}
+	object<Shape> Polygon::clone() const { return oconstruct<Polygon>(*this); }
+
+	Grid2::Grid2() : Shape(type<Grid2>()) {}
+	Grid2::Grid2(const vec2& size, const vec2& space) : Shape(type<Grid2>()), m_size(size), m_space(space) {}
+	object<Shape> Grid2::clone() const { return oconstruct<Grid2>(*this); }
+
+	Triangle::Triangle() : Shape(type<Triangle>()) {}
+	Triangle::Triangle(const vec2& size) : Shape(type<Triangle>()), m_size(size) {}
+	object<Shape> Triangle::clone() const { return oconstruct<Triangle>(*this); }
+
+	Circle::Circle() : Shape(type<Circle>()) {}
+	Circle::Circle(float radius, Axis axis) : Shape(type<Circle>()), m_radius(radius), m_axis(axis) {}
+	Circle::Circle(const vec3& center, float radius, Axis axis) : Shape(type<Circle>(), center), m_radius(radius), m_axis(axis) {}
+	bool Circle::operator==(const Circle& other) const { return m_radius == other.m_radius && m_axis == other.m_axis && m_center == other.m_center; }
+	object<Shape> Circle::clone() const { return oconstruct<Circle>(*this); }
+
+	Torus::Torus() : Shape(type<Torus>()) {}
+	Torus::Torus(float radius, float tube, Axis axis) : Shape(type<Torus>()), m_radius(radius), m_tube(tube), m_axis(axis) {}
+	Torus::Torus(const vec3& center, float radius, float tube, Axis axis) : Shape(type<Torus>(), center), m_radius(radius), m_tube(tube), m_axis(axis) {}
+	//bool Torus::operator==(const Torus& other) const { return m_radius == other.m_radius && m_tube == other.m_tube && m_axis == other.m_axis && m_center == other.m_center; }
+	object<Shape> Torus::clone() const { return oconstruct<Torus>(*this); }
+
+	TorusKnot::TorusKnot() : Shape(type<TorusKnot>()) {}
+	TorusKnot::TorusKnot(float radius, float tube, float p, float q) : Shape(type<TorusKnot>()), m_radius(radius), m_tube(tube), m_p(p), m_q(q) {}
+	TorusKnot::TorusKnot(const vec3& center, float radius, float tube, float p, float q) : Shape(type<TorusKnot>(), center), m_radius(radius), m_tube(tube), m_p(p), m_q(q) {}
+	object<Shape> TorusKnot::clone() const { return oconstruct<TorusKnot>(*this); }
+
+	Ring::Ring() : Shape(type<Ring>()) {}
+	Ring::Ring(float radius, float min, float max) : Shape(type<Ring>()), m_radius(radius), m_min(min), m_max(max) {}
+	object<Shape> Ring::clone() const { return oconstruct<Ring>(*this); }
+
+	Ellipsis::Ellipsis() : Shape(type<Ellipsis>()) {}
+	Ellipsis::Ellipsis(vec2 radius, Axis axis) : Shape(type<Ellipsis>()), m_radius(radius), m_axis(axis) {}
+	object<Shape> Ellipsis::clone() const { return oconstruct<Ellipsis>(*this); }
+
+	Arc::Arc() : Shape(type<Arc>()) {}
+	Arc::Arc(float radius, float start, float end) : Shape(type<Arc>()), m_radius(radius), m_start(start), m_end(end) {}
+	object<Shape> Arc::clone() const { return oconstruct<Arc>(*this); }
+
+	ArcLine::ArcLine() : Shape(type<ArcLine>()) {}
+	ArcLine::ArcLine(const vec3& start, const vec3& middle, const vec3& end) : Shape(type<ArcLine>()), m_start(start), m_middle(middle), m_end(end) {}
+	ArcLine::ArcLine(const vec3& center, const vec3& start, const vec3& middle, const vec3& end) : Shape(type<ArcLine>(), center), m_start(start), m_middle(middle), m_end(end) {}
+	object<Shape> ArcLine::clone() const { return oconstruct<ArcLine>(*this); }
+
+	Cylinder::Cylinder() : Shape(type<Cylinder>()) {}
+	Cylinder::Cylinder(float radius, float height, Axis axis) : Shape(type<Cylinder>()), m_radius(radius), m_height(height), m_axis(axis) {}
+	Cylinder::Cylinder(const vec3& center, float radius, float height, Axis axis) : Shape(type<Cylinder>(), center), m_radius(radius), m_height(height), m_axis(axis) {}
+	object<Shape> Cylinder::clone() const { return oconstruct<Cylinder>(*this); }
+
+	Capsule::Capsule() : Shape(type<Capsule>()) {}
+	Capsule::Capsule(float radius, float height, Axis axis) : Shape(type<Capsule>()), m_radius(radius), m_height(height), m_axis(axis) {}
+	object<Shape> Capsule::clone() const { return oconstruct<Capsule>(*this); }
+
+	Cube::Cube() : Shape(type<Cube>()) {}
+	Cube::Cube(const vec3& extents) : Shape(type<Cube>()), m_extents(extents) {}
+	Cube::Cube(const vec3& center, const vec3& extents) : Shape(type<Cube>(), center), m_extents(extents) {}
+	Cube::Cube(float side) : Shape(type<Cube>()), m_extents(side, side, side) {}
+	Cube::Cube(const Aabb& aabb) : Cube(aabb.m_center, aabb.m_extents) {}
+	object<Shape> Cube::clone() const { return oconstruct<Cube>(*this); }
+
+	Box::Box() : Shape(type<Box>()), m_vertices() {}
+	object<Shape> Box::clone() const { return oconstruct<Box>(*this); }
+
+	Tetraedr::Tetraedr() : Shape(type<Tetraedr>()) {}
+	Tetraedr::Tetraedr(float radius) : Shape(type<Tetraedr>()), m_radius(radius) {}
+	Tetraedr::Tetraedr(const vec3& center, float radius) : Shape(type<Tetraedr>(), center), m_radius(radius) {}
+	object<Shape> Tetraedr::clone() const { return oconstruct<Tetraedr>(*this); }
+
+	Sphere::Sphere() : Shape(type<Sphere>()) {}
+	Sphere::Sphere(float radius, float start, float end) : Shape(type<Sphere>()), m_radius(radius), m_start(start), m_end(end) {}
+	Sphere::Sphere(const vec3& center, float radius, float start, float end) : Shape(type<Sphere>(), center), m_radius(radius), m_start(start), m_end(end) {}
+	object<Shape> Sphere::clone() const { return oconstruct<Sphere>(*this); }
+
+	SphereRing::SphereRing() : Shape(type<SphereRing>()) {}
+	SphereRing::SphereRing(float radius, float min, float max) : Shape(type<SphereRing>()), m_radius(radius), m_min(min), m_max(max) {}
+	object<Shape> SphereRing::clone() const { return oconstruct<SphereRing>(*this); }
+
+	Spheroid::Spheroid() : Shape(type<Spheroid>()) {}
+	Spheroid::Spheroid(float radius) : Shape(type<Spheroid>()), m_radius(radius), m_circleX(radius, Axis::X), m_circleY(radius, Axis::Y), m_circleZ(radius, Axis::Z) {}
+	Spheroid::Spheroid(const vec3& center, float radius) : Shape(type<Spheroid>(), center), m_radius(radius), m_circleX(radius, Axis::X), m_circleY(radius, Axis::Y), m_circleZ(radius, Axis::Z) {}
+	object<Shape> Spheroid::clone() const { return oconstruct<Spheroid>(*this); }
+
+	Icosaedr::Icosaedr() : Shape(type<Icosaedr>()) {}
+	Icosaedr::Icosaedr(float radius) : Shape(type<Icosaedr>()), m_radius(radius) {}
+	Icosaedr::Icosaedr(const vec3& center, float radius) : Shape(type<Icosaedr>(), center), m_radius(radius) {}
+	object<Shape> Icosaedr::clone() const { return oconstruct<Icosaedr>(*this); }
+
+	Points::Points() : Shape(type<Points>()) {}
+	Points::Points(span<vec3> points) : Shape(type<Points>()), m_points(points.begin(), points.end()) {}
+	object<Shape> Points::clone() const { return oconstruct<Points>(*this); }
+
+	Grid3::Grid3() : Shape(type<Grid3>()) {}
+	Grid3::Grid3(const uvec2& size, span<vec3> points) : Shape(type<Grid3>()), m_size(size), m_points(points.begin(), points.end()) { m_points.resize(size.x * size.y); }
+	object<Shape> Grid3::clone() const { return oconstruct<Grid3>(*this); }
+
+	ConvexHull::ConvexHull() : Shape(type<ConvexHull>()) {}
+	ConvexHull::ConvexHull(span<vec3> vertices) : Shape(type<ConvexHull>()), m_vertices(vertices.begin(), vertices.end()) {}
+	object<Shape> ConvexHull::clone() const { return oconstruct<ConvexHull>(*this); }
+
+	Aabb aabb(const vec3& min, const vec3& max)
+	{
+		vec3 extents = (max - min) / 2.f;
+		return Aabb(min + extents, extents);
+	}
+
+	Aabb::Aabb() : m_empty(true) {}
+	Aabb::Aabb(const vec3& center, const vec3& extents) : m_center(center), m_extents(extents), m_empty(false) {}
+	//object<Shape> Aabb::clone() const { return {}; } //oconstruct<Aabb>(*this); }
+
+	vec3 Aabb::bmin() const { return m_center - m_extents; }
+	vec3 Aabb::bmax() const { return m_center + m_extents; }
+
+	bool Aabb::intersects(const Aabb& other) const
+	{
+		return !(any(less(m_center + m_extents, other.m_center - other.m_extents))
+			  || any(greater(m_center - m_extents, other.m_center + other.m_extents)));
+	}
+
+	void Aabb::merge(const vec3& point)
+	{
+		if(m_empty)
+		{
+			m_center = point;
+			m_empty = false;
+			return;
+		}
+
+		vec3 bmax = max(m_center + m_extents, point);
+		vec3 bmin = min(m_center - m_extents, point);
+
+		m_center = (bmax + bmin) * 0.5f;
+		m_extents = (bmax - bmin) * 0.5f;
+	}
+
+	void Aabb::merge(const Aabb& other)
+	{
+		if(other.m_empty) return;
+		if(m_empty)
+		{
+			*this = other;
+			return;
+		}
+
+		vec3 bmax = max(m_center + m_extents, other.m_center + other.m_extents);
+		vec3 bmin = min(m_center - m_extents, other.m_center - other.m_extents);
+
+		m_center = (bmax + bmin) * 0.5f;
+		m_extents = (bmax - bmin) * 0.5f;
+	}
+
+	bool Aabb::cull(const vec3& point) const
+	{
+		if(m_empty) return false;
+
+		vec3 max_bounds(m_center + m_extents);
+		vec3 min_bounds(m_center - m_extents);
+
+		if(any(greater(point, max_bounds)))
+			return true;
+		if(any(less(point, min_bounds)))
+			return true;
+
+		return false;
+	}
+
+	bool Aabb::cull(span<vec3> points) const
+	{
+		for(const vec3& point : points)
+			if(cull(point))
+				return true;
+		return false;
+	}
+
+	Aabb face_aabb(const vec3* vertices)
+	{
+		vec3 bmin = min(vertices[0], min(vertices[1], vertices[2]));
+		vec3 bmax = max(vertices[0], max(vertices[1], vertices[2]));
+		vec3 extents = (bmax - bmin) * 0.5f;
+		return Aabb(bmin + extents, extents);
+	}
+
+	Aabb face_aabb(const Face3& face)
+	{
+		return face_aabb(face.m_vertices);
+	}
+
+	void quad_vertices(const vec2& size, const vec3& u, const vec3& v, span<vec3> vertices, const vec2& offset = vec2(0.f))
+	{
+		vec3 offset3d = u * offset.x + v * offset.y;
+		vec3 a = (u * size.x + v * size.y) / 2.f;
+		vec3 b = (u * size.x - v * size.y) / 2.f;
+		vertices[0] = a + offset3d;
+		vertices[1] = b + offset3d;
+		vertices[2] = -a + offset3d;
+		vertices[3] = -b + offset3d;
+	}
+
+	Quad::Quad(const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>()) { quad_vertices(size, x, y, { m_vertices }); }
+	Quad::Quad(const vec2& offset, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>()) { quad_vertices(size, x, y, { m_vertices }, offset); }
+	Quad::Quad(const vec3& center, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>(), center) { quad_vertices(size, x, y, { m_vertices }); }
+	Quad::Quad(const vec3& center, const vec2& offset, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>(), center) { quad_vertices(size, x, y, { m_vertices }, offset); }
+	Quad::Quad(float size, const vec3& x, const vec3& y) : Quad(vec2(size), x, y) {}
+	// @todo this should probably be z3, x3 since default faces up and cross(z, x) = y
+	// find out where in the geometry generation is the fuckup
+	Quad::Quad(const Rect& rect) : Quad(rect.m_size, x3, z3) {}
+
+	void box_vertices(const vec3& center, const vec3& extents, span<vec3> vertices)
+	{
+		vec3 min = center - extents;
+		vec3 max = center + extents;
+
+		vertices[0] = { min.x, min.y, max.z };
+		vertices[1] = { max.x, min.y, max.z };
+		vertices[2] = { max.x, max.y, max.z };
+		vertices[3] = { min.x, max.y, max.z };
+		vertices[4] = { max.x, min.y, min.z };
+		vertices[5] = { min.x, min.y, min.z };
+		vertices[6] = { min.x, max.y, min.z };
+		vertices[7] = { max.x, max.y, min.z };
+	}
+
+	Box::Box(span<vec3> vertices) : Shape(type<Box>()) { span<vec3> dest = { m_vertices }; copy(dest, vertices); }
+	Box::Box(const Cube& cube) : Shape(type<Box>()) { box_vertices(cube.m_center, cube.m_extents, { m_vertices }); }
+
+	Symbol::Symbol(Colour fill, Colour outline, bool overlay, bool double_sided, SymbolDetail detail)
+		: m_outline(outline)
+		, m_fill(fill)
+		, m_overlay(overlay)
+		, m_double_sided(double_sided)
+		, m_detail(detail)
+	{}
+
+	Symbol::Symbol(cstring image, float alpha)
+		: Symbol()
+	{
+		m_image = image;
+		m_fill.a = alpha;
+	}
+
+	Symbol::Symbol(const Image256& image, float alpha)
+		: Symbol()
+	{
+		m_image256 = &const_cast<Image256&>(image);
+		m_fill.a = alpha;
+	}
+
+	bool Symbol::operator==(const Symbol& other) const
+	{
+		UNUSED(other);
+		return true;
+	}
+
+	inline vec3 distribute_sphere(float radius, float h = 2.f, float maxh = 1.f)
+	{
+		const float rand0 = randf(0.f, 1.f) * h - maxh;
+		const float rand1 = randf(0.f, 1.f) * c_2pi;
+		const float sqrtf1 = sqrt(1.0f - rand0 * rand0);
+
+		return vec3(sqrtf1 * cos(rand1), sqrtf1 * sin(rand1), rand0) * radius;
+	}
+
+	inline vec3 distribute_spherical(float radius, float min, float max)
+	{
+		const float maxh = max * 2.0f - 1.0f;
+		const float minh = min * 2.0f - 1.0f;
+		return distribute_sphere(radius, maxh - minh, maxh);
+	}
+
+	inline vec3 distribute_circle(float radius)
+	{
+		const float angle = randf(0.f, 1.f) * c_2pi;
+		return vec3(cos(angle), 0.0f, sin(angle)) * radius;
+	}
+
+	inline vec3 distribute_ring(float radius, float min = 0.f, float max = 1.f)
+	{
+		const float size = randf(min, max);
+		vec3 pos = distribute_circle(radius);
+		return pos * size;
+	}
+
+	inline vec3 distribute_rect(float width = 1.f, float height = 1.f)
+	{
+		const float x = randf(-1.f, 1.f);
+		const float y = randf(-1.f, 1.f);
+		return { x * width, 0.f, y * height };
+	}
+
+	inline vec3 distribute_points(span<vec3> points)
+	{
+		uint index = randi(0U, uint(points.size()) - 1U);
+		return points[index];
+	}
+
+	RandomShapePoint::RandomShapePoint()
+	{
+		dispatch_branch<Sphere>(*this, +[](const Sphere& sphere) { return distribute_sphere(sphere.m_radius); });
+		dispatch_branch<SphereRing>(*this, +[](const SphereRing& sphere) { return distribute_spherical(sphere.m_radius, sphere.m_min, sphere.m_max); });
+		dispatch_branch<Circle>(*this, +[](const Circle& circle) { return distribute_circle(circle.m_radius); });
+		dispatch_branch<Ring>(*this, +[](const Ring& ring) { return distribute_ring(ring.m_radius, ring.m_min, ring.m_max); });
+		dispatch_branch<Rect>(*this, +[](const Rect& rect) { return distribute_rect(rect.m_size.x, rect.m_size.y); });
+		dispatch_branch<Points>(*this, +[](const Points& points) { return distribute_points(points.m_points); });
+	}
+
+	vector<vec3> distribute_shape(const Shape& shape, size_t count)
+	{
+		if(!RandomShapePoint::me().check(Ref(&shape)))
+			return vector<vec3>(count, vec3(0.f));
+
+		vector<vec3> points(count);
+		for(size_t i = 0; i < count; ++i)
+			points[i] = RandomShapePoint::me().dispatch(Ref(&shape));
+		return points;
+	}
+}
+
+module;
 module two.geom;
 
 #include <cfloat>
@@ -464,26 +798,7 @@ namespace two
 		return catmull_rom_three(p0, p1, p2, p3, weight);
 	}
 }
-#ifndef USE_STL
-module two.geom;
-
-namespace stl
-{
-	using namespace two;
-	template class TWO_GEOM_EXPORT vector<Poisson*>;
-	template class TWO_GEOM_EXPORT vector<Geometry*>;
-	template class TWO_GEOM_EXPORT vector<Geometry>;
-	template class TWO_GEOM_EXPORT vector<Circle>;
-	template class TWO_GEOM_EXPORT vector<IcoSphere>;
-	template class TWO_GEOM_EXPORT vector<ProcShape>;
-	template class TWO_GEOM_EXPORT vector<MarchingCubes::Cache::Normal>;
-	template class TWO_GEOM_EXPORT vector<Distribution::Point>;
-	template class TWO_GEOM_EXPORT vector<vector<Distribution::Point>>;
-	template class TWO_GEOM_EXPORT vector<vector<Distribution::Point>*>;
-	template class TWO_GEOM_EXPORT unordered_map<int64_t, int>;
-}
-#endif
-
+module;
 module two.geom;
 
 namespace two
@@ -552,15 +867,103 @@ namespace two
     template <> TWO_GEOM_EXPORT Type& type<two::MarchingCubes>() { static Type ty("MarchingCubes", sizeof(two::MarchingCubes)); return ty; }
 }
 
-#ifndef TWO_CPP_20
-#include <cstdio>
-#endif
-
+module;
 module two.geom;
 
-#include <cassert>
+namespace two
+{
+	// ref http://www.openprocessing.org/visuals/?visualID=15599
 
+	vector<vec3> hilbert2d(vec3 center, float size, int iterations, uint v0, uint v1, uint v2, uint v3)
+	{
+		float half = size / 2.f;
+
+		const vec3 corners[] = {
+			vec3(center.x - half, center.y, center.z - half),
+			vec3(center.x - half, center.y, center.z + half),
+			vec3(center.x + half, center.y, center.z + half),
+			vec3(center.x + half, center.y, center.z - half)
+		};
+
+		const vector<vec3> curve = {
+			corners[v0],
+			corners[v1],
+			corners[v2],
+			corners[v3]
+		};
+
+		// Recurse iterations
+		if(0 <= --iterations)
+		{
+			vector<vec3> result = {};
+
+			extend(result, hilbert2d(curve[0], half, iterations, v0, v3, v2, v1));
+			extend(result, hilbert2d(curve[1], half, iterations, v0, v1, v2, v3));
+			extend(result, hilbert2d(curve[2], half, iterations, v0, v1, v2, v3));
+			extend(result, hilbert2d(curve[3], half, iterations, v2, v1, v0, v3));
+
+			// Return recursive call
+			return result;
+		}
+
+		// Return complete Hilbert Curve.
+		return curve;
+
+	}
+
+	vector<vec3> hilbert3d(vec3 center, float size, int iterations, uint v0, uint v1, uint v2, uint v3, uint v4, uint v5, uint v6, uint v7)
+	{
+		float half = size / 2.f;
+
+		const vec3 corners[] =
+		{
+			vec3(center.x - half, center.y + half, center.z - half),
+			vec3(center.x - half, center.y + half, center.z + half),
+			vec3(center.x - half, center.y - half, center.z + half),
+			vec3(center.x - half, center.y - half, center.z - half),
+			vec3(center.x + half, center.y - half, center.z - half),
+			vec3(center.x + half, center.y - half, center.z + half),
+			vec3(center.x + half, center.y + half, center.z + half),
+			vec3(center.x + half, center.y + half, center.z - half)
+		};
+
+		const vector<vec3> curve = {
+			corners[v0],
+			corners[v1],
+			corners[v2],
+			corners[v3],
+			corners[v4],
+			corners[v5],
+			corners[v6],
+			corners[v7]
+		};
+
+		// Recurse iterations
+		if (--iterations >= 0)
+		{
+			vector<vec3> result = {};
+
+			extend(result, hilbert3d(curve[0], half, iterations, v0, v3, v4, v7, v6, v5, v2, v1 ));
+			extend(result, hilbert3d(curve[1], half, iterations, v0, v7, v6, v1, v2, v5, v4, v3 ));
+			extend(result, hilbert3d(curve[2], half, iterations, v0, v7, v6, v1, v2, v5, v4, v3 ));
+			extend(result, hilbert3d(curve[3], half, iterations, v2, v3, v0, v1, v6, v7, v4, v5 ));
+			extend(result, hilbert3d(curve[4], half, iterations, v2, v3, v0, v1, v6, v7, v4, v5 ));
+			extend(result, hilbert3d(curve[5], half, iterations, v4, v3, v2, v5, v6, v1, v0, v7 ));
+			extend(result, hilbert3d(curve[6], half, iterations, v4, v3, v2, v5, v6, v1, v0, v7 ));
+			extend(result, hilbert3d(curve[7], half, iterations, v6, v5, v2, v1, v0, v3, v4, v7 ));
+
+			// Return recursive call
+			return result;
+		}
+
+		// Return complete Hilbert Curve.
+		return curve;
+	}
+}
+
+module;
 #include <mikktspace.h>
+module two.geom;
 
 namespace two
 {
@@ -1029,7 +1432,7 @@ namespace two
 
 		bool success = genTangSpaceDefault(&context) != 0;
 		if(!success)
-			printf("[warning] Couldn't generate mikktspace tangents\n");
+			warn("Couldn't generate mikktspace tangents\n");
 	}
 
 	void MeshPacker::gen_tangents()
@@ -1065,1073 +1468,11 @@ namespace two
 
 		bool success = genTangSpaceDefault(&context) != 0;
 		if(!success)
-			printf("[warning] Couldn't generate mikktspace tangents\n");
+			warn("Couldn't generate mikktspace tangents\n");
 	}
 }
 
-module two.geom;
-
-namespace two
-{
-	// ref http://www.openprocessing.org/visuals/?visualID=15599
-
-	vector<vec3> hilbert2d(vec3 center, float size, int iterations, uint v0, uint v1, uint v2, uint v3)
-	{
-		float half = size / 2.f;
-
-		const vec3 corners[] = {
-			vec3(center.x - half, center.y, center.z - half),
-			vec3(center.x - half, center.y, center.z + half),
-			vec3(center.x + half, center.y, center.z + half),
-			vec3(center.x + half, center.y, center.z - half)
-		};
-
-		const vector<vec3> curve = {
-			corners[v0],
-			corners[v1],
-			corners[v2],
-			corners[v3]
-		};
-
-		// Recurse iterations
-		if(0 <= --iterations)
-		{
-			vector<vec3> result = {};
-
-			extend(result, hilbert2d(curve[0], half, iterations, v0, v3, v2, v1));
-			extend(result, hilbert2d(curve[1], half, iterations, v0, v1, v2, v3));
-			extend(result, hilbert2d(curve[2], half, iterations, v0, v1, v2, v3));
-			extend(result, hilbert2d(curve[3], half, iterations, v2, v1, v0, v3));
-
-			// Return recursive call
-			return result;
-		}
-
-		// Return complete Hilbert Curve.
-		return curve;
-
-	}
-
-	vector<vec3> hilbert3d(vec3 center, float size, int iterations, uint v0, uint v1, uint v2, uint v3, uint v4, uint v5, uint v6, uint v7)
-	{
-		float half = size / 2.f;
-
-		const vec3 corners[] =
-		{
-			vec3(center.x - half, center.y + half, center.z - half),
-			vec3(center.x - half, center.y + half, center.z + half),
-			vec3(center.x - half, center.y - half, center.z + half),
-			vec3(center.x - half, center.y - half, center.z - half),
-			vec3(center.x + half, center.y - half, center.z - half),
-			vec3(center.x + half, center.y - half, center.z + half),
-			vec3(center.x + half, center.y + half, center.z + half),
-			vec3(center.x + half, center.y + half, center.z - half)
-		};
-
-		const vector<vec3> curve = {
-			corners[v0],
-			corners[v1],
-			corners[v2],
-			corners[v3],
-			corners[v4],
-			corners[v5],
-			corners[v6],
-			corners[v7]
-		};
-
-		// Recurse iterations
-		if (--iterations >= 0)
-		{
-			vector<vec3> result = {};
-
-			extend(result, hilbert3d(curve[0], half, iterations, v0, v3, v4, v7, v6, v5, v2, v1 ));
-			extend(result, hilbert3d(curve[1], half, iterations, v0, v7, v6, v1, v2, v5, v4, v3 ));
-			extend(result, hilbert3d(curve[2], half, iterations, v0, v7, v6, v1, v2, v5, v4, v3 ));
-			extend(result, hilbert3d(curve[3], half, iterations, v2, v3, v0, v1, v6, v7, v4, v5 ));
-			extend(result, hilbert3d(curve[4], half, iterations, v2, v3, v0, v1, v6, v7, v4, v5 ));
-			extend(result, hilbert3d(curve[5], half, iterations, v4, v3, v2, v5, v6, v1, v0, v7 ));
-			extend(result, hilbert3d(curve[6], half, iterations, v4, v3, v2, v5, v6, v1, v0, v7 ));
-			extend(result, hilbert3d(curve[7], half, iterations, v6, v5, v2, v1, v0, v3, v4, v7 ));
-
-			// Return recursive call
-			return result;
-		}
-
-		// Return complete Hilbert Curve.
-		return curve;
-	}
-}
-
-
-module two.geom;
-
-#include <stl/swap.h>
-
-namespace two
-{
-	float ray_aabb_intersection_dist(const vec3& bmin, const vec3& bmax, const Ray& ray)
-	{
-		const vec3 t1 = (bmin - ray.m_start) * ray.m_inv_dir;
-		const vec3 t2 = (bmax - ray.m_start) * ray.m_inv_dir;
-
-		float tmin = max(max(min(t1.x, t2.x), min(t1.y, t2.y)), min(t1.z, t2.z));
-		float tmax = min(min(max(t1.x, t2.x), max(t1.y, t2.y)), max(t1.z, t2.z));
-
-		return tmax >= tmin ? tmin : 0.f;
-	}
-
-	bool ray_aabb_intersection(const vec3& bmin, const vec3& bmax, const Ray& ray)
-	{
-		return ray_aabb_intersection_dist(bmin, bmax, ray) > 0.f;
-	}
-
-	bool ray_aabb_intersection(const vec3& bmin, const vec3& bmax, const Ray& ray, vec3& result)
-	{
-		float dist = ray_aabb_intersection_dist(bmin, bmax, ray);
-		if(dist > 0.f)
-			result = ray.m_start + ray.m_dir * dist;
-		return dist > 0.f;
-	}
-
-	bool segment_triangle_intersection(const vec3& sp, const vec3& sq, const vec3& a, const vec3& b, const vec3& c, float& t)
-	{
-		vec3 ab = b - a;
-		vec3 ac = c - a;
-		vec3 qp = sp - sq;
-
-		// Compute triangle normal. Can be precalculated or cached if
-		// intersecting multiple segments against the same triangle
-		vec3 norm = cross(ab, ac);
-
-		// Compute denominator d. If d <= 0, segment is parallel to or points
-		// away from triangle, so exit early
-		float d = dot(qp, norm);
-		if(d <= 0.0f) return false;
-
-		// Compute intersection t value of pq with plane of triangle. A ray
-		// intersects iff 0 <= t. Segment intersects iff 0 <= t <= 1. Delay
-		// dividing by d until intersection has been found to pierce triangle
-		vec3 ap = sp - a;
-		t = dot(ap, norm);
-		if(t < 0.0f) return false;
-		if(t > d) return false; // For segment; exclude this code line for a ray test
-
-								// Compute barycentric coordinate components and test if within bounds
-		vec3 e = cross(qp, ap);
-		float v = dot(ac, e);
-		if(v < 0.0f || v > d) return false;
-		float w = -dot(ab, e);
-		if(w < 0.0f || v + w > d) return false;
-
-		// Segment/ray intersects triangle. Perform delayed division
-		t /= d;
-
-		return true;
-	}
-
-	bool segment_aabb_intersection(const vec3& sp, const vec3& sq, const vec3& amin, const vec3& amax, float& tmin, float& tmax)
-	{
-		static const float EPS = 1e-6f;
-
-		vec3 d = sq - sp;
-		tmin = 0.0;
-		tmax = 1.0f;
-
-		for(int i = 0; i < 3; i++)
-		{
-			if(fabsf(d[i]) < EPS)
-			{
-				if(sp[i] < amin[i] || sp[i] > amax[i])
-					return false;
-			}
-			else
-			{
-				const float ood = 1.0f / d[i];
-				float t1 = (amin[i] - sp[i]) * ood;
-				float t2 = (amax[i] - sp[i]) * ood;
-				if(t1 > t2) swap(t1, t2);
-				if(t1 > tmin) tmin = t1;
-				if(t2 < tmax) tmax = t2;
-				if(tmin > tmax) return false;
-			}
-		}
-
-		return true;
-	}
-
-	bool segment_aabb_intersection_2d(const vec2& p, const vec2& q, const vec2& bmin, const vec2& bmax)
-	{
-		static const float EPSILON = 1e-6f;
-
-		float tmin = 0;
-		float tmax = 1;
-		vec2 d = q - p;
-
-		for(int i = 0; i < 2; i++)
-		{
-			if(fabsf(d[i]) < EPSILON)
-			{
-				// Ray is parallel to slab. No hit if origin not within slab
-				if(p[i] < bmin[i] || p[i] > bmax[i])
-					return false;
-			}
-			else
-			{
-				// Compute intersection t value of ray with near and far plane of slab
-				float ood = 1.0f / d[i];
-				float t1 = (bmin[i] - p[i]) * ood;
-				float t2 = (bmax[i] - p[i]) * ood;
-				if(t1 > t2) swap(t1, t2);
-				if(t1 > tmin) tmin = t1;
-				if(t2 < tmax) tmax = t2;
-				if(tmin > tmax) return false;
-			}
-		}
-		return true;
-	}
-
-	bool line_circle_intersection(const vec3& l0, const vec3& l1, const vec3& c0, float r, vec3& r0, vec3& r1)
-	{
-		UNUSED(r1);
-
-		vec3 d = l1 - l0; // FlowAxis vector of ray, from start to end
-		vec3 f = l0 - c0; // Vector from center sphere to ray start
-
-		float a = dot(d, d);
-		float b = dot(f * 2.f, d) ;
-		float c = dot(f, f) - r*r ;
-
-		float discriminant = b*b-4*a*c;
-		if(discriminant < 0)
-		{
-		  // no intersection
-			return false;
-		}
-		else
-		{
-		  // ray didn't totally miss sphere,
-		  // so there is a solution to
-		  // the equation.
-
-		  discriminant = sqrt(discriminant);
-
-		  // either solution may be on or off the ray so need to test both
-		  // t1 is always the smaller value, because BOTH discriminant and
-		  // a are nonnegative.
-		  float t1 = (-b - discriminant)/(2*a);
-		  float t2 = (-b + discriminant)/(2*a);
-
-		  // 3x HIT cases:
-		  //          -o->             --|-->  |            |  --|->
-		  // Impale(t1 hit,t2 hit), Poke(t1 hit,t2>1), ExitWound(t1<0, t2 hit), 
-
-		  // 3x MISS cases:
-		  //       ->  o                     o ->              | -> |
-		  // FallShort (t1>1,t2>1), Past (t1<0,t2<0), CompletelyInside(t1<0, t2>1)
-
-		  if( t1 >= 0 && t1 <= 1 )
-		  {
-			// t1 is the intersection, and it's closer than t2
-			// (since t1 uses -b - discriminant)
-			// Impale, Poke
-			r0 = l0;
-			r0 += d * t1; 
-			return true;
-		  }
-
-		  // here t1 didn't intersect so we are either started
-		  // inside the sphere or completely past it
-		  if( t2 >= 0 && t2 <= 1 )
-		  {
-			// ExitWound
-			r0 = l0;
-			r0 += d * t2;
-			return true;
-		  }
-
-		  // no intn: FallShort, Past, CompletelyInside
-		  return false;
-		}
-	}
-
-	bool circle_circle_intersection(	const vec3& c0, float r0,
-										const vec3& c1, float r1,
-										vec3& p1,
-										vec3& p2	)
-	{
-		float a, dx, dy, d, h, rx, ry;
-		float x2, y2;
-
-		/* dx and dy are the vertical and horizontal distances between
-		* the circle centers.
-		*/
-		dx = c1.x - c0.x;
-		dy = c1.z - c0.z;
-
-		/* Determine the straight-line distance between the centers. */
-		//d = sqrt((dy*dy) + (dx*dx));
-		d = hypot(dx,dy); // Suggested by Keith Briggs
-
-		/* Check for solvability. */
-		if(d > (r0 + r1))
-		{
-			/* no solution. circles do not intersect. */
-			return false;
-		}
-		if(d < fabs(r0 - r1))
-		{
-			/* no solution. one circle is contained in the other */
-			return false;
-		}
-
-		/* 'point 2' is the point where the line through the circle
-		* intersection points crosses the line between the circle
-		* centers.  
-		*/
-
-		/* Determine the distance from point 0 to point 2. */
-		a = ((r0*r0) - (r1*r1) + (d*d)) / (2.f * d) ;
-
-		/* Determine the coordinates of point 2. */
-		x2 = c0.x + (dx * a/d);
-		y2 = c0.z + (dy * a/d);
-
-		/* Determine the distance from point 2 to either of the
-		* intersection points.
-		*/
-		h = sqrt((r0*r0) - (a*a));
-
-		/* Now determine the offsets of the intersection points from
-		* point 2.
-		*/
-		rx = -dy * (h/d);
-		ry = dx * (h/d);
-
-		/* Determine the absolute intersection points. */
-		p1.x = x2 + rx;
-		p2.x = x2 - rx;
-		p1.z = y2 + ry;
-		p2.z = y2 - ry;
-
-		return true;
-	}
-
-	vec3 plane_segment_intersection(const Plane& P, const Segment& S)
-	{
-		return plane_segment_intersection(P.m_normal, P.m_distance, S.m_start, S.m_end);
-	}
-
-	vec3 plane_segment_intersection(const vec3& N, float d, const vec3& L1, const vec3& L2)
-	{
-		vec3 P = N * d;
-		vec3 result = L1 + (dot(N, P - L1) / dot(N, L2 - L1)) * (L2 - L1);
-		if(any(isnan(result)) || any(isinf(result)))
-			return vec3(0.f); // @todo move to optional when C++17
-		return result;
-	}
-
-	vec3 plane_segment_intersection(const vec3& P1, const vec3& P2, const vec3& P3, const vec3& L1, const vec3& L2)
-	{
-		vec3 N = cross(P2 - P1, P3 - P1);
-		vec3 result = L1 + (dot(N, P1 - L1) / dot(N, L2 - L1)) * (L2 - L1);
-		if(any(isnan(result)) || any(isinf(result)))
-			return vec3(0.f); // @todo move to optional when C++17
-		return result;
-	}
-
-	vec3 plane_3_intersection(const Plane& plane0, const Plane& plane1, const Plane& plane2)
-	{
-		vec3 normal0 = plane0.m_normal;
-		vec3 normal1 = plane1.m_normal;
-		vec3 normal2 = plane2.m_normal;
-
-		float denom = dot(cross(normal0, normal1), normal2);
-
-		if(abs(denom) <= c_cmp_epsilon)
-			return vec3(0.f); // @todo move to optional when C++17
-
-		return ((cross(normal1, normal2) * plane0.m_distance) +
-				(cross(normal2, normal0) * plane1.m_distance) +
-				(cross(normal0, normal1) * plane2.m_distance)) / denom;
-	}
-
-	vec3 nearest_point_on_line(const vec3& origin, const vec3& dir, const vec3& point)
-	{
-		vec3 vec = point - origin;
-		float d = dot(vec, dir);
-		return origin + dir * d;
-	}
-
-	vec3 nearest_point_on_face(const Face3& face, const vec3& point)
-	{
-		vec3 edge0 = face.m_vertices[1] - face.m_vertices[0];
-		vec3 edge1 = face.m_vertices[2] - face.m_vertices[0];
-		vec3 v0 = face.m_vertices[0] - point;
-
-		float a = dot(edge0, edge0);
-		float b = dot(edge0, edge1);
-		float c = dot(edge1, edge1);
-		float d = dot(edge0, v0);
-		float e = dot(edge1, v0);
-
-		float det = a * c - b * b;
-		float s = b * e - c * d;
-		float t = b * d - a * e;
-
-		if(s + t < det)
-		{
-			if(s < 0.f)
-			{
-				if(t < 0.f)
-				{
-					if(d < 0.f)
-					{
-						s = clamp(-d / a, 0.f, 1.f);
-						t = 0.f;
-					}
-					else
-					{
-						s = 0.f;
-						t = clamp(-e / c, 0.f, 1.f);
-					}
-				}
-				else
-				{
-					s = 0.f;
-					t = clamp(-e / c, 0.f, 1.f);
-				}
-			}
-			else if(t < 0.f)
-			{
-				s = clamp(-d / a, 0.f, 1.f);
-				t = 0.f;
-			}
-			else
-			{
-				float invDet = 1.f / det;
-				s *= invDet;
-				t *= invDet;
-			}
-		}
-		else
-		{
-			if(s < 0.f)
-			{
-				float tmp0 = b + d;
-				float tmp1 = c + e;
-				if(tmp1 > tmp0)
-				{
-					float numer = tmp1 - tmp0;
-					float denom = a - 2 * b + c;
-					s = clamp(numer / denom, 0.f, 1.f);
-					t = 1 - s;
-				}
-				else
-				{
-					t = clamp(-e / c, 0.f, 1.f);
-					s = 0.f;
-				}
-			}
-			else if(t < 0.f)
-			{
-				if(a + d > b + e)
-				{
-					float numer = c + e - b - d;
-					float denom = a - 2 * b + c;
-					s = clamp(numer / denom, 0.f, 1.f);
-					t = 1 - s;
-				}
-				else
-				{
-					s = clamp(-e / c, 0.f, 1.f);
-					t = 0.f;
-				}
-			}
-			else
-			{
-				float numer = c + e - b - d;
-				float denom = a - 2 * b + c;
-				s = clamp(numer / denom, 0.f, 1.f);
-				t = 1.f - s;
-			}
-		}
-
-		return face.m_vertices[0] + edge0 * s + edge1 * t;
-	}
-
-	Aabb transform_aabb(const Aabb& source, const mat4& transform)
-	{
-		vec3 center = mulp(transform, source.m_center);
-		vec3 extent = mult(abs(transform), source.m_extents);
-		return Aabb(center, extent);
-	}
-
-	Aabb translate_aabb(const Aabb& source, const vec3& offset)
-	{
-		Aabb result = source;
-		result.m_center += offset;
-		return result;
-	}
-
-	vec2 project_aabb_in_plane(const Plane& plane, const Aabb& aabb)
-	{
-		float length = dot(abs(plane.m_normal), aabb.m_extents);
-		float dist = distance(plane, aabb.m_center);
-		return { dist - length, dist + length };
-	}
-
-	bool frustum_aabb_intersection(const Plane6& planes, const Aabb& aabb)
-	{
-		vec3 bounds[2] = { aabb.m_center - aabb.m_extents, aabb.m_center + aabb.m_extents };
-
-		for(uint i = 0; i < 6; ++i)
-		{
-			// our frustum normals are inverted somehow (normal faces outward whereas this algo needs it to be inward)
-			vec3 normal = -planes[i].m_normal;
-
-			const size_t px = size_t(normal.x > 0.0f);
-			const size_t py = size_t(normal.y > 0.0f);
-			const size_t pz = size_t(normal.z > 0.0f);
-
-			vec3 pvertex = { bounds[px].x, bounds[py].y, bounds[pz].z };
-
-			if(dot(pvertex, normal) < -planes[i].m_distance)
-				return false;
-		}
-
-		return true;
-	}
-
-	bool sphere_aabb_intersection(const vec3& center, float radius, const Aabb& aabb)
-	{
-		vec3 min = aabb.m_center - aabb.m_extents;
-		vec3 max = aabb.m_center + aabb.m_extents;
-
-		float r2 = radius * radius;
-		float dmin = 0.f;
-
-		for(vec3::length_type i = 0; i < 3; ++i)
-		{
-			if(center[i] < min[i]) dmin += sq(center[i] - min[i]);
-			else if(center[i] > max[i]) dmin += sq(center[i] - max[i]);
-		}
-
-		return dmin <= r2;
-	}
-
-	// ref: https://www.ics.uci.edu/~eppstein/junkyard/circumcenter.html
-
-	//     |                                                           |
-	//     | |c-a|^2 [(b-a)x(c-a)]x(b-a) + |b-a|^2 (c-a)x[(b-a)x(c-a)] |
-	//     |                                                           |
-	// r = -------------------------------------------------------------,
-	//                          2 | (b-a)x(c-a) |^2
-	// 
-	//         |c-a|^2 [(b-a)x(c-a)]x(b-a) + |b-a|^2 (c-a)x[(b-a)x(c-a)]
-	// m = a + ---------------------------------------------------------.
-	//                            2 | (b-a)x(c-a) |^2
-
-	vec3 circumcenter(const vec3& a, const vec3& b, const vec3& c)
-	{
-		vec3 ba = b - a;
-		vec3 ca = c - a;
-
-		float balength = length2(ba);
-		float calength = length2(ca);
-
-		vec3 crossbc = cross(ba, ca);
-		vec3 crossbc2 = crossbc * crossbc;
-
-		float denominator = 0.5f / (crossbc2.x + crossbc2.y + crossbc2.z);
-
-		auto yzx = [](const vec3& v) -> vec3 { return { v.y, v.z, v.x }; };
-		auto zxy = [](const vec3& v) -> vec3 { return { v.z, v.x, v.y }; };
-		
-		vec3 circa = ((balength * yzx(ca) - calength * yzx(ba)) * zxy(crossbc) 
-					- (balength * zxy(ca) - calength * zxy(ba)) * yzx(crossbc))
-					* denominator;
-
-		return a + circa;
-	}
-}
-
-
-module two.geom;
-
-namespace two
-{
-	Poisson::Poisson(vec2 size, float maxRadius)
-		: Distribution()
-		, m_size(size)
-		, m_cellSize(maxRadius / sqrt(2.f))
-		, m_invCellSize(1.f / m_cellSize)
-		, m_grid(size_t(ceil(m_size * m_invCellSize).x), size_t(ceil(m_size * m_invCellSize).y), 1)
-	{}
-
-	void Poisson::pushPoint(const Point& point)
-	{
-		size_t index = gridIndex(point);
-		m_points.push_back(point);
-		m_unprocessed.push_back(point);
-		m_grid[index].push_back(point);
-	}
-
-	Distribution::Point Poisson::randomPointAround(const Point& point, float radius)
-	{
-		float distance = point.radius + radius;
-
-		float rr = m_overlap ? randf(point.radius, distance)
-							 : randf(distance, distance * 2.f);
-		float rt = randf(0.f, c_2pi);
-
-		float x = rr * sin(rt) + point.position.x;
-		float y = rr * cos(rt) + point.position.y;
-
-		return { vec3(x, y, 0.f), radius };
-	}
-
-	bool Poisson::checkSpace(const Point& point)
-	{
-		size_t index = gridIndex(point);
-		
-		auto neighbours = m_grid.neighbours(index, 2);
-		neighbours.push_back(&m_grid.at(index));
-
-		for(vector<Point>* cell : neighbours)
-			for(Point& other : *cell)
-			{
-				float dist = m_overlap ? point.radius : point.radius + other.radius;
-				if(distance(point.position, other.position) <= dist)
-					return false;
-			}
-		
-		return true;
-	}
-
-	bool Poisson::checkInside(const Point& point)
-	{
-		return (point.position.x < m_size.x && point.position.x  >= 0.f
-			 && point.position.y < m_size.y && point.position.y >= 0.f);
-	}
-
-	size_t Poisson::gridIndex(const Point& point)
-	{
-		uvec3 index = uvec3(floor(point.position * m_invCellSize));
-		return m_grid.index_at(index.x, index.y, 0);
-	}
-
-	bool Poisson::insertPoint(float radius)
-	{
-		if(m_points.empty())
-		{
-			if(!m_start_from_center)
-				pushPoint({ vec3(randf(0.f, m_size.x), randf(0.f, m_size.y), 0.f), radius });
-			else
-				pushPoint({ vec3(0.5f, 0.5f, 0.f), radius });
-			return true;
-		}
-
-		while(!m_unprocessed.empty())
-		{
-			uint index = randi(0U, uint(m_unprocessed.size()) - 1);
-			Point& refpoint = m_unprocessed[index];
-
-			for(; refpoint.visits < m_k; ++refpoint.visits)
-			{
-				Point point = randomPointAround(refpoint, radius);
-				if(checkInside(point) && checkSpace(point))
-				{
-					pushPoint(point);
-					return true;
-				}
-			}
-
-			m_unprocessed.erase(m_unprocessed.begin() + index);
-		}
-
-		return false;
-	}
-
-	bool Poisson::addPoint(float radius, vec3& point)
-	{
-		bool added = this->insertPoint(radius);
-		if(added)
-			point = m_points.back().position;
-		return added;
-	}
-
-	void Poisson::uniform(float radius)
-	{
-		while(this->insertPoint(radius))
-			continue;
-	}
-
-	vector<vec3> Poisson::distribute(float radius)
-	{
-		while(insertPoint(radius))
-			continue;
-
-		vector<vec3> result;
-		for(Point& point : m_points)
-		{
-			vec3 position = { point.position.x - m_size.x / 2.f, 0.f, point.position.y - m_size.y / 2.f };
-			result.push_back(position);
-		}
-		return result;
-	}
-
-	vector<Circle> Poisson::distribute_circles(float radius)
-	{
-		vector<vec3> distribution = this->distribute(radius);
-		vector<Circle> result;
-		for(vec3& point : distribution)
-			result.push_back({ point, radius, Axis::Y });
-		return result;
-	}
-
-	vector<vec3> distribute_poisson(vec2 size, float radius)
-	{
-		Poisson distribution = { size, radius };
-		return distribution.distribute(radius);
-	}
-}
-
-
-module two.geom;
-
-namespace two
-{
-	Line::Line() : Shape(type<Line>()) {}
-	Line::Line(const vec3& start, const vec3& end) : Shape(type<Line>()), m_start(start), m_end(end) {}
-	object<Shape> Line::clone() const { return oconstruct<Line>(*this); }
-
-	Rect::Rect() : Shape(type<Rect>()) {}
-	Rect::Rect(const vec2& pos, const vec2& size) : Shape(type<Rect>()), m_position(pos), m_size(size) {}
-	Rect::Rect(float x, float y, float w, float h) : Shape(type<Rect>()), m_position(x, y), m_size(w, h) {}
-	object<Shape> Rect::clone() const { return oconstruct<Rect>(*this); }
-
-	Quad::Quad() : Shape(type<Quad>()) {}
-	Quad::Quad(const vec3& a, const vec3& b, const vec3& c, const vec3& d) : Shape(type<Quad>()), m_vertices{ a, b, c, d } {}
-	object<Shape> Quad::clone() const { return oconstruct<Quad>(*this); }
-
-	Polygon::Polygon() : Shape(type<Polygon>()) {}
-	Polygon::Polygon(span<vec3> vertices) : Shape(type<Polygon>()), m_vertices(vertices.begin(), vertices.end()) {}
-	object<Shape> Polygon::clone() const { return oconstruct<Polygon>(*this); }
-
-	Grid2::Grid2() : Shape(type<Grid2>()) {}
-	Grid2::Grid2(const vec2& size, const vec2& space) : Shape(type<Grid2>()), m_size(size), m_space(space) {}
-	object<Shape> Grid2::clone() const { return oconstruct<Grid2>(*this); }
-
-	Triangle::Triangle() : Shape(type<Triangle>()) {}
-	Triangle::Triangle(const vec2& size) : Shape(type<Triangle>()), m_size(size) {}
-	object<Shape> Triangle::clone() const { return oconstruct<Triangle>(*this); }
-
-	Circle::Circle() : Shape(type<Circle>()) {}
-	Circle::Circle(float radius, Axis axis) : Shape(type<Circle>()), m_radius(radius), m_axis(axis) {}
-	Circle::Circle(const vec3& center, float radius, Axis axis) : Shape(type<Circle>(), center), m_radius(radius), m_axis(axis) {}
-	bool Circle::operator==(const Circle& other) const { return m_radius == other.m_radius && m_axis == other.m_axis && m_center == other.m_center; }
-	object<Shape> Circle::clone() const { return oconstruct<Circle>(*this); }
-
-	Torus::Torus() : Shape(type<Torus>()) {}
-	Torus::Torus(float radius, float tube, Axis axis) : Shape(type<Torus>()), m_radius(radius), m_tube(tube), m_axis(axis) {}
-	Torus::Torus(const vec3& center, float radius, float tube, Axis axis) : Shape(type<Torus>(), center), m_radius(radius), m_tube(tube), m_axis(axis) {}
-	//bool Torus::operator==(const Torus& other) const { return m_radius == other.m_radius && m_tube == other.m_tube && m_axis == other.m_axis && m_center == other.m_center; }
-	object<Shape> Torus::clone() const { return oconstruct<Torus>(*this); }
-
-	TorusKnot::TorusKnot() : Shape(type<TorusKnot>()) {}
-	TorusKnot::TorusKnot(float radius, float tube, float p, float q) : Shape(type<TorusKnot>()), m_radius(radius), m_tube(tube), m_p(p), m_q(q) {}
-	TorusKnot::TorusKnot(const vec3& center, float radius, float tube, float p, float q) : Shape(type<TorusKnot>(), center), m_radius(radius), m_tube(tube), m_p(p), m_q(q) {}
-	object<Shape> TorusKnot::clone() const { return oconstruct<TorusKnot>(*this); }
-
-	Ring::Ring() : Shape(type<Ring>()) {}
-	Ring::Ring(float radius, float min, float max) : Shape(type<Ring>()), m_radius(radius), m_min(min), m_max(max) {}
-	object<Shape> Ring::clone() const { return oconstruct<Ring>(*this); }
-
-	Ellipsis::Ellipsis() : Shape(type<Ellipsis>()) {}
-	Ellipsis::Ellipsis(vec2 radius, Axis axis) : Shape(type<Ellipsis>()), m_radius(radius), m_axis(axis) {}
-	object<Shape> Ellipsis::clone() const { return oconstruct<Ellipsis>(*this); }
-
-	Arc::Arc() : Shape(type<Arc>()) {}
-	Arc::Arc(float radius, float start, float end) : Shape(type<Arc>()), m_radius(radius), m_start(start), m_end(end) {}
-	object<Shape> Arc::clone() const { return oconstruct<Arc>(*this); }
-
-	ArcLine::ArcLine() : Shape(type<ArcLine>()) {}
-	ArcLine::ArcLine(const vec3& start, const vec3& middle, const vec3& end) : Shape(type<ArcLine>()), m_start(start), m_middle(middle), m_end(end) {}
-	ArcLine::ArcLine(const vec3& center, const vec3& start, const vec3& middle, const vec3& end) : Shape(type<ArcLine>(), center), m_start(start), m_middle(middle), m_end(end) {}
-	object<Shape> ArcLine::clone() const { return oconstruct<ArcLine>(*this); }
-
-	Cylinder::Cylinder() : Shape(type<Cylinder>()) {}
-	Cylinder::Cylinder(float radius, float height, Axis axis) : Shape(type<Cylinder>()), m_radius(radius), m_height(height), m_axis(axis) {}
-	Cylinder::Cylinder(const vec3& center, float radius, float height, Axis axis) : Shape(type<Cylinder>(), center), m_radius(radius), m_height(height), m_axis(axis) {}
-	object<Shape> Cylinder::clone() const { return oconstruct<Cylinder>(*this); }
-
-	Capsule::Capsule() : Shape(type<Capsule>()) {}
-	Capsule::Capsule(float radius, float height, Axis axis) : Shape(type<Capsule>()), m_radius(radius), m_height(height), m_axis(axis) {}
-	object<Shape> Capsule::clone() const { return oconstruct<Capsule>(*this); }
-
-	Cube::Cube() : Shape(type<Cube>()) {}
-	Cube::Cube(const vec3& extents) : Shape(type<Cube>()), m_extents(extents) {}
-	Cube::Cube(const vec3& center, const vec3& extents) : Shape(type<Cube>(), center), m_extents(extents) {}
-	Cube::Cube(float side) : Shape(type<Cube>()), m_extents(side, side, side) {}
-	Cube::Cube(const Aabb& aabb) : Cube(aabb.m_center, aabb.m_extents) {}
-	object<Shape> Cube::clone() const { return oconstruct<Cube>(*this); }
-
-	Box::Box() : Shape(type<Box>()), m_vertices() {}
-	object<Shape> Box::clone() const { return oconstruct<Box>(*this); }
-
-	Tetraedr::Tetraedr() : Shape(type<Tetraedr>()) {}
-	Tetraedr::Tetraedr(float radius) : Shape(type<Tetraedr>()), m_radius(radius) {}
-	Tetraedr::Tetraedr(const vec3& center, float radius) : Shape(type<Tetraedr>(), center), m_radius(radius) {}
-	object<Shape> Tetraedr::clone() const { return oconstruct<Tetraedr>(*this); }
-
-	Sphere::Sphere() : Shape(type<Sphere>()) {}
-	Sphere::Sphere(float radius, float start, float end) : Shape(type<Sphere>()), m_radius(radius), m_start(start), m_end(end) {}
-	Sphere::Sphere(const vec3& center, float radius, float start, float end) : Shape(type<Sphere>(), center), m_radius(radius), m_start(start), m_end(end) {}
-	object<Shape> Sphere::clone() const { return oconstruct<Sphere>(*this); }
-
-	SphereRing::SphereRing() : Shape(type<SphereRing>()) {}
-	SphereRing::SphereRing(float radius, float min, float max) : Shape(type<SphereRing>()), m_radius(radius), m_min(min), m_max(max) {}
-	object<Shape> SphereRing::clone() const { return oconstruct<SphereRing>(*this); }
-
-	Spheroid::Spheroid() : Shape(type<Spheroid>()) {}
-	Spheroid::Spheroid(float radius) : Shape(type<Spheroid>()), m_radius(radius), m_circleX(radius, Axis::X), m_circleY(radius, Axis::Y), m_circleZ(radius, Axis::Z) {}
-	Spheroid::Spheroid(const vec3& center, float radius) : Shape(type<Spheroid>(), center), m_radius(radius), m_circleX(radius, Axis::X), m_circleY(radius, Axis::Y), m_circleZ(radius, Axis::Z) {}
-	object<Shape> Spheroid::clone() const { return oconstruct<Spheroid>(*this); }
-
-	Icosaedr::Icosaedr() : Shape(type<Icosaedr>()) {}
-	Icosaedr::Icosaedr(float radius) : Shape(type<Icosaedr>()), m_radius(radius) {}
-	Icosaedr::Icosaedr(const vec3& center, float radius) : Shape(type<Icosaedr>(), center), m_radius(radius) {}
-	object<Shape> Icosaedr::clone() const { return oconstruct<Icosaedr>(*this); }
-
-	Points::Points() : Shape(type<Points>()) {}
-	Points::Points(span<vec3> points) : Shape(type<Points>()), m_points(points.begin(), points.end()) {}
-	object<Shape> Points::clone() const { return oconstruct<Points>(*this); }
-
-	Grid3::Grid3() : Shape(type<Grid3>()) {}
-	Grid3::Grid3(const uvec2& size, span<vec3> points) : Shape(type<Grid3>()), m_size(size), m_points(points.begin(), points.end()) { m_points.resize(size.x * size.y); }
-	object<Shape> Grid3::clone() const { return oconstruct<Grid3>(*this); }
-
-	ConvexHull::ConvexHull() : Shape(type<ConvexHull>()) {}
-	ConvexHull::ConvexHull(span<vec3> vertices) : Shape(type<ConvexHull>()), m_vertices(vertices.begin(), vertices.end()) {}
-	object<Shape> ConvexHull::clone() const { return oconstruct<ConvexHull>(*this); }
-
-	Aabb aabb(const vec3& min, const vec3& max)
-	{
-		vec3 extents = (max - min) / 2.f;
-		return Aabb(min + extents, extents);
-	}
-
-	Aabb::Aabb() : m_empty(true) {}
-	Aabb::Aabb(const vec3& center, const vec3& extents) : m_center(center), m_extents(extents), m_empty(false) {}
-	//object<Shape> Aabb::clone() const { return {}; } //oconstruct<Aabb>(*this); }
-
-	vec3 Aabb::bmin() const { return m_center - m_extents; }
-	vec3 Aabb::bmax() const { return m_center + m_extents; }
-
-	bool Aabb::intersects(const Aabb& other) const
-	{
-		return !(any(less(m_center + m_extents, other.m_center - other.m_extents))
-			  || any(greater(m_center - m_extents, other.m_center + other.m_extents)));
-	}
-
-	void Aabb::merge(const vec3& point)
-	{
-		if(m_empty)
-		{
-			m_center = point;
-			m_empty = false;
-			return;
-		}
-
-		vec3 bmax = max(m_center + m_extents, point);
-		vec3 bmin = min(m_center - m_extents, point);
-
-		m_center = (bmax + bmin) * 0.5f;
-		m_extents = (bmax - bmin) * 0.5f;
-	}
-
-	void Aabb::merge(const Aabb& other)
-	{
-		if(other.m_empty) return;
-		if(m_empty)
-		{
-			*this = other;
-			return;
-		}
-
-		vec3 bmax = max(m_center + m_extents, other.m_center + other.m_extents);
-		vec3 bmin = min(m_center - m_extents, other.m_center - other.m_extents);
-
-		m_center = (bmax + bmin) * 0.5f;
-		m_extents = (bmax - bmin) * 0.5f;
-	}
-
-	bool Aabb::cull(const vec3& point) const
-	{
-		if(m_empty) return false;
-
-		vec3 max_bounds(m_center + m_extents);
-		vec3 min_bounds(m_center - m_extents);
-
-		if(any(greater(point, max_bounds)))
-			return true;
-		if(any(less(point, min_bounds)))
-			return true;
-
-		return false;
-	}
-
-	bool Aabb::cull(span<vec3> points) const
-	{
-		for(const vec3& point : points)
-			if(cull(point))
-				return true;
-		return false;
-	}
-
-	Aabb face_aabb(const vec3* vertices)
-	{
-		vec3 bmin = min(vertices[0], min(vertices[1], vertices[2]));
-		vec3 bmax = max(vertices[0], max(vertices[1], vertices[2]));
-		vec3 extents = (bmax - bmin) * 0.5f;
-		return Aabb(bmin + extents, extents);
-	}
-
-	Aabb face_aabb(const Face3& face)
-	{
-		return face_aabb(face.m_vertices);
-	}
-
-	void quad_vertices(const vec2& size, const vec3& u, const vec3& v, span<vec3> vertices, const vec2& offset = vec2(0.f))
-	{
-		vec3 offset3d = u * offset.x + v * offset.y;
-		vec3 a = (u * size.x + v * size.y) / 2.f;
-		vec3 b = (u * size.x - v * size.y) / 2.f;
-		vertices[0] = a + offset3d;
-		vertices[1] = b + offset3d;
-		vertices[2] = -a + offset3d;
-		vertices[3] = -b + offset3d;
-	}
-
-	Quad::Quad(const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>()) { quad_vertices(size, x, y, { m_vertices }); }
-	Quad::Quad(const vec2& offset, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>()) { quad_vertices(size, x, y, { m_vertices }, offset); }
-	Quad::Quad(const vec3& center, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>(), center) { quad_vertices(size, x, y, { m_vertices }); }
-	Quad::Quad(const vec3& center, const vec2& offset, const vec2& size, const vec3& x, const vec3& y) : Shape(type<Quad>(), center) { quad_vertices(size, x, y, { m_vertices }, offset); }
-	Quad::Quad(float size, const vec3& x, const vec3& y) : Quad(vec2(size), x, y) {}
-	// @todo this should probably be Z3, X3 since default faces up and cross(z, x) = y
-	// find out where in the geometry generation is the fuckup
-	Quad::Quad(const Rect& rect) : Quad(rect.m_size, X3, Z3) {}
-
-	void box_vertices(const vec3& center, const vec3& extents, span<vec3> vertices)
-	{
-		vec3 min = center - extents;
-		vec3 max = center + extents;
-
-		vertices[0] = { min.x, min.y, max.z };
-		vertices[1] = { max.x, min.y, max.z };
-		vertices[2] = { max.x, max.y, max.z };
-		vertices[3] = { min.x, max.y, max.z };
-		vertices[4] = { max.x, min.y, min.z };
-		vertices[5] = { min.x, min.y, min.z };
-		vertices[6] = { min.x, max.y, min.z };
-		vertices[7] = { max.x, max.y, min.z };
-	}
-
-	Box::Box(span<vec3> vertices) : Shape(type<Box>()) { span<vec3> dest = { m_vertices }; copy(dest, vertices); }
-	Box::Box(const Cube& cube) : Shape(type<Box>()) { box_vertices(cube.m_center, cube.m_extents, { m_vertices }); }
-
-	Symbol::Symbol(Colour fill, Colour outline, bool overlay, bool double_sided, SymbolDetail detail)
-		: m_outline(outline)
-		, m_fill(fill)
-		, m_overlay(overlay)
-		, m_double_sided(double_sided)
-		, m_detail(detail)
-	{}
-
-	Symbol::Symbol(cstring image, float alpha)
-		: Symbol()
-	{
-		m_image = image;
-		m_fill.a = alpha;
-	}
-
-	Symbol::Symbol(const Image256& image, float alpha)
-		: Symbol()
-	{
-		m_image256 = &const_cast<Image256&>(image);
-		m_fill.a = alpha;
-	}
-
-	bool Symbol::operator==(const Symbol& other) const
-	{
-		UNUSED(other);
-		return true;
-	}
-
-	inline vec3 distribute_sphere(float radius, float h = 2.f, float maxh = 1.f)
-	{
-		const float rand0 = randf(0.f, 1.f) * h - maxh;
-		const float rand1 = randf(0.f, 1.f) * c_2pi;
-		const float sqrtf1 = sqrt(1.0f - rand0 * rand0);
-
-		return vec3(sqrtf1 * cos(rand1), sqrtf1 * sin(rand1), rand0) * radius;
-	}
-
-	inline vec3 distribute_spherical(float radius, float min, float max)
-	{
-		const float maxh = max * 2.0f - 1.0f;
-		const float minh = min * 2.0f - 1.0f;
-		return distribute_sphere(radius, maxh - minh, maxh);
-	}
-
-	inline vec3 distribute_circle(float radius)
-	{
-		const float angle = randf(0.f, 1.f) * c_2pi;
-		return vec3(cos(angle), 0.0f, sin(angle)) * radius;
-	}
-
-	inline vec3 distribute_ring(float radius, float min = 0.f, float max = 1.f)
-	{
-		const float size = randf(min, max);
-		vec3 pos = distribute_circle(radius);
-		return pos * size;
-	}
-
-	inline vec3 distribute_rect(float width = 1.f, float height = 1.f)
-	{
-		const float x = randf(-1.f, 1.f);
-		const float y = randf(-1.f, 1.f);
-		return { x * width, 0.f, y * height };
-	}
-
-	inline vec3 distribute_points(span<vec3> points)
-	{
-		uint index = randi(0U, uint(points.size()) - 1U);
-		return points[index];
-	}
-
-	RandomShapePoint::RandomShapePoint()
-	{
-		dispatch_branch<Sphere>(*this, +[](const Sphere& sphere) { return distribute_sphere(sphere.m_radius); });
-		dispatch_branch<SphereRing>(*this, +[](const SphereRing& sphere) { return distribute_spherical(sphere.m_radius, sphere.m_min, sphere.m_max); });
-		dispatch_branch<Circle>(*this, +[](const Circle& circle) { return distribute_circle(circle.m_radius); });
-		dispatch_branch<Ring>(*this, +[](const Ring& ring) { return distribute_ring(ring.m_radius, ring.m_min, ring.m_max); });
-		dispatch_branch<Rect>(*this, +[](const Rect& rect) { return distribute_rect(rect.m_size.x, rect.m_size.y); });
-		dispatch_branch<Points>(*this, +[](const Points& points) { return distribute_points(points.m_points); });
-	}
-
-	vector<vec3> distribute_shape(const Shape& shape, size_t count)
-	{
-		if(!RandomShapePoint::me().check(Ref(&shape)))
-			return vector<vec3>(count, vec3(0.f));
-
-		vector<vec3> points(count);
-		for(size_t i = 0; i < count; ++i)
-			points[i] = RandomShapePoint::me().dispatch(Ref(&shape));
-		return points;
-	}
-}
-
+module;
 module two.geom;
 
 #define FLAT false
@@ -2897,11 +2238,662 @@ namespace two
 		{ 0, { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 } }
 	};
 }
-
-
+#ifndef USE_STL
 module two.geom;
 
-#include <cassert>
+namespace stl
+{
+	using namespace two;
+	template class TWO_GEOM_EXPORT vector<Poisson*>;
+	template class TWO_GEOM_EXPORT vector<Geometry*>;
+	template class TWO_GEOM_EXPORT vector<Geometry>;
+	template class TWO_GEOM_EXPORT vector<Circle>;
+	template class TWO_GEOM_EXPORT vector<IcoSphere>;
+	template class TWO_GEOM_EXPORT vector<ProcShape>;
+	template class TWO_GEOM_EXPORT vector<MarchingCubes::Cache::Normal>;
+	template class TWO_GEOM_EXPORT vector<Distribution::Point>;
+	template class TWO_GEOM_EXPORT vector<vector<Distribution::Point>>;
+	template class TWO_GEOM_EXPORT vector<vector<Distribution::Point>*>;
+	template class TWO_GEOM_EXPORT unordered_map<int64_t, int>;
+}
+#endif
+
+module;
+module two.geom;
+
+namespace two
+{
+	Poisson::Poisson(vec2 size, float maxRadius)
+		: Distribution()
+		, m_size(size)
+		, m_cellSize(maxRadius / sqrt(2.f))
+		, m_invCellSize(1.f / m_cellSize)
+		, m_grid(size_t(ceil(m_size * m_invCellSize).x), size_t(ceil(m_size * m_invCellSize).y), 1)
+	{}
+
+	void Poisson::pushPoint(const Point& point)
+	{
+		size_t index = gridIndex(point);
+		m_points.push_back(point);
+		m_unprocessed.push_back(point);
+		m_grid[index].push_back(point);
+	}
+
+	Distribution::Point Poisson::randomPointAround(const Point& point, float radius)
+	{
+		float distance = point.radius + radius;
+
+		float rr = m_overlap ? randf(point.radius, distance)
+							 : randf(distance, distance * 2.f);
+		float rt = randf(0.f, c_2pi);
+
+		float x = rr * sin(rt) + point.position.x;
+		float y = rr * cos(rt) + point.position.y;
+
+		return { vec3(x, y, 0.f), radius };
+	}
+
+	bool Poisson::checkSpace(const Point& point)
+	{
+		size_t index = gridIndex(point);
+		
+		auto neighbours = m_grid.neighbours(index, 2);
+		neighbours.push_back(&m_grid.at(index));
+
+		for(vector<Point>* cell : neighbours)
+			for(Point& other : *cell)
+			{
+				float dist = m_overlap ? point.radius : point.radius + other.radius;
+				if(distance(point.position, other.position) <= dist)
+					return false;
+			}
+		
+		return true;
+	}
+
+	bool Poisson::checkInside(const Point& point)
+	{
+		return (point.position.x < m_size.x && point.position.x  >= 0.f
+			 && point.position.y < m_size.y && point.position.y >= 0.f);
+	}
+
+	size_t Poisson::gridIndex(const Point& point)
+	{
+		uvec3 index = uvec3(floor(point.position * m_invCellSize));
+		return m_grid.index_at(index.x, index.y, 0);
+	}
+
+	bool Poisson::insertPoint(float radius)
+	{
+		if(m_points.empty())
+		{
+			if(!m_start_from_center)
+				pushPoint({ vec3(randf(0.f, m_size.x), randf(0.f, m_size.y), 0.f), radius });
+			else
+				pushPoint({ vec3(0.5f, 0.5f, 0.f), radius });
+			return true;
+		}
+
+		while(!m_unprocessed.empty())
+		{
+			uint index = randi(0U, uint(m_unprocessed.size()) - 1);
+			Point& refpoint = m_unprocessed[index];
+
+			for(; refpoint.visits < m_k; ++refpoint.visits)
+			{
+				Point point = randomPointAround(refpoint, radius);
+				if(checkInside(point) && checkSpace(point))
+				{
+					pushPoint(point);
+					return true;
+				}
+			}
+
+			m_unprocessed.erase(m_unprocessed.begin() + index);
+		}
+
+		return false;
+	}
+
+	bool Poisson::addPoint(float radius, vec3& point)
+	{
+		bool added = this->insertPoint(radius);
+		if(added)
+			point = m_points.back().position;
+		return added;
+	}
+
+	void Poisson::uniform(float radius)
+	{
+		while(this->insertPoint(radius))
+			continue;
+	}
+
+	vector<vec3> Poisson::distribute(float radius)
+	{
+		while(insertPoint(radius))
+			continue;
+
+		vector<vec3> result;
+		for(Point& point : m_points)
+		{
+			vec3 position = { point.position.x - m_size.x / 2.f, 0.f, point.position.y - m_size.y / 2.f };
+			result.push_back(position);
+		}
+		return result;
+	}
+
+	vector<Circle> Poisson::distribute_circles(float radius)
+	{
+		vector<vec3> distribution = this->distribute(radius);
+		vector<Circle> result;
+		for(vec3& point : distribution)
+			result.push_back({ point, radius, Axis::Y });
+		return result;
+	}
+
+	vector<vec3> distribute_poisson(vec2 size, float radius)
+	{
+		Poisson distribution = { size, radius };
+		return distribution.distribute(radius);
+	}
+}
+
+module;
+module two.geom;
+// TODO (hugoam) modules FUCK THIS SHIT
+// #include <infra/Swap.h>
+
+namespace two
+{
+	float ray_aabb_intersection_dist(const vec3& bmin, const vec3& bmax, const Ray& ray)
+	{
+		const vec3 t1 = (bmin - ray.m_start) * ray.m_inv_dir;
+		const vec3 t2 = (bmax - ray.m_start) * ray.m_inv_dir;
+
+		float tmin = max(max(min(t1.x, t2.x), min(t1.y, t2.y)), min(t1.z, t2.z));
+		float tmax = min(min(max(t1.x, t2.x), max(t1.y, t2.y)), max(t1.z, t2.z));
+
+		return tmax >= tmin ? tmin : 0.f;
+	}
+
+	bool ray_aabb_intersection(const vec3& bmin, const vec3& bmax, const Ray& ray)
+	{
+		return ray_aabb_intersection_dist(bmin, bmax, ray) > 0.f;
+	}
+
+	bool ray_aabb_intersection(const vec3& bmin, const vec3& bmax, const Ray& ray, vec3& result)
+	{
+		float dist = ray_aabb_intersection_dist(bmin, bmax, ray);
+		if(dist > 0.f)
+			result = ray.m_start + ray.m_dir * dist;
+		return dist > 0.f;
+	}
+
+	bool segment_triangle_intersection(const vec3& sp, const vec3& sq, const vec3& a, const vec3& b, const vec3& c, float& t)
+	{
+		vec3 ab = b - a;
+		vec3 ac = c - a;
+		vec3 qp = sp - sq;
+
+		// Compute triangle normal. Can be precalculated or cached if
+		// intersecting multiple segments against the same triangle
+		vec3 norm = cross(ab, ac);
+
+		// Compute denominator d. If d <= 0, segment is parallel to or points
+		// away from triangle, so exit early
+		float d = dot(qp, norm);
+		if(d <= 0.0f) return false;
+
+		// Compute intersection t value of pq with plane of triangle. A ray
+		// intersects iff 0 <= t. Segment intersects iff 0 <= t <= 1. Delay
+		// dividing by d until intersection has been found to pierce triangle
+		vec3 ap = sp - a;
+		t = dot(ap, norm);
+		if(t < 0.0f) return false;
+		if(t > d) return false; // For segment; exclude this code line for a ray test
+
+								// Compute barycentric coordinate components and test if within bounds
+		vec3 e = cross(qp, ap);
+		float v = dot(ac, e);
+		if(v < 0.0f || v > d) return false;
+		float w = -dot(ab, e);
+		if(w < 0.0f || v + w > d) return false;
+
+		// Segment/ray intersects triangle. Perform delayed division
+		t /= d;
+
+		return true;
+	}
+
+	bool segment_aabb_intersection(const vec3& sp, const vec3& sq, const vec3& amin, const vec3& amax, float& tmin, float& tmax)
+	{
+		static const float EPS = 1e-6f;
+
+		vec3 d = sq - sp;
+		tmin = 0.0;
+		tmax = 1.0f;
+
+		for(int i = 0; i < 3; i++)
+		{
+			if(fabsf(d[i]) < EPS)
+			{
+				if(sp[i] < amin[i] || sp[i] > amax[i])
+					return false;
+			}
+			else
+			{
+				const float ood = 1.0f / d[i];
+				float t1 = (amin[i] - sp[i]) * ood;
+				float t2 = (amax[i] - sp[i]) * ood;
+				if(t1 > t2) swap(t1, t2);
+				if(t1 > tmin) tmin = t1;
+				if(t2 < tmax) tmax = t2;
+				if(tmin > tmax) return false;
+			}
+		}
+
+		return true;
+	}
+
+	bool segment_aabb_intersection_2d(const vec2& p, const vec2& q, const vec2& bmin, const vec2& bmax)
+	{
+		static const float EPSILON = 1e-6f;
+
+		float tmin = 0;
+		float tmax = 1;
+		vec2 d = q - p;
+
+		for(int i = 0; i < 2; i++)
+		{
+			if(fabsf(d[i]) < EPSILON)
+			{
+				// Ray is parallel to slab. No hit if origin not within slab
+				if(p[i] < bmin[i] || p[i] > bmax[i])
+					return false;
+			}
+			else
+			{
+				// Compute intersection t value of ray with near and far plane of slab
+				float ood = 1.0f / d[i];
+				float t1 = (bmin[i] - p[i]) * ood;
+				float t2 = (bmax[i] - p[i]) * ood;
+				if(t1 > t2) swap(t1, t2);
+				if(t1 > tmin) tmin = t1;
+				if(t2 < tmax) tmax = t2;
+				if(tmin > tmax) return false;
+			}
+		}
+		return true;
+	}
+
+	bool line_circle_intersection(const vec3& l0, const vec3& l1, const vec3& c0, float r, vec3& r0, vec3& r1)
+	{
+		UNUSED(r1);
+
+		vec3 d = l1 - l0; // FlowAxis vector of ray, from start to end
+		vec3 f = l0 - c0; // Vector from center sphere to ray start
+
+		float a = dot(d, d);
+		float b = dot(f * 2.f, d) ;
+		float c = dot(f, f) - r*r ;
+
+		float discriminant = b*b-4*a*c;
+		if(discriminant < 0)
+		{
+		  // no intersection
+			return false;
+		}
+		else
+		{
+		  // ray didn't totally miss sphere,
+		  // so there is a solution to
+		  // the equation.
+
+		  discriminant = sqrt(discriminant);
+
+		  // either solution may be on or off the ray so need to test both
+		  // t1 is always the smaller value, because BOTH discriminant and
+		  // a are nonnegative.
+		  float t1 = (-b - discriminant)/(2*a);
+		  float t2 = (-b + discriminant)/(2*a);
+
+		  // 3x HIT cases:
+		  //          -o->             --|-->  |            |  --|->
+		  // Impale(t1 hit,t2 hit), Poke(t1 hit,t2>1), ExitWound(t1<0, t2 hit), 
+
+		  // 3x MISS cases:
+		  //       ->  o                     o ->              | -> |
+		  // FallShort (t1>1,t2>1), Past (t1<0,t2<0), CompletelyInside(t1<0, t2>1)
+
+		  if( t1 >= 0 && t1 <= 1 )
+		  {
+			// t1 is the intersection, and it's closer than t2
+			// (since t1 uses -b - discriminant)
+			// Impale, Poke
+			r0 = l0;
+			r0 += d * t1; 
+			return true;
+		  }
+
+		  // here t1 didn't intersect so we are either started
+		  // inside the sphere or completely past it
+		  if( t2 >= 0 && t2 <= 1 )
+		  {
+			// ExitWound
+			r0 = l0;
+			r0 += d * t2;
+			return true;
+		  }
+
+		  // no intn: FallShort, Past, CompletelyInside
+		  return false;
+		}
+	}
+
+	bool circle_circle_intersection(	const vec3& c0, float r0,
+										const vec3& c1, float r1,
+										vec3& p1,
+										vec3& p2	)
+	{
+		float a, dx, dy, d, h, rx, ry;
+		float x2, y2;
+
+		/* dx and dy are the vertical and horizontal distances between
+		* the circle centers.
+		*/
+		dx = c1.x - c0.x;
+		dy = c1.z - c0.z;
+
+		/* Determine the straight-line distance between the centers. */
+		//d = sqrt((dy*dy) + (dx*dx));
+		d = hypot(dx,dy); // Suggested by Keith Briggs
+
+		/* Check for solvability. */
+		if(d > (r0 + r1))
+		{
+			/* no solution. circles do not intersect. */
+			return false;
+		}
+		if(d < fabs(r0 - r1))
+		{
+			/* no solution. one circle is contained in the other */
+			return false;
+		}
+
+		/* 'point 2' is the point where the line through the circle
+		* intersection points crosses the line between the circle
+		* centers.  
+		*/
+
+		/* Determine the distance from point 0 to point 2. */
+		a = ((r0*r0) - (r1*r1) + (d*d)) / (2.f * d) ;
+
+		/* Determine the coordinates of point 2. */
+		x2 = c0.x + (dx * a/d);
+		y2 = c0.z + (dy * a/d);
+
+		/* Determine the distance from point 2 to either of the
+		* intersection points.
+		*/
+		h = sqrt((r0*r0) - (a*a));
+
+		/* Now determine the offsets of the intersection points from
+		* point 2.
+		*/
+		rx = -dy * (h/d);
+		ry = dx * (h/d);
+
+		/* Determine the absolute intersection points. */
+		p1.x = x2 + rx;
+		p2.x = x2 - rx;
+		p1.z = y2 + ry;
+		p2.z = y2 - ry;
+
+		return true;
+	}
+
+	vec3 plane_segment_intersection(const Plane& P, const Segment& S)
+	{
+		return plane_segment_intersection(P.m_normal, P.m_distance, S.m_start, S.m_end);
+	}
+
+	vec3 plane_segment_intersection(const vec3& N, float d, const vec3& L1, const vec3& L2)
+	{
+		vec3 P = N * d;
+		vec3 result = L1 + (dot(N, P - L1) / dot(N, L2 - L1)) * (L2 - L1);
+		if(any(isnan(result)) || any(isinf(result)))
+			return vec3(0.f); // @todo move to optional when C++17
+		return result;
+	}
+
+	vec3 plane_segment_intersection(const vec3& P1, const vec3& P2, const vec3& P3, const vec3& L1, const vec3& L2)
+	{
+		vec3 N = cross(P2 - P1, P3 - P1);
+		vec3 result = L1 + (dot(N, P1 - L1) / dot(N, L2 - L1)) * (L2 - L1);
+		if(any(isnan(result)) || any(isinf(result)))
+			return vec3(0.f); // @todo move to optional when C++17
+		return result;
+	}
+
+	vec3 plane_3_intersection(const Plane& plane0, const Plane& plane1, const Plane& plane2)
+	{
+		vec3 normal0 = plane0.m_normal;
+		vec3 normal1 = plane1.m_normal;
+		vec3 normal2 = plane2.m_normal;
+
+		float denom = dot(cross(normal0, normal1), normal2);
+
+		if(abs(denom) <= c_cmp_epsilon)
+			return vec3(0.f); // @todo move to optional when C++17
+
+		return ((cross(normal1, normal2) * plane0.m_distance) +
+				(cross(normal2, normal0) * plane1.m_distance) +
+				(cross(normal0, normal1) * plane2.m_distance)) / denom;
+	}
+
+	vec3 nearest_point_on_line(const vec3& origin, const vec3& dir, const vec3& point)
+	{
+		vec3 vec = point - origin;
+		float d = dot(vec, dir);
+		return origin + dir * d;
+	}
+
+	vec3 nearest_point_on_face(const Face3& face, const vec3& point)
+	{
+		vec3 edge0 = face.m_vertices[1] - face.m_vertices[0];
+		vec3 edge1 = face.m_vertices[2] - face.m_vertices[0];
+		vec3 v0 = face.m_vertices[0] - point;
+
+		float a = dot(edge0, edge0);
+		float b = dot(edge0, edge1);
+		float c = dot(edge1, edge1);
+		float d = dot(edge0, v0);
+		float e = dot(edge1, v0);
+
+		float det = a * c - b * b;
+		float s = b * e - c * d;
+		float t = b * d - a * e;
+
+		if(s + t < det)
+		{
+			if(s < 0.f)
+			{
+				if(t < 0.f)
+				{
+					if(d < 0.f)
+					{
+						s = clamp(-d / a, 0.f, 1.f);
+						t = 0.f;
+					}
+					else
+					{
+						s = 0.f;
+						t = clamp(-e / c, 0.f, 1.f);
+					}
+				}
+				else
+				{
+					s = 0.f;
+					t = clamp(-e / c, 0.f, 1.f);
+				}
+			}
+			else if(t < 0.f)
+			{
+				s = clamp(-d / a, 0.f, 1.f);
+				t = 0.f;
+			}
+			else
+			{
+				float invDet = 1.f / det;
+				s *= invDet;
+				t *= invDet;
+			}
+		}
+		else
+		{
+			if(s < 0.f)
+			{
+				float tmp0 = b + d;
+				float tmp1 = c + e;
+				if(tmp1 > tmp0)
+				{
+					float numer = tmp1 - tmp0;
+					float denom = a - 2 * b + c;
+					s = clamp(numer / denom, 0.f, 1.f);
+					t = 1 - s;
+				}
+				else
+				{
+					t = clamp(-e / c, 0.f, 1.f);
+					s = 0.f;
+				}
+			}
+			else if(t < 0.f)
+			{
+				if(a + d > b + e)
+				{
+					float numer = c + e - b - d;
+					float denom = a - 2 * b + c;
+					s = clamp(numer / denom, 0.f, 1.f);
+					t = 1 - s;
+				}
+				else
+				{
+					s = clamp(-e / c, 0.f, 1.f);
+					t = 0.f;
+				}
+			}
+			else
+			{
+				float numer = c + e - b - d;
+				float denom = a - 2 * b + c;
+				s = clamp(numer / denom, 0.f, 1.f);
+				t = 1.f - s;
+			}
+		}
+
+		return face.m_vertices[0] + edge0 * s + edge1 * t;
+	}
+
+	Aabb transform_aabb(const Aabb& source, const mat4& transform)
+	{
+		vec3 center = mulp(transform, source.m_center);
+		vec3 extent = mult(abs(transform), source.m_extents);
+		return Aabb(center, extent);
+	}
+
+	Aabb translate_aabb(const Aabb& source, const vec3& offset)
+	{
+		Aabb result = source;
+		result.m_center += offset;
+		return result;
+	}
+
+	vec2 project_aabb_in_plane(const Plane& plane, const Aabb& aabb)
+	{
+		float length = dot(abs(plane.m_normal), aabb.m_extents);
+		float dist = distance(plane, aabb.m_center);
+		return { dist - length, dist + length };
+	}
+
+	bool frustum_aabb_intersection(const Plane6& planes, const Aabb& aabb)
+	{
+		vec3 bounds[2] = { aabb.m_center - aabb.m_extents, aabb.m_center + aabb.m_extents };
+
+		for(uint i = 0; i < 6; ++i)
+		{
+			// our frustum normals are inverted somehow (normal faces outward whereas this algo needs it to be inward)
+			vec3 normal = -planes[i].m_normal;
+
+			const size_t px = size_t(normal.x > 0.0f);
+			const size_t py = size_t(normal.y > 0.0f);
+			const size_t pz = size_t(normal.z > 0.0f);
+
+			vec3 pvertex = { bounds[px].x, bounds[py].y, bounds[pz].z };
+
+			if(dot(pvertex, normal) < -planes[i].m_distance)
+				return false;
+		}
+
+		return true;
+	}
+
+	bool sphere_aabb_intersection(const vec3& center, float radius, const Aabb& aabb)
+	{
+		vec3 min = aabb.m_center - aabb.m_extents;
+		vec3 max = aabb.m_center + aabb.m_extents;
+
+		float r2 = radius * radius;
+		float dmin = 0.f;
+
+		for(vec3::length_type i = 0; i < 3; ++i)
+		{
+			if(center[i] < min[i]) dmin += sq(center[i] - min[i]);
+			else if(center[i] > max[i]) dmin += sq(center[i] - max[i]);
+		}
+
+		return dmin <= r2;
+	}
+
+	// ref: https://www.ics.uci.edu/~eppstein/junkyard/circumcenter.html
+
+	//     |                                                           |
+	//     | |c-a|^2 [(b-a)x(c-a)]x(b-a) + |b-a|^2 (c-a)x[(b-a)x(c-a)] |
+	//     |                                                           |
+	// r = -------------------------------------------------------------,
+	//                          2 | (b-a)x(c-a) |^2
+	// 
+	//         |c-a|^2 [(b-a)x(c-a)]x(b-a) + |b-a|^2 (c-a)x[(b-a)x(c-a)]
+	// m = a + ---------------------------------------------------------.
+	//                            2 | (b-a)x(c-a) |^2
+
+	vec3 circumcenter(const vec3& a, const vec3& b, const vec3& c)
+	{
+		vec3 ba = b - a;
+		vec3 ca = c - a;
+
+		float balength = length2(ba);
+		float calength = length2(ca);
+
+		vec3 crossbc = cross(ba, ca);
+		vec3 crossbc2 = crossbc * crossbc;
+
+		float denominator = 0.5f / (crossbc2.x + crossbc2.y + crossbc2.z);
+
+		auto yzx = [](const vec3& v) -> vec3 { return { v.y, v.z, v.x }; };
+		auto zxy = [](const vec3& v) -> vec3 { return { v.z, v.x, v.y }; };
+		
+		vec3 circa = ((balength * yzx(ca) - calength * yzx(ba)) * zxy(crossbc) 
+					- (balength * zxy(ca) - calength * zxy(ba)) * yzx(crossbc))
+					* denominator;
+
+		return a + circa;
+	}
+}
+
+module;
+module two.geom;
 
 namespace two
 {
@@ -2911,7 +2903,7 @@ namespace two
 	{
 		return symbol.m_subdiv == uvec2(0U)
 			? circle_subdiv(uint(symbol.m_detail))
-			: symbol.m_subdiv.x;
+			: (uint16_t) symbol.m_subdiv.x;
 	}
 
 	vec3 flip_point_axis(const vec3& point, SignedAxis axis)
@@ -3063,14 +3055,14 @@ namespace two
 	{
 		return symbol.m_subdiv == uvec2(0U)
 			? torus_sides(uint(symbol.m_detail))
-			: symbol.m_subdiv.x;
+			: uint16_t(symbol.m_subdiv.x);
 	}
 
 	uint16_t torus_rings(const Symbol& symbol)
 	{
 		return symbol.m_subdiv == uvec2(0U)
 			? torus_rings(uint(symbol.m_detail))
-			: symbol.m_subdiv.y;
+			: uint16_t(symbol.m_subdiv.y);
 	}
 
 	ShapeSize size_shape_lines(const ProcShape& shape, const Torus& torus)
@@ -3140,21 +3132,21 @@ namespace two
 			}
 	}
 
-	uint16_t torus_tube_subdiv(uint lod) { return uint16_t(64U); }
-	uint16_t torus_radial_subdiv(uint lod) { return uint16_t(8U); }
+	uint16_t torus_tube_subdiv(uint lod) { UNUSED(lod); return uint16_t(64U); }
+	uint16_t torus_radial_subdiv(uint lod) { UNUSED(lod); return uint16_t(8U); }
 
 	uint16_t torus_tube_subdiv(const Symbol& symbol)
 	{
 		return symbol.m_subdiv == uvec2(0U)
 			? torus_tube_subdiv(uint(symbol.m_detail))
-			: symbol.m_subdiv.x;
+			: uint16_t(symbol.m_subdiv.x);
 	}
 
 	uint16_t torus_radial_subdiv(const Symbol& symbol)
 	{
 		return symbol.m_subdiv == uvec2(0U)
 			? torus_radial_subdiv(uint(symbol.m_detail))
-			: symbol.m_subdiv.y;
+			: uint16_t(symbol.m_subdiv.y);
 	}
 
 	ShapeSize size_shape_triangles(const ProcShape& shape, const TorusKnot& torus)
@@ -3217,12 +3209,12 @@ namespace two
 				const float y = P1.y + (cx * N.y + cy * B.y);
 				const float z = P1.z + (cx * N.z + cy * B.z);
 				
-				const vec3 p = vec3(x, y, z);
+				const vec3 pos = vec3(x, y, z);
 				// normal (P1 is always the center/origin of the extrusion, thus we can use it to calculate the normal)
-				const vec3 n = normalize(p - P1);
+				const vec3 n = normalize(pos - P1);
 				const vec2 uv = vec2(float(i) / float(tubular), float(j) / float(radial));
 
-				writer.position(p)
+				writer.position(pos)
 					  .normal(n)
 					  .colour(shape.m_symbol.m_fill)
 					  .uv0(uv);
@@ -3246,10 +3238,130 @@ namespace two
 	}
 }
 
-
+module;
 module two.geom;
 
-#include <stl/vector.hpp>
+//#define PK_GLITCH
+
+namespace two
+{
+	static vec2 quadUVs[4] = { { 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 0.f }, { 0.f, 1.f } };
+
+	vec3 quad_normal(const vec3& a, const vec3& b, const vec3& c, const vec3& d)
+	{
+		UNUSED(d);
+#ifndef PK_GLITCH
+		vec3 x = b - a;
+		vec3 y = c - a;
+		return normalize(cross(x, y));
+#else
+		return 1.f;
+#endif
+	}
+
+	void quad_vertices(const ProcShape& shape, const vec3& center, const vec3& a, const vec3& b, const vec3& c, const vec3& d, bool fill, MeshAdapter& writer)
+	{
+		auto vertex = [&](const vec3& p, const vec3& n, const vec2& uv)
+		{
+			writer.position(center + p)
+				  .colour(fill ? shape.m_symbol.m_fill : shape.m_symbol.m_outline)
+				  .normal(n)
+				  .uv0(uv);
+		};
+
+		vec3 normal = quad_normal(a, b, c, d);
+		vertex(a, normal, quadUVs[0]);
+		vertex(b, normal, quadUVs[1]);
+		vertex(c, normal, quadUVs[2]);
+		vertex(d, normal, quadUVs[3]);
+	}
+
+	void quad_vertices(const ProcShape& shape, const vec3& center, span<vec3> vertices, bool fill, MeshAdapter& writer)
+	{
+		quad_vertices(shape, center, vertices[0], vertices[1], vertices[2], vertices[3], fill, writer);
+	}
+
+	ShapeSize size_shape_lines(const ProcShape& shape, const Quad& quad)
+	{
+		UNUSED(shape); UNUSED(quad);
+		return { 4, 8 };
+	}
+
+	void draw_shape_lines(const ProcShape& shape, const Quad& quad, MeshAdapter& writer)
+	{
+		quad_vertices(shape, quad.m_center, { const_cast<vec3*>(quad.m_vertices), 4 }, false, writer);
+		for(uint16_t i = 0; i < 4; i++)
+			writer.line(i, (i + 1) % 4);
+	}
+
+	ShapeSize size_shape_triangles(const ProcShape& shape, const Quad& quad)
+	{
+		UNUSED(shape); UNUSED(quad);
+		return { 4, 6 };
+	}
+
+	void draw_shape_triangles(const ProcShape& shape, const Quad& quad, MeshAdapter& writer)
+	{
+		quad_vertices(shape, quad.m_center, { const_cast<vec3*>(quad.m_vertices), 4 }, true, writer);
+		writer.quad(0, 1, 2, 3);
+	}
+
+	uint32_t num_rects(const Grid3& grid) { return (grid.m_size.x-1) * (grid.m_size.y-1); }
+
+	ShapeSize size_shape_lines(const ProcShape& shape, const Grid3& grid)
+	{
+		UNUSED(shape);
+		uint32_t rects = num_rects(grid);
+		return { rects * 4U, rects * 8U };
+	}
+
+	void draw_shape_lines(const ProcShape& shape, const Grid3& grid, MeshAdapter& writer)
+	{
+		// @todo: could draw it like a grid instead of per quads...
+		span2d<vec3> points = { const_cast<vec3*>(grid.m_points.data()), grid.m_size.x, grid.m_size.y };
+
+		uint32_t offset = 0;
+
+		for(uint32_t x = 0; x < grid.m_size.x - 1; ++x)
+			for(uint32_t y = 0; y < grid.m_size.y - 1; ++y)
+			{
+				quad_vertices(shape, grid.m_center, points.at(x, y), points.at(x + 1, y), points.at(x + 1, y + 1), points.at(x, y + 1), true, writer);
+				for(uint16_t i = 0; i < 4; i++)
+					writer.line(offset + i, offset + (i + 1) % 4);
+			}
+	}
+
+	ShapeSize size_shape_triangles(const ProcShape& shape, const Grid3& grid)
+	{
+		UNUSED(shape);
+		uint32_t rects = num_rects(grid);
+		return { rects * 4U, rects * 6U };
+	}
+
+	void draw_shape_triangles(const ProcShape& shape, const Grid3& grid, MeshAdapter& writer)
+	{
+		span2d<vec3> points = { const_cast<vec3*>(grid.m_points.data()), grid.m_size.x, grid.m_size.y };
+
+		uint32_t offset = 0;
+
+		for(uint32_t x = 0; x < grid.m_size.x-1; ++x)
+			for(uint32_t y = 0; y < grid.m_size.y-1; ++y)
+			{
+				quad_vertices(shape, grid.m_center, points.at(x, y), points.at(x+1, y), points.at(x+1, y+1), points.at(x, y+1), true, writer);
+				writer.quad(offset + 0, offset + 1, offset + 2, offset + 3);
+				offset += 4;
+			}
+	}
+}
+
+module;
+module two.geom;
+
+#ifndef TWO_MODULES
+#define CONSTEXPR constexpr
+#else
+#define CONSTEXPR
+#endif
 
 namespace two
 {
@@ -3265,7 +3377,7 @@ namespace two
 		{
 			vec3 position = box.m_center + box.m_vertices[i];
 
-			static const vec3 components[3] = { X3, Y3, Z3 };
+			static const vec3 components[3] = { x3, y3, z3 };
 			float size_factor = 0.2f;
 			
 			writer.position(position)
@@ -3385,7 +3497,7 @@ namespace two
 
 		auto subdivideFace = [&](vec3 a, vec3 b, vec3 c, int detail) {
 
-			size_t cols = pow(2, detail);
+			int cols = int(pow(2, detail));
 
 			// we use this multidimensional array as a data structure for creating the subdivision
 
@@ -3477,7 +3589,7 @@ namespace two
 		auto correctSeam = [&]() {
 
 			// handle case when face straddles the seam, see #3269
-			for(int i = 0; i < uvs.size(); ++i) {
+			for(int i = 0; i < uvs.size(); i += 3) {
 
 				// uv data of a single face
 				float x0 = uvs[i + 0].x;
@@ -3573,11 +3685,11 @@ namespace two
 
 	void draw_shape_triangles(const ProcShape& shape, const Tetraedr& tetra, MeshAdapter& writer)
 	{
-		constexpr vec3 vertices[] = {
+		CONSTEXPR vec3 vertices[] = {
 			vec3(1, 1, 1), vec3(-1, -1, 1), vec3(-1, 1, -1), vec3(1, -1, -1)
 		};
 
-		constexpr uint32_t indices[] = {
+		CONSTEXPR uint32_t indices[] = {
 			2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1
 		};
 
@@ -3619,70 +3731,7 @@ namespace two
 
 }
 
-
-module two.geom;
-
-namespace two
-{
-	ShapeSize size_shape_lines(const ProcShape& shape, const Cylinder& cylinder)
-	{
-		ShapeSize circle_size = size_shape_lines(shape, Circle(cylinder.m_radius));
-		return { circle_size.vertex_count * 2, circle_size.index_count * 3 };
-	}
-	
-	void draw_shape_lines(const ProcShape& shape, const Cylinder& cylinder, MeshAdapter& writer)
-	{
-		vec3 offset = cylinder.m_axis == Axis::X ? X3 * cylinder.m_height / 2.f
-					: cylinder.m_axis == Axis::Y ? Y3 * cylinder.m_height / 2.f
-												 : Z3 * cylinder.m_height / 2.f;
-
-		Circle circle = { cylinder.m_radius, cylinder.m_axis };
-		uint16_t subdiv = circle_vertices(shape, cylinder.m_center + offset, vec2(circle.m_radius), to_signed_axis(circle.m_axis, true), true, writer);
-						  circle_vertices(shape, cylinder.m_center - offset, vec2(circle.m_radius), to_signed_axis(circle.m_axis, false), true, writer);
-
-		for(uint16_t i = 0; i < subdiv; i++)
-		{
-			writer.line(i, i + 1 < subdiv ? i + 1 : 0);
-			writer.line(subdiv + i, i + 1 < subdiv ? subdiv + i + 1 : subdiv);
-			writer.line(i, subdiv + i);
-		}
-	}
-
-	ShapeSize size_shape_triangles(const ProcShape& shape, const Cylinder& cylinder)
-	{
-		ShapeSize circle_size = size_shape_triangles(shape, Circle(cylinder.m_radius));
-		return { circle_size.vertex_count * 4, circle_size.index_count * 4 };
-	}
-	
-	void draw_shape_triangles(const ProcShape& shape, const Cylinder& cylinder, MeshAdapter& writer)
-	{
-		vec3 offset = cylinder.m_axis == Axis::X ? X3 * cylinder.m_height / 2.f
-					: cylinder.m_axis == Axis::Y ? Y3 * cylinder.m_height / 2.f
-												: Z3 * cylinder.m_height / 2.f;
-
-		Circle circle = { cylinder.m_radius, cylinder.m_axis };
-
-		uint16_t subdiv = circle_vertices(shape, cylinder.m_center - offset, vec2(circle.m_radius), to_signed_axis(circle.m_axis, false), false, writer);
-
-		for(uint16_t i = 0; i < subdiv; i++)
-			writer.tri(i + 1 < subdiv ? i + 1 : 0, i, subdiv);
-		writer.next();
-
-		circle_vertices(shape, cylinder.m_center + offset, vec2(circle.m_radius), to_signed_axis(circle.m_axis, true), false, writer);
-
-		for(uint16_t i = 0; i < subdiv; i++)
-			writer.tri(i, i + 1 < subdiv ? i + 1 : 0, subdiv);
-		writer.next();
-
-		circle_vertices(shape, cylinder.m_center - offset, vec2(circle.m_radius), to_signed_axis(circle.m_axis, false), false, writer, true);
-		circle_vertices(shape, cylinder.m_center + offset, vec2(circle.m_radius), to_signed_axis(circle.m_axis, true), false, writer, true);
-
-		for(uint16_t i = 0; i < subdiv; i++)
-			writer.quad(i, i + 1 < subdiv ? i + 1 : 0, i + 1 < subdiv ? (subdiv + 1) + i + 1 : (subdiv + 1), (subdiv + 1) + i);
-	}
-}
-
-
+module;
 module two.geom;
 
 namespace two
@@ -3725,118 +3774,70 @@ namespace two
 	}
 }
 
-
+module;
 module two.geom;
 
 namespace two
 {
-	vector<IcoSphere> IcoSphere::s_levels = { 1, 2, 3 };
-
-	IcoSphere::IcoSphere(int recursionLevel)
+	ShapeSize size_shape_lines(const ProcShape& shape, const Cylinder& cylinder)
 	{
-		float t = (1.0f + sqrt(5.0f)) / 2.0f;
+		ShapeSize circle_size = size_shape_lines(shape, Circle(cylinder.m_radius));
+		return { circle_size.vertex_count * 2, circle_size.index_count * 3 };
+	}
+	
+	void draw_shape_lines(const ProcShape& shape, const Cylinder& cylinder, MeshAdapter& writer)
+	{
+		vec3 offset = cylinder.m_axis == Axis::X ? x3 * cylinder.m_height / 2.f
+					: cylinder.m_axis == Axis::Y ? y3 * cylinder.m_height / 2.f
+												 : z3 * cylinder.m_height / 2.f;
 
-		vec3 vertices[] = {
-			{ -1.0f,  t,  0.0f },
-			{  1.0f,  t,  0.0f },
-			{ -1.0f, -t,  0.0f },
-			{  1.0f, -t,  0.0f },
-							
-			{  0.0f, -1.0f,  t },
-			{  0.0f,  1.0f,  t },
-			{  0.0f, -1.0f, -t },
-			{  0.0f,  1.0f, -t },
-							
-			{  t,  0.0f, -1.0f },
-			{  t,  0.0f,  1.0f },
-			{ -t,  0.0f, -1.0f },
-			{ -t,  0.0f,  1.0f },
-		};
+		Circle circle = { cylinder.m_radius, cylinder.m_axis };
+		uint16_t subdiv = circle_vertices(shape, cylinder.m_center + offset, vec2(circle.m_radius), to_signed_axis(circle.m_axis, true), true, writer);
+						  circle_vertices(shape, cylinder.m_center - offset, vec2(circle.m_radius), to_signed_axis(circle.m_axis, false), true, writer);
 
-		for(vec3& vert : vertices)
-			this->vertex(vert);
-
-		Face faces[] = {
-			{ 0, 11, 5 }, { 0, 5,  1  }, { 0,  1,  7  }, { 0,  7, 10 }, { 0, 10, 11 },
-			{ 1, 5,  9 }, { 5, 11, 4  }, { 11, 10, 2  }, { 10, 7, 6  }, { 7, 1,  8  },
-			{ 3, 9,  4 }, { 3, 4,  2  }, { 3,  2,  6  }, { 3,  6, 8  }, { 3, 8,  9  },
-			{ 4, 9,  5 }, { 2, 4,  11 }, { 6,  2,  10 }, { 8,  6, 7  }, { 9, 8,  1  },
-		};
-
-		for(Face& face : faces)
-			m_faces.push_back(face);
-
-		Line lines[] = {
-			{ 1, 0 }, { 1, 5 }, { 1, 7 }, { 1, 8  }, { 1, 9  },
-			{ 2, 3 }, { 2, 4 }, { 2, 6 }, { 2, 10 }, { 2, 11 },
-			{ 0, 5 }, { 5, 9 }, { 9, 8 }, { 8, 7 }, { 7, 0 },
-			{ 10, 11 }, { 11, 4 }, { 4, 3 }, { 3, 6 }, { 6, 10 },
-
-			{ 0, 11 }, { 11, 5 }, { 5, 4 }, { 4, 9 }, { 9, 3 },
-			{ 3, 8 }, { 8, 6 }, { 6, 7 }, { 7, 10 }, { 10, 0 },
-		};
-
-		for(Line& line : lines)
-			m_lines.push_back(line);
-
-		for(int r = 0; r < recursionLevel; r++)
+		for(uint16_t i = 0; i < subdiv; i++)
 		{
-			vector<Face> prevfaces = m_faces;
-
-			m_faces.clear();
-			m_lines.clear();
-
-			for(Face& face : prevfaces)
-			{
-				int a = this->middle_point(face[0], face[1]);
-				int b = this->middle_point(face[1], face[2]);
-				int c = this->middle_point(face[2], face[0]);
-
-				m_faces.push_back({ face[0], a, c });
-				m_faces.push_back({ face[1], b, a });
-				m_faces.push_back({ face[2], c, b });
-				m_faces.push_back({ a, b, c });
-
-				this->triangle(face[0], a, c);
-				this->triangle(face[1], b, a);
-				this->triangle(face[2], c, b);
-			}
+			writer.line(i, i + 1 < subdiv ? i + 1 : 0);
+			writer.line(subdiv + i, i + 1 < subdiv ? subdiv + i + 1 : subdiv);
+			writer.line(i, subdiv + i);
 		}
 	}
 
-	void IcoSphere::triangle(int index0, int index1, int index2)
+	ShapeSize size_shape_triangles(const ProcShape& shape, const Cylinder& cylinder)
 	{
-		m_lines.push_back({ index0, index1 });
-		m_lines.push_back({ index1, index2 });
-		m_lines.push_back({ index2, index0 });
+		ShapeSize circle_size = size_shape_triangles(shape, Circle(cylinder.m_radius));
+		return { circle_size.vertex_count * 4, circle_size.index_count * 4 };
 	}
 	
-	int IcoSphere::vertex(const vec3& vertex)
+	void draw_shape_triangles(const ProcShape& shape, const Cylinder& cylinder, MeshAdapter& writer)
 	{
-		m_vertices.push_back(normalize(vertex));
-		return int(m_vertices.size() - 1);
-	}
+		vec3 offset = cylinder.m_axis == Axis::X ? x3 * cylinder.m_height / 2.f
+					: cylinder.m_axis == Axis::Y ? y3 * cylinder.m_height / 2.f
+												: z3 * cylinder.m_height / 2.f;
 
-	int IcoSphere::middle_point(int index0, int index1)
-	{
-		int64_t lo = index0 < index1 ? index0 : index1;
-		int64_t hi = index0 < index1 ? index1 : index0;
-		int64_t key = (lo << 32) | hi;
+		Circle circle = { cylinder.m_radius, cylinder.m_axis };
 
-		if(m_middle_point_cache.find(key) != m_middle_point_cache.end())
-			return m_middle_point_cache[key];
+		uint16_t subdiv = circle_vertices(shape, cylinder.m_center - offset, vec2(circle.m_radius), to_signed_axis(circle.m_axis, false), false, writer);
 
-		vec3 point1 = m_vertices[index0];
-		vec3 point2 = m_vertices[index1];
-		vec3 middle = (point1 + point2) / 2.f;
+		for(uint16_t i = 0; i < subdiv; i++)
+			writer.tri(i + 1 < subdiv ? i + 1 : 0, i, subdiv);
+		writer.next();
 
-		int index = this->vertex(middle);
-		m_middle_point_cache[key] = index;
-		return index;
+		circle_vertices(shape, cylinder.m_center + offset, vec2(circle.m_radius), to_signed_axis(circle.m_axis, true), false, writer);
+
+		for(uint16_t i = 0; i < subdiv; i++)
+			writer.tri(i, i + 1 < subdiv ? i + 1 : 0, subdiv);
+		writer.next();
+
+		circle_vertices(shape, cylinder.m_center - offset, vec2(circle.m_radius), to_signed_axis(circle.m_axis, false), false, writer, true);
+		circle_vertices(shape, cylinder.m_center + offset, vec2(circle.m_radius), to_signed_axis(circle.m_axis, true), false, writer, true);
+
+		for(uint16_t i = 0; i < subdiv; i++)
+			writer.quad(i, i + 1 < subdiv ? i + 1 : 0, i + 1 < subdiv ? (subdiv + 1) + i + 1 : (subdiv + 1), (subdiv + 1) + i);
 	}
 }
 
-
+module;
 module two.geom;
 
 namespace two
@@ -3906,228 +3907,7 @@ namespace two
 	}
 }
 
-
-module two.geom;
-
-namespace two
-{
-	using Draw = DispatchDrawProcShape;
-
-	ShapeSize symbol_line_size(const ProcShape& procshape)
-	{
-		const Shape& shape = *procshape.m_shape;
-		if(Draw::me.m_size_lines.check(Ref(&shape)))
-			return Draw::me.m_size_lines.dispatch(Ref(&shape), procshape);
-		return { 0, 0 };
-	}
-
-	ShapeSize symbol_triangle_size(const ProcShape& procshape)
-	{
-		const Shape& shape = *procshape.m_shape;
-		if(Draw::me.m_size_triangles.check(Ref(&shape)))
-			return Draw::me.m_size_triangles.dispatch(Ref(&shape), procshape);
-		return { 0, 0 };
-	}
-
-	void symbol_draw_lines(const ProcShape& procshape, MeshAdapter& writer)
-	{
-		const Shape& shape = *procshape.m_shape;
-		if(Draw::me.m_draw_lines.check(Ref(&shape)))
-			Draw::me.m_draw_lines.dispatch(Ref(&shape), procshape, writer);
-	}
-
-	void symbol_draw_triangles(const ProcShape& procshape, MeshAdapter& writer)
-	{
-		const Shape& shape = *procshape.m_shape;
-		if(Draw::me.m_draw_triangles.check(Ref(&shape)))
-			Draw::me.m_draw_triangles.dispatch(Ref(&shape), procshape, writer);
-	}
-
-	ShapeSize size_shape_lines(const ProcShape& procshape, const CompoundShape& compound)
-	{
-		UNUSED(procshape);
-		ShapeSize result = { 0, 0 };
-		for(auto& shape : compound.m_shapes)
-			result.vec += symbol_line_size(shape).vec;
-		return result;
-	}
-
-	void draw_shape_lines(const ProcShape& procshape, const CompoundShape& compound, MeshAdapter& writer)
-	{
-		UNUSED(procshape);
-		for(auto& shape : compound.m_shapes)
-		{
-			symbol_draw_lines(shape, writer);
-			writer.next();
-		}
-	}
-
-	ShapeSize size_shape_triangles(const ProcShape& procshape, const CompoundShape& compound)
-	{
-		UNUSED(procshape);
-		ShapeSize result = { 0, 0 };
-		for(auto& shape : compound.m_shapes)
-			result.vec += symbol_triangle_size(shape).vec;
-		return result;
-	}
-
-	void draw_shape_triangles(const ProcShape& procshape, const CompoundShape& compound, MeshAdapter& writer)
-	{
-		UNUSED(procshape);
-		for(auto& shape : compound.m_shapes)
-		{
-			symbol_draw_triangles(shape, writer);
-			writer.next();
-		}
-	}
-
-	DispatchDrawProcShape::DispatchDrawProcShape()
-	{
-		decl_shape<Line>(*this);
-		decl_shape<ArcLine>(*this);
-		decl_shape<Circle>(*this);
-		decl_shape<Ellipsis>(*this);
-		decl_shape<Grid2>(*this);
-		decl_shape<Grid3>(*this);
-		decl_shape<Quad>(*this);
-		decl_shape<Rect>(*this);
-		decl_shape<Triangle>(*this);
-
-		decl_shape<Box>(*this);
-		decl_shape<Cube>(*this);
-		//declare_shape<Aabb>(*this);
-		decl_shape<Cylinder>(*this);
-		decl_shape<Sphere>(*this);
-		decl_shape<Torus>(*this);
-		decl_shape_triangles<TorusKnot>(*this);
-
-		// polyhedrons
-		decl_shape_triangles<Tetraedr>(*this);
-		decl_shape_triangles<Icosaedr>(*this);
-
-		decl_shape<Geometry>(*this);
-
-		decl_compound_shape<Spheroid>(*this);
-	}
-}
-
-
-module two.geom;
-
-//#define PK_GLITCH
-
-namespace two
-{
-	static vec2 quadUVs[4] = { { 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 0.f }, { 0.f, 1.f } };
-
-	vec3 quad_normal(const vec3& a, const vec3& b, const vec3& c, const vec3& d)
-	{
-		UNUSED(d);
-#ifndef PK_GLITCH
-		vec3 x = b - a;
-		vec3 y = c - a;
-		return normalize(cross(x, y));
-#else
-		return 1.f;
-#endif
-	}
-
-	void quad_vertices(const ProcShape& shape, const vec3& center, const vec3& a, const vec3& b, const vec3& c, const vec3& d, bool fill, MeshAdapter& writer)
-	{
-		auto vertex = [&](const vec3& p, const vec3& n, const vec2& uv)
-		{
-			writer.position(center + p)
-				  .colour(fill ? shape.m_symbol.m_fill : shape.m_symbol.m_outline)
-				  .normal(n)
-				  .uv0(uv);
-		};
-
-		vec3 normal = quad_normal(a, b, c, d);
-		vertex(a, normal, quadUVs[0]);
-		vertex(b, normal, quadUVs[1]);
-		vertex(c, normal, quadUVs[2]);
-		vertex(d, normal, quadUVs[3]);
-	}
-
-	void quad_vertices(const ProcShape& shape, const vec3& center, span<vec3> vertices, bool fill, MeshAdapter& writer)
-	{
-		quad_vertices(shape, center, vertices[0], vertices[1], vertices[2], vertices[3], fill, writer);
-	}
-
-	ShapeSize size_shape_lines(const ProcShape& shape, const Quad& quad)
-	{
-		UNUSED(shape); UNUSED(quad);
-		return { 4, 8 };
-	}
-
-	void draw_shape_lines(const ProcShape& shape, const Quad& quad, MeshAdapter& writer)
-	{
-		quad_vertices(shape, quad.m_center, { const_cast<vec3*>(quad.m_vertices), 4 }, false, writer);
-		for(uint16_t i = 0; i < 4; i++)
-			writer.line(i, (i + 1) % 4);
-	}
-
-	ShapeSize size_shape_triangles(const ProcShape& shape, const Quad& quad)
-	{
-		UNUSED(shape); UNUSED(quad);
-		return { 4, 6 };
-	}
-
-	void draw_shape_triangles(const ProcShape& shape, const Quad& quad, MeshAdapter& writer)
-	{
-		quad_vertices(shape, quad.m_center, { const_cast<vec3*>(quad.m_vertices), 4 }, true, writer);
-		writer.quad(0, 1, 2, 3);
-	}
-
-	uint32_t num_rects(const Grid3& grid) { return (grid.m_size.x-1) * (grid.m_size.y-1); }
-
-	ShapeSize size_shape_lines(const ProcShape& shape, const Grid3& grid)
-	{
-		UNUSED(shape);
-		uint32_t rects = num_rects(grid);
-		return { rects * 4U, rects * 8U };
-	}
-
-	void draw_shape_lines(const ProcShape& shape, const Grid3& grid, MeshAdapter& writer)
-	{
-		// @todo: could draw it like a grid instead of per quads...
-		span2d<vec3> points = { const_cast<vec3*>(grid.m_points.data()), grid.m_size.x, grid.m_size.y };
-
-		uint32_t offset = 0;
-
-		for(uint32_t x = 0; x < grid.m_size.x - 1; ++x)
-			for(uint32_t y = 0; y < grid.m_size.y - 1; ++y)
-			{
-				quad_vertices(shape, grid.m_center, points.at(x, y), points.at(x + 1, y), points.at(x + 1, y + 1), points.at(x, y + 1), true, writer);
-				for(uint16_t i = 0; i < 4; i++)
-					writer.line(offset + i, offset + (i + 1) % 4);
-			}
-	}
-
-	ShapeSize size_shape_triangles(const ProcShape& shape, const Grid3& grid)
-	{
-		UNUSED(shape);
-		uint32_t rects = num_rects(grid);
-		return { rects * 4U, rects * 6U };
-	}
-
-	void draw_shape_triangles(const ProcShape& shape, const Grid3& grid, MeshAdapter& writer)
-	{
-		span2d<vec3> points = { const_cast<vec3*>(grid.m_points.data()), grid.m_size.x, grid.m_size.y };
-
-		uint32_t offset = 0;
-
-		for(uint32_t x = 0; x < grid.m_size.x-1; ++x)
-			for(uint32_t y = 0; y < grid.m_size.y-1; ++y)
-			{
-				quad_vertices(shape, grid.m_center, points.at(x, y), points.at(x+1, y), points.at(x+1, y+1), points.at(x, y+1), true, writer);
-				writer.quad(offset + 0, offset + 1, offset + 2, offset + 3);
-				offset += 4;
-			}
-	}
-}
-
-
+module;
 module two.geom;
 
 #define ICO_SPHERE_LOD 2
@@ -4291,20 +4071,223 @@ namespace two
 	}
 }
 
-
+module;
 module two.geom;
 
 namespace two
 {
-	CompoundShape shape_compound(const ProcShape& shape, const Spheroid& spheroid)
+	vector<IcoSphere> IcoSphere::s_levels = { 1, 2, 3 };
+
+	IcoSphere::IcoSphere(int recursionLevel)
 	{
-		return { { ProcShape{ shape.m_symbol, &spheroid.m_circleX, shape.m_draw_mode },
-				   ProcShape{ shape.m_symbol, &spheroid.m_circleY, shape.m_draw_mode },
-				   ProcShape{ shape.m_symbol, &spheroid.m_circleZ, shape.m_draw_mode } } };
+		float t = (1.0f + sqrt(5.0f)) / 2.0f;
+
+		vec3 vertices[] = {
+			{ -1.0f,  t,  0.0f },
+			{  1.0f,  t,  0.0f },
+			{ -1.0f, -t,  0.0f },
+			{  1.0f, -t,  0.0f },
+							
+			{  0.0f, -1.0f,  t },
+			{  0.0f,  1.0f,  t },
+			{  0.0f, -1.0f, -t },
+			{  0.0f,  1.0f, -t },
+							
+			{  t,  0.0f, -1.0f },
+			{  t,  0.0f,  1.0f },
+			{ -t,  0.0f, -1.0f },
+			{ -t,  0.0f,  1.0f },
+		};
+
+		for(vec3& vert : vertices)
+			this->vertex(vert);
+
+		Face faces[] = {
+			{ 0, 11, 5 }, { 0, 5,  1  }, { 0,  1,  7  }, { 0,  7, 10 }, { 0, 10, 11 },
+			{ 1, 5,  9 }, { 5, 11, 4  }, { 11, 10, 2  }, { 10, 7, 6  }, { 7, 1,  8  },
+			{ 3, 9,  4 }, { 3, 4,  2  }, { 3,  2,  6  }, { 3,  6, 8  }, { 3, 8,  9  },
+			{ 4, 9,  5 }, { 2, 4,  11 }, { 6,  2,  10 }, { 8,  6, 7  }, { 9, 8,  1  },
+		};
+
+		for(Face& face : faces)
+			m_faces.push_back(face);
+
+		Line lines[] = {
+			{ 1, 0 }, { 1, 5 }, { 1, 7 }, { 1, 8  }, { 1, 9  },
+			{ 2, 3 }, { 2, 4 }, { 2, 6 }, { 2, 10 }, { 2, 11 },
+			{ 0, 5 }, { 5, 9 }, { 9, 8 }, { 8, 7 }, { 7, 0 },
+			{ 10, 11 }, { 11, 4 }, { 4, 3 }, { 3, 6 }, { 6, 10 },
+
+			{ 0, 11 }, { 11, 5 }, { 5, 4 }, { 4, 9 }, { 9, 3 },
+			{ 3, 8 }, { 8, 6 }, { 6, 7 }, { 7, 10 }, { 10, 0 },
+		};
+
+		for(Line& line : lines)
+			m_lines.push_back(line);
+
+		for(int r = 0; r < recursionLevel; r++)
+		{
+			vector<Face> prevfaces = m_faces;
+
+			m_faces.clear();
+			m_lines.clear();
+
+			for(Face& face : prevfaces)
+			{
+				int a = this->middle_point(face[0], face[1]);
+				int b = this->middle_point(face[1], face[2]);
+				int c = this->middle_point(face[2], face[0]);
+
+				m_faces.push_back({ face[0], a, c });
+				m_faces.push_back({ face[1], b, a });
+				m_faces.push_back({ face[2], c, b });
+				m_faces.push_back({ a, b, c });
+
+				this->triangle(face[0], a, c);
+				this->triangle(face[1], b, a);
+				this->triangle(face[2], c, b);
+			}
+		}
+	}
+
+	void IcoSphere::triangle(int index0, int index1, int index2)
+	{
+		m_lines.push_back({ index0, index1 });
+		m_lines.push_back({ index1, index2 });
+		m_lines.push_back({ index2, index0 });
+	}
+	
+	int IcoSphere::vertex(const vec3& vertex)
+	{
+		m_vertices.push_back(normalize(vertex));
+		return int(m_vertices.size() - 1);
+	}
+
+	int IcoSphere::middle_point(int index0, int index1)
+	{
+		int64_t lo = index0 < index1 ? index0 : index1;
+		int64_t hi = index0 < index1 ? index1 : index0;
+		int64_t key = (lo << 32) | hi;
+
+		if(m_middle_point_cache.find(key) != m_middle_point_cache.end())
+			return m_middle_point_cache[key];
+
+		vec3 point1 = m_vertices[index0];
+		vec3 point2 = m_vertices[index1];
+		vec3 middle = (point1 + point2) / 2.f;
+
+		int index = this->vertex(middle);
+		m_middle_point_cache[key] = index;
+		return index;
 	}
 }
 
+module;
+module two.geom;
 
+namespace two
+{
+	using Draw = DispatchDrawProcShape;
+
+	ShapeSize symbol_line_size(const ProcShape& procshape)
+	{
+		const Shape& shape = *procshape.m_shape;
+		if(Draw::me.m_size_lines.check(Ref(&shape)))
+			return Draw::me.m_size_lines.dispatch(Ref(&shape), procshape);
+		return { 0, 0 };
+	}
+
+	ShapeSize symbol_triangle_size(const ProcShape& procshape)
+	{
+		const Shape& shape = *procshape.m_shape;
+		if(Draw::me.m_size_triangles.check(Ref(&shape)))
+			return Draw::me.m_size_triangles.dispatch(Ref(&shape), procshape);
+		return { 0, 0 };
+	}
+
+	void symbol_draw_lines(const ProcShape& procshape, MeshAdapter& writer)
+	{
+		const Shape& shape = *procshape.m_shape;
+		if(Draw::me.m_draw_lines.check(Ref(&shape)))
+			Draw::me.m_draw_lines.dispatch(Ref(&shape), procshape, writer);
+	}
+
+	void symbol_draw_triangles(const ProcShape& procshape, MeshAdapter& writer)
+	{
+		const Shape& shape = *procshape.m_shape;
+		if(Draw::me.m_draw_triangles.check(Ref(&shape)))
+			Draw::me.m_draw_triangles.dispatch(Ref(&shape), procshape, writer);
+	}
+
+	ShapeSize size_shape_lines(const ProcShape& procshape, const CompoundShape& compound)
+	{
+		UNUSED(procshape);
+		ShapeSize result = { 0, 0 };
+		for(auto& shape : compound.m_shapes)
+			result.vec += symbol_line_size(shape).vec;
+		return result;
+	}
+
+	void draw_shape_lines(const ProcShape& procshape, const CompoundShape& compound, MeshAdapter& writer)
+	{
+		UNUSED(procshape);
+		for(auto& shape : compound.m_shapes)
+		{
+			symbol_draw_lines(shape, writer);
+			writer.next();
+		}
+	}
+
+	ShapeSize size_shape_triangles(const ProcShape& procshape, const CompoundShape& compound)
+	{
+		UNUSED(procshape);
+		ShapeSize result = { 0, 0 };
+		for(auto& shape : compound.m_shapes)
+			result.vec += symbol_triangle_size(shape).vec;
+		return result;
+	}
+
+	void draw_shape_triangles(const ProcShape& procshape, const CompoundShape& compound, MeshAdapter& writer)
+	{
+		UNUSED(procshape);
+		for(auto& shape : compound.m_shapes)
+		{
+			symbol_draw_triangles(shape, writer);
+			writer.next();
+		}
+	}
+
+	DispatchDrawProcShape::DispatchDrawProcShape()
+	{
+		decl_shape<Line>(*this);
+		decl_shape<ArcLine>(*this);
+		decl_shape<Circle>(*this);
+		decl_shape<Ellipsis>(*this);
+		decl_shape<Grid2>(*this);
+		decl_shape<Grid3>(*this);
+		decl_shape<Quad>(*this);
+		decl_shape<Rect>(*this);
+		decl_shape<Triangle>(*this);
+
+		decl_shape<Box>(*this);
+		decl_shape<Cube>(*this);
+		//declare_shape<Aabb>(*this);
+		decl_shape<Cylinder>(*this);
+		decl_shape<Sphere>(*this);
+		decl_shape<Torus>(*this);
+		decl_shape_triangles<TorusKnot>(*this);
+
+		// polyhedrons
+		decl_shape_triangles<Tetraedr>(*this);
+		decl_shape_triangles<Icosaedr>(*this);
+
+		decl_shape<Geometry>(*this);
+
+		decl_compound_shape<Spheroid>(*this);
+	}
+}
+
+module;
 module two.geom;
 
 //#define PK_GLITCH
@@ -4345,5 +4328,18 @@ namespace two
 	{
 		triangle_vertices(shape, triangle, true, writer);
 		writer.tri(0, 1, 2);
+	}
+}
+
+module;
+module two.geom;
+
+namespace two
+{
+	CompoundShape shape_compound(const ProcShape& shape, const Spheroid& spheroid)
+	{
+		return { { ProcShape{ shape.m_symbol, &spheroid.m_circleX, shape.m_draw_mode },
+				   ProcShape{ shape.m_symbol, &spheroid.m_circleY, shape.m_draw_mode },
+				   ProcShape{ shape.m_symbol, &spheroid.m_circleZ, shape.m_draw_mode } } };
 	}
 }

@@ -1,88 +1,225 @@
-#include <two/gfx.h>
-#include <two/geom.h>
-#include <two/ui.h>
-#include <two/pool.h>
-#include <two/uio.h>
-#include <two/tree.h>
-#include <two/lang.h>
-#include <two/ecs.h>
-#include <two/gfx.edit.h>
-#include <two/tool.h>
-#include <two/math.h>
-#include <two/refl.h>
-#include <two/ctx.h>
-#include <two/gfx.ui.h>
 #include <two/infra.h>
-#include <two/type.h>
 
-
-
+module;
 module two.tool;
 
 namespace two
 {
+    // Exported types
+    template <> TWO_TOOL_EXPORT Type& type<two::ToolState>() { static Type ty("ToolState", sizeof(two::ToolState)); return ty; }
+    
+    
+    template <> TWO_TOOL_EXPORT Type& type<two::EditorAction>() { static Type ty("EditorAction", sizeof(two::EditorAction)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::ToolContext>() { static Type ty("ToolContext", sizeof(two::ToolContext)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::ToolOption>() { static Type ty("ToolOption", sizeof(two::ToolOption)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::Tool>() { static Type ty("Tool", sizeof(two::Tool)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::ViewportTool>() { static Type ty("ViewportTool", type<two::Tool>(), sizeof(two::ViewportTool)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::SpatialTool>() { static Type ty("SpatialTool", type<two::ViewportTool>(), sizeof(two::SpatialTool)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::Gizmo>() { static Type ty("Gizmo", sizeof(two::Gizmo)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::TransformAction>() { static Type ty("TransformAction", type<two::EditorAction>(), sizeof(two::TransformAction)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::TransformTool>() { static Type ty("TransformTool", type<two::SpatialTool>(), sizeof(two::TransformTool)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::TransformGizmo>() { static Type ty("TransformGizmo", type<two::Gizmo>(), sizeof(two::TransformGizmo)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::UndoTool>() { static Type ty("UndoTool", type<two::Tool>(), sizeof(two::UndoTool)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::RedoTool>() { static Type ty("RedoTool", type<two::Tool>(), sizeof(two::RedoTool)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::Brush>() { static Type ty("Brush", type<two::SpatialTool>(), sizeof(two::Brush)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::PlaneSnapOption>() { static Type ty("PlaneSnapOption", type<two::ToolOption>(), sizeof(two::PlaneSnapOption)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::WorldSnapOption>() { static Type ty("WorldSnapOption", type<two::ToolOption>(), sizeof(two::WorldSnapOption)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::PlaceBrush>() { static Type ty("PlaceBrush", type<two::Brush>(), sizeof(two::PlaceBrush)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::CircleBrush>() { static Type ty("CircleBrush", type<two::Brush>(), sizeof(two::CircleBrush)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::ScriptedBrush>() { static Type ty("ScriptedBrush", type<two::Brush>(), sizeof(two::ScriptedBrush)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::TranslateAction>() { static Type ty("TranslateAction", type<two::TransformAction>(), sizeof(two::TranslateAction)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::TranslateTool>() { static Type ty("TranslateTool", type<two::TransformTool>(), sizeof(two::TranslateTool)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::RotateAction>() { static Type ty("RotateAction", type<two::TransformAction>(), sizeof(two::RotateAction)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::RotateTool>() { static Type ty("RotateTool", type<two::TransformTool>(), sizeof(two::RotateTool)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::ScaleAction>() { static Type ty("ScaleAction", type<two::TransformAction>(), sizeof(two::ScaleAction)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::ScaleTool>() { static Type ty("ScaleTool", type<two::TransformTool>(), sizeof(two::ScaleTool)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::CopyAction>() { static Type ty("CopyAction", type<two::TranslateAction>(), sizeof(two::CopyAction)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::CopyTool>() { static Type ty("CopyTool", type<two::TransformTool>(), sizeof(two::CopyTool)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::ViewAction>() { static Type ty("ViewAction", type<two::EditorAction>(), sizeof(two::ViewAction)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::FrameViewTool>() { static Type ty("FrameViewTool", type<two::ViewportTool>(), sizeof(two::FrameViewTool)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::ViewTool>() { static Type ty("ViewTool", type<two::ViewportTool>(), sizeof(two::ViewTool)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::Selection>() { static Type ty("Selection", sizeof(two::Selection)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::EditContext>() { static Type ty("EditContext", sizeof(two::EditContext)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::WorkPlaneAction>() { static Type ty("WorkPlaneAction", type<two::EditorAction>(), sizeof(two::WorkPlaneAction)); return ty; }
+    template <> TWO_TOOL_EXPORT Type& type<two::WorkPlaneTool>() { static Type ty("WorkPlaneTool", type<two::Tool>(), sizeof(two::WorkPlaneTool)); return ty; }
 }
+#ifndef USE_STL
+module two.tool;
 
+namespace stl
+{
+	using namespace two;
+	template class TWO_TOOL_EXPORT vector<Entity>;
+	template class TWO_TOOL_EXPORT vector<Transform*>;
+	template class TWO_TOOL_EXPORT vector<unique<Gizmo>>;
+	template class TWO_TOOL_EXPORT vector<unique<ToolOption>>;
+	template class TWO_TOOL_EXPORT vector<unique<Brush>>;
+	template class TWO_TOOL_EXPORT vector<unique<EditorAction>>;
+}
+#endif
 
+module;
 module two.tool;
 
 namespace two
 {
-	ActionStack::ActionStack()
-		: m_done()
-		, m_undone()
-	{}
-
-	ActionStack::~ActionStack()
-	{}
-
-	void ActionStack::push(object<EditorAction> action)
+	EditContext::EditContext(GfxSystem& gfx)
+		: m_gfx(gfx)
+		, m_undo_tool(m_tool_context)
+		, m_redo_tool(m_tool_context)
+		, m_work_plane() //vec3(0.f, 10.f, 0.f), Entity::FrontVector, Entity::RightVector)
+		, m_translate_tool(m_tool_context)
+		, m_rotate_tool(m_tool_context)
+		, m_scale_tool(m_tool_context)
+		, m_view_tools(m_tool_context)
+		//, m_place_brush(m_tool_context)
 	{
-		m_undone.clear();
-		//action->apply();
-		m_done.push_back(move(action));
+		m_tool_context.m_action_stack = &m_action_stack;
 	}
 
-	void ActionStack::redo()
-	{
-		if(m_undone.empty())
-			return;
-
-		m_undone.back()->apply();
-		m_done.push_back(pop(m_undone));
-	}
-
-	void ActionStack::undo()
-	{
-		if(m_done.empty())
-			return;
-
-		m_done.back()->undo();
-		m_undone.push_back(pop(m_done));
-	}
-
-	UndoTool::UndoTool(ToolContext& context)
-		: Tool(context, "Undo", type<UndoTool>())
+	EditContext::~EditContext()
 	{}
 
-	void UndoTool::activate()
+	void EditContext::set_tool(ViewportTool& tool, Viewer& viewer)
 	{
-		m_context.m_action_stack->undo();
-		m_state = ToolState::Done;
+		UNUSED(viewer);
+		m_tool = &tool;
+		m_spatial_tool = try_as<SpatialTool>(tool);
 	}
 
-	RedoTool::RedoTool(ToolContext& context)
-		: Tool(context, "Redo", type<RedoTool>())
-	{}
-
-	void RedoTool::activate()
+	void brush_preview(Widget& parent, Brush& brush)
 	{
-		m_context.m_action_stack->redo();
-		m_state = ToolState::Done;
+		UNUSED(brush);
+		Widget& self = ui::stack(parent);
+		UNUSED(self);
+	}
+
+	void brush_options(Widget& parent, Brush& brush)
+	{
+		brush_preview(parent, brush);
+		object_edit(parent, Ref(&brush));
+	}
+
+	void current_brush_edit(Widget& parent, EditContext& context)
+	{
+		Widget& self = section(parent, "Current Brush");
+		if(context.m_brush)
+			brush_options(self, *context.m_brush);
+	}
+
+	bool edit_tool(Widget& parent, Tool& tool, cstring icon)
+	{
+		Widget& self = ui::toolbutton(parent, icon);
+		self.set_state(ACTIVE, tool.m_state == ToolState::Active);
+		return self.activated();
+	}
+		
+	void tools_transform(Widget& toolbar, EditContext& context)
+	{
+		//if(edit_tool(toolbar, "(empty)"))
+		//	context.m_tool = nullptr;
+		if(edit_tool(toolbar, context.m_undo_tool, "(undo)"))
+			context.m_undo_tool.activate();
+		if(edit_tool(toolbar, context.m_redo_tool, "(redo)"))
+			context.m_redo_tool.activate();
+		if(edit_tool(toolbar, context.m_translate_tool, "(translate)"))
+			context.set_tool(context.m_translate_tool, *context.m_viewer);
+		if(edit_tool(toolbar, context.m_rotate_tool, "(rotate)"))
+			context.set_tool(context.m_rotate_tool, *context.m_viewer);
+		if(edit_tool(toolbar, context.m_scale_tool, "(scale)"))
+			context.set_tool(context.m_scale_tool, *context.m_viewer);
+
+		for(auto& brush : context.m_custom_brushes)
+			if(edit_tool(toolbar, *brush, brush->m_name.c_str()))
+			{
+				context.set_tool(*brush, *context.m_viewer);
+				context.m_brush = brush.get();
+			}
+	}
+
+	void edit_transform(Widget& parent, EditContext& context)
+	{
+		Widget& self = ui::toolbar(parent);
+		tools_transform(self, context);
+
+		if(context.m_brush)
+			brush_options(parent, *context.m_brush);
+	}
+
+	void console_view(Widget& parent, LuaInterpreter& lua)
+	{
+		static string feed = "console v0.1";
+		static string line = "type lua code here";
+		static string command = "";
+
+		ui::console(parent, feed, line, command, 18);
+		if(command != "")
+		{
+			lua.call(command.c_str());
+			feed += "\n<< " + lua.flush();
+			command = "";
+		}
+	}
+
+	void object_editor(Widget& parent, const Selection& selection)
+	{
+		Widget& self = section(parent, "Inspector");
+
+		if(!selection.objects.empty() && selection.objects[0])
+		{
+			Ref selected = selection.objects[0];
+			Widget& sheet = ui::widget(*self.m_body, styles().sheet, (void*)selected.m_value);
+			object_edit(sheet, selected);
+		}
+		else if(!selection.entities.empty() && selection.entities[0])
+		{
+			Entity selected = selection.entities[0];
+			Widget& sheet = ui::widget(*self.m_body, styles().sheet, (void*)selected.m_handle);
+			entity_edit(sheet, selected);
+		}
+	}
+
+	void edit_tools(Widget& screen, Docker& docker, EditContext& context)
+	{
+		context.m_tool_context.m_action_stack = &context.m_action_stack;
+		context.m_tool_context.m_work_plane = &context.m_work_plane;
+
+		//if(Widget* dock = ui::dockitem(dockbar, "Library", { 0 }))
+		//	library_section(section, { &type<World>(), &type<Entity>() }, game.m_selection);
+		if(Widget* dock = ui::dockitem(docker, "Inspect", { 2U }))
+			object_editor(*dock, context.m_selection);
+		if(Widget* dock = ui::dockitem(docker, "Edit", { 3U }))
+			edit_transform(*dock, context);
+		if(Widget* dock = ui::dockitem(docker, "Script", { 4U }))
+			script_editor(*dock, context.m_script_editor);
+		//if(Widget* dock = ui::dockitem(*context.m_dockbar, "VisualScript", { 5U }))
+		//	visual_script_edit(self, shell.m_editor.m_script_editor);
+		if(Widget* dock = ui::dockitem(docker, "Gfx", { 6U }))
+			edit_gfx(*dock, context.m_gfx);
+		if(Widget* dock = ui::dockitem(docker, "Ui", { 7U }))
+			ui_debug(*dock, screen);
+
+		if(context.m_spatial_tool && context.m_viewer)
+			context.m_spatial_tool->process(*context.m_viewer, context.m_selection.objects);
+	}
+
+	void edit_tools(Widget& screen, EditContext& context)
+	{
+		edit_tools(screen, *context.m_dockbar, context);
+	}
+
+	void edit_context(Widget& parent, EditContext& context, bool tools)
+	{
+		Widget& board = ui::board(parent);
+		context.m_screen = &ui::board(board);
+		context.m_dockbar = &ui::dockbar(board, context.m_docksystem);
+
+		if(tools)
+			edit_tools(*context.m_screen, context);
 	}
 }
 
-
+module;
 module two.tool;
 
 namespace two
@@ -90,7 +227,7 @@ namespace two
 	Brush::Brush(ToolContext& context, cstring name, Type& type)
 		: SpatialTool(context, name, type)
 		, m_world_snap(false)
-		, m_work_plane(Y3, 0.f)
+		, m_work_plane(y3, 0.f)
 	{
 		this->add_option(oconstruct<PlaneSnapOption>(*this));
 		this->add_option(oconstruct<WorldSnapOption>(*this));
@@ -302,168 +439,7 @@ namespace two
 	}
 }
 
-
-module two.tool;
-
-namespace two
-{
-	EditContext::EditContext(GfxSystem& gfx)
-		: m_gfx(gfx)
-		, m_undo_tool(m_tool_context)
-		, m_redo_tool(m_tool_context)
-		, m_work_plane() //vec3(0.f, 10.f, 0.f), Entity::FrontVector, Entity::RightVector)
-		, m_translate_tool(m_tool_context)
-		, m_rotate_tool(m_tool_context)
-		, m_scale_tool(m_tool_context)
-		, m_view_tools(m_tool_context)
-		//, m_place_brush(m_tool_context)
-	{
-		m_tool_context.m_action_stack = &m_action_stack;
-	}
-
-	EditContext::~EditContext()
-	{}
-
-	void EditContext::set_tool(ViewportTool& tool, Viewer& viewer)
-	{
-		UNUSED(viewer);
-		m_tool = &tool;
-		m_spatial_tool = try_as<SpatialTool>(tool);
-	}
-
-	void brush_preview(Widget& parent, Brush& brush)
-	{
-		UNUSED(brush);
-		Widget& self = ui::stack(parent);
-		UNUSED(self);
-	}
-
-	void brush_options(Widget& parent, Brush& brush)
-	{
-		brush_preview(parent, brush);
-		object_edit(parent, Ref(&brush));
-	}
-
-	void current_brush_edit(Widget& parent, EditContext& context)
-	{
-		Widget& self = section(parent, "Current Brush");
-		if(context.m_brush)
-			brush_options(self, *context.m_brush);
-	}
-
-	bool edit_tool(Widget& parent, Tool& tool, cstring icon)
-	{
-		Widget& self = ui::toolbutton(parent, icon);
-		self.set_state(ACTIVE, tool.m_state == ToolState::Active);
-		return self.activated();
-	}
-		
-	void tools_transform(Widget& toolbar, EditContext& context)
-	{
-		//if(edit_tool(toolbar, "(empty)"))
-		//	context.m_tool = nullptr;
-		if(edit_tool(toolbar, context.m_undo_tool, "(undo)"))
-			context.m_undo_tool.activate();
-		if(edit_tool(toolbar, context.m_redo_tool, "(redo)"))
-			context.m_redo_tool.activate();
-		if(edit_tool(toolbar, context.m_translate_tool, "(translate)"))
-			context.set_tool(context.m_translate_tool, *context.m_viewer);
-		if(edit_tool(toolbar, context.m_rotate_tool, "(rotate)"))
-			context.set_tool(context.m_rotate_tool, *context.m_viewer);
-		if(edit_tool(toolbar, context.m_scale_tool, "(scale)"))
-			context.set_tool(context.m_scale_tool, *context.m_viewer);
-
-		for(auto& brush : context.m_custom_brushes)
-			if(edit_tool(toolbar, *brush, brush->m_name.c_str()))
-			{
-				context.set_tool(*brush, *context.m_viewer);
-				context.m_brush = brush.get();
-			}
-	}
-
-	void edit_transform(Widget& parent, EditContext& context)
-	{
-		Widget& self = ui::toolbar(parent);
-		tools_transform(self, context);
-
-		if(context.m_brush)
-			brush_options(parent, *context.m_brush);
-	}
-
-	void console_view(Widget& parent, LuaInterpreter& lua)
-	{
-		static string feed = "console v0.1";
-		static string line = "type lua code here";
-		static string command = "";
-
-		ui::console(parent, feed, line, command, 18);
-		if(command != "")
-		{
-			lua.call(command.c_str());
-			feed += "\n<< " + lua.flush();
-			command = "";
-		}
-	}
-
-	void object_editor(Widget& parent, const Selection& selection)
-	{
-		Widget& self = section(parent, "Inspector");
-
-		if(!selection.objects.empty() && selection.objects[0])
-		{
-			Ref selected = selection.objects[0];
-			Widget& sheet = ui::widget(*self.m_body, styles().sheet, (void*)selected.m_value);
-			object_edit(sheet, selected);
-		}
-		else if(!selection.entities.empty() && selection.entities[0])
-		{
-			Entity selected = selection.entities[0];
-			Widget& sheet = ui::widget(*self.m_body, styles().sheet, (void*)selected.m_handle);
-			entity_edit(sheet, selected);
-		}
-	}
-
-	void edit_tools(Widget& screen, Docker& docker, EditContext& context)
-	{
-		context.m_tool_context.m_action_stack = &context.m_action_stack;
-		context.m_tool_context.m_work_plane = &context.m_work_plane;
-
-		//if(Widget* dock = ui::dockitem(dockbar, "Library", { 0 }))
-		//	library_section(section, { &type<World>(), &type<Entity>() }, game.m_selection);
-		if(Widget* dock = ui::dockitem(docker, "Inspect", { 2U }))
-			object_editor(*dock, context.m_selection);
-		if(Widget* dock = ui::dockitem(docker, "Edit", { 3U }))
-			edit_transform(*dock, context);
-		if(Widget* dock = ui::dockitem(docker, "Script", { 4U }))
-			script_editor(*dock, context.m_script_editor);
-		//if(Widget* dock = ui::dockitem(*context.m_dockbar, "VisualScript", { 5U }))
-		//	visual_script_edit(self, shell.m_editor.m_script_editor);
-		if(Widget* dock = ui::dockitem(docker, "Gfx", { 6U }))
-			edit_gfx(*dock, context.m_gfx);
-		if(Widget* dock = ui::dockitem(docker, "Ui", { 7U }))
-			ui_debug(*dock, screen);
-
-		if(context.m_spatial_tool && context.m_viewer)
-			context.m_spatial_tool->process(*context.m_viewer, context.m_selection.objects);
-	}
-
-	void edit_tools(Widget& screen, EditContext& context)
-	{
-		edit_tools(screen, *context.m_dockbar, context);
-	}
-
-	void edit_context(Widget& parent, EditContext& context, bool tools)
-	{
-		Widget& board = ui::board(parent);
-		context.m_screen = &ui::board(board);
-		context.m_dockbar = &ui::dockbar(board, context.m_docksystem);
-
-		if(tools)
-			edit_tools(*context.m_screen, context);
-	}
-}
-
-
+module;
 module two.tool;
 
 namespace two
@@ -648,115 +624,74 @@ namespace two
 		return *m_gizmos.front();
 	}
 }
-#ifndef USE_STL
-module two.tool;
 
-namespace stl
-{
-	using namespace two;
-	template class TWO_TOOL_EXPORT vector<Entity>;
-	template class TWO_TOOL_EXPORT vector<Transform*>;
-	template class TWO_TOOL_EXPORT vector<unique<Gizmo>>;
-	template class TWO_TOOL_EXPORT vector<unique<ToolOption>>;
-	template class TWO_TOOL_EXPORT vector<unique<Brush>>;
-	template class TWO_TOOL_EXPORT vector<unique<EditorAction>>;
-}
-#endif
-
+module;
 module two.tool;
 
 namespace two
 {
-    // Exported types
-    template <> TWO_TOOL_EXPORT Type& type<two::ToolState>() { static Type ty("ToolState", sizeof(two::ToolState)); return ty; }
-    
-    
-    template <> TWO_TOOL_EXPORT Type& type<two::EditorAction>() { static Type ty("EditorAction", sizeof(two::EditorAction)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::ToolContext>() { static Type ty("ToolContext", sizeof(two::ToolContext)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::ToolOption>() { static Type ty("ToolOption", sizeof(two::ToolOption)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::Tool>() { static Type ty("Tool", sizeof(two::Tool)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::ViewportTool>() { static Type ty("ViewportTool", type<two::Tool>(), sizeof(two::ViewportTool)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::SpatialTool>() { static Type ty("SpatialTool", type<two::ViewportTool>(), sizeof(two::SpatialTool)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::Gizmo>() { static Type ty("Gizmo", sizeof(two::Gizmo)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::TransformAction>() { static Type ty("TransformAction", type<two::EditorAction>(), sizeof(two::TransformAction)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::TransformTool>() { static Type ty("TransformTool", type<two::SpatialTool>(), sizeof(two::TransformTool)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::TransformGizmo>() { static Type ty("TransformGizmo", type<two::Gizmo>(), sizeof(two::TransformGizmo)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::UndoTool>() { static Type ty("UndoTool", type<two::Tool>(), sizeof(two::UndoTool)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::RedoTool>() { static Type ty("RedoTool", type<two::Tool>(), sizeof(two::RedoTool)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::Brush>() { static Type ty("Brush", type<two::SpatialTool>(), sizeof(two::Brush)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::PlaneSnapOption>() { static Type ty("PlaneSnapOption", type<two::ToolOption>(), sizeof(two::PlaneSnapOption)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::WorldSnapOption>() { static Type ty("WorldSnapOption", type<two::ToolOption>(), sizeof(two::WorldSnapOption)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::PlaceBrush>() { static Type ty("PlaceBrush", type<two::Brush>(), sizeof(two::PlaceBrush)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::CircleBrush>() { static Type ty("CircleBrush", type<two::Brush>(), sizeof(two::CircleBrush)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::ScriptedBrush>() { static Type ty("ScriptedBrush", type<two::Brush>(), sizeof(two::ScriptedBrush)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::TranslateAction>() { static Type ty("TranslateAction", type<two::TransformAction>(), sizeof(two::TranslateAction)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::TranslateTool>() { static Type ty("TranslateTool", type<two::TransformTool>(), sizeof(two::TranslateTool)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::RotateAction>() { static Type ty("RotateAction", type<two::TransformAction>(), sizeof(two::RotateAction)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::RotateTool>() { static Type ty("RotateTool", type<two::TransformTool>(), sizeof(two::RotateTool)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::ScaleAction>() { static Type ty("ScaleAction", type<two::TransformAction>(), sizeof(two::ScaleAction)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::ScaleTool>() { static Type ty("ScaleTool", type<two::TransformTool>(), sizeof(two::ScaleTool)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::CopyAction>() { static Type ty("CopyAction", type<two::TranslateAction>(), sizeof(two::CopyAction)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::CopyTool>() { static Type ty("CopyTool", type<two::TransformTool>(), sizeof(two::CopyTool)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::ViewAction>() { static Type ty("ViewAction", type<two::EditorAction>(), sizeof(two::ViewAction)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::FrameViewTool>() { static Type ty("FrameViewTool", type<two::ViewportTool>(), sizeof(two::FrameViewTool)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::ViewTool>() { static Type ty("ViewTool", type<two::ViewportTool>(), sizeof(two::ViewTool)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::Selection>() { static Type ty("Selection", sizeof(two::Selection)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::EditContext>() { static Type ty("EditContext", sizeof(two::EditContext)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::WorkPlaneAction>() { static Type ty("WorkPlaneAction", type<two::EditorAction>(), sizeof(two::WorkPlaneAction)); return ty; }
-    template <> TWO_TOOL_EXPORT Type& type<two::WorkPlaneTool>() { static Type ty("WorkPlaneTool", type<two::Tool>(), sizeof(two::WorkPlaneTool)); return ty; }
 }
 
-
+module;
 module two.tool;
 
 namespace two
 {
-	CopyAction::CopyAction(span<Transform*> targets)
-		: TranslateAction(targets)
-		//, m_injector(type<Transform>())
+	ActionStack::ActionStack()
+		: m_done()
+		, m_undone()
 	{}
 
-	void CopyAction::apply(Transform& transform)
-	{
-		//	m_copies.push_back(&as<Transform>(m_creator.cloneObject(transform)));
-		TranslateAction::apply(transform);
-	}
-
-	void CopyAction::undo(Transform& transform)
-	{
-		// m_copies[transform].destroy();
-		TranslateAction::undo(transform);
-	}
-
- 	CopyTool::CopyTool(ToolContext& context)
-		: TransformTool(context, "Copy", type<CopyTool>())
-		, m_action()
+	ActionStack::~ActionStack()
 	{}
 
-	void CopyTool::begin(const vec3& position)
+	void ActionStack::push(object<EditorAction> action)
 	{
-		UNUSED(position);
-		//m_action = oconstruct<CopyAction>(m_targets); // @kludge brute cast
+		m_undone.clear();
+		//action->apply();
+		m_done.push_back(move(action));
 	}
 
-	void CopyTool::update(const vec3& position)
+	void ActionStack::redo()
 	{
-		m_action->update(position, vec3());
-		//m_action->apply();
+		if(m_undone.empty())
+			return;
+
+		m_undone.back()->apply();
+		m_done.push_back(pop(m_undone));
 	}
 
-	void CopyTool::end()
+	void ActionStack::undo()
 	{
-		this->commit(move(m_action));
+		if(m_done.empty())
+			return;
+
+		m_done.back()->undo();
+		m_undone.push_back(pop(m_done));
 	}
 
-	object<TransformAction> CopyTool::create_action(span<Transform*> targets)
+	UndoTool::UndoTool(ToolContext& context)
+		: Tool(context, "Undo", type<UndoTool>())
+	{}
+
+	void UndoTool::activate()
 	{
-		return oconstruct<CopyAction>(targets);
+		m_context.m_action_stack->undo();
+		m_state = ToolState::Done;
+	}
+
+	RedoTool::RedoTool(ToolContext& context)
+		: Tool(context, "Redo", type<RedoTool>())
+	{}
+
+	void RedoTool::activate()
+	{
+		m_context.m_action_stack->redo();
+		m_state = ToolState::Done;
 	}
 }
 
-
+module;
 module two.tool;
 
 namespace two
@@ -816,16 +751,237 @@ namespace two
 
 	object<TransformAction> RotateTool::create_action(span<Transform*> targets)
 	{
-		vec3 axis = m_current == &*m_gizmos[0] ? -X3
-				  : m_current == &*m_gizmos[1] ?  Y3
-											   : -Z3;
+		vec3 axis = m_current == &*m_gizmos[0] ? -x3
+				  : m_current == &*m_gizmos[1] ?  y3
+											   : -z3;
 		return oconstruct<RotateAction>(targets, axis);
 	}
 
 }
 
 
+module;
+module two.tool;
 
+namespace two
+{
+	ViewAction::ViewAction(Camera& camera, const vec3& eye, const vec3& target)
+		: m_camera(camera)
+		, m_eye{ camera.m_eye, eye }
+		, m_target{ camera.m_target, target }
+	{}
+
+	void ViewAction::apply()
+	{
+		m_camera.m_eye = m_eye[End];
+		m_camera.m_target = m_target[End];
+	}
+
+	void ViewAction::undo()
+	{
+		m_camera.m_eye = m_eye[START];
+		m_camera.m_target = m_target[START];
+	}
+
+	FrameViewTool::FrameViewTool(ToolContext& context)
+		: ViewportTool(context, "Frame", type<ViewTool>())
+	{}
+
+	void FrameViewTool::activate()
+	{
+		vec3 vision = m_context.m_camera->m_target - m_context.m_camera->m_eye;
+		vector<Transform*> transforms = gather_transforms(*m_context.m_selection);
+		Transform transform = average_transforms(transforms);
+		this->commit(oconstruct<ViewAction>(*m_context.m_camera, transform.m_position - vision, transform.m_position));
+		m_state = ToolState::Done;
+	}
+
+	ViewTool::ViewTool(ToolContext& context, cstring name, const vec3& offset)
+		: ViewportTool(context, name, type<ViewTool>())
+		, m_offset(offset)
+	{}
+
+	void ViewTool::activate()
+	{
+		vec3 target = m_context.m_camera->m_target;
+		this->commit(oconstruct<ViewAction>(*m_context.m_camera, target + m_offset, target));
+		m_state = ToolState::Done;
+	}
+}
+
+module;
+module two.tool;
+
+namespace two
+{
+	TranslateAction::TranslateAction(span<Transform*> targets)
+		: TransformAction(targets)
+		, m_translation(vec3(0.f))
+	{}
+
+	void TranslateAction::apply(Transform& transform)
+	{
+		transform.m_position += m_translation;
+	}
+
+	void TranslateAction::undo(Transform& transform)
+	{
+		transform.m_position += -m_translation;
+	}
+
+	void TranslateAction::update(const vec3& start, const vec3& end)
+	{
+		m_translation = end - start;
+	}
+
+ 	TranslateTool::TranslateTool(ToolContext& context)
+		: TransformTool(context, "Translate", type<TranslateTool>())
+	{
+		m_gizmos.push_back(linear_gizmo(Axis::X, 0.f));
+		m_gizmos.push_back(linear_gizmo(Axis::Y, 1.f / 3.f));
+		m_gizmos.push_back(linear_gizmo(Axis::Z, 2.f / 3.f));
+		m_gizmos.push_back(planar_gizmo(Axis::X, 0.f));
+		m_gizmos.push_back(planar_gizmo(Axis::Y, 1.f / 3.f));
+		m_gizmos.push_back(planar_gizmo(Axis::Z, 2.f / 3.f));
+		m_current = &*m_gizmos.front();
+	}
+
+	Item& translate_1d_gizmo(Gnode& parent, Axis axis, Colour colour, float radius, uint32_t flags = 0U)
+	{
+		Gnode& node = gfx::transform(parent, to_vec3(axis), ZeroQuat);
+		return gfx::shape(node, Cylinder(radius, 1.f, axis), Symbol(colour, Colour::None, true), flags);
+	}
+
+	Item& translate_2d_gizmo(Gnode& parent, Axis axis, Colour colour, uint32_t flags = 0U)
+	{
+		Gnode& node = gfx::transform(parent, 0.5f * (c_tangents[axis] + c_binormals[axis]), ZeroQuat);
+		return gfx::shape(node, Quad(0.3f, c_tangents[axis], c_binormals[axis]), Symbol(colour, Colour::None, true, true), flags);
+	}
+
+	class TranslateLinearGizmo : public TransformGizmo
+	{
+	public:
+		TranslateLinearGizmo(TransformTool& tool, Axis axis, float hue) : TransformGizmo(tool, axis, hue) {}
+
+		virtual vec3 grab_point(Viewer& viewer, const vec2& pos) { UNUSED(pos); return gizmo_grab_linear(viewer, m_tool.m_transform, m_axis); };
+
+		virtual Item* draw_handle(Gnode& parent) { return &translate_1d_gizmo(parent, m_axis, Colour::Invisible, 0.05f, ItemFlag::Ui); };
+		virtual void draw_gizmo(Gnode& parent, bool active) { translate_1d_gizmo(parent, m_axis, gizmo_colour(m_hue, active), 0.02f); };
+	};
+
+	class TranslatePlanarGizmo : public TransformGizmo
+	{
+	public:
+		TranslatePlanarGizmo(TransformTool& tool, Axis axis, float hue) : TransformGizmo(tool, axis, hue) {}
+
+		virtual vec3 grab_point(Viewer& viewer, const vec2& pos) { UNUSED(pos); return gizmo_grab_planar(viewer, m_tool.m_transform, m_axis); };
+
+		virtual Item* draw_handle(Gnode& parent) { return &translate_2d_gizmo(parent, m_axis, Colour::Invisible, ItemFlag::Ui); };
+		virtual void draw_gizmo(Gnode& parent, bool active) { translate_2d_gizmo(parent, m_axis, gizmo_colour(m_hue, active)); };;
+	};
+
+	unique<Gizmo> TranslateTool::linear_gizmo(Axis axis, float hue)
+	{
+		return make_unique<TranslateLinearGizmo>(*this, axis, hue);
+	}
+
+	unique<Gizmo> TranslateTool::planar_gizmo(Axis normal, float hue)
+	{
+		return make_unique<TranslatePlanarGizmo>(*this, normal, hue);
+	}
+
+	object<TransformAction> TranslateTool::create_action(span<Transform*> targets)
+	{
+		return oconstruct<TranslateAction>(targets);
+	}
+
+}
+
+module;
+module two.tool;
+
+namespace two
+{
+	WorkPlaneAction::WorkPlaneAction(Plane& workPlane, const Plane& plane)
+		: m_workPlane(workPlane)
+		, m_startPlane(m_workPlane)
+		, m_endPlane(plane)
+	{}
+
+	void WorkPlaneAction::apply()
+	{
+		m_workPlane = m_endPlane;
+	}
+
+	void WorkPlaneAction::undo()
+	{
+		m_workPlane = m_startPlane;
+	}
+
+	WorkPlaneTool::WorkPlaneTool(ToolContext& context, cstring name, const Plane& plane)
+		: Tool(context, name, type<WorkPlaneTool>())
+		, m_plane(plane)
+	{}
+
+	void WorkPlaneTool::activate()
+	{
+		m_action = oconstruct<WorkPlaneAction>(*m_context.m_work_plane, m_plane);
+		this->commit(move(m_action));
+		m_state = ToolState::Done;
+	}
+}
+
+module;
+module two.tool;
+
+namespace two
+{
+	CopyAction::CopyAction(span<Transform*> targets)
+		: TranslateAction(targets)
+		//, m_injector(type<Transform>())
+	{}
+
+	void CopyAction::apply(Transform& transform)
+	{
+		//	m_copies.push_back(&as<Transform>(m_creator.cloneObject(transform)));
+		TranslateAction::apply(transform);
+	}
+
+	void CopyAction::undo(Transform& transform)
+	{
+		// m_copies[transform].destroy();
+		TranslateAction::undo(transform);
+	}
+
+ 	CopyTool::CopyTool(ToolContext& context)
+		: TransformTool(context, "Copy", type<CopyTool>())
+		, m_action()
+	{}
+
+	void CopyTool::begin(const vec3& position)
+	{
+		UNUSED(position);
+		//m_action = oconstruct<CopyAction>(m_targets); // @kludge brute cast
+	}
+
+	void CopyTool::update(const vec3& position)
+	{
+		m_action->update(position, vec3());
+		//m_action->apply();
+	}
+
+	void CopyTool::end()
+	{
+		this->commit(move(m_action));
+	}
+
+	object<TransformAction> CopyTool::create_action(span<Transform*> targets)
+	{
+		return oconstruct<CopyAction>(targets);
+	}
+}
+
+module;
 module two.tool;
 
 namespace two
@@ -939,175 +1095,4 @@ namespace two
 		return oconstruct<ScaleAction>(targets);
 	}
 
-}
-
-
-module two.tool;
-
-namespace two
-{
-	TranslateAction::TranslateAction(span<Transform*> targets)
-		: TransformAction(targets)
-		, m_translation(vec3(0.f))
-	{}
-
-	void TranslateAction::apply(Transform& transform)
-	{
-		transform.m_position += m_translation;
-	}
-
-	void TranslateAction::undo(Transform& transform)
-	{
-		transform.m_position += -m_translation;
-	}
-
-	void TranslateAction::update(const vec3& start, const vec3& end)
-	{
-		m_translation = end - start;
-	}
-
- 	TranslateTool::TranslateTool(ToolContext& context)
-		: TransformTool(context, "Translate", type<TranslateTool>())
-	{
-		m_gizmos.push_back(linear_gizmo(Axis::X, 0.f));
-		m_gizmos.push_back(linear_gizmo(Axis::Y, 1.f / 3.f));
-		m_gizmos.push_back(linear_gizmo(Axis::Z, 2.f / 3.f));
-		m_gizmos.push_back(planar_gizmo(Axis::X, 0.f));
-		m_gizmos.push_back(planar_gizmo(Axis::Y, 1.f / 3.f));
-		m_gizmos.push_back(planar_gizmo(Axis::Z, 2.f / 3.f));
-		m_current = &*m_gizmos.front();
-	}
-
-	Item& translate_1d_gizmo(Gnode& parent, Axis axis, Colour colour, float radius, uint32_t flags = 0U)
-	{
-		Gnode& node = gfx::transform(parent, to_vec3(axis), ZeroQuat);
-		return gfx::shape(node, Cylinder(radius, 1.f, axis), Symbol(colour, Colour::None, true), flags);
-	}
-
-	Item& translate_2d_gizmo(Gnode& parent, Axis axis, Colour colour, uint32_t flags = 0U)
-	{
-		Gnode& node = gfx::transform(parent, 0.5f * (c_tangents[axis] + c_binormals[axis]), ZeroQuat);
-		return gfx::shape(node, Quad(0.3f, c_tangents[axis], c_binormals[axis]), Symbol(colour, Colour::None, true, true), flags);
-	}
-
-	class TranslateLinearGizmo : public TransformGizmo
-	{
-	public:
-		TranslateLinearGizmo(TransformTool& tool, Axis axis, float hue) : TransformGizmo(tool, axis, hue) {}
-
-		virtual vec3 grab_point(Viewer& viewer, const vec2& pos) { UNUSED(pos); return gizmo_grab_linear(viewer, m_tool.m_transform, m_axis); };
-
-		virtual Item* draw_handle(Gnode& parent) { return &translate_1d_gizmo(parent, m_axis, Colour::Invisible, 0.05f, ItemFlag::Ui); };
-		virtual void draw_gizmo(Gnode& parent, bool active) { translate_1d_gizmo(parent, m_axis, gizmo_colour(m_hue, active), 0.02f); };
-	};
-
-	class TranslatePlanarGizmo : public TransformGizmo
-	{
-	public:
-		TranslatePlanarGizmo(TransformTool& tool, Axis axis, float hue) : TransformGizmo(tool, axis, hue) {}
-
-		virtual vec3 grab_point(Viewer& viewer, const vec2& pos) { UNUSED(pos); return gizmo_grab_planar(viewer, m_tool.m_transform, m_axis); };
-
-		virtual Item* draw_handle(Gnode& parent) { return &translate_2d_gizmo(parent, m_axis, Colour::Invisible, ItemFlag::Ui); };
-		virtual void draw_gizmo(Gnode& parent, bool active) { translate_2d_gizmo(parent, m_axis, gizmo_colour(m_hue, active)); };;
-	};
-
-	unique<Gizmo> TranslateTool::linear_gizmo(Axis axis, float hue)
-	{
-		return make_unique<TranslateLinearGizmo>(*this, axis, hue);
-	}
-
-	unique<Gizmo> TranslateTool::planar_gizmo(Axis normal, float hue)
-	{
-		return make_unique<TranslatePlanarGizmo>(*this, normal, hue);
-	}
-
-	object<TransformAction> TranslateTool::create_action(span<Transform*> targets)
-	{
-		return oconstruct<TranslateAction>(targets);
-	}
-
-}
-
-
-module two.tool;
-
-namespace two
-{
-	ViewAction::ViewAction(Camera& camera, const vec3& eye, const vec3& target)
-		: m_camera(camera)
-		, m_eye{ camera.m_eye, eye }
-		, m_target{ camera.m_target, target }
-	{}
-
-	void ViewAction::apply()
-	{
-		m_camera.m_eye = m_eye[End];
-		m_camera.m_target = m_target[End];
-	}
-
-	void ViewAction::undo()
-	{
-		m_camera.m_eye = m_eye[START];
-		m_camera.m_target = m_target[START];
-	}
-
-	FrameViewTool::FrameViewTool(ToolContext& context)
-		: ViewportTool(context, "Frame", type<ViewTool>())
-	{}
-
-	void FrameViewTool::activate()
-	{
-		vec3 vision = m_context.m_camera->m_target - m_context.m_camera->m_eye;
-		vector<Transform*> transforms = gather_transforms(*m_context.m_selection);
-		Transform transform = average_transforms(transforms);
-		this->commit(oconstruct<ViewAction>(*m_context.m_camera, transform.m_position - vision, transform.m_position));
-		m_state = ToolState::Done;
-	}
-
-	ViewTool::ViewTool(ToolContext& context, cstring name, const vec3& offset)
-		: ViewportTool(context, name, type<ViewTool>())
-		, m_offset(offset)
-	{}
-
-	void ViewTool::activate()
-	{
-		vec3 target = m_context.m_camera->m_target;
-		this->commit(oconstruct<ViewAction>(*m_context.m_camera, target + m_offset, target));
-		m_state = ToolState::Done;
-	}
-}
-
-
-module two.tool;
-
-namespace two
-{
-	WorkPlaneAction::WorkPlaneAction(Plane& workPlane, const Plane& plane)
-		: m_workPlane(workPlane)
-		, m_startPlane(m_workPlane)
-		, m_endPlane(plane)
-	{}
-
-	void WorkPlaneAction::apply()
-	{
-		m_workPlane = m_endPlane;
-	}
-
-	void WorkPlaneAction::undo()
-	{
-		m_workPlane = m_startPlane;
-	}
-
-	WorkPlaneTool::WorkPlaneTool(ToolContext& context, cstring name, const Plane& plane)
-		: Tool(context, name, type<WorkPlaneTool>())
-		, m_plane(plane)
-	{}
-
-	void WorkPlaneTool::activate()
-	{
-		m_action = oconstruct<WorkPlaneAction>(*m_context.m_work_plane, m_plane);
-		this->commit(move(m_action));
-		m_state = ToolState::Done;
-	}
 }

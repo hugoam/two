@@ -1,9 +1,7 @@
 #include <two/gfx.h>
-#include <two/bgfx.h>
 #include <two/infra.h>
-#include <two/type.h>
 
-
+module;
 module two.bgfx;
 
 namespace two
@@ -14,13 +12,13 @@ namespace two
     template <> TWO_BGFX_EXPORT Type& type<two::BgfxSystem>() { static Type ty("BgfxSystem", type<two::RenderSystem>(), sizeof(two::BgfxSystem)); return ty; }
 }
 
+module;
+#include <cassert>
 #include <cstdio>
-
 #include <bx/allocator.h>
 #include <bx/timer.h>
 #include <bgfx/bgfx.h>
 #include <bgfx/platform.h>
-
 module two.bgfx;
 
 namespace two
@@ -54,7 +52,8 @@ namespace two
 		: RenderSystem(resource_path, true)
 		//, m_capture_every(100)
 	{
-		printf("[info] gfx - init gfx system\n");
+		init_console();
+		info("gfx - init gfx system");
 	}
 
 	BgfxSystem::~BgfxSystem()
@@ -71,19 +70,22 @@ namespace two
 
 	void BgfxSystem::init(BgfxContext& context)
 	{
-		printf("[info] gfx - native handle = %p\n", context.m_native_handle);
+		info("gfx - native handle = %p", context.m_native_handle);
 		bgfx::PlatformData pd = {};
 		pd.nwh = context.m_native_handle;
 		pd.ndt = context.m_native_target;
 		bgfx::setPlatformData(pd);
 
-		printf("[info] gfx - bgfx::init\n");
+		info("gfx - bgfx::init");
 		bgfx::Init params = {};
 		params.type = bgfx::RendererType::OpenGL;
-		//params.type = bgfx::RendererType::Direct3D11;
+		params.type = bgfx::RendererType::Direct3D11;
+		//params.type = bgfx::RendererType::Direct3D12;
+		params.type = bgfx::RendererType::WebGPU;
 		params.resolution.width = uint32_t(context.m_size.x);
 		params.resolution.height = uint32_t(context.m_size.y);
 		params.resolution.reset = BGFX_RESET_NONE;
+		params.debug = false;
 		bgfx::init(params);
 
 		//bgfx::reset(uint32_t(context.m_width), uint32_t(context.m_height), BGFX_RESET_NONE);

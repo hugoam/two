@@ -1,11 +1,8 @@
 #pragma once
 
-#include <two/gfx.h>
-#include <two/geom.h>
-#include <two/ecs.h>
-#include <two/math.h>
 #include <two/infra.h>
 #include <two/type.h>
+
 
 
 
@@ -16,172 +13,205 @@
 
 namespace two
 {
-    enum ShaderOptionLight : unsigned int;
-    enum ShaderOptionRadiance : unsigned int;
-    enum ShaderOptionShadow : unsigned int;
-    enum ShaderModeShadow : unsigned int;
-    enum ShadowFilterMode : unsigned int;
-    enum ShaderOptionBlur : unsigned int;
-    enum ShaderOptionDofBlur : unsigned int;
-    enum ShaderOptionGlow : unsigned int;
-    enum TonemapShaderOption : unsigned int;
-    enum TonemapShaderMode : unsigned int;
-    enum class TonemapMode : unsigned int;
+    export_ enum ShaderOptionLight : unsigned int;
+    export_ enum ShaderOptionRadiance : unsigned int;
+    export_ enum ShaderOptionShadow : unsigned int;
+    export_ enum ShaderModeShadow : unsigned int;
+    export_ enum ShadowFilterMode : unsigned int;
+    export_ enum ShaderOptionBlur : unsigned int;
+    export_ enum ShaderOptionDofBlur : unsigned int;
+    export_ enum ShaderOptionGlow : unsigned int;
+    export_ enum TonemapShaderOption : unsigned int;
+    export_ enum TonemapShaderMode : unsigned int;
+    export_ enum class TonemapMode : unsigned int;
     
     
-	class BlockGeometry;
-    class BlockLight;
-    struct ReflectionRenderer;
-    struct ForwardRenderer;
-	struct DeferredRenderer;
-    class BlockRadiance;
-    class CubeTarget;
-	class CubeCamera;
-    class ReflectionAtlas;
-    class ReflectionProbe;
-	class PassGeometry;
-	class PassLights;
-	class PassOpaque;
-	class PassAlpha;
-    class PassProbes;
-    class BlockReflection;
-    struct ShadowmapCube;
-    class ShadowAtlas;
-    struct CSMShadow;
-	struct CSMSlice;
-    class PassShadow;
-    class PassShadowmap;
-    struct ShadowRenderer;
-    struct LightBounds;
-    struct LightShadow;
-    class BlockShadow;
-    struct EffectBlurUniform;
-    struct BlurKernel;
-    class BlockBlur;
-	struct DofParams;
-    struct DofBlur;
-    struct DofBlurUniform;
-    class BlockDofBlur;
-    struct Glow;
-    struct GlowUniform;
-	class BlockGI;
-	class BlockGIBake;
-	class BlockGITrace;
-	class BlockLightmap;
-    class BlockGlow;
-    struct BCS;
-    struct Tonemap;
-    struct TonemapUniform;
-    class BlockTonemap;
+	export_ class BlockGeometry;
+    export_ class BlockLight;
+    export_ struct ReflectionRenderer;
+    export_ struct ForwardRenderer;
+	export_ struct DeferredRenderer;
+    export_ class BlockRadiance;
+    export_ class CubeTarget;
+	export_ class CubeCamera;
+    export_ class ReflectionAtlas;
+    export_ class ReflectionProbe;
+	export_ class PassGeometry;
+	export_ class PassLights;
+	export_ class PassOpaque;
+	export_ class PassAlpha;
+    export_ class PassProbes;
+    export_ class BlockReflection;
+    export_ struct ShadowmapCube;
+    export_ class ShadowAtlas;
+    export_ struct CSMShadow;
+	export_ struct CSMSlice;
+    export_ class PassShadow;
+    export_ class PassShadowmap;
+    export_ struct ShadowRenderer;
+    export_ struct LightBounds;
+    export_ struct LightShadow;
+    export_ class BlockShadow;
+    export_ struct EffectBlurUniform;
+    export_ struct BlurKernel;
+    export_ class BlockBlur;
+	export_ struct DofParams;
+    export_ struct DofBlur;
+    export_ struct DofBlurUniform;
+    export_ class BlockDofBlur;
+    export_ struct Glow;
+    export_ struct GlowUniform;
+	export_ class BlockGI;
+	export_ class BlockGIBake;
+	export_ class BlockGITrace;
+	export_ class BlockLightmap;
+    export_ class BlockGlow;
+    export_ struct BCS;
+    export_ struct Tonemap;
+    export_ struct TonemapUniform;
+    export_ class BlockTonemap;
+    export_ class GIProbe;
+    export_ class ReflectionProbe;
+    export_ class Lightmap;
+    export_ class LightmapAtlas;
+    export_ class LightmapItem;
+    export_ class PBRShot;
+}
+
+namespace two
+{
+	enum ShaderOptionRadiance : unsigned int
+	{
+		RADIANCE_ENVMAP,
+		RADIANCE_CUBE,
+	};
+
+	export_ class refl_ TWO_GFX_PBR_EXPORT BlockRadiance : public DrawBlock
+	{
+	public:
+		BlockRadiance(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy);
+
+		virtual void init_block() override;
+		virtual void begin_frame(const RenderFrame& frame) override;
+
+		virtual void begin_render(Render& render) override;
+
+		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const override;
+		virtual void submit(Render& render, const Pass& pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
+
+		void prefilter_radiance(Radiance& radiance);
+
+		struct RadianceUniform
+		{
+			void createUniforms()
+			{
+				s_radiance = bgfx::createUniform("s_radiance", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
+			}
+
+			bgfx::UniformHandle s_radiance;
+
+		} u_radiance;
+
+		struct PrefilterUniform
+		{
+			void createUniforms()
+			{
+				u_prefilter_envmap_p0 = bgfx::createUniform("u_prefilter_envmap_p0", bgfx::UniformType::Vec4);
+				u_prefilter_cube = bgfx::createUniform("u_prefilter_cube", bgfx::UniformType::Mat4);
+			}
+
+			bgfx::UniformHandle u_prefilter_envmap_p0;
+			bgfx::UniformHandle u_prefilter_cube;
+
+		} u_prefilter;
+
+		BlockFilter& m_filter;
+		BlockCopy& m_copy;
+
+		Program& m_prefilter_program;
+
+		vector<Radiance*> m_prefilter_queue;
+		map<Texture*, Texture*> m_prefiltered;
+	};
 }
 
 
 
 namespace two
 {
-	enum ShaderOptionLight : unsigned int
-	{
-		SKY_LIGHT,
-		FOG,
-	};
-
-	struct gpu_ GpuBone
-	{
-		attr_ mat4 matrix;
-	};
-
-	struct gpu_ GpuShadow
-	{
-		attr_ float matrix;
-		attr_ float bias;
-		attr_ float radius;
-		attr_ float range;
-		attr_ vec2 atlas_slot;
-		attr_ vec2 atlas_subdiv;
-	};
-
-	struct gpu_ GpuCSMShadow
-	{
-		attr_ float num_slices;
-		attr_ vec4 splits;
-		attr_ vec4 matrices;
-	};
-
-	struct gpu_ GpuLight
-	{
-		attr_ vec3 position;
-		attr_ float range;
-		attr_ vec3 energy;
-		attr_ float specular;
-		attr_ vec3 direction;
-		attr_ float attenuation;
-		attr_ float spot_attenuation;
-		attr_ float spot_cutoff;
-
-		attr_ GpuShadow shadow;
-		attr_ GpuCSMShadow csm;
-	};
-
-	export_ TWO_GFX_PBR_EXPORT void debug_draw_light_clusters(Gnode& parent, Viewport& viewport, Camera& camera);
-	export_ TWO_GFX_PBR_EXPORT void debug_draw_light_slices(Gnode& parent, Light& light, bool frustums = true, bool bounds = true);
-
-#ifdef TWO_PLATFORM_EMSCRIPTEN
-	constexpr size_t c_max_forward_lights = 32;
-#else
-	constexpr size_t c_max_forward_lights = 64;
-#endif
-
-	struct ZoneLights
-	{
-		vec4 m_light_indices[c_max_forward_lights];
-		vec4 m_light_counts;
-		vec4 m_shadow_counts;
-		uint16_t m_light_count;
-	};
-
-	export_ class refl_ TWO_GFX_PBR_EXPORT BlockLight : public DrawBlock
+	class ShadowAtlas
 	{
 	public:
-		BlockLight(GfxSystem& gfx);
+		ShadowAtlas() {}
+		ShadowAtlas(uint16_t size, uint8_t num_slices);
 
-		virtual void init_block() override;
+		uint16_t m_side = 0;
+		uvec2 m_size;
 
-		virtual void begin_render(Render& render) override;
-
-		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const final;
-		virtual void submit(Render& render, const Pass& pass) const final;
-		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const final;
-
-		void setup_lights(Render& render, const mat4& view);
-		void setup_zones(Render& render);
-
-		void upload_lights(Render& render);
-		void upload_zones(Render& render);
-
-		void commit_zones(Render& render, const Pass& pass) const;
-		void commit_lights(Render& render, const Pass& pass) const;
-
-		struct ShotUniform
+		const Texture& texture(DepthMethod depth_method) const
 		{
-			void createUniforms()
-			{
-				s_zones = bgfx::createUniform("s_zones", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
-				s_lights = bgfx::createUniform("s_lights", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
-			}
+			if (depth_method == DepthMethod::Depth)
+				return m_depth;
+			else if (depth_method == DepthMethod::DepthPacked || depth_method == DepthMethod::Distance)
+				return m_color;
+		}
 
-			bgfx::UniformHandle s_zones;
-			bgfx::UniformHandle s_lights;
+		Texture m_color;
+		Texture m_depth;
+		FrameBuffer m_fbo;
 
-		} u_shot;
+		struct Block;
 
-		uint16_t m_light_count;
+		struct Slot
+		{
+			uint16_t m_index;
+			Light* m_light = nullptr;
+			vec4 m_rect;
+			uvec4 m_trect;
+			uint32_t m_frame = 0;
+			uint16_t m_block = UINT16_MAX;
+		};
 
-		ZoneLights m_zones[1];
+		struct Block
+		{
+			uint32_t m_slots[8];
+		};
 
-		vector<GpuLight> m_gpu_lights;
+		struct Slice;
 
-		GpuTexture m_zones_texture = {};
-		GpuTexture m_lights_texture = {};
+		Slice& light_slice(Light& light);
+		Slot& light_slot(Light& light);
+
+		void begin_frame(const RenderFrame& frame);
+		void subdiv(Slice& slice, uint16_t subdiv);
+		
+		Slot& alloc(Slice& slice, bool block6 = false);
+		void yield(Slice& slice, uint32_t index);
+
+		vec4 render_update(Render& render, Light& light);
+		bool update_light(Light& light, uint32_t render, float coverage, uint32_t light_version);
+		void remove_light(Light& light, bool block = false);
+
+		struct Slice
+		{
+			Slice() {}
+			Slice(uint8_t index, const uvec2& size, const vec4& rect);
+
+			uint8_t m_index;
+			uvec2 m_size;
+			vec4 m_rect;
+
+			uint16_t m_subdiv = 0;
+			uvec2 m_slot_size;
+			vector<Slot> m_slots;
+			vector<Block> m_blocks;
+
+			vector<uint32_t> m_free_slots;
+			vector<uint32_t> m_free_blocks;
+		};
+
+		vector<Slice> m_slices;
 	};
 }
 
@@ -217,7 +247,11 @@ namespace two
 
 		TextureAtlas m_atlas;
 
+#if !TWO_MODULES
 		Texture m_texture = {};
+#else
+		Texture m_texture;
+#endif
 
 		vector<LightmapItem> m_items;
 
@@ -285,127 +319,16 @@ namespace two
 }
 
 
-namespace two
-{
-	export_ class refl_ TWO_GFX_EXPORT BlockGeometry : public DrawBlock
-	{
-	public:
-		BlockGeometry(GfxSystem& gfx);
-		~BlockGeometry();
-
-		virtual void init_block() override;
-
-		virtual void begin_render(Render& render) override;
-
-		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const final;
-		virtual void submit(Render& render, const Pass& pass) const final;
-		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const final;
-
-		Material* m_material = nullptr;
-		Material* m_material_twosided = nullptr;
-	};
-
-	export_ TWO_GFX_PBR_EXPORT func_ void begin_pbr_render(GfxSystem& gfx, Render& render);
-
-	export_ TWO_GFX_PBR_EXPORT func_ void pass_gi_probes(GfxSystem& gfx, Render& render);
-	export_ TWO_GFX_PBR_EXPORT func_ void pass_shadowmaps(GfxSystem& gfx, Render& render);
-	export_ TWO_GFX_PBR_EXPORT func_ void pass_shadow(GfxSystem& gfx, Render& render);
-	export_ TWO_GFX_PBR_EXPORT func_ void pass_opaque(GfxSystem& gfx, Render& render);
-	export_ TWO_GFX_PBR_EXPORT func_ void pass_alpha(GfxSystem& gfx, Render& render);
-
-	export_ TWO_GFX_PBR_EXPORT func_ void pass_geometry(GfxSystem& gfx, Render& render);
-	export_ TWO_GFX_PBR_EXPORT func_ void pass_lights(GfxSystem& gfx, Render& render);
-
-	export_ TWO_GFX_PBR_EXPORT func_ void pass_voxel_gi(GfxSystem& gfx, Render& render);
-	export_ TWO_GFX_PBR_EXPORT func_ void pass_lightmap(GfxSystem& gfx, Render& render);
-
-	export_ TWO_GFX_PBR_EXPORT func_ void pass_begin_post(GfxSystem& gfx, Render& render);
-	export_ TWO_GFX_PBR_EXPORT func_ void pass_post_auto(GfxSystem& gfx, Render& render);
-	export_ TWO_GFX_PBR_EXPORT func_ void pass_post_effects(GfxSystem& gfx, Render& render, DofBlur& dof, Glow& glow, Tonemap& tonemap, BCS& bcs);
-
-	export_ TWO_GFX_PBR_EXPORT func_ void render_pbr_forward(GfxSystem& gfx, Render& render);
-	export_ TWO_GFX_PBR_EXPORT func_ void render_pbr_deferred(GfxSystem& gfx, Render& render);
-	export_ TWO_GFX_PBR_EXPORT func_ void render_shadow(GfxSystem& gfx, Render& render);
-	export_ TWO_GFX_PBR_EXPORT func_ void render_voxel(GfxSystem& gfx, Render& render);
-	export_ TWO_GFX_PBR_EXPORT func_ void render_lightmap(GfxSystem& gfx, Render& render);
-	export_ TWO_GFX_PBR_EXPORT func_ void render_reflection(GfxSystem& gfx, Render& render);
-
-	export_ TWO_GFX_PBR_EXPORT void gather_gi_probes(Scene& scene, vector<GIProbe*>& gi_probes);
-	export_ TWO_GFX_PBR_EXPORT void gather_lightmaps(Scene& scene, vector<LightmapAtlas*>& atlases);
-	export_ TWO_GFX_PBR_EXPORT void gather_reflection_probes(Scene& scene, vector<ReflectionProbe*>& reflection_probes);
-
-	export_ TWO_GFX_PBR_EXPORT func_ void pipeline_pbr(GfxSystem& gfx, Renderer& pipeline, bool deferred = false);
-	
-namespace gfx
-{
-	export_ TWO_GFX_PBR_EXPORT func_ void setup_pipeline_pbr(GfxSystem& gfx);
-}
-}
 
 
 namespace two
 {
-	enum ShaderOptionRadiance : unsigned int
-	{
-		RADIANCE_ENVMAP,
-		RADIANCE_CUBE,
-	};
-
-	export_ class refl_ TWO_GFX_PBR_EXPORT BlockRadiance : public DrawBlock
-	{
-	public:
-		BlockRadiance(GfxSystem& gfx, BlockFilter& filter, BlockCopy& copy);
-
-		virtual void init_block() override;
-		virtual void begin_frame(const RenderFrame& frame) override;
-
-		virtual void begin_render(Render& render) override;
-
-		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const override;
-		virtual void submit(Render& render, const Pass& pass) const override;
-		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
-
-		void prefilter_radiance(Radiance& radiance);
-
-		struct RadianceUniform
-		{
-			void createUniforms()
-			{
-				s_radiance = bgfx::createUniform("s_radiance", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
-			}
-
-			bgfx::UniformHandle s_radiance;
-
-		} u_radiance;
-
-		struct PrefilterUniform
-		{
-			void createUniforms()
-			{
-				u_prefilter_envmap_p0 = bgfx::createUniform("u_prefilter_envmap_p0", bgfx::UniformType::Vec4);
-				u_prefilter_cube = bgfx::createUniform("u_prefilter_cube", bgfx::UniformType::Mat4);
-			}
-
-			bgfx::UniformHandle u_prefilter_envmap_p0;
-			bgfx::UniformHandle u_prefilter_cube;
-
-		} u_prefilter;
-
-		BlockFilter& m_filter;
-		BlockCopy& m_copy;
-
-		Program& m_prefilter_program;
-
-		vector<Radiance*> m_prefilter_queue;
-		map<Texture*, Texture*> m_prefiltered;
-	};
 }
 
 
 
 
 
-#include <bgfx/bgfx.h>
 
 namespace two
 {
@@ -576,83 +499,360 @@ namespace two
 
 
 
-#include <bgfx/bgfx.h>
+namespace two
+{
+namespace gfx
+{
+	export_ TWO_GFX_EXPORT func_ GIProbe& gi_probe(Gnode& parent, uint16_t subdiv, const vec3& extents);
+	export_ TWO_GFX_EXPORT func_ LightmapAtlas& lightmap(Gnode& parent, uint32_t resolution, float density = 8.f, const string& save_path = "");
+}
+
+	enum ShaderOptionGI : unsigned int
+	{
+		GI_CONETRACE
+	};
+
+	enum class GIProbeMode
+	{
+		Voxelize,
+		LoadVoxels,
+	};
+
+	export_ class refl_ TWO_GFX_PBR_EXPORT GIProbe
+	{
+	public:
+		GIProbe(Node3& node);
+		~GIProbe();
+
+		void resize(uint16_t subdiv, const vec3& extents);
+		void lightmap(uint32_t size, float density, const string& save_path = "");
+
+		Node3& m_node;
+
+#if !TWO_MODULES
+		Texture m_raster = {};
+		Texture m_voxels_color = {};
+		Texture m_voxels_normals = {};
+		Texture m_voxels_light = {};
+#else
+		Texture m_raster;
+		Texture m_voxels_color;
+		Texture m_voxels_normals;
+		Texture m_voxels_light;
+#endif
+		FrameBuffer m_fbo = {};
+
+#if !TWO_MODULES
+		Texture m_voxels_light_rgba = {};
+#else
+		Texture m_voxels_light_rgba;
+#endif
+
+		bool m_enabled = true;
+		mat4 m_transform;
+		uint16_t m_subdiv = 0;
+		vec3 m_extents = vec3(0.f);
+		GIProbeMode m_mode = GIProbeMode::Voxelize;
+		bool m_dirty = false;
+
+		int m_dynamic_range = 4;
+		float m_diffuse = 3.0f;
+		float m_specular = 1.0f;
+		int m_bounces = 0;
+		float m_propagation = 1.0f;
+		
+		float m_bias = 0.0f;
+		float m_normal_bias = 0.8f;
+	};
+
+	export_ TWO_GFX_PBR_EXPORT void save_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path);
+	export_ TWO_GFX_PBR_EXPORT void load_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, const string& path);
+
+	export_ class refl_ TWO_GFX_PBR_EXPORT BlockGITrace : public DrawBlock
+	{
+	public:
+		BlockGITrace(GfxSystem& gfx);
+
+		virtual void init_block() override;
+
+		virtual void begin_render(Render& render) override;
+
+		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const override;
+		virtual void submit(Render& render, const Pass& pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
+
+		void upload_gi_probes(Render& render, const Pass& pass) const;
+
+		struct GIProbeUniform
+		{
+			static const int max_gi_probes = 2;
+
+			void createUniforms()
+			{
+				s_gi_probe = bgfx::createUniform("s_gi_probe", bgfx::UniformType::Sampler, max_gi_probes, bgfx::UniformSet::View);
+			}
+
+			bgfx::UniformHandle s_gi_probe;
+
+		} u_gi_probe;
+	};
+
+	struct gpu_ GpuVoxelGI
+	{
+		attr_ gpu_ vec3 extents;
+		attr_ gpu_ vec3 subdiv;
+		attr_ gpu_ mat4 world;
+	};
+
+	export_ class refl_ TWO_GFX_PBR_EXPORT BlockGIBake : public DrawBlock
+	{
+	public:
+		BlockGIBake(GfxSystem& gfx, BlockLight& block_light, BlockShadow& block_shadow, BlockGITrace& block_trace);
+
+		BlockLight& m_block_light;
+		BlockShadow& m_block_shadow;
+		BlockGITrace& m_block_trace;
+
+		virtual void init_block() override;
+
+		virtual void begin_render(Render& render) override;
+
+		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const override;
+		virtual void submit(Render& render, const Pass& pass) const override;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
+
+		void voxelize(Render& render, GIProbe& gi_probe);
+		void compute(Render& render, GIProbe& gi_probe);
+		void bounce(Render& render, GIProbe& gi_probe);
+		void output(Render& render, GIProbe& gi_probe);
+
+		struct VoxelGIUniform
+		{
+			void createUniforms()
+			{
+				s_voxels_albedo    = bgfx::createUniform("s_voxels_albedo",  bgfx::UniformType::Sampler);
+				s_voxels_normals   = bgfx::createUniform("s_voxels_normals", bgfx::UniformType::Sampler);
+				s_voxels_light     = bgfx::createUniform("s_voxels_light",   bgfx::UniformType::Sampler);
+
+				s_voxels_light_rgba  = bgfx::createUniform("s_voxels_light_rgba",   bgfx::UniformType::Sampler);
+			}
+
+			bgfx::UniformHandle s_voxels_albedo;
+			bgfx::UniformHandle s_voxels_normals;
+			bgfx::UniformHandle s_voxels_light;
+			bgfx::UniformHandle s_voxels_light_rgba;
+
+		} u_voxelgi;
+
+		Program* m_direct_light;
+		Program* m_bounce_light;
+		Program* m_output_light;
+		Program* m_voxelize;
+
+		GIProbe* m_bake_probe = nullptr;
+
+		bool m_direct_light_compute = false;
+	};
+}
+
+
+
 
 namespace two
 {
-	class ShadowAtlas
+	enum ShaderOptionLight : unsigned int
+	{
+		SKY_LIGHT,
+		FOG,
+	};
+
+	struct gpu_ GpuBone
+	{
+		attr_ mat4 matrix;
+	};
+
+	struct gpu_ GpuShadow
+	{
+		attr_ float matrix;
+		attr_ float bias;
+		attr_ float radius;
+		attr_ float range;
+		attr_ vec2 atlas_slot;
+		attr_ vec2 atlas_subdiv;
+	};
+
+	struct gpu_ GpuCSMShadow
+	{
+		attr_ float num_slices;
+		attr_ vec4 splits;
+		attr_ vec4 matrices;
+	};
+
+	struct gpu_ GpuLight
+	{
+		attr_ vec3 position;
+		attr_ float range;
+		attr_ vec3 energy;
+		attr_ float specular;
+		attr_ vec3 direction;
+		attr_ float attenuation;
+		attr_ float spot_attenuation;
+		attr_ float spot_cutoff;
+
+		attr_ GpuShadow shadow;
+		attr_ GpuCSMShadow csm;
+	};
+
+#ifdef _DEBUG
+	export_ TWO_GFX_PBR_EXPORT void debug_draw_light_clusters(Gnode& parent, Viewport& viewport, Camera& camera);
+	export_ TWO_GFX_PBR_EXPORT void debug_draw_light_slices(Gnode& parent, Light& light, bool frustums = true, bool bounds = true);
+#endif
+
+#ifdef TWO_PLATFORM_EMSCRIPTEN
+	constexpr size_t c_max_forward_lights = 32;
+#else
+	// TODO implement global settings loaded at runtime
+	constexpr size_t c_max_forward_lights = 32;
+  //constexpr size_t c_max_forward_lights = 64;
+#endif
+
+	struct ZoneLights
+	{
+		vec4 m_light_indices[c_max_forward_lights];
+		vec4 m_light_counts;
+		vec4 m_shadow_counts;
+		uint16_t m_light_count;
+	};
+
+	export_ class refl_ TWO_GFX_PBR_EXPORT BlockLight : public DrawBlock
 	{
 	public:
-		ShadowAtlas() {}
-		ShadowAtlas(uint16_t size, uint8_t num_slices);
+		BlockLight(GfxSystem& gfx);
 
-		uint16_t m_side = 0;
-		uvec2 m_size;
+		virtual void init_block() override;
 
-		Texture m_color;
-		Texture m_depth;
-		FrameBuffer m_fbo;
+		virtual void begin_render(Render& render) override;
 
-		struct Block;
+		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const final;
+		virtual void submit(Render& render, const Pass& pass) const final;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const final;
 
-		struct Slot
+		void setup_lights(Render& render, const mat4& view);
+		void setup_zones(Render& render);
+
+		void upload_lights(Render& render);
+		void upload_zones(Render& render);
+
+		void commit_zones(Render& render, const Pass& pass) const;
+		void commit_lights(Render& render, const Pass& pass) const;
+
+		struct ShotUniform
 		{
-			uint16_t m_index;
-			Light* m_light = nullptr;
-			vec4 m_rect;
-			uvec4 m_trect;
-			uint32_t m_frame = 0;
-			uint16_t m_block = UINT16_MAX;
-		};
+			void createUniforms()
+			{
+				s_zones = bgfx::createUniform("s_zones", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
+				s_lights = bgfx::createUniform("s_lights", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
+			}
 
-		struct Block
-		{
-			uint32_t m_slots[8];
-		};
+			bgfx::UniformHandle s_zones;
+			bgfx::UniformHandle s_lights;
 
-		struct Slice;
+		} u_shot;
 
-		Slice& light_slice(Light& light);
-		Slot& light_slot(Light& light);
+		uint16_t m_light_count;
 
-		void begin_frame(const RenderFrame& frame);
-		void subdiv(Slice& slice, uint16_t subdiv);
-		
-		Slot& alloc(Slice& slice, bool block6 = false);
-		void yield(Slice& slice, uint32_t index);
+		ZoneLights m_zones[1];
 
-		vec4 render_update(Render& render, Light& light);
-		bool update_light(Light& light, uint32_t render, float coverage, uint32_t light_version);
-		void remove_light(Light& light, bool block = false);
+		vector<GpuLight> m_gpu_lights;
 
-		struct Slice
-		{
-			Slice() {}
-			Slice(uint8_t index, const uvec2& size, const vec4& rect);
-
-			uint8_t m_index;
-			uvec2 m_size;
-			vec4 m_rect;
-
-			uint16_t m_subdiv = 0;
-			uvec2 m_slot_size;
-			vector<Slot> m_slots;
-			vector<Block> m_blocks;
-
-			vector<uint32_t> m_free_slots;
-			vector<uint32_t> m_free_blocks;
-		};
-
-		vector<Slice> m_slices;
+		GpuTexture m_zones_texture = {};
+		GpuTexture m_lights_texture = {};
 	};
 }
+
+
+
+namespace two
+{
+	export_ class refl_ TWO_GFX_PBR_EXPORT PBRShot : public Shot
+	{
+	public:
+		vector<ReflectionProbe*> m_reflection_probes;
+		vector<GIProbe*> m_gi_probes;
+		vector<LightmapAtlas*> m_lightmaps;
+	};
+
+	export_ class refl_ TWO_GFX_PBR_EXPORT BlockGeometry : public DrawBlock
+	{
+	public:
+		BlockGeometry(GfxSystem& gfx);
+		~BlockGeometry();
+
+		virtual void init_block() override;
+
+		virtual void begin_render(Render& render) override;
+
+		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const final;
+		virtual void submit(Render& render, const Pass& pass) const final;
+		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const final;
+
+		Material* m_material = nullptr;
+		Material* m_material_twosided = nullptr;
+	};
+
+	export_ TWO_GFX_PBR_EXPORT func_ void begin_pbr_render(GfxSystem& gfx, Render& render);
+
+	export_ TWO_GFX_PBR_EXPORT func_ void pass_gi_probes(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_PBR_EXPORT func_ void pass_shadowmaps(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_PBR_EXPORT func_ void pass_shadow(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_PBR_EXPORT func_ void pass_opaque(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_PBR_EXPORT func_ void pass_alpha(GfxSystem& gfx, Render& render);
+
+	export_ TWO_GFX_PBR_EXPORT func_ void pass_geometry(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_PBR_EXPORT func_ void pass_lights(GfxSystem& gfx, Render& render);
+
+	export_ TWO_GFX_PBR_EXPORT func_ void pass_voxel_gi(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_PBR_EXPORT func_ void pass_lightmap(GfxSystem& gfx, Render& render);
+
+	export_ TWO_GFX_PBR_EXPORT func_ void pass_begin_post(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_PBR_EXPORT func_ void pass_post_auto(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_PBR_EXPORT func_ void pass_post_effects(GfxSystem& gfx, Render& render, DofBlur& dof, Glow& glow, Tonemap& tonemap, BCS& bcs);
+
+	export_ TWO_GFX_PBR_EXPORT func_ void render_pbr_forward(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_PBR_EXPORT func_ void render_pbr_deferred(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_PBR_EXPORT func_ void render_shadow(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_PBR_EXPORT func_ void render_voxel(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_PBR_EXPORT func_ void render_lightmap(GfxSystem& gfx, Render& render);
+	export_ TWO_GFX_PBR_EXPORT func_ void render_reflection(GfxSystem& gfx, Render& render);
+
+	export_ TWO_GFX_PBR_EXPORT void gather_gi_probes(Scene& scene, vector<GIProbe*>& gi_probes);
+	export_ TWO_GFX_PBR_EXPORT void gather_lightmaps(Scene& scene, vector<LightmapAtlas*>& atlases);
+	export_ TWO_GFX_PBR_EXPORT void gather_reflection_probes(Scene& scene, vector<ReflectionProbe*>& reflection_probes);
+
+	export_ TWO_GFX_PBR_EXPORT void gather_render_pbr(Scene& scene, Render& render);
+
+	export_ TWO_GFX_PBR_EXPORT func_ void pipeline_pbr(GfxSystem& gfx, Renderer& pipeline, bool deferred = false);
+	
+namespace gfx
+{
+	export_ TWO_GFX_PBR_EXPORT func_ void setup_pipeline_pbr(GfxSystem& gfx);
+}
+}
+
+
+
+
+#define SHADOW_DEPTH 0
+#define SHADOW_SAMPLER 0
 
 namespace two
 {
 	enum ShaderOptionShadow : unsigned int
 	{
 		SHADOWS,
-		CSM_BLEND,
+		SHADOWS_PACKED,
+		SHADOWS_COMPARE,
+		//CSM_BLEND, // TODO
 	};
 
 	enum ShaderModeShadow : unsigned int
@@ -767,6 +967,17 @@ namespace two
 
 		void update_csm(Render& render, Light& light, CSMShadow& csm);
 
+		DepthMethod depth_method()
+		{
+#if SHADOW_SAMPLER || SHADOW_DEPTH
+			return DepthMethod::Depth;
+#else
+			return bgfx::getRendererType() == bgfx::RendererType::WebGPU
+				? DepthMethod::DepthPacked
+				: DepthMethod::Depth;
+#endif
+		}
+
 		BlockDepth& m_block_depth;
 		BlockLight& m_block_light;
 
@@ -781,7 +992,7 @@ namespace two
 				s_shadow_atlas = bgfx::createUniform("s_shadow_atlas", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
 				u_shadow_atlas = bgfx::createUniform("u_shadow_atlas", bgfx::UniformType::Vec4,    1U, bgfx::UniformSet::View);
 				u_pcf_p0   = bgfx::createUniform("u_pcf_p0",   bgfx::UniformType::Vec4,    1U, bgfx::UniformSet::View);
-				u_csm_p0 = bgfx::createUniform("u_csm_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+				u_csm_p0   = bgfx::createUniform("u_csm_p0",   bgfx::UniformType::Vec4,    1U, bgfx::UniformSet::View);
 			}
 
 			bgfx::UniformHandle s_shadow_atlas;
@@ -807,19 +1018,8 @@ namespace two
 }
 
 
-
-
-namespace two
-{
-}
-
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
-
 
 
 namespace two
@@ -833,6 +1033,7 @@ namespace two
     export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::Lightmap>();
     export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::LightmapAtlas>();
     export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockLightmap>();
+    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::PBRShot>();
     export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockGeometry>();
     export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockRadiance>();
     export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::CubeTarget>();
@@ -856,155 +1057,6 @@ namespace two
     export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::Tonemap>();
     export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockTonemap>();
 }
-
-
-
-
-namespace two
-{
-namespace gfx
-{
-	export_ TWO_GFX_EXPORT func_ GIProbe& gi_probe(Gnode& parent, uint16_t subdiv, const vec3& extents);
-	export_ TWO_GFX_EXPORT func_ LightmapAtlas& lightmap(Gnode& parent, uint32_t resolution, float density = 8.f, const string& save_path = "");
-}
-
-	enum ShaderOptionGI : unsigned int
-	{
-		GI_CONETRACE
-	};
-
-	enum class GIProbeMode
-	{
-		Voxelize,
-		LoadVoxels,
-	};
-
-	export_ class refl_ TWO_GFX_PBR_EXPORT GIProbe
-	{
-	public:
-		GIProbe(Node3& node);
-		~GIProbe();
-
-		void resize(uint16_t subdiv, const vec3& extents);
-		void lightmap(uint32_t size, float density, const string& save_path = "");
-
-		Node3& m_node;
-
-		Texture m_raster = {};
-		Texture m_voxels_color = {};
-		Texture m_voxels_normals = {};
-		Texture m_voxels_light = {};
-		FrameBuffer m_fbo = {};
-
-		Texture m_voxels_light_rgba = {};
-
-		bool m_enabled = true;
-		mat4 m_transform;
-		uint16_t m_subdiv = 0;
-		vec3 m_extents = vec3(0.f);
-		GIProbeMode m_mode = GIProbeMode::Voxelize;
-		bool m_dirty = false;
-
-		int m_dynamic_range = 4;
-		float m_diffuse = 3.0f;
-		float m_specular = 1.0f;
-		int m_bounces = 0;
-		float m_propagation = 1.0f;
-		
-		float m_bias = 0.0f;
-		float m_normal_bias = 0.8f;
-	};
-
-	export_ TWO_GFX_PBR_EXPORT void save_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, bgfx::TextureFormat::Enum source_format, bgfx::TextureFormat::Enum target_format, const string& path);
-	export_ TWO_GFX_PBR_EXPORT void load_gi_probe(GfxSystem& gfx, GIProbe& gi_probe, const string& path);
-
-	export_ class refl_ TWO_GFX_PBR_EXPORT BlockGITrace : public DrawBlock
-	{
-	public:
-		BlockGITrace(GfxSystem& gfx);
-
-		virtual void init_block() override;
-
-		virtual void begin_render(Render& render) override;
-
-		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const override;
-		virtual void submit(Render& render, const Pass& pass) const override;
-		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
-
-		void upload_gi_probes(Render& render, const Pass& pass) const;
-
-		struct GIProbeUniform
-		{
-			static const int max_gi_probes = 2;
-
-			void createUniforms()
-			{
-				s_gi_probe = bgfx::createUniform("s_gi_probe", bgfx::UniformType::Sampler, max_gi_probes, bgfx::UniformSet::View);
-			}
-
-			bgfx::UniformHandle s_gi_probe;
-
-		} u_gi_probe;
-	};
-
-	struct gpu_ GpuVoxelGI
-	{
-		attr_ gpu_ vec3 extents;
-		attr_ gpu_ vec3 subdiv;
-		attr_ gpu_ mat4 world;
-	};
-
-	export_ class refl_ TWO_GFX_PBR_EXPORT BlockGIBake : public DrawBlock
-	{
-	public:
-		BlockGIBake(GfxSystem& gfx, BlockLight& block_light, BlockShadow& block_shadow, BlockGITrace& block_trace);
-
-		BlockLight& m_block_light;
-		BlockShadow& m_block_shadow;
-		BlockGITrace& m_block_trace;
-
-		virtual void init_block() override;
-
-		virtual void begin_render(Render& render) override;
-
-		virtual void options(Render& render, const DrawElement& element, ProgramVersion& program) const override;
-		virtual void submit(Render& render, const Pass& pass) const override;
-		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
-
-		void voxelize(Render& render, GIProbe& gi_probe);
-		void compute(Render& render, GIProbe& gi_probe);
-		void bounce(Render& render, GIProbe& gi_probe);
-		void output(Render& render, GIProbe& gi_probe);
-
-		struct VoxelGIUniform
-		{
-			void createUniforms()
-			{
-				s_voxels_albedo    = bgfx::createUniform("s_voxels_albedo",  bgfx::UniformType::Sampler);
-				s_voxels_normals   = bgfx::createUniform("s_voxels_normals", bgfx::UniformType::Sampler);
-				s_voxels_light     = bgfx::createUniform("s_voxels_light",   bgfx::UniformType::Sampler);
-
-				s_voxels_light_rgba  = bgfx::createUniform("s_voxels_light_rgba",   bgfx::UniformType::Sampler);
-			}
-
-			bgfx::UniformHandle s_voxels_albedo;
-			bgfx::UniformHandle s_voxels_normals;
-			bgfx::UniformHandle s_voxels_light;
-			bgfx::UniformHandle s_voxels_light_rgba;
-
-		} u_voxelgi;
-
-		Program* m_direct_light;
-		Program* m_bounce_light;
-		Program* m_output_light;
-		Program* m_voxelize;
-
-		GIProbe* m_bake_probe = nullptr;
-
-		bool m_direct_light_compute = false;
-	};
-}
-
 
 
 namespace two
@@ -1059,7 +1111,6 @@ namespace two
 		Program& m_program;
 	};
 }
-
 
 
 namespace two
@@ -1202,125 +1253,278 @@ namespace two
 	template <> struct TypedBuffer<Glow> { static uint32_t index() { return 2; } };
 	template <> struct TypedBuffer<DofBlur> { static uint32_t index() { return 3; } };
 }
+#ifdef TWO_MODULES
 
 
 
+#define PAD 1.f
 
 namespace two
 {
-	template <>
-	struct GpuState<GpuBlurKernel>
+#if !ZONES_LIGHTS_BUFFER
+	export_ template <>
+	struct GpuState<ZoneLights>
 	{
 		void init()
 		{
-			u_blur_kernel_0_3 = bgfx::createUniform("u_blur_kernel_0_3", bgfx::UniformType::Vec4);
-			u_blur_kernel_4_7 = bgfx::createUniform("u_blur_kernel_4_7", bgfx::UniformType::Vec4);
+			u_light_indices = bgfx::createUniform("u_light_indices", bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformSet::View);
+			u_light_counts = bgfx::createUniform("u_light_counts", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+			u_shadow_counts = bgfx::createUniform("u_shadow_counts", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
 		}
 
-		void upload(const GpuBlurKernel& kernel)
+		void upload(uint16_t view, const ZoneLights& lights) const
 		{
-			bgfx::setUniform(u_blur_kernel_0_3, kernel.m_kernel + 0);
-			bgfx::setUniform(u_blur_kernel_4_7, kernel.m_kernel + 4);
+			bgfx::setViewUniform(view, u_light_counts, &lights.m_light_counts);
+			bgfx::setViewUniform(view, u_shadow_counts, &lights.m_shadow_counts);
+			if(lights.m_light_count > 0U)
+				bgfx::setViewUniform(view, u_light_indices, lights.m_light_indices, lights.m_light_count);
 		}
 
-		bgfx::UniformHandle u_blur_kernel_0_3;
-		bgfx::UniformHandle u_blur_kernel_4_7;
+		bgfx::UniformHandle u_light_indices = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_light_counts = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_shadow_counts = BGFX_INVALID_HANDLE;
 
 		static GpuState me;
 	};
-}
-
-
-
-namespace two
-{
-	template <>
-	struct GpuState<DofBlur>
+#else
+	export_ template <>
+	struct GpuState<ZoneLights>
 	{
-		void init()
-		{
-			u_dof_near_p0 = bgfx::createUniform("u_dof_near_p0", bgfx::UniformType::Vec4);
-			u_dof_far_p0 = bgfx::createUniform("u_dof_far_p0", bgfx::UniformType::Vec4);
-			u_dof_p0 = bgfx::createUniform("u_dof_p0", bgfx::UniformType::Vec4);
-		}
+		constexpr static size_t rows = 1 + BlockLight::ShotUniform::max_lights;
 
-		void upload(const DofBlur& dof)
+		void pack(const ZoneLights& lights, size_t& offset, GpuTexture& buffer, float* dest)
 		{
-			vec4 dof_near_p0 =
+			memcpy(dest + offset, &lights.m_light_counts, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			for(size_t i = 0; i < BlockLight::ShotUniform::max_lights; ++i)
 			{
-				dof.m_near.m_distance,
-				dof.m_near.m_distance - dof.m_near.m_transition,
-				dof.m_near.m_radius,
-				1.f / dof.m_near.m_radius,
-			};
-
-			vec4 dof_far_p0 =
-			{
-				dof.m_far.m_distance,
-				dof.m_far.m_distance + dof.m_far.m_transition,
-				dof.m_far.m_radius,
-				0.f
-			};
-
-			vec4 dof_p0 = { dof.m_max_coc_radius, 0.f, 0.f, 0.f };
-
-			bgfx::setUniform(u_dof_near_p0, &dof_near_p0);
-			bgfx::setUniform(u_dof_far_p0, &dof_far_p0);
-			bgfx::setUniform(u_dof_p0, &dof_p0);
+				memcpy(dest + offset, lights.m_light_indices + i, sizeof(float) * 4);
+				offset += buffer.width * buffer.stride;
+			}
 		}
-
-		bgfx::UniformHandle u_dof_near_p0;
-		bgfx::UniformHandle u_dof_far_p0;
-		bgfx::UniformHandle u_dof_p0;
 
 		static GpuState me;
 	};
-}
+#endif
 
-
-
-namespace two
-{
-	template <>
-	struct GpuState<Glow>
+#if !ZONES_BUFFER
+	export_ template <>
+	struct GpuState<Radiance>
 	{
 		void init()
 		{
-			u_glow_p0 = bgfx::createUniform("u_glow_p0", bgfx::UniformType::Vec4);
-			u_glow_p1 = bgfx::createUniform("u_glow_p1", bgfx::UniformType::Vec4);
-			u_glow_levels_1_4 = bgfx::createUniform("u_glow_levels_1_4", bgfx::UniformType::Vec4);
-			u_glow_levels_5_8 = bgfx::createUniform("u_glow_levels_5_8", bgfx::UniformType::Vec4);
+			u_radiance_p0 = bgfx::createUniform("u_radiance_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+			u_ambient_p0 = bgfx::createUniform("u_ambient_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
 		}
 
-		void upload(const Glow& glow)
+		void upload(const Pass& pass, const Radiance& radiance) const
 		{
-			vec4 glow_p0 = { 0.f, glow.m_bloom, glow.m_bleed_threshold, glow.m_bleed_scale };
-			bgfx::setUniform(u_glow_p0, &glow_p0);
+			vec4 radiance_p0 = { to_vec3(radiance.m_colour), radiance.m_energy };
+			vec4 ambient_p0 = { to_vec3(radiance.m_ambient), PAD };
 
-			vec4 glow_p1 = { glow.m_intensity, 0.f, 0.f, 0.f }; // float(render.m_target->m_size.x), float(render.m_target->m_size.y)
-			bgfx::setUniform(u_glow_p1, &glow_p1);
-			bgfx::setUniform(u_glow_levels_1_4, &glow.m_levels_1_4);
-			bgfx::setUniform(u_glow_levels_5_8, &glow.m_levels_5_8);
+			bgfx::setViewUniform(pass.m_index, u_radiance_p0, &radiance_p0);
+			bgfx::setViewUniform(pass.m_index, u_ambient_p0, &ambient_p0);
 		}
 
-		bgfx::UniformHandle u_glow_p0;
-		bgfx::UniformHandle u_glow_p1;
-		bgfx::UniformHandle u_glow_levels_1_4;
-		bgfx::UniformHandle u_glow_levels_5_8;
+		bgfx::UniformHandle u_radiance_p0 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_ambient_p0 = BGFX_INVALID_HANDLE;
 
 		static GpuState me;
 	};
+
+	export_ template <>
+	struct GpuState<Skylight>
+	{
+		void init()
+		{
+			u_skylight_p0 = bgfx::createUniform("u_skylight_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+			u_skylight_p1 = bgfx::createUniform("u_skylight_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+			u_skylight_p2 = bgfx::createUniform("u_skylight_p2", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+		}
+
+		void upload(const Pass& pass, const Skylight& skylight) const
+		{
+			vec4 skylight_p0 = { normalize(skylight.m_direction), PAD };
+			vec4 skylight_p1 = { to_vec3(skylight.m_color) * skylight.m_intensity, PAD };
+			vec4 skylight_p2 = { to_vec3(skylight.m_ground) * skylight.m_intensity, PAD };
+
+			bgfx::setViewUniform(pass.m_index, u_skylight_p0, &skylight_p0);
+			bgfx::setViewUniform(pass.m_index, u_skylight_p1, &skylight_p1);
+			bgfx::setViewUniform(pass.m_index, u_skylight_p2, &skylight_p2);
+		}
+
+		bgfx::UniformHandle u_skylight_p0 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_skylight_p1 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_skylight_p2 = BGFX_INVALID_HANDLE;
+
+		static GpuState me;
+	};
+
+	export_ template <>
+	struct GpuState<Fog>
+	{
+		void init()
+		{
+			u_fog_p0 = bgfx::createUniform("u_fog_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+			u_fog_p1 = bgfx::createUniform("u_fog_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+			u_fog_p2 = bgfx::createUniform("u_fog_p2", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+			u_fog_p3 = bgfx::createUniform("u_fog_p3", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+		}
+
+		void upload(const Pass& pass, const Fog& fog) const
+		{
+			vec4 params_0 = { fog.m_density, to_vec3(fog.m_colour) };
+			vec4 params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_end, fog.m_depth_curve };
+			vec4 params_2 = { float(fog.m_height), fog.m_height_max, fog.m_height_max, fog.m_height_curve };
+			vec4 params_3 = { float(fog.m_transmit), fog.m_transmit_curve, PAD, PAD };
+
+			bgfx::setViewUniform(pass.m_index, u_fog_p0, &params_0);
+			bgfx::setViewUniform(pass.m_index, u_fog_p1, &params_1);
+			bgfx::setViewUniform(pass.m_index, u_fog_p2, &params_2);
+			bgfx::setViewUniform(pass.m_index, u_fog_p3, &params_3);
+		}
+
+		bgfx::UniformHandle u_fog_p0 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_fog_p1 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_fog_p2 = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_fog_p3 = BGFX_INVALID_HANDLE;
+
+		static GpuState me;
+	};
+
+	export_ template <>
+	struct GpuState<Zone>
+	{
+		void upload(const Pass& pass, const Zone& zone) const
+		{
+			GpuState<Radiance>::me.upload(pass, zone.m_radiance);
+			GpuState<Skylight>::me.upload(pass, zone.m_skylight);
+			GpuState<Fog>::me.upload(pass, zone.m_fog);
+		}
+
+		static GpuState me;
+	};
+#else
+export_ template <>
+	struct GpuState<Radiance>
+	{
+		constexpr static size_t rows = 2;
+
+		void pack(const Radiance& radiance, size_t& offset, GpuTexture& buffer, float* dest)
+		{
+			vec4 radiance_p0 = { to_vec3(radiance.m_colour), radiance.m_energy };
+			vec4 ambient_p0 = { to_vec3(radiance.m_ambient), PAD };
+
+			memcpy(dest + offset, &radiance_p0, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &ambient_p0, sizeof(float) * 3);
+			offset += buffer.width * buffer.stride;
+		}
+
+		static GpuState me;
+	};
+
+	export_ template <>
+	struct GpuState<Skylight>
+	{
+		constexpr static size_t rows = 3;
+
+		void pack(const Skylight& skylight, size_t& offset, GpuTexture& buffer, float* dest)
+		{
+			vec4 skylight_p0 = { normalize(skylight.m_direction), PAD };
+			vec4 skylight_p1 = { to_vec3(skylight.m_color) * skylight.m_intensity, PAD };
+			vec4 skylight_p2 = { to_vec3(skylight.m_ground) * skylight.m_intensity, PAD };
+
+			memcpy(dest + offset, &skylight_p0, sizeof(float) * 3);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &skylight_p1, sizeof(float) * 3);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &skylight_p2, sizeof(float) * 3);
+			offset += buffer.width * buffer.stride;
+		}
+
+		static GpuState me;
+	};
+
+	export_ template <>
+	struct GpuState<Fog>
+	{
+		constexpr static size_t rows = 4;
+
+		void pack(const Fog& fog, size_t& offset, GpuTexture& buffer, float* dest)
+		{
+			vec4 params_0 = { fog.m_density, to_vec3(fog.m_colour) };
+			vec4 params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_end, fog.m_depth_curve };
+			vec4 params_2 = { float(fog.m_height), fog.m_height_max, fog.m_height_max, fog.m_height_curve };
+			vec4 params_3 = { float(fog.m_transmit), fog.m_transmit_curve, PAD, PAD };
+
+			memcpy(dest + offset, &params_0, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &params_1, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &params_2, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+
+			memcpy(dest + offset, &params_3, sizeof(float) * 4);
+			offset += buffer.width * buffer.stride;
+		}
+
+		static GpuState me;
+	};
+
+	export_ template <>
+	struct GpuState<Zone>
+	{
+		void pack(const Zone& zone, size_t offset, GpuTexture& buffer, float* dest)
+		{
+			GpuState<Radiance>::me.pack(zone.m_radiance, offset, buffer, dest);
+			if(zone.m_fog.m_enabled)
+				GpuState<Fog>::me.pack(zone.m_fog, offset, buffer, dest);
+		}
+
+		void pack(Texture& texture, span<Zone> zones)
+		{
+			GpuTexture buffer = { texture, 1024, 4 };
+
+			const uint32_t height = GpuState<Radiance>::me.rows
+								  + GpuState<Skylight>::me.rows;
+								  + GpuState<Fog>::me.rows;
+			const uint32_t lines = 1;
+			const uvec2 size = uvec2(buffer.width, lines * height);
+
+			if(texture.m_size != size)
+				texture = { size, bgfx::TextureFormat::RGBA32F, TEXTURE_POINT | TEXTURE_CLAMP };
+
+			const bgfx::Memory* memory = bgfx::alloc(buffer.width * lines * height * buffer.stride * sizeof(float));
+
+			for(size_t index = 0; index < zones.size(); ++index)
+			{
+				this->pack(zones[index], index * buffer.stride, buffer, (float*)memory->data);
+			}
+
+			bgfx::updateTexture2D(texture, 0, 0, 0, 0, buffer.width, uint16_t(lines * height), memory);
+		}
+
+		static GpuState me;
+	};
+#endif
 }
 
+#undef PAD
 
 
-#include <cstring>
 
 #define PAD 0.f
 
 namespace two
 {
-	template <>
+	export_ template <>
 	struct GpuState<GpuShadow>
 	{
 		void init()
@@ -1339,7 +1543,7 @@ namespace two
 	};
 
 #if !LIGHTS_BUFFER
-	template <>
+	export_ template <>
 	struct GpuState<GpuLight>
 	{
 		void init()
@@ -1411,7 +1615,7 @@ namespace two
 		static GpuState me;
 	};
 #else
-	template <>
+	export_ template <>
 	struct GpuState<GpuLight>
 	{
 		void pack(GpuLight& gpu_light, size_t index, const GpuTexture& buffer, float* dest)
@@ -1480,53 +1684,10 @@ namespace two
 
 
 
-namespace two
-{
-	template <>
-	struct GpuState<BCS>
-	{
-		void init()
-		{
-			u_bcs = bgfx::createUniform("u_tonemap_bcs", bgfx::UniformType::Vec4);
-		}
-
-		void upload(const BCS& bcs)
-		{
-			vec4 bcs_values = { bcs.m_brightness, bcs.m_contrast, bcs.m_saturation, 0.f };
-			bgfx::setUniform(u_bcs, &bcs_values);
-		}
-
-		bgfx::UniformHandle u_bcs;
-
-		static GpuState me;
-	};
-
-	template <>
-	struct GpuState<Tonemap>
-	{
-		void init()
-		{
-			u_exposure_p0 = bgfx::createUniform("u_exposure_p0", bgfx::UniformType::Vec4);
-		}
-
-		void upload(const Tonemap& tonemap)
-		{
-			vec4 exposure_p0 = { tonemap.m_exposure, tonemap.m_white_point, 0.f, 0.f };
-			bgfx::setUniform(u_exposure_p0, &exposure_p0);
-		}
-
-		bgfx::UniformHandle u_exposure_p0;
-
-		static GpuState me;
-	};
-}
-
-
-
 
 namespace two
 {
-	template <>
+	export_ template <>
 	struct GpuState<GIProbe>
 	{
 		void init(uint16_t array_size = 1U)
@@ -1565,7 +1726,7 @@ namespace two
 		static GpuState me;
 	};
 
-	template <>
+	export_ template <>
 	struct GpuState<GpuVoxelGI>
 	{
 		void init()
@@ -1603,269 +1764,153 @@ namespace two
 }
 
 
-#include <bgfx/bgfx.h>
-
-module two.gfx.pbr;
-
-#include <cstring>
-
-#define PAD 1.f
 
 namespace two
 {
-#if !ZONES_LIGHTS_BUFFER
-	template <>
-	struct GpuState<ZoneLights>
+	export_ template <>
+	struct GpuState<GpuBlurKernel>
 	{
 		void init()
 		{
-			u_light_indices = bgfx::createUniform("u_light_indices", bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformSet::View);
-			u_light_counts = bgfx::createUniform("u_light_counts", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-			u_shadow_counts = bgfx::createUniform("u_shadow_counts", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+			u_blur_kernel_0_3 = bgfx::createUniform("u_blur_kernel_0_3", bgfx::UniformType::Vec4);
+			u_blur_kernel_4_7 = bgfx::createUniform("u_blur_kernel_4_7", bgfx::UniformType::Vec4);
 		}
 
-		void upload(uint16_t view, const ZoneLights& lights) const
+		void upload(const GpuBlurKernel& kernel)
 		{
-			bgfx::setViewUniform(view, u_light_counts, &lights.m_light_counts);
-			bgfx::setViewUniform(view, u_shadow_counts, &lights.m_shadow_counts);
-			if(lights.m_light_count > 0U)
-				bgfx::setViewUniform(view, u_light_indices, lights.m_light_indices, lights.m_light_count);
+			bgfx::setUniform(u_blur_kernel_0_3, kernel.m_kernel + 0);
+			bgfx::setUniform(u_blur_kernel_4_7, kernel.m_kernel + 4);
 		}
 
-		bgfx::UniformHandle u_light_indices = BGFX_INVALID_HANDLE;
-		bgfx::UniformHandle u_light_counts = BGFX_INVALID_HANDLE;
-		bgfx::UniformHandle u_shadow_counts = BGFX_INVALID_HANDLE;
+		bgfx::UniformHandle u_blur_kernel_0_3;
+		bgfx::UniformHandle u_blur_kernel_4_7;
 
 		static GpuState me;
 	};
-#else
-	template <>
-	struct GpuState<ZoneLights>
-	{
-		constexpr static size_t rows = 1 + BlockLight::ShotUniform::max_lights;
-
-		void pack(const ZoneLights& lights, size_t& offset, GpuTexture& buffer, float* dest)
-		{
-			memcpy(dest + offset, &lights.m_light_counts, sizeof(float) * 4);
-			offset += buffer.width * buffer.stride;
-
-			for(size_t i = 0; i < BlockLight::ShotUniform::max_lights; ++i)
-			{
-				memcpy(dest + offset, lights.m_light_indices + i, sizeof(float) * 4);
-				offset += buffer.width * buffer.stride;
-			}
-		}
-
-		static GpuState me;
-	};
-#endif
-
-#if !ZONES_BUFFER
-	template <>
-	struct GpuState<Radiance>
-	{
-		void init()
-		{
-			u_radiance_p0 = bgfx::createUniform("u_radiance_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-			u_ambient_p0 = bgfx::createUniform("u_ambient_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-		}
-
-		void upload(const Pass& pass, const Radiance& radiance) const
-		{
-			vec4 radiance_p0 = { to_vec3(radiance.m_colour), radiance.m_energy };
-			vec4 ambient_p0 = { to_vec3(radiance.m_ambient), PAD };
-
-			bgfx::setViewUniform(pass.m_index, u_radiance_p0, &radiance_p0);
-			bgfx::setViewUniform(pass.m_index, u_ambient_p0, &ambient_p0);
-		}
-
-		bgfx::UniformHandle u_radiance_p0 = BGFX_INVALID_HANDLE;
-		bgfx::UniformHandle u_ambient_p0 = BGFX_INVALID_HANDLE;
-
-		static GpuState me;
-	};
-
-	template <>
-	struct GpuState<Skylight>
-	{
-		void init()
-		{
-			u_skylight_p0 = bgfx::createUniform("u_skylight_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-			u_skylight_p1 = bgfx::createUniform("u_skylight_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-			u_skylight_p2 = bgfx::createUniform("u_skylight_p2", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-		}
-
-		void upload(const Pass& pass, const Skylight& skylight) const
-		{
-			vec4 skylight_p0 = { normalize(skylight.m_direction), PAD };
-			vec4 skylight_p1 = { to_vec3(skylight.m_color) * skylight.m_intensity, PAD };
-			vec4 skylight_p2 = { to_vec3(skylight.m_ground) * skylight.m_intensity, PAD };
-
-			bgfx::setViewUniform(pass.m_index, u_skylight_p0, &skylight_p0);
-			bgfx::setViewUniform(pass.m_index, u_skylight_p1, &skylight_p1);
-			bgfx::setViewUniform(pass.m_index, u_skylight_p2, &skylight_p2);
-		}
-
-		bgfx::UniformHandle u_skylight_p0 = BGFX_INVALID_HANDLE;
-		bgfx::UniformHandle u_skylight_p1 = BGFX_INVALID_HANDLE;
-		bgfx::UniformHandle u_skylight_p2 = BGFX_INVALID_HANDLE;
-
-		static GpuState me;
-	};
-
-	template <>
-	struct GpuState<Fog>
-	{
-		void init()
-		{
-			u_fog_p0 = bgfx::createUniform("u_fog_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-			u_fog_p1 = bgfx::createUniform("u_fog_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-			u_fog_p2 = bgfx::createUniform("u_fog_p2", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-			u_fog_p3 = bgfx::createUniform("u_fog_p3", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-		}
-
-		void upload(const Pass& pass, const Fog& fog) const
-		{
-			vec4 params_0 = { fog.m_density, to_vec3(fog.m_colour) };
-			vec4 params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_end, fog.m_depth_curve };
-			vec4 params_2 = { float(fog.m_height), fog.m_height_max, fog.m_height_max, fog.m_height_curve };
-			vec4 params_3 = { float(fog.m_transmit), fog.m_transmit_curve, PAD, PAD };
-
-			bgfx::setViewUniform(pass.m_index, u_fog_p0, &params_0);
-			bgfx::setViewUniform(pass.m_index, u_fog_p1, &params_1);
-			bgfx::setViewUniform(pass.m_index, u_fog_p2, &params_2);
-			bgfx::setViewUniform(pass.m_index, u_fog_p3, &params_3);
-		}
-
-		bgfx::UniformHandle u_fog_p0 = BGFX_INVALID_HANDLE;
-		bgfx::UniformHandle u_fog_p1 = BGFX_INVALID_HANDLE;
-		bgfx::UniformHandle u_fog_p2 = BGFX_INVALID_HANDLE;
-		bgfx::UniformHandle u_fog_p3 = BGFX_INVALID_HANDLE;
-
-		static GpuState me;
-	};
-
-	template <>
-	struct GpuState<Zone>
-	{
-		void upload(const Pass& pass, const Zone& zone) const
-		{
-			GpuState<Radiance>::me.upload(pass, zone.m_radiance);
-			GpuState<Skylight>::me.upload(pass, zone.m_skylight);
-			GpuState<Fog>::me.upload(pass, zone.m_fog);
-		}
-
-		static GpuState me;
-	};
-#else
-	template <>
-	struct GpuState<Radiance>
-	{
-		constexpr static size_t rows = 2;
-
-		void pack(const Radiance& radiance, size_t& offset, GpuTexture& buffer, float* dest)
-		{
-			vec4 radiance_p0 = { to_vec3(radiance.m_colour), radiance.m_energy };
-			vec4 ambient_p0 = { to_vec3(radiance.m_ambient), PAD };
-
-			memcpy(dest + offset, &radiance_p0, sizeof(float) * 4);
-			offset += buffer.width * buffer.stride;
-
-			memcpy(dest + offset, &ambient_p0, sizeof(float) * 3);
-			offset += buffer.width * buffer.stride;
-		}
-
-		static GpuState me;
-	};
-
-	template <>
-	struct GpuState<Skylight>
-	{
-		constexpr static size_t rows = 3;
-
-		void pack(const Skylight& skylight, size_t& offset, GpuTexture& buffer, float* dest)
-		{
-			vec4 skylight_p0 = { normalize(skylight.m_direction), PAD };
-			vec4 skylight_p1 = { to_vec3(skylight.m_color) * skylight.m_intensity, PAD };
-			vec4 skylight_p2 = { to_vec3(skylight.m_ground) * skylight.m_intensity, PAD };
-
-			memcpy(dest + offset, &skylight_p0, sizeof(float) * 3);
-			offset += buffer.width * buffer.stride;
-
-			memcpy(dest + offset, &skylight_p1, sizeof(float) * 3);
-			offset += buffer.width * buffer.stride;
-
-			memcpy(dest + offset, &skylight_p2, sizeof(float) * 3);
-			offset += buffer.width * buffer.stride;
-		}
-
-		static GpuState me;
-	};
-
-	template <>
-	struct GpuState<Fog>
-	{
-		constexpr static size_t rows = 4;
-
-		void pack(const Fog& fog, size_t& offset, GpuTexture& buffer, float* dest)
-		{
-			vec4 params_0 = { fog.m_density, to_vec3(fog.m_colour) };
-			vec4 params_1 = { float(fog.m_depth), fog.m_depth_begin, fog.m_depth_end, fog.m_depth_curve };
-			vec4 params_2 = { float(fog.m_height), fog.m_height_max, fog.m_height_max, fog.m_height_curve };
-			vec4 params_3 = { float(fog.m_transmit), fog.m_transmit_curve, PAD, PAD };
-
-			memcpy(dest + offset, &params_0, sizeof(float) * 4);
-			offset += buffer.width * buffer.stride;
-
-			memcpy(dest + offset, &params_1, sizeof(float) * 4);
-			offset += buffer.width * buffer.stride;
-
-			memcpy(dest + offset, &params_2, sizeof(float) * 4);
-			offset += buffer.width * buffer.stride;
-
-			memcpy(dest + offset, &params_3, sizeof(float) * 4);
-			offset += buffer.width * buffer.stride;
-		}
-
-		static GpuState me;
-	};
-
-	template <>
-	struct GpuState<Zone>
-	{
-		void pack(const Zone& zone, size_t offset, GpuTexture& buffer, float* dest)
-		{
-			GpuState<Radiance>::me.pack(zone.m_radiance, offset, buffer, dest);
-			if(zone.m_fog.m_enabled)
-				GpuState<Fog>::me.pack(zone.m_fog, offset, buffer, dest);
-		}
-
-		void pack(Texture& texture, span<Zone> zones)
-		{
-			GpuTexture buffer = { texture, 1024, 4 };
-
-			const uint32_t height = GpuState<Radiance>::me.rows
-								  + GpuState<Skylight>::me.rows;
-								  + GpuState<Fog>::me.rows;
-			const uint32_t lines = 1;
-			const uvec2 size = uvec2(buffer.width, lines * height);
-
-			if(texture.m_size != size)
-				texture = { size, bgfx::TextureFormat::RGBA32F, TEXTURE_POINT | TEXTURE_CLAMP };
-
-			const bgfx::Memory* memory = bgfx::alloc(buffer.width * lines * height * buffer.stride * sizeof(float));
-
-			for(size_t index = 0; index < zones.size(); ++index)
-			{
-				this->pack(zones[index], index * buffer.stride, buffer, (float*)memory->data);
-			}
-
-			bgfx::updateTexture2D(texture, 0, 0, 0, 0, buffer.width, uint16_t(lines * height), memory);
-		}
-
-		static GpuState me;
-	};
-#endif
 }
 
-#undef PAD
+
+
+namespace two
+{
+	export_ template <>
+	struct GpuState<DofBlur>
+	{
+		void init()
+		{
+			u_dof_near_p0 = bgfx::createUniform("u_dof_near_p0", bgfx::UniformType::Vec4);
+			u_dof_far_p0 = bgfx::createUniform("u_dof_far_p0", bgfx::UniformType::Vec4);
+			u_dof_p0 = bgfx::createUniform("u_dof_p0", bgfx::UniformType::Vec4);
+		}
+
+		void upload(const DofBlur& dof)
+		{
+			vec4 dof_near_p0 =
+			{
+				dof.m_near.m_distance,
+				dof.m_near.m_distance - dof.m_near.m_transition,
+				dof.m_near.m_radius,
+				1.f / dof.m_near.m_radius,
+			};
+
+			vec4 dof_far_p0 =
+			{
+				dof.m_far.m_distance,
+				dof.m_far.m_distance + dof.m_far.m_transition,
+				dof.m_far.m_radius,
+				0.f
+			};
+
+			vec4 dof_p0 = { dof.m_max_coc_radius, 0.f, 0.f, 0.f };
+
+			bgfx::setUniform(u_dof_near_p0, &dof_near_p0);
+			bgfx::setUniform(u_dof_far_p0, &dof_far_p0);
+			bgfx::setUniform(u_dof_p0, &dof_p0);
+		}
+
+		bgfx::UniformHandle u_dof_near_p0;
+		bgfx::UniformHandle u_dof_far_p0;
+		bgfx::UniformHandle u_dof_p0;
+
+		static GpuState me;
+	};
+}
+
+
+
+namespace two
+{
+	export_ template <>
+	struct GpuState<Glow>
+	{
+		void init()
+		{
+			u_glow_p0 = bgfx::createUniform("u_glow_p0", bgfx::UniformType::Vec4);
+			u_glow_p1 = bgfx::createUniform("u_glow_p1", bgfx::UniformType::Vec4);
+			u_glow_levels_1_4 = bgfx::createUniform("u_glow_levels_1_4", bgfx::UniformType::Vec4);
+			u_glow_levels_5_8 = bgfx::createUniform("u_glow_levels_5_8", bgfx::UniformType::Vec4);
+		}
+
+		void upload(const Glow& glow)
+		{
+			vec4 glow_p0 = { 0.f, glow.m_bloom, glow.m_bleed_threshold, glow.m_bleed_scale };
+			bgfx::setUniform(u_glow_p0, &glow_p0);
+
+			vec4 glow_p1 = { glow.m_intensity, 0.f, 0.f, 0.f }; // float(render.m_target->m_size.x), float(render.m_target->m_size.y)
+			bgfx::setUniform(u_glow_p1, &glow_p1);
+			bgfx::setUniform(u_glow_levels_1_4, &glow.m_levels_1_4);
+			bgfx::setUniform(u_glow_levels_5_8, &glow.m_levels_5_8);
+		}
+
+		bgfx::UniformHandle u_glow_p0;
+		bgfx::UniformHandle u_glow_p1;
+		bgfx::UniformHandle u_glow_levels_1_4;
+		bgfx::UniformHandle u_glow_levels_5_8;
+
+		static GpuState me;
+	};
+}
+
+
+
+namespace two
+{
+	export_ template <>
+	struct GpuState<BCS>
+	{
+		void init()
+		{
+			u_bcs = bgfx::createUniform("u_tonemap_bcs", bgfx::UniformType::Vec4);
+		}
+
+		void upload(const BCS& bcs)
+		{
+			vec4 bcs_values = { bcs.m_brightness, bcs.m_contrast, bcs.m_saturation, 0.f };
+			bgfx::setUniform(u_bcs, &bcs_values);
+		}
+
+		bgfx::UniformHandle u_bcs;
+
+		static GpuState me;
+	};
+
+	export_ template <>
+	struct GpuState<Tonemap>
+	{
+		void init()
+		{
+			u_exposure_p0 = bgfx::createUniform("u_exposure_p0", bgfx::UniformType::Vec4);
+		}
+
+		void upload(const Tonemap& tonemap)
+		{
+			vec4 exposure_p0 = { tonemap.m_exposure, tonemap.m_white_point, 0.f, 0.f };
+			bgfx::setUniform(u_exposure_p0, &exposure_p0);
+		}
+
+		bgfx::UniformHandle u_exposure_p0;
+
+		static GpuState me;
+	};
+}
+#endif
