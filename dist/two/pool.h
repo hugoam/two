@@ -33,7 +33,7 @@ namespace stl
 
 #include <stl/memory.h>
 #include <stl/vector.h>
-//  Copyright (c) 2015 Hugo Amiard hugo.amiard@laposte.net
+//  Copyright (c) 2023 Hugo Amiard hugo.amiard@laposte.net
 
 
 #include <stl/span.h>
@@ -124,7 +124,7 @@ namespace two
 	template <class T>
 	inline TPool<T>& global_pool();
 }
-//  Copyright (c) 2015 Hugo Amiard hugo.amiard@laposte.net
+//  Copyright (c) 2023 Hugo Amiard hugo.amiard@laposte.net
 
 
 #include <stl/unordered_map.h>
@@ -301,7 +301,7 @@ namespace two
 
 
 
-//  Copyright (c) 2015 Hugo Amiard hugo.amiard@laposte.net
+//  Copyright (c) 2023 Hugo Amiard hugo.amiard@laposte.net
 
 
 #include <stl/new.h>
@@ -503,7 +503,7 @@ namespace two
 		return as<TPool<T>>(*g_pools[type<T>().m_id].get());
 	}
 }
-//  Copyright (c) 2015 Hugo Amiard hugo.amiard@laposte.net
+//  Copyright (c) 2023 Hugo Amiard hugo.amiard@laposte.net
 
 
 #include <stl/algorithm.h>

@@ -223,7 +223,7 @@ using namespace two;
 int main(int argc, char *argv[])
 {
 	vector<string> filter = {
-		"//  Copyright (c) 2019 Hugo Amiard hugo.amiard@laposte.net",
+		"//  Copyright (c) 2023 Hugo Amiard hugo.amiard@laposte.net",
 		"//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.",
 		"//  This notice and the license may not be removed or altered from any source distribution.",
 		"//  This software is licensed  under the terms of the GNU General Public License v3.0.",
