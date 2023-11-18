@@ -1,12 +1,11 @@
 module;
+#define BX_COMPILER_MSVC_CONFORMANCE
 #include <infra/Cpp20.h>
 #include <infra/Config.h>
 #include <bx/allocator.h>
 #include <bx/timer.h>
 #include <bgfx/bgfx.h>
 #include <bgfx/platform.h>
-#include <bimg/bimg.h>
-#include <bgfx/bgfx.h>
 #include <bimg/bimg.h>
 #include <bimg/decode.h>
 #include <bimg/encode.h>

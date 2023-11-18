@@ -8,6 +8,10 @@
 
 namespace two
 {
+#ifdef TWO_MODULES
+	using stl::string;
+#endif
+
 	export_ enum class refl_ AnimTarget : unsigned int
 	{
 		Position,

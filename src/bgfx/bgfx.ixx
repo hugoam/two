@@ -1,4 +1,5 @@
 module;
+#define BX_COMPILER_MSVC_CONFORMANCE
 #include <infra/Cpp20.h>
 #include <infra/Config.h>
 #include <bx/bx.h>

@@ -6,7 +6,6 @@
 
 #include <gfx/Graph.h>
 #include <gfx/Scene.h>
-#include <pool/ObjectPool.h>
 
 namespace two
 {

@@ -3,6 +3,7 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 module;
+#define BX_COMPILER_MSVC_CONFORMANCE
 #include <cstring>
 #include <cstdio>
 #include <bx/platform.h>

@@ -49,7 +49,7 @@ namespace two
 	// the light indices per cluster. The record buffer is limited to 65536 entries, so with
 	// 8192 clusters, we can store 8 lights per clusters assuming they're all used. In practice, some
 	// clusters are not used, so we can store more.
-	static constexpr uint32_t CLUSTER_BUFFER_ENTRY_COUNT_MAX = 8192;
+	export_ inline constexpr uint32_t CLUSTER_BUFFER_ENTRY_COUNT_MAX = 8192;
 
 	class TWO_GFX_EXPORT Froxelizer
 	{

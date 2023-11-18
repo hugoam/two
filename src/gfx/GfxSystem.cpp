@@ -3,7 +3,8 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 module;
-//#include <Tracy.hpp> // TODO (hugoam) modules FIX THIS SHIT 
+//#include <Tracy.hpp> // TODO (hugoam) modules FIX THIS SHIT
+#define BX_COMPILER_MSVC_CONFORMANCE
 #include <bx/timer.h>
 #include <bx/file.h>
 #include <bgfx/bgfx.h>
