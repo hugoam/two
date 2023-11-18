@@ -5,10 +5,7 @@
 #include <cmath>
 #endif
 
-#ifdef TWO_MODULES
 module two.infra;
-#else
-#endif
 
 namespace two
 {
@@ -66,10 +63,7 @@ namespace two
 #undef FAR
 #endif
 
-#ifdef TWO_MODULES
 module two.infra;
-#else
-#endif
 
 #if defined _WIN32
 #include <direct.h>
@@ -303,11 +297,7 @@ namespace two
 	}
 }
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.infra;
-#else
-#include <stl/vector.hpp>
-#endif
 
 namespace stl
 {
@@ -318,11 +308,7 @@ namespace stl
 #endif
 
 
-#ifdef TWO_MODULES
 module two.infra;
-#else
-#include <stl/algorithm.h>
-#endif
 
 #include <cctype>
 #include <cassert>
@@ -469,10 +455,7 @@ namespace two
 #endif
 
 
-#ifdef TWO_MODULES
 module two.infra;
-#else
-#endif
 
 namespace two
 {
@@ -530,10 +513,7 @@ namespace two
 	}
 }
 
-#ifdef TWO_MODULES
 module two.infra;
-#else
-#endif
 
 #include <cstdio>
 
@@ -556,10 +536,7 @@ namespace two
 	template <> void to_string(const ldouble& value, string& str) { str.resize(snprintf(nullptr, 0, "%Lf",  value)); sprintf(&str[0], "%Lf",  value); }
 }
 
-#ifdef TWO_MODULES
 module two.infra;
-#else
-#endif
 
 #include <cstdlib>
 

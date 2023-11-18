@@ -14,12 +14,7 @@
 #include <two/bgfx.refl.h>
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <cstddef>
-#include <stl/new.h>
-#endif
 
 
 using namespace two;

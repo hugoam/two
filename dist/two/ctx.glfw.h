@@ -9,11 +9,6 @@
 
 //#ifdef TWO_CTX_GLFW
 
-#ifndef TWO_MODULES
-
-struct GLFWwindow;
-#endif
-
 #ifndef TWO_CTX_GLFW_EXPORT
 #define TWO_CTX_GLFW_EXPORT TWO_IMPORT
 #endif
@@ -70,8 +65,6 @@ namespace two
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {

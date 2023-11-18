@@ -6,13 +6,7 @@
 
 
 
-#ifdef TWO_MODULES
 module two.wfc;
-#else
-#include <stl/map.h>
-#include <stl/algorithm.h>
-#include <stl/algorithm.h>
-#endif
 
 #include <json11.hpp>
 using Json = json11::Json;
@@ -365,16 +359,7 @@ namespace two
 	}
 }
 
-
-#ifdef TWO_MODULES
 module two.wfc;
-#else
-#include <json11.hpp>
-using Json = json11::Json;
-
-#include <stl/algorithm.h>
-#endif
-
 
 namespace two
 {
@@ -828,11 +813,7 @@ namespace two
 #include <cfloat>
 #endif
 
-#ifdef TWO_MODULES
 module two.wfc;
-#else
-#include <stl/limits.h>
-#endif
 
 namespace two
 {
@@ -999,12 +980,7 @@ namespace two
 	}
 }
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.wfc;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#endif
 
 namespace stl
 {
@@ -1014,10 +990,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.wfc;
-#else
-#endif
 
 namespace two
 {

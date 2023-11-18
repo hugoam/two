@@ -7,11 +7,7 @@ namespace two
 {
 }
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.jobs;
-#else
-#include <stl/vector.hpp>
-#endif
 
 namespace stl
 {
@@ -20,10 +16,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.jobs;
-#else
-#endif
 
 namespace two
 {

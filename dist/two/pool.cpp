@@ -4,11 +4,7 @@
 
 
 
-#ifdef TWO_MODULES
 module two.pool;
-#else
-//#include <refl/Class.h>
-#endif
 
 namespace two
 {
@@ -27,19 +23,12 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.pool;
-#else
-#endif
 
 namespace two
 {}
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#include <stl/vector.hpp>
-#endif
 
 namespace stl
 {
@@ -48,10 +37,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.pool;
-#else
-#endif
 
 namespace two
 {

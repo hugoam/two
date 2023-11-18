@@ -8,11 +8,6 @@
 
 
 
-#ifndef TWO_MODULES
-#include <stdint.h>
-#include <stl/decls.h>
-#endif
-
 
 
 #ifndef TWO_UI_EXPORT
@@ -139,10 +134,6 @@ namespace two
 #include <stl/memory.h>
 #include <stl/function.h>
 
-
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#endif
 
 
 #include <stl/stddef.h>
@@ -273,10 +264,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/span.h>
-#endif
-
 namespace two
 {
 	export_ struct refl_ TWO_UI_EXPORT ImageSkin
@@ -324,8 +311,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -435,11 +420,6 @@ namespace two
 	}
 }
 
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/string.h>
-#endif
 
 namespace two
 {
@@ -803,10 +783,6 @@ namespace ui
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/span.h>
-#endif
-
 namespace two
 {
 namespace ui
@@ -984,10 +960,6 @@ namespace ui
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/span.h>
-#endif
-
 namespace two
 {
 namespace ui
@@ -1013,11 +985,6 @@ namespace ui
 }
 }
 
-
-#ifndef TWO_MODULES
-#include <stl/traits.h>
-//#include <math/Math.h>
-#endif
 
 namespace two
 {
@@ -1134,10 +1101,6 @@ namespace ui
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/traits.h>
-#endif
-
 
 
 namespace two
@@ -1182,22 +1145,8 @@ namespace ui
 #include <stl/memory.h>
 
 
-#ifndef TWO_MODULES
-#include <stl/function.h>
-#ifdef _MSC_VER
-#endif
-#include <stl/span.h>
-#endif
 
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/memory.h>
-#endif
-
-
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -1409,12 +1358,6 @@ namespace ui
 }
 }
 
-
-#ifndef TWO_MODULES
-#include <climits>
-#include <stl/string.h>
-#include <stl/vector.h>
-#endif
 
 namespace two
 {
@@ -1863,8 +1806,6 @@ namespace ui
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -1959,10 +1900,6 @@ namespace ui
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#endif
-
 namespace two
 {
 	export_ struct TWO_UI_EXPORT Section : public Widget
@@ -1975,10 +1912,6 @@ namespace two
 	export_ TWO_UI_EXPORT bool section_action(Section& parent, const string& name);
 }
 
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
 
 namespace two
 {
@@ -2004,8 +1937,6 @@ namespace ui
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 
 namespace two
@@ -2148,17 +2079,6 @@ namespace ui
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/map.h>
-#include <stl/memory.h>
-#endif
-
-
-#ifndef TWO_MODULES
-#include <stl/memory.h>
-#endif
 
 namespace two
 {
@@ -2356,10 +2276,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
-
 namespace two
 {
 	export_ class refl_ TWO_UI_EXPORT User
@@ -2369,10 +2285,6 @@ namespace two
 	};
 }
 
-
-#ifndef TWO_MODULES
-#include <stl/map.h>
-#endif
 
 namespace two
 {
@@ -2481,11 +2393,6 @@ namespace two
 	};
 }
 
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/table.h>
-#endif
 
 namespace two
 {
@@ -2653,8 +2560,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 #define TWO_UI_SEQUENCE_REFS
 
@@ -2803,10 +2708,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
-
 namespace two
 {
 	export_ struct NodeKnob
@@ -2861,8 +2762,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {

@@ -13,12 +13,7 @@
 #include <two/gltf.refl.h>
 
 
-#ifdef TWO_MODULES
 module two.gfx-gltf;
-#else
-#include <cstddef>
-#include <stl/new.h>
-#endif
 
 
 using namespace two;

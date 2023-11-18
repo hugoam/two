@@ -12,12 +12,7 @@
 
 
 
-#ifdef TWO_MODULES
 module two.wfc.gfx;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#endif
 
 #include <cstring>
 #include <cstdio>
@@ -512,11 +507,7 @@ namespace two
 
 }
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.wfc.gfx;
-#else
-#include <stl/vector.hpp>
-#endif
 
 namespace stl
 {
@@ -525,10 +516,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.wfc-gfx;
-#else
-#endif
 
 namespace two
 {

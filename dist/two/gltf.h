@@ -49,12 +49,6 @@ struct glTFNodeExtras;
 struct glTFScene;
 struct glTF;
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/algorithm.h>
-#include <stl/traits.h>
-#endif
-
 using stl::vector;
 using stl::string;
 
@@ -474,8 +468,6 @@ namespace two
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 
 namespace two

@@ -32,18 +32,6 @@ namespace json11 {
 }
 
 
-
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#endif
-
-#ifndef TWO_MODULES
-namespace json11
-{
-	class Json;
-}
-#endif
-
 namespace two
 {
 	export_ using Json = json11::Json;
@@ -101,8 +89,6 @@ namespace two
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 
 namespace two
@@ -114,8 +100,6 @@ namespace two
 
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {

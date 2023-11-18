@@ -6,11 +6,6 @@
 
 //#ifdef TWO_CTX_NATIVE
 
-#ifndef TWO_MODULES
-
-struct GLFWwindow;
-#endif
-
 #ifndef TWO_CTX_WIN_EXPORT
 #define TWO_CTX_WIN_EXPORT TWO_IMPORT
 #endif

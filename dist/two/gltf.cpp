@@ -14,14 +14,7 @@
 #include <fstream>
 #endif
 
-#ifdef TWO_MODULES
 module two.gltf;
-#else
-#include <json11.hpp>
-using Json = json11::Json;
-
-#include <stl/algorithm.h>
-#endif
 
 #include <cstdio>
 
@@ -370,12 +363,7 @@ namespace two
 	}
 }
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.gltf;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#endif
 
 namespace stl
 {
@@ -406,10 +394,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.gltf;
-#else
-#endif
 
 namespace two
 {

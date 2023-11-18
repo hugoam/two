@@ -6,10 +6,7 @@
 
 
 
-#ifdef TWO_MODULES
 module two.fract;
-#else
-#endif
 
 namespace two
 {
@@ -85,10 +82,7 @@ namespace two
 #include <ctime>
 #endif
 
-#ifdef TWO_MODULES
 module two.fract;
-#else
-#endif
 
 #define PI 3.14159f
 #define COEFF_TRANS 1.5f
@@ -187,7 +181,7 @@ namespace two
 		// nouveaux param
 		dist = (i + 10)*rnd_float() / 2;
 		angle_a = rnd_float() * PI * 2;
-		// élab premier pas de nvx param (+it inut??)
+		// ï¿½lab premier pas de nvx param (+it inut??)
 
 		this->calcnormal();
 
@@ -371,12 +365,7 @@ namespace two
 	}
 }
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.fract;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#endif
 
 namespace stl
 {
@@ -386,10 +375,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.fract;
-#else
-#endif
 
 namespace two
 {

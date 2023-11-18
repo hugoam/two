@@ -5,13 +5,7 @@
 
 
 
-#ifdef TWO_MODULES
 module two.refl;
-#else
-#include <stl/algorithm.h>
-//#include <refl/Class.h>
-//#include <refl/VirtualMethod.h>
-#endif
 
 namespace two
 {
@@ -83,11 +77,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.refl;
-#else
-//#include <ecs/Proto.h>
-#endif
 
 namespace two
 {
@@ -180,10 +170,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.refl;
-#else
-#endif
 
 namespace two
 {
@@ -211,11 +198,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.refl;
-#else
-#include <stl/algorithm.h>
-#endif
 
 #include <cstring>
 #include <cstdio>
@@ -693,11 +676,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.refl;
-#else
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -875,10 +854,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.refl;
-#else
-#endif
 
 namespace two
 {
@@ -889,10 +865,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.refl;
-#else
-#endif
 
 namespace two
 {
@@ -913,11 +886,7 @@ namespace two
 	}
 }
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.refl;
-#else
-#include <stl/vector.hpp>
-#endif
 
 namespace stl
 {
@@ -947,10 +916,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.refl;
-#else
-#endif
 
 namespace two
 {
@@ -991,12 +957,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.refl;
-#else
-#include <stl/string.h>
-#include <stl/algorithm.h>
-#endif
 
 #ifdef _WIN32
 	#include <windows.h>

@@ -53,17 +53,6 @@ namespace stl
 #endif
 
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/memory.h>
-#endif
-
-
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/map.h>
-#include <stl/span.h>
-#endif
 
 namespace two
 {
@@ -185,10 +174,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
-
 namespace two
 {
 	typedef vector<size_t> StreamIndex;
@@ -303,8 +288,6 @@ namespace two
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 
 namespace two
@@ -340,14 +323,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
-
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
 
 namespace two
 {
@@ -685,12 +660,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/memory.h>
-#include <stl/map.h>
-#endif
-
 namespace two
 {
 	class WrenContext;
@@ -728,8 +697,6 @@ namespace two
 
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {

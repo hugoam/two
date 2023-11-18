@@ -3,10 +3,7 @@
 #include <two/infra.h>
 
 
-#ifdef TWO_MODULES
 module two.infra;
-#else
-#endif
 
 namespace two
 {

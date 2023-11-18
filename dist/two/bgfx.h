@@ -24,14 +24,6 @@ namespace two
 
 #include <stl/vector.h>
 
-#ifndef TWO_MODULES
-	#if defined TWO_CONTEXT_GLFW
-	#elif defined TWO_CONTEXT_WASM
-	#elif defined TWO_CONTEXT_WINDOWS
-	#else
-	#endif
-#endif
-
 namespace bx
 {
 	struct AllocatorI;
@@ -104,8 +96,6 @@ namespace two
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 
 namespace two

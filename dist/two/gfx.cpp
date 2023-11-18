@@ -11,11 +11,7 @@
 
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/algorithm.h>
-#endif
 
 #include <cstdio>
 
@@ -260,12 +256,7 @@ namespace two
 
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/algorithm.h>
-#include <stl/table.h>
-#endif
 
 #include <cassert>
 #include <algorithm>
@@ -371,10 +362,7 @@ namespace two
 
 #include <cassert>
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#endif
 
 namespace two
 {
@@ -459,10 +447,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#endif
 
 #include <bgfx/bgfx.h>
 
@@ -645,10 +630,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#endif
 
 #ifndef NO_OCCLUSION_CULLING
 #include <MaskedOcclusionCulling.h>
@@ -1008,11 +990,7 @@ namespace two
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -1122,10 +1100,7 @@ namespace two
 #include <cstring>
 #endif
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#endif
 
 namespace two
 {
@@ -1521,11 +1496,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -1553,11 +1524,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/algorithm.h>
-#endif
 
 #include <cstdio>
 #include <cassert>
@@ -1818,14 +1785,7 @@ namespace two
 
 #include <bx/allocator.h>
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/bitset.h>
-#include <stl/swap.h>
-#include <stl/span.h>
-#include <stl/array.h>
-#endif
 
 #include <stl/stddef.h>
 #include <stdint.h>
@@ -2501,10 +2461,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#endif
 
 #include <stl/stddef.h>
 #include <stdint.h>
@@ -2734,14 +2691,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/stddef.h>
-#include <stl/limits.h>
-#include <stl/algorithm.h>
-#include <stl/traits.h>
-#endif
 
 #include <type_traits>
 //#include <limits>
@@ -3075,14 +3025,7 @@ namespace two
 	}
 }
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/array.h>
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#include <stl/unordered_set.hpp>
-#endif
 
 namespace stl
 {
@@ -3178,10 +3121,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#endif
 
 namespace two
 {
@@ -3340,13 +3280,7 @@ namespace two
 #include <bgfx/bgfx.h>
 #include <bgfx/platform.h>
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/array.h>
-#include <stl/string.h>
-#include <stl/map.h>
-#endif
 
 #include <Tracy.hpp>
 
@@ -3811,11 +3745,7 @@ namespace gfx
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/algorithm.h>
-#endif
 
 #include <cstdio>
 
@@ -4174,11 +4104,7 @@ namespace gfx
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-//#include <srlz/Serial.h>
-#endif
 
 namespace two
 {
@@ -4254,16 +4180,8 @@ namespace two
 	}
 }
 
-
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <bgfx/bgfx.h>
-
-#endif
-
 #include <cstring>
-
 #include <cstdio>
 
 namespace two
@@ -4422,10 +4340,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#endif
 
 namespace two
 {
@@ -4464,12 +4379,7 @@ namespace two
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-//#include <gfx-pbr/VoxelGI.h>
-//#include <gfx-pbr/Lightmap.h>
-#endif
 
 #include <cstring>
 #include <cstdio>
@@ -5127,13 +5037,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/map.h>
-#include <stl/table.h>
-#include <stl/algorithm.h>
-#endif
 
 #include <meshoptimizer.h>
 
@@ -5499,10 +5403,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#endif
 
 namespace two
 {
@@ -5580,10 +5481,7 @@ namespace two
 
 #include <bx/math.h>
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#endif
 
 namespace bx
 {
@@ -5695,12 +5593,7 @@ namespace two
 #include <bimg/bimg.h>
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/string.h>
-#include <stl/algorithm.h>
-#endif
 
 #define SPRITE_TEXTURE_SIZE 2048U
 
@@ -6022,12 +5915,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/map.h>
-#include <stl/algorithm.h>
-#endif
 
 #include <bx/bx.h>
 #include <bgfx/bgfx.h>
@@ -6192,11 +6080,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -6360,12 +6244,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/set.h>
-#include <stl/hash_base.hpp>
-#endif
 
 namespace two
 {
@@ -6441,16 +6320,7 @@ namespace two
 #include <bx/readerwriter.h>
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/map.h>
-#include <stl/hash_base.hpp>
-#include <stl/algorithm.h>
-#include <stl/table.h>
-#endif
 
 #include <cstring>
 #include <cstdio>
@@ -6861,11 +6731,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/algorithm.h>
-#endif
 
 #include <Tracy.hpp>
 
@@ -7313,10 +7179,7 @@ namespace two
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#endif
 
 #define TWO_GL_NO_MRT
 //#define TWO_GFX_DEFERRED
@@ -7522,11 +7385,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/algorithm.h>
-#endif
 
 #define DEBUG_ITEMS 0
 
@@ -7677,10 +7536,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#endif
 
 #include <algorithm>
 
@@ -7850,11 +7706,7 @@ namespace two
 #include <bx/readerwriter.h>
 #include <bx/file.h>
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/string.h>
-#endif
 
 #include <cstdio>
 #include <cstring>
@@ -8191,10 +8043,7 @@ namespace two
 
 #if 0
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#endif
 
 namespace two
 {
@@ -8259,13 +8108,7 @@ namespace two
 }
 #endif
 
-
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <bgfx/bgfx.h>
-
-#endif
 
 //#define NO_OCCLUSION_CULLING
 
@@ -8386,10 +8229,7 @@ namespace two
 #include <bx/allocator.h>
 #include <bx/math.h>
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#endif
 
 namespace two
 {

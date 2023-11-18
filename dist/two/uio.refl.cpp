@@ -15,12 +15,7 @@
 #include <two/ecs.refl.h>
 
 
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#include <cstddef>
-#include <stl/new.h>
-#endif
 
 
 using namespace two;

@@ -42,8 +42,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -82,8 +80,6 @@ namespace two
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 
 namespace two
@@ -102,10 +98,6 @@ namespace two
     export_ template <> TWO_GFX_UI_EXPORT Type& type<two::FreeOrbitController>();
 }
 
-
-#ifndef TWO_MODULES
-#include <cfloat>
-#endif
 
 namespace two
 {

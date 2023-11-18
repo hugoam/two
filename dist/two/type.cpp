@@ -3,10 +3,7 @@
 
 
 
-#ifdef TWO_MODULES
 module two.obj;
-#else
-#endif
 
 namespace two
 {
@@ -14,10 +11,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.type;
-#else
-#endif
 
 namespace two
 {
@@ -50,13 +44,7 @@ namespace two
 #include <cstdio>
 #endif
 
-#ifdef TWO_MODULES
 module two.obj;
-#else
-#include <stl/vector.h>
-#include <stl/string.h>
-//#include <ecs/Proto.h>
-#endif
 
 namespace two
 {
@@ -110,13 +98,7 @@ namespace two
 	}
 }
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.math;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_set.hpp>
-#include <stl/unordered_map.hpp>
-#endif
 
 namespace stl
 {
@@ -136,10 +118,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.type;
-#else
-#endif
 
 namespace two
 {

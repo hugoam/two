@@ -5,12 +5,7 @@
 #include <two/type.h>
 
 
-#ifdef TWO_MODULES
 module two.type;
-#else
-#include <cstddef>
-#include <stl/new.h>
-#endif
 
 
 using namespace two;

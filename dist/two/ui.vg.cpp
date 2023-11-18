@@ -5,12 +5,7 @@
 #include <two/type.h>
 
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.ui.vg;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#endif
 
 namespace stl
 {
@@ -22,11 +17,7 @@ namespace stl
 
 
 
-#ifdef TWO_MODULES
 module two.ui-vg;
-#else
-//#include <ecs/Proto.h>
-#endif
 
 namespace two
 {
@@ -39,19 +30,10 @@ namespace two
 #include <cfloat>
 #endif
 
-#ifdef TWO_MODULES
-#define _GLIBCXX_TYPE_TRAITS
-#endif
 #include <vg/vg.h>
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.ui.vg;
-#else
-#include <stb_image.h>
-#include <stb_truetype.h>
-
-#endif
 
 #define ANGLED_WHEEL 0
 

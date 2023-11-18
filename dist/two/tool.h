@@ -81,11 +81,6 @@ namespace two
 
 
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/string.h>
-#endif
-
 namespace two
 {
 	export_ struct refl_ TWO_TOOL_EXPORT ToolContext
@@ -286,8 +281,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -391,15 +384,9 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 
 
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
 
 namespace two
 {
@@ -430,10 +417,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
-
 namespace two
 {
 	export_ class refl_ TWO_TOOL_EXPORT RotateAction : public TransformAction
@@ -462,10 +445,6 @@ namespace two
 	};
 }
 
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
 
 namespace two
 {
@@ -497,10 +476,6 @@ namespace two
 
 }
 
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
 
 namespace two
 {
@@ -534,8 +509,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -665,8 +638,6 @@ namespace two
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 
 namespace two

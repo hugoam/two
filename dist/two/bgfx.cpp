@@ -4,10 +4,7 @@
 #include <two/type.h>
 
 
-#ifdef TWO_MODULES
 module two.bgfx;
-#else
-#endif
 
 namespace two
 {
@@ -24,10 +21,7 @@ namespace two
 #include <bgfx/bgfx.h>
 #include <bgfx/platform.h>
 
-#ifdef TWO_MODULES
 module two.bgfx;
-#else
-#endif
 
 namespace two
 {

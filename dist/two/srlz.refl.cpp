@@ -6,10 +6,7 @@
 #include <two/infra.h>
 
 
-#ifdef TWO_MODULES
 module two.srlz;
-#else
-#endif
 
 namespace two
 {

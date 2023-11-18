@@ -6,10 +6,6 @@
 
 
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#endif
-
 
 
 #ifndef TWO_CTX_EXPORT
@@ -103,8 +99,6 @@ namespace two
 #include <stdint.h>
 
 
-#ifndef TWO_MODULES
-#endif
 
 
 
@@ -420,16 +414,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
-
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/map.h>
-#include <stl/table.h>
-#endif
 
 namespace two
 {
@@ -552,8 +536,6 @@ namespace two
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 
 namespace two

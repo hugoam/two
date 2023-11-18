@@ -4,10 +4,7 @@
 #include <two/infra.h>
 
 
-#ifdef TWO_MODULES
 module two.tree;
-#else
-#endif
 
 namespace two
 {

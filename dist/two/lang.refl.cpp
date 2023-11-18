@@ -9,12 +9,7 @@
 #include <two/type.h>
 
 
-#ifdef TWO_MODULES
 module two.lang;
-#else
-#include <cstddef>
-#include <stl/new.h>
-#endif
 
 
 using namespace two;

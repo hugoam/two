@@ -11,12 +11,7 @@
 #include <cstring>
 #endif
 
-#ifdef TWO_MODULES
 module two.srlz;
-#else
-#include <json11.hpp>
-
-#endif
 
 #define TWO_DEBUG_SERIAL 0
 #define NO_HUMAN_READABLE
@@ -402,10 +397,7 @@ namespace two
 	}
 }
 
-#ifdef TWO_MODULES
 module two.srlz;
-#else
-#endif
 
 namespace two
 {

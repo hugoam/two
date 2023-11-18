@@ -7,12 +7,7 @@
 #include <two/type.h>
 
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#include <cstddef>
-#include <stl/new.h>
-#endif
 
 
 using namespace two;

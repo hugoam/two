@@ -14,10 +14,7 @@
 #include <two/type.h>
 
 
-#ifdef TWO_MODULES
 module two.gfx-edit;
-#else
-#endif
 
 namespace two
 {
@@ -29,11 +26,7 @@ namespace two
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx-edit;
-#else
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -429,10 +422,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx-edit;
-#else
-#endif
 
 namespace two
 {
@@ -515,12 +505,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx-edit;
-#else
-#include <stl/algorithm.h>
-//#include <infra/ToString.h>
-#endif
 
 namespace two
 {

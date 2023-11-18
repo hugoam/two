@@ -5,10 +5,7 @@
 #include <two/type.h>
 
 
-#ifdef TWO_MODULES
 module two.ctx-glfw;
-#else
-#endif
 
 namespace two
 {
@@ -22,8 +19,6 @@ namespace two
 #include <cstdio>
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 #include <GLFW/glfw3.h>
 
@@ -47,9 +42,7 @@ namespace two
 	#undef FAR
 #endif
 
-#ifdef TWO_MODULES
 module two.ctx.glfw;
-#endif
 
 void glfw_error(int error, const char* desc)
 {

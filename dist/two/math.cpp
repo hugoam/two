@@ -4,10 +4,7 @@
 
 
 
-#ifdef TWO_MODULES
 module two.math;
-#else
-#endif
 
 namespace two
 {
@@ -208,10 +205,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.math;
-#else
-#endif
 
 namespace two
 {
@@ -291,10 +285,7 @@ namespace two
 #include <cstdio>
 #endif
 
-#ifdef TWO_MODULES
 module two.math;
-#else
-#endif
 
 namespace two
 {
@@ -416,12 +407,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stb_rect_pack.h>
-#include <stb_image.h>
-#endif
 
 #include <cstring>
 
@@ -620,10 +606,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.math;
-#else
-#endif
 
 namespace two
 {
@@ -655,12 +638,8 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 #include <cstdlib>
 module two.math;
-#else
-#include <stl/span.h>
-#endif
 
 namespace two
 {
@@ -931,12 +910,7 @@ namespace two
 	}
 }
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.math;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#endif
 
 #include <stb_rect_pack.h>
 
@@ -976,10 +950,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.math;
-#else
-#endif
 
 namespace two
 {
@@ -1058,11 +1029,7 @@ namespace two
 #include <random>
 #endif
 
-#ifdef TWO_MODULES
 module two.math;
-#else
-#include <stl/limits.h>
-#endif
 
 namespace two
 {
@@ -1118,10 +1085,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.math;
-#else
-#endif
 
 namespace two
 {
@@ -1145,10 +1109,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.infra;
-#else
-#endif
 
 namespace two
 {
@@ -1196,11 +1157,8 @@ namespace two
 #include <limits>
 #endif
 
-#ifdef TWO_MODULES
 #include <cstdlib>
 module two.math;
-#else
-#endif
 
 #include <algorithm>
 
@@ -1825,11 +1783,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.math;
-#else
-#include <stl/vector.h>
-#endif
 
 #include <json11.hpp>
 

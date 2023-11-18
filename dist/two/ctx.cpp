@@ -5,10 +5,7 @@
 
 
 
-#ifdef TWO_MODULES
 module two.ctx;
-#else
-#endif
 
 namespace two
 {
@@ -32,10 +29,7 @@ namespace two
 
 }
 
-#ifdef TWO_MODULES
 module two.ctx;
-#else
-#endif
 
 namespace two
 {
@@ -61,10 +55,7 @@ namespace two
 #include <cstdio>
 #endif
 
-#ifdef TWO_MODULES
 module two.ctx;
-#else
-#endif
 
 
 namespace two
@@ -279,10 +270,7 @@ namespace two
 #include <cstdio>
 #endif
 
-#ifdef TWO_MODULES
 module two.ctx;
-#else
-#endif
 
 namespace two
 {

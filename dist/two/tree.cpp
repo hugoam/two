@@ -8,10 +8,7 @@
 namespace two
 {}
 
-#ifdef TWO_MODULES
 module two.tree;
-#else
-#endif
 
 namespace two
 {

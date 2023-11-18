@@ -20,12 +20,7 @@
 #include <two/gfx.edit.refl.h>
 
 
-#ifdef TWO_MODULES
 module two.tool;
-#else
-#include <cstddef>
-#include <stl/new.h>
-#endif
 
 
 using namespace two;

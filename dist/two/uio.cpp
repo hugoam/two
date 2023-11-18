@@ -13,11 +13,7 @@
 
 
 
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#include <stl/map.h>
-#endif
 
 namespace two
 {
@@ -293,10 +289,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#endif
 
 namespace two
 {
@@ -333,12 +326,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#include <stl/string.h>
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -372,11 +360,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#include <stl/string.h>
-#endif
 
 namespace two
 {
@@ -466,10 +450,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#endif
 
 namespace two
 {
@@ -572,11 +553,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#include <stl/algorithm.h>
-#endif
 
 //#define EDIT_MEMBER_REF
 
@@ -863,10 +840,7 @@ namespace two
 #include <stl/string.h>
 #endif
 
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#endif
 
 #include <cstring>
 
@@ -942,10 +916,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#endif
 
 namespace two
 {
@@ -1016,12 +987,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#include <stl/algorithm.h>
-//#include <type/Entity.h>
-#endif
 
 namespace two
 {
@@ -1365,12 +1331,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#include <stl/algorithm.h>
-#include <stl/hash_base.hpp>
-#endif
 
 namespace two
 {
@@ -1588,10 +1549,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#endif
 
 namespace two
 {
@@ -1664,12 +1622,7 @@ namespace two
 	}
 }
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#endif
 
 namespace stl
 {
@@ -1680,10 +1633,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#endif
 
 namespace two
 {
@@ -1696,10 +1646,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#endif
 
 namespace two
 {
@@ -1708,11 +1655,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.uio;
-#else
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {

@@ -14,8 +14,6 @@
 
 
 
-#ifndef TWO_MODULES
-#endif
 
 
 
@@ -211,11 +209,6 @@ namespace stl
 #endif
 
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/vector.h>
-#endif
-
 namespace two
 {
 	export_ enum class refl_ AnimTarget : unsigned int
@@ -302,11 +295,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/string.h>
-#endif
-
 
 
 namespace two
@@ -357,22 +345,8 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/span.h>
-#include <stl/swap.h>
-#endif
-
 #include <bgfx/bgfx.h>
 #include <bimg/bimg.h>
-
-#ifndef TWO_MODULES
-namespace bx
-{
-	struct FileReaderI;
-	struct FileWriterI;
-}
-#endif
 
 namespace two
 {
@@ -626,13 +600,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/function.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/map.h>
-#endif
-
 namespace two
 {
 	using cstring = const char*;
@@ -699,13 +666,6 @@ namespace two
 
 
 
-
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/span.h>
-#include <stl/table.h>
-#include <stl/vector.h>
-#endif
 
 #include <bgfx/bgfx.h>
 
@@ -869,32 +829,12 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/table.h>
-#include <stl/function.h>
-#endif
 
-
-#ifndef TWO_MODULES
-#include <stl/memory.h>
-#include <stl/span.h>
-#include <stl/vector.h>
-#endif
-
-
-#ifndef TWO_MODULES
-#include <stl/span.h>
-#endif
 
 #if defined TWO_UNIFORM_BLOCKS
 
 
 #if 0
-
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#endif
 
 #include <bgfx/bgfx.h>
 
@@ -1130,10 +1070,6 @@ namespace two
 	};
 }
 
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
 
 namespace two
 {
@@ -1857,13 +1793,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/string.h>
-#include <stl/span.h>
-#include <stl/table.h>
-#endif
-
 namespace two
 {
 	export_ struct refl_ ModelElem
@@ -1911,10 +1840,6 @@ namespace two
 	export_ TWO_GFX_EXPORT Model& model_variant(GfxSystem& gfx, Model& original, const string& name, span<string> materials, span<Material*> substitutes);
 }
 
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
 
 #include <bgfx/bgfx.h>
 
@@ -2028,11 +1953,6 @@ namespace two
 		uint32_t m_max;
 	};
 
-#ifndef TWO_MODULES
-	template <class T>
-	class TPool;
-#endif
-
 	export_ class TWO_GFX_EXPORT ParticleSystem
 	{
 	public:
@@ -2078,15 +1998,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-//#include <refl/Method.h>
-#endif
-
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
 
 #include <bgfx/bgfx.h>
 
@@ -2175,12 +2086,6 @@ namespace two
 	};
 }
 
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/string.h>
-#include <stl/map.h>
-#endif
 
 namespace two
 {
@@ -2382,10 +2287,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/span.h>
-#endif
-
 namespace two
 {
 	export_ enum refl_ IsometricAngle : unsigned int
@@ -2472,10 +2373,6 @@ namespace two
 
 
 
-#ifndef TWO_MODULES
-#include <stl/table.h>
-#endif
-
 namespace two
 {
 	export_ enum class refl_ DepthMethod : unsigned int
@@ -2543,15 +2440,7 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/string.h>
-#include <stl/span.h>
-#endif
 
 #include <bgfx/bgfx.h>
 
@@ -2793,11 +2682,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/map.h>
-#endif
-
 namespace two
 {
 	export_ enum ShaderOptionFilter : unsigned int
@@ -2893,11 +2777,6 @@ namespace two
 	};
 }
 
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/span.h>
-#endif
 
 
 #include <stl/vector.h>
@@ -3063,14 +2942,7 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/span.h>
-#endif
 
-
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -3182,13 +3054,6 @@ namespace gfx
 }
 }
 
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/string.h>
-#include <stl/function.h>
-#include <stl/span.h>
-#endif
 #ifndef TWO_BGFX_EXPORT
 #define TWO_BGFX_EXPORT TWO_GFX_EXPORT
 #endif
@@ -3332,12 +3197,6 @@ namespace two
 	};
 }
 
-
-#ifndef TWO_MODULES
-#ifdef _MSC_VER
-#endif
-#endif
-
 namespace two
 {
 	class SoundManager;
@@ -3385,21 +3244,7 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/function.h>
-#include <stl/vector.h>
-#include <stl/span.h>
-#endif
 
-
-#ifndef TWO_MODULES
-#include <stl/span.h>
-#endif
-
-
-#ifndef TWO_MODULES
-#include <stl/function.h>
-#endif
 
 
 #include <stl/vector.h>
@@ -3701,12 +3546,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/function.h>
-#include <stl/table.h>
-#endif
-
 namespace two
 {
 	using PassJob = function<void(GfxSystem&, Render&, const Pass&)>;
@@ -3733,8 +3572,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 #include <bgfx/bgfx.h>
 
@@ -3861,8 +3698,6 @@ namespace two
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 
 namespace two
@@ -4073,12 +3908,6 @@ namespace two
 
 
 
-#ifndef TWO_MODULES
-#include <stl/span.h>
-#include <stl/algorithm.h>
-//#include <srlz/Serial.h>
-#endif
-
 #include <cstdio>
 
 namespace two
@@ -4233,10 +4062,7 @@ namespace two
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#endif
 
 #include <cstring>
 

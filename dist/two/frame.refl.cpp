@@ -7,12 +7,7 @@
 #include <two/frame.refl.h>
 
 
-#ifdef TWO_MODULES
 module two.frame;
-#else
-#include <cstddef>
-#include <stl/new.h>
-#endif
 
 
 using namespace two;

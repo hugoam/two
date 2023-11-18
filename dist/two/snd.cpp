@@ -259,12 +259,7 @@ namespace two
 	}
 }
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.snd;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#endif
 
 namespace stl
 {
@@ -274,10 +269,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.snd;
-#else
-#endif
 
 namespace two
 {

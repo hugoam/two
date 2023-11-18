@@ -13,10 +13,7 @@
 #include <two/gfx.edit.refl.h>
 
 
-#ifdef TWO_MODULES
 module two.gfx-edit;
-#else
-#endif
 
 namespace two
 {

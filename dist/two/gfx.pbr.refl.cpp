@@ -10,12 +10,7 @@
 #include <two/type.h>
 
 
-#ifdef TWO_MODULES
 module two.gfx-pbr;
-#else
-#include <cstddef>
-#include <stl/new.h>
-#endif
 
 
 using namespace two;

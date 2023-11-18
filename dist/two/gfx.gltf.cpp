@@ -10,10 +10,7 @@
 #include <two/gltf.refl.h>
 
 
-#ifdef TWO_MODULES
 module two.gfx-gltf;
-#else
-#endif
 
 namespace two
 {
@@ -27,12 +24,7 @@ namespace two
 //#include <base64.h>
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.gltf;
-#else
-#include <stl/algorithm.h>
-#include <stl/hash_base.hpp>
-#endif
 
 #include <cstdio>
 

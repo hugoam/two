@@ -6,10 +6,6 @@
 
 
 
-#ifndef TWO_MODULES
-#include <stl/span.h>
-#endif
-
 
 
 #ifndef TWO_GEOM_EXPORT
@@ -297,8 +293,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -379,8 +373,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -441,8 +433,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -502,11 +492,6 @@ namespace two
 
 #include <stl/vector.h>
 
-
-#ifndef TWO_MODULES
-#include <cfloat>
-#include <stl/span.h>
-#endif
 
 namespace two
 {
@@ -713,8 +698,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -844,12 +827,8 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -1186,10 +1165,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
-
 namespace two
 {
 	export_ class TWO_GEOM_EXPORT RandomShapePoint : public Dispatch<vec3>, public LazyGlobal<RandomShapePoint>
@@ -1201,11 +1176,6 @@ namespace two
 	export_ TWO_GEOM_EXPORT vector<vec3> distribute_shape(const Shape& shape, size_t count);
 }
 
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/span.h>
-#endif
 
 namespace two
 {
@@ -1269,8 +1239,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -1320,8 +1288,6 @@ namespace two
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 
 namespace two
@@ -1391,11 +1357,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/function.h>
-#endif
-
 namespace two
 {
 	// port of http://webglsamples.org/blob/blob.html
@@ -1460,8 +1421,6 @@ namespace two
 
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -1576,8 +1535,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {

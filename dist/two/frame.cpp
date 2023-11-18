@@ -4,10 +4,7 @@
 #include <two/type.h>
 
 
-#ifdef TWO_MODULES
 module two.frame;
-#else
-#endif
 
 namespace two
 {

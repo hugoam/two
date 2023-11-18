@@ -9,12 +9,7 @@
 #include <two/type.h>
 
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#endif
 
 namespace stl
 {
@@ -46,10 +41,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.gfx-pbr;
-#else
-#endif
 
 namespace two
 {
@@ -89,11 +81,7 @@ namespace two
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#include <stl/algorithm.h>
-#endif
 
 #include <cstring>
 
@@ -379,10 +367,7 @@ namespace two
 #include <bgfx/bgfx.h>
 #include <xatlas.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#endif
 
 #include <cstdio>
 
@@ -904,10 +889,7 @@ namespace two
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#endif
 
 #define DEBUG_ITEMS 0
 #define DEPTH_PASS 0
@@ -1469,11 +1451,7 @@ namespace gfx
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#include <stl/algorithm.h>
-#endif
 
 #include <cstdio>
 
@@ -1655,11 +1633,7 @@ namespace two
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -1724,11 +1698,7 @@ namespace two
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -1956,11 +1926,7 @@ namespace two
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#include <stl/algorithm.h>
-#endif
 
 #include <cstdio>
 
@@ -2569,11 +2535,7 @@ namespace two
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#include <stl/algorithm.h>
-#endif
 
 #include <cstdio>
 
@@ -2835,10 +2797,7 @@ namespace two
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#endif
 
 namespace two
 {
@@ -2848,11 +2807,7 @@ namespace two
 #include <bgfx/bgfx.h>
 #include <xatlas.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#include <stl/algorithm.h>
-#endif
 
 #include <cstdio>
 
@@ -3235,10 +3190,7 @@ namespace gfx
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#endif
 
 namespace two
 {
@@ -3299,10 +3251,7 @@ namespace two
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#endif
 
 namespace two
 {
@@ -3359,10 +3308,7 @@ namespace two
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#endif
 
 #define MAX_GLOW_LEVELS 7
 
@@ -3468,10 +3414,7 @@ namespace two
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#endif
 
 namespace two
 {

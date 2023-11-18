@@ -20,8 +20,6 @@ namespace two
 
 
 
-#ifndef TWO_MODULES
-#endif
 
 #ifndef TWO_META_GENERATOR
 export_ class TWO_NOISE_EXPORT FastNoise;
@@ -101,8 +99,6 @@ namespace two
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 
 namespace two

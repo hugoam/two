@@ -4,14 +4,7 @@
 #include <two/type.h>
 
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#include <stl/string.h>
-#include <stl/span.h>
-#include <stl/algorithm.h>
-#include <stl/memory.h>
-#endif
 
 #include <cfloat>
 
@@ -472,12 +465,7 @@ namespace two
 	}
 }
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#endif
 
 namespace stl
 {
@@ -496,10 +484,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#endif
 
 namespace two
 {
@@ -571,13 +556,7 @@ namespace two
 #include <cstdio>
 #endif
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#include <stl/unordered_map.h>
-#include <stl/map.h>
-#include <stl/algorithm.h>
-#endif
 
 #include <cassert>
 
@@ -1090,10 +1069,7 @@ namespace two
 	}
 }
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#endif
 
 namespace two
 {
@@ -1187,10 +1163,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#endif
 
 #include <stl/swap.h>
 
@@ -1683,10 +1656,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#endif
 
 namespace two
 {
@@ -1827,10 +1797,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#endif
 
 namespace two
 {
@@ -2165,12 +2132,7 @@ namespace two
 	}
 }
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#include <stl/algorithm.h>
-#include <stl/table.h>
-#endif
 
 #define FLAT false
 #define FLAT_BLEND 1
@@ -2937,10 +2899,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#endif
 
 #include <cassert>
 
@@ -3288,11 +3247,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#include <stl/array.h>
-#endif
 
 #include <stl/vector.hpp>
 
@@ -3665,10 +3620,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#endif
 
 namespace two
 {
@@ -3731,10 +3683,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#endif
 
 namespace two
 {
@@ -3777,10 +3726,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#endif
 
 namespace two
 {
@@ -3891,10 +3837,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#endif
 
 namespace two
 {
@@ -3964,10 +3907,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#endif
 
 namespace two
 {
@@ -4072,10 +4012,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#endif
 
 //#define PK_GLITCH
 
@@ -4191,10 +4128,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#endif
 
 #define ICO_SPHERE_LOD 2
 //#define TWO_SPHERE_ICOSPHERE
@@ -4358,10 +4292,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#endif
 
 namespace two
 {
@@ -4374,10 +4305,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.geom;
-#else
-#endif
 
 //#define PK_GLITCH
 

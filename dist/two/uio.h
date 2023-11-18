@@ -62,11 +62,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/vector.h>
-#endif
-
 namespace two
 {
 	export_ TWO_UIO_EXPORT string object_name(Ref object);
@@ -87,8 +82,6 @@ namespace two
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 
 namespace two
@@ -102,8 +95,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -117,8 +108,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -139,8 +128,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -231,10 +218,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/algorithm.h>
-#endif
-
 namespace two
 {
 namespace ui
@@ -281,10 +264,6 @@ namespace ui
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#endif
-
 namespace two
 {
 	export_ class refl_ TWO_UIO_EXPORT ScriptEditor
@@ -314,10 +293,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
-
 namespace two
 {
 	export_ TWO_UIO_EXPORT void structure_node(Widget& parent, Ref object, vector<Ref>& selection);
@@ -337,8 +312,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {
@@ -372,8 +345,6 @@ namespace two
 
 
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {

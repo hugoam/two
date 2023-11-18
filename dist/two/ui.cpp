@@ -10,10 +10,7 @@
 #include <cstring>
 #endif
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 #include <cstdarg>
 #include <cstdio>
@@ -382,10 +379,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 namespace two
 {
@@ -464,11 +458,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -616,10 +606,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 namespace two
 {
@@ -685,10 +672,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 #include <cstdio>
 
@@ -783,13 +767,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/string.h>
-#include <stl/map.h>
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -872,11 +850,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -1058,10 +1032,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 #include <iostream>
 
@@ -1424,12 +1395,7 @@ namespace
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/algorithm.h>
-//#include <ui/Extern.h>
-#endif
 
 namespace two
 {
@@ -1750,10 +1716,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 namespace two
 {
@@ -1818,10 +1781,7 @@ namespace ui
 
 #include <cfloat>
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 namespace two
 {
@@ -1968,10 +1928,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 namespace two
 {
@@ -2002,11 +1959,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -2088,11 +2041,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -2268,10 +2217,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 namespace two
 {
@@ -2370,13 +2316,7 @@ namespace ui
 }
 }
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.math;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_set.hpp>
-#include <stl/unordered_map.hpp>
-#endif
 
 namespace stl
 {
@@ -2416,10 +2356,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 namespace two
 {
@@ -2497,12 +2434,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/string.h>
-#include <stl/map.h>
-#endif
 
 #include <cstdio>
 
@@ -2982,11 +2914,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -3055,12 +2983,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/algorithm.h>
-#include <stl/unordered_map.hpp>
-#endif
 
 #include <cstdio>
 
@@ -3221,11 +3144,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/string.h>
-#endif
 
 #include <cassert>
 
@@ -3293,10 +3212,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 namespace two
 {
@@ -3490,10 +3406,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 namespace two
 {
@@ -3622,10 +3535,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 #define CANVAS_MULTI_DRAG 1
 
@@ -3705,10 +3615,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 namespace two
 {
@@ -3736,10 +3643,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 namespace two
 {
@@ -3776,11 +3680,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -3867,10 +3767,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 #include <stl/hash_base.hpp>
 
@@ -4322,12 +4219,7 @@ namespace two
 #include <cmath>
 #endif
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/string.h>
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -5167,11 +5059,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/math.h>
-#endif
 
 #include <cstdio>
 
@@ -5574,10 +5462,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 #include <cstdio>
 
@@ -5901,11 +5786,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/algorithm.h>
-#endif
 
 #include <algorithm>
 
@@ -5973,10 +5854,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 #include <cstdio>
 
@@ -6361,11 +6239,7 @@ namespace two
 	}
 }
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/hash_base.hpp>
-#endif
 
 namespace two
 {
@@ -7790,11 +7664,7 @@ const bTheme U_theme_default = {
 };
 */
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/hash_base.hpp>
-#endif
 
 #include <cstdio>
 
@@ -8212,11 +8082,7 @@ namespace two
 	}
 }
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/hash_base.hpp>
-#endif
 
 #include <cstdio>
 
@@ -8844,11 +8710,7 @@ namespace two
 	}
 }
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/hash_base.hpp>
-#endif
 
 #include <cstdio>
 
@@ -9211,11 +9073,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/algorithm.h>
-#endif
 
 #include <cstdio>
 
@@ -9361,10 +9219,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#endif
 
 namespace two
 {

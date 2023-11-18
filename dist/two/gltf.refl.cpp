@@ -10,12 +10,7 @@
 #include <two/gltf.refl.h>
 
 
-#ifdef TWO_MODULES
 module two.gltf;
-#else
-#include <cstddef>
-#include <stl/new.h>
-#endif
 
 
 using namespace two;

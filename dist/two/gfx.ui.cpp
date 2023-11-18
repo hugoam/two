@@ -9,10 +9,7 @@
 #include <two/type.h>
 
 
-#ifdef TWO_MODULES
 module two.gfx-ui;
-#else
-#endif
 
 namespace two
 {
@@ -31,10 +28,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx.ui;
-#else
-#endif
 
 #include <cstdio>
 
@@ -136,11 +130,7 @@ namespace two
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.ui;
-#else
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -1433,10 +1423,7 @@ namespace ui
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx.ui;
-#else
-#endif
 
 namespace two
 {

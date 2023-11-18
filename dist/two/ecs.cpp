@@ -4,10 +4,7 @@
 
 
 
-#ifdef TWO_MODULES
 module two.ecs;
-#else
-#endif
 
 namespace two
 {
@@ -36,11 +33,7 @@ namespace two
 	}
 }
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.ecs;
-#else
-#include <stl/vector.hpp>
-#endif
 
 namespace stl
 {
@@ -52,10 +45,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.ecs;
-#else
-#endif
 
 namespace two
 {
@@ -69,10 +59,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.ecs;
-#else
-#endif
 
 namespace two
 {

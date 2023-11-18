@@ -92,8 +92,6 @@ namespace bx {
 #include <obj/Vector.h>
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 #ifndef TWO_CPP_20
 #include <stl/string.h>

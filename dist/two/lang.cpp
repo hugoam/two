@@ -6,12 +6,7 @@
 #include <two/type.h>
 
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.lang;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#endif
 
 typedef struct WrenHandle WrenHandle;
 
@@ -41,10 +36,7 @@ namespace stl
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.lang;
-#else
-#endif
 
 namespace two
 {
@@ -87,13 +79,7 @@ namespace two
 #include <cstring>
 #endif
 
-#ifdef TWO_MODULES
 module two.lang;
-#else
-#include <stl/new.h>
-#include <stl/vector.h>
-#include <stl/algorithm.h>
-#endif
 
 extern "C"
 {
@@ -1063,10 +1049,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.lang;
-#else
-#endif
 
 namespace two
 {
@@ -1136,11 +1119,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.lang;
-#else
-#include <stl/algorithm.h>
-#endif
 
 namespace two
 {
@@ -1365,10 +1344,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.lang;
-#else
-#endif
 
 namespace two
 {
@@ -1539,12 +1515,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.lang;
-#else
-#include <stl/math.h>
-#include <stl/algorithm.h>
-#endif
 
 #include <cstdio>
 
@@ -2028,18 +1999,7 @@ namespace two
 #include <cstring>
 #endif
 
-#ifdef TWO_MODULES
 module two.lang;
-#else
-#include <stl/new.h>
-#include <stl/math.h>
-#include <stl/vector.h>
-#include <stl/map.h>
-#include <stl/unordered_map.h>
-#include <stl/set.h>
-#include <stl/hash_base.hpp>
-#include <stl/algorithm.h>
-#endif
 
 extern "C"
 {

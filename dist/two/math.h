@@ -529,8 +529,6 @@ namespace two
 #include <stl/span.h>
 
 
-#ifndef TWO_MODULES
-#endif
 
 #include <stdint.h>
 #include <cmath>
@@ -2006,11 +2004,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#include <stl/decls.h>
-#include <stl/vector.h>
-#endif
-
 class GuillotineBinPack;
 
 namespace two
@@ -2294,8 +2287,6 @@ namespace two
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 
 namespace two
@@ -2705,8 +2696,6 @@ namespace two
 }
 
 
-#ifndef TWO_MODULES
-#endif
 
 #ifdef TWO_META_GENERATOR
 namespace glm

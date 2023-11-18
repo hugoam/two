@@ -7,10 +7,7 @@
 #include <two/type.h>
 
 
-#ifdef TWO_MODULES
 module two.gfx-obj;
-#else
-#endif
 
 namespace two
 {
@@ -22,11 +19,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx.obj;
-#else
-#include <stl/algorithm.h>
-#endif
 
 #include <cstdio>
 
@@ -447,11 +440,7 @@ namespace two
 }
 
 
-#ifdef TWO_MODULES
 module two.gfx.obj;
-#else
-#include <stl/algorithm.h>
-#endif
 
 #include <stl/vector.hpp>
 

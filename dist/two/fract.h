@@ -40,8 +40,6 @@ namespace stl
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 
 namespace two
@@ -57,10 +55,6 @@ namespace two
     export_ template <> TWO_FRACT_EXPORT Type& type<two::Fract>();
     export_ template <> TWO_FRACT_EXPORT Type& type<two::FractSample>();
 }
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
 
 namespace two
 {
@@ -95,12 +89,6 @@ namespace two
 		vector2d<Pixircle> m_pixircles;
 	};
 }
-
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/map.h>
-#include <stl/memory.h>
-#endif
 
 namespace two
 {

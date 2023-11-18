@@ -7,16 +7,6 @@
 
 
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/map.h>
-#endif
-
-#ifndef TWO_MODULES
-#include <vg/vg.h>
-#include <bgfx/bgfx.h>
-#endif
-
 #ifndef TWO_UI_VG_EXPORT
 #define TWO_UI_VG_EXPORT TWO_IMPORT
 #endif
@@ -136,8 +126,6 @@ namespace two
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 namespace two
 {

@@ -37,8 +37,6 @@ namespace two
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 
 namespace two
@@ -53,14 +51,6 @@ namespace two
     export_ template <> TWO_WFC_EXPORT Type& type<two::WaveTileset>();
     export_ template <> TWO_WFC_EXPORT Type& type<two::TileWave>();
 }
-
-#ifndef TWO_MODULES
-#include <stl/function.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/set.h>
-#include <stl/map.h>
-#endif
 
 namespace two
 {

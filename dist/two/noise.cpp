@@ -6,10 +6,7 @@
 
 #include <climits>
 
-#ifdef TWO_MODULES
 module two.noise;
-#else
-#endif
 
 namespace two
 {
@@ -83,11 +80,7 @@ namespace two
 	}
 }
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.jobs;
-#else
-#include <stl/vector.hpp>
-#endif
 
 namespace two
 {
@@ -95,10 +88,7 @@ namespace two
 }
 #endif
 
-#ifdef TWO_MODULES
 module two.noise;
-#else
-#endif
 
 namespace two
 {

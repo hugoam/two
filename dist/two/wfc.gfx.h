@@ -33,8 +33,6 @@ namespace two
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #endif
 
-#ifndef TWO_MODULES
-#endif
 
 
 namespace two
@@ -45,10 +43,6 @@ namespace two
     export_ template <> TWO_WFC_GFX_EXPORT Type& type<two::TileModel>();
     export_ template <> TWO_WFC_GFX_EXPORT Type& type<two::WfcBlock>();
 }
-
-#ifndef TWO_MODULES
-#include <stl/map.h>
-#endif
 
 namespace two
 {
