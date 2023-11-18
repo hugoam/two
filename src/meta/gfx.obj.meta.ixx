@@ -2,7 +2,7 @@ module;
 #include <infra/Cpp20.h>
 #include <infra/Config.h>
 
-export module two.gfx.obj, meta);
+export module two.gfx.obj.meta;
 import std.core;
 import std.threading;
 import std.regex;

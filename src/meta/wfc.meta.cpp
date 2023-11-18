@@ -4,6 +4,8 @@ module two.wfc.meta;
 
 using namespace two;
 
+namespace two { using stl::string; }
+
 void two_Result__to_string(void* val, string& str) { str = g_enu[type<two::Result>().m_id]->name(uint32_t((*static_cast<two::Result*>(val)))); }
 void two_Result__to_value(const string& str, void* val) { (*static_cast<two::Result*>(val)) = two::Result(g_enu[type<two::Result>().m_id]->value(str.c_str())); }
 void two_Tile__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::Tile(  ); }

@@ -4,6 +4,8 @@ module two.gfx.meta;
 
 using namespace two;
 
+namespace two { using stl::string; }
+
 void two_AnimTarget__to_string(void* val, string& str) { str = g_enu[type<two::AnimTarget>().m_id]->name(uint32_t((*static_cast<two::AnimTarget*>(val)))); }
 void two_AnimTarget__to_value(const string& str, void* val) { (*static_cast<two::AnimTarget*>(val)) = two::AnimTarget(g_enu[type<two::AnimTarget>().m_id]->value(str.c_str())); }
 void two_Interpolation__to_string(void* val, string& str) { str = g_enu[type<two::Interpolation>().m_id]->name(uint32_t((*static_cast<two::Interpolation*>(val)))); }

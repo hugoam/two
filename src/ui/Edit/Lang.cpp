@@ -8,6 +8,8 @@ module two.ui;
 
 #include <stl/hash_base.hpp>
 
+#ifndef TWO_MODULES
+
 namespace two
 {
 	template <class T, size_t N>
@@ -447,3 +449,5 @@ namespace two
 		return lang;
 	}
 }
+
+#endif

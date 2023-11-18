@@ -4,9 +4,9 @@
 
 namespace two
 {
-	TWO_FRACT_EXPORT func_ void generate_fract(uvec2 resolution, const Pattern& pattern, Image256& output_image);
+	export_ TWO_FRACT_EXPORT func_ void generate_fract(uvec2 resolution, const Pattern& pattern, Image256& output_image);
 
-	typedef uint32_t(*PatternSampler)(const Pattern&, float, float, float);
+	export_ using PatternSampler = uint32_t(*)(const Pattern&, float, float, float);
 
 	export_ enum class refl_ PatternSampling : unsigned int
 	{

@@ -4,12 +4,11 @@
 
 module;
 #include <infra/Cpp20.h>
-module two.fract;
-
 #define PI 3.14159f
 #define COEFF_TRANS 1.5f
 #define COEFF_ROTATION 15
 #define COEFF_V 0.004
+module two.fract;
 
 float rnd_float()
 {

@@ -4,6 +4,10 @@ module two.refl.meta;
 
 using namespace two;
 
+#ifdef TWO_MODULES
+namespace two { using stl::string; }
+#endif
+
 void two_TypeClass__to_string(void* val, string& str) { str = g_enu[type<two::TypeClass>().m_id]->name(uint32_t((*static_cast<two::TypeClass*>(val)))); }
 void two_TypeClass__to_value(const string& str, void* val) { (*static_cast<two::TypeClass*>(val)) = two::TypeClass(g_enu[type<two::TypeClass>().m_id]->value(str.c_str())); }
 size_t stl_span_two_Type___size(void* vec) { return (*static_cast<stl::span<two::Type*>*>(vec)).size(); }

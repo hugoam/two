@@ -4,6 +4,8 @@ module two.lang.meta;
 
 using namespace two;
 
+namespace two { using stl::string; }
+
 void two_Language__to_string(void* val, string& str) { str = g_enu[type<two::Language>().m_id]->name(uint32_t((*static_cast<two::Language*>(val)))); }
 void two_Language__to_value(const string& str, void* val) { (*static_cast<two::Language*>(val)) = two::Language(g_enu[type<two::Language>().m_id]->value(str.c_str())); }
 void* two_Script__get_type(void* object) { return &(*static_cast<two::Script*>(object)).m_type; }

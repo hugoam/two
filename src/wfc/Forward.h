@@ -2,29 +2,23 @@
 
 #include <infra/Config.h>
 
-#include <infra/Forward.h>
-#include <type/Forward.h>
-#include <srlz/Forward.h>
-#include <math/Forward.h>
-#include <geom/Forward.h>
-
 #ifndef TWO_WFC_EXPORT
 #define TWO_WFC_EXPORT TWO_IMPORT
 #endif
 
 namespace two
 {
-    enum Result : unsigned int;
-    
-    
-    struct Tile;
-    struct Tileset;
-    struct DoubleGenerator;
-    struct Wave;
-    struct WaveTileset;
-    struct TileWave;
-    struct VoxelTile;
-    struct RGBA;
-    struct PalettedImage;
-    class Patternset;
+    export_ enum Result : unsigned int;
+
+
+    export_ struct Tile;
+    export_ struct Tileset;
+    export_ struct DoubleGenerator;
+    export_ struct Wave;
+    export_ struct WaveTileset;
+    export_ struct TileWave;
+    export_ struct VoxelTile;
+    export_ struct RGBA;
+    export_ struct PalettedImage;
+    export_ class Patternset;
 }

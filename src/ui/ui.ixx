@@ -4,6 +4,8 @@ module;
 
 export module two.ui;
 
+import <regex>;
+
 export import two.infra;
 export import two.type;
 export import two.tree;

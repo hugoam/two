@@ -2,25 +2,20 @@
 
 #include <infra/Config.h>
 
-#include <infra/Forward.h>
-#include <type/Forward.h>
-#include <math/Forward.h>
-#include <geom/Forward.h>
-
 #ifndef TWO_FRACT_EXPORT
 #define TWO_FRACT_EXPORT TWO_IMPORT
 #endif
 
 namespace two
 {
-    enum class PatternSampling : unsigned int;
+    export_ enum class PatternSampling : unsigned int;
 
-    class Pixircle;
-    class Circlifier;
-    struct Pattern;
-    struct FractTab;
-    class Fract;
-    class FractSample;
+    export_ class Pixircle;
+    export_ class Circlifier;
+    export_ struct Pattern;
+    export_ struct FractTab;
+    export_ class Fract;
+    export_ class FractSample;
 }
 
 #ifdef TWO_META_GENERATOR

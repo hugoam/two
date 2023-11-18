@@ -572,6 +572,7 @@ namespace two
 		if(m_string.empty())
 			return;
 
+#ifndef TWO_MODULES
 		if(m_language == nullptr)
 		{
 			m_text.m_sections.clear();
@@ -644,6 +645,7 @@ namespace two
 			if(*current == '\n')
 				preproc = false;
 		}
+#endif
 	}
 
 	void TextEdit::scroll_to_cursor(Frame& frame, Frame& content)

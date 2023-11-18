@@ -15,17 +15,19 @@ namespace two
 	export_ template <>
 	inline void to_string<Ref>(const Ref& object, string& str) { convert(*object.m_type).m_to_string(object.m_value, str); }
 
+#ifndef TWO_MODULES
 	export_ template <class T_Source, class T_Dest>
-	void convert(T_Source& from, T_Dest& to)
+	inline void convert(T_Source& from, T_Dest& to)
 	{
 		to = static_cast<T_Dest>(from);
 	}
 
 	export_ template <class T_Source, class T_Dest>
-	void copy_convert(T_Source& from, T_Dest& to)
+	inline void copy_convert(T_Source& from, T_Dest& to)
 	{
 		to = T_Dest(from);
 	}
+#endif
 
 	export_ class TWO_REFL_EXPORT TypeConverter : public DoubleDispatch, public LazyGlobal<TypeConverter>
 	{

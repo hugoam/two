@@ -4,7 +4,7 @@
 
 namespace two
 {
-	using ubool = uint8_t;
+	export_ using ubool = uint8_t;
 
 #define TWO_WFC_PROPAGATION_VEC
 
@@ -132,12 +132,12 @@ namespace two
 	static_assert(sizeof(RGBA) == 4, "");
 	inline bool operator==(RGBA x, RGBA y) { return x.r == y.r && x.g == y.g && x.b == y.b && x.a == y.a; }
 
-	using ColorIndex = uint8_t; // tile index or color index. If you have more than 255, don't.
-	using ColorPalette = vector<RGBA>;
-	using ColorPattern = vector<ColorIndex>;
-	using PatternHash = uint64_t; // Another representation of a Pattern.
-	using PatternPrevalence = map<PatternHash, size_t>;
-	using PatternIndex = uint16_t;
+	export_ using ColorIndex = uint8_t; // tile index or color index. If you have more than 255, don't.
+	export_ using ColorPalette = vector<RGBA>;
+	export_ using ColorPattern = vector<ColorIndex>;
+	export_ using PatternHash = uint64_t; // Another representation of a Pattern.
+	export_ using PatternPrevalence = map<PatternHash, size_t>;
+	export_ using PatternIndex = uint16_t;
 
 	const auto kInvalidIndex = static_cast<size_t>(-1);
 	const auto kInvalidHash = static_cast<PatternHash>(-1);

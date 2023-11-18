@@ -4,6 +4,8 @@ module two.gfx.ui.meta;
 
 using namespace two;
 
+namespace two { using stl::string; }
+
 void two_ui_OrbitMode__to_string(void* val, string& str) { str = g_enu[type<two::ui::OrbitMode>().m_id]->name(uint32_t((*static_cast<two::ui::OrbitMode*>(val)))); }
 void two_ui_OrbitMode__to_value(const string& str, void* val) { (*static_cast<two::ui::OrbitMode*>(val)) = two::ui::OrbitMode(g_enu[type<two::ui::OrbitMode>().m_id]->value(str.c_str())); }
 void two_OrbitController_set_eye(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::OrbitController*>(object)).set_eye(*static_cast<two::quat*>(args[0])); }

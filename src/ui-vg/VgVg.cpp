@@ -3,6 +3,7 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 module;
+#define BX_COMPILER_MSVC_CONFORMANCE
 #include <infra/Cpp20.h>
 #include <vg/vg.h>
 #include <bgfx/bgfx.h>

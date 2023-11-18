@@ -10,7 +10,8 @@ namespace stl
 {
 	export_ template <class T> struct span;
 	export_ template <class T, size_t Size> struct array;
-}namespace stl
+}
+namespace stl
 {
 	export_ using std::string;
 	export_ using std::function;

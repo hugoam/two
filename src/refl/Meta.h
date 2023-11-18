@@ -8,6 +8,10 @@
 
 namespace two
 {
+#ifdef TWO_MODULES
+	export_ using stl::string;
+#endif
+
 	using cstring = const char*;
 
 	export_ enum class refl_ TypeClass : unsigned int

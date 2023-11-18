@@ -8,6 +8,8 @@
 
 namespace two
 {
+	using stl::string;
+
 	export_ TWO_UIO_EXPORT string object_name(Ref object);
 	export_ TWO_UIO_EXPORT string object_icon(Ref object);
 

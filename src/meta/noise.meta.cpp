@@ -4,6 +4,8 @@ module two.noise.meta;
 
 using namespace two;
 
+namespace two { using stl::string; }
+
 void two_Noise_NoiseType__to_string(void* val, string& str) { str = g_enu[type<two::Noise::NoiseType>().m_id]->name(uint32_t((*static_cast<two::Noise::NoiseType*>(val)))); }
 void two_Noise_NoiseType__to_value(const string& str, void* val) { (*static_cast<two::Noise::NoiseType*>(val)) = two::Noise::NoiseType(g_enu[type<two::Noise::NoiseType>().m_id]->value(str.c_str())); }
 void two_Noise_Interp__to_string(void* val, string& str) { str = g_enu[type<two::Noise::Interp>().m_id]->name(uint32_t((*static_cast<two::Noise::Interp*>(val)))); }

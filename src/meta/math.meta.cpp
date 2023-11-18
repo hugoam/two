@@ -4,6 +4,10 @@ module two.math.meta;
 
 using namespace two;
 
+#ifdef TWO_MODULES
+namespace two { using stl::string; }
+#endif
+
 void two_Axis__to_string(void* val, string& str) { str = g_enu[type<two::Axis>().m_id]->name(uint32_t((*static_cast<two::Axis*>(val)))); }
 void two_Axis__to_value(const string& str, void* val) { (*static_cast<two::Axis*>(val)) = two::Axis(g_enu[type<two::Axis>().m_id]->value(str.c_str())); }
 void two_Axes__to_string(void* val, string& str) { str = g_enu[type<two::Axes>().m_id]->name(uint32_t((*static_cast<two::Axes*>(val)))); }

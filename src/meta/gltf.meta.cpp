@@ -4,6 +4,8 @@ module two.gltf.meta;
 
 using namespace two;
 
+namespace two { using stl::string; }
+
 void glTFComponentType__to_string(void* val, string& str) { str = g_enu[type<glTFComponentType>().m_id]->name(uint32_t((*static_cast<glTFComponentType*>(val)))); }
 void glTFComponentType__to_value(const string& str, void* val) { (*static_cast<glTFComponentType*>(val)) = glTFComponentType(g_enu[type<glTFComponentType>().m_id]->value(str.c_str())); }
 void glTFType__to_string(void* val, string& str) { str = g_enu[type<glTFType>().m_id]->name(uint32_t((*static_cast<glTFType*>(val)))); }

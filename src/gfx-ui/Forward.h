@@ -10,8 +10,7 @@ namespace two
 {
 namespace ui
 {
-    enum class OrbitMode : int;
-    
+    export_ enum class OrbitMode : int;
 }
 }
 

@@ -4,11 +4,9 @@
 
 module;
 #include <infra/Cpp20.h>
-module two.wfc;
-
 #include <json11.hpp>
 using Json = json11::Json;
-
+module two.wfc;
 
 namespace two
 {

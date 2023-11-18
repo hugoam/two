@@ -415,13 +415,13 @@ namespace two
 	
 #ifdef TWO_MODULES
 	export_ template <class T_Source, class T_Dest>
-	void convert(T_Source& from, T_Dest& to)
+	inline void convert(T_Source& from, T_Dest& to)
 	{
 		to = static_cast<T_Dest>(from);
 	}
 
 	export_ template <class T_Source, class T_Dest>
-	void copy_convert(T_Source& from, T_Dest& to)
+	inline void copy_convert(T_Source& from, T_Dest& to)
 	{
 		to = T_Dest(from);
 	}

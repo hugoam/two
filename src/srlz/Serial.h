@@ -8,6 +8,8 @@
 
 namespace two
 {
+	using stl::string;
+
 	export_ using Json = json11::Json;
 
 	export_ class TWO_SRLZ_EXPORT FromJson : public Dispatch<void, const Json&>

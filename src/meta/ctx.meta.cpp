@@ -4,6 +4,8 @@ module two.ctx.meta;
 
 using namespace two;
 
+namespace two { using stl::string; }
+
 void two_Key__to_string(void* val, string& str) { str = g_enu[type<two::Key>().m_id]->name(uint32_t((*static_cast<two::Key*>(val)))); }
 void two_Key__to_value(const string& str, void* val) { (*static_cast<two::Key*>(val)) = two::Key(g_enu[type<two::Key>().m_id]->value(str.c_str())); }
 void two_MouseButtonCode__to_string(void* val, string& str) { str = g_enu[type<two::MouseButtonCode>().m_id]->name(uint32_t((*static_cast<two::MouseButtonCode*>(val)))); }

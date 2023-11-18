@@ -5,7 +5,8 @@
 #define TWO_INFRA_EXPORT TWO_IMPORT
 #endif
 
-#ifdef USE_STLnamespace stl
+#ifdef USE_STL
+namespace stl
 {
 	template <class T> struct span;
 	template <class T, size_t Size> struct array;

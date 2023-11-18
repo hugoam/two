@@ -4,6 +4,8 @@ module two.fract.meta;
 
 using namespace two;
 
+namespace two { using stl::string; }
+
 void two_PatternSampling__to_string(void* val, string& str) { str = g_enu[type<two::PatternSampling>().m_id]->name(uint32_t((*static_cast<two::PatternSampling*>(val)))); }
 void two_PatternSampling__to_value(const string& str, void* val) { (*static_cast<two::PatternSampling*>(val)) = two::PatternSampling(g_enu[type<two::PatternSampling>().m_id]->value(str.c_str())); }
 size_t stl_vector_two_Image256__size(void* vec) { return (*static_cast<stl::vector<two::Image256>*>(vec)).size(); }

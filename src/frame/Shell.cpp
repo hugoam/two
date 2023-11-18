@@ -1,5 +1,6 @@
 
 module;
+#define BX_COMPILER_MSVC_CONFORMANCE
 #include <infra/Cpp20.h>
 #include <bx/allocator.h>
 #include <bgfx/bgfx.h>

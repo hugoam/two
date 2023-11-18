@@ -69,8 +69,8 @@ namespace two
 		bool m_insert_mode = false;
 	};
 
-	using PaletteIndex = uint16_t;
-	using ColourPalette = span<uint32_t>;
+	export_ using PaletteIndex = uint16_t;
+	export_ using ColourPalette = span<uint32_t>;
 
 	export_ enum class TextMarkerKind
 	{
