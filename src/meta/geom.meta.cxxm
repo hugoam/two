@@ -1,0 +1,19 @@
+module;
+#include <infra/Cpp20.h>
+#include <infra/Config.h>
+
+export module two.geom.meta;
+import std;
+
+export import two.infra;
+export import two.type;
+export import two.pool;
+export import two.refl;
+export import two.type;
+export import two.math;
+export import two.geom;
+export import two.type.meta;
+export import two.math.meta;
+
+#include <meta/Api.h>
+

@@ -1,0 +1,22 @@
+module;
+#include <infra/Cpp20.h>
+#include <infra/Config.h>
+
+export module two.srlz.meta;
+import std;
+
+export import two.infra;
+export import two.type;
+export import two.pool;
+export import two.refl;
+export import json11;
+export import two.infra;
+export import two.type;
+export import two.refl;
+export import two.srlz;
+export import two.infra.meta;
+export import two.type.meta;
+export import two.refl.meta;
+
+#include <meta/Api.h>
+

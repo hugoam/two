@@ -1,0 +1,32 @@
+module;
+#include <infra/Cpp20.h>
+#include <infra/Config.h>
+
+export module two.gfx.gltf.meta;
+import std;
+
+export import two.infra;
+export import two.type;
+export import two.pool;
+export import two.refl;
+export import json11;
+export import two.infra;
+export import two.type;
+export import two.refl;
+export import two.srlz;
+export import two.math;
+export import two.geom;
+export import two.gfx;
+export import two.gltf;
+export import two.gfx.gltf;
+export import two.infra.meta;
+export import two.type.meta;
+export import two.refl.meta;
+export import two.srlz.meta;
+export import two.math.meta;
+export import two.geom.meta;
+export import two.gfx.meta;
+export import two.gltf.meta;
+
+#include <meta/Api.h>
+

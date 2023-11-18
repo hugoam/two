@@ -1,0 +1,45 @@
+module;
+#include <infra/Cpp20.h>
+#include <infra/Config.h>
+
+export module two.tool.meta;
+import std;
+
+export import two.infra;
+export import two.type;
+export import two.pool;
+export import two.refl;
+export import two.infra;
+export import two.tree;
+export import two.type;
+export import two.refl;
+export import two.srlz;
+export import two.lang;
+export import two.math;
+export import two.geom;
+export import two.ctx;
+export import two.ui;
+export import two.uio;
+export import two.gfx;
+export import two.gfx.pbr;
+export import two.gfx.ui;
+export import two.gfx.edit;
+export import two.tool;
+export import two.infra.meta;
+export import two.tree.meta;
+export import two.type.meta;
+export import two.refl.meta;
+export import two.srlz.meta;
+export import two.lang.meta;
+export import two.math.meta;
+export import two.geom.meta;
+export import two.ctx.meta;
+export import two.ui.meta;
+export import two.uio.meta;
+export import two.gfx.meta;
+export import two.gfx.pbr.meta;
+export import two.gfx.ui.meta;
+export import two.gfx.edit.meta;
+
+#include <meta/Api.h>
+

@@ -1,0 +1,21 @@
+module;
+#include <infra/Cpp20.h>
+#include <infra/Config.h>
+
+export module two.ecs.meta;
+import std;
+
+export import two.infra;
+export import two.type;
+export import two.pool;
+export import two.refl;
+export import two.infra;
+export import two.pool;
+export import two.type;
+export import two.ecs;
+export import two.infra.meta;
+export import two.pool.meta;
+export import two.type.meta;
+
+#include <meta/Api.h>
+

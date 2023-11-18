@@ -1,0 +1,21 @@
+module;
+#include <infra/Cpp20.h>
+#include <infra/Config.h>
+
+export module two.frame.meta;
+import std;
+
+export import two.infra;
+export import two.type;
+export import two.pool;
+export import two.refl;
+export import two.gfx;
+export import two.gfx.ui;
+export import two.ctx.glfw;
+export import two.ui.vg;
+export import two.frame;
+export import two.gfx.meta;
+export import two.gfx.ui.meta;
+
+#include <meta/Api.h>
+
