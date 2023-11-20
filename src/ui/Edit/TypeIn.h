@@ -198,7 +198,7 @@ namespace two
 
 namespace ui
 {
-	TWO_UI_EXPORT bool filter(const string& filter, const string& value);
+	export_ TWO_UI_EXPORT bool filter(const string& filter, const string& value);
 
 	export_ TWO_UI_EXPORT func_ TextEdit& text_box(Widget& parent, Style& style, string& text, bool editor = false, size_t lines = 1, const string& allowed_chars = "");
 	export_ TWO_UI_EXPORT func_ TextEdit& type_in(Widget& parent, string& text, size_t lines = 1, const string& allowed_chars = "");

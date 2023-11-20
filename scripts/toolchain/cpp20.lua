@@ -1,8 +1,8 @@
 -- two toolchain
 -- cpp20 modules
 
-if not cxxmodule then
-    cxxmodule = function(m)
+if not cxxmodules then
+    cxxmodules = function(m)
     end
 end
 
@@ -22,10 +22,16 @@ function modules(m)
     if _ACTION == "vs2017"
 	or _ACTION == "vs2019"
 	or _ACTION == "vs2022" then
-        files {
-          --path.join(m.path, m.dotname .. ".ixx"),
-            path.join(m.path, m.dotname2 .. ".ixx"),
-        }
+        if not m.nomodule then
+            files {
+            --path.join(m.path, m.dotname .. ".ixx"),
+                path.join(m.path, m.dotname2 .. ".ixx"),
+            }
+
+            buildoptions {
+                "/wd5244",
+            }
+        end
     else
         if not m.nomodule then
             local cxxmodule = path.join(m.path, m.dotname2 .. ".cxxm")
