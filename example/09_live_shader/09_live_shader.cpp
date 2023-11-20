@@ -1,6 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <ui/Edit/Lang.h>
+#include <infra/Cpp20.h>
+import two.frame;
 
 #include <09_live_shader/09_live_shader.h>
 

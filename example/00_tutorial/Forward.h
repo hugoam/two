@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include <infra/Config.h>

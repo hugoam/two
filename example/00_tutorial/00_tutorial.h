@@ -4,10 +4,7 @@
 
 #pragma once
 
-#include <frame/Forward.h>
-#include <mud/frame.h>
-
-using namespace mud;
+using namespace two;
 
 export_ enum class refl_ ShapeType : unsigned int
 {

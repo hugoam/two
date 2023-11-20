@@ -1,6 +1,5 @@
-#include <mud/frame.h>
-#include <gfx-pbr/Api.h>
-#include <gfx-gltf/Api.h>
+#include <infra/Cpp20.h>
+import two.frame;
 
 #include <07_prefabs/07_prefabs.h>
 

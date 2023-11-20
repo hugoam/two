@@ -1,16 +1,10 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
+#include <infra/Cpp20.h>
+#include <bx/math.h>
+import two.frame;
 
 #include <08_sky/08_sky.h>
 #include <01_shapes/01_shapes.h>
 #include <03_materials/03_materials.h>
-
-#include <stl/vector.hpp>
-
-#include <map>
-
-#include <bx/math.h>
 
 using namespace two;
 
@@ -189,7 +183,7 @@ static std::map<float, Color> skyLuminanceXYZTable = {
 
 
 // Turbidity tables. Taken from:
-// A. J. Preetham, P. Shirley, and B. Smits. A Practical Analytic Model for Daylight. SIGGRAPH ’99
+// A. J. Preetham, P. Shirley, and B. Smits. A Practical Analytic Model for Daylight. SIGGRAPH ï¿½99
 // Coefficients correspond to xyY colorspace.
 static Color ABCDE[] =
 {

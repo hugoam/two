@@ -1,8 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <lang/Api.h>
-#include <uio/Api.h>
-#include <meta/gfx.meta.h>
+#include <infra/Cpp20.h>
+import two.frame;
 
 #include <14_live_gfx_visual/14_live_gfx_visual.h>
 

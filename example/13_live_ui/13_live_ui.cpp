@@ -1,13 +1,7 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <lang/Api.h>
-#include <uio/Api.h>
-#include <meta/ui.meta.h>
-#include <meta/gfx.ui.meta.h>
+#include <infra/Cpp20.h>
+import two.frame;
 
 #include <13_live_ui/13_live_ui.h>
-
-#include <stl/vector.hpp>
 
 using namespace two;
 

@@ -1,10 +1,5 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <refl/Api.h>
-#include <gfx-pbr/Api.h>
-#include <gfx-gltf/Api.h>
-#include <gfx-edit/Api.h>
-#include <meta/gfx.gltf.meta.h>
+#include <infra/Cpp20.h>
+import two.frame;
 
 #include <04_lights/04_lights.h>
 #include <03_materials/03_materials.h>

@@ -1,8 +1,6 @@
 
 #pragma once
 
-#include <two/Forward.h>
-
 using namespace two;
 
 #ifndef _00_UI_EXPORT

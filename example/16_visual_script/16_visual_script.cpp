@@ -1,8 +1,5 @@
-#include <mud/frame.h>
-#include <frame/Types.h>
-#include <lang/Api.h>
-#include <uio/Api.h>
-#include <noise/Api.h>
+#include <infra/Cpp20.h>
+import two.frame;
 
 #include <11_selection/11_selection.h>
 #include <01_shapes/01_shapes.h>

@@ -1,23 +1,8 @@
-#define HEADER_ONLY 0
+#define HEADER_ONLY 1
 
 #if !HEADER_ONLY
 #if TWO_MODULES
 #include <infra/Config.h>
-import std;
-import two.infra;
-import two.pool;
-import two.jobs;
-import two.type;
-import two.ecs;
-import two.math;
-import two.geom;
-import two.bgfx;
-import two.gfx;
-import two.ctx;
-import two.ui;
-import two.gfx;
-import two.ctx.glfw;
-import two.ui.vg;
 import two.frame;
 #else
 //#include <two/frame.h>

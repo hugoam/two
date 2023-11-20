@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <frame/Forward.h>
-
 using namespace two;
 
 void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar);

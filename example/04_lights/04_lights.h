@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <frame/Forward.h>
-
 using namespace two;
 
 struct LightInstance { Colour colour; };

@@ -1,7 +1,4 @@
-
 #pragma once
-
-#include <two/Forward.h>
 
 using namespace two;
 

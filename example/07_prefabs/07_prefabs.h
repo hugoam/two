@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <frame/Forward.h>
-
 using namespace mud;
 
 void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar);

@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <frame/Forward.h>
-
 using namespace two;
 
 void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar);

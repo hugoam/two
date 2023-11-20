@@ -4,12 +4,6 @@
 
 #pragma once
 
-#include <frame/Forward.h>
-#include <stl/span.h>
-#include <geom/Shape.h>
-
-#include <vector>
-
 using namespace two;
 
 struct ShapeInstance { ShapeVar shape; Colour colour; Symbol symbol; };

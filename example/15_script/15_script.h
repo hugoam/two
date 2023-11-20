@@ -4,10 +4,7 @@
 
 #pragma once
 
-#include <frame/Forward.h>
-#include <frame/Shell.h>
-
-using namespace mud;
+using namespace two;
 
 struct ShapeInstance;
 

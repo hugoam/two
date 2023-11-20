@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <frame/Forward.h>
-
-using namespace mud;
+using namespace two;
 
 void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar);

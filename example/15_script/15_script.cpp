@@ -1,4 +1,5 @@
-#include <mud/frame.h>
+#include <infra/Cpp20.h>
+import two.frame;
 
 #include <15_script/15_script.h>
 #include <meta/15_script/Module.h>

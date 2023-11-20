@@ -1,19 +1,11 @@
-#define TWO_NO_GFX
-#include <frame/Api.h>
-#include <00_ui/00_ui.h>
-
-#include <stl/array.h>
-#include <stl/vector.hpp>
-
-#ifdef TWO_RENDERER_GL
-#include <gl/GlSystem.h>
-#elif defined TWO_RENDERER_BGFX
-#include <bgfx/BgfxSystem.h>
-#endif
-
-#include <ui-vg/VgVg.h>
+#include <infra/Cpp20.h>
+import two.frame;
 
 using namespace two;
+
+namespace two { using stl::string; }
+
+#include <00_ui/00_ui.h>
 
 const string girl_names[] =
 {

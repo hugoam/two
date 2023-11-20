@@ -1,14 +1,10 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <gfx-pbr/Api.h>
-#include <gfx-obj/Api.h>
+#include <infra/Cpp20.h>
+import two.frame;
 
 #include <04_sponza/04_sponza.h>
 #include <01_shapes/01_shapes.h>
 #include <03_materials/03_materials.h>
 #include <04_lights/04_lights.h>
-
-#include <stl/vector.hpp>
 
 using namespace two;
 

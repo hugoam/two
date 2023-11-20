@@ -1,13 +1,7 @@
-//#include <two/frame.h>
-#include <frame/Api.h>
-#include <srlz/Api.h>
-#include <refl/Api.h>
-#include <gfx/Api.h>
-#include <meta/gfx.meta.h>
+#include <infra/Cpp20.h>
+import two.frame;
 
 #include <06_particles/06_particles.h>
-
-#include <stl/vector.hpp>
 
 using namespace two;
 

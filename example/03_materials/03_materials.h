@@ -4,9 +4,6 @@
 
 #pragma once
 
-#include <frame/Forward.h>
-#include <infra/StringOps.h>
-
 using namespace two;
 
 Material& phong_white(GfxSystem& gfx, const string& name = "milky_white");
