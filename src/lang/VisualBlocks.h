@@ -4,13 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <type/Any.h>
-#include <refl/Class.h>
-#include <refl/Injector.h>
-#include <refl/System.h>
-#endif
 #include <lang/Forward.h>
 #include <lang/VisualScript.h>
 

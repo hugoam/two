@@ -4,10 +4,7 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <lang/Script.h>
-#include <ui/Section.h>
-#endif
+#include <uio/Forward.h>
 
 namespace two
 {

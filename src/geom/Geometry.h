@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
 #include <geom/Forward.h>
 #include <geom/Primitive.h>
 #include <geom/Shape.h>

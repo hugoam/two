@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <math/Axis.h>
-#include <math/Math.h>
-#endif
 #include <geom/Forward.h>
 #include <geom/Shape.h>
 

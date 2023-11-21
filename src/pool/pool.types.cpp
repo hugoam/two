@@ -1,12 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.pool;
-#else
-#include <pool/Types.h>
-#include <pool/Api.h>
-#include <type/Vector.h>
-#endif
 
 namespace two
 {

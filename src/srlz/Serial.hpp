@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <type/Any.h>
-#endif
 #include <srlz/Serial.h>
 
 namespace two

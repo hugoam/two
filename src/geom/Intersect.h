@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <math/Vec.h>
-#include <math/Vec.hpp>
-#endif
 #include <geom/Forward.h>
 
 namespace two

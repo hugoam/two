@@ -6,19 +6,8 @@
 
 //#ifdef TWO_CTX_GLFW
 
-#ifndef TWO_MODULES
-#include <ctx/Forward.h>
-#include <ctx/Context.h>
-#endif
-
 #ifndef TWO_CTX_GLFW_EXPORT
 #define TWO_CTX_GLFW_EXPORT TWO_IMPORT
-#endif
-
-#ifndef TWO_MODULES
-extern "C" {
-	typedef struct GLFWwindow GLFWwindow;
-}
 #endif
 
 namespace two

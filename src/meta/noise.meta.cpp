@@ -1,23 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.noise.meta;
-#else
-#include <cstddef>
-#include <stl/new.h>
-#include <infra/ToString.h>
-#include <infra/ToValue.h>
-#include <type/Vector.h>
-#include <refl/MetaDecl.h>
-#include <refl/Module.h>
-#include <meta/infra.meta.h>
-#include <meta/type.meta.h>
-#include <meta/math.meta.h>
-#include <meta/geom.meta.h>
-#include <meta/noise.meta.h>
-#include <meta/noise.conv.h>
-#include <noise/Api.h>
-#endif
 
 using namespace two;
 

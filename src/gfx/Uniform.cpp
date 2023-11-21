@@ -5,16 +5,7 @@
 #if 0
 #include <gfx/Cpp20.h>
 
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <refl/Class.h>
-#include <infra/ToString.h>
-#include <gfx/Types.h>
-#include <gfx/Uniform.h>
-#include <gfx/GfxSystem.h>
-#include <gfx/Texture.h>
-#endif
 
 namespace two
 {

@@ -2,18 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <gfx/Cpp20.h>
 module two.gfx.pbr;
-#else
-#include <ecs/ECS.hpp>
-#include <pool/ObjectPool.hpp>
-#include <gfx/Types.h>
-#include <gfx/Api.h>
-#include <gfx-pbr/PipelinePbr.h>
-#include <gfx-pbr/Api.h>
-#endif
 
 #define DEBUG_ITEMS 0
 #define DEPTH_PASS 0

@@ -1,6 +1,3 @@
-#ifndef TWO_MODULES
-#include <math/Image256.h>
-#endif
 #include <geom/Aabb.h>
 #include <geom/Curve.h>
 #include <geom/Geom.h>

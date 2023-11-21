@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/array.h>
-#include <math/Vec.h>
-#include <geom/Shape/ProcShape.h>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Mesh.h>
 #include <gfx/Material.h>

@@ -4,14 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/string.h>
-#include <stl/span.h>
-#include <math/Vec.h>
-#include <geom/Primitive.h>
-#include <geom/Aabb.h>
-#endif
 #include <gfx/Forward.h>
 
 #include <bgfx/bgfx.h>

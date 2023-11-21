@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 #include <vg/vg.h>
@@ -10,21 +9,6 @@ module;
 #include <stb_image.h>
 #include <stb_truetype.h>
 module two.ui.vg;
-#else
-#include <cmath>
-#include <cfloat>
-
-#include <stb_image.h>
-#include <stb_truetype.h>
-
-#include <infra/File.h>
-#include <math/Math.h>
-#include <math/Vec.hpp>
-#include <ui/Style/Paint.h>
-#include <ui/Frame/Layer.h>
-#include <math/ImageAtlas.h>
-#include <ui-vg/VgVg.h>
-#endif
 
 #define ANGLED_WHEEL 0
 

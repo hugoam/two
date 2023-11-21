@@ -2,29 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.uio;
-#else
-#include <stl/algorithm.h>
-#include <refl/Meta.h>
-#include <refl/Member.h>
-#include <refl/Sequence.h>
-#include <refl/Enum.h>
-#include <type/DispatchDecl.h>
-#include <math/Vec.hpp>
-#include <math/Curve.h>
-#include <math/Range.h>
-#include <ui/Input.hpp>
-#include <uio/Types.h>
-#include <uio/ValueEdit.h>
-#include <uio/Object.h>
-#include <uio/Inspector.h>
-#include <uio/InjectorEdit.h>
-#include <uio/IndexerEdit.h>
-#include <uio/MethodEdit.h>
-#endif
 
 namespace two
 {

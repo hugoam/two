@@ -2,18 +2,6 @@
 
 #include <infra/Config.h>
 
-#ifndef TWO_MODULES
-#include <infra/Forward.h>
-#include <jobs/Forward.h>
-#include <type/Forward.h>
-#include <pool/Forward.h>
-#include <math/Forward.h>
-#include <geom/Forward.h>
-#include <ctx/Forward.h>
-#include <ctx-glfw/Forward.h>
-#include <bgfx/Forward.h>
-#endif
-
 #ifndef TWO_GFX_EXPORT
 #define TWO_GFX_EXPORT TWO_IMPORT
 #endif

@@ -2,23 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.wfc;
-#else
-#include <json11.hpp>
-using Json = json11::Json;
-
-#include <stl/algorithm.h>
-#include <infra/ToString.h>
-#include <srlz/Serial.h>
-#include <math/Axes.h>
-#include <math/VecJson.h>
-#include <math/Grid.hpp>
-#include <wfc/Wfc.h>
-#endif
-
 
 namespace two
 {

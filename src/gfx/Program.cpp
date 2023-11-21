@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <cstring>
 #include <cstdio>
@@ -16,35 +15,6 @@ namespace bgfx
 	void getShaderError(char* _outputText, uint16_t& _outputSize);
 }
 module two.gfx;
-#else
-#include <cstring>
-#include <cstdio>
-#include <bx/platform.h>
-#include <bx/readerwriter.h>
-#include <bgfx/bgfx.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/map.h>
-#include <stl/hash_base.hpp>
-#include <stl/algorithm.h>
-#include <stl/table.h>
-#include <infra/ToString.h>
-#include <infra/Log.h>
-#include <infra/File.h>
-#include <gfx/Program.h>
-#include <gfx/GfxSystem.h>
-#include <gfx/Texture.h>
-#include <gfx/Material.h>
-#include <gfx/Mesh.h>
-#include <gfx/Shader.h>
-#include <gfx/Renderer.h>
-#include <gfx/Pipeline.h>
-namespace bgfx
-{
-	int compileShader(int _argc, const char* _argv[]);
-	void getShaderError(char* _outputText, uint16_t& _outputSize);
-}
-#endif
 
 namespace two
 {

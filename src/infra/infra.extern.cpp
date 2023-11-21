@@ -1,10 +1,5 @@
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.infra;
-#else
-#include <stl/vector.hpp>
-#include <infra/Api.h>
-#endif
 
 namespace stl
 {

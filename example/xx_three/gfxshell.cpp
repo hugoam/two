@@ -1,9 +1,4 @@
-#ifdef TWO_MODULES
 module two.xxthree;
-#else
-#include <xx_three/xx_three.h>
-#include <xx_three/gfxshell.h>
-#endif
 
 #if !UI
 #ifdef TWO_PLATFORM_EMSCRIPTEN

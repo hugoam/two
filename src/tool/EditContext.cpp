@@ -2,26 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.tool;
-#else
-#include <geom/Geom.hpp>
-#include <type/Any.h>
-#include <pool/ObjectPool.h>
-#include <ecs/ECS.h>
-#include <lang/Lua.h>
-#include <lang/VisualScript.h>
-#include <ui/Ui.h>
-#include <ui/Edit/Console.h>
-#include <uio/Inspector.h>
-#include <uio/UiEdit.h>
-#include <gfx-edit/GfxEdit.h>
-#include <tool/Types.h>
-#include <tool/EditContext.h>
-#include <tool/Brush.h>
-#endif
 
 namespace two
 {

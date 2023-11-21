@@ -1,12 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.lang;
-#else
-#include <lang/Types.h>
-#include <lang/Api.h>
-#include <type/Vector.h>
-#endif
 
 namespace two
 {

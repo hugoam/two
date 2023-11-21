@@ -1,11 +1,5 @@
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.wfc;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#include <wfc/Api.h>
-#endif
 
 namespace stl
 {

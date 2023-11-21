@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/algorithm.h>
-#endif
 #include <tree/Graph.h>
 
 namespace two

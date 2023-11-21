@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/string.h>
-#include <stl/map.h>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Item.h>
 #include <gfx/Node3.h>

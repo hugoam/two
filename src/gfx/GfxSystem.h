@@ -4,34 +4,8 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/string.h>
-#include <stl/function.h>
-#include <stl/span.h>
-#include <type/Unique.h>
-#include <geom/Primitive.h>
-#include <geom/Symbol.h>
-#ifndef TWO_BGFX_EXPORT
-#define TWO_BGFX_EXPORT TWO_GFX_EXPORT
-#endif
-#include <bgfx/BgfxSystem.h>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Renderer.h>
-
-#ifndef TWO_MODULES
-namespace bx
-{
-	struct FileReaderI;
-	struct FileWriterI;
-}
-
-namespace bgfx
-{
-	struct Encoder;
-}
-#endif
 
 namespace two
 {
@@ -53,11 +27,6 @@ namespace two
 
 		vector<Viewport*> m_viewports;
 	};
-
-#ifndef TWO_MODULES
-	template <class T>
-	class TPool;
-#endif
 
 	export_ template <class T_Asset>
 	class AssetStore;

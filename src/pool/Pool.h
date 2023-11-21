@@ -4,12 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <cstddef>
-#include <stl/span.h>
-#include <type/Unique.h>
-#include <type/Ref.h>
-#endif
 #include <pool/Forward.h>
 
 

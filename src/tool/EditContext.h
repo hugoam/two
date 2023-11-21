@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <ui/DockStruct.h>
-#include <uio/ScriptEdit.h>
-#endif
-
 #include <tool/Forward.h>
 #include <tool/Tool.h>
 #include <tool/Brush.h>

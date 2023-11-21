@@ -1,8 +1,3 @@
-#ifndef TWO_MODULES
-#include <math/Image256.h>
-#include <geom/Geometry.h>
-#include <geom/Curve.h>
-#endif
 #include <gfx/Node3.h>
 #include <gfx/Animated.h>
 #include <gfx/Animation.h>

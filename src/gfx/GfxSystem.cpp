@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 //#include <Tracy.hpp> // TODO (hugoam) modules FIX THIS SHIT 
 #include <bx/timer.h>
@@ -11,40 +10,6 @@ module;
 #include <bgfx/platform.h>
 #include <gfx/Cpp20.h>
 module two.gfx;
-#else
-#include <Tracy.hpp>
-#include <bx/timer.h>
-#include <bx/file.h>
-#include <bgfx/bgfx.h>
-#include <bgfx/platform.h>
-#include <stl/array.h>
-#include <stl/string.h>
-#include <stl/map.h>
-#include <pool/ObjectPool.hpp>
-#include <infra/ToString.h>
-#include <infra/Log.h>
-#include <infra/File.h>
-#include <math/Image256.h>
-#include <geom/Geom.hpp>
-#include <geom/Geometry.h>
-#include <gfx/Types.h>
-#include <gfx/GfxSystem.h>
-#include <gfx/Material.h>
-#include <gfx/Program.h>
-#include <gfx/Draw.h>
-#include <gfx/Viewport.h>
-#include <gfx/RenderTarget.h>
-#include <gfx/Scene.h>
-#include <gfx/Texture.h>
-#include <gfx/Model.h>
-#include <gfx/Prefab.h>
-#include <gfx/Particles.h>
-#include <gfx/Assets.h>
-#include <gfx/Importer.h>
-#include <gfx/Pipeline.h>
-#include <gfx/Filter.h>
-#include <gfx/Skeleton.h>
-#endif
 
 //#define TWO_GFX_THREADED
 #define POLL_AT_END 0

@@ -1,19 +1,11 @@
 #pragma once
 
 #include <infra/Config.h>
-#ifndef TWO_MODULES
-#include <stl/base.h>
-#endif
-
 #ifndef TWO_INFRA_EXPORT
 #define TWO_INFRA_EXPORT TWO_IMPORT
 #endif
 
-#ifdef USE_STL
-#ifndef TWO_MODULES
-#include <cstddef>
-#endif
-namespace stl
+#ifdef USE_STLnamespace stl
 {
 	template <class T> struct span;
 	template <class T, size_t Size> struct array;

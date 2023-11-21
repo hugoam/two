@@ -4,11 +4,6 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef TWO_MODULES
-#include <bgfx/Forward.h>
-//#include <bgfx/Types.h>
-#endif
-
 #ifndef TWO_BGFX_META_EXPORT
 #define TWO_BGFX_META_EXPORT TWO_IMPORT
 #endif

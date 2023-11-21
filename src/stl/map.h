@@ -1,4 +1,5 @@
 #pragma once
+
 #include <infra/Config.h>
 
 #ifdef USE_STL

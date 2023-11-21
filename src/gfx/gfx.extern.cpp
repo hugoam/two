@@ -1,13 +1,5 @@
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.gfx;
-#else
-#include <stl/array.h>
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#include <stl/unordered_set.hpp>
-#include <gfx/Api.h>
-#endif
 
 namespace stl
 {

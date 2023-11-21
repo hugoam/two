@@ -1,23 +1,9 @@
-#include <stl/string.h>
-#include <stl/set.h>
-#include <stl/map.h>
-#include <stl/algorithm.h>
-#include <infra/Vector.h>
-#include <infra/File.h>
-#include <infra/StringOps.h>
-#include <amalg/Amalg.h>
-
-#include <stl/string.hpp>
-#include <stl/vector.hpp>
-#include <stl/unordered_set.hpp>
-#include <stl/unordered_map.hpp>
-
+module;
 #include <cstdio>
-
-namespace stl
-{
-	template class unordered_set<string>;
-}
+#include <amalg/Amalg.h>
+module two.amalg;
+import std;
+import two.infra;
 
 namespace two
 {

@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/span.h>
-#include <geom/Geom.h>
-#endif
 #include <gfx/Forward.h>
 
 #if defined TWO_UNIFORM_BLOCKS

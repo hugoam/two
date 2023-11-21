@@ -2,17 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.lang;
-#else
-#include <type/Indexer.h>
-#include <refl/System.h>
-#include <pool/ObjectPool.h>
-#include <lang/Types.h>
-#include <lang/VisualBlocks.h>
-#endif
 
 namespace two
 {

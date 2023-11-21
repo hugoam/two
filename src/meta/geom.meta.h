@@ -4,11 +4,6 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef TWO_MODULES
-#include <geom/Forward.h>
-//#include <geom/Types.h>
-#endif
-
 #ifndef TWO_GEOM_META_EXPORT
 #define TWO_GEOM_META_EXPORT TWO_IMPORT
 #endif

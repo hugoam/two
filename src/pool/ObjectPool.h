@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/memory.h>
-#include <stl/vector.h>
-#endif
 #include <pool/Forward.h>
 #include <pool/Pool.h>
 

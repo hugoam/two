@@ -1,10 +1,5 @@
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.refl;
-#else
-#include <stl/vector.hpp>
-#include <refl/Api.h>
-#endif
 
 namespace stl
 {

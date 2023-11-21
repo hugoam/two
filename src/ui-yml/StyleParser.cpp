@@ -2,26 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.ui;
-#else
-#include <tree/Node.inl.h>
-#include <refl/Class.h>
-#include <srlz/Serial.h>
-#include <infra/String.h>
-#include <math/VecJson.h>
-#include <ui/Types.h>
-#include <ui/Style/StyleParser.h>
-#include <ui/Style/Style.h>
-#include <ui/Style/Skin.h>
-#include <ui/Style/Styler.h>
-#include <ui/Style/Styles.h>
-#include <ui/Structs/RootSheet.h>
-#include <ui/UiWindow.h>
-#include <meta/ui/Convert.h>
-#endif
 
 #include <json11.hpp>
 

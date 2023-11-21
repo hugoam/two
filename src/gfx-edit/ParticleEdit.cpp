@@ -2,28 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.gfx-edit;
-#else
-#include <infra/File.h>
-#include <type/Var.h>
-#include <tree/Graph.hpp>
-#include <srlz/Serial.h>
-#include <geom/Shapes.h>
-#include <geom/Symbol.h>
-#include <gfx/Gfx.h>
-#include <gfx/GfxSystem.h>
-#include <ui/Section.h>
-#include <ui/Ui.h>
-#include <uio/Inspector.h>
-#include <uio/ValueEdit.h>
-#include <gfx/Particles.h>
-#include <gfx-ui/Types.h>
-#include <gfx-ui/Viewer.h>
-#include <gfx-edit/ParticleEdit.h>
-#endif
 
 namespace two
 {

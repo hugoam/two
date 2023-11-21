@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <type/Unique.h>
-#endif
-
 namespace two
 {
 	export_ template <class T>

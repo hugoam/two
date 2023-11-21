@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/memory.h>
-#include <math/Timer.h>
-#include <math/Colour.h>
-#endif
 #include <ui/Forward.h>
 #include <ui/Frame/Caption.h>
 

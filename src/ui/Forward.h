@@ -2,13 +2,6 @@
 
 #include <infra/Config.h>
 
-#ifndef TWO_MODULES
-#include <infra/Forward.h>
-#include <type/Forward.h>
-#include <math/Forward.h>
-#include <ctx/Forward.h>
-#endif
-
 #ifndef TWO_UI_EXPORT
 #define TWO_UI_EXPORT TWO_IMPORT
 #endif
@@ -59,10 +52,6 @@ namespace two
     export_ enum class TextFocusMode : unsigned int;
     export_ enum class WindowState : unsigned int;
     export_ enum class DropState : unsigned int;
-    
-#ifndef TWO_MODULES
-    template <class T> struct v2;
-#endif
 
     export_ class Style;
 	export_ struct Subskin;

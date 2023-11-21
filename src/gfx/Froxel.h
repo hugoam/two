@@ -4,24 +4,12 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/span.h>
-#include <geom/Geom.h>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Buffer.h>
 #include <gfx/FrustumCluster.h>
 
 #if defined TWO_UNIFORM_BLOCKS
 #include <gfx/Uniform.h>
-#endif
-
-#ifndef TWO_MODULES
-namespace bgfx
-{
-	struct Encoder;
-}
 #endif
 
 namespace two

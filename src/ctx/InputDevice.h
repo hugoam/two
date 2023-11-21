@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <math/Vec.h>
-#endif
 #include <ctx/Forward.h>
 #include <ctx/KeyCode.h>
 #include <ctx/InputDispatcher.h>

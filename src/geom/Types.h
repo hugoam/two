@@ -1,19 +1,9 @@
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stdint.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-#endif
 #include <geom/Forward.h>
 
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <type/Type.h>
-#endif
-
-#ifndef TWO_MODULES
-#include <type/Types.h>
-#include <math/Types.h>
 #endif
 
 

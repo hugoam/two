@@ -2,40 +2,11 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <gfx/Cpp20.h>
 #include <cstddef>
 #include <xatlas.h>
 module two.gfx.pbr;
-#else
-#include <cstddef>
-#include <xatlas.h>
-#include <infra/ToString.h>
-#include <infra/Log.h>
-#include <infra/File.h>
-#include <math/Random.h>
-#include <geom/Intersect.h>
-#include <geom/Geometry.h>
-#include <pool/ObjectPool.hpp>
-#include <gfx/Item.h>
-#include <gfx/Shot.h>
-#include <gfx/Graph.h>
-#include <gfx/Scene.h>
-#include <gfx/Camera.h>
-#include <gfx/Assets.h>
-#include <gfx/Mesh.h>
-#include <gfx/GfxSystem.h>
-#include <gfx/Pipeline.h>
-#include <gfx/Gpu/Material.hpp>
-#include <gfx-pbr/Types.h>
-#include <gfx-pbr/Lightmap.h>
-#include <gfx-pbr/VoxelGI.h>
-#include <gfx-pbr/Lighting.h>
-#include <gfx-pbr/Shadow.h>
-#include <gfx-pbr/Lightmap.h>
-#include <gfx-pbr/PipelinePbr.h>
-#endif
 
 #include <cstdio>
 

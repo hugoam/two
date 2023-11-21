@@ -4,13 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-//#include <cinttypes>
-#include <climits>
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/memory.h>
-#endif
 #include <ui/Forward.h>
 #include <ui/WidgetStruct.h>
 #include <ui/Frame/Caption.h>

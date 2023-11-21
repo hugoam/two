@@ -3,21 +3,10 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 #include <ctx-glfw/Glfw.h>
 module two.ctx.glfw;
-#else
-#include <ctx-glfw/Glfw.h>
-#include <cstdio>
-#include <infra/Log.h>
-#include <math/Math.h>
-#include <math/Vec.hpp>
-#include <ctx/KeyCode.h>
-#include <ctx/InputDevice.h>
-#include <ctx-glfw/GlfwContext.h>
-#endif
 
 void glfw_error(int error, const char* desc)
 {

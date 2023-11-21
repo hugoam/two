@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <bgfx/bgfx.h>
-#include <stl/vector.h>
-#include <math/Vec.hpp>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Texture.h>
 

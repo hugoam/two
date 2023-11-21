@@ -1,10 +1,5 @@
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.jobs;
-#else
-#include <stl/vector.hpp>
-#include <jobs/Api.h>
-#endif
 
 namespace stl
 {

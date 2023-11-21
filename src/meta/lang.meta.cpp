@@ -1,23 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.lang.meta;
-#else
-#include <cstddef>
-#include <stl/new.h>
-#include <infra/ToString.h>
-#include <infra/ToValue.h>
-#include <type/Vector.h>
-#include <refl/MetaDecl.h>
-#include <refl/Module.h>
-#include <meta/infra.meta.h>
-#include <meta/type.meta.h>
-#include <meta/pool.meta.h>
-#include <meta/refl.meta.h>
-#include <meta/lang.meta.h>
-#include <meta/lang.conv.h>
-#include <lang/Api.h>
-#endif
 
 using namespace two;
 

@@ -2,36 +2,12 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <cstring>
 #include <cstdio>
 #include <bgfx/bgfx.h>
 #include <gfx/Cpp20.h>
 module two.gfx;
-#else
-#include <cstring>
-#include <cstdio>
-#include <bgfx/bgfx.h>
-#include <type/Type.h>
-#include <type/Indexer.h>
-#include <math/Vec.hpp>
-#include <gfx/Types.h>
-#include <gfx/Material.h>
-#include <gfx/Texture.h>
-#include <gfx/Skeleton.h>
-#include <gfx/Program.h>
-#include <gfx/Asset.h>
-#include <gfx/Item.h>
-#include <gfx/Mesh.h>
-#include <gfx/Model.h>
-#include <gfx/Renderer.h>
-#include <gfx/Pipeline.h>
-#include <gfx/GfxSystem.h>
-#include <gfx/Gpu/Material.hpp>
-//#include <gfx-pbr/VoxelGI.h>
-//#include <gfx-pbr/Lightmap.h>
-#endif
 
 namespace two
 {

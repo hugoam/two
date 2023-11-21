@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <math/Colour.h>
-#endif
 #include <ui/Forward.h>
 #include <ui/WidgetStruct.h>
 

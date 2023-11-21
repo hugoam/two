@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef TWO_MODULES
-#include <math/Grid.h>
-#endif
 #include <noise/Forward.h>
 
 #ifndef TWO_META_GENERATOR

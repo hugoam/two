@@ -2,37 +2,12 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <bx/allocator.h>
 #include <bimg/bimg.h>
 #include <bgfx/bgfx.h>
 #include <gfx/Cpp20.h>
 module two.gfx;
-#else
-#include <bx/allocator.h>
-#include <bimg/bimg.h>
-#include <bgfx/bgfx.h>
-#include <stl/string.h>
-#include <stl/algorithm.h>
-#include <pool/Pool.hpp>
-#include <math/Math.h>
-#include <math/Random.h>
-#include <math/ImageAtlas.h>
-#include <geom/ShapeDistrib.h>
-#include <gfx/Types.h>
-#include <gfx/Particles.h>
-#include <gfx/GfxSystem.h>
-#include <gfx/Renderer.h>
-#include <gfx/Texture.h>
-#include <gfx/Material.h>
-#include <gfx/Program.h>
-#include <gfx/Asset.h>
-#include <gfx/Camera.h>
-#include <gfx/Scene.h>
-#include <gfx/Pipeline.h>
-#include <gfx/Node3.h>
-#endif
 
 #define SPRITE_TEXTURE_SIZE 2048U
 

@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <type/Ref.h>
-#endif
 #include <ui/Forward.h>
 #include <ui/WidgetStruct.h>
 #include <ui/Container.h>

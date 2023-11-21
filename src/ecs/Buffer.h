@@ -2,13 +2,6 @@
 
 #define TWO_ECS_TYPED
 
-#ifndef TWO_MODULES
-#include <stl/swap.h>
-#include <stl/vector.h>
-#ifdef TWO_ECS_TYPED
-#include <type/Ref.h>
-#endif
-#endif
 #include <ecs/Forward.h>
 
 namespace two

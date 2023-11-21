@@ -1,16 +1,7 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 #include <xx_three/ex.h>
 module two.xxthree;
-#else
-#include <xx_three/xx_three.h>
-#include <gfx-pbr/Api.h>
-#include <stl/array.h>
-#include <stl/vector.hpp>
-#include <cstdio>
-#include <cstring>
-#endif
 
 using namespace two;
 

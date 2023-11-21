@@ -4,11 +4,6 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef TWO_MODULES
-#include <ctx/Forward.h>
-//#include <ctx/Types.h>
-#endif
-
 #ifndef TWO_CTX_META_EXPORT
 #define TWO_CTX_META_EXPORT TWO_IMPORT
 #endif

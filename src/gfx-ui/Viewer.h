@@ -4,18 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <cfloat>
-#include <math/Math.h>
-#include <math/Vec.h>
-#include <ui/WidgetStruct.h>
-#include <ui/Style/Style.h>
-#include <gfx/Viewport.h>
-#include <gfx/Picker.h>
-#include <gfx/Camera.h>
-#include <gfx/Scene.h>
-#include <gfx/Graph.h>
-#endif
 #include <gfx-ui/Forward.h>
 
 namespace two

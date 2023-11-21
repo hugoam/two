@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <math/Vec.hpp>
-#endif
 #include <geom/Forward.h>
 #include <geom/Geom.h>
 

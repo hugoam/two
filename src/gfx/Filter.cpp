@@ -3,24 +3,9 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 
-#ifdef TWO_MODULES
 module;
 #include <gfx/Cpp20.h>
 module two.gfx;
-#else
-#include <cstdio>
-#include <cassert>
-#include <stl/algorithm.h>
-#include <math/Vec.hpp>
-#include <geom/Primitive.h>
-#include <gfx/Types.h>
-#include <gfx/Filter.h>
-#include <gfx/RenderTarget.h>
-#include <gfx/Camera.h>
-#include <gfx/Program.h>
-#include <gfx/Asset.h>
-#include <gfx/GfxSystem.h>
-#endif
 
 namespace two
 {

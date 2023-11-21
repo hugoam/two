@@ -6,17 +6,7 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#include <math/Vec.hpp>
-#include <gfx/Filter.h>
-#include <gfx/Asset.h>
-#include <gfx/GfxSystem.h>
-#include <gfx/RenderTarget.h>
-#include <gfx-pbr/Types.h>
-#include <gfx-pbr/Filters/Blur.h>
-#endif
 
 namespace two
 {

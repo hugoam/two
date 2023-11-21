@@ -14,13 +14,6 @@ namespace glm
 }
 #endif
 
-#ifndef TWO_MODULES
-namespace json11
-{
-	class Json;
-}
-#endif
-
 namespace two
 {
 	export_ using Json = json11::Json;

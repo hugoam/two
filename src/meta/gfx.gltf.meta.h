@@ -4,11 +4,6 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef TWO_MODULES
-#include <gfx-gltf/Forward.h>
-//#include <gfx-gltf/Types.h>
-#endif
-
 #ifndef TWO_GFX_GLTF_META_EXPORT
 #define TWO_GFX_GLTF_META_EXPORT TWO_IMPORT
 #endif

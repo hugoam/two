@@ -4,11 +4,6 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef TWO_MODULES
-#include <uio/Forward.h>
-//#include <uio/Types.h>
-#endif
-
 #ifndef TWO_UIO_META_EXPORT
 #define TWO_UIO_META_EXPORT TWO_IMPORT
 #endif

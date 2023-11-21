@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stdint.h>
-#include <cassert>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Program.h>
 

@@ -4,13 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <math/Vec.h>
-#include <math/Curve.h>
-#include <geom/Shape.h>
-#include <geom/Aabb.h>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Material.h>
 #include <gfx/Renderer.h>
@@ -126,11 +119,6 @@ namespace two
 		vector<Particle> m_particles;
 		uint32_t m_max;
 	};
-
-#ifndef TWO_MODULES
-	template <class T>
-	class TPool;
-#endif
 
 	export_ class TWO_GFX_EXPORT ParticleSystem
 	{

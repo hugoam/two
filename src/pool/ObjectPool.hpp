@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <type/Type.h>
-#endif
 #include <pool/Forward.h>
 #include <pool/ObjectPool.h>
 #include <pool/Pool.hpp>

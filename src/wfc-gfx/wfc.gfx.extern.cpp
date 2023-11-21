@@ -1,10 +1,5 @@
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.wfc.gfx;
-#else
-#include <stl/vector.hpp>
-#include <wfc-gfx/Api.h>
-#endif
 
 namespace stl
 {

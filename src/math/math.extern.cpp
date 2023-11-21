@@ -1,11 +1,5 @@
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.math;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#include <math/Api.h>
-#endif
 
 #include <stb_rect_pack.h>
 

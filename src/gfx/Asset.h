@@ -4,15 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/function.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/map.h>
-#include <stl/algorithm.h>
-#include <infra/Log.h>
-#include <type/Unique.h>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/GfxSystem.h>
 

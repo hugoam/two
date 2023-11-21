@@ -2,14 +2,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <bgfx/bgfx.h>
-#include <bimg/bimg.h>
-#include <stl/vector.h>
-#include <gfx/Renderer.h>
-#include <gfx/Light.h>
-#include <gfx/Texture.h>
-#endif
 #include <gfx-pbr/Forward.h>
 
 namespace two

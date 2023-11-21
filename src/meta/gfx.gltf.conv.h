@@ -1,9 +1,5 @@
 #pragma once
 
-#ifndef TWO_MODULES
-#include <gfx-gltf/Types.h>
-#endif
-
 #if !defined TWO_MODULES || defined TWO_TYPE_LIB
 #include <refl/Meta.h>
 #include <refl/Enum.h>

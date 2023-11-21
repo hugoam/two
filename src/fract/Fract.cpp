@@ -2,21 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.fract;
-#else
-#include <cstdlib>
-#include <cstdio>
-#include <cmath>
-#include <ctime>
-
-#include <stl/string.h>
-#include <math/Colour.h>
-#include <math/Vec.hpp>
-#include <fract/Fract.h>
-#endif
 
 #define PI 3.14159f
 #define COEFF_TRANS 1.5f

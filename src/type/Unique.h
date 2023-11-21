@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/memory.h>
-#endif
-
 #ifdef TWO_TRACK_MEMORY
 #include <type/Cls.h>
 #include <stl/traits.h>

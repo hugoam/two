@@ -2,43 +2,15 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <bx/allocator.h>
 #include <gfx/Cpp20.h>
-#endif
 
 #if defined WIN32
 #include <BaseTsd.h>
 #endif
 
-#ifdef TWO_MODULES
 module two.gfx;
-#endif
-
-#ifndef TWO_MODULES
-#include <bx/allocator.h>
-#include <stl/stddef.h>
-#include <stdint.h>
-#include <cstring>
-#include <cstdio>
-#include <limits>
-#include <stl/bitset.h>
-#include <stl/swap.h>
-#include <stl/span.h>
-#include <stl/array.h>
-#include <stl/vector.hpp>
-#include <jobs/Job.h>
-#include <geom/Aabb.h>
-#include <geom/Intersect.h>
-#include <gfx/Froxel.h>
-#include <gfx/Camera.h>
-#include <gfx/Viewport.h>
-#include <gfx/Light.h>
-#include <gfx/Scene.h>
-#include <gfx/Renderer.h>
-#include <gfx/GfxSystem.h>
-#endif
 
 #if defined WIN32
 typedef SSIZE_T ssize_t;

@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <ui/WidgetStruct.h>
-#endif
 #include <ui/Forward.h>
 
 namespace two

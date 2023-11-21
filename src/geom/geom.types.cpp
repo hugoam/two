@@ -1,12 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.geom;
-#else
-#include <geom/Types.h>
-#include <geom/Api.h>
-#include <type/Vector.h>
-#endif
 
 namespace two
 {

@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <cassert>
-#endif
-
 #if defined(WIN32)
 #include <malloc.h>
 #else

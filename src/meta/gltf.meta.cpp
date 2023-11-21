@@ -1,24 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.gltf.meta;
-#else
-#include <cstddef>
-#include <stl/new.h>
-#include <infra/ToString.h>
-#include <infra/ToValue.h>
-#include <type/Vector.h>
-#include <refl/MetaDecl.h>
-#include <refl/Module.h>
-#include <meta/infra.meta.h>
-#include <meta/type.meta.h>
-#include <meta/refl.meta.h>
-#include <meta/srlz.meta.h>
-#include <meta/math.meta.h>
-#include <meta/gltf.meta.h>
-#include <meta/gltf.conv.h>
-#include <gltf/Api.h>
-#endif
 
 using namespace two;
 

@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stdint.h>
-#include <stl/vector.h>
-#include <stl/memory.h>
-#endif
 #include <infra/Config.h>
 
 #ifndef TWO_TREE_EXPORT

@@ -4,24 +4,9 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/table.h>
-#include <stl/function.h>
-#include <math/Vec.h>
-#include <math/Colour.h>
-#include <geom/Primitive.h>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Texture.h>
 #include <gfx/Renderer.h>
-
-#ifndef TWO_MODULES
-namespace bgfx
-{
-	struct Encoder;
-}
-#endif
 
 namespace two
 {

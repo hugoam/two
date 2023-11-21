@@ -4,17 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/string.h>
-#include <math/Axis.h>
-#include <infra/Global.h>
-#include <type/Dispatch.h>
-#include <math/Vec.h>
-#include <geom/Shape.h>
-#include <geom/Symbol.h>
-#include <ui/Controller/Controller.h>
-#endif
 #include <tool/Forward.h>
 #include <tool/Action.h>
 #include <gfx-ui/Viewer.h>

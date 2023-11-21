@@ -4,11 +4,6 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef TWO_MODULES
-#include <wfc/Forward.h>
-//#include <wfc/Types.h>
-#endif
-
 #ifndef TWO_WFC_META_EXPORT
 #define TWO_WFC_META_EXPORT TWO_IMPORT
 #endif

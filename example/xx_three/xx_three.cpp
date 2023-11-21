@@ -1,21 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.xxthree;
-#else
-#include <xx_three/xx_three.h>
-#include <gfx-pbr/Api.h>
-#include <stl/array.h>
-#if UI
-#else
-#include <infra/Api.h>
-#include <ecs/Api.h>
-#include <jobs/Api.h>
-#include <math/Api.h>
-#include <geom/Api.h>
-#include <gfx/Api.h>
-#include <xx_three/gfxshell.h>
-#endif
 #endif
 
 using namespace two;

@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/map.h>
-#include <math/Vec.h>
-#endif
 #include <gfx/Renderer.h>
 
 namespace two

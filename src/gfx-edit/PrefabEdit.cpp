@@ -2,25 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.gfx-edit;
-#else
-#include <type/Any.h>
-#include <stl/algorithm.h>
-//#include <infra/ToString.h>
-#include <refl/Convert.h>
-#include <refl/System.h>
-#include <ui/ContainerStruct.h>
-#include <ui/Section.h>
-#include <uio/Inspector.h>
-#include <uio/MethodEdit.h>
-#include <gfx/Types.h>
-#include <gfx/Prefab.h>
-#include <gfx/Gfx.h>
-#include <gfx-edit/PrefabEdit.h>
-#endif
 
 namespace two
 {

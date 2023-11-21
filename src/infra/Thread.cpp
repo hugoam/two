@@ -2,10 +2,8 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
-#endif
 
 #if !defined(WIN32)
 #    include <pthread.h>
@@ -36,13 +34,7 @@ module;
 //#undef small
 #endif
 
-
-#ifdef TWO_MODULES
 module two.infra;
-#else
-#include <infra/Config.h>
-#include <infra/Thread.h>
-#endif
 
 namespace two
 {

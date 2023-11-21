@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <gfx/Renderer.h>
-#include <gfx/Program.h>
-#endif
-
 namespace two
 {
 	enum ShaderOptionBlur : unsigned int

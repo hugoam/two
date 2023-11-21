@@ -2,10 +2,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <type/Unique.h>
-#include <stl/table.h>
-#endif
 #include <gfx/Renderer.h>
 #include <gfx/Material.h>
 #include <gfx/Forward.h>

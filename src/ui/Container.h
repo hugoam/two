@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/span.h>
-#endif
 #include <ui/Forward.h>
 #include <ui/Style/Style.h>
 

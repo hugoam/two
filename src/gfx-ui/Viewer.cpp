@@ -2,36 +2,10 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 #include <bgfx/bgfx.h>
 module two.gfx.ui;
-#else
-#include <stl/algorithm.h>
-#include <tree/Graph.hpp>
-#include <math/Math.h>
-#include <geom/Geom.hpp>
-#include <geom/Intersect.h>
-#include <ctx/InputEvent.h>
-#include <ui/UiRenderer.h>
-#include <ui/Frame/Frame.h>
-#include <ui/Style/Layout.h>
-#include <ui/Style/Skin.h>
-#include <ui/UiRoot.h>
-#include <ui/Style/Styles.h>
-#include <ui/Controller/Controller.h>
-#include <ui/UiWindow.h>
-#include <gfx/Item.h>
-#include <gfx/Camera.h>
-#include <gfx/GfxSystem.h>
-#include <gfx/RenderTarget.h>
-#include <gfx/Renderer.h>
-#include <gfx/Pipeline.h>
-#include <gfx/Filter.h>
-#include <gfx-ui/Viewer.h>
-#include <gfx-ui/Types.h>
-#endif
 
 namespace two
 {

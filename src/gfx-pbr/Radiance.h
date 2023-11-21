@@ -4,12 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/map.h>
-#include <gfx/Renderer.h>
-#include <gfx/Filter.h>
-#endif
 #include <gfx-pbr/Forward.h>
 
 namespace two

@@ -1,11 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.snd.meta;
-#else
-#include <refl/Module.h>
-#include <meta/snd.meta.h>
-#endif
 
 namespace two
 {

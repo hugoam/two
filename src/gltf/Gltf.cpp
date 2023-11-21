@@ -2,37 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.gltf;
-#else
-#include <cassert>
-#include <iostream>
-#include <fstream>
-
-#include <json11.hpp>
-using Json = json11::Json;
-
-#include <type/DispatchDecl.h>
-#include <stl/algorithm.h>
-#include <infra/Log.h>
-#include <infra/File.h>
-#include <infra/StringOps.h>
-#include <infra/StringConvert.h>
-#include <type/Var.h>
-#include <math/Stream.h>
-#include <pool/Pool.h>
-#include <srlz/Serial.h>
-#include <refl/System.h>
-#include <refl/Class.h>
-#include <refl/Convert.h>
-#include <math/VecJson.h>
-#include <math/Interp.h>
-#include <geom/Geometry.h>
-#include <gltf/Gltf.h>
-#include <gltf/Types.h>
-#endif
 
 #include <cstdio>
 

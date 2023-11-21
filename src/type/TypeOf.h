@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/traits.h>
-#endif
 #include <type/Forward.h>
 
 namespace two

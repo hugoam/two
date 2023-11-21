@@ -1,12 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.ctx;
-#else
-#include <ctx/Types.h>
-#include <ctx/Api.h>
-#include <type/Vector.h>
-#endif
 
 namespace two
 {

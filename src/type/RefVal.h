@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <cassert>
-#include <stl/move.h>
-#include <stl/traits.h>
-#endif
 #include <type/Type.h>
 #include <type/Ref.h>
 //#include <type/Types.h>

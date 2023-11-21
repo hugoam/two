@@ -2,32 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.srlz;
-#else
-#include <string>
-#include <vector>
-#include <map>
-#include <cstring>
-#include <json11.hpp>
-
-#include <infra/Log.h>
-#include <infra/File.h>
-#include <type/Vector.h>
-#include <refl/System.h>
-#include <refl/Convert.h>
-#include <refl/Sequence.h>
-#include <refl/Meta.h>
-#include <refl/Enum.h>
-#include <refl/Injector.h>
-#include <refl/Member.h>
-#include <refl/Method.h>
-#include <srlz/Types.h>
-#include <srlz/Serial.h>
-#include <srlz/Serial.hpp>
-#endif
 
 #define TWO_DEBUG_SERIAL 0
 #define NO_HUMAN_READABLE

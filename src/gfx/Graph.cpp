@@ -2,43 +2,10 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <cstdio>
 #include <gfx/Cpp20.h>
 module two.gfx;
-#else
-#include <cstdio>
-#include <stl/algorithm.h>
-#include <infra/Log.h>
-#include <infra/Copy.h>
-#include <pool/Pool.hpp>
-#include <pool/ObjectPool.hpp>
-#include <tree/Graph.hpp>
-#include <math/Math.h>
-#include <math/ImageAtlas.h>
-#include <math/Vec.hpp>
-#include <geom/Geom.h>
-#include <geom/Intersect.h>
-#include <geom/Symbol.h>
-#include <geom/Shapes.h>
-#include <gfx/Types.h>
-#include <gfx/Graph.h>
-#include <gfx/Graph.hpp>
-#include <gfx/Gfx.h>
-#include <gfx/Draw.h>
-#include <gfx/Prefab.h>
-#include <gfx/Item.h>
-#include <gfx/Animated.h>
-#include <gfx/Particles.h>
-#include <gfx/Scene.h>
-#include <gfx/Asset.h>
-#include <gfx/Model.h>
-#include <gfx/Texture.h> // @kludge : make all this logic private and export_ asset stores
-#include <gfx/Blocks/Sky.h>
-#include <gfx/GfxSystem.h>
-#include <gfx/Pipeline.h>
-#endif
 
 namespace two
 {

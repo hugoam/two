@@ -1,37 +1,8 @@
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
+//#include <Tracy.hpp>
 module two.jobs;
-#else
-#include <stl/vector.hpp>
-#include <stl/span.h>
-#include <stl/math.h>
-#include <stl/algorithm.h>
-#include <infra/Log.h>
-#include <infra/AlignedAlloc.h>
-#include <infra/Arena.h>
-#include <infra/Thread.h>
-#include <jobs/JobSystem.h>
-#include <jobs/JobQueue.h>
-#include <jobs/Job.h>
-
-#include <cassert>
-#include <cmath>
-#include <random>
-
-#include <atomic>
-#include <thread>
-
-#include <condition_variable>
-#include <mutex>
-
-#ifndef TWO_PLATFORM_EMSCRIPTEN
-#include <immintrin.h>
-#endif
-
-#include <Tracy.hpp>
-#endif
 
 #define __i386__
 

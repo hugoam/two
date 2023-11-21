@@ -4,11 +4,6 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef TWO_MODULES
-#include <fract/Forward.h>
-//#include <fract/Types.h>
-#endif
-
 #ifndef TWO_FRACT_META_EXPORT
 #define TWO_FRACT_META_EXPORT TWO_IMPORT
 #endif

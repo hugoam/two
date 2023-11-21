@@ -1,4 +1,5 @@
 #pragma once
+
 #include <infra/Config.h>
 
 #ifdef USE_STL
@@ -9,13 +10,7 @@ namespace stl
 {
 	export_ template <class T> struct span;
 	export_ template <class T, size_t Size> struct array;
-}
-#ifndef TWO_MODULES
-#include <string>
-#include <functional>
-#include <vector>
-#endif
-namespace stl
+}namespace stl
 {
 	export_ using std::string;
 	export_ using std::function;

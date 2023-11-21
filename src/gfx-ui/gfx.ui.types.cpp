@@ -1,12 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.gfx.ui;
-#else
-#include <gfx-ui/Types.h>
-#include <gfx-ui/Api.h>
-#include <type/Vector.h>
-#endif
 
 namespace two
 {

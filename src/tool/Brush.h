@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <refl/Injector.h>
-#include <geom/Poisson.h>
-#endif
 #include <tool/Forward.h>
 #include <tool/Tool.h>
 

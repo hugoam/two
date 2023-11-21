@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stdint.h>
-#include <stl/unordered_map.h>
-#include <stl/vector.h>
-#endif
 #include <pool/Forward.h>
 
 namespace two

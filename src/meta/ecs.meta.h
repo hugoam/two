@@ -4,11 +4,6 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef TWO_MODULES
-#include <ecs/Forward.h>
-//#include <ecs/Types.h>
-#endif
-
 #ifndef TWO_ECS_META_EXPORT
 #define TWO_ECS_META_EXPORT TWO_IMPORT
 #endif

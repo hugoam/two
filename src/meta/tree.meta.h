@@ -4,11 +4,6 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef TWO_MODULES
-#include <tree/Forward.h>
-//#include <tree/Types.h>
-#endif
-
 #ifndef TWO_TREE_META_EXPORT
 #define TWO_TREE_META_EXPORT TWO_IMPORT
 #endif

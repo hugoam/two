@@ -2,29 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.gfx.ui;
-#else
-#include <cstdio>
-#include <geom/Intersect.h>
-#include <geom/Shapes.h>
-#include <geom/Shape/Quad.h>
-#include <ctx/InputDevice.h>
-#include <ui/Frame/Layer.h>
-#include <gfx/Texture.h>
-#include <gfx/Material.h>
-#include <gfx/Mesh.h>
-#include <gfx/Model.h>
-#include <gfx/Node3.h>
-#include <gfx/Item.h>
-#include <gfx/Draw.h>
-#include <gfx/Asset.h>
-#include <gfx/GfxSystem.h>
-#include <gfx-ui/SpaceSheet.h>
-#include <gfx-ui/Viewer3.h>
-#endif
 
 namespace two
 {

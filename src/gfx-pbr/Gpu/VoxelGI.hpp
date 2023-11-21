@@ -2,10 +2,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <math/Vec.hpp>
-#include <gfx/Renderer.h>
-#endif
 #include <gfx-pbr/Forward.h>
 #include <gfx-pbr/VoxelGI.h>
 

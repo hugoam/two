@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <type/Ref.h>
-#include <math/Vec.h>
-#include <ecs/Entity.h>
-#endif
 #include <gfx/Forward.h>
 
 namespace two

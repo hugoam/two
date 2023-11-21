@@ -2,23 +2,10 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <bgfx/bgfx.h>
 #include <gfx/Cpp20.h>
 module two.gfx;
-#else
-#include <bgfx/bgfx.h>
-#include <ecs/ECS.hpp>
-#include <geom/Intersect.h>
-#include <gfx/Viewport.h>
-#include <gfx/Camera.h>
-#include <gfx/Item.h>
-#include <gfx/Renderer.h>
-#include <gfx/Froxel.h>
-#include <gfx/Shot.h>
-#include <gfx/RenderTarget.h>
-#endif
 
 //#define NO_OCCLUSION_CULLING
 

@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/new.h>
-#include <stl/move.h>
-#endif
 #include <type/RefVal.h>
 #include <type/TypeUtils.h>
 #include <type/Var.h>

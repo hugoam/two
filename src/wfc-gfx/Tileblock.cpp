@@ -2,38 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.wfc.gfx;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#include <math/Axes.h>
-#include <math/Stat.hpp>
-#include <math/Grid.hpp>
-#include <geom/Intersect.h>
-#include <geom/Shapes.h>
-#include <geom/Symbol.h>
-#include <geom/Primitive.h>
-#include <tree/Graph.hpp>
-#include <ui/Input.h>
-#include <ui/Section.h>
-#include <gfx/Graph.h>
-#include <gfx/Scene.h>
-#include <gfx/Item.h>
-#include <gfx/Mesh.h>
-#include <gfx/Model.h>
-#include <gfx/Asset.h>
-#include <gfx/Importer.h>
-#include <gfx/GfxSystem.h>
-#include <gfx/Gfx.h>
-#include <gfx-ui/Viewer.h>
-#include <wfc-gfx/Types.h>
-#include <wfc-gfx/Tileblock.h>
-#include <ecs/ECS.h>
-#include <meta/math.conv.h>
-#endif
 
 #include <cstring>
 #include <cstdio>

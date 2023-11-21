@@ -4,12 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <climits>
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <math/Vec.h>
-#endif
 #include <ui/Forward.h>
 #include <ui/Frame/Dim.h>
 #include <ui/Style/Paint.h>

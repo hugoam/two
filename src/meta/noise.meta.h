@@ -4,11 +4,6 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef TWO_MODULES
-#include <noise/Forward.h>
-//#include <noise/Types.h>
-#endif
-
 #ifndef TWO_NOISE_META_EXPORT
 #define TWO_NOISE_META_EXPORT TWO_IMPORT
 #endif

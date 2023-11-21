@@ -4,11 +4,6 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef TWO_MODULES
-#include <infra/Forward.h>
-//#include <infra/Types.h>
-#endif
-
 #ifndef TWO_INFRA_META_EXPORT
 #define TWO_INFRA_META_EXPORT TWO_IMPORT
 #endif

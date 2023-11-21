@@ -9,11 +9,6 @@
 #include <type/Type.h>
 #endif
 
-#ifndef TWO_MODULES
-#include <math/Types.h>
-#include <ctx/Types.h>
-#endif
-
 namespace two
 {
     // Exported types

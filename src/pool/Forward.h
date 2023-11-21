@@ -2,11 +2,6 @@
 
 #include <infra/Config.h>
 
-#ifndef TWO_MODULES
-#include <infra/Forward.h>
-#include <type/Forward.h>
-#endif
-
 #ifndef TWO_POOL_EXPORT
 #define TWO_POOL_EXPORT TWO_IMPORT
 #endif

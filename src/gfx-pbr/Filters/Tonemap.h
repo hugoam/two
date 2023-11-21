@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <ecs/Entity.h>
-#include <gfx/Renderer.h>
-#endif
 #include <gfx-pbr/Forward.h>
 #include <gfx-pbr/Filters/Glow.h>
 #include <gfx-pbr/Filters/DofBlur.h>

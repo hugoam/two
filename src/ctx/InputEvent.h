@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <math/Vec.h>
-#endif
 #include <ctx/Forward.h>
 #include <ctx/KeyCode.h>
 

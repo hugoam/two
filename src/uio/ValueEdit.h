@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <infra/Global.h>
-#include <type/Dispatch.h>
-#include <math/Stat.h>
-#endif
 #include <uio/Forward.h>
 #include <uio/Inspector.h>
 

@@ -4,30 +4,7 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <ctx/Forward.h>
-#endif
 #include <bgfx/Forward.h>
-
-#ifndef TWO_MODULES
-	#if defined TWO_CONTEXT_GLFW
-		#include <ctx-glfw/GlfwContext.h>
-	#elif defined TWO_CONTEXT_WASM
-		#include <ctx-wasm/EmscriptenContext.h>
-	#elif defined TWO_CONTEXT_WINDOWS
-		#include <ctx-win/WindowsContext.h>
-	#else
-		#include <ctx/Context.h>
-	#endif
-#endif
-
-#ifndef TWO_MODULES
-namespace bx
-{
-	struct AllocatorI;
-}
-#endif
 
 namespace two
 {

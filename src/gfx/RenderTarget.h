@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/span.h>
-#include <math/Vec.hpp>
-#include <type/Unique.h>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Viewport.h>
 #include <gfx/Texture.h>

@@ -1,11 +1,5 @@
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.lang;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#include <lang/Api.h>
-#endif
 
 typedef struct WrenHandle WrenHandle;
 

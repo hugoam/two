@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/algorithm.h>
-#include <type/TypeUtils.h>
-#endif
 #include <pool/VecPool.h>
 
 namespace two

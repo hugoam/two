@@ -4,12 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/algorithm.h>
-#include <type/Ref.h>
-#include <refl/Enum.h>
-#include <ui/Ui.h>
-#endif
 #include <uio/Forward.h>
 
 namespace two

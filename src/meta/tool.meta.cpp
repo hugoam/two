@@ -1,34 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.tool.meta;
-#else
-#include <cstddef>
-#include <stl/new.h>
-#include <infra/ToString.h>
-#include <infra/ToValue.h>
-#include <type/Vector.h>
-#include <refl/MetaDecl.h>
-#include <refl/Module.h>
-#include <meta/infra.meta.h>
-#include <meta/tree.meta.h>
-#include <meta/type.meta.h>
-#include <meta/refl.meta.h>
-#include <meta/srlz.meta.h>
-#include <meta/lang.meta.h>
-#include <meta/math.meta.h>
-#include <meta/geom.meta.h>
-#include <meta/ctx.meta.h>
-#include <meta/ui.meta.h>
-#include <meta/uio.meta.h>
-#include <meta/gfx.meta.h>
-#include <meta/gfx.pbr.meta.h>
-#include <meta/gfx.ui.meta.h>
-#include <meta/gfx.edit.meta.h>
-#include <meta/tool.meta.h>
-#include <meta/tool.conv.h>
-#include <tool/Api.h>
-#endif
 
 using namespace two;
 

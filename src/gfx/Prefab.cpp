@@ -2,23 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <gfx/Cpp20.h>
 module two.gfx;
-#else
-#include <stl/set.h>
-#include <stl/hash_base.hpp>
-#include <infra/Log.h>
-#include <pool/Pool.h>
-#include <gfx/Types.h>
-#include <gfx/Prefab.h>
-#include <gfx/Animated.h>
-#include <gfx/Gfx.h>
-#include <gfx/Assets.h>
-#include <gfx/Importer.h>
-#include <gfx/GfxSystem.h>
-#endif
 
 #include <cstdio>
 

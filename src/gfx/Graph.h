@@ -4,14 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/function.h>
-#include <pool/Pool.h>
-#include <tree/Graph.h>
-#ifdef _MSC_VER
-#include <tree/Graph.hpp>
-#endif
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Node3.h>
 #include <gfx/Light.h>

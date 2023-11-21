@@ -2,25 +2,12 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <cstring>
 #include <cstdio>
 #include <bgfx/bgfx.h>
 #include <gfx/Cpp20.h>
 module two.gfx;
-#else
-#include <cstring>
-#include <cstdio>
-#include <bgfx/bgfx.h>
-#include <math/Vec.hpp>
-#include <geom/Geom.h>
-#include <gfx/Item.h>
-#include <gfx/Mesh.h>
-#include <gfx/Model.h>
-#include <gfx/Node3.h>
-#include <gfx/Skeleton.h>
-#endif
 
 namespace two
 {

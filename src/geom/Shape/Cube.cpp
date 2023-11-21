@@ -2,20 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.geom;
-#else
-#include <stl/array.h>
-#include <stl/vector.hpp>
-#include <math/Vec.hpp>
-#include <geom/Shape/Cube.h>
-#include <geom/Shapes.h>
-#include <geom/ShapesComplex.h>
-#include <geom/Primitive.hpp>
-#include <geom/Shape/Quad.h>
-#endif
 
 #ifndef TWO_MODULES
 #define CONSTEXPR constexpr

@@ -5,12 +5,7 @@
 #include <infra/Cpp20.h>
 #include <climits>
 
-#ifdef TWO_MODULES
 module two.noise;
-#else
-#include <math/Random.h>
-#include <noise/Noise.h>
-#endif
 
 namespace two
 {

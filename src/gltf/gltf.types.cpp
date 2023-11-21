@@ -1,12 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.gltf;
-#else
-#include <gltf/Types.h>
-#include <gltf/Api.h>
-#include <type/Vector.h>
-#endif
 
 namespace two
 {

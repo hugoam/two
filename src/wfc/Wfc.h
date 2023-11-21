@@ -1,14 +1,5 @@
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/function.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/set.h>
-#include <stl/map.h>
-#include <math/Grid.h>
-#include <math/Vec.h>
-#endif
 #include <wfc/Forward.h>
 
 namespace two

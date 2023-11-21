@@ -2,17 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.gfx.ui;
-#else
-#include <ctx/InputDevice.h>
-#include <gfx/Camera.h>
-#include <gfx/Item.h>
-#include <gfx-ui/Viewer3.h>
-#include <gfx-ui/SpaceSheet.h>
-#endif
 
 namespace two
 {

@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <type/Ref.h>
-#include <math/Colour.h>
-#include <math/Vec.h>
-#endif
 #include <ui/Forward.h>
 #include <ui/Style/Style.h>
 #include <ui/Widget.h>

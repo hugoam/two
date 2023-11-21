@@ -2,29 +2,10 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 #include <dirent.h>
-#else
-#include <vector>
-#include <string>
-#include <fstream>
-#include <dirent.h>
-#undef min
-#undef max
-#undef near
-#undef far
-#undef NEAR
-#undef FAR
-#endif
-
-#ifdef TWO_MODULES
 module two.infra;
-#else
-#include <infra/File.h>
-#include <infra/StringOps.h>
-#endif
 
 #if defined _WIN32
 #include <direct.h>
@@ -35,7 +16,7 @@ module two.infra;
 namespace two
 {
 #ifdef TWO_MODULES
-	using std::string;
+	using stl::string;
 #endif
 
 	void copy_file(const string& source, const string& dest)

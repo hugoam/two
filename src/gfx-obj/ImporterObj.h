@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef TWO_MODULES
-#include <gfx/Importer.h>
-#endif
 #include <gfx-obj/Forward.h>
 
 namespace two

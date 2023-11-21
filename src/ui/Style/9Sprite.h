@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/span.h>
-#include <math/Image.h>
-#endif
 #include <ui/Forward.h>
 #include <ui/Frame/Dim.h>
 

@@ -6,21 +6,7 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#include <math/Vec.hpp>
-#include <gfx/RenderTarget.h>
-#include <gfx/Filter.h>
-#include <gfx/Pipeline.h>
-#include <gfx/Asset.h>
-#include <gfx/GfxSystem.h>
-#include <gfx-pbr/Types.h>
-#include <gfx-pbr/Filters/Glow.h>
-#include <gfx-pbr/Filters/Blur.h>
-#include <gfx-pbr/Filters/Tonemap.h>
-#include <gfx-pbr/Gpu/Glow.hpp>
-#endif
 
 #define MAX_GLOW_LEVELS 7
 

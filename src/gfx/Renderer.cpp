@@ -2,35 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <gfx/Cpp20.h>
 module two.gfx;
-#else
-#include <Tracy.hpp>
-#include <stl/algorithm.h>
-#include <infra/Sort.h>
-#include <math/Vec.hpp>
-#include <jobs/JobLoop.hpp>
-#include <gfx/Types.h>
-#include <gfx/Renderer.h>
-#include <gfx/Pipeline.h>
-#include <gfx/Draw.h>
-#include <gfx/Shot.h>
-#include <gfx/Program.h>
-#include <gfx/Viewport.h>
-#include <gfx/Camera.h>
-#include <gfx/Scene.h>
-#include <gfx/Item.h>
-#include <gfx/Mesh.h>
-#include <gfx/Model.h>
-#include <gfx/Skeleton.h>
-#include <gfx/RenderTarget.h>
-#include <gfx/Material.h>
-#include <gfx/Frustum.h>
-#include <gfx/GfxSystem.h>
-#include <gfx/Filter.h>
-#endif
 
 //#define TWO_GFX_JOBS
 

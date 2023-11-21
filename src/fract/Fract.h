@@ -1,14 +1,5 @@
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/map.h>
-#include <stl/memory.h>
-#include <math/Colour.h>
-#include <math/Image256.h>
-#include <math/Vec.h>
-#include <geom/Shapes.h>
-#endif
 #include <fract/Forward.h>
 
 namespace two

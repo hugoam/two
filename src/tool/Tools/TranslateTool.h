@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <math/Vec.h>
-#include <math/Axis.h>
-#endif
 #include <tool/Forward.h>
 #include <tool/Tool.h>
 

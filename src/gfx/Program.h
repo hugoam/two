@@ -4,14 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <bgfx/bgfx.h>
-#include <stl/string.h>
-#include <stl/span.h>
-#include <stl/table.h>
-#include <stl/vector.h>
-#include <type/Unique.h>
-#endif
 #include <gfx/Forward.h>
 
 namespace two

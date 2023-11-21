@@ -6,51 +6,7 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx-edit;
-#else
-#include <infra/ToString.h>
-#include <stl/algorithm.h>
-#include <type/Vector.h>
-#include <type/DispatchDecl.h>
-#include <pool/ObjectPool.h>
-#include <refl/Class.h>
-#include <math/Axes.h>
-#include <geom/Symbol.h>
-#include <geom/Shapes.h>
-#include <geom/ShapesComplex.h>
-#include <geom/Aabb.h>
-#include <ui/ContainerStruct.h>
-#include <ui/UiRoot.h>
-#include <ui/Section.h>
-#include <ui/Input.h>
-#include <ui/Sequence.h>
-#include <ui/Ui.h>
-#include <uio/Inspector.h>
-#include <uio/ValueEdit.h>
-#include <uio/Unode.h>
-#include <gfx/Gfx.h>
-#include <gfx/Animated.h>
-#include <gfx/Mesh.h>
-#include <gfx/Model.h>
-#include <gfx/Asset.h>
-#include <gfx/Pipeline.h>
-#include <gfx/Froxel.h>
-#include <gfx/Material.h>
-#include <gfx/Particles.h>
-#include <gfx/Frustum.h>
-#include <gfx/GfxSystem.h>
-#include <gfx-pbr/Types.h>
-#include <gfx-pbr/Handles.h>
-#include <gfx-pbr/Shadow.h>
-#include <gfx-pbr/Filters/DofBlur.h>
-#include <gfx-pbr/Filters/Glow.h>
-#include <gfx-pbr/Filters/Tonemap.h>
-#include <gfx-ui/Types.h>
-#include <gfx-ui/Viewer.h>
-#include <gfx-edit/ParticleEdit.h>
-#include <gfx-edit/GfxEdit.h>
-#endif
 
 namespace two
 {

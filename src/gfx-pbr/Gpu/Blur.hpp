@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <gfx/Renderer.h>
-#endif
 #include <gfx-pbr/Filters/Blur.h>
 
 namespace two

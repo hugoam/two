@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/span.h>
-#endif
 #include <jobs/Job.h>
 
 namespace two

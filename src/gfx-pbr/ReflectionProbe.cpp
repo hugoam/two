@@ -2,23 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <gfx/Cpp20.h>
 module two.gfx.pbr;
-#else
-#include <stl/algorithm.h>
-#include <math/Axes.h>
-#include <math/Vec.hpp>
-#include <gfx/Shot.h>
-#include <gfx/Camera.h>
-#include <gfx/Viewport.h>
-#include <gfx/Scene.h>
-#include <gfx/RenderTarget.h>
-#include <gfx/GfxSystem.h>
-#include <gfx-pbr/Types.h>
-#include <gfx-pbr/ReflectionProbe.h>
-#endif
 
 namespace two
 {

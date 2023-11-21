@@ -4,15 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <bgfx/bgfx.h>
-#include <stl/vector.h>
-#include <math/Colour.h>
-#include <math/Vec.h>
-#include <gfx/Texture.h>
-#include <gfx/Camera.h>
-#include <gfx/RenderTarget.h>
-#endif
 #include <gfx-pbr/Forward.h>
 
 namespace two

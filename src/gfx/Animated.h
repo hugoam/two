@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <math/Vec.h>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Animation.h>
 #include <gfx/Skeleton.h>

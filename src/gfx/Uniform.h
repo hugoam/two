@@ -6,12 +6,6 @@
 
 #if 0
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <math/Vec.h>
-#include <type/Type.h>
-#include <type/TypeUtils.h>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Texture.h>
 

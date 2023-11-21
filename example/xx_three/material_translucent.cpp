@@ -1,22 +1,14 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 #include <xx_three/ex.h>
 module two.xxthree;
-#else
-#include <xx_three/xx_three.h>
-#include <gfx-pbr/Api.h>
-#include <gfx-obj/Api.h>
-#include <srlz/Serial.h>
-#include <stl/array.h>
-#endif
 
 using namespace two;
 
 // @author daoshengmu / http://dsmu.me/
 
 //	Subsurface Scattering shader
-// 		- Base on GDC 2011 – Approximating Translucency for a Fast, Cheap and Convincing Subsurface Scattering Look
+// 		- Base on GDC 2011 ï¿½ Approximating Translucency for a Fast, Cheap and Convincing Subsurface Scattering Look
 // 			https://colinbarrebrisebois.com/2011/03/07/gdc-2011-approximating-translucency-for-a-fast-cheap-and-convincing-subsurface-scattering-look/
 
 struct Phong

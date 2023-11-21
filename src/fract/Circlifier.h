@@ -1,10 +1,5 @@
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <math/Grid.h>
-#include <geom/Shape.h>
-#endif
 #include <fract/Forward.h>
 
 namespace two

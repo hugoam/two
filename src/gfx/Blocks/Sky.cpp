@@ -2,26 +2,12 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <bx/allocator.h>
 #include <bx/math.h>
 #include <bgfx/bgfx.h>
 #include <infra/Cpp20.h>
 module two.gfx;
-#else
-#include <bx/allocator.h>
-#include <bx/math.h>
-#include <math/Vec.hpp>
-#include <gfx/Types.h>
-#include <gfx/Blocks/Sky.h>
-#include <gfx/GfxSystem.h>
-#include <gfx/Scene.h>
-#include <gfx/Camera.h>
-#include <gfx/Texture.h>
-#include <gfx/Asset.h>
-#include <gfx/RenderTarget.h>
-#endif
 
 namespace two
 {

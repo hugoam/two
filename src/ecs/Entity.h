@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stdint.h>
-#include <stl/swap.h>
-#include <infra/Swap.h>
-#endif
 #include <ecs/Forward.h>
 
 namespace two

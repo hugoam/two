@@ -2,40 +2,10 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 #include <lang/LuaLib.h>
 module two.lang;
-#else
-#include <lang/LuaLib.h>
-#include <cassert>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <cstdarg>
-#include <cstring>
-#include <stl/new.h>
-#include <stl/vector.h>
-#include <stl/algorithm.h>
-#include <infra/Global.h>
-#include <infra/ToString.h>
-#include <infra/Log.h>
-#include <math/Vec.h>
-#include <type/Any.h>
-#include <type/Proto.h>
-#include <type/Dispatch.h>
-#include <type/DispatchDecl.h>
-#include <refl/Meta.h>
-#include <refl/Enum.h>
-#include <refl/Call.h>
-#include <refl/Sequence.h>
-#include <refl/Convert.h>
-#include <refl/Module.h>
-#include <refl/System.h>
-#include <lang/Types.h>
-#include <lang/Lua.h>
-#endif
 
 #include <infra/Swap.h>
 

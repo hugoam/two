@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <infra/TypeTraits.h>
-#endif
-
 #if defined __GNUC__
 #   pragma GCC system_header
 #endif

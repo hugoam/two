@@ -2,28 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.gfx.obj;
-#else
-#include <stl/algorithm.h>
-#include <infra/Log.h>
-#include <infra/File.h>
-#include <infra/ToString.h>
-#include <infra/ToValue.h>
-#include <math/Vec.hpp>
-#include <geom/Geometry.h>
-#include <srlz/Serial.h>
-#include <gfx/Mesh.h>
-#include <gfx/Model.h>
-#include <gfx/Prefab.h>
-#include <gfx/Node3.h>
-#include <gfx/Asset.h>
-#include <gfx/GfxSystem.h>
-#include <gfx-obj/Types.h>
-#include <gfx-obj/ImporterPly.h>
-#endif
 
 #include <stl/vector.hpp>
 

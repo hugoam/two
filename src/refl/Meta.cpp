@@ -2,23 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.refl;
-#else
-#include <stl/algorithm.h>
-#include <infra/ToString.h>
-#include <infra/Log.h>
-#include <type/Types.h>
-#include <type/Any.h>
-#include <refl/Meta.h>
-#include <refl/MetaDecl.h>
-#include <refl/Class.h>
-#include <refl/Enum.h>
-#include <refl/Convert.h>
-#include <refl/Injector.h>
-#endif
 
 #include <cstring>
 #include <cstdio>

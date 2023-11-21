@@ -1,13 +1,7 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 #include <xx_three/ex.h>
 module two.xxthree;
-#else
-#include <xx_three/xx_three.h>
-#include <gfx-pbr/Api.h>
-#include <stl/vector.hpp>
-#endif
 
 #define INSTANCING 1
 #define DYNAMIC 1

@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/string.h>
-#endif
 #include <type/Forward.h>
 #include <type/Type.h>
 #include <type/TypeOf.h>

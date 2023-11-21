@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/table.h>
-#include <gfx/Pipeline.h>
-#include <gfx/Shot.h>
-#endif
 #include <gfx-pbr/Forward.h>
 
 namespace two

@@ -1,9 +1,5 @@
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stdint.h>
-#include <cmath>
-#endif
 #include <math/Forward.h>
 #include <math/Vec.h>
 #include <math/Math.h>

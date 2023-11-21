@@ -1,12 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.wfc;
-#else
-#include <wfc/Types.h>
-#include <wfc/Api.h>
-#include <type/Vector.h>
-#endif
 
 namespace two
 {

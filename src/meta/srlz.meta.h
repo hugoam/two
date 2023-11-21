@@ -4,11 +4,6 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef TWO_MODULES
-#include <srlz/Forward.h>
-//#include <srlz/Types.h>
-#endif
-
 #ifndef TWO_SRLZ_META_EXPORT
 #define TWO_SRLZ_META_EXPORT TWO_IMPORT
 #endif

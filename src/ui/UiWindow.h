@@ -4,14 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/map.h>
-#include <stl/memory.h>
-#include <math/Timer.h>
-#include <math/ImageAtlas.h>
-#endif
 #include <ui/Forward.h>
 #include <ui/UiRenderer.h>
 

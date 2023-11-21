@@ -2,20 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.geom;
-#else
-#include <cassert>
-#include <geom/Geom.hpp>
-#include <math/Axes.h>
-#include <geom/Shape/Circle.h>
-#include <geom/Shape/Line.h>
-#include <geom/Primitive.hpp>
-#include <geom/Intersect.h>
-#include <geom/Geom.h>
-#endif
 
 namespace two
 {

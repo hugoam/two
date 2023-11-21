@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <ui/UiRoot.h>
-#endif
 #include <gfx-ui/Forward.h>
 
 namespace two

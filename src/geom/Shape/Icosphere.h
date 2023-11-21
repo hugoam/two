@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stdint.h>
-#include <stl/vector.h>
-#include <stl/map.h>
-#endif
 #include <geom/Shape/ProcShape.h>
 
 namespace two

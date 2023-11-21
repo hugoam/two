@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <refl/Injector.h>
-#endif
 #include <uio/Forward.h>
 
 namespace two

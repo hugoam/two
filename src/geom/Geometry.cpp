@@ -2,26 +2,10 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <mikktspace.h>
 #include <infra/Cpp20.h>
 module two.geom;
-#else
-#include <mikktspace.h>
-#include <cassert>
-#include <cstdio>
-#include <stl/unordered_map.h>
-#include <stl/map.h>
-#include <stl/algorithm.h>
-#include <infra/Log.h>
-#include <infra/Vector.h>
-#include <type/Cls.h>
-#include <math/Vec.hpp>
-#include <geom/Geometry.h>
-#include <geom/Geom.h>
-#include <geom/Primitive.hpp>
-#endif
 
 namespace two
 {

@@ -2,20 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.ui;
-#else
-#include <tree/Graph.hpp>
-#include <math/Vec.hpp>
-#include <ui/Window.h>
-#include <ui/Cursor.h>
-#include <ui/Frame/Layer.h>
-#include <ui/WindowStruct.h>
-#include <ui/UiRoot.h>
-#include <ui/Dock.h>
-#endif
 
 namespace two
 {

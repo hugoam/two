@@ -1,29 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.gfx.meta;
-#else
-#include <cstddef>
-#include <stl/new.h>
-#include <infra/ToString.h>
-#include <infra/ToValue.h>
-#include <type/Vector.h>
-#include <refl/MetaDecl.h>
-#include <refl/Module.h>
-#include <meta/infra.meta.h>
-#include <meta/type.meta.h>
-#include <meta/tree.meta.h>
-#include <meta/jobs.meta.h>
-#include <meta/pool.meta.h>
-#include <meta/ecs.meta.h>
-#include <meta/math.meta.h>
-#include <meta/geom.meta.h>
-#include <meta/ctx.meta.h>
-#include <meta/bgfx.meta.h>
-#include <meta/gfx.meta.h>
-#include <meta/gfx.conv.h>
-#include <gfx/Api.h>
-#endif
 
 using namespace two;
 

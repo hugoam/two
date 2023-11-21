@@ -4,12 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/traits.h>
-#include <math/Stat.h>
-#include <math/Colour.h>
-//#include <math/Math.h>
-#endif
 #include <ui/Forward.h>
 #include <ui/Button.h>
 #include <ui/Sheet.h>

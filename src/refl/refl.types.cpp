@@ -1,12 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.refl;
-#else
-#include <refl/Types.h>
-#include <refl/Api.h>
-#include <type/Vector.h>
-#endif
 
 namespace two
 {

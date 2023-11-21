@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <sstream>
-#include <stl/string.h>
-#endif
 #include <math/Forward.h>
 #include <math/Vec.h>
 #include <math/Colour.h>

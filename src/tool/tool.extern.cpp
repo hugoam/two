@@ -1,10 +1,5 @@
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.tool;
-#else
-#include <stl/vector.hpp>
-#include <tool/Api.h>
-#endif
 
 namespace stl
 {

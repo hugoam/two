@@ -2,27 +2,14 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.infra;
-#else
-#include <stl/algorithm.h>
-#include <infra/Config.h>
-#include <infra/StringOps.h>
-#include <infra/ToString.h>
-#include <infra/ToValue.h>
-#endif
-
-#ifndef TWO_MODULES
-#include <cctype>
-#include <cassert>
-#endif
 
 namespace two
 {
 #ifdef TWO_MODULES
-	using std::string;
+	using stl::string;
 #endif
 
 	const size_t g_num_precision = 3;

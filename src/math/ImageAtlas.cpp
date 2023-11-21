@@ -2,22 +2,12 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 #include <cstring>
 #include <stb_rect_pack.h>
 #include <stb_image.h>
 module two.math;
-#else
-#include <cstring>
-#include <stb_rect_pack.h>
-#include <stb_image.h>
-#include <infra/StringOps.h>
-#include <infra/File.h>
-#include <math/Interp.h>
-#include <math/ImageAtlas.h>
-#endif
 
 namespace two
 {

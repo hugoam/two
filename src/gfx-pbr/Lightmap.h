@@ -2,11 +2,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <math/ImageAtlas.h>
-#include <gfx/Renderer.h>
-#include <gfx/Light.h>
-#endif
 #include <gfx-pbr/Forward.h>
 
 namespace two

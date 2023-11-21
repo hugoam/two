@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <type/Ref.h>
-#endif
 #include <refl/Forward.h>
 #include <refl/Method.h>
 #include <refl/Member.h>

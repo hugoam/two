@@ -2,44 +2,10 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 #include <lang/WrenLib.h>
 module two.lang;
-#else
-#include <lang/WrenLib.h>
-#include <cassert>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <cstdarg>
-#include <cctype>
-#include <cstring>
-#include <stl/new.h>
-#include <stl/math.h>
-#include <stl/vector.h>
-#include <stl/map.h>
-#include <stl/unordered_map.h>
-#include <stl/set.h>
-#include <stl/hash_base.hpp>
-#include <stl/algorithm.h>
-#include <infra/ToString.h>
-#include <infra/Global.h>
-#include <infra/Log.h>
-#include <type/Any.h>
-#include <type/Dispatch.h>
-#include <type/DispatchDecl.h>
-#include <type/Proto.h>
-#include <refl/Meta.h>
-#include <refl/Enum.h>
-#include <refl/Call.h>
-#include <refl/Sequence.h>
-#include <refl/VirtualMethod.h>
-#include <refl/System.h>
-#include <lang/Types.h>
-#include <lang/Wren.h>
-#endif
 
 //#define TWO_WREN_DEBUG_DECLS
 //#define TWO_WREN_DEBUG

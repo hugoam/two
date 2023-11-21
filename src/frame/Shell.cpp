@@ -1,16 +1,9 @@
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 #include <bx/allocator.h>
 #include <bgfx/bgfx.h>
 module two.frame;
-#else
-#include <stl/vector.hpp>
-#include <frame/Shell.h>
-//#include <frame/Types.h>
-#include <ui-vg/VgVg.h>
-#endif
 
 #ifdef TWO_PLATFORM_EMSCRIPTEN
 #include <emscripten/emscripten.h>

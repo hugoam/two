@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/memory.h>
-#endif
 #include <lang/Forward.h>
 #include <lang/Script.h>
 

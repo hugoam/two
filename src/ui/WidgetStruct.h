@@ -4,16 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/function.h>
-#include <tree/Graph.h>
-#ifdef _MSC_VER
-#include <tree/Graph.hpp>
-#endif
-#include <stl/span.h>
-#include <ctx/ControlNode.h>
-#include <ctx/InputEvent.h>
-#endif
 #include <ui/Forward.h>
 #include <ui/Frame/Frame.h>
 #include <ui/Widget.h>

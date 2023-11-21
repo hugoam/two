@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <ecs/Entity.h>
-#endif
 #include <gfx-pbr/Forward.h>
 
 namespace two

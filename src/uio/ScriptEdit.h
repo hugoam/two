@@ -4,12 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <lang/Script.h>
-#include <ui/Section.h>
-#endif
-
 namespace two
 {
 	export_ class refl_ TWO_UIO_EXPORT ScriptEditor

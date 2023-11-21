@@ -2,19 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.lang;
-#else
-#include <infra/ToString.h>
-#include <stl/algorithm.h>
-#include <type/Types.h>
-#include <refl/Sequence.h>
-#include <refl/Convert.h>
-#include <refl/Meta.h>
-#include <lang/Stream.h>
-#endif
 
 namespace two
 {

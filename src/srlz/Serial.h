@@ -4,19 +4,7 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <type/Dispatch.h>
-#include <type/Var.h>
-#endif
 #include <srlz/Forward.h>
-
-#ifndef TWO_MODULES
-namespace json11
-{
-	class Json;
-}
-#endif
 
 namespace two
 {

@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stdint.h>
-#endif
 #include <ctx/Forward.h>
 #include <ctx/InputEvent.h>
 

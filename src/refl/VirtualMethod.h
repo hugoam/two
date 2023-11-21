@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/function.h>
-#include <type/Ref.h>
-#include <type/Any.h>
-#endif
 #include <refl/Forward.h>
 
 namespace two

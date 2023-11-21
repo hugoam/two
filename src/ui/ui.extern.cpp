@@ -1,13 +1,5 @@
 #ifndef USE_STL
-#ifdef TWO_MODULES
 module two.ui;
-#else
-#include <stl/vector.hpp>
-#include <stl/unordered_set.hpp>
-#include <stl/unordered_map.hpp>
-#include <ui/Api.h>
-#include <ui/Edit/Lang.h>
-#endif
 
 namespace stl
 {

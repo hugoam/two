@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <math/Vec.h>
-#endif
 #include <gfx-edit/Forward.h>
 
 namespace two

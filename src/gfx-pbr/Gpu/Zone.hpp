@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <cstring>
-#include <math/Vec.hpp>
-#include <gfx/Scene.h>
-#endif
 #include <gfx-pbr/Lighting.h>
 
 #define PAD 1.f

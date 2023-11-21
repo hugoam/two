@@ -1,21 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
-module TWO2(gfx.edit, meta);
-#else
-#include <refl/Module.h>
-#include <meta/infra.meta.h>
-#include <meta/type.meta.h>
-#include <meta/refl.meta.h>
-#include <meta/srlz.meta.h>
-#include <meta/math.meta.h>
-#include <meta/geom.meta.h>
-#include <meta/ui.meta.h>
-#include <meta/uio.meta.h>
-#include <meta/gfx.meta.h>
-#include <meta/gfx.pbr.meta.h>
-#include <meta/gfx.edit.meta.h>
-#endif
+module two.gfx.edit.meta;
 
 namespace two
 {

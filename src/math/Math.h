@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/math.h>
-#endif
 #include <math/Forward.h>
 
 #ifdef TWO_META_GENERATOR

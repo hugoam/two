@@ -1,13 +1,8 @@
 
 
-#ifdef TWO_MODULES
 module;
 #include <gfx/Cpp20.h>
 module two.gfx;
-#else
-#include <gfx/Assets.h>
-#include <gfx/Asset.hpp>
-#endif
 
 namespace two
 {

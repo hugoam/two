@@ -2,17 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.geom;
-#else
-#include <math/Vec.hpp>
-#include <geom/Shape/Quad.h>
-#include <geom/Shapes.h>
-#include <geom/ShapesComplex.h>
-#include <geom/Primitive.hpp>
-#endif
 
 //#define PK_GLITCH
 

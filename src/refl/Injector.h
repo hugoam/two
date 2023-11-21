@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <type/Var.h>
-#include <type/Unique.h>
-#endif
 #include <refl/Forward.h>
 #include <refl/Call.h>
 

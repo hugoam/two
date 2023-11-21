@@ -4,12 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/function.h>
-#include <math/Vec.h>
-#include <math/Colour.h>
-#include <ecs/Entity.h>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Renderer.h>
 #include <gfx/Culling.h>

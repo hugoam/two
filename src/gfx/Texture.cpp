@@ -2,7 +2,6 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <bgfx/bgfx.h>
 #include <bimg/bimg.h>
@@ -12,22 +11,6 @@ module;
 #include <bx/file.h>
 #include <gfx/Cpp20.h>
 module two.gfx;
-#else
-#include <bgfx/bgfx.h>
-#include <bimg/bimg.h>
-#include <bimg/decode.h>
-#include <bimg/encode.h>
-#include <bx/readerwriter.h>
-#include <bx/file.h>
-#include <stl/string.h>
-#include <infra/Log.h>
-#include <infra/Vector.h>
-#include <infra/File.h>
-#include <gfx/Texture.h>
-#include <gfx/GfxSystem.h>
-#include <gfx/Node3.h>
-#include <gfx/Renderer.h>
-#endif
 
 #include <cstdio>
 #include <cstring>

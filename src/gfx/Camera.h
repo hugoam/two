@@ -4,12 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/span.h>
-#include <type/Unique.h>
-#include <math/Vec.h>
-#include <geom/Geom.h>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Node3.h>
 

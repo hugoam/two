@@ -4,13 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <cstring>
-#include <math/Vec.hpp>
-#include <gfx/Light.h>
-#include <gfx/Node3.h>
-#include <gfx/Renderer.h>
-#endif
 #include <gfx-pbr/Lighting.h>
 #include <gfx-pbr/Shadow.h>
 

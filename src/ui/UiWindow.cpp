@@ -2,24 +2,10 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <cstdio>
 #include <infra/Cpp20.h>
 module two.ui;
-#else
-#include <cstdio>
-#include <stl/algorithm.h>
-#include <stl/unordered_map.hpp>
-#include <infra/Log.h>
-#include <infra/Vector.h>
-#include <infra/StringOps.h>
-#include <infra/File.h>
-#include <math/Vec.hpp>
-#include <ctx/Context.h>
-#include <ui/UiWindow.h>
-#include <ui/Api.h>
-#endif
 
 namespace two
 {

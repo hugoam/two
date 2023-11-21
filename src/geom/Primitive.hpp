@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <cstring>
-#include <cassert>
-#endif
 #include <geom/Forward.h>
 #include <geom/Primitive.h>
 

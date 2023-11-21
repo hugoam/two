@@ -6,17 +6,7 @@
 
 #include <bgfx/bgfx.h>
 
-#ifdef TWO_MODULES
 module two.gfx.pbr;
-#else
-#include <gfx/RenderTarget.h>
-#include <gfx/Asset.h>
-#include <gfx/GfxSystem.h>
-#include <gfx-pbr/Types.h>
-#include <gfx-pbr/Filters/DofBlur.h>
-#include <gfx-pbr/Filters/Tonemap.h>
-#include <gfx-pbr/Gpu/DofBlur.hpp>
-#endif
 
 namespace two
 {

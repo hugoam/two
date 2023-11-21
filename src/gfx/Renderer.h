@@ -4,15 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/memory.h>
-#include <stl/span.h>
-#include <stl/vector.h>
-#include <math/Vec.h>
-#include <ecs/Entity.h>
-#include <type/Cls.h>
-#include <type/Unique.h>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Frustum.h>
 #include <gfx/Shader.h>

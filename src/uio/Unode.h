@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <type/Dispatch.h>
-#include <infra/Global.h>
-#endif
 #include <uio/Forward.h>
 
 namespace two

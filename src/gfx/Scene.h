@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <type/Unique.h>
-#include <math/Vec.h>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Node3.h>
 #include <gfx/Graph.h>
@@ -128,5 +124,4 @@ namespace two
 	export_ TWO_GFX_EXPORT void gather_occluders(Scene& scene, const Camera& camera, vector<Item*>& occluders);
 	export_ TWO_GFX_EXPORT void gather_lights(Scene& scene, vector<Light*>& lights);
 
-	export_ TWO_GFX_EXPORT void gather_render(Scene& scene, Render& render);
-}
+	export_ TWO_GFX_EXPORT void gather_render(Scene& scene, Render& render)

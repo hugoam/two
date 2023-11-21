@@ -4,23 +4,7 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <bgfx/bgfx.h>
-#include <bimg/bimg.h>
-#include <stl/string.h>
-#include <stl/span.h>
-#include <stl/swap.h>
-#include <math/Vec.h>
-#endif
 #include <gfx/Forward.h>
-
-#ifndef TWO_MODULES
-namespace bx
-{
-	struct FileReaderI;
-	struct FileWriterI;
-}
-#endif
 
 namespace two
 {

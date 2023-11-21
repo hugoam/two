@@ -2,33 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <gfx/Cpp20.h>
 module two.gfx;
-#else
-#include <cstring>
-#include <stl/array.h>
-#include <stl/map.h>
-#include <stl/unordered_map.hpp>
-#include <infra/ToString.h>
-#include <infra/Vector.h>
-#include <math/Vec.hpp>
-#include <geom/Geometry.h>
-#include <geom/Curve.h>
-#include <geom/Primitive.hpp>
-#include <geom/Shape/ProcShape.h>
-#include <gfx/Types.h>
-#include <gfx/Draw.h>
-#include <gfx/Asset.h>
-#include <gfx/GfxSystem.h>
-#include <gfx/Material.h>
-#include <gfx/Program.h>
-#include <gfx/Node3.h>
-#include <gfx/Mesh.h>
-#include <gfx/Model.h>
-#include <gfx/Item.h>
-#endif
 
 namespace two
 {

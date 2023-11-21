@@ -2,19 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.math;
-#else
-#include <infra/Global.h>
-#include <type/Any.h>
-#include <type/Var.h>
-#include <type/Dispatch.h>
-#include <type/DispatchDecl.h>
-#include <math/Interp.h>
-#include <math/Types.h>
-#endif
 
 namespace two
 {

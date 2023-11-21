@@ -2,17 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.refl;
-#else
-#include <stl/algorithm.h>
-#include <refl/Call.h>
-#include <refl/Meta.h>
-//#include <refl/Class.h>
-//#include <refl/VirtualMethod.h>
-#endif
 
 namespace two
 {

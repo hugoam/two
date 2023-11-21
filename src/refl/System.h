@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#endif
 #include <refl/Forward.h>
 #include <refl/Namespace.h>
 

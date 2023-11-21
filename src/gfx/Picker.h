@@ -4,12 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/function.h>
-#include <stl/vector.h>
-#include <stl/span.h>
-#include <geom/Geom.h>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/RenderTarget.h>
 #include <gfx/Texture.h>

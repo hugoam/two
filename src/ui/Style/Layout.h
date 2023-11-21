@@ -4,12 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/vector.h>
-#include <stl/string.h>
-#include <math/Colour.h>
-#include <math/Vec.h>
-#endif
 #include <ui/Frame/Dim.h>
 
 namespace two

@@ -1,12 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.fract;
-#else
-#include <fract/Types.h>
-#include <fract/Api.h>
-#include <type/Vector.h>
-#endif
 
 namespace two
 {

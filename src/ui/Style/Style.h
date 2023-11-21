@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/memory.h>
-#include <stl/function.h>
-#endif
 #include <ui/Forward.h>
 #include <ui/Style/Skin.h>
 #include <ui/Style/Layout.h>

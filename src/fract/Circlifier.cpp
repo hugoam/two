@@ -2,18 +2,9 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.fract;
-#else
-#include <infra/Sort.h>
-#include <math/Grid.hpp>
-#include <math/Colour.h>
-#include <math/Image256.h>
-#include <geom/Shapes.h>
-#include <fract/Circlifier.h>
-#endif
 
 namespace two
 {

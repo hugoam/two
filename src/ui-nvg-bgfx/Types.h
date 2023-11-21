@@ -7,13 +7,6 @@
 #include <obj/Vector.h>
 #endif
 
-#ifndef TWO_MODULES
-#include <infra/Types.h>
-#include <obj/Types.h>
-#include <math/Types.h>
-#include <ui/Types.h>
-#endif
-
 #ifndef TWO_CPP_20
 #include <stl/string.h>
 #include <cstdint>

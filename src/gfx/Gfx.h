@@ -4,10 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#include <stl/span.h>
-#endif
 #include <gfx/Forward.h>
 #include <gfx/Node3.h>
 #include <gfx/Light.h>

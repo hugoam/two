@@ -2,19 +2,14 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.infra;
-#else
-#include <cstdio>
-#include <infra/ToString.h>
-#endif
 
 namespace two
 {
 #ifdef TWO_MODULES
-	using std::string;
+	using stl::string;
 #endif
 
 	template <> void to_string(const bool&    value, string& str) { str.resize(snprintf(nullptr, 0, "%d",   value)); sprintf(&str[0], "%d",   value); }

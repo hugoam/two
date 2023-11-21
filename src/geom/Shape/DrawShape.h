@@ -4,11 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <infra/Global.h>
-#include <type/Dispatch.h>
-#include <type/DispatchDecl.h>
-#endif
 #include <geom/Forward.h>
 #include <geom/Shape/ProcShape.h>
 #include <geom/Shape/CompoundShape.h>

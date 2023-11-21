@@ -4,9 +4,6 @@
 
 #pragma once
 
-#ifndef TWO_MODULES
-#include <stl/string.h>
-#endif
 #include <math/Vec.h>
 #include <math/Forward.h>
 

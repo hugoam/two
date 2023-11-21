@@ -2,18 +2,10 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#ifdef TWO_MODULES
 module;
 #include <bgfx/bgfx.h>
 #include <gfx/Cpp20.h>
 module two.gfx;
-#else
-#include <bgfx/bgfx.h>
-#include <math/Vec.hpp>
-#include <gfx/RenderTarget.h>
-#include <gfx/Node3.h>
-#include <gfx/Renderer.h>
-#endif
 
 #define TWO_GL_NO_MRT
 //#define TWO_GFX_DEFERRED

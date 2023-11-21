@@ -1,12 +1,6 @@
-#ifdef TWO_MODULES
 module;
 #include <infra/Cpp20.h>
 module two.uio;
-#else
-#include <uio/Types.h>
-#include <uio/Api.h>
-#include <type/Vector.h>
-#endif
 
 namespace two
 {
