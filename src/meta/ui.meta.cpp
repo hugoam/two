@@ -1,7 +1,6 @@
 module;
 #include <infra/Cpp20.h>
 module two.ui.meta;
-import two.infra;
 
 using namespace two;
 
@@ -239,7 +238,7 @@ void two_ui_input_stl_string_111(span<void*> args, void*& result) { (*static_cas
 void two_ui_input_int_112(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::input<int>(*static_cast<two::Widget*>(args[0]), *static_cast<int*>(args[1]), *static_cast<two::StatDef<int>*>(args[2])); }
 void two_ui_input_float_113(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::input<float>(*static_cast<two::Widget*>(args[0]), *static_cast<float*>(args[1]), *static_cast<two::StatDef<float>*>(args[2])); }
 void two_ui_field_bool_114(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::field<bool>(*static_cast<two::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<bool*>(args[3])); }
-void two_ui_field_stl_basic_string___stl_allocator_115(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::field<stl::string>(*static_cast<two::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<stl::string*>(args[2]), *static_cast<bool*>(args[3])); }
+void two_ui_field_stl_string_115(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::field<stl::string>(*static_cast<two::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<stl::string*>(args[2]), *static_cast<bool*>(args[3])); }
 void two_ui_field_int_116(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::field<int>(*static_cast<two::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<int*>(args[2]), *static_cast<two::StatDef<int>*>(args[3]), *static_cast<bool*>(args[4])); }
 void two_ui_field_float_117(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::field<float>(*static_cast<two::Widget*>(args[0]), static_cast<const char*>(args[1]), *static_cast<float*>(args[2]), *static_cast<two::StatDef<float>*>(args[3]), *static_cast<bool*>(args[4])); }
 void two_ui_text_box_118(span<void*> args, void*& result) { result = &two::ui::text_box(*static_cast<two::Widget*>(args[0]), *static_cast<two::Style*>(args[1]), *static_cast<stl::string*>(args[2]), *static_cast<bool*>(args[3]), *static_cast<size_t*>(args[4]), *static_cast<stl::string*>(args[5])); }
@@ -247,7 +246,7 @@ void two_ui_type_in_119(span<void*> args, void*& result) { result = &two::ui::ty
 void two_ui_text_edit_120(span<void*> args, void*& result) { result = &two::ui::text_edit(*static_cast<two::Widget*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<size_t*>(args[2]), static_cast<stl::vector<stl::string>*>(args[3])); }
 void two_ui_code_edit_121(span<void*> args, void*& result) { result = &two::ui::code_edit(*static_cast<two::Widget*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<size_t*>(args[2]), static_cast<stl::vector<stl::string>*>(args[3])); }
 void two_ui_input_bool_122(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::input<bool>(*static_cast<two::Widget*>(args[0]), *static_cast<bool*>(args[1])); }
-void two_ui_input_stl_basic_string___stl_allocator_123(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::input<stl::string>(*static_cast<two::Widget*>(args[0]), *static_cast<stl::string*>(args[1])); }
+void two_ui_input_stl_string_123(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::input<stl::string>(*static_cast<two::Widget*>(args[0]), *static_cast<stl::string*>(args[1])); }
 void two_ui_node_input_124(span<void*> args, void*& result) { result = &two::ui::node_input(*static_cast<two::Node*>(args[0]), static_cast<const char*>(args[1]), static_cast<const char*>(args[2]), *static_cast<two::Colour*>(args[3]), *static_cast<bool*>(args[4]), *static_cast<bool*>(args[5])); }
 void two_ui_node_output_125(span<void*> args, void*& result) { result = &two::ui::node_output(*static_cast<two::Node*>(args[0]), static_cast<const char*>(args[1]), static_cast<const char*>(args[2]), *static_cast<two::Colour*>(args[3]), *static_cast<bool*>(args[4]), *static_cast<bool*>(args[5])); }
 void two_ui_node_126(span<void*> args, void*& result) { result = &two::ui::node(*static_cast<two::Canvas*>(args[0]), static_cast<const char*>(args[1]), *static_cast<two::vec2*>(args[2]), *static_cast<int*>(args[3]), *static_cast<two::Ref*>(args[4])); }
@@ -2124,7 +2123,7 @@ namespace two
 		}
 		{
 			static bool reverse_default = false;
-			static Function f = { &namspc({ "two", "ui" }), "field<stl::string>", funcptr<bool(*)(two::Widget&, const char*, stl::string&, bool)>(two::ui::field<stl::string>), two_ui_field_stl_basic_string___stl_allocator_115, { { "parent", type<two::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "value", type<stl::string>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "field<stl::string>", funcptr<bool(*)(two::Widget&, const char*, stl::string&, bool)>(two::ui::field<stl::string>), two_ui_field_stl_string_115, { { "parent", type<two::Widget>(),  }, { "name", type<const char*>(), Param::Nullable }, { "value", type<stl::string>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2167,7 +2166,7 @@ namespace two
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "input<stl::string>", funcptr<bool(*)(two::Widget&, stl::string&)>(two::ui::input<stl::string>), two_ui_input_stl_basic_string___stl_allocator_123, { { "parent", type<two::Widget>(),  }, { "value", type<stl::string>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "input<stl::string>", funcptr<bool(*)(two::Widget&, stl::string&)>(two::ui::input<stl::string>), two_ui_input_stl_string_123, { { "parent", type<two::Widget>(),  }, { "value", type<stl::string>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{

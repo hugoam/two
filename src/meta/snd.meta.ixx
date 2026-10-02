@@ -3,7 +3,6 @@ module;
 #include <infra/Config.h>
 
 export module two.snd.meta;
-import std;
 
 import two.snd;
 import two.refl;

@@ -6,7 +6,6 @@
 #include <type/Type.h>
 #endif
 
-
 #include <snd/Structs.h>
 
 namespace two

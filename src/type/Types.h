@@ -6,6 +6,7 @@
 #include <type/Type.h>
 #endif
 
+
 namespace two
 {
     // Exported types

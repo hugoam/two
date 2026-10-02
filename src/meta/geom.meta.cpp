@@ -4,9 +4,7 @@ module two.geom.meta;
 
 using namespace two;
 
-#ifdef TWO_MODULES
 namespace two { using stl::string; }
-#endif
 
 void two_CatmullType__to_string(void* val, string& str) { str = g_enu[type<two::CatmullType>().m_id]->name(uint32_t((*static_cast<two::CatmullType*>(val)))); }
 void two_CatmullType__to_value(const string& str, void* val) { (*static_cast<two::CatmullType*>(val)) = two::CatmullType(g_enu[type<two::CatmullType>().m_id]->value(str.c_str())); }

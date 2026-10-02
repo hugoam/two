@@ -7,7 +7,6 @@
 #endif
 
 
-
 namespace two
 {
     // Exported types

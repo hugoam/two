@@ -1,5 +1,5 @@
-Module['ui'] = Module['ui'] || {};
 Module['stl'] = Module['stl'] || {};
+Module['ui'] = Module['ui'] || {};
 // Space
 function Space() {
     

@@ -4,13 +4,13 @@
 #include <refl/Module.h>
 #endif
 
-#ifndef TWO_SND_REFL_EXPORT
-#define TWO_SND_REFL_EXPORT TWO_IMPORT
+#ifndef TWO_SND_META_EXPORT
+#define TWO_SND_META_EXPORT TWO_IMPORT
 #endif
 
 namespace two
 {
-	export_ class TWO_SND_REFL_EXPORT two_snd : public two::Module
+	export_ class TWO_SND_META_EXPORT two_snd : public two::Module
 	{
 	private:
 		two_snd();
@@ -22,5 +22,5 @@ namespace two
 
 #ifdef TWO_SND_MODULE
 extern "C"
-TWO_SND_REFL_EXPORT Module& getModule();
+TWO_SND_META_EXPORT Module& getModule();
 #endif

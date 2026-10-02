@@ -3,6 +3,7 @@
 #include <refl/Api.h>
 #include <srlz/Api.h>
 #include <math/Api.h>
+#include <geom/Api.h>
 #include <gltf/Api.h>
 
 #ifdef TWO_PLATFORM_EMSCRIPTEN

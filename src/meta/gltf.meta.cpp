@@ -1260,7 +1260,7 @@ namespace two
 namespace two
 {
 	two_gltf::two_gltf()
-		: Module("two::gltf", { &two_infra::m(), &two_type::m(), &two_refl::m(), &two_srlz::m(), &two_math::m() })
+		: Module("two::gltf", { &two_infra::m(), &two_type::m(), &two_refl::m(), &two_srlz::m(), &two_math::m(), &two_geom::m() })
 	{
 		// setup reflection meta data
 		two_gltf_meta(*this);

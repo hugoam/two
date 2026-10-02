@@ -4,6 +4,8 @@ module two.gfx.pbr.meta;
 
 using namespace two;
 
+namespace two { using stl::string; }
+
 void two_TonemapMode__to_string(void* val, string& str) { str = g_enu[type<two::TonemapMode>().m_id]->name(uint32_t((*static_cast<two::TonemapMode*>(val)))); }
 void two_TonemapMode__to_value(const string& str, void* val) { (*static_cast<two::TonemapMode*>(val)) = two::TonemapMode(g_enu[type<two::TonemapMode>().m_id]->value(str.c_str())); }
 void two_CubeTarget__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::CubeTarget(  ); }

@@ -533,7 +533,7 @@ namespace two
 		Type& t = type<two::TextureFormat>();
 		static Meta meta = { t, &namspc({ "two" }), "TextureFormat", sizeof(two::TextureFormat), TypeClass::Enum };
 		static cstring ids[] = { "None", "R8", "R16F", "R32U", "R32F", "RG8", "RG16F", "RG32F", "RGB8", "BGRA8", "RGBA8", "RGB10A2", "RGBA16F", "RGBA32F", "D16", "D24", "D24S8", "D32", "D32F", "Count" };
-		static uint32_t values[] = { 26, 29, 36, 39, 40, 41, 48, 52, 53, 58, 59, 74, 66, 70, 77, 78, 79, 80, 83, 84 };
+		static uint32_t values[] = { 41, 44, 51, 54, 55, 56, 63, 67, 68, 73, 74, 92, 81, 85, 96, 97, 98, 99, 102, 103 };
 		static two::TextureFormat vars[] = { two::TextureFormat::None, two::TextureFormat::R8, two::TextureFormat::R16F, two::TextureFormat::R32U, two::TextureFormat::R32F, two::TextureFormat::RG8, two::TextureFormat::RG16F, two::TextureFormat::RG32F, two::TextureFormat::RGB8, two::TextureFormat::BGRA8, two::TextureFormat::RGBA8, two::TextureFormat::RGB10A2, two::TextureFormat::RGBA16F, two::TextureFormat::RGBA32F, two::TextureFormat::D16, two::TextureFormat::D24, two::TextureFormat::D24S8, two::TextureFormat::D32, two::TextureFormat::D32F, two::TextureFormat::Count};
 		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7], &vars[8], &vars[9], &vars[10], &vars[11], &vars[12], &vars[13], &vars[14], &vars[15], &vars[16], &vars[17], &vars[18], &vars[19]};
 		static Enum enu = { t, true, ids, values, refs };
@@ -1615,6 +1615,7 @@ namespace two
 			{ t, two_Render__construct_1, { { "shading", type<two::Shading>(),  }, { "viewport", type<two::Viewport>(),  }, { "target", type<two::RenderTarget>(),  }, { "frame", type<two::RenderFrame>(),  } } },
 			{ t, two_Render__construct_2, { { "shading", type<two::Shading>(),  }, { "viewport", type<two::Viewport>(),  }, { "target", type<two::RenderTarget>(),  }, { "target_fbo", type<two::FrameBuffer>(),  }, { "frame", type<two::RenderFrame>(),  } } }
 		};
+		// copy constructor
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::Render, m_shading), type<two::Shading>(), "shading", nullptr, Member::Value, nullptr },

@@ -26,5 +26,7 @@ import two.gfx;
 import two.gfx.meta;
 import two.gfx.pbr;
 import two.gfx.pbr.meta;
+import two.gfx.ui;
+import two.gfx.ui.meta;
 
 #include <meta/gfx.edit.meta.h>

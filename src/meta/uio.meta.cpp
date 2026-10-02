@@ -4,6 +4,8 @@ module two.uio.meta;
 
 using namespace two;
 
+namespace two { using stl::string; }
+
 void two_EditNestMode__to_string(void* val, string& str) { str = g_enu[type<two::EditNestMode>().m_id]->name(uint32_t((*static_cast<two::EditNestMode*>(val)))); }
 void two_EditNestMode__to_value(const string& str, void* val) { (*static_cast<two::EditNestMode*>(val)) = two::EditNestMode(g_enu[type<two::EditNestMode>().m_id]->value(str.c_str())); }
 void two_EditorHint__to_string(void* val, string& str) { str = g_enu[type<two::EditorHint>().m_id]->name(uint32_t((*static_cast<two::EditorHint*>(val)))); }

@@ -16,6 +16,8 @@ import two.srlz;
 import two.srlz.meta;
 import two.math;
 import two.math.meta;
+import two.geom;
+import two.geom.meta;
 
 #include <meta/gltf.meta.h>
 #include <meta/gltf.conv.h>
