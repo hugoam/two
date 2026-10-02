@@ -1,3 +1,5 @@
 build/
 data/shaders/
 !placeholder.txt
+bin/clrefl
+bin/clrefl.exe

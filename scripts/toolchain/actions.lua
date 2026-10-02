@@ -137,6 +137,7 @@ function reflect(modules)
     end
     
     local temp_refl_path = path.join(BUILD_DIR, "refl")
+    os.mkdir(temp_refl_path)
     local jsons = {}
     for _, m in ipairs(modules) do
         if m.meta then
@@ -159,12 +160,26 @@ function reflect(modules)
                 end
             end
             
-            -- trick to collect the includes
+            -- trick to collect the includes: the generator parses the module interface flattened with all the
+            -- interfaces it imports, so it needs the include dirs of the whole dependency tree, own and usage ones
+            local visited = {}
+            local function collect_includes(dep)
+                if visited[dep] then return end
+                visited[dep] = true
+                for _, d in ipairs(dep.deps or {}) do
+                    collect_includes(d)
+                end
+                if dep.self_decl then
+                    dep.self_decl()
+                end
+                if dep.usage_decl then
+                    dep.usage_decl()
+                end
+            end
+            collect_includes(m)
             if m.lib then
-                for i, dep in ipairs(m.lib.deps or {}) do
-                    if dep.usage_decl then
-                        dep.usage_decl()
-                    end
+                for _, dep in ipairs(m.lib.deps or {}) do
+                    collect_includes(dep)
                 end
             end
             
@@ -178,8 +193,17 @@ function reflect(modules)
         end
     end
     
-    print(path.join(TWO_DIR, "bin/clrefl") .. " " .. table.concat(jsons, " "))
-    os.execute(path.join(TWO_DIR, "bin/clrefl") .. " " .. table.concat(jsons, " "))
+    -- built with --tools, and copied to bin/ by its post-build step
+    local clrefl = path.join(TWO_DIR, "bin", "clrefl")
+    if not os.isfile(clrefl) and not os.isfile(clrefl .. ".exe") then
+        error("reflection generator not found at " .. clrefl .. ", build the clrefl project (genie --tools) first")
+    end
+    local cmd = "\"" .. path.translate(clrefl) .. "\" " .. table.concat(jsons, " ")
+    print(cmd)
+    local ok = os.execute(cmd)
+    if ok ~= true and ok ~= 0 then
+        error("reflection generator failed")
+    end
 end
 
 newaction {
