@@ -34,8 +34,6 @@ namespace two
 
 	void dump_json_file(const string& path, const Json& value)
 	{
-		if(!file_exists(path))
-			error("couldn't open file %s\n", path.c_str());
 		std::string text = value.dump();
 		write_file(path, string(text.data(), text.data() + text.size()));
 	}
