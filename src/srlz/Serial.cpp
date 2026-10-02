@@ -224,7 +224,9 @@ namespace two
 			}
 			else if(json_value.is_array())
 			{
-				for(size_t index = 0; index < size; ++index)
+				if(size > cl.m_members.size())
+					warn("unpack - %i values for type %s which has %i members", int(size), type(value).m_name, int(cl.m_members.size()));
+				for(size_t index = 0; index < size && index < cl.m_members.size(); ++index)
 				{
 					unpack_member(cl.m_members[index], json_value[index]);
 				}
@@ -264,8 +266,13 @@ namespace two
 	{
 		cstring type_name = json_typed_value["type"].string_value().c_str();
 		Json json_value = json_typed_value["value"];
-		Type& type = *System::instance().find_type(type_name);
-		return unpack(unpacker, type, json_value);
+		Type* type = System::instance().find_type(type_name);
+		if(!type)
+		{
+			warn("unpack - unknown type %s", type_name);
+			return Var();
+		}
+		return unpack(unpacker, *type, json_value);
 	}
 
 	Var unpack_typed(const Json& json_value)
