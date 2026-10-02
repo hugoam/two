@@ -82,6 +82,12 @@ namespace two
 
 		inline void set(Ref object, Ref value) const
 		{
+			// getter-only members have no storage offset (SIZE_MAX), writing through ref() would hit object + SIZE_MAX
+			if(m_get)
+			{
+				warn("can't set member %s, it's only exposed through a getter", m_name);
+				return;
+			}
 			Ref ref = this->ref(object);
 			if(this->is_pointer())
 				*(void**)ref.m_value = value.m_value;
