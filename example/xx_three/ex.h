@@ -10,11 +10,7 @@
 #define EX(name) void name(ShellX& app, WindowX& window, bool init)
 #endif
 
-#ifndef TWO_MODULES
 #define CONSTEXPR constexpr
-#else
-#define CONSTEXPR
-#endif
 
 #define TEXTURE_CLAMP  BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
 

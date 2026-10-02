@@ -7,11 +7,7 @@
 #include <math/Axis.h>
 #include <math/Forward.h>
 
-#if defined TWO_MODULES && defined _MSC_VER
-#define CONSTEXPR
-#else
 #define CONSTEXPR constexpr
-#endif
 
 namespace two
 {

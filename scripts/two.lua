@@ -323,11 +323,7 @@ two.ecs     = module("two", "ecs",      TWO_SRC_DIR,    "ecs",      two_module, 
 -- srlz
 two.srlz    = module("two", "srlz",     TWO_SRC_DIR,    "srlz",     two_srlz,   nil,            true,       { json11, two.infra, two.type, two.refl })
 -- math
-if TWO_STATIC then
-  two.math  = module("two", "math",     TWO_SRC_DIR,    "math",     two_math,   uses_two_math,  true,       { json11, stb.rect_pack, two.infra, two.type })
-else
-  two.math  = module("two", "math",     TWO_SRC_DIR,    "math",     two_math,   uses_two_math,  true,       { stb.image, stb.rect_pack, two.infra, two.type })
-end
+two.math    = module("two", "math",     TWO_SRC_DIR,    "math",     two_math,   uses_two_math,  true,       { json11, stb.image, stb.rect_pack, two.infra, two.type })
 -- geom
 two.geom    = module("two", "geom",     TWO_SRC_DIR,    "geom",     two_geom,   nil,            true,       { mikktspace, two.type, two.math })
 -- procgen
