@@ -84,6 +84,7 @@ namespace two // export_ namespace two// @todo evaluate export at namespace leve
 	export_ template <class T_Method>
 	Address member_address(T_Method p)
 	{
+		static_assert(sizeof(T_Method) <= sizeof(Address::value), "member pointer too large for Address (MSVC unknown-inheritance member pointers are 24 bytes)");
 		Address result = {};
 		for(size_t i = 0; i < sizeof p; ++i)
 			result.value[i] = reinterpret_cast<char*>(&p)[i];

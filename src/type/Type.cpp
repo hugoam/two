@@ -10,7 +10,7 @@ namespace two
 {
 	bool Address::operator==(const Address& other) const
 	{
-		return strncmp(value, other.value, 16) == 0;
+		return memcmp(value, other.value, sizeof(value)) == 0;
 	}
 
 	Index Index::me;
