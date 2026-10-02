@@ -205,8 +205,12 @@ namespace two
 		for(size_t i = 0; i < m_bases.size(); ++i)
 			if(m_bases[i]->is(base))
 			{
-				Ref upcasted = { static_cast<char*>(object.m_value) + m_bases_offsets[i], base };
-				return &type(upcasted) == &base ? upcasted : cls(upcasted).upcast(upcasted, base);
+				// the intermediate ref must carry the direct base type, so that the recursion applies the remaining offsets
+				const Type& direct = *m_bases[i];
+				Ref upcasted = { static_cast<char*>(object.m_value) + m_bases_offsets[i], direct };
+				if(&direct == &base || !g_class[direct.m_id])
+					return Ref(upcasted.m_value, base);
+				return cls(direct).upcast(upcasted, base);
 			}
 		return object;
 	}
