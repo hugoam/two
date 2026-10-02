@@ -53,6 +53,7 @@ namespace two
 			using two::move;
 			create(any, *this, move(value(other)));
 			destroy(other);
+			other.m_handler = &AnyHandler::none;
 		}
 	};
 

@@ -32,7 +32,21 @@ namespace two
 		Any(Any&& other) : Any() { other.m_handler->move(*this, other); }
 		Any(const Any& other) : Any() { other.m_handler->copy(*this, other); }
 
-		Any& operator=(const Any& rhs) { if(m_handler == rhs.m_handler) m_handler->assign(*this, rhs); else Any(rhs).swap(*this); return *this; }
+		Any& operator=(const Any& rhs)
+		{
+			if(this == &rhs) return *this;
+			if(m_handler == rhs.m_handler)
+				m_handler->assign(*this, rhs);
+			else
+			{
+				// destroy then copy-construct in place: swapping m_storage bytes would relocate inline objects that aren't trivially relocatable
+				m_handler->destroy(*this);
+				m_handler = &AnyHandler::none;
+				m_pointer = nullptr;
+				rhs.m_handler->copy(*this, rhs);
+			}
+			return *this;
+		}
 		Any& operator=(Ref ref) { m_handler->assign(*this, ref); return *this; }
 
 		Any& swap(Any& other) { using two::swap; swap(m_handler, other.m_handler); swap(m_pointer, other.m_pointer); swap(m_storage, other.m_storage); return *this; }
