@@ -1072,7 +1072,7 @@ static void ShowDemoWindowWidgets(Widget& parent)
 			if(my_str.empty())
 				my_str.push_back(0);
 			//Funcs::MyInputTextMultiline("##MyStr", my_str, vec2(-1.0f, ImGui::GetTextLineHeight() * 16));
-			ui::labelf(parent, "Data: %p\nSize: %d\nCapacity: %d", (void*)my_str.begin(), my_str.size(), my_str.capacity());
+			ui::labelf(parent, "Data: %p\nSize: %d\nCapacity: %d", (void*)my_str.data(), my_str.size(), my_str.capacity());
 		}
 	}
 
