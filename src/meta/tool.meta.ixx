@@ -31,11 +31,11 @@ import two.uio.meta;
 import two.gfx;
 import two.gfx.meta;
 import two.gfx.pbr;
-import two.gfx.pbr, meta);
+import two.gfx.pbr.meta;
 import two.gfx.ui;
-import two.gfx.ui, meta);
+import two.gfx.ui.meta;
 import two.gfx.edit;
-import two.gfx.edit, meta);
+import two.gfx.edit.meta;
 
 #include <meta/tool.meta.h>
 #include <meta/tool.conv.h>

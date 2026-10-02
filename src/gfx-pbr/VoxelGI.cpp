@@ -87,7 +87,7 @@ namespace gfx
 	{
 		const uint16_t subdiv = gi_probe.m_subdiv;
 		Texture texture = { uvec3(subdiv, subdiv, subdiv), true, TextureFormat(source_format), BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK };
-		bgfx::blit(0, texture, 0, 0, 0, 0, gi_probe.m_voxels_light_rgba, 0, 0, 0, 0, subdiv, subdiv, subdiv);
+		bgfx::blit(0, { texture }, { .handle = gi_probe.m_voxels_light_rgba, .width = subdiv, .height = subdiv, .depth = subdiv });
 		bgfx::frame();
 		bgfx::frame();
 
@@ -263,7 +263,7 @@ namespace gfx
 
 		encoder.setImage(0,   gi_probe.m_voxels_normals,    0, bgfx::Access::Read,  bgfx::TextureFormat::R32U);
 		//encoder.setImage(1, gi_probe.m_voxels_light,      0, bgfx::Access::Read,  bgfx::TextureFormat::R32U);
-		encoder.setTexture(1, gi_probe.m_voxels_light_rgba);
+		encoder.setTexture(1, u_voxelgi.s_voxels_light_rgba, gi_probe.m_voxels_light_rgba);
 		encoder.setImage(2,   gi_probe.m_voxels_light,      0, bgfx::Access::Write, bgfx::TextureFormat::R32U);
 
 		GpuState<GpuVoxelGI>::me.upload(encoder, gi_probe);
@@ -372,7 +372,7 @@ namespace gfx
 		{
 			if(gi_probe->m_enabled)
 			{
-				encoder.setTexture(uint8_t(TextureSampler::GIProbe) + index++, gi_probe->m_voxels_light_rgba, TEXTURE_CLAMP3);
+				encoder.setTexture(uint8_t(TextureSampler::GIProbe) + index++, u_gi_probe.s_gi_probe, gi_probe->m_voxels_light_rgba, TEXTURE_CLAMP3);
 
 				GpuState<GIProbe>::me.upload(encoder, *gi_probe, render.m_camera->m_view);
 			}

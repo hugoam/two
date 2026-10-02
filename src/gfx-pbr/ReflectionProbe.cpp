@@ -8,8 +8,6 @@ module two.gfx.pbr;
 
 namespace two
 {
-	constexpr size_t BlockReflection::ReflectionUniform::max_reflection_probes;
-
 	ReflectionProbe::ReflectionProbe(Node3& node)
 		: m_node(node)
 	{}
@@ -33,8 +31,8 @@ namespace two
 		{
 			bgfx::Attachment attachments[2] =
 			{
-				{ bgfx::Access::Write, m_depth , 0, 0, 1, BGFX_RESOLVE_AUTO_GEN_MIPS },
-				{ bgfx::Access::Write, m_cubemap, 0, uint16_t(i), 1, BGFX_RESOLVE_AUTO_GEN_MIPS }
+				{ bgfx::Access::Write, m_depth , 0, 0, 1, BGFX_ATTACHMENT_AUTO_GEN_MIPS },
+				{ bgfx::Access::Write, m_cubemap, 0, uint16_t(i), 1, BGFX_ATTACHMENT_AUTO_GEN_MIPS }
 			};
 			m_fbos[i] = { uvec2(size), m_cubemap, attachments };
 		}
@@ -105,6 +103,8 @@ namespace two
 
 	void BlockReflection::init_block()
 	{
+		u_uniform.createUniforms(ReflectionUniform::max_reflection_probes);
+
 		int max_cubemap_size = 512;
 		int cube_size = max_cubemap_size;
 
@@ -138,7 +138,7 @@ namespace two
 		bgfx::Encoder& encoder = *pass.m_encoder;
 
 		if(m_atlas.m_color.valid() && m_atlas.m_size > 0)
-			encoder.setTexture(uint8_t(TextureSampler::ReflectionProbe), m_atlas.m_color);
+			encoder.setTexture(uint8_t(TextureSampler::ReflectionProbe), u_uniform.s_atlas, m_atlas.m_color);
 
 		//upload_reflection_probes(render, to_array(render.m_shot->m_reflection_probes));
 	}

@@ -23,7 +23,7 @@ namespace two
 
 		for(int i = 0; i < 6; i++)
 		{
-			bgfx::Attachment attachment = { bgfx::Access::Write, m_color, 0, uint16_t(i), 1, BGFX_RESOLVE_AUTO_GEN_MIPS };
+			bgfx::Attachment attachment = { bgfx::Access::Write, m_color, 0, uint16_t(i), 1, BGFX_ATTACHMENT_AUTO_GEN_MIPS };
 			m_fbo[i] = { uvec2(uint(size)), m_color, span<bgfx::Attachment>{ attachment } };
 			// clear it ? 
 		}

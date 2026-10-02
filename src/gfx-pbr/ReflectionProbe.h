@@ -78,6 +78,8 @@ namespace two
 
 				//u_indices		= bgfx::createUniform("u_reflection_indices",		bgfx::UniformType::Sampler, max_probes);
 				//u_count		= bgfx::createUniform("u_reflection_count",			bgfx::UniformType::Sampler);
+				
+				s_atlas = bgfx::createUniform("s_atlas", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U);
 			}
 
 			template <uint16_t size>

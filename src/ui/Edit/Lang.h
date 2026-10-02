@@ -9,7 +9,6 @@
 
 namespace two
 {
-#ifndef TWO_MODULES
 	struct Identifier
 	{
 		uvec2 m_location;
@@ -42,5 +41,4 @@ namespace two
 	export_ LanguageDefinition& LanguageC();
 	export_ LanguageDefinition& LanguageLua();
 	export_ LanguageDefinition& LanguageWren();
-#endif
 }

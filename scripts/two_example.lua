@@ -30,7 +30,8 @@ function two_example(name, deps, exdeps, ismodule)
     end
 
     _G[name] = module(nil, "_" .. name, path.join(TWO_DIR, "example"), name, nil, uses_example, false, deps, not ismodule)
-    
+    _G[name].cppmodule = false
+
     two_binary(name, table.union({ _G[name] }, exdeps))
 end
 

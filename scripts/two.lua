@@ -371,7 +371,7 @@ two.gfx.pbr = module("two", "gfx-pbr",  TWO_SRC_DIR,    "gfx-pbr",  two_gfx_pbr,
 two.gfx.obj = module("two", "gfx-obj",  TWO_SRC_DIR,    "gfx-obj",  two_module, nil,            true,       { two.infra, two.type, two.srlz, two.math, two.geom, two.gfx })
 two.gfx.gltf= module("two", "gfx-gltf", TWO_SRC_DIR,    "gfx-gltf", two_gltf,   nil,            true,       { json11, two.infra, two.type, two.refl, two.srlz, two.math, two.geom, two.gfx, two.gltf })
 two.gfx.ui  = module("two", "gfx-ui",   TWO_SRC_DIR,    "gfx-ui",   two_module, nil,            true,       { two.infra, two.tree, two.type, two.math, two.geom, two.ctx, two.ui, two.gfx })
-two.gfx.edit= module("two", "gfx-edit", TWO_SRC_DIR,    "gfx-edit", two_module, nil,            true,       { two.infra, two.type, two.refl, two.srlz, two.math, two.geom, two.ui, two.uio, two.gfx, two.gfx.pbr })
+two.gfx.edit= module("two", "gfx-edit", TWO_SRC_DIR,    "gfx-edit", two_module, nil,            true,       { two.infra, two.type, two.refl, two.srlz, two.math, two.geom, two.ui, two.uio, two.gfx, two.gfx.pbr, two.gfx.ui })
 -- tool                                                     
 two.tool    = module("two", "tool",     TWO_SRC_DIR,    "tool",     two_module, nil,            true,       { two.infra, two.tree, two.type, two.refl, two.srlz, two.lang, two.math, two.geom, two.ctx, two.ui, two.uio, two.gfx, two.gfx.pbr, two.gfx.ui, two.gfx.edit })
 -- wfc                                                      

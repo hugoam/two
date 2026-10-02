@@ -6,7 +6,6 @@
 
 #include <tool/Forward.h>
 #include <tool/Action.h>
-#include <gfx-ui/Viewer.h>
 
 namespace two
 {

@@ -1,6 +1,6 @@
 module;
 #include <infra/Cpp20.h>
-module TWO2(gfx.pbr, meta);
+module two.gfx.pbr.meta;
 
 using namespace two;
 

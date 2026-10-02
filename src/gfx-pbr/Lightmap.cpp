@@ -53,7 +53,7 @@ namespace two
 	{
 		uint16_t size = uint16_t(lightmap.m_size);
 		Texture blit_texture = { uvec2(size, size), false, TextureFormat(source_format), BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK };
-		bgfx::blit(0, blit_texture, 0, 0, 0, 0, texture, 0, 0, 0, 0, size, size, 1);
+		bgfx::blit(0, { .handle = blit_texture }, { .handle = texture, .width = size, .height = size, .depth = 1 });
 		bgfx::frame();
 		bgfx::frame();
 
@@ -509,24 +509,25 @@ namespace two
 		UNUSED(render);
 
 		bgfx::Encoder& encoder = *pass.m_encoder;
+		auto& blockBase = GpuState<MaterialBase>::me;
 
 		if(element.m_item->m_lightmaps.size() > 0)
 		{
 			LightmapItem& binding = *(LightmapItem*)element.m_item->m_lightmaps[element.m_elem->m_index];
 
-			encoder.setUniform(GpuState<MaterialBase>::me.u_uv1_scale_offset, &binding.m_uv_scale_offset);
+			encoder.setUniform(blockBase.u_uv1_scale_offset, &binding.m_uv_scale_offset);
 
 			if(binding.m_lightmap && binding.m_lightmap->valid())
 #ifdef LIGHTMAP_PIXELS
-				encoder.setTexture(uint8_t(TextureSampler::Lightmap), *binding.m_lightmap, TEXTURE_POINT);
+				encoder.setTexture(uint8_t(TextureSampler::Lightmap), u_lightmap.s_lightmap, *binding.m_lightmap, TEXTURE_POINT);
 #else
-				encoder.setTexture(uint8_t(TextureSampler::Lightmap), *binding.m_lightmap);
+				encoder.setTexture(uint8_t(TextureSampler::Lightmap), u_lightmap.s_lightmap, *binding.m_lightmap);
 #endif
 		}
 		else
 		{
 			vec4 uv_scale_offset = vec4(0.f);
-			encoder.setUniform(GpuState<MaterialBase>::me.u_uv1_scale_offset, &uv_scale_offset);
+			encoder.setUniform(blockBase.u_uv1_scale_offset, &uv_scale_offset);
 		}
 	}
 }

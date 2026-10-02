@@ -65,12 +65,12 @@ namespace two
 	vec4 bxmul(const mat4& mat, const vec4& vec) { vec4 result; bx::vec4MulMtx(&result[0], value_ptr(vec), value_ptr(mat)); return result; }
 	vec3 bxmul(const mat4& mat, const vec3& vec) { bx::Vec3 result = bx::mul(bxvec3(vec), value_ptr(mat)); return vec3(result.x, result.y, result.z); }
 	vec3 bxmulh(const mat4& mat, const vec3& vec) { bx::Vec3 result = bx::mulH(bxvec3(vec), value_ptr(mat)); return vec3(result.x, result.y, result.z); }
-	mat4 bxlookat(const vec3& eye, const vec3& at) { mat4 result; bx::mtxLookAt(value_ptr(result), bxvec3(eye), bxvec3(at), bx::Vec3(0.f, 1.f, 0.f), bx::Handness::Right); return result; }
-	void bxlookat(mat4& result, const vec3& eye, const vec3& at, const vec3& up) { bx::mtxLookAt(value_ptr(result), bxvec3(eye), bxvec3(at), bxvec3(up), bx::Handness::Right); }
-	mat4 bxlookat(const vec3& eye, const vec3& at, const vec3& up) { mat4 result; bx::mtxLookAt(value_ptr(result), bxvec3(eye), bxvec3(at), bxvec3(up), bx::Handness::Right); return result; }
-	mat4 bxproj(float fov, float aspect, float near, float far, bool oglNdc) { mat4 result; bx::mtxProj(value_ptr(result), fov, aspect, near, far, oglNdc, bx::Handness::Right); return result; }
-	mat4 bxortho(const vec4& rect, float near, float far, float offset, bool oglNdc) { mat4 result; bx::mtxOrtho(value_ptr(result), rect.x, rect.y, rect.z, rect.w, near, far, offset, oglNdc, bx::Handness::Right); return result; }
-	mat4 bxortho(float left, float right, float bottom, float top, float near, float far, float offset, bool oglNdc) { mat4 result; bx::mtxOrtho(value_ptr(result), left, right, bottom, top, near, far, offset, oglNdc, bx::Handness::Right); return result; }
+	mat4 bxlookat(const vec3& eye, const vec3& at) { mat4 result; bx::mtxLookAt(value_ptr(result), bxvec3(eye), bxvec3(at), bx::Vec3(0.f, 1.f, 0.f), bx::Handedness::Right); return result; }
+	void bxlookat(mat4& result, const vec3& eye, const vec3& at, const vec3& up) { bx::mtxLookAt(value_ptr(result), bxvec3(eye), bxvec3(at), bxvec3(up), bx::Handedness::Right); }
+	mat4 bxlookat(const vec3& eye, const vec3& at, const vec3& up) { mat4 result; bx::mtxLookAt(value_ptr(result), bxvec3(eye), bxvec3(at), bxvec3(up), bx::Handedness::Right); return result; }
+	mat4 bxproj(float fov, float aspect, float near, float far, bool oglNdc) { mat4 result; bx::mtxProj(value_ptr(result), fov, aspect, near, far, oglNdc, bx::Handedness::Right); return result; }
+	mat4 bxortho(const vec4& rect, float near, float far, float offset, bool oglNdc) { mat4 result; bx::mtxOrtho(value_ptr(result), rect.x, rect.y, rect.z, rect.w, near, far, offset, oglNdc, bx::Handedness::Right); return result; }
+	mat4 bxortho(float left, float right, float bottom, float top, float near, float far, float offset, bool oglNdc) { mat4 result; bx::mtxOrtho(value_ptr(result), left, right, bottom, top, near, far, offset, oglNdc, bx::Handedness::Right); return result; }
 	mat4 bxSRT(const vec3& scale, const quat& rot, const vec3& trans) { return bxmul(bxtranslation(trans), bxmul(bxrotation(rot), bxscale(scale))); }
 	mat4 bxTRS(const vec3& scale, const quat& rot, const vec3& trans) { return bxmul(bxscale(scale), bxmul(bxrotation(rot), bxtranslation(trans))); }
 

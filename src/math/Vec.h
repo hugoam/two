@@ -229,5 +229,5 @@ namespace two
 		attr_ vec3 m_scale = vec3(1.f);
 	};
 
-	Transform average_transforms(span<Transform*> transforms);
+	export_ Transform average_transforms(span<Transform*> transforms);
 }

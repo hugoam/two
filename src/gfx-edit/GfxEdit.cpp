@@ -2,11 +2,10 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
+module;
 #include <infra/Cpp20.h>
-
 #include <bgfx/bgfx.h>
-
-module two.gfx-edit;
+module two.gfx.edit;
 
 namespace two
 {
@@ -333,12 +332,12 @@ namespace two
 			particle_editor(*particles, gfx);
 	}
 
-	export_ inline Var construct(Type& type)
+	inline Var construct(Type& type)
 	{
 		return meta(type).m_empty_var;
 	}
 
-	export_ template <class T>
+	template <class T>
 	T& upcast(Ref value) { Ref base = cls(value).upcast(value, type<T>()); return val<T>(base); }
 
 	bool edit_shape(Widget& parent, ShapeVar& shape)

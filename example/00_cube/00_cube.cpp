@@ -1,7 +1,7 @@
-#define HEADER_ONLY 1
+#define HEADER_ONLY 0
 
 #if !HEADER_ONLY
-#if TWO_MODULES
+#ifdef TWO_MODULES
 #include <infra/Config.h>
 import two.frame;
 #else

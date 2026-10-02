@@ -99,7 +99,7 @@ namespace two
 		bgfx::Encoder& encoder = *pass.m_encoder;
 
 		if(Texture* radiance = radiancemap(render.m_env->m_radiance))
-			encoder.setTexture(uint8_t(TextureSampler::Radiance), *radiance);
+			encoder.setTexture(uint8_t(TextureSampler::Radiance), u_radiance.s_radiance, *radiance);
 	}
 
 	void BlockRadiance::prefilter_radiance(Radiance& radiance)
@@ -143,7 +143,7 @@ namespace two
 		auto blit_level = [&](Texture& source, const uvec2& size, uint16_t level, uint16_t face)
 		{
 			const uvec2 level_size = uvec2(size.x >> level, size.y >> level);
-			bgfx::Attachment attach = { bgfx::Access::Write, filtered, level, face, 1, BGFX_RESOLVE_NONE };
+			bgfx::Attachment attach = { bgfx::Access::Write, filtered, level, face, 1, BGFX_ATTACHMENT_NONE };
 			FrameBuffer render_target = { level_size, filtered, { attach } }; // @todo fix ownership
 			m_copy.submit(Pass(), render_target, source, RenderQuad(), 0U, true);
 		};

@@ -1,6 +1,6 @@
 module;
 #include <infra/Cpp20.h>
-module two.wfc-gfx;
+module two.wfc.gfx;
 
 namespace two
 {

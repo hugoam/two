@@ -14,6 +14,7 @@ export import two.ui;
 export import two.uio;
 export import two.gfx;
 export import two.gfx.pbr;
+export import two.gfx.ui;
 
 #include <gfx-edit/Api.h>
 

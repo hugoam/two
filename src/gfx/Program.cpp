@@ -29,7 +29,8 @@ namespace two
 
 		uint32_t size = uint32_t(bx::getSize(&reader));
 		const bgfx::Memory* mem = bgfx::alloc(size + 1);
-		bx::read(&reader, mem->data, size);
+		bx::Error err;
+		bx::read(&reader, mem->data, size, &err);
 		bx::close(&reader);
 		mem->data[mem->size - 1] = '\0';
 		return mem;

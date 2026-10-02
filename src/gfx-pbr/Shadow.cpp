@@ -285,7 +285,7 @@ namespace two
 
 		for(int i = 0; i < 6; i++)
 		{
-			bgfx::Attachment attach = { bgfx::Access::Write, m_depth, 0, uint16_t(i), 1, BGFX_RESOLVE_AUTO_GEN_MIPS };
+			bgfx::Attachment attach = { bgfx::Access::Write, m_depth, 0, uint16_t(i), 1, BGFX_ATTACHMENT_AUTO_GEN_MIPS };
 			m_fbos[i] = { uvec2(size), m_depth, { attach } };
 		}
 	}
@@ -553,13 +553,13 @@ namespace two
 		if(!m_shadows.empty())
 		{
 			DepthMethod depth_method = m_shadows[0].m_depth_method;
-			encoder.setTexture(uint8_t(TextureSampler::Shadow), m_atlas.texture(depth_method), shadow_flags);
+			encoder.setTexture(uint8_t(TextureSampler::Shadow), u_shadow.s_shadow_atlas, m_atlas.texture(depth_method), shadow_flags);
 		}
 
 		if(!m_csm_shadows.empty())
 		{
 			DepthMethod depth_method = m_csm_shadows[0].m_slices[0].m_depth_method;
-			encoder.setTexture(uint8_t(TextureSampler::Shadow), m_atlas.texture(depth_method), shadow_flags);
+			encoder.setTexture(uint8_t(TextureSampler::Shadow), u_shadow.s_shadow_atlas, m_atlas.texture(depth_method), shadow_flags);
 		}
 	}
 

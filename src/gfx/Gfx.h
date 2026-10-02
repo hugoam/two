@@ -11,7 +11,7 @@
 namespace two
 {
 #ifdef BGFX_UNIFORM_GROUP
-	export_ constexpr bgfx::UniformFreq::Enum bgfxUniformGroup = bgfx::UniformFreq::Group;
+	export_ constexpr bgfx::UniformFreq::Enum bgfxUniformGroup = bgfxUniformGroup;
 #else
 	export_ constexpr bgfx::UniformFreq::Enum bgfxUniformGroup = bgfx::UniformFreq::Draw;
 #endif

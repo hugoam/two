@@ -9,7 +9,7 @@ import two.refl;
 import two.gfx;
 import two.gfx.meta;
 import two.gfx.ui;
-import two.gfx.ui, meta);
+import two.gfx.ui.meta;
 
 #include <meta/frame.meta.h>
 #include <meta/frame.conv.h>

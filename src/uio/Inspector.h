@@ -23,7 +23,7 @@ namespace two
 		EditNestMode m_nest_mode[2] = { EditNestMode::Inline, EditNestMode::Inline };
 	};
 
-	extern TWO_UIO_EXPORT vector<EditSpec> g_edit_specs;
+	export_ extern TWO_UIO_EXPORT vector<EditSpec> g_edit_specs;
 	
 	export_ enum class refl_ EditorHint : unsigned int
 	{

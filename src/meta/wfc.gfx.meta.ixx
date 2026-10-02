@@ -29,7 +29,7 @@ import two.uio.meta;
 import two.gfx;
 import two.gfx.meta;
 import two.gfx.ui;
-import two.gfx.ui, meta);
+import two.gfx.ui.meta;
 
 #include <meta/wfc.gfx.meta.h>
 #include <meta/wfc.gfx.conv.h>
