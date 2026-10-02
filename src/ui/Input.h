@@ -110,7 +110,7 @@ namespace ui
 	template <> func_ bool field<bool>(Widget& parent, cstring name, bool& value, bool reverse = false);
 	template <> func_ bool field<string>(Widget& parent, cstring name, string& value, bool reverse = false);
 	template <> func_ bool field<int>(Widget& parent, cstring name, int& value, StatDef<int> def, bool reverse = false);
-	template <> func_ bool field<float>(Widget& parent, cstring name, float& value, StatDef<float> def, bool reverse = false
+	template <> func_ bool field<float>(Widget& parent, cstring name, float& value, StatDef<float> def, bool reverse = false);
 #endif
 
 	export_ inline void field_label(Widget& parent, cstring field, cstring value)

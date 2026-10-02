@@ -3,8 +3,9 @@ module;
 #include <infra/Config.h>
 
 export module two.snd;
-import std;
 
+export import two.infra;
+export import two.type;
+export import two.math;
 
 #include <snd/Api.h>
-
