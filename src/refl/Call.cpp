@@ -49,7 +49,25 @@ namespace two
 	Call::Call(const Callable& callable, Ref object)
 		: Call(callable)
 	{
-		m_args[0] =  object;
+		m_args[0] = object;
+		this->prepare();
+	}
+
+	Call::Call(const Call& other)
+		: m_callable(other.m_callable)
+		, m_args(other.m_args)
+		, m_result(other.m_result)
+	{
+		this->prepare();
+	}
+
+	Call& Call::operator=(const Call& other)
+	{
+		m_callable = other.m_callable;
+		m_args = other.m_args;
+		m_result = other.m_result;
+		this->prepare();
+		return *this;
 	}
 
 	void Call::prepare()

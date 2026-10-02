@@ -17,6 +17,10 @@ namespace two
 		Call(const Callable& callable);
 		Call(const Callable& callable, Ref object);
 
+		// m_vargs points into m_args' storage, so copies must rebuild it instead of copying the source's pointers
+		Call(const Call& other);
+		Call& operator=(const Call& other);
+
 		void prepare();
 		bool validate();
 

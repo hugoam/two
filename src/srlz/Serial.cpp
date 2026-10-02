@@ -77,6 +77,7 @@ namespace two
 		{
 			call.m_callable = System::instance().find_function(json_value["callable"].string_value().c_str());
 			call.m_args = unpackt<vector<Var>>(json_value["arguments"]);
+			call.prepare();
 		});
 	}
 
