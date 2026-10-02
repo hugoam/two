@@ -5,7 +5,7 @@
 #include <two/infra.h>
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 //#include <bgfx/Types.h>
@@ -32,7 +32,7 @@ TWO_BGFX_REFL_EXPORT Module& getModule();
 #endif
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 namespace two

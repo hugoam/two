@@ -11,7 +11,7 @@
 namespace two
 {
 #if !ZONES_LIGHTS_BUFFER
-	export_ template <>
+	template <>
 	struct GpuState<ZoneLights>
 	{
 		void init()
@@ -36,7 +36,7 @@ namespace two
 		static GpuState me;
 	};
 #else
-	export_ template <>
+	template <>
 	struct GpuState<ZoneLights>
 	{
 		constexpr static size_t rows = 1 + BlockLight::ShotUniform::max_lights;
@@ -58,7 +58,7 @@ namespace two
 #endif
 
 #if !ZONES_BUFFER
-	export_ template <>
+	template <>
 	struct GpuState<Radiance>
 	{
 		void init()
@@ -82,7 +82,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<Skylight>
 	{
 		void init()
@@ -110,7 +110,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<Fog>
 	{
 		void init()
@@ -142,7 +142,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<Zone>
 	{
 		void upload(const Pass& pass, const Zone& zone) const
@@ -155,7 +155,7 @@ namespace two
 		static GpuState me;
 	};
 #else
-export_ template <>
+template <>
 	struct GpuState<Radiance>
 	{
 		constexpr static size_t rows = 2;
@@ -175,7 +175,7 @@ export_ template <>
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<Skylight>
 	{
 		constexpr static size_t rows = 3;
@@ -199,7 +199,7 @@ export_ template <>
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<Fog>
 	{
 		constexpr static size_t rows = 4;
@@ -227,7 +227,7 @@ export_ template <>
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<Zone>
 	{
 		void pack(const Zone& zone, size_t offset, GpuTexture& buffer, float* dest)

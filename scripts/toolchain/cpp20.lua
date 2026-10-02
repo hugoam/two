@@ -7,22 +7,16 @@ if not cxxmodules then
 end
 
 function modules(m)
-    if not _OPTIONS["cpp-modules"] then
-        return
-    end
-    
-    removeflags { "Cpp17" }
+    removeflags { "Cpp20" }
     flags {
         "CppLatest",
-        "CppModules",
+        --"CppModules",
     }
 
     defines { "_CRT_NO_VA_START_VALIDATION" }
 
-    if _ACTION == "vs2017"
-	or _ACTION == "vs2019"
-	or _ACTION == "vs2022" then
-        if not m.nomodule then
+    if _ACTION == "vs2026" then
+        if m.cppmodule then
             files {
             --path.join(m.path, m.dotname .. ".ixx"),
                 path.join(m.path, m.dotname2 .. ".ixx"),
@@ -33,7 +27,7 @@ function modules(m)
             }
         end
     else
-        if not m.nomodule then
+        if m.cppmodule then
             local cxxmodule = path.join(m.path, m.dotname2 .. ".cxxm")
             files { cxxmodule }
             local modules = {}

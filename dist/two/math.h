@@ -1276,9 +1276,9 @@ namespace two
 		this->w = c.x * c.y * c.z + s.x * s.y * s.z;
 	}
 
-	export_ template <> inline float* value_ptr(mat4& m) { return &m[0][0]; }
-	export_ template <> inline const float* value_ptr(const mat4& m) { return &m.f[0]; }
-	export_ template <> inline float* value_ptr(quat& q) { return &q[0]; }
+	template <> inline float* value_ptr(mat4& m) { return &m[0][0]; }
+	template <> inline const float* value_ptr(const mat4& m) { return &m.f[0]; }
+	template <> inline float* value_ptr(quat& q) { return &q[0]; }
 
 	export_ inline bool operator<(const uvec2& lhs, const uvec2& rhs) { return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y); }
 	export_ inline bool operator<(const ivec2& lhs, const ivec2& rhs) { return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y); }
@@ -1996,14 +1996,14 @@ namespace two
 		return t0(p0, t) + t1(p1, t) + t2(p2, t);
 	}
 
-	export_ template <>
+	template <>
 	inline quat catmull_rom(const quat& p0, const quat& p1, const quat& p2, const quat& p3, float c)
 	{
 		UNUSED(p0); UNUSED(p3);
 		return slerp(p1, p2, c);
 	}
 
-	export_ template <>
+	template <>
 	inline quat bezier(quat start, quat control_1, quat control_2, quat end, float t)
 	{
 		UNUSED(control_1); UNUSED(control_2);
@@ -2060,9 +2060,9 @@ namespace two
 	export_ template <class T>
 	struct One { static T value() { return T(1); } };
 
-	export_ template <> struct One<vec3> { static vec3 value() { return vec3(1.f); } };
-	export_ template <> struct One<quat> { static quat value() { return ZeroQuat; } };
-	export_ template <> struct One<Colour> { static Colour value() { return Colour(1.f); } };
+	template <> struct One<vec3> { static vec3 value() { return vec3(1.f); } };
+	template <> struct One<quat> { static quat value() { return ZeroQuat; } };
+	template <> struct One<Colour> { static Colour value() { return Colour(1.f); } };
 
 	export_ template <class T>
 	struct refl_ struct_ ValueTrack
@@ -2297,97 +2297,97 @@ namespace two
 	export_ template <class T>
 	inline T read(std::istream& stream) { T result; stream >> result; return result; }
 
-	export_ template <>
+	template <>
 	inline vec3 read(std::istream& stream) { vec3 result; stream >> result.x >> result.y >> result.z; return result; }
 
-	export_ template <>
+	template <>
 	inline vec2 read(std::istream& stream) { vec2 result; stream >> result.x >> result.y; return result; }
 
-	export_ template <>
+	template <>
 	inline quat read(std::istream& stream) { quat result; stream >> result.x >> result.y >> result.z >> result.w; return result; }
 
-	export_ template <>
+	template <>
 	inline Colour read(std::istream& stream) { Colour result; stream >> result.r >> result.g >> result.b; return result; }
 }
 
 
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 
 namespace two
 {
     // Exported types
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Axis>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Axes>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::SignedAxis>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Side>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Clockwise>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::TrackMode>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Spectrum>();
+    template <> TWO_MATH_EXPORT Type& type<two::Axis>();
+    template <> TWO_MATH_EXPORT Type& type<two::Axes>();
+    template <> TWO_MATH_EXPORT Type& type<two::SignedAxis>();
+    template <> TWO_MATH_EXPORT Type& type<two::Side>();
+    template <> TWO_MATH_EXPORT Type& type<two::Clockwise>();
+    template <> TWO_MATH_EXPORT Type& type<two::TrackMode>();
+    template <> TWO_MATH_EXPORT Type& type<two::Spectrum>();
     
-    export_ template <> TWO_MATH_EXPORT Type& type<stl::span<uint8_t>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<stl::span<int>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<stl::span<float>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<stl::span<uint32_t>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<stl::span<two::vec3>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<stl::span<two::quat>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<stl::span<two::Colour>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<stl::span<two::uvec3>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<stl::vector<int>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<stl::vector<float>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<stl::vector<uint32_t>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<stl::vector<two::vec3>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<stl::vector<two::quat>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<stl::vector<two::Colour>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<stl::vector<two::uvec3>>();
+    template <> TWO_MATH_EXPORT Type& type<stl::span<uint8_t>>();
+    template <> TWO_MATH_EXPORT Type& type<stl::span<int>>();
+    template <> TWO_MATH_EXPORT Type& type<stl::span<float>>();
+    template <> TWO_MATH_EXPORT Type& type<stl::span<uint32_t>>();
+    template <> TWO_MATH_EXPORT Type& type<stl::span<two::vec3>>();
+    template <> TWO_MATH_EXPORT Type& type<stl::span<two::quat>>();
+    template <> TWO_MATH_EXPORT Type& type<stl::span<two::Colour>>();
+    template <> TWO_MATH_EXPORT Type& type<stl::span<two::uvec3>>();
+    template <> TWO_MATH_EXPORT Type& type<stl::vector<int>>();
+    template <> TWO_MATH_EXPORT Type& type<stl::vector<float>>();
+    template <> TWO_MATH_EXPORT Type& type<stl::vector<uint32_t>>();
+    template <> TWO_MATH_EXPORT Type& type<stl::vector<two::vec3>>();
+    template <> TWO_MATH_EXPORT Type& type<stl::vector<two::quat>>();
+    template <> TWO_MATH_EXPORT Type& type<stl::vector<two::Colour>>();
+    template <> TWO_MATH_EXPORT Type& type<stl::vector<two::uvec3>>();
     
-    export_ template <> TWO_MATH_EXPORT Type& type<two::v2<float>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::v3<float>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::v4<float>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::v2<int>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::v3<int>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::v4<int>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::v2<uint>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::v3<uint>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::v4<uint>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::v2<bool>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::v3<bool>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::v4<bool>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::mat3>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::mat4>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::quat>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Transform>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::ColourHSL>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Colour>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<float>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<uint32_t>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<two::vec3>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<two::quat>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<two::Colour>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<two::vec3>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<two::quat>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<float>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<uint32_t>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<two::Colour>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Image>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Palette>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Image256>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::ImageAtlas>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::TextureAtlas>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Sprite>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::SpriteAtlas>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Range<two::vec3>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Range<two::quat>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Range<float>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Range<uint32_t>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Range<two::Colour>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::StatDef<int>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::StatDef<float>>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::Time>();
-    export_ template <> TWO_MATH_EXPORT Type& type<two::TimeSpan>();
+    template <> TWO_MATH_EXPORT Type& type<two::v2<float>>();
+    template <> TWO_MATH_EXPORT Type& type<two::v3<float>>();
+    template <> TWO_MATH_EXPORT Type& type<two::v4<float>>();
+    template <> TWO_MATH_EXPORT Type& type<two::v2<int>>();
+    template <> TWO_MATH_EXPORT Type& type<two::v3<int>>();
+    template <> TWO_MATH_EXPORT Type& type<two::v4<int>>();
+    template <> TWO_MATH_EXPORT Type& type<two::v2<uint>>();
+    template <> TWO_MATH_EXPORT Type& type<two::v3<uint>>();
+    template <> TWO_MATH_EXPORT Type& type<two::v4<uint>>();
+    template <> TWO_MATH_EXPORT Type& type<two::v2<bool>>();
+    template <> TWO_MATH_EXPORT Type& type<two::v3<bool>>();
+    template <> TWO_MATH_EXPORT Type& type<two::v4<bool>>();
+    template <> TWO_MATH_EXPORT Type& type<two::mat3>();
+    template <> TWO_MATH_EXPORT Type& type<two::mat4>();
+    template <> TWO_MATH_EXPORT Type& type<two::quat>();
+    template <> TWO_MATH_EXPORT Type& type<two::Transform>();
+    template <> TWO_MATH_EXPORT Type& type<two::ColourHSL>();
+    template <> TWO_MATH_EXPORT Type& type<two::Colour>();
+    template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<float>>();
+    template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<uint32_t>>();
+    template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<two::vec3>>();
+    template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<two::quat>>();
+    template <> TWO_MATH_EXPORT Type& type<two::ValueCurve<two::Colour>>();
+    template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<two::vec3>>();
+    template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<two::quat>>();
+    template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<float>>();
+    template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<uint32_t>>();
+    template <> TWO_MATH_EXPORT Type& type<two::ValueTrack<two::Colour>>();
+    template <> TWO_MATH_EXPORT Type& type<two::Image>();
+    template <> TWO_MATH_EXPORT Type& type<two::Palette>();
+    template <> TWO_MATH_EXPORT Type& type<two::Image256>();
+    template <> TWO_MATH_EXPORT Type& type<two::ImageAtlas>();
+    template <> TWO_MATH_EXPORT Type& type<two::TextureAtlas>();
+    template <> TWO_MATH_EXPORT Type& type<two::Sprite>();
+    template <> TWO_MATH_EXPORT Type& type<two::SpriteAtlas>();
+    template <> TWO_MATH_EXPORT Type& type<two::Range<two::vec3>>();
+    template <> TWO_MATH_EXPORT Type& type<two::Range<two::quat>>();
+    template <> TWO_MATH_EXPORT Type& type<two::Range<float>>();
+    template <> TWO_MATH_EXPORT Type& type<two::Range<uint32_t>>();
+    template <> TWO_MATH_EXPORT Type& type<two::Range<two::Colour>>();
+    template <> TWO_MATH_EXPORT Type& type<two::StatDef<int>>();
+    template <> TWO_MATH_EXPORT Type& type<two::StatDef<float>>();
+    template <> TWO_MATH_EXPORT Type& type<two::Time>();
+    template <> TWO_MATH_EXPORT Type& type<two::TimeSpan>();
 }
 #ifdef TWO_MODULES
 #endif

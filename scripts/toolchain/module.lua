@@ -12,7 +12,7 @@ function dep(namespace, name, cppmodule, usage_decl, deps)
         idname = name,
         path = path.join(TWO_SRC_DIR, "3rdparty"),
         usage_decl = usage_decl,
-        deps = deps,
+        deps = deps or {},
     }
     
     if namespace then
@@ -31,6 +31,15 @@ function dep(namespace, name, cppmodule, usage_decl, deps)
         modules(m)
     end
     
+    for _, dep in ipairs(m.deps) do
+        if dep ~= null then
+            link(m.lib, dep.lib)
+            if dep.usage_decl then
+                dep.usage_decl()
+            end
+        end
+    end
+
     return m
 end
 

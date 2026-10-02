@@ -5,7 +5,7 @@
 #include <two/infra.h>
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 //#include <lang/Types.h>
@@ -32,13 +32,13 @@ TWO_LANG_REFL_EXPORT Module& getModule();
 #endif
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 namespace two
 {
-	export_ template <> inline void to_value(const string& str, two::Language& val) { val = two::Language(enu<two::Language>().value(str.c_str())); };
-	export_ template <> inline void to_string(const two::Language& val, string& str) { str = enu<two::Language>().name(uint32_t(val)); };
+	template <> inline void to_value(const string& str, two::Language& val) { val = two::Language(enu<two::Language>().value(str.c_str())); };
+	template <> inline void to_string(const two::Language& val, string& str) { str = enu<two::Language>().name(uint32_t(val)); };
 	
 	
 }

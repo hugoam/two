@@ -742,7 +742,7 @@ namespace two
 	export_ TWO_REFL_EXPORT string to_name(const Type& type, Ref value);
 	export_ inline string to_name(Ref value) { return to_name(type(value), value); }
 
-	export_ template <>
+	template <>
 	inline void to_string<Ref>(const Ref& object, string& str) { convert(*object.m_type).m_to_string(object.m_value, str); }
 
 	export_ template <class T_Source, class T_Dest>
@@ -846,13 +846,13 @@ namespace two
 													[](const string& str, Ref ref) { to_value<T>(str, val<T>(ref)); } };
 						 g_convert[type<T>().m_id] = &convert; }
 
-	export_ template <>
+	template <>
 	TWO_REFL_EXPORT void init_string<void>();
 	
-	export_ template <>
+	template <>
 	TWO_REFL_EXPORT void init_string<void*>();
 
-	export_ template <>
+	template <>
 	TWO_REFL_EXPORT void init_string<cstring>();
 
 	export_ template <class T>
@@ -866,7 +866,7 @@ namespace two
 	inline enable_if<!is_default_constructible<T>, void>
 		init_default_value() { meta<T>().m_empty_var = Ref(type<T>()); meta<T>().m_empty_ref = Ref(type<T>()); }
 	
-	export_ template <>
+	template <>
 	inline void	init_default_value<Ref>() { meta<Ref>().m_empty_var = Ref(); meta<Ref>().m_empty_ref = Ref(); }
 
 	export_ template <class T>
@@ -885,10 +885,10 @@ namespace two
 		inline enable_if<!is_trivially_destructible<T>, void>
 		init_destructor() { cls<T>().m_destructor.push_back({ type<T>(), [](void* ref) { static_cast<T*>(ref)->~T(); } }); }
 
-	export_ template <>
+	template <>
 	TWO_REFL_EXPORT void init_assign<void*>();
 
-	export_ template <>
+	template <>
 	TWO_REFL_EXPORT void init_assign<cstring>();
 
 	export_ template <class T>
@@ -942,7 +942,7 @@ namespace two
 	//extern template class refl_ function<void(Method&, Ref, span<Var>)>;
 	export_ using VirtualMethod = function<void(Method&, Ref, span<Var>)>;
 
-	export_ template <> TWO_REFL_EXPORT Type& type<VirtualMethod>();
+	template <> TWO_REFL_EXPORT Type& type<VirtualMethod>();
 }
 
 
@@ -1042,45 +1042,45 @@ namespace two
 }
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 
 namespace two
 {
     // Exported types
-    export_ template <> TWO_REFL_EXPORT Type& type<two::TypeClass>();
+    template <> TWO_REFL_EXPORT Type& type<two::TypeClass>();
     
-    export_ template <> TWO_REFL_EXPORT Type& type<stl::span<two::Type*>>();
-    export_ template <> TWO_REFL_EXPORT Type& type<stl::vector<two::Var>>();
-    export_ template <> TWO_REFL_EXPORT Type& type<stl::vector<void*>>();
-    export_ template <> TWO_REFL_EXPORT Type& type<stl::vector<two::Module*>>();
-    export_ template <> TWO_REFL_EXPORT Type& type<stl::vector<two::Type*>>();
-    export_ template <> TWO_REFL_EXPORT Type& type<stl::vector<two::Alias*>>();
-    export_ template <> TWO_REFL_EXPORT Type& type<stl::vector<two::Function*>>();
+    template <> TWO_REFL_EXPORT Type& type<stl::span<two::Type*>>();
+    template <> TWO_REFL_EXPORT Type& type<stl::vector<two::Var>>();
+    template <> TWO_REFL_EXPORT Type& type<stl::vector<void*>>();
+    template <> TWO_REFL_EXPORT Type& type<stl::vector<two::Module*>>();
+    template <> TWO_REFL_EXPORT Type& type<stl::vector<two::Type*>>();
+    template <> TWO_REFL_EXPORT Type& type<stl::vector<two::Alias*>>();
+    template <> TWO_REFL_EXPORT Type& type<stl::vector<two::Function*>>();
     
-    export_ template <> TWO_REFL_EXPORT Type& type<two::QualType>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Param>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Signature>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Callable>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Function>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Operator>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Method>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Constructor>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::CopyConstructor>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Destructor>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Call>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Meta>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Convert>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Static>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Member>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Class>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Enum>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Injector>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Creator>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Namespace>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Alias>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::Module>();
-    export_ template <> TWO_REFL_EXPORT Type& type<two::System>();
+    template <> TWO_REFL_EXPORT Type& type<two::QualType>();
+    template <> TWO_REFL_EXPORT Type& type<two::Param>();
+    template <> TWO_REFL_EXPORT Type& type<two::Signature>();
+    template <> TWO_REFL_EXPORT Type& type<two::Callable>();
+    template <> TWO_REFL_EXPORT Type& type<two::Function>();
+    template <> TWO_REFL_EXPORT Type& type<two::Operator>();
+    template <> TWO_REFL_EXPORT Type& type<two::Method>();
+    template <> TWO_REFL_EXPORT Type& type<two::Constructor>();
+    template <> TWO_REFL_EXPORT Type& type<two::CopyConstructor>();
+    template <> TWO_REFL_EXPORT Type& type<two::Destructor>();
+    template <> TWO_REFL_EXPORT Type& type<two::Call>();
+    template <> TWO_REFL_EXPORT Type& type<two::Meta>();
+    template <> TWO_REFL_EXPORT Type& type<two::Convert>();
+    template <> TWO_REFL_EXPORT Type& type<two::Static>();
+    template <> TWO_REFL_EXPORT Type& type<two::Member>();
+    template <> TWO_REFL_EXPORT Type& type<two::Class>();
+    template <> TWO_REFL_EXPORT Type& type<two::Enum>();
+    template <> TWO_REFL_EXPORT Type& type<two::Injector>();
+    template <> TWO_REFL_EXPORT Type& type<two::Creator>();
+    template <> TWO_REFL_EXPORT Type& type<two::Namespace>();
+    template <> TWO_REFL_EXPORT Type& type<two::Alias>();
+    template <> TWO_REFL_EXPORT Type& type<two::Module>();
+    template <> TWO_REFL_EXPORT Type& type<two::System>();
 }
 

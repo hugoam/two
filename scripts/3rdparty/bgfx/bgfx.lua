@@ -1,13 +1,10 @@
 -- two library
 -- bgfx dependency module
 
-group "bgfx"
-
 if _OPTIONS["webgpu"] then
     _OPTIONS["with-webgpu"] = ""
 end
 
-dofile(path.join(BX_DIR, "scripts/bx.lua"))
 dofile(path.join(BIMG_DIR, "scripts/bimg.lua"))
 dofile(path.join(BIMG_DIR, "scripts/bimg_decode.lua"))
 dofile(path.join(BIMG_DIR, "scripts/bimg_encode.lua"))
@@ -89,6 +86,9 @@ project "bimg_encode"
 dofile(path.join(TWO_DIR, "scripts/3rdparty/bgfx/shaderc.lua"))
 
 function uses_bx()
+    -- it's redundant with some of this function the link bx part but I think this is OK
+    using_bx()
+
     includedirs {
         path.join(BX_DIR,    "include"),
     }
@@ -145,23 +145,23 @@ end
 function uses_shaderc()
     defines { "TWO_LIVE_SHADER_COMPILER" }
     
-    --print(" links fcpp, glslang, etc...")
-    links {
-        "fcpp",
-        "glslang",
-        "glsl-optimizer",
-        "spirv-opt",
-        "spirv-cross",
-    }
+	links {
+		"glslang",
+		"spirv-opt",
+		"spirv-cross",
+		"tint-api",
+		"tint-lang",
+		"tint-core",
+	}
 end
 
-fcpp        = dep(nil, "fcpp",          false, nil)
 glslang     = dep(nil, "glslang",       false, nil)
-glslopt     = dep(nil, "glsl-optimizer",false, nil)
 spirvopt    = dep(nil, "spirv-opt",     false, nil)
 spirvcross  = dep(nil, "spirv-cross",   false, nil)
+tintapi     = dep(nil, "tint-api",      false, nil)
+tintlang    = dep(nil, "tint-lang",     false, nil)
+tintcore    = dep(nil, "tint-core",     false, nil)
 
-bx          = dep(nil, "bx",            false, uses_bx)
 bimg        = dep(nil, "bimg",          false, uses_bimg,       { bx })
 bimg.decode = dep(nil, "bimg_decode",   false, uses_bimg        { bx })
 bimg.encode = dep(nil, "bimg_encode",   false, uses_bimg        { bx })

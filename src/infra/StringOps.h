@@ -29,10 +29,10 @@ namespace two
 	inline string to_string(const T& val) { string str; to_string<T>(val, str); return str; }
 
 	// string - string conversion
-	export_ template <> inline void to_value<cstring>(const string& str, cstring& val) { val = str.c_str(); }
-	export_ template <> inline void to_string<cstring>(const cstring& val, string& str) { str = val; }
-	export_ template <> inline void to_value<string>(const string& str, string& val) { val = str; }
-	export_ template <> inline void to_string<string>(const string& val, string& str){ str = val; }
+	template <> inline void to_value<cstring>(const string& str, cstring& val) { val = str.c_str(); }
+	template <> inline void to_string<cstring>(const cstring& val, string& str) { str = val; }
+	template <> inline void to_value<string>(const string& str, string& val) { val = str; }
+	template <> inline void to_string<string>(const string& val, string& str){ str = val; }
 
 	export_ TWO_INFRA_EXPORT void split(const string& str, const string& separator, span<string> output);
 	export_ TWO_INFRA_EXPORT vector<string> split(const string& str, const string& separator);

@@ -1,12 +1,10 @@
 -- two library
 
 function two_module()
-    if _OPTIONS["cpp-modules"] then
-        defines {
-            "TWO_MODULES",
-            "TWO_STD_MODULES",
-        }
-    end
+    defines {
+        "TWO_MODULES",
+        "TWO_STD_MODULES",
+    }
 
     if _OPTIONS["webcompile"] then
         configuration { "wasm*" }
@@ -22,12 +20,13 @@ function two_module()
     end
 end
 
-if _OPTIONS["cpp-modules"] and _ACTION == "gmake" then
+if _ACTION == "gmake" then
     dofile(path.join(TWO_DIR, "scripts/3rdparty/std.lua"))
 end
 
 if not _OPTIONS["compile-only"] then
     group "3rdparty"
+    dofile(path.join(TWO_DIR, "scripts/3rdparty/bx.lua"))
     dofile(path.join(TWO_DIR, "scripts/3rdparty/json11.lua"))
     dofile(path.join(TWO_DIR, "scripts/3rdparty/base64.lua"))
     dofile(path.join(TWO_DIR, "scripts/3rdparty/stb.lua"))
@@ -100,9 +99,9 @@ function uses_two()
         path.join(TWO_DIST_DIR)
     }
     
-    if _OPTIONS["use-stl"] or _OPTIONS["cpp-modules"] then
+    --if _OPTIONS["use-stl"] then
         defines { "USE_STL" }
-    end
+    --end
     
     if _OPTIONS["profile"] then
         defines { "TRACY_ENABLE" }

@@ -15,7 +15,7 @@ namespace two
 	export_ template <class T, bool onlyref = is_object_pointer<T> || !is_copyable<T>>
 	constexpr bool ValueSemantic = true;
 
-	export_ template <class T>
+	template <class T>
 	constexpr bool ValueSemantic<T, true> = false;
 
 	template <class T>
@@ -36,7 +36,7 @@ namespace two
 		virtual void move(Any& any, Any& other) const { any.swap(other); }
 	};
 
-	export_ template <class T>
+	template <class T>
 	class TAnyHandlerImpl<T, true> : public AnyHandler
 	{
 	public:
@@ -89,16 +89,16 @@ namespace two
 	export_ template <class T>
 	inline T val(const Var& var) { return val<T>(var.m_ref); }
 	
-	export_ template <>
+	template <>
 	inline void*& val(Var& var) { return var.m_ref.m_value; }
 
-	export_ template <>
+	template <>
 	inline void* val(const Var& var) { return var.m_ref.m_value; }
 
-	export_ template <>
+	template <>
 	inline cstring& val(Var& var) { return (cstring&)var.m_ref.m_value; }
 
-	export_ template <>
+	template <>
 	inline cstring val(const Var& var) { return (cstring)var.m_ref.m_value; }
 
 	export_ template <class T, class U>
@@ -131,7 +131,7 @@ namespace two
 	export_ template <class T>
 	inline Var var(T&& value) { return make_var<T>(static_cast<T&&>(value)); }
 
-	export_ template <>
+	template <>
 	inline Var var(Ref&& ref) { return Var(ref); }
 
 	export_ inline Var var(cstring value) { return Ref(const_cast<char*>(value), type<cstring>()); }

@@ -1,7 +1,8 @@
 -- two library
 -- vg-renderer 3rdparty module
 
-vg = dep(nil, "vg")
+print(bx)
+vg = dep(nil, "vg", false, nil, { bx })
     kind "StaticLib"
     
     includedirs {

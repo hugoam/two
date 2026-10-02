@@ -18,7 +18,7 @@ namespace mud
 {
     // Exported types
     
-    export_ template <> _15_SCRIPT_EXPORT Type& type<GameObject>();
+    template <> _15_SCRIPT_EXPORT Type& type<GameObject>();
     
 	export_ template struct _15_SCRIPT_EXPORT Typed<std::vector<GameObject*>>;
 }

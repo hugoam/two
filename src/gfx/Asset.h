@@ -167,9 +167,9 @@ namespace two
 		vector<T_Asset*> m_vector;
 	};
 	
-	export_ template <>
+	template <>
 	struct AssetConfig<Prefab> { using type = ImportConfig; };
 	
-	export_ template <>
+	template <>
 	struct AssetConfig<Model> { using type = ImportConfig; };
 }

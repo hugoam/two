@@ -12,7 +12,7 @@ namespace two
 	export_ TWO_REFL_EXPORT string to_name(const Type& type, Ref value);
 	export_ inline string to_name(Ref value) { return to_name(type(value), value); }
 
-	export_ template <>
+	template <>
 	inline void to_string<Ref>(const Ref& object, string& str) { convert(*object.m_type).m_to_string(object.m_value, str); }
 
 #ifndef TWO_MODULES

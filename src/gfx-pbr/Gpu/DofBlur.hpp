@@ -9,7 +9,7 @@
 
 namespace two
 {
-	export_ template <>
+	template <>
 	struct GpuState<DofBlur>
 	{
 		void init()

@@ -9,7 +9,7 @@
 
 namespace two
 {
-	export_ template <>
+	template <>
 	struct GpuState<BCS>
 	{
 		void init()
@@ -28,7 +28,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<Tonemap>
 	{
 		void init()

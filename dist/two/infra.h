@@ -265,10 +265,10 @@ namespace two
 	inline string to_string(const T& val) { string str; to_string<T>(val, str); return str; }
 
 	// string - string conversion
-	export_ template <> inline void to_value<cstring>(const string& str, cstring& val) { val = str.c_str(); }
-	export_ template <> inline void to_string<cstring>(const cstring& val, string& str) { str = val; }
-	export_ template <> inline void to_value<string>(const string& str, string& val) { val = str; }
-	export_ template <> inline void to_string<string>(const string& val, string& str){ str = val; }
+	template <> inline void to_value<cstring>(const string& str, cstring& val) { val = str.c_str(); }
+	template <> inline void to_string<cstring>(const cstring& val, string& str) { str = val; }
+	template <> inline void to_value<string>(const string& str, string& val) { val = str; }
+	template <> inline void to_string<string>(const string& val, string& str){ str = val; }
 
 	export_ TWO_INFRA_EXPORT void split(const string& str, const string& separator, span<string> output);
 	export_ TWO_INFRA_EXPORT vector<string> split(const string& str, const string& separator);
@@ -301,21 +301,21 @@ namespace two
 
 namespace two
 {
-	export_ template <> TWO_INFRA_EXPORT void to_value(const string& str, bool& val);
-	export_ template <> TWO_INFRA_EXPORT void to_value(const string& str, char& val);
-	export_ template <> TWO_INFRA_EXPORT void to_value(const string& str, schar& val);
-	export_ template <> TWO_INFRA_EXPORT void to_value(const string& str, short& val);
-	export_ template <> TWO_INFRA_EXPORT void to_value(const string& str, int& val);
-	export_ template <> TWO_INFRA_EXPORT void to_value(const string& str, long& val);
-	export_ template <> TWO_INFRA_EXPORT void to_value(const string& str, llong& val);
-	export_ template <> TWO_INFRA_EXPORT void to_value(const string& str, uchar& val);
-	export_ template <> TWO_INFRA_EXPORT void to_value(const string& str, ushort& val);
-	export_ template <> TWO_INFRA_EXPORT void to_value(const string& str, uint& val);
-	export_ template <> TWO_INFRA_EXPORT void to_value(const string& str, ulong& val);
-	export_ template <> TWO_INFRA_EXPORT void to_value(const string& str, ullong& val);
-	export_ template <> TWO_INFRA_EXPORT void to_value(const string& str, float& val);
-	export_ template <> TWO_INFRA_EXPORT void to_value(const string& str, double& val);
-	export_ template <> TWO_INFRA_EXPORT void to_value(const string& str, ldouble& val);
+	template <> TWO_INFRA_EXPORT void to_value(const string& str, bool& val);
+	template <> TWO_INFRA_EXPORT void to_value(const string& str, char& val);
+	template <> TWO_INFRA_EXPORT void to_value(const string& str, schar& val);
+	template <> TWO_INFRA_EXPORT void to_value(const string& str, short& val);
+	template <> TWO_INFRA_EXPORT void to_value(const string& str, int& val);
+	template <> TWO_INFRA_EXPORT void to_value(const string& str, long& val);
+	template <> TWO_INFRA_EXPORT void to_value(const string& str, llong& val);
+	template <> TWO_INFRA_EXPORT void to_value(const string& str, uchar& val);
+	template <> TWO_INFRA_EXPORT void to_value(const string& str, ushort& val);
+	template <> TWO_INFRA_EXPORT void to_value(const string& str, uint& val);
+	template <> TWO_INFRA_EXPORT void to_value(const string& str, ulong& val);
+	template <> TWO_INFRA_EXPORT void to_value(const string& str, ullong& val);
+	template <> TWO_INFRA_EXPORT void to_value(const string& str, float& val);
+	template <> TWO_INFRA_EXPORT void to_value(const string& str, double& val);
+	template <> TWO_INFRA_EXPORT void to_value(const string& str, ldouble& val);
 }
 
 
@@ -928,21 +928,21 @@ namespace two
 
 namespace two
 {
-	export_ template <> TWO_INFRA_EXPORT void to_string(const bool&    value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const char&    value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const schar&   value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const uchar&   value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const short&   value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const int&     value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const long&    value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const llong&   value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const ushort&  value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const uint&    value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const ulong&   value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const ullong&  value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const float&   value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const double&  value, string& str);
-	export_ template <> TWO_INFRA_EXPORT void to_string(const ldouble& value, string& str);
+	template <> TWO_INFRA_EXPORT void to_string(const bool&    value, string& str);
+	template <> TWO_INFRA_EXPORT void to_string(const char&    value, string& str);
+	template <> TWO_INFRA_EXPORT void to_string(const schar&   value, string& str);
+	template <> TWO_INFRA_EXPORT void to_string(const uchar&   value, string& str);
+	template <> TWO_INFRA_EXPORT void to_string(const short&   value, string& str);
+	template <> TWO_INFRA_EXPORT void to_string(const int&     value, string& str);
+	template <> TWO_INFRA_EXPORT void to_string(const long&    value, string& str);
+	template <> TWO_INFRA_EXPORT void to_string(const llong&   value, string& str);
+	template <> TWO_INFRA_EXPORT void to_string(const ushort&  value, string& str);
+	template <> TWO_INFRA_EXPORT void to_string(const uint&    value, string& str);
+	template <> TWO_INFRA_EXPORT void to_string(const ulong&   value, string& str);
+	template <> TWO_INFRA_EXPORT void to_string(const ullong&  value, string& str);
+	template <> TWO_INFRA_EXPORT void to_string(const float&   value, string& str);
+	template <> TWO_INFRA_EXPORT void to_string(const double&  value, string& str);
+	template <> TWO_INFRA_EXPORT void to_string(const ldouble& value, string& str);
 }
 
 
@@ -1217,7 +1217,7 @@ namespace two
 
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 

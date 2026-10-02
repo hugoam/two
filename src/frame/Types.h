@@ -2,7 +2,7 @@
 
 #include <frame/Forward.h>
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #include <type/Type.h>
 #endif
 
@@ -12,7 +12,7 @@ namespace two
     // Exported types
     
     
-    export_ template <> TWO_FRAME_EXPORT Type& type<two::ShellContext>();
-    export_ template <> TWO_FRAME_EXPORT Type& type<two::ShellWindow>();
-    export_ template <> TWO_FRAME_EXPORT Type& type<two::Shell>();
+    template <> TWO_FRAME_EXPORT Type& type<two::ShellContext>();
+    template <> TWO_FRAME_EXPORT Type& type<two::ShellWindow>();
+    template <> TWO_FRAME_EXPORT Type& type<two::Shell>();
 }

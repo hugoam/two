@@ -178,7 +178,7 @@ namespace two // export_ namespace two// @todo evaluate export at namespace leve
 		Type(int);
 	};
 
-	export_ template <> inline Type& type<Type>() { return Type::type(); }
+	template <> inline Type& type<Type>() { return Type::type(); }
 
 	template <class T>
 	struct Typed
@@ -290,16 +290,16 @@ namespace two
 	export_ template <class T>
 	inline void setval(Ref& ref, T* value) { ref.m_value = (void*)value; ref.m_type = &type_of<T>(value); }
 	
-	export_ template <>
+	template <>
 	inline Ref& val<Ref>(Ref& ref) { return ref; }
 
-	export_ template <>
+	template <>
 	inline const Ref& val<Ref>(const Ref& ref) { return ref; }
 	
-	export_ template <>
+	template <>
 	inline void* val<void*>(Ref& ref) { return ref.m_value; }
 
-	export_ template <>
+	template <>
 	inline void* val<void*>(const Ref& ref) { return ref.m_value; }
 
 	export_ template <class T>
@@ -429,40 +429,40 @@ namespace two
 }
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 namespace two
 {
     // Exported types
-    export_ template <> TWO_TYPE_EXPORT Type& type<void*>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<bool>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<char>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<schar>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<short>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<int>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<long>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<uchar>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<ushort>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<uint>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<ulong>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<ullong>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<llong>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<ldouble>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<float>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<double>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<const char*>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<stl::string>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<void>();
+    template <> TWO_TYPE_EXPORT Type& type<void*>();
+    template <> TWO_TYPE_EXPORT Type& type<bool>();
+    template <> TWO_TYPE_EXPORT Type& type<char>();
+    template <> TWO_TYPE_EXPORT Type& type<schar>();
+    template <> TWO_TYPE_EXPORT Type& type<short>();
+    template <> TWO_TYPE_EXPORT Type& type<int>();
+    template <> TWO_TYPE_EXPORT Type& type<long>();
+    template <> TWO_TYPE_EXPORT Type& type<uchar>();
+    template <> TWO_TYPE_EXPORT Type& type<ushort>();
+    template <> TWO_TYPE_EXPORT Type& type<uint>();
+    template <> TWO_TYPE_EXPORT Type& type<ulong>();
+    template <> TWO_TYPE_EXPORT Type& type<ullong>();
+    template <> TWO_TYPE_EXPORT Type& type<llong>();
+    template <> TWO_TYPE_EXPORT Type& type<ldouble>();
+    template <> TWO_TYPE_EXPORT Type& type<float>();
+    template <> TWO_TYPE_EXPORT Type& type<double>();
+    template <> TWO_TYPE_EXPORT Type& type<const char*>();
+    template <> TWO_TYPE_EXPORT Type& type<stl::string>();
+    template <> TWO_TYPE_EXPORT Type& type<void>();
     
-    export_ template <> TWO_TYPE_EXPORT Type& type<stl::vector<stl::string>>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<stl::vector<two::Ref>>();
+    template <> TWO_TYPE_EXPORT Type& type<stl::vector<stl::string>>();
+    template <> TWO_TYPE_EXPORT Type& type<stl::vector<two::Ref>>();
     
-    export_ template <> TWO_TYPE_EXPORT Type& type<two::Ref>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<two::Var>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<two::Indexer>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<two::Index>();
-    export_ template <> TWO_TYPE_EXPORT Type& type<two::Prototype>();
+    template <> TWO_TYPE_EXPORT Type& type<two::Ref>();
+    template <> TWO_TYPE_EXPORT Type& type<two::Var>();
+    template <> TWO_TYPE_EXPORT Type& type<two::Indexer>();
+    template <> TWO_TYPE_EXPORT Type& type<two::Index>();
+    template <> TWO_TYPE_EXPORT Type& type<two::Prototype>();
 }
 
 namespace two
@@ -544,16 +544,16 @@ namespace two
 	export_ template <class T>
 	inline T val(const Var& var) { return val<T>(var.m_ref); }
 	
-	export_ template <>
+	template <>
 	inline void*& val(Var& var) { return var.m_ref.m_value; }
 
-	export_ template <>
+	template <>
 	inline void* val(const Var& var) { return var.m_ref.m_value; }
 
-	export_ template <>
+	template <>
 	inline cstring& val(Var& var) { return (cstring&)var.m_ref.m_value; }
 
-	export_ template <>
+	template <>
 	inline cstring val(const Var& var) { return (cstring)var.m_ref.m_value; }
 
 	export_ template <class T, class U>
@@ -586,7 +586,7 @@ namespace two
 	export_ template <class T>
 	inline Var var(T&& value) { return make_var<T>(static_cast<T&&>(value)); }
 
-	export_ template <>
+	template <>
 	inline Var var(Ref&& ref) { return Var(ref); }
 
 	export_ inline Var var(cstring value) { return Ref(const_cast<char*>(value), type<cstring>()); }
@@ -778,7 +778,7 @@ namespace two // export_ namespace two// @todo evaluate export at namespace leve
 		static inline Type& type() { static string name = "span<" + string(two::type<type_class<T>>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
 	};
 	
-	export_ template <>
+	template <>
 	struct Typed<span<cstring>>
 	{
 		static inline Type& type() { static Type ty("span<cstring>"); return ty; }
@@ -790,7 +790,7 @@ namespace two // export_ namespace two// @todo evaluate export at namespace leve
 		static inline Type& type() { static string name = "vector<" + string(two::type<type_class<T>>().m_name) + ">"; static Type ty(name.c_str()); return ty; }
 	};
 	
-	export_ template <>
+	template <>
 	struct Typed<vector<cstring>>
 	{
 		static inline Type& type() { static Type ty("vector<cstring>"); return ty; }

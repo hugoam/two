@@ -89,12 +89,12 @@ namespace two
     export_ class GlfwContext;
 }
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 namespace two
 {
     // Exported types
     
-    export_ template <> TWO_CTX_GLFW_EXPORT Type& type<two::GlfwContext>();
+    template <> TWO_CTX_GLFW_EXPORT Type& type<two::GlfwContext>();
 }

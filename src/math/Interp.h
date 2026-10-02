@@ -75,14 +75,14 @@ namespace two
 		return t0(p0, t) + t1(p1, t) + t2(p2, t);
 	}
 
-	export_ template <>
+	template <>
 	inline quat catmull_rom(const quat& p0, const quat& p1, const quat& p2, const quat& p3, float c)
 	{
 		UNUSED(p0); UNUSED(p3);
 		return slerp(p1, p2, c);
 	}
 
-	export_ template <>
+	template <>
 	inline quat bezier(quat start, quat control_1, quat control_2, quat end, float t)
 	{
 		UNUSED(control_1); UNUSED(control_2);

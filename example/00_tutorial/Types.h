@@ -17,9 +17,9 @@
 namespace mud
 {
     // Exported types
-    export_ template <> _00_TUTORIAL_EXPORT Type& type<ShapeType>();
+    template <> _00_TUTORIAL_EXPORT Type& type<ShapeType>();
     
-    export_ template <> _00_TUTORIAL_EXPORT Type& type<MyObject>();
+    template <> _00_TUTORIAL_EXPORT Type& type<MyObject>();
     
 	export_ template struct _00_TUTORIAL_EXPORT Typed<std::vector<MyObject*>>;
 }

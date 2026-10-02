@@ -13,6 +13,6 @@ json11 = dep(nil, "json11", true)
         path.join(TWO_3RDPARTY_DIR, "json11", "json11.h"),
     }
 
-    if not _OPTIONS["cpp-modules"] then
+    --if not _OPTIONS["cpp-modules"] then
         files { path.join(TWO_SRC_DIR, "3rdparty", "json11.cpp") }
-    end
+    --end

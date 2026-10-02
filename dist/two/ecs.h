@@ -330,7 +330,7 @@ namespace two
 #ifdef TWO_ECS_TYPED
 	export_ struct EntityRef {};
 
-	export_ template <> TWO_ECS_EXPORT Type& type<EntityRef>();
+	template <> TWO_ECS_EXPORT Type& type<EntityRef>();
 
 	export_ inline Ref ent_ref(uint32_t entity) { return Ref((void*)uintptr_t(entity), type<EntityRef>()); }
 	export_ inline uint32_t as_ent(const Ref& ref) { return ref.m_type->is<EntityRef>() ? uint32_t((uintptr_t)ref.m_value) : UINT32_MAX; }
@@ -907,7 +907,7 @@ namespace two
 }
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 
@@ -916,10 +916,10 @@ namespace two
     // Exported types
     
     
-    export_ template <> TWO_ECS_EXPORT Type& type<two::Entity>();
-    export_ template <> TWO_ECS_EXPORT Type& type<two::Entt>();
-    export_ template <> TWO_ECS_EXPORT Type& type<two::OEntt>();
-    export_ template <> TWO_ECS_EXPORT Type& type<two::Complex>();
+    template <> TWO_ECS_EXPORT Type& type<two::Entity>();
+    template <> TWO_ECS_EXPORT Type& type<two::Entt>();
+    template <> TWO_ECS_EXPORT Type& type<two::OEntt>();
+    template <> TWO_ECS_EXPORT Type& type<two::Complex>();
 }
 #ifdef TWO_MODULES
 #endif

@@ -2,11 +2,6 @@
 -- options
 
 newoption {
-    trigger = "cpp-modules",
-    description = "Use C++ experimental modules",
-}
-
-newoption {
     trigger = "use-stl",
     description = "Use STL containers",
 }
@@ -124,9 +119,7 @@ newoption {
 function default_options()
     _OPTIONS["with-windows"] = "10.0"
 
-    if _OPTIONS["cpp-modules"] then
-        _OPTIONS["as-libs"] = ""
-    end
+     _OPTIONS["as-libs"] = ""
 
     if not _OPTIONS["renderer-gl"] and not _OPTIONS["renderer-bgfx"] then
         _OPTIONS["renderer-bgfx"] = ""

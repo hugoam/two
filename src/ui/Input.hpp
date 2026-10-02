@@ -60,7 +60,7 @@ namespace ui
 		return changed;
 	}
 
-	export_ template <>
+	template <>
 	inline bool number_input(Widget& parent, float& value, StatDef<float> def)
 	{
 		return drag_float(parent, value, def.m_step);
@@ -72,27 +72,27 @@ namespace ui
 		return number_input(parent, value, def);
 	}
 
-	export_ template <>
+	template <>
 	inline bool input(Widget& parent, bool& value)
 	{
 		Widget& self = widget(parent, styles().input_bool);
 		return checkbox(self, value).activated();
 	}
 
-	export_ template <>
+	template <>
 	inline bool input(Widget& parent, string& value)
 	{
 		Widget& self = widget(parent, styles().input_string);
 		return text_box(self, styles().type_in, value, false, 1).m_changed;
 	}
 
-	export_ template <>
+	template <>
 	inline bool input(Widget& parent, vec3& value) { return vec3_edit(parent, value); }
 
-	export_ template <>
+	template <>
 	inline bool input(Widget& parent, quat& value) { return quat_edit(parent, value); }
 
-	export_ template <>
+	template <>
 	inline bool input(Widget& parent, Colour& value) { return color_toggle_edit(parent, value); }
 }
 }

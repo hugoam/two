@@ -5,7 +5,7 @@
 #include <two/infra.h>
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 //#include <gfx-ui/Types.h>
@@ -32,13 +32,13 @@ TWO_GFX_UI_REFL_EXPORT Module& getModule();
 #endif
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 namespace two
 {
-	export_ template <> inline void to_value(const string& str, two::ui::OrbitMode& val) { val = two::ui::OrbitMode(enu<two::ui::OrbitMode>().value(str.c_str())); };
-	export_ template <> inline void to_string(const two::ui::OrbitMode& val, string& str) { str = enu<two::ui::OrbitMode>().name(uint32_t(val)); };
+	template <> inline void to_value(const string& str, two::ui::OrbitMode& val) { val = two::ui::OrbitMode(enu<two::ui::OrbitMode>().value(str.c_str())); };
+	template <> inline void to_string(const two::ui::OrbitMode& val, string& str) { str = enu<two::ui::OrbitMode>().name(uint32_t(val)); };
 	
 	
 }

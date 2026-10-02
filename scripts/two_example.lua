@@ -34,6 +34,7 @@ function two_example(name, deps, exdeps, ismodule)
     two_binary(name, table.union({ _G[name] }, exdeps))
 end
 
+group "examples"
 
     two_example("00_ui",                { two.frame },                                     {})
     two_example("00_imgui",             { two.frame },                                     {})

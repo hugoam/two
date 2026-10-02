@@ -4,7 +4,7 @@
 #include <two/refl.h>
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 #ifndef TWO_WFC_META_EXPORT
@@ -28,13 +28,13 @@ extern "C"
 TWO_WFC_META_EXPORT Module& getModule();
 #endif
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 namespace two
 {
-	export_ template <> inline void to_value(const string& str, two::Result& val) { val = two::Result(enu<two::Result>().value(str.c_str())); };
-	export_ template <> inline void to_string(const two::Result& val, string& str) { str = enu<two::Result>().name(uint32_t(val)); };
+	template <> inline void to_value(const string& str, two::Result& val) { val = two::Result(enu<two::Result>().value(str.c_str())); };
+	template <> inline void to_string(const two::Result& val, string& str) { str = enu<two::Result>().name(uint32_t(val)); };
 	
 	
 }

@@ -8,7 +8,7 @@
 namespace two
 {
 #if !MATERIALS_BUFFER
-	export_ template <>
+	template <>
 	struct GpuState<MaterialBase>
 	{
 		void init()
@@ -29,7 +29,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialAlpha>
 	{
 		void init()
@@ -48,7 +48,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialSolid>
 	{
 		void init()
@@ -67,7 +67,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialPoint>
 	{
 		void init()
@@ -86,7 +86,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialLine>
 	{
 		void init()
@@ -110,7 +110,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialFresnel>
 	{
 		void init()
@@ -133,7 +133,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialLit>
 	{
 		void init()
@@ -162,7 +162,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialPbr>
 	{
 		void init()
@@ -200,7 +200,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialPhong>
 	{
 		void init()
@@ -229,7 +229,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialUser>
 	{
 		void init()
@@ -262,7 +262,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<Material>
 	{
 		void upload(bgfx::Encoder& encoder, const Material& material) const
@@ -283,7 +283,7 @@ namespace two
 	};
 #else
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialBase>
 	{
 		constexpr static size_t rows = 2;
@@ -303,7 +303,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialAlpha>
 	{
 		constexpr static size_t rows = 1;
@@ -319,7 +319,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialSolid>
 	{
 		constexpr static size_t rows = 1;
@@ -335,7 +335,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialPoint>
 	{
 		constexpr static size_t rows = 1;
@@ -351,7 +351,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialLine>
 	{
 		constexpr static size_t rows = 1;
@@ -367,7 +367,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialLit>
 	{
 		constexpr static size_t rows = 3;
@@ -391,7 +391,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialPbr>
 	{
 		constexpr static size_t rows = 5;
@@ -423,7 +423,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialPhong>
 	{
 		constexpr static size_t rows = 3;
@@ -447,7 +447,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<MaterialUser>
 	{
 		constexpr static size_t rows = 6;
@@ -476,7 +476,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<Material>
 	{
 		void pack(const Material& material, size_t index, const GpuTexture& buffer, uint32_t height, size_t memsize, float* dest)

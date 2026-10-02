@@ -49,7 +49,7 @@ namespace two // export_ namespace two// @todo evaluate export at namespace leve
 		Type(int);
 	};
 
-	export_ template <> inline Type& type<Type>() { return Type::type(); }
+	template <> inline Type& type<Type>() { return Type::type(); }
 
 	template <class T>
 	struct Typed

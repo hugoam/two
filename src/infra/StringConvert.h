@@ -93,7 +93,7 @@ namespace two
 		static inline void from(const string& str, T& val) { UNUSED(str); UNUSED(val); }
 	};
 
-	export_ template <class T>
+	template <class T>
 	struct StringConverter<vector<T>>
 	{
 		static inline void to(const vector<T>& val, string& str) { vector_to_string(val, str); }

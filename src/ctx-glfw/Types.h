@@ -5,7 +5,7 @@
 #include <stl/vector.h>
 #include <ctx-glfw/Forward.h>
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #include <type/Type.h>
 #endif
 
@@ -13,5 +13,5 @@ namespace two
 {
     // Exported types
     
-    export_ template <> TWO_CTX_GLFW_EXPORT Type& type<two::GlfwContext>();
+    template <> TWO_CTX_GLFW_EXPORT Type& type<two::GlfwContext>();
 }

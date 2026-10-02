@@ -301,17 +301,17 @@ namespace two
 }
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 namespace two
 {
     // Exported types
-    export_ template <> TWO_UIO_EXPORT Type& type<two::EditNestMode>();
-    export_ template <> TWO_UIO_EXPORT Type& type<two::EditorHint>();
+    template <> TWO_UIO_EXPORT Type& type<two::EditNestMode>();
+    template <> TWO_UIO_EXPORT Type& type<two::EditorHint>();
     
     
-    export_ template <> TWO_UIO_EXPORT Type& type<two::ScriptEditor>();
+    template <> TWO_UIO_EXPORT Type& type<two::ScriptEditor>();
 }
 
 

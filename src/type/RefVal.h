@@ -35,16 +35,16 @@ namespace two
 	export_ template <class T>
 	inline void setval(Ref& ref, T* value) { ref.m_value = (void*)value; ref.m_type = &type_of<T>(value); }
 	
-	export_ template <>
+	template <>
 	inline Ref& val<Ref>(Ref& ref) { return ref; }
 
-	export_ template <>
+	template <>
 	inline const Ref& val<Ref>(const Ref& ref) { return ref; }
 	
-	export_ template <>
+	template <>
 	inline void* val<void*>(Ref& ref) { return ref.m_value; }
 
-	export_ template <>
+	template <>
 	inline void* val<void*>(const Ref& ref) { return ref.m_value; }
 
 	export_ template <class T>

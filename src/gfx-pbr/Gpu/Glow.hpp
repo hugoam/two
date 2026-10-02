@@ -9,7 +9,7 @@
 
 namespace two
 {
-	export_ template <>
+	template <>
 	struct GpuState<Glow>
 	{
 		void init()

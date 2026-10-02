@@ -6,18 +6,11 @@ project "glslang"
     removeflags { "Cpp17" }
     flags       { "Cpp14" }
 
-project "glsl-optimizer"
-    removeflags { "Cpp17" }
-    flags       { "Cpp14" }
-
-    configuration { "wasm*" }
-        defines {
-            "HAVE___BUILTIN_FFS",
-            "HAVE___BUILTIN_FFSLL",
+    configuration { "vs*", "not wasm*" }
+        buildoptions {
+            "/wd4267", -- warning C (used as a base class to provide typedefs) is deprecated in C++17.
         }
 
-    configuration {}
-    
 project "spirv-opt"
     configuration { "vs*", "not wasm*" }
         buildoptions {

@@ -310,9 +310,9 @@ namespace two
 		this->w = c.x * c.y * c.z + s.x * s.y * s.z;
 	}
 
-	export_ template <> inline float* value_ptr(mat4& m) { return &m[0][0]; }
-	export_ template <> inline const float* value_ptr(const mat4& m) { return &m.f[0]; }
-	export_ template <> inline float* value_ptr(quat& q) { return &q[0]; }
+	template <> inline float* value_ptr(mat4& m) { return &m[0][0]; }
+	template <> inline const float* value_ptr(const mat4& m) { return &m.f[0]; }
+	template <> inline float* value_ptr(quat& q) { return &q[0]; }
 
 	export_ inline bool operator<(const uvec2& lhs, const uvec2& rhs) { return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y); }
 	export_ inline bool operator<(const ivec2& lhs, const ivec2& rhs) { return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y); }
@@ -349,10 +349,10 @@ namespace two
 	}
 
 #ifndef TWO_META_GENERATOR
-	export_ template TWO_MATH_EXPORT func_ vec3 add<vec3>(vec3 a, vec3 b);
-	export_ template TWO_MATH_EXPORT func_ vec3 subtract<vec3>(vec3 a, vec3 b);
-	export_ template TWO_MATH_EXPORT func_ vec3 multiply<vec3>(vec3 a, vec3 b);
-	export_ template TWO_MATH_EXPORT func_ vec3 divide<vec3>(vec3 a, vec3 b);
+	template TWO_MATH_EXPORT func_ vec3 add<vec3>(vec3 a, vec3 b);
+	template TWO_MATH_EXPORT func_ vec3 subtract<vec3>(vec3 a, vec3 b);
+	template TWO_MATH_EXPORT func_ vec3 multiply<vec3>(vec3 a, vec3 b);
+	template TWO_MATH_EXPORT func_ vec3 divide<vec3>(vec3 a, vec3 b);
 #else
 	template <> func_ vec3 add<vec3>(vec3 a, vec3 b);
 	template <> func_ vec3 subtract<vec3>(vec3 a, vec3 b);

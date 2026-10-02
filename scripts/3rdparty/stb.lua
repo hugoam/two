@@ -14,7 +14,7 @@ local m = dep('stb', name, cppmodule)
         path.join(TWO_3RDPARTY_DIR, "stb", "stb_" .. name .. ".h"),
     }
 
-    if not cppmodule or not _OPTIONS["cpp-modules"] then
+    if not cppmodule then
         files { path.join(TWO_SRC_DIR, "3rdparty", "stb_" .. name .. ".cpp") }
     end
 

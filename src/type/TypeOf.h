@@ -21,7 +21,7 @@ namespace two
 	export_ template <class T, typename = int>
 	constexpr bool is_typed = false;
 
-	export_ template <class T>
+	template <class T>
 	constexpr bool is_typed<T, decltype(sink_type(declval<T>().m_type), 0)> = true;
 
 	export_ template <class T>

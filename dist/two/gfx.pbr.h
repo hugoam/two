@@ -1018,44 +1018,44 @@ namespace two
 }
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 
 namespace two
 {
     // Exported types
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::TonemapMode>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::TonemapMode>();
     
     
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockLight>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::LightmapItem>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::Lightmap>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::LightmapAtlas>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockLightmap>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::PBRShot>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockGeometry>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockRadiance>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::CubeTarget>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::CubeCamera>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::ReflectionProbe>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockReflection>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::LightShadow>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::CSMSlice>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::CSMShadow>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockShadow>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::GIProbe>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockGITrace>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockGIBake>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockBlur>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::DofParams>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::DofBlur>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockDofBlur>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::Glow>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockGlow>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BCS>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::Tonemap>();
-    export_ template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockTonemap>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockLight>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::LightmapItem>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::Lightmap>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::LightmapAtlas>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockLightmap>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::PBRShot>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockGeometry>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockRadiance>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::CubeTarget>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::CubeCamera>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::ReflectionProbe>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockReflection>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::LightShadow>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::CSMSlice>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::CSMShadow>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockShadow>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::GIProbe>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockGITrace>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockGIBake>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockBlur>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::DofParams>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::DofBlur>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockDofBlur>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::Glow>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockGlow>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::BCS>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::Tonemap>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockTonemap>();
 }
 
 
@@ -1262,7 +1262,7 @@ namespace two
 namespace two
 {
 #if !ZONES_LIGHTS_BUFFER
-	export_ template <>
+	template <>
 	struct GpuState<ZoneLights>
 	{
 		void init()
@@ -1287,7 +1287,7 @@ namespace two
 		static GpuState me;
 	};
 #else
-	export_ template <>
+	template <>
 	struct GpuState<ZoneLights>
 	{
 		constexpr static size_t rows = 1 + BlockLight::ShotUniform::max_lights;
@@ -1309,7 +1309,7 @@ namespace two
 #endif
 
 #if !ZONES_BUFFER
-	export_ template <>
+	template <>
 	struct GpuState<Radiance>
 	{
 		void init()
@@ -1333,7 +1333,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<Skylight>
 	{
 		void init()
@@ -1361,7 +1361,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<Fog>
 	{
 		void init()
@@ -1393,7 +1393,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<Zone>
 	{
 		void upload(const Pass& pass, const Zone& zone) const
@@ -1406,7 +1406,7 @@ namespace two
 		static GpuState me;
 	};
 #else
-export_ template <>
+template <>
 	struct GpuState<Radiance>
 	{
 		constexpr static size_t rows = 2;
@@ -1426,7 +1426,7 @@ export_ template <>
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<Skylight>
 	{
 		constexpr static size_t rows = 3;
@@ -1450,7 +1450,7 @@ export_ template <>
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<Fog>
 	{
 		constexpr static size_t rows = 4;
@@ -1478,7 +1478,7 @@ export_ template <>
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<Zone>
 	{
 		void pack(const Zone& zone, size_t offset, GpuTexture& buffer, float* dest)
@@ -1524,7 +1524,7 @@ export_ template <>
 
 namespace two
 {
-	export_ template <>
+	template <>
 	struct GpuState<GpuShadow>
 	{
 		void init()
@@ -1543,7 +1543,7 @@ namespace two
 	};
 
 #if !LIGHTS_BUFFER
-	export_ template <>
+	template <>
 	struct GpuState<GpuLight>
 	{
 		void init()
@@ -1615,7 +1615,7 @@ namespace two
 		static GpuState me;
 	};
 #else
-	export_ template <>
+	template <>
 	struct GpuState<GpuLight>
 	{
 		void pack(GpuLight& gpu_light, size_t index, const GpuTexture& buffer, float* dest)
@@ -1687,7 +1687,7 @@ namespace two
 
 namespace two
 {
-	export_ template <>
+	template <>
 	struct GpuState<GIProbe>
 	{
 		void init(uint16_t array_size = 1U)
@@ -1726,7 +1726,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<GpuVoxelGI>
 	{
 		void init()
@@ -1767,7 +1767,7 @@ namespace two
 
 namespace two
 {
-	export_ template <>
+	template <>
 	struct GpuState<GpuBlurKernel>
 	{
 		void init()
@@ -1793,7 +1793,7 @@ namespace two
 
 namespace two
 {
-	export_ template <>
+	template <>
 	struct GpuState<DofBlur>
 	{
 		void init()
@@ -1840,7 +1840,7 @@ namespace two
 
 namespace two
 {
-	export_ template <>
+	template <>
 	struct GpuState<Glow>
 	{
 		void init()
@@ -1875,7 +1875,7 @@ namespace two
 
 namespace two
 {
-	export_ template <>
+	template <>
 	struct GpuState<BCS>
 	{
 		void init()
@@ -1894,7 +1894,7 @@ namespace two
 		static GpuState me;
 	};
 
-	export_ template <>
+	template <>
 	struct GpuState<Tonemap>
 	{
 		void init()

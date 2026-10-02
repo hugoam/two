@@ -48,13 +48,13 @@ namespace two
 													[](const string& str, Ref ref) { to_value<T>(str, val<T>(ref)); } };
 						 g_convert[type<T>().m_id] = &convert; }
 
-	export_ template <>
+	template <>
 	TWO_REFL_EXPORT void init_string<void>();
 	
-	export_ template <>
+	template <>
 	TWO_REFL_EXPORT void init_string<void*>();
 
-	export_ template <>
+	template <>
 	TWO_REFL_EXPORT void init_string<cstring>();
 
 	export_ template <class T>
@@ -68,7 +68,7 @@ namespace two
 	inline enable_if<!is_default_constructible<T>, void>
 		init_default_value() { meta<T>().m_empty_var = Ref(type<T>()); meta<T>().m_empty_ref = Ref(type<T>()); }
 	
-	export_ template <>
+	template <>
 	inline void	init_default_value<Ref>() { meta<Ref>().m_empty_var = Ref(); meta<Ref>().m_empty_ref = Ref(); }
 
 	export_ template <class T>
@@ -87,10 +87,10 @@ namespace two
 		inline enable_if<!is_trivially_destructible<T>, void>
 		init_destructor() { cls<T>().m_destructor.push_back({ type<T>(), [](void* ref) { static_cast<T*>(ref)->~T(); } }); }
 
-	export_ template <>
+	template <>
 	TWO_REFL_EXPORT void init_assign<void*>();
 
-	export_ template <>
+	template <>
 	TWO_REFL_EXPORT void init_assign<cstring>();
 
 	export_ template <class T>

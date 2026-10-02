@@ -469,7 +469,7 @@ namespace two
 }
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 
@@ -478,8 +478,8 @@ namespace two
     // Exported types
     
     
-    export_ template <> TWO_POOL_EXPORT Type& type<two::Pool>();
-    export_ template <> TWO_POOL_EXPORT Type& type<two::HandlePool>();
+    template <> TWO_POOL_EXPORT Type& type<two::Pool>();
+    template <> TWO_POOL_EXPORT Type& type<two::HandlePool>();
 }
 #ifdef TWO_MODULES
 

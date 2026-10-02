@@ -38,7 +38,7 @@ namespace two
 		}
 
 		uint32_t data_size = (uint32_t)bx::getSize(reader);
-		void* data = BX_ALLOC(allocator, data_size);
+		void* data = bx::alloc(allocator, data_size);
 		bx::read(reader, data, data_size);
 		bx::close(reader);
 
@@ -162,7 +162,7 @@ namespace two
 	bgfx::TextureHandle load_bgfx_texture(GfxSystem& gfx, const string& name, void* data, size_t size, uint64_t flags, bgfx::TextureInfo* info, bool gen_mips)
 	{
 		bimg::ImageContainer* image = bimg::imageParse(&gfx.allocator(), data, uint32_t(size));
-		BX_FREE(&gfx.allocator(), data);
+		bx::free(&gfx.allocator(), data);
 
 		if(!image)
 			return BGFX_INVALID_HANDLE;
@@ -261,7 +261,7 @@ namespace two
 				uint32_t size;
 				void* data = two::load_mem(&gfx.file_reader(), &gfx.allocator(), paths[i].c_str(), &size);
 				sides[i] = bimg::imageParse(&gfx.allocator(), data, uint32_t(size));
-				BX_FREE(&gfx.allocator(), data);
+				bx::free(&gfx.allocator(), data);
 			}
 
 			bimg::ImageContainer* cubemap = bimg::imageCubemapFrom6Sides(&gfx.allocator(), sides, nullptr);

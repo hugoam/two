@@ -5,7 +5,7 @@
 #include <two/infra.h>
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 //#include <tool/Types.h>
@@ -32,13 +32,13 @@ TWO_TOOL_REFL_EXPORT Module& getModule();
 #endif
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 namespace two
 {
-	export_ template <> inline void to_value(const string& str, two::ToolState& val) { val = two::ToolState(enu<two::ToolState>().value(str.c_str())); };
-	export_ template <> inline void to_string(const two::ToolState& val, string& str) { str = enu<two::ToolState>().name(uint32_t(val)); };
+	template <> inline void to_value(const string& str, two::ToolState& val) { val = two::ToolState(enu<two::ToolState>().value(str.c_str())); };
+	template <> inline void to_string(const two::ToolState& val, string& str) { str = enu<two::ToolState>().name(uint32_t(val)); };
 	
 	
 }

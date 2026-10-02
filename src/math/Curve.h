@@ -46,9 +46,9 @@ namespace two
 	export_ template <class T>
 	struct One { static T value() { return T(1); } };
 
-	export_ template <> struct One<vec3> { static vec3 value() { return vec3(1.f); } };
-	export_ template <> struct One<quat> { static quat value() { return ZeroQuat; } };
-	export_ template <> struct One<Colour> { static Colour value() { return Colour(1.f); } };
+	template <> struct One<vec3> { static vec3 value() { return vec3(1.f); } };
+	template <> struct One<quat> { static quat value() { return ZeroQuat; } };
+	template <> struct One<Colour> { static Colour value() { return Colour(1.f); } };
 
 	export_ template <class T>
 	struct refl_ struct_ ValueTrack

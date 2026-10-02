@@ -647,7 +647,7 @@ namespace clgen
 
 		p("#pragma once");
 		p("");
-		p("#if !defined TWO_MODULES || defined TWO_TYPE_LIB");
+		p("#if defined TWO_TYPE_LIB");
 		p("#include <refl/Meta.h>");
 		p("#include <refl/Enum.h>");
 		p("#include <infra/StringOps.h>");
@@ -658,8 +658,8 @@ namespace clgen
 		for(auto& e : m.m_enums)
 		if(e->m_reflect)
 		{
-			p("export_ template <> inline void to_value(const string& str, " + e->m_id + "& val) { val = " + e->m_id + "(enu<" + e->m_id + ">().value(str.c_str())); };");
-			p("export_ template <> inline void to_string(const " + e->m_id + "& val, string& str) { str = enu<" + e->m_id + ">().name(uint32_t(val)); };");
+			p("template <> inline void to_value(const string& str, " + e->m_id + "& val) { val = " + e->m_id + "(enu<" + e->m_id + ">().value(str.c_str())); };");
+			p("template <> inline void to_string(const " + e->m_id + "& val, string& str) { str = enu<" + e->m_id + ">().name(uint32_t(val)); };");
 			p("");
 		}
 		p("");
@@ -728,7 +728,7 @@ namespace clgen
 
 		p("#pragma once");
 		p("");
-		p("#if !defined TWO_MODULES || defined TWO_TYPE_LIB");
+		p("#if defined TWO_TYPE_LIB");
 		p("#include <refl/Module.h>");
 		p("#endif");
 		p("");
@@ -1124,7 +1124,7 @@ namespace clgen
 		p("");
 		p("#include <" + m.m_subdir + "/Forward.h>");
 		p("");
-		p("#if !defined TWO_MODULES || defined TWO_TYPE_LIB");
+		p("#if defined TWO_TYPE_LIB");
 		p("#include <type/Type.h>");
 		p("#endif");
 		p("");
@@ -1136,21 +1136,21 @@ namespace clgen
 		p("// Exported types");
 		for(auto& b : m.m_basetypes)
 			if(b->m_reflect)
-				p("export_ template <> " + m.m_export + " Type& type<" + b->m_name + ">();");
+				p("template <> " + m.m_export + " Type& type<" + b->m_name + ">();");
 		for(auto& e : m.m_enums)
 			if(e->m_reflect) // !e->m_nested || 
-				p("export_ template <> " + m.m_export + " Type& type<" + e->m_id + ">();");
+				p("template <> " + m.m_export + " Type& type<" + e->m_id + ">();");
 		p("");
 		for(auto& c : m.m_sequences)
 			if(c->m_reflect && !c->m_nested && c->m_id != "two::Type")
-				p("export_ template <> " + m.m_export + " Type& type<" + c->m_id + ">();");
+				p("template <> " + m.m_export + " Type& type<" + c->m_id + ">();");
 		p("");
 		for(auto& c : m.m_classes)
 			if(c->m_reflect && !c->m_nested && c->m_id != "two::Type")
-				p("export_ template <> " + m.m_export + " Type& type<" + c->m_id + ">();");
+				p("template <> " + m.m_export + " Type& type<" + c->m_id + ">();");
 		//for(auto& c : m.m_classes)
 		//	if(c->m_reflect && !c->m_nested && c->m_id != "two::Type")
-		//		p("export_ template <> " + m.m_export + " Type& type<vector<" + c->m_id + "*>>();");
+		//		p("template <> " + m.m_export + " Type& type<vector<" + c->m_id + "*>>();");
 		p("}");
 
 		return t;

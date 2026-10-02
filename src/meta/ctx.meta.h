@@ -1,6 +1,6 @@
 #pragma once
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #include <refl/Module.h>
 #endif
 

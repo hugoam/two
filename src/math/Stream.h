@@ -28,15 +28,15 @@ namespace two
 	export_ template <class T>
 	inline T read(std::istream& stream) { T result; stream >> result; return result; }
 
-	export_ template <>
+	template <>
 	inline vec3 read(std::istream& stream) { vec3 result; stream >> result.x >> result.y >> result.z; return result; }
 
-	export_ template <>
+	template <>
 	inline vec2 read(std::istream& stream) { vec2 result; stream >> result.x >> result.y; return result; }
 
-	export_ template <>
+	template <>
 	inline quat read(std::istream& stream) { quat result; stream >> result.x >> result.y >> result.z >> result.w; return result; }
 
-	export_ template <>
+	template <>
 	inline Colour read(std::istream& stream) { Colour result; stream >> result.r >> result.g >> result.b; return result; }
 }

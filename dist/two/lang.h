@@ -668,40 +668,40 @@ namespace two
 }
 
 
-#if !defined TWO_MODULES || defined TWO_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #endif
 
 
 namespace two
 {
     // Exported types
-    export_ template <> TWO_LANG_EXPORT Type& type<two::Language>();
+    template <> TWO_LANG_EXPORT Type& type<two::Language>();
     
     
-    export_ template <> TWO_LANG_EXPORT Type& type<two::Script>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ScriptError>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::TextScript>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::Interpreter>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ScriptClass>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::LuaInterpreter>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::StreamBranch>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::Stream>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::Valve>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::Pipe>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::Process>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::VisualScript>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessInput>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessOutput>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessValue>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessCreate>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessCallable>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessScript>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessFunction>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessMethod>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessGetMember>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessSetMember>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::ProcessDisplay>();
-    export_ template <> TWO_LANG_EXPORT Type& type<two::WrenInterpreter>();
+    template <> TWO_LANG_EXPORT Type& type<two::Script>();
+    template <> TWO_LANG_EXPORT Type& type<two::ScriptError>();
+    template <> TWO_LANG_EXPORT Type& type<two::TextScript>();
+    template <> TWO_LANG_EXPORT Type& type<two::Interpreter>();
+    template <> TWO_LANG_EXPORT Type& type<two::ScriptClass>();
+    template <> TWO_LANG_EXPORT Type& type<two::LuaInterpreter>();
+    template <> TWO_LANG_EXPORT Type& type<two::StreamBranch>();
+    template <> TWO_LANG_EXPORT Type& type<two::Stream>();
+    template <> TWO_LANG_EXPORT Type& type<two::Valve>();
+    template <> TWO_LANG_EXPORT Type& type<two::Pipe>();
+    template <> TWO_LANG_EXPORT Type& type<two::Process>();
+    template <> TWO_LANG_EXPORT Type& type<two::VisualScript>();
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessInput>();
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessOutput>();
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessValue>();
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessCreate>();
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessCallable>();
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessScript>();
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessFunction>();
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessMethod>();
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessGetMember>();
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessSetMember>();
+    template <> TWO_LANG_EXPORT Type& type<two::ProcessDisplay>();
+    template <> TWO_LANG_EXPORT Type& type<two::WrenInterpreter>();
 }
 
 

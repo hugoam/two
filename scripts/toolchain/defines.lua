@@ -2,6 +2,11 @@
 -- defines
 
 function two_defines()
+    defines {
+        "TWO_MODULES",
+        "TWO_STD_MODULES",
+    }
+
     configuration { "osx or *-clang* or wasm*" }
         buildoptions {
             "-Wno-invalid-offsetof",
@@ -10,12 +15,6 @@ function two_defines()
     configuration { "vs*", "not wasm*" }
         buildoptions {
             "/we4238", -- warning C4238: nonstandard extension used: class rvalue used as lvalue
-        }
-
-    configuration { "cpp-modules" }
-        defines {
-            "TWO_MODULES",
-            "TWO_STD_MODULES",
         }
 
     configuration { "windows", "not wasm*" }
