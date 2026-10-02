@@ -1,14 +1,14 @@
+#include <infra/Cpp20.h>
+#include <clang-c/Index.h>
+#include <cctype>
+#include <cstdio>
+
+import <string>;
+import <map>;
+import two.clrefl;
+
 #include <clrefl/Generator.h>
 #include <clrefl/Codegen.h>
-#include <infra/ToString.h>
-
-#include <stl/vector.hpp>
-#include <stl/unordered_map.hpp>
-#include <stl/unordered_set.hpp>
-
-#include <json11.hpp>
-
-#include <cctype>
 
 #define RESOLVE_TEMPLATES 1
 
@@ -121,14 +121,18 @@ namespace two
 	{
 		auto fix_path = [](const string& path) { return replace(path, "\\", "/"); };
 		string location = fix_path(file(cursor));
-		return location.find(module.m_path) == 0 && location.find("meta") == string::npos;
+		// trailing separator, otherwise e.g. module gfx would also reflect the files of gfx-pbr
+		return location.find(module.m_path + "/") == 0 && location.find("meta") == string::npos;
 	}
 
 	CLQualType qual_type(CLModule& module, const CLPrimitive& parent, CXType type, bool real_type)
 	{
 		//if(upointee(type).kind == CXType_Unexposed && !parent.m_is_templated)
 		//	type = canonical(type);
-		bool templated = parent.m_is_templated && upointee(type).kind == CXType_Unexposed;
+		CXType base = upointee(type);
+		if(base.kind == CXType_Elaborated)
+			base = clang_Type_getNamedType(base);
+		bool templated = parent.m_is_templated && base.kind == CXType_Unexposed;
 
 		CLQualType t;
 		auto fix = [&](const string& name) { return templated ? parent.fix_template(name) : name; };
@@ -177,8 +181,8 @@ namespace two
 			vector<string> types;
 			for(int i = 0; i < template_args; ++i)
 			{
-				CXType t = clang_Cursor_getTemplateArgumentType(cursor, 0);
-				types.push_back(spelling(t));
+				CXType t = clang_Cursor_getTemplateArgumentType(cursor, i);
+				types.push_back(module.alias_spelling(t));
 				//f.m_templated_types.push_back(find_type(t));
 			}
 
@@ -247,6 +251,23 @@ namespace two
 		}
 	}
 
+	// the copy constructor is deleted when explicitly deleted, or implicitly when a move constructor or assignment is declared
+	// without a copy constructor: e.g. a struct holding a unique<> member, which then declares its move constructor
+	bool is_move_only(CXCursor cursor)
+	{
+		bool copy = false, deleted_copy = false, move = false;
+		visit_children(cursor, [&](CXCursor c)
+		{
+			if(c.kind == CXCursor_Constructor && clang_CXXConstructor_isCopyConstructor(c))
+				(clang_CXXMethod_isDeleted(c) ? deleted_copy : copy) = true;
+			else if(c.kind == CXCursor_Constructor && clang_CXXConstructor_isMoveConstructor(c))
+				move = true;
+			else if(c.kind == CXCursor_CXXMethod && clang_CXXMethod_isMoveAssignmentOperator(c))
+				move = true;
+		});
+		return deleted_copy || (move && !copy);
+	}
+
 	void decl_class(CLModule& module, CLPrimitive& parent, CLClass& c, CXCursor cursor, CXType cxtype, bool sequence)
 	{
 		c.m_cursor = cursor;
@@ -254,7 +275,7 @@ namespace two
 		c.m_annotations = get_annotations(cursor);
 
 		c.m_struct = has(c.m_annotations, "struct") || cursor.kind == CXCursor_StructDecl;
-		c.m_move_only = has(c.m_annotations, "nocopy");
+		c.m_move_only = has(c.m_annotations, "nocopy") || is_move_only(cursor);
 		c.m_reflect = has(c.m_annotations, "refl") && should_reflect(cursor, module);
 		c.m_array = has(c.m_annotations, "array");
 		c.m_span = has(c.m_annotations, "span");
@@ -331,6 +352,25 @@ namespace two
 		s.m_name = replace(spelling(cursor), "m_", "");
 	}
 	
+	// fully qualified name of a declaration, from its semantic parents (e.g. two::Render::s_render_pass_id)
+	string qualified_name(CXCursor cursor)
+	{
+		string name = spelling(cursor);
+		for(CXCursor p = clang_getCursorSemanticParent(cursor); !clang_Cursor_isNull(p) && p.kind != CXCursor_TranslationUnit; p = clang_getCursorSemanticParent(p))
+			name = spelling(p) + "::" + name;
+		return name;
+	}
+
+	// the reference expression in an expression, looking through the implicit nodes (casts) wrapping it
+	CXCursor find_decl_ref(CXCursor expr)
+	{
+		if(expr.kind == CXCursor_DeclRefExpr)
+			return expr;
+		CXCursor found = clang_getNullCursor();
+		visit_children(expr, [&](CXCursor c) { if(clang_Cursor_isNull(found)) found = find_decl_ref(c); });
+		return found;
+	}
+
 	void find_default_value(CXCursor cursor, CLType& value_type, bool& has_default, string& default_value)
 	{
 		if(type(cursor).kind == CXType_ConstantArray)
@@ -348,11 +388,30 @@ namespace two
 			else if(has({ CXCursor_BinaryOperator, CXCursor_UnaryOperator, CXCursor_CallExpr, CXCursor_DeclRefExpr, CXCursor_UnexposedExpr }, c.kind))
 			{
 				has_default = true;
+
+				// a static member of a class used on its own (e.g. a member default = s_render_pass_id) is qualified with its class,
+				// the generated code lives outside of it
+				size_t num_tokens = 0;
+				visit_tokens(c, [&](CXToken) { num_tokens++; });
+				const CXCursor ref = find_decl_ref(c);
+				if(num_tokens == 1 && !clang_Cursor_isNull(ref))
+				{
+					const CXCursor decl = clang_getCursorReferenced(ref);
+					const CXCursor scope = clang_getCursorSemanticParent(decl);
+					if(decl.kind == CXCursor_VarDecl && (scope.kind == CXCursor_StructDecl || scope.kind == CXCursor_ClassDecl))
+					{
+						default_value = qualified_name(decl);
+						return;
+					}
+				}
+
 				visit_tokens(c, [&](CXToken t) {
 					string token = spelling(c, t);
-					if(ends_with(default_value + token, value_type.m_name))
+					// a bare reference to the value type (e.g. Palette() or Colour::White) is qualified, the generated code lives outside its namespace
+					// it must be checked before the suffix rule below, which would otherwise match the bare name on its own
+					if(kind(t) == CXToken_Identifier && value_type.m_name == token && !ends_with(default_value, "::")) default_value += value_type.m_id;
+					else if(ends_with(default_value + token, value_type.m_name))
 						default_value += token;
-					else if(kind(t) == CXToken_Identifier && value_type.m_name == token) default_value += value_type.m_id;
 					else if(token != "=") default_value += token;
 				});
 			}
@@ -370,7 +429,7 @@ namespace two
 		{
 			find_default_value(cursor, *p.m_type.m_type, p.m_has_default, p.m_default);
 			if(parent.m_is_templated)
-				p.m_default = parent.fix_template(p.m_default);
+				p.m_default = parent.fix_template_expression(parent.fix_template(p.m_default));
 		}
 	}
 
@@ -456,7 +515,9 @@ namespace two
 		if(!c.m_is_template)
 		{
 			m.m_nonmutable |= m.m_type.reference();
-			m.m_nonmutable |= !m.m_type.pointer() && (m.m_type.isconst() || !m.m_type.m_type->copyable());
+			// the spelling loses the const of a by-value member whose type is elaborated (e.g. const string), so ask the field itself
+			const bool isconst = m.m_type.isconst() || (cursor.kind == CXCursor_FieldDecl && clang_isConstQualifiedType(clang_getCursorType(cursor)));
+			m.m_nonmutable |= !m.m_type.pointer() && (isconst || !m.m_type.m_type->copyable());
 			m.m_nonmutable |= !m.m_setter && m.m_method;
 		}
 
@@ -473,7 +534,7 @@ namespace two
 		{
 			find_default_value(cursor, *m.m_type.m_type, m.m_has_default, m.m_default);
 			if(c.m_is_templated)
-				m.m_default = c.fix_template(m.m_default);
+				m.m_default = c.fix_template_expression(c.fix_template(m.m_default));
 		}
 	}
 
@@ -668,24 +729,110 @@ namespace two
 			}
 		}
 
+		// C++20 module name -> path of its interface (.ixx)
+		map<string, string> m_module_interfaces;
+
+		void find_module_interfaces(const string& dir)
+		{
+			visit_files(dir, [&](const string& file)
+			{
+				if(file_extension(file) != "ixx")
+					return;
+				const string path = dir + "/" + file;
+				read_text_file(path, [&](const string& line)
+				{
+					const string prefix = "export module ";
+					if(line.rfind(prefix, 0) != 0)
+						return true;
+					const string name = line.substr(prefix.size(), line.find(';') - prefix.size());
+					m_module_interfaces[name] = path;
+					return false;
+				});
+			});
+
+			visit_folders(dir, [&](const string& folder)
+			{
+				if(folder != "meta" && folder != "unused")
+					this->find_module_interfaces(dir + "/" + folder);
+			});
+		}
+
+		// Module headers don't include the headers of their dependencies, they get them from the imports of the module
+		// interface. To parse a module with libclang, its interface is flattened into a plain header: imported modules are
+		// expanded recursively in place, imported header units become includes, includes and defines are kept as is.
+		void flatten_module_interface(const string& name, set<string>& visited, string& source)
+		{
+			if(visited.find(name) != visited.end())
+				return;
+			visited.insert(name);
+
+			auto it = m_module_interfaces.find(name);
+			if(it == m_module_interfaces.end())
+			{
+				printf("[warning] no interface found for imported module %s\n", name.c_str());
+				return;
+			}
+
+			read_text_file(it->second, [&](const string& raw)
+			{
+				const size_t start = raw.find_first_not_of(" \t");
+				string line = start == string::npos ? "" : raw.substr(start);
+				if(line.rfind("#include", 0) == 0 || line.rfind("#define", 0) == 0)
+					source += line + "\n";
+
+				if(line.rfind("export ", 0) == 0)
+					line = line.substr(7);
+				if(line.rfind("import ", 0) != 0)
+					return true;
+
+				const string imported = line.substr(7, line.find(';') - 7);
+				if(imported[0] == '<')
+					source += "#include " + imported + "\n";
+				// the old MSVC std modules, and the meta modules which are generated from what we parse here
+				else if(imported == "std" || imported.rfind("std.", 0) == 0 || file_extension(imported) == "meta")
+					;
+				else
+					this->flatten_module_interface(imported, visited, source);
+				return true;
+			});
+		}
+
 		CXTranslationUnit parse(CLModule& module)
 		{
 			printf("Module path : %s\n", module.m_path.c_str());
+
+			if(m_module_interfaces.empty())
+				this->find_module_interfaces(module.m_rootdir);
+
+			set<string> visited;
+			string source;
+			this->flatten_module_interface(module.module_name(), visited, source);
+			if(source.empty())
+			{
+				// no module interface, parse the headers directly
+				source = "#include <" + module.m_subdir + "/Api.h>\n";
+			}
 
 			bool debug_diagnostic = true;
 
 			vector<string> compiler_args = {
 				"-x",
 				"c++",
-				"-std=c++17",
+				"-std=c++20",
+				"-ferror-limit=0",
 				"-fdelayed-template-parsing",
 				"-fms-compatibility",
 				"-fms-extensions",
-				"-fmsc-version=1900",
 				"-Wmicrosoft",
-				"-isystemC:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.16.27023/include",
-				"-isystemC:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt",
+				// MSVC and Windows SDK include paths and the MSVC version are detected by the clang driver
+				// the MSVC STL refuses clang versions older than the one it ships with, the generator only parses declarations
+				"-D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH",
 				"-DTWO_META_GENERATOR",
+				// same configuration as the module builds (see two_module() in two.lua), minus USE_STL: the generated code names the stl:: containers
+				"-DTWO_MODULES",
+				"-DTWO_STD_MODULES",
+				"-DTWO_STATIC",
+				"-DBX_CONFIG_DEBUG=0",
 				//"-DTWO_NO_GLM", // @todo
 			};
 
@@ -708,11 +855,12 @@ namespace two
 			for(const string& arg : compiler_args)
 				compiler_cargs.push_back(arg.c_str());
 
-			string file = "Api.h";
-			string path = module.m_path + "/" + file;
+			// the flattened interface is handed to libclang as an in-memory file, it only holds includes and defines
+			string path = module.m_path + "/" + module.module_name() + ".clrefl.h";
+			CXUnsavedFile unsaved = { path.c_str(), source.c_str(), (unsigned long)source.size() };
 			CXIndex index = clang_createIndex(0, 0);
 
-			printf("Parsing %s\n", file.c_str());
+			printf("Parsing %s\n", module.module_name().c_str());
 
 			// only for debugging : these two ways of parsing don"t give the correct output, but can give more diagnostics as to what might be wrong
 			// int options = 0;
@@ -720,7 +868,7 @@ namespace two
 
 			//int options = CXTranslationUnit_SkipFunctionBodies | CXTranslationUnit_Incomplete;
 			int options = CXTranslationUnit_SkipFunctionBodies | CXTranslationUnit_KeepGoing;
-			CXTranslationUnit translation_unit = clang_parseTranslationUnit(index, path.c_str(), compiler_cargs.data(), int(compiler_cargs.size()), nullptr, 0, options);
+			CXTranslationUnit translation_unit = clang_parseTranslationUnit(index, path.c_str(), compiler_cargs.data(), int(compiler_cargs.size()), &unsaved, 1, options);
 
 			constexpr bool debug = true;
 			if(debug)
@@ -864,20 +1012,32 @@ using namespace two;
 
 int main(int argc, char *argv[])
 {
-	string all = "d:/dev/two/build/refl/two_infra_refl.json d:/dev/two/build/refl/two_type_refl.json d:/dev/two/build/refl/two_tree_refl.json d:/dev/two/build/refl/two_jobs_refl.json d:/dev/two/build/refl/two_pool_refl.json d:/dev/two/build/refl/two_refl_refl.json d:/dev/two/build/refl/two_ecs_refl.json d:/dev/two/build/refl/two_srlz_refl.json d:/dev/two/build/refl/two_math_refl.json d:/dev/two/build/refl/two_geom_refl.json d:/dev/two/build/refl/two_noise_refl.json d:/dev/two/build/refl/two_wfc_refl.json d:/dev/two/build/refl/two_fract_refl.json d:/dev/two/build/refl/two_lang_refl.json d:/dev/two/build/refl/two_ctx_refl.json d:/dev/two/build/refl/two_ui_refl.json d:/dev/two/build/refl/two_uio_refl.json d:/dev/two/build/refl/two_snd_refl.json d:/dev/two/build/refl/two_bgfx_refl.json d:/dev/two/build/refl/two_gfx_refl.json d:/dev/two/build/refl/two_gltf_refl.json d:/dev/two/build/refl/two_gfx_pbr_refl.json d:/dev/two/build/refl/two_gfx_obj_refl.json d:/dev/two/build/refl/two_gfx_gltf_refl.json d:/dev/two/build/refl/two_gfx_ui_refl.json d:/dev/two/build/refl/two_gfx_edit_refl.json d:/dev/two/build/refl/two_tool_refl.json d:/dev/two/build/refl/two_wfc_gfx_refl.json d:/dev/two/build/refl/two_frame_refl.json";
-	
+	if(argc < 2)
+	{
+		printf("usage: clrefl <module_refl.json>...\n");
+		printf("  module descriptions are written by the GENie reflect action, in dependency order\n");
+		return 1;
+	}
+
 	CLGenerator generator;
 
-	vector<string> locations = split(all, " ");
-
 	for(int i = 1; i < argc; ++i)
-		locations.push_back(argv[i]);
-
-	for(string loc : locations)
 	{
+		const string location = argv[i];
+		if(!file_exists(location))
+		{
+			printf("ERROR: module description %s not found\n", location.c_str());
+			return 1;
+		}
+
 		std::string errors;
-		string text_module = read_text_file(loc);
+		string text_module = read_text_file(location);
 		Json json_module = Json::parse(text_module.c_str(), errors);
+		if(!errors.empty())
+		{
+			printf("ERROR: parsing module description %s: %s\n", location.c_str(), errors.c_str());
+			return 1;
+		}
 		generator.add_module(json_module);
 	}
 

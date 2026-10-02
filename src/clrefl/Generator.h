@@ -1,21 +1,9 @@
 #pragma once
 
+// containers, string and file helpers come from the two.infra module, imported by Generator.cpp before this header
 #include <clang-c/Index.h>
 
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/set.h>
-#include <stl/map.h>
-#include <stl/memory.h>
-#include <stl/function.h>
-#include <infra/Sort.h>
-#include <infra/StringOps.h>
-#include <infra/File.h>
-#include <infra/Vector.h>
-//#include <refl/Api.h>
-
 #include <cstdio>
-#include <algorithm>
 
 namespace two
 {
@@ -92,7 +80,7 @@ namespace two
 
 	CXType type(CXCursor cursor) { CXType t = clang_getCursorType(cursor); return t.kind == CXType_Elaborated ? clang_Type_getNamedType(t) : t; }
 	//CXType actual_type(CXCursor cursor) { CXType t = type(cursor); return t.kind == CXType_Elaborated ? clang_Type_getNamedType(t) : t; }
-	CXType result_type(CXCursor cursor) { return clang_getCursorResultType(cursor); }
+	CXType result_type(CXCursor cursor) { CXType t = clang_getCursorResultType(cursor); return t.kind == CXType_Elaborated ? clang_Type_getNamedType(t) : t; }
 
 	CXType pointee(CXType type)
 	{
@@ -283,6 +271,7 @@ namespace two
 		vector<string> m_annotations;
 
 		virtual string fix_template(const string& name) const { return name; };
+		virtual string fix_template_expression(const string& expr) const { return expr; };
 	};
 
 	class CLNamespace : public CLPrimitive
@@ -592,6 +581,28 @@ namespace two
 			return result;
 			// printf("substituted template base name: %s\n", name.c_str);
 		}
+
+		// substitutes the template parameters appearing anywhere in an expression, e.g. a default value T(1) -> int(1)
+		virtual string fix_template_expression(const string& expr) const override
+		{
+			string result;
+			for(size_t i = 0; i < expr.size();)
+			{
+				if(isalpha((unsigned char)expr[i]) || expr[i] == '_')
+				{
+					size_t end = i;
+					while(end < expr.size() && (isalnum((unsigned char)expr[end]) || expr[end] == '_'))
+						++end;
+					const string identifier = expr.substr(i, end - i);
+					CLType* templated = this->templated_type(identifier);
+					result += templated ? templated->m_id : identifier;
+					i = end;
+				}
+				else
+					result += expr[i++];
+			}
+			return result;
+		}
 	};
 
 	class CLModule
@@ -611,13 +622,16 @@ namespace two
 
 			m_preproc_name = to_upper(id);
 			m_export = m_preproc_name + "_EXPORT";
-			m_refl_export = m_preproc_name + "_REFL_EXPORT";
+			m_refl_export = m_preproc_name + "_META_EXPORT";
 
 			m_refl_path = m_rootdir + "/" + "meta";
 			m_bind_path = m_rootdir + "/" + "bind";
 
 			m_has_structs = file_exists(m_path + "/" + "Structs.h");
 		}
+
+		// full C++20 module name, e.g. two.gfx.pbr
+		string module_name() const { return m_namespace != "" ? m_namespace + "." + m_dotname : m_dotname; }
 
 		string m_namespace;
 		string m_name;
@@ -794,6 +808,20 @@ namespace two
 
 		CLType* find_type(CXType cxtype)
 		{
+			// since clang 16, types written in the source (e.g. float3, two::uvec2) come wrapped in an elaborated type sugar,
+			// which never compares equal to the typedef/record type registered from the declaration
+			if(cxtype.kind == CXType_Elaborated)
+				cxtype = clang_Type_getNamedType(cxtype);
+			// libclang doesn't expose the type of a name brought by a using-declaration (e.g. two::string, from using stl::string):
+			// it is Unexposed and has no declaration, but its spelling is the qualified name of the type it refers to
+			if(cxtype.kind == CXType_Unexposed)
+			{
+				string name = spelling(cxtype);
+				if(name.rfind("const ", 0) == 0)
+					name = name.substr(6);
+				auto alias = find_if(m_aliases, [&](const unique<CLAlias>& a) { return a->m_id == name; });
+				if(alias != m_aliases.end()) return &**alias;
+			}
 			auto alias = find_if(m_aliases, [&](const unique<CLAlias>& a) { return clang_equalTypes(a->m_cxtype, cxtype); });
 			if(alias != m_aliases.end()) return &**alias;
 			auto type = find_if(m_types, [&](CLType* t) { return clang_equalTypes(t->m_cxtype, cxtype); });
@@ -812,6 +840,22 @@ namespace two
 			if(CLType* cl = this->find_type(class_type(cxtype)))
 				return cl;
 			return &this->register_type(cxtype);
+		}
+
+		// libclang gives template arguments desugared (e.g. stl::basic_string<stl::allocator>), they are named by their alias
+		// when exactly one alias refers to that type (stl::string), otherwise by the type itself (v3<float> is vec3 and float3)
+		string alias_spelling(CXType cxtype)
+		{
+			const CXType cxcanonical = clang_getCanonicalType(cxtype);
+			CLAlias* found = nullptr;
+			size_t count = 0;
+			for(const unique<CLAlias>& a : m_aliases)
+				if(clang_equalTypes(a->m_cxtarget, cxcanonical))
+				{
+					found = a.get();
+					count++;
+				}
+			return count == 1 ? found->m_id : spelling(cxtype);
 		}
 
 		CLType* find_alias(CXType cxtype, const string& name)

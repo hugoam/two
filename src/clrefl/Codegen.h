@@ -1,4 +1,3 @@
-#include <map>
 
 #define LAMBDAS 0
 #define MULTI_FUNC 1
@@ -679,10 +678,10 @@ namespace clgen
 		p("#include <infra/Cpp20.h>");
 		p("#include <infra/Config.h>");
 		p("");
-		p("export module " + to_upper(m.m_namespace) + "(" + m.m_dotname + ");");
+		p("export module " + m.module_name() + ";");
 		p("");
 		for (CLModule* d : m.m_dependencies)
-			p("import " + to_upper(d->m_namespace) + "(" + d->m_dotname + ");");
+			p("import " + d->module_name() + ";");
 		p("");
 		p("#include <meta/" + m.m_dotname + ".meta.h>");
 		if (m.m_has_reflected)
@@ -702,14 +701,14 @@ namespace clgen
 		p("#include <infra/Cpp20.h>");
 		p("#include <infra/Config.h>");
 		p("");
-		p("export module " + to_upper(m.m_namespace) + "2(" + m.m_dotname + ", meta);");
+		p("export module " + m.module_name() + ".meta;");
 		p("");
-		p("import " + to_upper(m.m_namespace) + "(" + m.m_dotname + ");");
-		p("import " + to_upper(m.m_namespace) + "(refl);");
+		p("import " + m.module_name() + ";");
+		p("import " + m.m_namespace + ".refl;");
 		for (CLModule* d : m.m_dependencies)
 		{
-			p("import " + to_upper(d->m_namespace) + "(" + d->m_dotname + ");");
-			p("import " + to_upper(d->m_namespace) + "2(" + d->m_dotname + ", meta);");
+			p("import " + d->module_name() + ";");
+			p("import " + d->module_name() + ".meta;");
 		}
 		p("");
 		p("#include <meta/" + m.m_dotname + ".meta.h>");
@@ -804,37 +803,22 @@ namespace clgen
 			p("g_sequence[t.m_id] = &sequence;");
 		};
 
-		p("#ifdef TWO_MODULES");
 		p("module;");
 		p("#include <infra/Cpp20.h>");
-		p("module " + to_upper(m.m_namespace) + "2(" + m.m_dotname + ", meta);");
-		p("#else");
-		if(m.m_has_reflected)
-		{
-			p("#include <cstddef>");
-			p("#include <stl/new.h>");
-			p("#include <infra/ToString.h>");
-			p("#include <infra/ToValue.h>");
-			if(m.m_decl_basetypes)
-				p("#include <type/Any.h>");
-			p("#include <type/Vector.h>");
-			p("#include <refl/MetaDecl.h>");
-		}
-		p("#include <refl/Module.h>");
-		for(CLModule* d : m.m_dependencies)
-			p("#include <meta/" + d->m_dotname + ".meta.h>");
-		p("#include <meta/" + m.m_dotname + ".meta.h>");
-		if(m.m_has_reflected)
-			p("#include <meta/" + m.m_dotname + ".conv.h>");
-		if(m.m_has_reflected)
-			p("#include <" + m.m_subdir + "/Api.h>");
-		p("#endif");
+		p("module " + m.module_name() + ".meta;");
 		p("");
 
 		if(m.m_has_reflected)
 		{
 		p("using namespace two;");
 		p("");
+
+		// the enum string converters below name string, which the module only sees as stl::string
+		if(has_pred(m.m_enums, [](const unique<CLEnum>& e) { return e->m_reflect; }))
+		{
+			p("namespace two { using stl::string; }");
+			p("");
+		}
 
 #if !LAMBDAS
 		for(auto& pe : m.m_enums)
@@ -1177,15 +1161,9 @@ namespace clgen
 			return "static Type ty(\"" + t.m_name + "\", sizeof(" + t.m_id + ")); return ty;";
 		};
 
-		p("#ifdef TWO_MODULES");
 		p("module;");
 		p("#include <infra/Cpp20.h>");
-		p("module " + to_upper(m.m_namespace) + "(" + m.m_dotname + ");");
-		p("#else");
-		p("#include <" + m.m_subdir + "/Types.h>");
-		p("#include <" + m.m_subdir + "/Api.h>");
-		p("#include <type/Vector.h>");
-		p("#endif");
+		p("module " + m.module_name() + ";");
 		p("");
 		p("namespace two");
 		p("{");
