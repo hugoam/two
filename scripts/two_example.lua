@@ -30,7 +30,9 @@ function two_example(name, deps, exdeps, ismodule)
     end
 
     _G[name] = module(nil, "_" .. name, path.join(TWO_DIR, "example"), name, nil, uses_example, false, deps, not ismodule)
-    _G[name].cppmodule = false
+    if not ismodule then
+        _G[name].cppmodule = false
+    end
 
     two_binary(name, table.union({ _G[name] }, exdeps))
 end
@@ -67,7 +69,7 @@ if not _OPTIONS["renderer-gl"] then
 --  two_example("18_pathfinding",       { two.frame, two.gfx.pbr },                        {})
     two_example("19_multi_viewport",    { two.frame },                                     {})
 --  two_example("20_meta",              { two.frame, two.gfx.pbr },                        { _G["01_shapes"], _G["03_materials"] })
-    two_example("xx_three",             { two.frame, two.gfx.pbr, two.gfx.obj, two.gfx.gltf }, {})
+    two_example("xx_three",             { two.frame, two.gfx.pbr, two.gfx.obj, two.gfx.gltf }, {}, true)
 end
 
 if _OPTIONS["jsbind"] then

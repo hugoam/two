@@ -4,7 +4,8 @@
 
 #pragma once
 
-#if UIusing ShellX = two::Shell;
+#if UI
+using ShellX = two::Shell;
 using WindowX = two::ShellWindow;
 #else
 #include <xx_three/gfxshell.h>
