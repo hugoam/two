@@ -49,19 +49,19 @@ namespace two
 		meth_ void update(Wave& wave);
 	};
 
-	TWO_WFC_GFX_EXPORT void paint_tile_grid(Gnode& parent, WfcBlock& tileblock);
-	TWO_WFC_GFX_EXPORT Model& entropy_cube(Gnode& parent, WfcBlock& tileblock, uint16_t x, uint16_t y, uint16_t z);
+	export_ TWO_WFC_GFX_EXPORT void paint_tile_grid(Gnode& parent, WfcBlock& tileblock);
+	export_ TWO_WFC_GFX_EXPORT Model& entropy_cube(Gnode& parent, WfcBlock& tileblock, uint16_t x, uint16_t y, uint16_t z);
 
-	TWO_WFC_GFX_EXPORT void paint_tiles(Gnode& parent, Entity object, WfcBlock& tileblock, const uvec3& focused = uvec3(UINT32_MAX), const uvec3* exclude = nullptr, bool draw_entropy = false);
+	export_ TWO_WFC_GFX_EXPORT void paint_tiles(Gnode& parent, Entity object, WfcBlock& tileblock, const uvec3& focused = uvec3(UINT32_MAX), const uvec3* exclude = nullptr, bool draw_entropy = false);
 
-	TWO_WFC_GFX_EXPORT void paint_tile_cube(Gnode& parent, WfcBlock& tileblock, const uvec3& coord, const Colour& outline, const Colour& fill = Colour::None);
-	TWO_WFC_GFX_EXPORT void paint_tile_cube(Gnode& parent, WfcBlock& tileblock, const uvec3& coord);
-	TWO_WFC_GFX_EXPORT void paint_tileblock(Gnode& parent, Entity object, WfcBlock& tileblock, const uvec3& focused = uvec3(UINT32_MAX), const uvec3* exclude = nullptr, bool draw_entropy = false);
+	export_ TWO_WFC_GFX_EXPORT void paint_tile_cube(Gnode& parent, WfcBlock& tileblock, const uvec3& coord, const Colour& outline, const Colour& fill = Colour::None);
+	export_ TWO_WFC_GFX_EXPORT void paint_tile_cube(Gnode& parent, WfcBlock& tileblock, const uvec3& coord);
+	export_ TWO_WFC_GFX_EXPORT void paint_tileblock(Gnode& parent, Entity object, WfcBlock& tileblock, const uvec3& focused = uvec3(UINT32_MAX), const uvec3* exclude = nullptr, bool draw_entropy = false);
 
-	TWO_WFC_GFX_EXPORT void tileset_view(Widget& parent, WfcBlock& tileblock, Tileset& tileset);
-	TWO_WFC_GFX_EXPORT void tile_states_view(Widget& parent, WfcBlock& tileblock, uvec3& coord);
+	export_ TWO_WFC_GFX_EXPORT void tileset_view(Widget& parent, WfcBlock& tileblock, Tileset& tileset);
+	export_ TWO_WFC_GFX_EXPORT void tile_states_view(Widget& parent, WfcBlock& tileblock, uvec3& coord);
 
-	TWO_WFC_GFX_EXPORT void tileblock_edit(Widget& parent, Viewer& viewer, WfcBlock& tileblock, uvec3& highlighted, uvec3& selected, uvec3& focused);
+	export_ TWO_WFC_GFX_EXPORT void tileblock_edit(Widget& parent, Viewer& viewer, WfcBlock& tileblock, uvec3& highlighted, uvec3& selected, uvec3& focused);
 
-	TWO_WFC_GFX_EXPORT void tileblock_editor(Widget& parent, Viewer& viewer, WfcBlock& tileblock);
+	export_ TWO_WFC_GFX_EXPORT void tileblock_editor(Widget& parent, Viewer& viewer, WfcBlock& tileblock);
 }

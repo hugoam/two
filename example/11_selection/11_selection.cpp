@@ -1,5 +1,6 @@
 #include <infra/Cpp20.h>
 import two.frame;
+import two.gfx.pbr;
 
 #include <11_selection/11_selection.h>
 #include <01_shapes/01_shapes.h>

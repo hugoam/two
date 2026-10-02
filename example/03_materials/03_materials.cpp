@@ -1,5 +1,8 @@
 #include <infra/Cpp20.h>
 import two.frame;
+import two.geom;
+import two.gfx.edit;
+import two.gfx.meta;
 
 #include <03_materials/03_materials.h>
 

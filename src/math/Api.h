@@ -18,7 +18,6 @@
 #include <math/Types.h>
 #include <math/Vec.h>
 #include <math/VecJson.h>
-#ifdef TWO_MODULES
 #include <math/Stat.hpp>
 #include <math/Vec.hpp>
-#endif
+#include <math/Grid.hpp>

@@ -30,8 +30,8 @@ namespace two
 		December
 	};
 
-	TWO_GFX_EXPORT quat sun_rotation(float azimuth, float altitude, const vec3& up = y3, const vec3& north = x3);
-	TWO_GFX_EXPORT quat sun_rotation(Month month, float latitude, float hour, float ecliptic_obliquity = 0.408407f, const vec3& up = y3, const vec3& north = x3);
+	export_ TWO_GFX_EXPORT quat sun_rotation(float azimuth, float altitude, const vec3& up = y3, const vec3& north = x3);
+	export_ TWO_GFX_EXPORT quat sun_rotation(Month month, float latitude, float hour, float ecliptic_obliquity = 0.408407f, const vec3& up = y3, const vec3& north = x3);
 
 	export_ class refl_ TWO_GFX_EXPORT BlockSky : public GfxBlock
 	{

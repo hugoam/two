@@ -1,5 +1,7 @@
 #include <infra/Cpp20.h>
 import two.frame;
+import two.gfx.pbr;
+import two.gfx.gltf;
 
 #include <07_gltf/07_gltf.h>
 

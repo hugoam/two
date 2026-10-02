@@ -1,6 +1,10 @@
+#include <gfx/Cpp20.h>
 #include <infra/Cpp20.h>
 #include <bx/math.h>
+
+import <map>;
 import two.frame;
+import two.gfx.pbr;
 
 #include <08_sky/08_sky.h>
 #include <01_shapes/01_shapes.h>
@@ -33,7 +37,7 @@ private:
 
 // Controls sun position according to time, month, and observer's latitude.
 // Sun position computation based on Earth's orbital elements: https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html
-export_ class TWO_GFX_EXPORT SunController
+class TWO_GFX_EXPORT SunController
 {
 public:
 	SunController() {}
@@ -50,10 +54,11 @@ public:
 	float m_ecliptic_obliquity = 0.408407f; //bx::toRad(23.4f);
 	float m_delta = 0.0f;
 };
+
 // Renders a screen-space grid of triangles.
 // Because of performance reasons, and because sky color is smooth, sky color is computed in vertex shader.
 // 32x32 is a reasonable size for the grid to have smooth enough colors.
-export_ struct TWO_GFX_EXPORT ProceduralSky
+struct TWO_GFX_EXPORT ProceduralSky
 {
 	void init(GfxSystem& gfx, ivec2 vertex_count);
 	void shutdown();
@@ -68,7 +73,7 @@ export_ struct TWO_GFX_EXPORT ProceduralSky
 	bool m_preventBanding;
 };
 
-export_ struct TWO_GFX_EXPORT PerezSky
+struct TWO_GFX_EXPORT PerezSky
 {
 	struct SkyUniform
 	{
@@ -122,7 +127,7 @@ static float M_XYZ2RGB[] =
 // Converts color repesentation from CIE XYZ to RGB color-space.
 Color XYZToRGB(const Color& xyz)
 {
-	Color rgb;
+	Color rgb(bx::InitNone);
 	rgb.x = M_XYZ2RGB[0] * xyz.x + M_XYZ2RGB[3] * xyz.y + M_XYZ2RGB[6] * xyz.z;
 	rgb.y = M_XYZ2RGB[1] * xyz.x + M_XYZ2RGB[4] * xyz.y + M_XYZ2RGB[7] * xyz.z;
 	rgb.z = M_XYZ2RGB[2] * xyz.x + M_XYZ2RGB[5] * xyz.y + M_XYZ2RGB[8] * xyz.z;

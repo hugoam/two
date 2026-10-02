@@ -1,5 +1,8 @@
 #include <infra/Cpp20.h>
 import two.frame;
+import two.gfx.pbr;
+import two.gfx.gltf;
+import two.gfx.edit;
 
 #include <04_lights/04_lights.h>
 #include <03_materials/03_materials.h>

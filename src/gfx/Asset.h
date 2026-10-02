@@ -11,7 +11,7 @@ namespace two
 {
 	using cstring = const char*;
 
-	struct NoConfig {};
+	export_ struct NoConfig {};
 
 	export_ template <class T_Asset>
 	struct AssetConfig { using type = NoConfig; };

@@ -6,7 +6,7 @@ import <vector>;
 import <map>;
 import <memory>;
 
-export
+export extern "C++"
 {
 #include <json11.hpp>
 }

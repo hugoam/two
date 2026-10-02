@@ -2,10 +2,8 @@ module;
 #include <infra/Cpp20.h>
 #include <infra/Config.h>
 
-export module TWO(ui.nvg.bgfx);
-import std.core;
-import std.threading;
-import std.regex;
+export module two.ui.nvg.bgfx;
+import std;
 
 export import two.infra;
 export import two.type;

@@ -1,5 +1,7 @@
 #include <infra/Cpp20.h>
 import two.frame;
+import two.gfx.obj;
+import two.gfx.pbr;
 
 #include <04_sponza/04_sponza.h>
 #include <01_shapes/01_shapes.h>

@@ -1,5 +1,9 @@
 #include <infra/Cpp20.h>
 import two.frame;
+import two.lang;
+import two.refl;
+import two.uio;
+import two.gfx.meta;
 
 #include <14_live_gfx_visual/14_live_gfx_visual.h>
 

@@ -1,5 +1,7 @@
 #include <infra/Cpp20.h>
 import two.frame;
+import two.gfx.pbr;
+import two.uio;
 
 #include <02_camera/02_camera.h>
 #include <03_materials/03_materials.h>

@@ -12,14 +12,14 @@
 namespace two
 {
 	export_ template <class T>
-	span<T> to_array(vector<T>& vec) { return { &vec[0], vec.size() }; }
+	span<T> to_array(vector<T>& vec) { return { vec.data(), vec.size() }; }
 	export_ template <class T>
 	span<T> to_array(vector<T>& vec, size_t offset) { return { &vec[offset], vec.size() - offset }; }
 	export_ template <class T>
 	span<T> to_array(vector<T>& vec, size_t offset, size_t count) { return { &vec[offset], count }; }
 
 	export_ template <class T, class U>
-	span<T> to_array_cast(vector<U>& vec) { return{ (T*)&vec[0], vec.size() }; }
+	span<T> to_array_cast(vector<U>& vec) { return{ (T*)vec.data(), vec.size() }; }
 
 	export_ template <class T>
 	vector<T> to_vector(const span<T>& span) { return { span.m_pointer, span.m_pointer + span.m_count }; }

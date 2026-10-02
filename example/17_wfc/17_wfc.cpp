@@ -1,5 +1,10 @@
 #include <infra/Cpp20.h>
 import two.frame;
+import two.wfc;
+import two.wfc.gfx;
+import two.gfx.obj;
+import two.gfx.gltf;
+import two.gfx.pbr;
 
 #include <17_wfc/17_wfc.h>
 

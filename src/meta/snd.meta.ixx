@@ -3,9 +3,7 @@ module;
 #include <infra/Config.h>
 
 export module two.snd.meta;
-import std.core;
-import std.threading;
-import std.regex;
+import std;
 
 import two.snd;
 import two.refl;
