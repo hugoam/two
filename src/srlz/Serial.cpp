@@ -232,6 +232,12 @@ namespace two
 		}
 		else
 		{
+			if(!constructor)
+			{
+				warn("unpack - type %s has no constructor taking %i arguments", type(value).m_name, int(size));
+				return;
+			}
+
 			Call construct = { *constructor };
 
 			for(size_t index = 0; index < size; ++index)
