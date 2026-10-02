@@ -58,7 +58,7 @@ namespace two
 	{
 		dispatch_branch<int>    (*this, +[](int&    value, const Json& json_value) { value = json_value.int_value(); });
 		dispatch_branch<ushort> (*this, +[](ushort& value, const Json& json_value) { value = ushort(json_value.int_value()); });
-		dispatch_branch<uint>   (*this, +[](uint&   value, const Json& json_value) { value = uint(json_value.int_value()); });
+		dispatch_branch<uint>   (*this, +[](uint&   value, const Json& json_value) { value = uint(json_value.number_value()); });
 		dispatch_branch<ulong>  (*this, +[](ulong&  value, const Json& json_value) { value = ulong(json_value.number_value()); });
 		dispatch_branch<ullong> (*this, +[](ullong& value, const Json& json_value) { value = ullong(json_value.number_value()); });
 		dispatch_branch<float>  (*this, +[](float&  value, const Json& json_value) { value = float(json_value.number_value()); });
@@ -84,7 +84,7 @@ namespace two
 	ToJson::ToJson()
 	{
 		dispatch_branch<int>     (*this, +[](int&     value, Json& json_value) { json_value = Json(value); });
-		dispatch_branch<uint>    (*this, +[](uint&    value, Json& json_value) { json_value = Json(int(value)); });
+		dispatch_branch<uint>    (*this, +[](uint&    value, Json& json_value) { json_value = Json(double(value)); });
 		dispatch_branch<ushort>  (*this, +[](ushort&  value, Json& json_value) { json_value = Json(int(value)); });
 		dispatch_branch<ulong>   (*this, +[](ulong&   value, Json& json_value) { json_value = Json(double(value)); });
 		dispatch_branch<ullong>  (*this, +[](ullong&  value, Json& json_value) { json_value = Json(double(value)); });
