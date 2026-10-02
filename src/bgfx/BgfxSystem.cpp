@@ -28,6 +28,9 @@ namespace two
 		m_swapChain.ndt = m_native_target;
 		m_swapChain.width = uint32_t(m_size.x);
 		m_swapChain.height = uint32_t(m_size.y);
+		m_swapChain.formatColor = bgfx::TextureFormat::BGRA8;
+		m_swapChain.formatDepthStencil = bgfx::TextureFormat::D24S8;
+		m_swapChain.numBackBuffers = 2;
 
 		if(main && init)
 			gfx.init(*this);

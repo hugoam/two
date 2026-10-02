@@ -40,7 +40,7 @@ The build instructions for linux and gcc look like:
   - `make config=debug64 -j8`
 - for osx (make): `bin/darwin/genie --gcc=osx gmake`
 - for osx (xcode): `bin/darwin/genie --xcode=osx xcode9`
-- for windows (visual studio): `bin/windows/genie vs2017`
+- for windows (visual studio): `../bx/tools/bin/windows/genie.exe vs2026`
 
 ### quickstart
 This is the minimal sample code you need to run a two application

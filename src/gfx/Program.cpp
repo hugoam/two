@@ -161,7 +161,7 @@ namespace two
 		//if(debug)
 			//args.push_back("--debug");
 
-		args.push_back("-O3");
+		push_arg("-O", "3");
 
 		if(target == Target::GLSL)
 		{
@@ -176,9 +176,8 @@ namespace two
 		}
 		else if(target == Target::HLSL)
 		{
-			static table<ShaderType, cstring> profiles = { "cs_5_0", "ps_5_0", "gs_5_0", "vs_5_0" };
 			push_arg("--platform", "windows");
-			push_arg("--profile", profiles[shader_type]);
+			push_arg("--profile", "s_5_0");
 		}
 		else if(target == Target::Metal)
 		{

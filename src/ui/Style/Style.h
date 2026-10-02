@@ -74,7 +74,7 @@ namespace two
 		Light
 	};
 
-	struct ImguiLook
+	export_ struct ImguiLook
 	{
 		float Alpha = 1.0f;                          // Global alpha applies to everything in ImGui
 		vec2 WindowPadding = vec2(8, 8);             // Padding within a window
@@ -110,7 +110,7 @@ namespace two
 		float CurveTessellationTol = 1.25f;          // Tessellation tolerance when using PathBezierCurveTo() without a specific number of segments. Decrease for highly tessellated curves (higher quality, more polygons), increase to reduce quality.
 	};
 
-	struct ImguiColours
+	export_ struct ImguiColours
 	{
 		Colour Text;
 		Colour TextDisabled;
