@@ -84,14 +84,14 @@ namespace two
 
 		bool operator==(const Var& other) const { return m_mode == other.m_mode && (m_mode == VarMode::Val ? m_any == other.m_any : m_ref == other.m_ref); }
 
-		explicit operator bool() const { return this->none(); }
+		explicit operator bool() const { return !this->none(); }
 
 		inline void copy(const Ref& ref) { if(m_mode == VarMode::Val) m_any = ref; else m_ref = ref; }
 
 		inline bool null() const { return m_mode == VarMode::Val ? false : m_ref.m_value == nullptr; }
 		inline bool none() const { return m_mode == VarMode::Val ? !m_any : false; }
 		inline void set(Ref value) { if(m_mode == VarMode::Val) m_any = value; else m_ref = value; }
-		inline void clear() { m_mode = VarMode::Val; m_any = Any(); }
+		inline void clear() { m_mode = VarMode::Val; m_any = Any(); m_ref = Ref(); }
 
 		inline operator const Ref&() const { return m_ref; }
 		inline operator Ref&() { return m_ref; }
