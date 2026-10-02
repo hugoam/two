@@ -79,7 +79,8 @@ namespace two
 				warn("enum value %s::%s above 2^16, something is fishy\n", type.m_name, m_names[i]);
 				continue;
 			}
-			m_reverse.resize(value + 1);
+			if(value >= m_reverse.size())
+				m_reverse.resize(value + 1);
 			m_reverse[value] = m_names[i];
 		}
 	}
