@@ -90,7 +90,7 @@ namespace two
 		{
 			void createUniforms()
 			{
-				s_lightmap = bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
+				s_lightmap = bgfx::createUniform("s_lightmap", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U);
 			}
 
 			bgfx::UniformHandle s_lightmap;

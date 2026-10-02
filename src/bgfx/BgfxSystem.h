@@ -26,6 +26,8 @@ namespace two
 		virtual void render_frame() override;
 
 		virtual void reset_fb(const uvec2& size) override;
+
+		bgfx::SwapChain m_swapChain;
 	};
 
 	export_ struct TWO_BGFX_EXPORT TimerBx

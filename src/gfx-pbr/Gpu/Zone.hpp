@@ -16,9 +16,9 @@ namespace two
 	{
 		void init()
 		{
-			u_light_indices = bgfx::createUniform("u_light_indices", bgfx::UniformType::Vec4, c_max_forward_lights, bgfx::UniformSet::View);
-			u_light_counts = bgfx::createUniform("u_light_counts", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-			u_shadow_counts = bgfx::createUniform("u_shadow_counts", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+			u_light_indices = bgfx::createUniform("u_light_indices", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, c_max_forward_lights);
+			u_light_counts = bgfx::createUniform("u_light_counts", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
+			u_shadow_counts = bgfx::createUniform("u_shadow_counts", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
 		}
 
 		void upload(uint16_t view, const ZoneLights& lights) const
@@ -63,8 +63,8 @@ namespace two
 	{
 		void init()
 		{
-			u_radiance_p0 = bgfx::createUniform("u_radiance_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-			u_ambient_p0 = bgfx::createUniform("u_ambient_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+			u_radiance_p0 = bgfx::createUniform("u_radiance_p0", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
+			u_ambient_p0 = bgfx::createUniform("u_ambient_p0", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
 		}
 
 		void upload(const Pass& pass, const Radiance& radiance) const
@@ -87,9 +87,9 @@ namespace two
 	{
 		void init()
 		{
-			u_skylight_p0 = bgfx::createUniform("u_skylight_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-			u_skylight_p1 = bgfx::createUniform("u_skylight_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-			u_skylight_p2 = bgfx::createUniform("u_skylight_p2", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+			u_skylight_p0 = bgfx::createUniform("u_skylight_p0", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
+			u_skylight_p1 = bgfx::createUniform("u_skylight_p1", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
+			u_skylight_p2 = bgfx::createUniform("u_skylight_p2", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
 		}
 
 		void upload(const Pass& pass, const Skylight& skylight) const
@@ -115,10 +115,10 @@ namespace two
 	{
 		void init()
 		{
-			u_fog_p0 = bgfx::createUniform("u_fog_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-			u_fog_p1 = bgfx::createUniform("u_fog_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-			u_fog_p2 = bgfx::createUniform("u_fog_p2", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-			u_fog_p3 = bgfx::createUniform("u_fog_p3", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+			u_fog_p0 = bgfx::createUniform("u_fog_p0", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
+			u_fog_p1 = bgfx::createUniform("u_fog_p1", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
+			u_fog_p2 = bgfx::createUniform("u_fog_p2", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
+			u_fog_p3 = bgfx::createUniform("u_fog_p3", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
 		}
 
 		void upload(const Pass& pass, const Fog& fog) const

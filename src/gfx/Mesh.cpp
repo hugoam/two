@@ -24,12 +24,6 @@ namespace two
 	{
 		bgfx::VertexLayout decl;
 
-		bool half_support = (bgfx::getCaps()->supported & BGFX_CAPS_VERTEX_ATTRIB_HALF) != 0;
-		bool needs_half = (vertex_format & VertexAttribute::QTexCoord0) != 0
-					   || (vertex_format & VertexAttribute::QTexCoord1) != 0;
-		if(needs_half && !half_support)
-			warn("half vertex attribute not supported but used by texcoords");
-
 		decl.begin();
 
 		if((vertex_format & VertexAttribute::Position) != 0)

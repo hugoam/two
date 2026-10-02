@@ -53,7 +53,7 @@ namespace two
 	{
 		MaterialBlockBase() {}
 		MaterialBlockBase(GfxSystem& gfx)
-			: s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			: s_skeleton(bgfx::createUniform("s_skeleton", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
 		{
 			UNUSED(gfx);
 #if !MATERIALS_BUFFER
@@ -82,7 +82,7 @@ namespace two
 	{
 		MaterialBlockAlpha() {}
 		MaterialBlockAlpha(GfxSystem& gfx)
-			: s_alpha(bgfx::createUniform("s_alpha", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			: s_alpha(bgfx::createUniform("s_alpha", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
 		{
 			UNUSED(gfx);
 #if !MATERIALS_BUFFER
@@ -102,7 +102,7 @@ namespace two
 			GpuState<MaterialAlpha>::me.upload(encoder, block);
 #endif
 			if(is_valid(block.m_alpha.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Alpha), *block.m_alpha.m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Alpha), s_alpha, *block.m_alpha.m_texture);
 		}
 
 		bgfx::UniformHandle s_alpha;
@@ -112,7 +112,7 @@ namespace two
 	{
 		MaterialBlockSolid() {}
 		MaterialBlockSolid(GfxSystem& gfx)
-			: s_color(bgfx::createUniform("s_color", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			: s_color(bgfx::createUniform("s_color", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
 		{
 			UNUSED(gfx);
 #if !MATERIALS_BUFFER
@@ -133,7 +133,7 @@ namespace two
 #endif
 
 			if(is_valid(block.m_colour.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Color), *block.m_colour.m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Color), s_color, *block.m_colour.m_texture);
 		}
 
 		bgfx::UniformHandle s_color;
@@ -192,7 +192,7 @@ namespace two
 		MaterialBlockFresnel() {}
 		MaterialBlockFresnel(GfxSystem& gfx)
 			: m_white_tex(&gfx.default_texture(TextureHint::White))
-			, s_fresnel(bgfx::createUniform("s_fresnel", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			, s_fresnel(bgfx::createUniform("s_fresnel", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialFresnel>::me.init();
@@ -211,7 +211,7 @@ namespace two
 			GpuState<MaterialFresnel>::me.upload(encoder, block);
 #endif
 
-			encoder.setTexture(uint8_t(TextureSampler::Color), block.m_value.m_texture ? *block.m_value.m_texture : *m_white_tex);
+			encoder.setTexture(uint8_t(TextureSampler::Color), s_fresnel, block.m_value.m_texture ? *block.m_value.m_texture : *m_white_tex);
 		}
 
 		Texture* m_white_tex;
@@ -224,12 +224,12 @@ namespace two
 		MaterialBlockUser() {}
 		MaterialBlockUser(GfxSystem& gfx)
 			: m_white_tex(&gfx.default_texture(TextureHint::White))
-			, s_user0(bgfx::createUniform("s_user0", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
-			, s_user1(bgfx::createUniform("s_user1", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
-			, s_user2(bgfx::createUniform("s_user2", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
-			, s_user3(bgfx::createUniform("s_user3", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
-			, s_user4(bgfx::createUniform("s_user4", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
-			, s_user5(bgfx::createUniform("s_user5", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			, s_user0(bgfx::createUniform("s_user0", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
+			, s_user1(bgfx::createUniform("s_user1", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
+			, s_user2(bgfx::createUniform("s_user2", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
+			, s_user3(bgfx::createUniform("s_user3", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
+			, s_user4(bgfx::createUniform("s_user4", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
+			, s_user5(bgfx::createUniform("s_user5", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialUser>::me.init();
@@ -259,12 +259,12 @@ namespace two
 			GpuState<MaterialUser>::me.upload(encoder, block);
 #endif
 
-			if(is_valid(block.m_tex0)) encoder.setTexture(uint8_t(TextureSampler::User0), *block.m_tex0);
-			if(is_valid(block.m_tex1)) encoder.setTexture(uint8_t(TextureSampler::User1), *block.m_tex1);
-			if(is_valid(block.m_tex2)) encoder.setTexture(uint8_t(TextureSampler::User2), *block.m_tex2);
-			if(is_valid(block.m_tex3)) encoder.setTexture(uint8_t(TextureSampler::User3), *block.m_tex3);
-			if(is_valid(block.m_tex4)) encoder.setTexture(uint8_t(TextureSampler::User4), *block.m_tex4);
-			if(is_valid(block.m_tex5)) encoder.setTexture(uint8_t(TextureSampler::User5), *block.m_tex5);
+			if(is_valid(block.m_tex0)) encoder.setTexture(uint8_t(TextureSampler::User0), s_user0, *block.m_tex0);
+			if(is_valid(block.m_tex1)) encoder.setTexture(uint8_t(TextureSampler::User1), s_user1, *block.m_tex1);
+			if(is_valid(block.m_tex2)) encoder.setTexture(uint8_t(TextureSampler::User2), s_user2, *block.m_tex2);
+			if(is_valid(block.m_tex3)) encoder.setTexture(uint8_t(TextureSampler::User3), s_user3, *block.m_tex3);
+			if(is_valid(block.m_tex4)) encoder.setTexture(uint8_t(TextureSampler::User4), s_user4, *block.m_tex4);
+			if(is_valid(block.m_tex5)) encoder.setTexture(uint8_t(TextureSampler::User5), s_user5, *block.m_tex5);
 		}
 
 		Texture* m_white_tex;
@@ -282,11 +282,11 @@ namespace two
 		MaterialBlockLit() {}
 		MaterialBlockLit(GfxSystem& gfx)
 			: m_black_tex (&gfx.default_texture(TextureHint::Black))
-			, s_emissive(bgfx::createUniform("s_emissive", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
-			, s_normal(bgfx::createUniform("s_normal", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
-			, s_occlusion(bgfx::createUniform("s_ambient_occlusion", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
-			, s_displace(bgfx::createUniform("s_displace", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
-			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			, s_emissive(bgfx::createUniform("s_emissive", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
+			, s_normal(bgfx::createUniform("s_normal", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
+			, s_occlusion(bgfx::createUniform("s_ambient_occlusion", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
+			, s_displace(bgfx::createUniform("s_displace", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
+			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
 		{
 #if !MATERIALS_BUFFER
 			GpuState<MaterialLit>::me.init();
@@ -313,18 +313,18 @@ namespace two
 #endif
 
 			if(is_valid(block.m_normal.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Normal), *block.m_normal.m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Normal), s_normal, *block.m_normal.m_texture);
 
 			if(is_valid(block.m_emissive.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Emissive), *block.m_emissive.m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Emissive), s_emissive, *block.m_emissive.m_texture);
 			else if(block.m_emissive.m_value.a > 0.f)
-				encoder.setTexture(uint8_t(TextureSampler::Emissive), *m_black_tex);
+				encoder.setTexture(uint8_t(TextureSampler::Emissive), s_emissive, *m_black_tex);
 
 			if(is_valid(block.m_occlusion.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::AO), *block.m_occlusion.m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::AO), s_occlusion, *block.m_occlusion.m_texture);
 
 			if(is_valid(block.m_displace.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Displace), *block.m_displace.m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Displace), s_displace, *block.m_displace.m_texture);
 		}
 
 		Texture* m_black_tex;
@@ -340,11 +340,11 @@ namespace two
 	{
 		MaterialBlockPbr() {}
 		MaterialBlockPbr(GfxSystem& gfx)
-			: s_albedo(bgfx::createUniform("s_albedo", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
-			, s_metallic (bgfx::createUniform("s_metallic", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
-			, s_roughness(bgfx::createUniform("s_roughness", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
-			, s_depth(bgfx::createUniform("s_depth", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
-			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			: s_albedo(bgfx::createUniform("s_albedo", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
+			, s_metallic (bgfx::createUniform("s_metallic", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
+			, s_roughness(bgfx::createUniform("s_roughness", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
+			, s_depth(bgfx::createUniform("s_depth", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
+			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
 		{
 			UNUSED(gfx);
 #if !MATERIALS_BUFFER
@@ -372,14 +372,14 @@ namespace two
 #endif
 
 			if(is_valid(block.m_albedo.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Color), *block.m_albedo.m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Color), s_albedo, *block.m_albedo.m_texture);
 			if(is_valid(block.m_metallic.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Metallic), *block.m_metallic.m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Metallic), s_metallic, *block.m_metallic.m_texture);
 			if(is_valid(block.m_roughness.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Roughness), *block.m_roughness.m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Roughness), s_roughness, *block.m_roughness.m_texture);
 
 			if(is_valid(block.m_depth.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Depth), *block.m_depth.m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Depth), s_depth, *block.m_depth.m_texture);
 		}
 
 		bgfx::UniformHandle s_albedo;
@@ -394,10 +394,10 @@ namespace two
 	{
 		MaterialBlockPhong() {}
 		MaterialBlockPhong(GfxSystem& gfx)
-			: s_diffuse(bgfx::createUniform("s_diffuse", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
-			, s_specular(bgfx::createUniform("s_specular", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
-			, s_shininess(bgfx::createUniform("s_shininess", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
-			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View))
+			: s_diffuse(bgfx::createUniform("s_diffuse", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
+			, s_specular(bgfx::createUniform("s_specular", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
+			, s_shininess(bgfx::createUniform("s_shininess", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
+			//, s_lightmap(bgfx::createUniform("s_lightmap", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U))
 		{
 			UNUSED(gfx);
 #if !MATERIALS_BUFFER
@@ -423,11 +423,11 @@ namespace two
 #endif
 
 			if(is_valid(block.m_diffuse.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Diffuse), *block.m_diffuse.m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Diffuse), s_diffuse, *block.m_diffuse.m_texture);
 			if(is_valid(block.m_specular.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Specular), *block.m_specular.m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Specular), s_specular, *block.m_specular.m_texture);
 			if(is_valid(block.m_shininess.m_texture))
-				encoder.setTexture(uint8_t(TextureSampler::Shininess), *block.m_shininess.m_texture);
+				encoder.setTexture(uint8_t(TextureSampler::Shininess), s_shininess, *block.m_shininess.m_texture);
 		}
 
 		bgfx::UniformHandle s_diffuse;
@@ -619,7 +619,7 @@ namespace two
 			s_user_material_block.upload(encoder, m_user);
 
 		if (skin && skin->valid())
-			encoder.setTexture(uint8_t(TextureSampler::Skeleton), skin->m_texture);
+			encoder.setTexture(uint8_t(TextureSampler::Skeleton), s_base_material_block.s_skeleton, skin->m_texture);
 
 		if(m_submit)
 			m_submit(encoder);
@@ -634,7 +634,7 @@ namespace two
 		u_state = bgfx::createUniform("u_state", bgfx::UniformType::Vec4);
 		u_state_vertex = bgfx::createUniform("u_state_vertex", bgfx::UniformType::Vec4);
 
-		s_materials = bgfx::createUniform("s_materials", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
+		s_materials = bgfx::createUniform("s_materials", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U);
 	}
 
 	void BlockMaterial::begin_render(Render& render)

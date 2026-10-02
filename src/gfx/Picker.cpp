@@ -22,8 +22,7 @@ namespace two
 		
 		uint64_t flags = TEXTURE_POINT | BGFX_SAMPLER_MIP_POINT | TEXTURE_CLAMP;
 
-		if((bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_BLIT) != 0 && (bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_READ_BACK) != 0)
-			m_readback_texture = { m_size, false, TextureFormat::RGBA8, 0 | BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK | flags };
+		m_readback_texture = { m_size, false, TextureFormat::RGBA8, 0 | BGFX_TEXTURE_BLIT_DST | BGFX_TEXTURE_READ_BACK | flags };
 
 		m_fbo_texture = { m_size, false, TextureFormat::RGBA8, 0 | BGFX_TEXTURE_RT | flags };
 		m_fbo_depth = { m_size, false, TextureFormat::D24S8, 0 | BGFX_TEXTURE_RT | flags };
@@ -154,12 +153,12 @@ namespace two
 		{
 			if(bgfx::isValid(m_readback_texture))
 			{
-				bgfx::blit(render.picking_pass(), m_readback_texture, 0, 0, m_fbo_texture, 0, 0, uint16_t(query.m_rect.width), uint16_t(query.m_rect.height));
-				query.m_readback_ready = bgfx::readTexture(m_readback_texture, m_data.data());
+				bgfx::blit(render.picking_pass(), { .handle = m_readback_texture }, { .handle = m_fbo_texture, .width = uint16_t(query.m_rect.width), .height = uint16_t(query.m_rect.height) });
+				query.m_readback_ready = bgfx::read({ m_readback_texture }, m_data.data());
 			}
 			else
 			{
-				query.m_readback_ready = bgfx::readTexture(m_fbo_texture, m_data.data());
+				query.m_readback_ready = bgfx::read({ m_fbo_texture }, m_data.data());
 			}
 		}
 	}

@@ -9,8 +9,8 @@ module;
 #include <cstdio>
 #include <bx/allocator.h>
 #include <bx/timer.h>
+#include <bx/platform.h>
 #include <bgfx/bgfx.h>
-#include <bgfx/platform.h>
 module two.bgfx;
 
 namespace two
@@ -24,6 +24,11 @@ namespace two
 		: WinContext(gfx, name, size, fullscreen, main)
 #endif
 	{
+		m_swapChain.nwh = m_native_handle;
+		m_swapChain.ndt = m_native_target;
+		m_swapChain.width = uint32_t(m_size.x);
+		m_swapChain.height = uint32_t(m_size.y);
+
 		if(main && init)
 			gfx.init(*this);
 	}
@@ -37,7 +42,10 @@ namespace two
 
 	void BgfxContext::reset_fb(const uvec2& size)
 	{
-		bgfx::reset(uint16_t(size.x), uint16_t(size.y), BGFX_RESET_NONE);
+		m_size = size;
+		m_swapChain.width = size.x;
+		m_swapChain.height = size.y;
+		bgfx::reset(BGFX_RESET_NONE, &m_swapChain);
 	}
 
 	BgfxSystem::BgfxSystem(const string& resource_path)
@@ -63,24 +71,19 @@ namespace two
 	void BgfxSystem::init(BgfxContext& context)
 	{
 		info("gfx - native handle = %p", context.m_native_handle);
-		bgfx::PlatformData pd = {};
-		pd.nwh = context.m_native_handle;
-		pd.ndt = context.m_native_target;
-		bgfx::setPlatformData(pd);
-
 		info("gfx - bgfx::init");
 		bgfx::Init params = {};
 		params.type = bgfx::RendererType::OpenGL;
 		params.type = bgfx::RendererType::Direct3D11;
 	  //params.type = bgfx::RendererType::Direct3D12;
 		params.type = bgfx::RendererType::WebGPU;
-		params.resolution.width = uint32_t(context.m_size.x);
-		params.resolution.height = uint32_t(context.m_size.y);
-		params.resolution.reset = BGFX_RESET_NONE;
+		params.swapChain = context.m_swapChain;
+		params.platformData.type = bgfx::NativeWindowHandleType::Default;
+		params.reset = BGFX_RESET_NONE;
 		params.debug = false;
 		bgfx::init(params);
 
-		//bgfx::reset(uint32_t(context.m_width), uint32_t(context.m_height), BGFX_RESET_NONE);
+		//bgfx::reset(BGFX_RESET_NONE, &context.m_swapChain);
 
 #ifdef _DEBUG
 		bgfx::setDebug(BGFX_DEBUG_TEXT | BGFX_DEBUG_PROFILER);

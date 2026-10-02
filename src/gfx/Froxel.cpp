@@ -93,12 +93,12 @@ namespace two
 	{
 		void createUniforms()
 		{
-			s_light_records  = bgfx::createUniform("s_light_records",  bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
-			s_light_clusters = bgfx::createUniform("s_light_clusters", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
+			s_light_records  = bgfx::createUniform("s_light_records", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U);
+			s_light_clusters = bgfx::createUniform("s_light_clusters", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U);
 
-			u_cluster_p0 = bgfx::createUniform("u_cluster_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-			u_cluster_f = bgfx::createUniform("u_cluster_f", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-			u_cluster_z = bgfx::createUniform("u_cluster_z", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+			u_cluster_p0 = bgfx::createUniform("u_cluster_p0", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
+			u_cluster_f = bgfx::createUniform("u_cluster_f", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
+			u_cluster_z = bgfx::createUniform("u_cluster_z", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
 		}
 
 		bgfx::UniformHandle s_light_records;
@@ -317,8 +317,8 @@ namespace two
 
 	void Froxelizer::submit(bgfx::Encoder& encoder) const
 	{
-		encoder.setTexture(uint8_t(TextureSampler::LightRecords), m_impl->m_records.m_buffer.m_texture);
-		encoder.setTexture(uint8_t(TextureSampler::Clusters), m_impl->m_clusters.m_buffer.m_texture);
+		encoder.setTexture(uint8_t(TextureSampler::LightRecords), m_impl->m_uniform.s_light_records, m_impl->m_records.m_buffer.m_texture);
+		encoder.setTexture(uint8_t(TextureSampler::Clusters), m_impl->m_uniform.s_light_clusters, m_impl->m_clusters.m_buffer.m_texture);
 	}
 
 	void Froxelizer::clusterize_lights(const Camera& camera, span<Light*> lights)

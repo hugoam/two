@@ -54,9 +54,9 @@ namespace two
 		{
 			void createUniforms()
 			{
-				u_depth_p0 = bgfx::createUniform("u_depth_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-				u_distance_p0 = bgfx::createUniform("u_distance_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
-				u_distance_p1 = bgfx::createUniform("u_distance_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::View);
+				u_depth_p0 = bgfx::createUniform("u_depth_p0", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
+				u_distance_p0 = bgfx::createUniform("u_distance_p0", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
+				u_distance_p1 = bgfx::createUniform("u_distance_p1", bgfx::UniformFreq::View, bgfx::UniformType::Vec4, 1U);
 			}
 
 			bgfx::UniformHandle u_depth_p0;

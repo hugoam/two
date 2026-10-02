@@ -34,7 +34,7 @@ namespace two
 		{
 			void createUniforms()
 			{
-				s_radiance = bgfx::createUniform("s_radiance", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
+				s_radiance = bgfx::createUniform("s_radiance", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U);
 			}
 
 			bgfx::UniformHandle s_radiance;

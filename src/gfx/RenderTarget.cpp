@@ -18,15 +18,16 @@ namespace two
 
 	FrameBuffer::FrameBuffer()
 	{}
+	
+	FrameBuffer::FrameBuffer(const bgfx::SwapChain& desc)
+		: FrameBuffer(uvec2(desc.width, desc.height))
+	{
+		m_fbo = bgfx::createFrameBuffer(desc);
+	}
 
-	FrameBuffer::FrameBuffer(const uvec2& size, void* window)
+	FrameBuffer::FrameBuffer(const uvec2& size)
 		: m_size(size)
 	{
-		if(window == nullptr)
-			m_fbo = BGFX_INVALID_HANDLE;
-		else
-			m_fbo = bgfx::createFrameBuffer(window, uint16_t(size.x), uint16_t(size.y));
-
 #if defined TWO_UNIFORM_BLOCKS
 		m_render_block.m_render_size = vec2(m_size);
 		m_render_block.m_pixel_size = 1.0f / vec2(m_size);
@@ -110,7 +111,7 @@ namespace two
 		for(uint16_t i = 0; size.x > 1 && i < 9; ++i)
 		{
 			uvec2 level_size = uvec2(size.x >> i, size.y >> i);
-			bgfx::Attachment attach = { bgfx::Access::Write, m_texture, i, 0, 1, BGFX_RESOLVE_NONE };
+			bgfx::Attachment attach = { bgfx::Access::Write, m_texture, i, 0, 1, BGFX_ATTACHMENT_NONE };
 			m_fbos[i] = make_unique<FrameBuffer>(level_size, m_texture, span<bgfx::Attachment>{ attach });
 		}
 	}
@@ -130,9 +131,9 @@ namespace two
 	SwapCascade::~SwapCascade()
 	{}
 
-	RenderTarget::RenderTarget(const uvec2& size, void* window)
+	RenderTarget::RenderTarget(const uvec2& size, const bgfx::SwapChain* swapChain)
 		: FrameBuffer(size)
-		, m_backbuffer(size, window)
+		, m_backbuffer(swapChain ? FrameBuffer(*swapChain) : FrameBuffer(size))
 		//, m_msaa(MSAA::X16)
 	{
 		static const table<MSAA, uint64_t> msaa_flag = { BGFX_TEXTURE_RT, BGFX_TEXTURE_RT_MSAA_X2, BGFX_TEXTURE_RT_MSAA_X4, BGFX_TEXTURE_RT_MSAA_X8, BGFX_TEXTURE_RT_MSAA_X16 };

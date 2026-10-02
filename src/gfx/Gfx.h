@@ -10,6 +10,12 @@
 
 namespace two
 {
+#ifdef BGFX_UNIFORM_GROUP
+	export_ constexpr bgfx::UniformFreq::Enum bgfxUniformGroup = bgfx::UniformFreq::Group;
+#else
+	export_ constexpr bgfx::UniformFreq::Enum bgfxUniformGroup = bgfx::UniformFreq::Draw;
+#endif
+
 namespace gfx
 {
 	export_ TWO_GFX_EXPORT func_ void setup_pipeline_minimal(GfxSystem& gfx);

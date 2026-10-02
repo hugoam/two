@@ -38,7 +38,8 @@ namespace two
 		constr_ FrameBuffer();
 		constr_ FrameBuffer(const uvec2& size, TextureFormat format, uint64_t flags = 0U);
 		constr_ FrameBuffer(const uvec2& size, span<Texture*> textures);
-		FrameBuffer(const uvec2& size, void* window = nullptr);
+		FrameBuffer(const bgfx::SwapChain& desc);
+		FrameBuffer(const uvec2& size);
 		FrameBuffer(const uvec2& size, Texture& texture, span<bgfx::Attachment> attach);
 		FrameBuffer(Texture& texture);
 		~FrameBuffer();
@@ -118,7 +119,7 @@ namespace two
 	export_ class refl_ TWO_GFX_EXPORT RenderTarget : public FrameBuffer
 	{
 	public:
-		RenderTarget(const uvec2& size, void* window = nullptr);
+		RenderTarget(const uvec2& size, const bgfx::SwapChain* swapChain = nullptr);
 		~RenderTarget();
 
 		attr_ FrameBuffer m_backbuffer;

@@ -13,7 +13,7 @@ namespace two
 	{
 		void init()
 		{
-			u_uv0_scale_offset = bgfx::createUniform("u_material_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
+			u_uv0_scale_offset = bgfx::createUniform("u_material_p0", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
 			u_uv1_scale_offset = bgfx::createUniform("u_material_p1", bgfx::UniformType::Vec4);
 		}
 
@@ -34,7 +34,7 @@ namespace two
 	{
 		void init()
 		{
-			u_alpha = bgfx::createUniform("u_alpha", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
+			u_alpha = bgfx::createUniform("u_alpha", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialAlpha& block) const
@@ -53,7 +53,7 @@ namespace two
 	{
 		void init()
 		{
-			u_color = bgfx::createUniform("u_color", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
+			u_color = bgfx::createUniform("u_color", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialSolid& block) const
@@ -72,7 +72,7 @@ namespace two
 	{
 		void init()
 		{
-			u_point_p0 = bgfx::createUniform("u_point_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
+			u_point_p0 = bgfx::createUniform("u_point_p0", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialPoint& block) const
@@ -92,8 +92,8 @@ namespace two
 		void init()
 		{
 			// @kludge those are split only as a workaround for precision mismatch between frag and vertex shaders in bgfx
-			u_line_p0 = bgfx::createUniform("u_line_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
-			u_line_p1 = bgfx::createUniform("u_line_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
+			u_line_p0 = bgfx::createUniform("u_line_p0", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
+			u_line_p1 = bgfx::createUniform("u_line_p1", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialLine& block) const
@@ -115,8 +115,8 @@ namespace two
 	{
 		void init()
 		{
-			u_fresnel_p0 = bgfx::createUniform("u_fresnel_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
-			u_fresnel_value = bgfx::createUniform("u_fresnel_value", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
+			u_fresnel_p0 = bgfx::createUniform("u_fresnel_p0", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
+			u_fresnel_value = bgfx::createUniform("u_fresnel_value", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialFresnel& block) const
@@ -138,9 +138,9 @@ namespace two
 	{
 		void init()
 		{
-			u_lit_p0 = bgfx::createUniform("u_lit_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
-			u_lit_p1 = bgfx::createUniform("u_lit_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
-			u_emissive = bgfx::createUniform("u_emissive", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
+			u_lit_p0 = bgfx::createUniform("u_lit_p0", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
+			u_lit_p1 = bgfx::createUniform("u_lit_p1", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
+			u_emissive = bgfx::createUniform("u_emissive", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialLit& block) const
@@ -167,11 +167,11 @@ namespace two
 	{
 		void init()
 		{
-			u_albedo = bgfx::createUniform("u_albedo", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
-			u_pbr_p0 = bgfx::createUniform("u_pbr_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
-			u_pbr_p1 = bgfx::createUniform("u_pbr_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
-			u_pbr_channels_0 = bgfx::createUniform("u_pbr_channels_0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
-			u_emissive = bgfx::createUniform("u_emissive", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
+			u_albedo = bgfx::createUniform("u_albedo", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
+			u_pbr_p0 = bgfx::createUniform("u_pbr_p0", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
+			u_pbr_p1 = bgfx::createUniform("u_pbr_p1", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
+			u_pbr_channels_0 = bgfx::createUniform("u_pbr_channels_0", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
+			u_emissive = bgfx::createUniform("u_emissive", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialPbr& block) const
@@ -205,9 +205,9 @@ namespace two
 	{
 		void init()
 		{
-			u_diffuse = bgfx::createUniform("u_diffuse", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
-			u_specular = bgfx::createUniform("u_specular", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
-			u_phong_p0 = bgfx::createUniform("u_phong_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
+			u_diffuse = bgfx::createUniform("u_diffuse", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
+			u_specular = bgfx::createUniform("u_specular", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
+			u_phong_p0 = bgfx::createUniform("u_phong_p0", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialPhong& block) const
@@ -234,12 +234,12 @@ namespace two
 	{
 		void init()
 		{
-			u_p0 = bgfx::createUniform("u_user_p0", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
-			u_p1 = bgfx::createUniform("u_user_p1", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
-			u_p2 = bgfx::createUniform("u_user_p2", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
-			u_p3 = bgfx::createUniform("u_user_p3", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
-			u_p4 = bgfx::createUniform("u_user_p4", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
-			u_p5 = bgfx::createUniform("u_user_p5", bgfx::UniformType::Vec4, 1U, bgfx::UniformSet::Group);
+			u_p0 = bgfx::createUniform("u_user_p0", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
+			u_p1 = bgfx::createUniform("u_user_p1", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
+			u_p2 = bgfx::createUniform("u_user_p2", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
+			u_p3 = bgfx::createUniform("u_user_p3", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
+			u_p4 = bgfx::createUniform("u_user_p4", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
+			u_p5 = bgfx::createUniform("u_user_p5", bgfxUniformGroup, bgfx::UniformType::Vec4, 1U);
 		}
 
 		void upload(bgfx::Encoder& encoder, const MaterialUser& block) const

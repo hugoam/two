@@ -96,8 +96,8 @@ namespace two
 		{
 			void createUniforms()
 			{
-				s_zones = bgfx::createUniform("s_zones", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
-				s_lights = bgfx::createUniform("s_lights", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
+				s_zones = bgfx::createUniform("s_zones", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U);
+				s_lights = bgfx::createUniform("s_lights", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U);
 			}
 
 			bgfx::UniformHandle s_zones;

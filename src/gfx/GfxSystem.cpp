@@ -7,8 +7,8 @@ module;
 #define BX_COMPILER_MSVC_CONFORMANCE
 #include <bx/timer.h>
 #include <bx/file.h>
+#include <bx/platform.h>
 #include <bgfx/bgfx.h>
-#include <bgfx/platform.h>
 #include <gfx/Cpp20.h>
 module two.gfx;
 
@@ -59,7 +59,7 @@ namespace two
 	{
 		if(!gfx.m_initialized)
 			gfx.init(*this);
-		m_target = oconstruct<RenderTarget>(size, main ? nullptr : m_native_handle);
+		m_target = oconstruct<RenderTarget>(size, main ? nullptr : &m_swapChain);
 		gfx.m_impl->m_contexts.push_back(this);
 	}
 
@@ -68,7 +68,7 @@ namespace two
 
 	void GfxWindow::reset_fb(const uvec2& size)
 	{
-		bgfx::reset(uint16_t(size.x), uint16_t(size.y), BGFX_RESET_NONE);
+		bgfx::reset(BGFX_RESET_NONE, &m_swapChain);
 		if(size.x == 0 || size.y == 0)
 			m_target = nullptr;
 		else

@@ -152,10 +152,10 @@ namespace two
 		{
 			void createUniforms()
 			{
-				s_shadow_atlas = bgfx::createUniform("s_shadow_atlas", bgfx::UniformType::Sampler, 1U, bgfx::UniformSet::View);
-				u_shadow_atlas = bgfx::createUniform("u_shadow_atlas", bgfx::UniformType::Vec4,    1U, bgfx::UniformSet::View);
-				u_pcf_p0   = bgfx::createUniform("u_pcf_p0",   bgfx::UniformType::Vec4,    1U, bgfx::UniformSet::View);
-				u_csm_p0   = bgfx::createUniform("u_csm_p0",   bgfx::UniformType::Vec4,    1U, bgfx::UniformSet::View);
+				s_shadow_atlas = bgfx::createUniform("s_shadow_atlas", bgfx::UniformFreq::View, bgfx::UniformType::Sampler, 1U);
+				u_shadow_atlas = bgfx::createUniform("u_shadow_atlas", bgfx::UniformFreq::View, bgfx::UniformType::Vec4,    1U);
+				u_pcf_p0   = bgfx::createUniform("u_pcf_p0", bgfx::UniformFreq::View, bgfx::UniformType::Vec4,    1U);
+				u_csm_p0   = bgfx::createUniform("u_csm_p0", bgfx::UniformFreq::View, bgfx::UniformType::Vec4,    1U);
 			}
 
 			bgfx::UniformHandle s_shadow_atlas;

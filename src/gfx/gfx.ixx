@@ -4,8 +4,8 @@ module;
 #include <infra/Config.h>
 #include <bx/allocator.h>
 #include <bx/timer.h>
+#include <bx/platform.h>
 #include <bgfx/bgfx.h>
-#include <bgfx/platform.h>
 #include <bimg/bimg.h>
 #include <bimg/decode.h>
 #include <bimg/encode.h>

@@ -170,7 +170,9 @@ namespace two
 		encoder.setVertexBuffer(0, &vertex_buffer);
 		encoder.setIndexBuffer(&index_buffer);
 
-		encoder.setGroup(bgfx::UniformSet::Group, m_material.m_index);
+#ifdef BGFX_UNIFORM_GROUP
+		encoder.setGroup(bgfxUniformGroup, m_material.m_index);
+#endif
 		encoder.setState(draw_mode == OUTLINE ? bgfx_state | BGFX_STATE_PT_LINES | BGFX_STATE_LINEAA : bgfx_state);
 
 		static const mat4 identity = bxidentity();

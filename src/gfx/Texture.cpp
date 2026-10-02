@@ -39,7 +39,8 @@ namespace two
 
 		uint32_t data_size = (uint32_t)bx::getSize(reader);
 		void* data = bx::alloc(allocator, data_size);
-		bx::read(reader, data, data_size);
+		bx::Error err;
+		bx::read(reader, data, data_size, &err);
 		bx::close(reader);
 
 		if(size)
@@ -61,7 +62,7 @@ namespace two
 
 		for(uint8_t mip = 0; mip < source->m_numMips; ++mip)
 		{
-			uint32_t ready = bgfx::readTexture(texture, source->m_data, mip);
+			uint32_t ready = bgfx::read({ .handle = texture, .mip = mip }, source->m_data);
 			while(bgfx::frame() != ready);
 		}
 

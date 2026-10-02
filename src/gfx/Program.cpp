@@ -64,8 +64,12 @@ namespace two
 		bgfx::ShaderHandle geometry_shader = load_shader(reader, gs_path.c_str());
 		bgfx::ShaderHandle fragment_shader = load_shader(reader, fs_path.c_str());
 
+#ifdef GEOMETRY_SHADER
 		bgfx::ProgramHandle program = bgfx::isValid(geometry_shader) ? bgfx::createProgram(vertex_shader, geometry_shader, fragment_shader, true)
 																	 : bgfx::createProgram(vertex_shader, fragment_shader, true);
+#else
+		bgfx::ProgramHandle program = bgfx::createProgram(vertex_shader, fragment_shader, true);
+#endif
 
 		if(!bgfx::isValid(program))
 			error("gfx - failed to load program %s", shader_path.c_str());
