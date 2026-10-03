@@ -59,6 +59,11 @@ if not _OPTIONS["compile-only"] then
         dofile(path.join(TWO_DIR, "scripts/3rdparty/ogg/ogg.lua"))
         dofile(path.join(TWO_DIR, "scripts/3rdparty/vorbis/vorbis.lua"))
         dofile(path.join(TWO_DIR, "scripts/3rdparty/vorbis/vorbisfile.lua"))
+    else
+        -- placeholders, so that the dependency lists they're in are not cut short
+        ogg = null
+        vorbis = null
+        vorbisfile = null
     end
 else
     stb = {}
