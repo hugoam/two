@@ -626,10 +626,10 @@ namespace two
 		// defaults
 		static stl::vector<two::vec3> points_default = {};
 		static bool closed_default = false;
-		static two::CatmullType curve_type_default = two::CatmullType::Centripetal;
+		static two::CatmullType curve_type_default = CatmullType::Centripetal;
 		static float tension_default = 0.5f;
 		static bool construct_0_closed_default = false;
-		static two::CatmullType construct_0_curve_type_default = two::CatmullType::Centripetal;
+		static two::CatmullType construct_0_curve_type_default = CatmullType::Centripetal;
 		static float construct_0_tension_default = 0.5f;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
@@ -896,7 +896,7 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "MeshPacker", sizeof(two::MeshPacker), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::PrimitiveType primitive_default = two::PrimitiveType::Triangles;
+		static two::PrimitiveType primitive_default = PrimitiveType::Triangles;
 		static bool quantize_default = false;
 		static bool gen_normals_0_area_weighted_default = true;
 		// default constructor
@@ -1106,9 +1106,9 @@ namespace two
 		static size_t bases_offsets[] = { base_offset<two::Circle, two::Shape>() };
 		// defaults
 		static float radius_default = 1.f;
-		static two::Axis axis_default = two::Axis::X;
-		static two::Axis construct_0_axis_default = two::Axis::Y;
-		static two::Axis construct_1_axis_default = two::Axis::Y;
+		static two::Axis axis_default = Axis::X;
+		static two::Axis construct_0_axis_default = Axis::Y;
+		static two::Axis construct_1_axis_default = Axis::Y;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Circle__default_construct }
@@ -1142,9 +1142,9 @@ namespace two
 		// defaults
 		static float radius_default = 1.f;
 		static float tube_default = 1.f;
-		static two::Axis axis_default = two::Axis::X;
-		static two::Axis construct_0_axis_default = two::Axis::Y;
-		static two::Axis construct_1_axis_default = two::Axis::Y;
+		static two::Axis axis_default = Axis::X;
+		static two::Axis construct_0_axis_default = Axis::Y;
+		static two::Axis construct_1_axis_default = Axis::Y;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Torus__default_construct }
@@ -1252,8 +1252,8 @@ namespace two
 		static Type* bases[] = { &type<two::Shape>() };
 		static size_t bases_offsets[] = { base_offset<two::Ellipsis, two::Shape>() };
 		// defaults
-		static two::Axis axis_default = two::Axis::Y;
-		static two::Axis construct_0_axis_default = two::Axis::Y;
+		static two::Axis axis_default = Axis::Y;
+		static two::Axis construct_0_axis_default = Axis::Y;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Ellipsis__default_construct }
@@ -1352,9 +1352,9 @@ namespace two
 		// defaults
 		static float radius_default = 1.f;
 		static float height_default = 2.f;
-		static two::Axis axis_default = two::Axis::X;
-		static two::Axis construct_0_axis_default = two::Axis::X;
-		static two::Axis construct_1_axis_default = two::Axis::X;
+		static two::Axis axis_default = Axis::X;
+		static two::Axis construct_0_axis_default = Axis::X;
+		static two::Axis construct_1_axis_default = Axis::X;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Cylinder__default_construct }
@@ -1389,8 +1389,8 @@ namespace two
 		// defaults
 		static float radius_default = 1.f;
 		static float height_default = 2.f;
-		static two::Axis axis_default = two::Axis::X;
-		static two::Axis construct_0_axis_default = two::Axis::X;
+		static two::Axis axis_default = Axis::X;
+		static two::Axis construct_0_axis_default = Axis::X;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Capsule__default_construct }
@@ -1795,10 +1795,10 @@ namespace two
 		static const char* image_default = nullptr;
 		static two::Image256* image256_default = nullptr;
 		static const char* program_default = nullptr;
-		static two::Colour construct_0_outline_default = two::Colour(0.f,0.f);
+		static two::Colour construct_0_outline_default = Colour(0.f,0.f);
 		static bool construct_0_overlay_default = false;
 		static bool construct_0_double_sided_default = false;
-		static two::SymbolDetail construct_0_detail_default = two::SymbolDetail::Medium;
+		static two::SymbolDetail construct_0_detail_default = SymbolDetail::Medium;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Symbol__default_construct }

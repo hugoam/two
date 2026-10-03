@@ -630,9 +630,9 @@ namespace two
 		static int d_right_default = 0;
 		static int d_bottom_default = 0;
 		static int margin_default = 0;
-		static two::Axis d_stretch_default = two::Axis::None;
+		static two::Axis d_stretch_default = Axis::None;
 		static int construct_0_margin_default = 0;
-		static two::Axis construct_0_stretch_default = two::Axis::None;
+		static two::Axis construct_0_stretch_default = Axis::None;
 		// default constructor
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -662,7 +662,7 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Shadow", sizeof(two::Shadow), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::Colour construct_0_colour_default = two::Colour::AlphaBlack;
+		static two::Colour construct_0_colour_default = Colour::AlphaBlack;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Shadow__default_construct }
@@ -776,17 +776,17 @@ namespace two
 		// defaults
 		static stl::string name_default = "";
 		static bool empty_default = true;
-		static two::Colour background_colour_default = two::Colour::None;
-		static two::Colour border_colour_default = two::Colour::None;
-		static two::Colour image_colour_default = two::Colour::None;
-		static two::Colour text_colour_default = two::Colour::None;
+		static two::Colour background_colour_default = Colour::None;
+		static two::Colour border_colour_default = Colour::None;
+		static two::Colour image_colour_default = Colour::None;
+		static two::Colour text_colour_default = Colour::None;
 		static stl::string text_font_default = "dejavu";
 		static float text_size_default = 13.f;
 		static bool text_break_default = false;
 		static bool text_wrap_default = false;
 		static bool weak_corners_default = false;
 		static two::v2<two::Align> align_default = {Align::Left,Align::Left};
-		static two::Axis linear_gradient_dim_default = two::Axis::Y;
+		static two::Axis linear_gradient_dim_default = Axis::Y;
 		static two::v2<bool> stretch_default = {false,false};
 		static two::Image* image_default = nullptr;
 		static two::Image* overlay_default = nullptr;
@@ -845,12 +845,12 @@ namespace two
 		// bases
 		// defaults
 		static stl::string name_default = "";
-		static two::Solver solver_default = two::Solver::Frame;
+		static two::Solver solver_default = Solver::Frame;
 		static two::v2<two::AutoLayout> layout_default = {AutoLayout::Layout,AutoLayout::Layout};
-		static two::LayoutFlow flow_default = two::LayoutFlow::Flow;
+		static two::LayoutFlow flow_default = LayoutFlow::Flow;
 		static two::Space space_default = Preset::Sheet;
-		static two::Clip clipping_default = two::Clip::None;
-		static two::Opacity opacity_default = two::Opacity::Clear;
+		static two::Clip clipping_default = Clip::None;
+		static two::Opacity opacity_default = Opacity::Clear;
 		static two::v2<two::Align> align_default = {Align::Left,Align::Left};
 		static two::v2<two::Pivot> pivot_default = {Pivot::Forward,Pivot::Forward};
 		static int zorder_default = 0;
@@ -1749,7 +1749,7 @@ namespace two
 		}
 		{
 			static bool open_default = false;
-			static two::Axis length_default = two::Axis::None;
+			static two::Axis length_default = Axis::None;
 			static two::v2<uint> index_default = {0,0};
 			static Function f = { &namspc({ "two", "ui" }), "widget", funcptr<two::Widget&(*)(two::Widget&, two::Style&, bool, two::Axis, two::v2<uint>)>(two::ui::widget), two_ui_widget_9, { { "parent", type<two::Widget>(), Param::Reference }, { "style", type<two::Style>(), Param::Reference }, { "open", type<bool>(), Param::Default, &open_default }, { "length", type<two::Axis>(), Param::Default, &length_default }, { "index", type<two::v2<uint>>(), Param::Default, &index_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
@@ -1845,7 +1845,7 @@ namespace two
 			m.m_functions.push_back(&f);
 		}
 		{
-			static two::Axis dim_default = two::Axis::X;
+			static two::Axis dim_default = Axis::X;
 			static Function f = { &namspc({ "two", "ui" }), "fill_bar", funcptr<two::Widget&(*)(two::Widget&, float, two::Axis)>(two::ui::fill_bar), two_ui_fill_bar_31, { { "parent", type<two::Widget>(), Param::Reference }, { "percentage", type<float>(),  }, { "dim", type<two::Axis>(), Param::Default, &dim_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
@@ -1874,7 +1874,7 @@ namespace two
 			m.m_functions.push_back(&f);
 		}
 		{
-			static two::Axis dim_default = two::Axis::X;
+			static two::Axis dim_default = Axis::X;
 			static Function f = { &namspc({ "two", "ui" }), "radio_switch", funcptr<bool(*)(two::Widget&, stl::span<const char*>, uint32_t&, two::Axis)>(two::ui::radio_switch), two_ui_radio_switch_38, { { "parent", type<two::Widget>(), Param::Reference }, { "labels", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "dim", type<two::Axis>(), Param::Default, &dim_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
@@ -2028,12 +2028,12 @@ namespace two
 			m.m_functions.push_back(&f);
 		}
 		{
-			static two::ui::PopupFlags flags_default = two::ui::PopupFlags::None;
+			static two::ui::PopupFlags flags_default = ui::PopupFlags::None;
 			static Function f = { &namspc({ "two", "ui" }), "popup", funcptr<two::Widget&(*)(two::Widget&, const two::vec2&, two::ui::PopupFlags)>(two::ui::popup), two_ui_popup_74, { { "parent", type<two::Widget>(), Param::Reference }, { "size", type<two::vec2>(),  }, { "flags", type<two::ui::PopupFlags>(), Param::Default, &flags_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static two::ui::PopupFlags flags_default = two::ui::PopupFlags::None;
+			static two::ui::PopupFlags flags_default = ui::PopupFlags::None;
 			static Function f = { &namspc({ "two", "ui" }), "popup_at", funcptr<two::Widget&(*)(two::Widget&, const two::vec2&, two::ui::PopupFlags)>(two::ui::popup_at), two_ui_popup_at_75, { { "parent", type<two::Widget>(), Param::Reference }, { "position", type<two::vec2>(),  }, { "flags", type<two::ui::PopupFlags>(), Param::Default, &flags_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
@@ -2054,7 +2054,7 @@ namespace two
 			m.m_functions.push_back(&f);
 		}
 		{
-			static two::ui::PopupFlags flags_default = two::ui::PopupFlags::None;
+			static two::ui::PopupFlags flags_default = ui::PopupFlags::None;
 			static Function f = { &namspc({ "two", "ui" }), "context", funcptr<two::Widget*(*)(two::Widget&, uint32_t, two::ui::PopupFlags)>(two::ui::context), two_ui_context_80, { { "parent", type<two::Widget>(), Param::Reference }, { "mode", type<uint32_t>(),  }, { "flags", type<two::ui::PopupFlags>(), Param::Default, &flags_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
@@ -2161,7 +2161,7 @@ namespace two
 			m.m_functions.push_back(&f);
 		}
 		{
-			static two::Axis dim_default = two::Axis::X;
+			static two::Axis dim_default = Axis::X;
 			static bool reverse_default = false;
 			static Function f = { &namspc({ "two", "ui" }), "radio_field", funcptr<bool(*)(two::Widget&, const char*, stl::span<const char*>, uint32_t&, two::Axis, bool)>(two::ui::radio_field), two_ui_radio_field_105, { { "parent", type<two::Widget>(), Param::Reference }, { "name", type<const char*>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "dim", type<two::Axis>(), Param::Default, &dim_default }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
@@ -2257,7 +2257,7 @@ namespace two
 		}
 		{
 			static const char* icon_default = "";
-			static two::Colour colour_default = two::Colour::NeonGreen;
+			static two::Colour colour_default = Colour::NeonGreen;
 			static bool active_default = true;
 			static bool connected_default = false;
 			static Function f = { &namspc({ "two", "ui" }), "node_input", funcptr<two::NodePlug&(*)(two::Node&, const char*, const char*, const two::Colour&, bool, bool)>(two::ui::node_input), two_ui_node_input_124, { { "node", type<two::Node>(), Param::Reference }, { "name", type<const char*>(),  }, { "icon", type<const char*>(), Param::Default, (void*)icon_default }, { "colour", type<two::Colour>(), Param::Default, &colour_default }, { "active", type<bool>(), Param::Default, &active_default }, { "connected", type<bool>(), Param::Default, &connected_default } }, { &type<two::NodePlug>(), QualType::None } };
@@ -2265,7 +2265,7 @@ namespace two
 		}
 		{
 			static const char* icon_default = "";
-			static two::Colour colour_default = two::Colour::NeonGreen;
+			static two::Colour colour_default = Colour::NeonGreen;
 			static bool active_default = true;
 			static bool connected_default = false;
 			static Function f = { &namspc({ "two", "ui" }), "node_output", funcptr<two::NodePlug&(*)(two::Node&, const char*, const char*, const two::Colour&, bool, bool)>(two::ui::node_output), two_ui_node_output_125, { { "node", type<two::Node>(), Param::Reference }, { "name", type<const char*>(),  }, { "icon", type<const char*>(), Param::Default, (void*)icon_default }, { "colour", type<two::Colour>(), Param::Default, &colour_default }, { "active", type<bool>(), Param::Default, &active_default }, { "connected", type<bool>(), Param::Default, &connected_default } }, { &type<two::NodePlug>(), QualType::None } };
@@ -2324,7 +2324,7 @@ namespace two
 			m.m_functions.push_back(&f);
 		}
 		{
-			static two::WindowState state_default = two::WindowState::Default;
+			static two::WindowState state_default = WindowState::Default;
 			static Function f = { &namspc({ "two", "ui" }), "window", funcptr<two::Window&(*)(two::Widget&, const char*, two::WindowState)>(two::ui::window), two_ui_window_138, { { "parent", type<two::Widget>(), Param::Reference }, { "title", type<const char*>(),  }, { "state", type<two::WindowState>(), Param::Default, &state_default } }, { &type<two::Window>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}

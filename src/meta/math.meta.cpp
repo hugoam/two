@@ -1426,7 +1426,7 @@ namespace two
 		// bases
 		// defaults
 		static two::uvec2 construct_0_size_default = uvec2(0U);
-		static two::Palette construct_0_palette_default = two::Palette();
+		static two::Palette construct_0_palette_default = Palette();
 		// default constructor
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {

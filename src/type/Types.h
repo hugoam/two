@@ -27,8 +27,8 @@ namespace two
     template <> TWO_TYPE_EXPORT Type& type<float>();
     template <> TWO_TYPE_EXPORT Type& type<double>();
     template <> TWO_TYPE_EXPORT Type& type<const char*>();
-    template <> TWO_TYPE_EXPORT Type& type<void>();
     template <> TWO_TYPE_EXPORT Type& type<stl::string>();
+    template <> TWO_TYPE_EXPORT Type& type<void>();
     
     template <> TWO_TYPE_EXPORT Type& type<stl::vector<stl::string>>();
     template <> TWO_TYPE_EXPORT Type& type<stl::vector<two::Ref>>();

@@ -97,12 +97,12 @@ namespace two
 			m.m_functions.push_back(&f);
 		}
 		{
-			static two::EditorHint hint_default = two::EditorHint::Table;
+			static two::EditorHint hint_default = EditorHint::Table;
 			static Function f = { &namspc({ "two" }), "object_edit", funcptr<bool(*)(two::Widget&, two::Ref, two::EditorHint)>(two::object_edit), two_object_edit_5, { { "parent", type<two::Widget>(), Param::Reference }, { "object", type<two::Ref>(), Param::Nullable }, { "hint", type<two::EditorHint>(), Param::Default, &hint_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static two::EditorHint hint_default = two::EditorHint::Table;
+			static two::EditorHint hint_default = EditorHint::Table;
 			static Function f = { &namspc({ "two" }), "entity_edit", funcptr<bool(*)(two::Widget&, two::Entity, two::EditorHint)>(two::entity_edit), two_entity_edit_6, { { "parent", type<two::Widget>(), Param::Reference }, { "entity", type<two::Entity>(),  }, { "hint", type<two::EditorHint>(), Param::Default, &hint_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}

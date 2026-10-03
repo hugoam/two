@@ -604,7 +604,7 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Tonemap", sizeof(two::Tonemap), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::TonemapMode mode_default = two::TonemapMode::Linear;
+		static two::TonemapMode mode_default = TonemapMode::Linear;
 		static bool enabled_default = false;
 		static float exposure_default = 1.0f;
 		static float white_point_default = 1.0f;

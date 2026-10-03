@@ -1074,7 +1074,7 @@ namespace two
 		// defaults
 		static two::Type* value_type_default = nullptr;
 		static float length_default = 0.f;
-		static two::Interpolation interpolation_default = two::Interpolation::Linear;
+		static two::Interpolation interpolation_default = Interpolation::Linear;
 		// default constructor
 		// copy constructor
 		// constructors
@@ -1653,7 +1653,7 @@ namespace two
 		// bases
 		// defaults
 		static two::Zone* env_default = nullptr;
-		static two::Lighting lighting_default = two::Lighting::None;
+		static two::Lighting lighting_default = Lighting::None;
 		static bool vflip_default = false;
 		static bool needs_mrt_default = false;
 		static bool is_mrt_default = false;
@@ -1828,7 +1828,7 @@ namespace two
 		// bases
 		// defaults
 		static two::Texture* texture_default = nullptr;
-		static two::TextureChannel channel_default = two::TextureChannel::All;
+		static two::TextureChannel channel_default = TextureChannel::All;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_MaterialParam_two_Colour__default_construct }
@@ -1856,7 +1856,7 @@ namespace two
 		// bases
 		// defaults
 		static two::Texture* texture_default = nullptr;
-		static two::TextureChannel channel_default = two::TextureChannel::All;
+		static two::TextureChannel channel_default = TextureChannel::All;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_MaterialParam_float__default_construct }
@@ -1884,7 +1884,7 @@ namespace two
 		// bases
 		// defaults
 		static two::Texture* texture_default = nullptr;
-		static two::TextureChannel channel_default = two::TextureChannel::All;
+		static two::TextureChannel channel_default = TextureChannel::All;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_MaterialParam_two_vec4__default_construct }
@@ -1911,15 +1911,15 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "MaterialBase", sizeof(two::MaterialBase), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::BlendMode blend_mode_default = two::BlendMode::None;
-		static two::CullMode cull_mode_default = two::CullMode::Back;
-		static two::DepthDraw depth_draw_default = two::DepthDraw::Enabled;
-		static two::DepthTest depth_test_default = two::DepthTest::Enabled;
+		static two::BlendMode blend_mode_default = BlendMode::None;
+		static two::CullMode cull_mode_default = CullMode::Back;
+		static two::DepthDraw depth_draw_default = DepthDraw::Enabled;
+		static two::DepthTest depth_test_default = DepthTest::Enabled;
 		static two::vec2 uv0_scale_default = {1.f,1.f};
 		static two::vec2 uv0_offset_default = {0.f,0.f};
 		static two::vec2 uv1_scale_default = {1.f,1.f};
 		static two::vec2 uv1_offset_default = {0.f,0.f};
-		static two::ShaderColor shader_color_default = two::ShaderColor::Shader;
+		static two::ShaderColor shader_color_default = ShaderColor::Shader;
 		static bool flat_shaded_default = false;
 		static bool screen_filter_default = false;
 		// default constructor
@@ -2190,8 +2190,8 @@ namespace two
 		static two::MaterialParam<float> roughness_default = {1.f,nullptr,TextureChannel::Red};
 		static two::MaterialParam<float> depth_default = {-0.02f,nullptr};
 		static bool deep_parallax_default = false;
-		static two::PbrDiffuseMode diffuse_mode_default = two::PbrDiffuseMode::Burley;
-		static two::PbrSpecularMode specular_mode_default = two::PbrSpecularMode::SchlickGGX;
+		static two::PbrDiffuseMode diffuse_mode_default = PbrDiffuseMode::Burley;
+		static two::PbrSpecularMode specular_mode_default = PbrSpecularMode::SchlickGGX;
 		static float construct_0_metallic_default = 0.f;
 		static float construct_0_roughness_default = 1.f;
 		// default constructor
@@ -2241,7 +2241,7 @@ namespace two
 		static two::MaterialParam<float> shininess_default = {30.f,nullptr};
 		static two::MaterialParam<float> reflectivity_default = {1.f,nullptr};
 		static two::MaterialParam<float> refraction_default = {0.f,nullptr};
-		static two::PhongEnvBlendMode env_blend_default = two::PhongEnvBlendMode::Mul;
+		static two::PhongEnvBlendMode env_blend_default = PhongEnvBlendMode::Mul;
 		static bool toon_default = false;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
@@ -2356,7 +2356,7 @@ namespace two
 		static float radius_default = 0.f;
 		static bool add_mesh_0_readback_default = false;
 		static int add_item_0_skin_default = -1;
-		static two::Colour add_item_0_colour_default = two::Colour::White;
+		static two::Colour add_item_0_colour_default = Colour::White;
 		static two::Material* add_item_0_material_default = nullptr;
 		// default constructor
 		// copy constructor
@@ -2390,11 +2390,11 @@ namespace two
 		static float start_time_default = 0.f;
 		static bool loop_default = false;
 		static two::ShapeVar shape_default = {};
-		static two::EmitterFlow flow_default = two::EmitterFlow::Outward;
+		static two::EmitterFlow flow_default = EmitterFlow::Outward;
 		static bool billboard_default = true;
 		static two::vec3 direction_default = {0.f,0.f,-1.f};
 		static two::quat rotation_default = ZeroQuat;
-		static two::BlendMode blend_mode_default = two::BlendMode::Normal;
+		static two::BlendMode blend_mode_default = BlendMode::Normal;
 		static two::ValueTrack<float> volume_default = {1.f};
 		static two::ValueTrack<uint32_t> rate_default = {0};
 		static two::ValueTrack<float> lifetime_default = {1.f};
@@ -2532,10 +2532,10 @@ namespace two
 		static two::Node3* node_default = nullptr;
 		static two::Model* model_default = nullptr;
 		static uint32_t flags_default = 0;
-		static two::Colour colour_default = two::Colour::White;
+		static two::Colour colour_default = Colour::White;
 		static two::Material* material_default = nullptr;
 		static bool visible_default = true;
-		static two::ItemShadow shadow_default = two::ItemShadow::Default;
+		static two::ItemShadow shadow_default = ItemShadow::Default;
 		static two::Rig* rig_default = nullptr;
 		static two::Batch* batch_default = nullptr;
 		static uint32_t construct_0_flags_default = 0;
@@ -2575,7 +2575,7 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ImportConfig", sizeof(two::ImportConfig), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::ModelFormat format_default = two::ModelFormat::obj;
+		static two::ModelFormat format_default = ModelFormat::obj;
 		static two::quat rotation_default = ZeroQuat;
 		static two::mat4 transform_default = bxidentity();
 		static bool force_reimport_default = false;
@@ -2984,7 +2984,7 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Mesh", sizeof(two::Mesh), TypeClass::Object };
 		// bases
 		// defaults
-		static two::PrimitiveType primitive_default = two::PrimitiveType::Triangles;
+		static two::PrimitiveType primitive_default = PrimitiveType::Triangles;
 		static two::Aabb aabb_default = {};
 		static float radius_default = 0.f;
 		static bool readback_default = false;
@@ -3095,10 +3095,10 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Lines", sizeof(two::Lines), TypeClass::Object };
 		// bases
 		// defaults
-		static two::Colour add_0_start_colour_default = two::Colour(1.f);
-		static two::Colour add_0_end_colour_default = two::Colour(1.f);
-		static two::Colour start_0_colour_default = two::Colour(1.f);
-		static two::Colour next_0_colour_default = two::Colour(1.f);
+		static two::Colour add_0_start_colour_default = Colour(1.f);
+		static two::Colour add_0_end_colour_default = Colour(1.f);
+		static two::Colour start_0_colour_default = Colour(1.f);
+		static two::Colour next_0_colour_default = Colour(1.f);
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Lines__default_construct }
@@ -3220,9 +3220,9 @@ namespace two
 		// bases
 		// defaults
 		static two::Node3* node_default = nullptr;
-		static two::LightType type_default = two::LightType::Point;
+		static two::LightType type_default = LightType::Point;
 		static bool visible_default = true;
-		static two::Colour colour_default = two::Colour::White;
+		static two::Colour colour_default = Colour::White;
 		static float range_default = 1.f;
 		static float energy_default = 1.f;
 		static float specular_default = 1.f;
@@ -3238,9 +3238,9 @@ namespace two
 		static float shadow_split_distribution_default = 0.6f;
 		static float shadow_normal_bias_default = 0.1f;
 		static float shadow_bias_default = 0.f;
-		static two::LightType construct_0_type_default = two::LightType::Point;
+		static two::LightType construct_0_type_default = LightType::Point;
 		static bool construct_0_shadows_default = false;
-		static two::Colour construct_0_colour_default = two::Colour::White;
+		static two::Colour construct_0_colour_default = Colour::White;
 		static float construct_0_energy_default = 1.f;
 		static float construct_0_range_default = 1.f;
 		// default constructor
@@ -3466,9 +3466,9 @@ namespace two
 		static bool autorender_default = true;
 		static bool autoflip_default = false;
 		static bool scissor_default = false;
-		static two::Colour clear_colour_default = two::Colour::Black;
-		static two::Shading shading_default = two::Shading::Shaded;
-		static two::Lighting lighting_default = two::Lighting::Clustered;
+		static two::Colour clear_colour_default = Colour::Black;
+		static two::Shading shading_default = Shading::Shaded;
+		static two::Lighting lighting_default = Lighting::Clustered;
 		static bool clustered_default = false;
 		static bool to_gamma_default = false;
 		static two::vec4 construct_0_rect_default = vec4(0.f);
@@ -3660,7 +3660,7 @@ namespace two
 		static Type* bases[] = { &type<two::FrameBuffer>() };
 		static size_t bases_offsets[] = { base_offset<two::RenderTarget, two::FrameBuffer>() };
 		// defaults
-		static two::MSAA msaa_default = two::MSAA::Disabled;
+		static two::MSAA msaa_default = MSAA::Disabled;
 		static bool mrt_default = true;
 		static bool deferred_default = false;
 		// default constructor
@@ -3721,9 +3721,9 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Radiance", sizeof(two::Radiance), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::Colour colour_default = two::Colour::White;
+		static two::Colour colour_default = Colour::White;
 		static float energy_default = 1.0f;
-		static two::Colour ambient_default = two::Colour::Black;
+		static two::Colour ambient_default = Colour::Black;
 		static two::Texture* texture_default = nullptr;
 		static two::Texture* filtered_default = nullptr;
 		static bool filter_default = true;
@@ -3756,8 +3756,8 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Background", sizeof(two::Background), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::BackgroundMode mode_default = two::BackgroundMode::None;
-		static two::Colour colour_default = two::Colour::Black;
+		static two::BackgroundMode mode_default = BackgroundMode::None;
+		static two::Colour colour_default = Colour::Black;
 		static two::Program* custoprogram_default = nullptr;
 		static two::Texture* texture_default = nullptr;
 		// default constructor
@@ -3821,7 +3821,7 @@ namespace two
 		// defaults
 		static bool enabled_default = false;
 		static float density_default = 0.01f;
-		static two::Colour colour_default = two::Colour::White;
+		static two::Colour colour_default = Colour::White;
 		static bool depth_default = false;
 		static float depth_begin_default = 0.f;
 		static float depth_end_default = 0.f;

@@ -166,12 +166,12 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "InputEvent", sizeof(two::InputEvent), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::DeviceType deviceType_default = two::DeviceType::None;
-		static two::EventType eventType_default = two::EventType::None;
+		static two::DeviceType deviceType_default = DeviceType::None;
+		static two::EventType eventType_default = EventType::None;
 		static two::ControlNode* receiver_default = nullptr;
 		static two::ControlNode* consumer_default = nullptr;
 		static bool abort_default = false;
-		static two::InputMod modifiers_default = two::InputMod::None;
+		static two::InputMod modifiers_default = InputMod::None;
 		static int key_default = -1;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
@@ -271,10 +271,10 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ControlNode", sizeof(two::ControlNode), TypeClass::Object };
 		// bases
 		// defaults
-		static two::InputMod key_event_0_modifier_default = two::InputMod::Any;
-		static two::InputMod key_stroke_0_modifier_default = two::InputMod::Any;
-		static two::InputMod char_stroke_0_modifier_default = two::InputMod::Any;
-		static two::InputMod mouse_event_0_modifier_default = two::InputMod::None;
+		static two::InputMod key_event_0_modifier_default = InputMod::Any;
+		static two::InputMod key_stroke_0_modifier_default = InputMod::Any;
+		static two::InputMod char_stroke_0_modifier_default = InputMod::Any;
+		static two::InputMod mouse_event_0_modifier_default = InputMod::None;
 		static bool mouse_event_0_consume_default = true;
 		// default constructor
 		// copy constructor

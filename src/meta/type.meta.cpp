@@ -156,16 +156,16 @@ namespace two
 		static Meta meta = { t, &namspc({}), "const char*", sizeof(const char*), TypeClass::BaseType };
 	}
 	{
-		Type& t = type<void>();
-		static Meta meta = { t, &namspc({}), "void", 0, TypeClass::BaseType };
-	}
-	{
 		Type& t = type<stl::string>();
 		static Meta meta = { t, &namspc({}), "stl::string", sizeof(stl::string), TypeClass::BaseType };
 		meta.m_empty_var = var(stl::string());
 		static Convert convert = { [](void* val, string& str) { to_string<stl::string>((*static_cast<stl::string*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<stl::string>(str, (*static_cast<stl::string*>(val))); } };
 		g_convert[t.m_id] = &convert;
+	}
+	{
+		Type& t = type<void>();
+		static Meta meta = { t, &namspc({}), "void", 0, TypeClass::BaseType };
 	}
 	
 	// Enums
@@ -334,7 +334,6 @@ namespace two
 		m.m_types.push_back(&type<float>());
 		m.m_types.push_back(&type<double>());
 		m.m_types.push_back(&type<const char*>());
-		m.m_types.push_back(&type<void>());
 		m.m_types.push_back(&type<stl::string>());
 		m.m_types.push_back(&type<stl::vector<stl::string>>());
 		m.m_types.push_back(&type<stl::vector<two::Ref>>());
@@ -344,6 +343,7 @@ namespace two
 		m.m_types.push_back(&type<two::Indexer>());
 		m.m_types.push_back(&type<two::Index>());
 		m.m_types.push_back(&type<two::Prototype>());
+		m.m_types.push_back(&type<void>());
 		{
 			static Function f = { &namspc({ "two" }), "indexed", funcptr<two::Ref(*)(const two::Type&, uint32_t)>(two::indexed), two_indexed_0, { { "type", type<two::Type>(),  }, { "id", type<uint32_t>(),  } }, { &type<two::Ref>(), QualType::None } };
 			m.m_functions.push_back(&f);
