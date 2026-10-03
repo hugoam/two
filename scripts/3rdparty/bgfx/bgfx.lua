@@ -118,7 +118,6 @@ function uses_bgfx()
     configuration { "linux", "not wasm*" }
         links {
             "X11",
-            "GLU",
             "GL",
             "Xext",
         }

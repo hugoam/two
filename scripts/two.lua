@@ -20,7 +20,7 @@ function two_module()
     end
 end
 
-if _ACTION == "gmake" then
+if _ACTION == "gmake" or _ACTION == "ninja" then
     dofile(path.join(TWO_DIR, "scripts/3rdparty/std.lua"))
 end
 
@@ -227,8 +227,16 @@ function two_clrefl()
         path.join(TWO_3RDPARTY_DIR, "json11"),
     }
     
-    links { "libclang" }
-    
+    configuration { "windows" }
+        links { "libclang" }
+
+    -- libclang is built against libstdc++, the c++ runtime must come first to be used by our own code
+    configuration { "linux-clang*" }
+        links { "c++", "c++abi" }
+
+    configuration { "not windows" }
+        links { "clang" }
+
     configuration { "windows" }
         includedirs {
             "C:/Program Files (x86)/LLVM/include",
@@ -244,8 +252,19 @@ function two_clrefl()
         libdirs {
             "C:/Program Files/LLVM/lib",
         }
-        
+
     configuration {}
+
+    if os.is("linux") then
+        local llvm_config = "llvm-config" .. iif(_OPTIONS["compiler-version"], "-" .. (_OPTIONS["compiler-version"] or ""), "")
+        local llvm_includedir = os.outputof(llvm_config .. " --includedir 2>/dev/null"):gsub("%s+$", "")
+        local llvm_libdir = os.outputof(llvm_config .. " --libdir 2>/dev/null"):gsub("%s+$", "")
+        if llvm_libdir ~= "" then
+            includedirs { llvm_includedir }
+            libdirs { llvm_libdir }
+            linkoptions { "-Wl,-rpath," .. llvm_libdir }
+        end
+    end
 end
 
 function two_webcl()

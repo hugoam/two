@@ -3,8 +3,6 @@
 dofile(path.join(TWO_DIR, "scripts/3rdparty/bgfx/shaderc_bgfx.lua"))
 
 project "glslang"
-    removeflags { "Cpp17" }
-    flags       { "Cpp14" }
 
     configuration { "vs*", "not wasm*" }
         buildoptions {

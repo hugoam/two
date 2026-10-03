@@ -39,4 +39,9 @@ default_options()
 
 toolchain(BUILD_DIR)
 
+if _OPTIONS["compiler-version"] and (_ACTION == "gmake" or _ACTION == "ninja") then
+    premake.gcc.cc  = premake.gcc.cc  .. "-" .. _OPTIONS["compiler-version"]
+    premake.gcc.cxx = premake.gcc.cxx .. "-" .. _OPTIONS["compiler-version"]
+end
+
 dofile("toolchain/global.lua")

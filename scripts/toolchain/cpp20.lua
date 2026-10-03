@@ -1,11 +1,6 @@
 -- two toolchain
 -- cpp20 modules
 
-if not cxxmodules then
-    cxxmodules = function(m)
-    end
-end
-
 function modules(m)
     removeflags { "Cpp20" }
     flags {
@@ -28,20 +23,16 @@ function modules(m)
         end
     else
         if m.cppmodule then
-            local cxxmodule = path.join(m.path, m.dotname2 .. ".cxxm")
-            files { cxxmodule }
-            local modules = {}
-            modules[m.dotname] = cxxmodule
-            cxxmodules(modules)
-
-            --cxxmodules {
-            --    path.join(m.path, m.dotname2 .. ".cxxm"),
-            --}
-
-            buildoptions {
-                "-Wno-include-angled-in-module-purview",
-                "-Wno-experimental-header-units",
+            files {
+                path.join(m.path, m.dotname2 .. ".cppm"),
             }
+
+            configuration { "*-clang*" }
+                buildoptions {
+                    -- the module headers are included in the module purview
+                    "-Wno-include-angled-in-module-purview",
+                }
+            configuration {}
         end
 
         links { "std" }

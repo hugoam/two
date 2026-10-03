@@ -2,7 +2,7 @@
 -- global configuration
 
 flags {
-    "Cpp17",
+    "Cpp20",
 }
 
 removeflags {
@@ -35,6 +35,15 @@ configuration { "wasm*", "Debug" }
 configuration { "linux-*" }
     buildoptions {
         "-fPIC",
+    }
+
+-- the std module is provided by libc++ with clang
+configuration { "linux-clang*" }
+    buildoptions_cpp {
+        "-stdlib=libc++",
+    }
+    linkoptions {
+        "-stdlib=libc++",
     }
 
 configuration { "*-gcc* or osx" }

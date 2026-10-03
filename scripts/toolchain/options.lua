@@ -7,6 +7,12 @@ newoption {
 }
 
 newoption {
+    trigger = "compiler-version",
+    value = "VERSION",
+    description = "Version suffix of the gcc or clang binaries (e.g. 22 for clang++-22)",
+}
+
+newoption {
     trigger = "compile-only",
     description = "Compile library code only",
 }

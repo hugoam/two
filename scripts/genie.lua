@@ -29,10 +29,22 @@ if _OPTIONS["tools"] then
             postbuildcommands {
                 "copy /Y \"$(TargetPath)\" \"" .. path.translate(path.join(TWO_DIR, "bin", "clrefl.exe"), "\\") .. "\"",
             }
-        configuration { "not vs*" }
-            postbuildcommands {
-                "cp -f $(TARGET) \"" .. path.join(TWO_DIR, "bin", "clrefl") .. "\"",
-            }
+        if _ACTION == "ninja" then
+            -- ninja doesn't expose the output path to the post-build commands
+            for _, cc in ipairs { "gcc", "clang" } do
+                for _, cfg in ipairs { { "Debug", "_d" }, { "Release", "" } } do
+                    configuration { "linux-" .. cc .. "*", cfg[1] }
+                        postbuildcommands {
+                            "cp -f \"" .. path.join(BUILD_DIR, "linux64_" .. cc, "bin", "clrefl" .. cfg[2]) .. "\" \"" .. path.join(TWO_DIR, "bin", "clrefl") .. "\"",
+                        }
+                end
+            end
+        else
+            configuration { "not vs*" }
+                postbuildcommands {
+                    "cp -f $(TARGET) \"" .. path.join(TWO_DIR, "bin", "clrefl") .. "\"",
+                }
+        end
         configuration {}
     two_binary("amalg", { two.amalg })
     two_binary("webcl", { two.webcl })
