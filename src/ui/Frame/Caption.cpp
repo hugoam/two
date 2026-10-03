@@ -42,7 +42,7 @@ namespace two
 	size_t line_begin(const string& text, size_t index)
 	{
 		size_t begin = index;
-		for(; text[begin - 1] != '\n' && begin > 0; --begin)
+		for(; begin > 0 && text[begin - 1] != '\n'; --begin)
 			;
 		return begin;
 
@@ -51,7 +51,7 @@ namespace two
 	size_t line_end(const string& text, size_t index)
 	{
 		size_t end = index;
-		for(; text[end] != '\n' && end < text.size() - 1; ++end)
+		for(; end < text.size() - 1 && text[end] != '\n'; ++end)
 			;
 		return end;
 	}

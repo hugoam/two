@@ -70,7 +70,8 @@ namespace two
 	void Vg::fill_text(cstring text, size_t len, const vec4& rect, const TextPaint& paint, TextRow& row)
 	{
 		row = text_row(text, text, text + len, { rect.x, rect.y, this->text_size(text, len, Axis::X, paint), line_height(paint) });
-		this->break_glyphs(rect, paint, row);
+		if(row.m_start != row.m_end)
+			this->break_glyphs(rect, paint, row);
 	}
 
 	void Vg::break_text_width(const char* text, const char* first, const char* end, const vec4& rect, const TextPaint& paint, TextRow& row)
@@ -89,7 +90,8 @@ namespace two
 			++iter;
 
 		row = text_row(text, first, iter, { rect.x, rect.y, this->text_size(first, iter - first, Axis::X, paint), line_height(paint) });
-		this->break_glyphs(rect, paint, row);
+		if(row.m_start != row.m_end)
+			this->break_glyphs(rect, paint, row);
 
 		// @kludge because text_size doesn't report the correct size when there is a space at the end : investigate (vg-renderer, nanovg)
 		if(!row.m_glyphs.empty())
