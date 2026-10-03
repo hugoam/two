@@ -9,7 +9,7 @@
 
 namespace two
 {
-	enum ShaderOption : unsigned int
+	export_ enum ShaderOption : unsigned int
 	{
 		INSTANCING,
 		BILLBOARD,

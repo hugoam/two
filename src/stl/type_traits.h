@@ -8,7 +8,9 @@ namespace stl
 	constexpr bool is_trivially_destructible = __is_trivially_destructible(T);
 }
 #else
+#ifndef TWO_STD_MODULES
 #include <type_traits>
+#endif
 namespace stl
 {
 	export_ template <class T>

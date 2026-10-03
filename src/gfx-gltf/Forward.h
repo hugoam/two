@@ -8,5 +8,5 @@
 
 namespace two
 {
-	class ImporterGltf;
+	export_ class ImporterGltf;
 }

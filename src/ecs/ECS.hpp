@@ -390,7 +390,7 @@ namespace two
 		m_streams.push_back({ name.c_str(), index });
 		EntityStream& stream = m_streams.back();
 		stream.m_prototype = prototype;
-		this->init_stream(stream, prototype, index_tuple<NumComponents>());
+		init_stream(*this, stream, prototype, index_tuple<NumComponents>());
 		m_stream_map[prototype] = index;
 	}
 

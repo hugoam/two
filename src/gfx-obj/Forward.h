@@ -8,6 +8,6 @@
 
 namespace two
 {
-    class ImporterOBJ;
-	class ImporterPLY;
+    export_ class ImporterOBJ;
+	export_ class ImporterPLY;
 }

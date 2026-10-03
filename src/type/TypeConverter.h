@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include <infra/Global.h>
 #include <type/Ref.h>
 #include <type/Var.h>
 #include <type/DoubleDispatch.h>

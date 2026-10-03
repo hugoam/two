@@ -3,8 +3,8 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 module;
-#include <xatlas.h>
 #include <gfx/Cpp20.h>
+#include <xatlas.h>
 module two.gfx.pbr;
 
 #define LIGHTMAP_XATLAS

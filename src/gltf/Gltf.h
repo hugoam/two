@@ -365,8 +365,6 @@ namespace two
 	export_ TWO_GLTF_EXPORT int encode_accessor(glTF& gltf, int buffer_index, glTFAccessor& a, vector<double>& values, bool for_vertex);
 	export_ TWO_GLTF_EXPORT vector<double> decode_accessor(const glTF& gltf, size_t accessor, bool for_vertex);
 
-	export_ TWO_GLTF_EXPORT void setup_nodes(glTF& gltf);
-
 	export_ template <class T>
 	vector<T> unpack_accessor(const glTF& gltf, size_t accessor, bool for_vertex)
 	{

@@ -3,6 +3,7 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 #if 0
+module;
 #include <gfx/Cpp20.h>
 
 module two.gfx;

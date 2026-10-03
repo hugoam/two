@@ -3,8 +3,14 @@
 #include <noise/Forward.h>
 
 #ifndef TWO_META_GENERATOR
+#if defined _MSC_VER
 export_ class TWO_NOISE_EXPORT FastNoise;
 #include <FastNoise.h>
+#else
+// FastNoise.h is included in the global module fragment of the module interface
+#include <FastNoise.h>
+export_ using ::FastNoise;
+#endif
 #endif
 
 namespace two

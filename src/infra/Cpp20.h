@@ -1,3 +1,5 @@
+#pragma once
+
 #include <infra/Config.h>
 
 #include <stddef.h>
@@ -16,3 +18,4 @@
 #include <cstdio>
 #include <cstring>
 #include <cmath>
+#include <cctype>
