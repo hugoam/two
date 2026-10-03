@@ -203,7 +203,7 @@ namespace two
 
 		meth_ void subrender(const Render& render);
 
-		meth_ Pass next_pass(cstring name, PassType type, uint8_t index = UINT8_MAX);
+		meth_ Pass next_pass(cstring name, PassType type, uint8_t index = limits<uint8_t>::max());
 		meth_ Pass composite_pass(cstring name, FrameBuffer& fbo, const vec4& rect);
 		Pass composite_pass(cstring name);
 

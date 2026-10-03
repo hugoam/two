@@ -59,13 +59,13 @@ namespace two
 
 		meth_ void multiply(float mul);
 
-		meth_ void source0p(const Texture& texture, ProgramVersion& program, int level = 0, uint32_t flags = UINT32_MAX);
+		meth_ void source0p(const Texture& texture, ProgramVersion& program, int level = 0, uint32_t flags = limits<uint32_t>::max());
 
-		meth_ void source0(const Texture& texture, uint32_t flags = UINT32_MAX);
-		meth_ void source1(const Texture& texture, uint32_t flags = UINT32_MAX);
-		meth_ void source2(const Texture& texture, uint32_t flags = UINT32_MAX);
-		meth_ void source3(const Texture& texture, uint32_t flags = UINT32_MAX);
-		meth_ void sourcedepth(const Texture& texture, uint32_t flags = UINT32_MAX);
+		meth_ void source0(const Texture& texture, uint32_t flags = limits<uint32_t>::max());
+		meth_ void source1(const Texture& texture, uint32_t flags = limits<uint32_t>::max());
+		meth_ void source2(const Texture& texture, uint32_t flags = limits<uint32_t>::max());
+		meth_ void source3(const Texture& texture, uint32_t flags = limits<uint32_t>::max());
+		meth_ void sourcedepth(const Texture& texture, uint32_t flags = limits<uint32_t>::max());
 
 		void uniform(const Pass& pass, const string& name, const mat4& value);
 		meth_ void uniform(const Pass& pass, const string& name, const vec4& value);

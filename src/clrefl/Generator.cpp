@@ -354,8 +354,10 @@ namespace two
 			{
 				has_default = true;
 				default_value = first_token(c);
+				if(default_value == "")
+					default_value = last_token(cursor);
 			}
-			else if(has({ CXCursor_BinaryOperator, CXCursor_UnaryOperator, CXCursor_CallExpr, CXCursor_DeclRefExpr, CXCursor_UnexposedExpr, CXCursor_ParenExpr }, c.kind))
+			else if(has({ CXCursor_BinaryOperator, CXCursor_UnaryOperator, CXCursor_CallExpr, CXCursor_DeclRefExpr, CXCursor_UnexposedExpr }, c.kind))
 			{
 				has_default = true;
 				visit_tokens(c, [&](CXToken t) {
@@ -367,10 +369,6 @@ namespace two
 				});
 			}
 		});
-
-		// an expression expanded from a macro (e.g. UINT32_MAX) has no tokens, the default is the macro as written
-		if(has_default && default_value == "")
-			default_value = last_token(cursor);
 	}
 
 	void parse_param(CLModule& module, CLPrimitive& parent, CLCallable& f, CLParam& p, CXCursor cursor)

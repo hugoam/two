@@ -1658,7 +1658,7 @@ namespace two
 		static bool needs_mrt_default = false;
 		static bool is_mrt_default = false;
 		static uint8_t pass_index_default = Render::s_render_pass_id;
-		static uint8_t next_pass_0_index_default = UINT8_MAX;
+		static uint8_t next_pass_0_index_default = limits<uint8_t>::max();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Render__default_construct }
@@ -3135,12 +3135,12 @@ namespace two
 		static uint64_t quad_0_flags_default = 0U;
 		static bool quad_0_render_default = false;
 		static int source0p_0_level_default = 0;
-		static uint32_t source0p_0_flags_default = UINT32_MAX;
-		static uint32_t source0_0_flags_default = UINT32_MAX;
-		static uint32_t source1_0_flags_default = UINT32_MAX;
-		static uint32_t source2_0_flags_default = UINT32_MAX;
-		static uint32_t source3_0_flags_default = UINT32_MAX;
-		static uint32_t sourcedepth_0_flags_default = UINT32_MAX;
+		static uint32_t source0p_0_flags_default = limits<uint32_t>::max();
+		static uint32_t source0_0_flags_default = limits<uint32_t>::max();
+		static uint32_t source1_0_flags_default = limits<uint32_t>::max();
+		static uint32_t source2_0_flags_default = limits<uint32_t>::max();
+		static uint32_t source3_0_flags_default = limits<uint32_t>::max();
+		static uint32_t sourcedepth_0_flags_default = limits<uint32_t>::max();
 		// default constructor
 		// copy constructor
 		// constructors
