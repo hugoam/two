@@ -350,15 +350,12 @@ namespace two
 
 		visit_children(cursor, [&](CXCursor c)
 		{
-			// a parenthesized literal is e.g. the expansion of a macro (UINT32_MAX with glibc)
-			if(has({ CXCursor_CXXBoolLiteralExpr, CXCursor_FloatingLiteral, CXCursor_IntegerLiteral, CXCursor_StringLiteral, CXCursor_ParenExpr }, c.kind))
+			if(has({ CXCursor_CXXBoolLiteralExpr, CXCursor_FloatingLiteral, CXCursor_IntegerLiteral, CXCursor_StringLiteral }, c.kind))
 			{
 				has_default = true;
 				default_value = first_token(c);
-				if(default_value == "")
-					default_value = last_token(cursor);
 			}
-			else if(has({ CXCursor_BinaryOperator, CXCursor_UnaryOperator, CXCursor_CallExpr, CXCursor_DeclRefExpr, CXCursor_UnexposedExpr }, c.kind))
+			else if(has({ CXCursor_BinaryOperator, CXCursor_UnaryOperator, CXCursor_CallExpr, CXCursor_DeclRefExpr, CXCursor_UnexposedExpr, CXCursor_ParenExpr }, c.kind))
 			{
 				has_default = true;
 				visit_tokens(c, [&](CXToken t) {
@@ -368,11 +365,12 @@ namespace two
 					else if(kind(t) == CXToken_Identifier && value_type.m_name == token) default_value += value_type.m_id;
 					else if(token != "=") default_value += token;
 				});
-				// the tokens of an expression expanded from a macro (e.g. UINT8_MAX converted to uint8_t) are not visited
-				if(default_value == "")
-					default_value = last_token(cursor);
 			}
 		});
+
+		// an expression expanded from a macro (e.g. UINT32_MAX) has no tokens, the default is the macro as written
+		if(has_default && default_value == "")
+			default_value = last_token(cursor);
 	}
 
 	void parse_param(CLModule& module, CLPrimitive& parent, CLCallable& f, CLParam& p, CXCursor cursor)
