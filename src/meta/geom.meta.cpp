@@ -208,14 +208,12 @@ void two_MarchingCubes_direct(void* object, span<void*> args, void*& result) { U
 void two_MarchingCubes_render(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::MarchingCubes*>(object)).render(*static_cast<two::MeshPacker*>(args[0])); }
 void two_to_ray_0(span<void*> args, void*& result) { (*static_cast<two::Ray*>(result)) = two::to_ray(*static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1]), *static_cast<float*>(args[2])); }
 void two_to_segment_1(span<void*> args, void*& result) { (*static_cast<two::Segment*>(result)) = two::to_segment(*static_cast<two::Ray*>(args[0])); }
-void two_to_ray_2(span<void*> args, void*& result) { (*static_cast<two::Ray*>(result)) = two::to_ray(*static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1]), *static_cast<float*>(args[2])); }
-void two_to_segment_3(span<void*> args, void*& result) { (*static_cast<two::Segment*>(result)) = two::to_segment(*static_cast<two::Ray*>(args[0])); }
-void two_distribute_poisson_4(span<void*> args, void*& result) { (*static_cast<stl::vector<two::vec3>*>(result)) = two::distribute_poisson(*static_cast<two::vec2*>(args[0]), *static_cast<float*>(args[1])); }
-void two_add_ball_5(span<void*> args, void*& result) { UNUSED(result);  two::add_ball(*static_cast<two::MarchingCubes*>(args[0]), *static_cast<two::vec3*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<two::Colour*>(args[4])); }
-void two_add_ball_6(span<void*> args, void*& result) { UNUSED(result);  two::add_ball(*static_cast<two::MarchingCubes*>(args[0]), *static_cast<two::vec3*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3])); }
-void two_add_planeX_7(span<void*> args, void*& result) { UNUSED(result);  two::add_planeX(*static_cast<two::MarchingCubes*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
-void two_add_planeY_8(span<void*> args, void*& result) { UNUSED(result);  two::add_planeY(*static_cast<two::MarchingCubes*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
-void two_add_planeZ_9(span<void*> args, void*& result) { UNUSED(result);  two::add_planeZ(*static_cast<two::MarchingCubes*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
+void two_distribute_poisson_2(span<void*> args, void*& result) { (*static_cast<stl::vector<two::vec3>*>(result)) = two::distribute_poisson(*static_cast<two::vec2*>(args[0]), *static_cast<float*>(args[1])); }
+void two_add_ball_3(span<void*> args, void*& result) { UNUSED(result);  two::add_ball(*static_cast<two::MarchingCubes*>(args[0]), *static_cast<two::vec3*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<two::Colour*>(args[4])); }
+void two_add_ball_4(span<void*> args, void*& result) { UNUSED(result);  two::add_ball(*static_cast<two::MarchingCubes*>(args[0]), *static_cast<two::vec3*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3])); }
+void two_add_planeX_5(span<void*> args, void*& result) { UNUSED(result);  two::add_planeX(*static_cast<two::MarchingCubes*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
+void two_add_planeY_6(span<void*> args, void*& result) { UNUSED(result);  two::add_planeY(*static_cast<two::MarchingCubes*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
+void two_add_planeZ_7(span<void*> args, void*& result) { UNUSED(result);  two::add_planeZ(*static_cast<two::MarchingCubes*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
 
 namespace two
 {
@@ -1934,36 +1932,27 @@ namespace two
 			m.m_functions.push_back(&f);
 		}
 		{
-			static float distance_default = 1000.f;
-			static Function f = { &namspc({ "two" }), "to_ray", funcptr<two::Ray(*)(const two::vec3&, const two::vec3&, float)>(two::to_ray), two_to_ray_2, { { "pos", type<two::vec3>(),  }, { "dir", type<two::vec3>(),  }, { "distance", type<float>(), Param::Default, &distance_default } }, { &type<two::Ray>(), QualType::None } };
+			static Function f = { &namspc({ "two" }), "distribute_poisson", funcptr<stl::vector<two::vec3>(*)(two::vec2, float)>(two::distribute_poisson), two_distribute_poisson_2, { { "size", type<two::vec2>(),  }, { "radius", type<float>(),  } }, { &type<stl::vector<two::vec3>>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "to_segment", funcptr<two::Segment(*)(const two::Ray&)>(two::to_segment), two_to_segment_3, { { "ray", type<two::Ray>(),  } }, { &type<two::Segment>(), QualType::None } };
+			static Function f = { &namspc({ "two" }), "add_ball", funcptr<void(*)(two::MarchingCubes&, const two::vec3&, float, float, const two::Colour&)>(two::add_ball), two_add_ball_3, { { "cubes", type<two::MarchingCubes>(), Param::Reference }, { "ball", type<two::vec3>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  }, { "colour", type<two::Colour>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "distribute_poisson", funcptr<stl::vector<two::vec3>(*)(two::vec2, float)>(two::distribute_poisson), two_distribute_poisson_4, { { "size", type<two::vec2>(),  }, { "radius", type<float>(),  } }, { &type<stl::vector<two::vec3>>(), QualType::None } };
+			static Function f = { &namspc({ "two" }), "add_ball", funcptr<void(*)(two::MarchingCubes&, const two::vec3&, float, float)>(two::add_ball), two_add_ball_4, { { "cubes", type<two::MarchingCubes>(), Param::Reference }, { "ball", type<two::vec3>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "add_ball", funcptr<void(*)(two::MarchingCubes&, const two::vec3&, float, float, const two::Colour&)>(two::add_ball), two_add_ball_5, { { "cubes", type<two::MarchingCubes>(), Param::Reference }, { "ball", type<two::vec3>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  }, { "colour", type<two::Colour>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "add_planeX", funcptr<void(*)(two::MarchingCubes&, float, float)>(two::add_planeX), two_add_planeX_5, { { "cubes", type<two::MarchingCubes>(), Param::Reference }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "add_ball", funcptr<void(*)(two::MarchingCubes&, const two::vec3&, float, float)>(two::add_ball), two_add_ball_6, { { "cubes", type<two::MarchingCubes>(), Param::Reference }, { "ball", type<two::vec3>(),  }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "add_planeY", funcptr<void(*)(two::MarchingCubes&, float, float)>(two::add_planeY), two_add_planeY_6, { { "cubes", type<two::MarchingCubes>(), Param::Reference }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "add_planeX", funcptr<void(*)(two::MarchingCubes&, float, float)>(two::add_planeX), two_add_planeX_7, { { "cubes", type<two::MarchingCubes>(), Param::Reference }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static Function f = { &namspc({ "two" }), "add_planeY", funcptr<void(*)(two::MarchingCubes&, float, float)>(two::add_planeY), two_add_planeY_8, { { "cubes", type<two::MarchingCubes>(), Param::Reference }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static Function f = { &namspc({ "two" }), "add_planeZ", funcptr<void(*)(two::MarchingCubes&, float, float)>(two::add_planeZ), two_add_planeZ_9, { { "cubes", type<two::MarchingCubes>(), Param::Reference }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "add_planeZ", funcptr<void(*)(two::MarchingCubes&, float, float)>(two::add_planeZ), two_add_planeZ_7, { { "cubes", type<two::MarchingCubes>(), Param::Reference }, { "strength", type<float>(),  }, { "subtract", type<float>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

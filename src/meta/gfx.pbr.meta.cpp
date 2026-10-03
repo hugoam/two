@@ -50,13 +50,11 @@ void two_render_lightmap_17(span<void*> args, void*& result) { UNUSED(result);  
 void two_render_reflection_18(span<void*> args, void*& result) { UNUSED(result);  two::render_reflection(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
 void two_pipeline_pbr_19(span<void*> args, void*& result) { UNUSED(result);  two::pipeline_pbr(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Renderer*>(args[1]), *static_cast<bool*>(args[2])); }
 void two_gfx_setup_pipeline_pbr_20(span<void*> args, void*& result) { UNUSED(result);  two::gfx::setup_pipeline_pbr(*static_cast<two::GfxSystem*>(args[0])); }
-void two_pass_shadowmaps_21(span<void*> args, void*& result) { UNUSED(result);  two::pass_shadowmaps(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
-void two_pass_shadow_22(span<void*> args, void*& result) { UNUSED(result);  two::pass_shadow(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
-void two_gfx_gi_probe_23(span<void*> args, void*& result) { result = &two::gfx::gi_probe(*static_cast<two::Gnode*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<two::vec3*>(args[2])); }
-void two_gfx_lightmap_24(span<void*> args, void*& result) { result = &two::gfx::lightmap(*static_cast<two::Gnode*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<float*>(args[2]), *static_cast<stl::string*>(args[3])); }
-void two_pass_dofblur_25(span<void*> args, void*& result) { UNUSED(result);  two::pass_dofblur(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1]), *static_cast<two::DofBlur*>(args[2])); }
-void two_pass_glow_26(span<void*> args, void*& result) { UNUSED(result);  two::pass_glow(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1]), *static_cast<two::Glow*>(args[2])); }
-void two_pass_tonemap_27(span<void*> args, void*& result) { UNUSED(result);  two::pass_tonemap(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1]), *static_cast<two::Tonemap*>(args[2]), *static_cast<two::BCS*>(args[3])); }
+void two_gfx_gi_probe_21(span<void*> args, void*& result) { result = &two::gfx::gi_probe(*static_cast<two::Gnode*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<two::vec3*>(args[2])); }
+void two_gfx_lightmap_22(span<void*> args, void*& result) { result = &two::gfx::lightmap(*static_cast<two::Gnode*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<float*>(args[2]), *static_cast<stl::string*>(args[3])); }
+void two_pass_dofblur_23(span<void*> args, void*& result) { UNUSED(result);  two::pass_dofblur(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1]), *static_cast<two::DofBlur*>(args[2])); }
+void two_pass_glow_24(span<void*> args, void*& result) { UNUSED(result);  two::pass_glow(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1]), *static_cast<two::Glow*>(args[2])); }
+void two_pass_tonemap_25(span<void*> args, void*& result) { UNUSED(result);  two::pass_tonemap(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1]), *static_cast<two::Tonemap*>(args[2]), *static_cast<two::BCS*>(args[3])); }
 
 namespace two
 {
@@ -762,33 +760,25 @@ namespace two
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_shadowmaps", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_shadowmaps), two_pass_shadowmaps_21, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static Function f = { &namspc({ "two" }), "pass_shadow", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_shadow), two_pass_shadow_22, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static Function f = { &namspc({ "two", "gfx" }), "gi_probe", funcptr<two::GIProbe&(*)(two::Gnode&, uint16_t, const two::vec3&)>(two::gfx::gi_probe), two_gfx_gi_probe_23, { { "parent", type<two::Gnode>(), Param::Reference }, { "subdiv", type<uint16_t>(),  }, { "extents", type<two::vec3>(),  } }, { &type<two::GIProbe>(), QualType::None } };
+			static Function f = { &namspc({ "two", "gfx" }), "gi_probe", funcptr<two::GIProbe&(*)(two::Gnode&, uint16_t, const two::vec3&)>(two::gfx::gi_probe), two_gfx_gi_probe_21, { { "parent", type<two::Gnode>(), Param::Reference }, { "subdiv", type<uint16_t>(),  }, { "extents", type<two::vec3>(),  } }, { &type<two::GIProbe>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float density_default = 8.f;
 			static stl::string save_path_default = "";
-			static Function f = { &namspc({ "two", "gfx" }), "lightmap", funcptr<two::LightmapAtlas&(*)(two::Gnode&, uint32_t, float, const stl::string&)>(two::gfx::lightmap), two_gfx_lightmap_24, { { "parent", type<two::Gnode>(), Param::Reference }, { "resolution", type<uint32_t>(),  }, { "density", type<float>(), Param::Default, &density_default }, { "save_path", type<stl::string>(), Param::Default, &save_path_default } }, { &type<two::LightmapAtlas>(), QualType::None } };
+			static Function f = { &namspc({ "two", "gfx" }), "lightmap", funcptr<two::LightmapAtlas&(*)(two::Gnode&, uint32_t, float, const stl::string&)>(two::gfx::lightmap), two_gfx_lightmap_22, { { "parent", type<two::Gnode>(), Param::Reference }, { "resolution", type<uint32_t>(),  }, { "density", type<float>(), Param::Default, &density_default }, { "save_path", type<stl::string>(), Param::Default, &save_path_default } }, { &type<two::LightmapAtlas>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_dofblur", funcptr<void(*)(two::GfxSystem&, two::Render&, const two::DofBlur&)>(two::pass_dofblur), two_pass_dofblur_25, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference }, { "blur", type<two::DofBlur>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_dofblur", funcptr<void(*)(two::GfxSystem&, two::Render&, const two::DofBlur&)>(two::pass_dofblur), two_pass_dofblur_23, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference }, { "blur", type<two::DofBlur>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_glow", funcptr<void(*)(two::GfxSystem&, two::Render&, two::Glow&)>(two::pass_glow), two_pass_glow_26, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference }, { "glow", type<two::Glow>(), Param::Reference } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_glow", funcptr<void(*)(two::GfxSystem&, two::Render&, two::Glow&)>(two::pass_glow), two_pass_glow_24, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference }, { "glow", type<two::Glow>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_tonemap", funcptr<void(*)(two::GfxSystem&, two::Render&, two::Tonemap&, two::BCS&)>(two::pass_tonemap), two_pass_tonemap_27, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference }, { "tonemap", type<two::Tonemap>(), Param::Reference }, { "bcs", type<two::BCS>(), Param::Reference } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_tonemap", funcptr<void(*)(two::GfxSystem&, two::Render&, two::Tonemap&, two::BCS&)>(two::pass_tonemap), two_pass_tonemap_25, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference }, { "tonemap", type<two::Tonemap>(), Param::Reference }, { "bcs", type<two::BCS>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}
