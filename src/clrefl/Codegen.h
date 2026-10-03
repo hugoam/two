@@ -252,7 +252,9 @@ namespace clgen
 
 	string param_default(const CLCallable& f, const CLParam& p)
 	{
-		return p.m_default == "" ? "" : ", &" + param_default_name(f, p);
+		// the default of a pointer parameter (including a cstring) is the pointer itself, see val()
+		if(p.m_default == "") return "";
+		return p.m_type.pointer() ? ", (void*)" + param_default_name(f, p) : ", &" + param_default_name(f, p);
 	}
 
 	string param_forward(const CLParam& p, size_t index)
@@ -264,8 +266,10 @@ namespace clgen
 
 	string param_flags(const CLParam& p)
 	{
-		bool flags[] = { p.m_type.nullable(), p.m_output, p.m_has_default };
-		string labels[] = { "Param::Nullable", "Param::Output", "Param::Default" };
+		// a cstring is passed as a value, and a const reference as a value too, since it binds to a temporary
+		const bool cstring = p.m_type.m_type && p.m_type.m_type->iscstring();
+		bool flags[] = { p.m_type.nullable() && !cstring, p.m_type.reference() && !p.m_type.isconst(), p.m_output, p.m_has_default };
+		string labels[] = { "Param::Nullable", "Param::Reference", "Param::Output", "Param::Default" };
 		return orflags("Param::Flags", flags, labels, "");
 	}
 
@@ -420,16 +424,27 @@ namespace clgen
 	}
 #endif
 
+	// the default value of a member is the one in its declaration, or a value initialized one when its type can be default constructed
+	string member_default_value(const CLMember& m)
+	{
+		if(m.m_default != "")
+			return m.m_default;
+		const CLType& t = *m.m_type.m_type;
+		if(m.m_type.value() && !m.m_type.m_array && t.copyable() && t.m_default_constructible)
+			return t.m_id + "()";
+		return "";
+	}
+
 	string member_default_decl(const CLType& c, const CLMember& m)
 	{
 		UNUSED(c);
-		return  "static " + type_decl(m.m_type) + " " + m.m_name + "_default = " + m.m_default + ";";
+		return  "static " + type_decl(m.m_type) + " " + m.m_name + "_default = " + member_default_value(m) + ";";
 	}
 
 	string member_default(const CLType& c, const CLMember& m)
 	{
 		UNUSED(c);
-		return m.m_default != "" ? string(m.m_type.pointer() ? "" : "&") + m.m_name + "_default" : "nullptr";
+		return member_default_value(m) != "" ? string(m.m_type.pointer() ? "" : "&") + m.m_name + "_default" : "nullptr";
 	}
 
 	string method_body(const CLType& c, const CLMethod& m)
@@ -462,6 +477,33 @@ namespace clgen
 	string method_func(const CLType& c, const CLMethod& m)
 	{
 		return id(c, m.m_name);
+	}
+#endif
+
+	string default_constructor_body(const CLType& c)
+	{
+		return "new(stl::placeholder(), ref) " + c.m_id + "();";
+	}
+
+#if LAMBDAS
+	string default_constructor_lambda(const CLType& c)
+	{
+		return "[](void* ref) { " + default_constructor_body(c) + " }";
+	}
+
+	string default_constructor_func(const CLType& c)
+	{
+		return default_constructor_lambda(c);
+	}
+#else
+	string default_constructor_def(const CLType& c)
+	{
+		return "void " + id(c, "_default_construct") + "(void* ref) { " + default_constructor_body(c) + " }";
+	}
+
+	string default_constructor_func(const CLType& c)
+	{
+		return id(c, "_default_construct");
 	}
 #endif
 
@@ -518,6 +560,11 @@ namespace clgen
 		return id(c, "_copy_construct");
 	}
 #endif
+
+	string default_constructor_decl(const CLType& c)
+	{
+		return "t, " + default_constructor_func(c);
+	}
 
 	string constructor_decl(const CLType& c, const CLConstructor& ctor)
 	{
@@ -588,7 +635,7 @@ namespace clgen
 	void write_line(string& t, int& i, const string& s, bool spaces = false, bool noendl = false)
 	{
 		if(s[0] == '}') --i;
-		if(t.back() == '\n')
+		if(t.empty() || t.back() == '\n')
 			for(size_t c = 0; c < i; ++c) t += spaces ? "    " : "\t";
 		t += s;
 		if(!noendl) t += "\n";
@@ -770,7 +817,7 @@ namespace clgen
 
 		auto empty_val_decl = [&](const CLType& t)
 		{
-			p("g_meta[t.m_id]->m_empty_var = var(" + t.m_id + "());");
+			p("meta.m_empty_var = var(" + t.m_id + "());");
 		};
 
 		auto convert_decl = [&](const CLType& t)
@@ -813,13 +860,6 @@ namespace clgen
 		p("using namespace two;");
 		p("");
 
-		// the enum string converters below name string, which the module only sees as stl::string
-		if(has_pred(m.m_enums, [](const unique<CLEnum>& e) { return e->m_reflect; }))
-		{
-			p("namespace two { using stl::string; }");
-			p("");
-		}
-
 #if !LAMBDAS
 		for(auto& pe : m.m_enums)
 			if(pe->m_reflect)
@@ -847,12 +887,14 @@ namespace clgen
 			if(pc->m_reflect)
 			{
 				CLClass& c = *pc;
+				if(c.m_default_constructor)
+					p(default_constructor_def(c));
+				if(c.m_struct && !c.m_move_only)
+					p(copy_constructor_def(c));
 				for(CLConstructor& ctor : c.m_constructors)
 				{
 					p(constructor_def(c, ctor));
 				}
-				if(c.m_struct && !c.m_move_only)
-					p(copy_constructor_def(c));
 				for(CLMember& a : c.m_members)
 				{
 					if(a.m_method || a.m_type.reference())
@@ -936,6 +978,7 @@ namespace clgen
 				p("Type& t = " + type_get(s) + ";");
 				p(meta_decl(s, "TypeClass::Sequence"));
 				p("static Class cls = { t };");
+				empty_val_decl(s);
 				iterable_decl(s, *s.m_element_type, s.m_element);
 				if(s.m_name.find("vector") != string::npos)
 					sequence_decl(s, s.m_element);
@@ -961,7 +1004,7 @@ namespace clgen
 				}
 				p("// defaults");
 				for(CLMember& a : c.m_members)
-					if(a.m_default != "")
+					if(member_default_value(a) != "")
 						p(member_default_decl(c, a));
 				for(CLConstructor& f : c.m_constructors)
 					for(const CLParam& a : f.m_params)
@@ -971,12 +1014,11 @@ namespace clgen
 					for(const CLParam& a : f.m_params)
 						if(a.m_has_default)
 							p(param_default_decl(f, a));
-				p("// constructors");
-				if(c.m_constructors.size() > 0)
+				p("// default constructor");
+				if(c.m_default_constructor)
 				{
-					p("static Constructor constructors[] = {");
-					for(CLConstructor& ctor : c.m_constructors)
-						p("{ " + constructor_decl(c, ctor) + " }" + (&ctor == &c.m_constructors.back() ? "" : ","));
+					p("static DefaultConstructor default_constructor[] = {");
+					p("{ " + default_constructor_decl(c) + " }");
 					p("};");
 				}
 				p("// copy constructor");
@@ -984,6 +1026,14 @@ namespace clgen
 				{
 					p("static CopyConstructor copy_constructor[] = {");
 					p("{ " + copy_constructor_decl(c) + " }");
+					p("};");
+				}
+				p("// constructors");
+				if(c.m_constructors.size() > 0)
+				{
+					p("static Constructor constructors[] = {");
+					for(CLConstructor& ctor : c.m_constructors)
+						p("{ " + constructor_decl(c, ctor) + " }" + (&ctor == &c.m_constructors.back() ? "" : ","));
 					p("};");
 				}
 				p("// members");
@@ -1012,13 +1062,17 @@ namespace clgen
 				}
 				p("static Class cls = { t, "
 					+ string(c.m_bases.size() > 0 ? "bases, bases_offsets, " : "{}, {}, ")
-					+ string(c.m_constructors.size() > 0 ? "constructors, " : "{}, ")
+					+ string(c.m_default_constructor ? "default_constructor, " : "{}, ")
 					+ string(c.m_struct && !c.m_move_only ? "copy_constructor, " : "{}, ")
+					+ string(c.m_constructors.size() > 0 ? "constructors, " : "{}, ")
 					+ string(c.m_members.size() > 0 ? "members, " : "{}, ")
 					+ string(c.m_methods.size() > 0 ? "methods, " : "{}, ")
 					+ string(c.m_statics.size() > 0 ? "statics, " : "{}, ")
 					+ "};"
 				);
+				// the empty value is held in a Var, which copies it
+				if(c.m_default_constructor && c.m_struct && !c.m_move_only)
+					empty_val_decl(c);
 				//if(c.m_constructors.size() > 0 && !c.m_struct)
 					//p("init_pool<" + c.m_id + ">();");
 				//if(c.m_array)
@@ -1534,7 +1588,10 @@ namespace clgen
 		{
 			vector<string> check_args = transform<string>(0, n, [&](size_t i) { return js_call_check_arg(f, f.m_params[i], "a" + to_string(i)); });
 			string checks = space(check_args);
-			jsw(js_call_wrap_n(checks, n, max_args, first));
+			// a single signature without arguments has nothing to check
+			string line = js_call_wrap_n(checks, n, max_args, first);
+			if(!line.empty())
+				jsw(line);
 		};
 
 		auto js_call_check = [&](const CLCallable& f, const Overloads& o)
@@ -1774,6 +1831,9 @@ namespace clgen
 
 				OverloadMap constructors;
 
+				if(c.m_default_constructor)
+					overload(constructors, *c.m_default_constructor);
+
 				for(CLConstructor& ctor : c.m_constructors)
 				{
 					if(blacklist_callable(ctor)) continue;
@@ -1786,7 +1846,7 @@ namespace clgen
 					js_bind_callable(o);
 				}
 
-				if(c.m_constructors.empty())
+				if(constructors.empty())
 				{
 					// Ensure a constructor even if one is not specified.
 					jsw(js_supress + "function " + name(c) + "() { throw \"cannot construct a " + c.m_name + ", no constructor in IDL\" }");

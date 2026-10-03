@@ -330,6 +330,7 @@ namespace two
 		bool m_nested = false;
 		bool m_struct = true;
 		bool m_move_only = false;
+		bool m_default_constructible = true;
 		bool m_pointer = false;
 
 		bool m_array = false;
@@ -386,8 +387,8 @@ namespace two
 		bool operator==(const CLQualType& o) const { return m_type == o.m_type && m_spelling == o.m_spelling; }
 		bool operator!=(const CLQualType& o) const { return !(*this == o); }
 
-		bool pointer() const { return m_spelling.back() == '*'; }
-		bool reference() const { return m_spelling.back() == '&'; }
+		bool pointer() const { return !m_spelling.empty() && m_spelling.back() == '*'; }
+		bool reference() const { return !m_spelling.empty() && m_spelling.back() == '&'; }
 		bool isconst() const { return m_spelling.substr(0, 5) == "const"; }
 		bool value() const { return !this->pointer() && !this->reference(); }
 		bool memvalue() const { return m_type->m_struct && !this->pointer(); }
@@ -546,6 +547,7 @@ namespace two
 		vector<CLClass*> m_bases;
 		vector<CLClass*> m_deep_bases;
 
+		unique<CLConstructor> m_default_constructor = {};
 		vector<CLConstructor> m_constructors;
 		vector<CLMember> m_members;
 		vector<CLMethod> m_methods;
