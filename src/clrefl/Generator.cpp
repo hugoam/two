@@ -351,25 +351,6 @@ namespace two
 		s.m_name = replace(spelling(cursor), "m_", "");
 	}
 	
-	// fully qualified name of a declaration, from its semantic parents (e.g. two::Render::s_render_pass_id)
-	string qualified_name(CXCursor cursor)
-	{
-		string name = spelling(cursor);
-		for(CXCursor p = clang_getCursorSemanticParent(cursor); !clang_Cursor_isNull(p) && p.kind != CXCursor_TranslationUnit; p = clang_getCursorSemanticParent(p))
-			name = spelling(p) + "::" + name;
-		return name;
-	}
-
-	// the reference expression in an expression, looking through the implicit nodes (casts) wrapping it
-	CXCursor find_decl_ref(CXCursor expr)
-	{
-		if(expr.kind == CXCursor_DeclRefExpr)
-			return expr;
-		CXCursor found = clang_getNullCursor();
-		visit_children(expr, [&](CXCursor c) { if(clang_Cursor_isNull(found)) found = find_decl_ref(c); });
-		return found;
-	}
-
 	void find_default_value(CXCursor cursor, CLType& value_type, bool& has_default, string& default_value)
 	{
 		if(type(cursor).kind == CXType_ConstantArray)
@@ -388,23 +369,6 @@ namespace two
 			else if(has({ CXCursor_BinaryOperator, CXCursor_UnaryOperator, CXCursor_CallExpr, CXCursor_DeclRefExpr, CXCursor_UnexposedExpr }, c.kind))
 			{
 				has_default = true;
-
-				// a static member of a class used on its own (e.g. a member default = s_render_pass_id) is qualified with its class,
-				// the generated code lives outside of it
-				size_t num_tokens = 0;
-				visit_tokens(c, [&](CXToken) { num_tokens++; });
-				const CXCursor ref = find_decl_ref(c);
-				if(num_tokens == 1 && !clang_Cursor_isNull(ref))
-				{
-					const CXCursor decl = clang_getCursorReferenced(ref);
-					const CXCursor scope = clang_getCursorSemanticParent(decl);
-					if(decl.kind == CXCursor_VarDecl && (scope.kind == CXCursor_StructDecl || scope.kind == CXCursor_ClassDecl))
-					{
-						default_value = qualified_name(decl);
-						return;
-					}
-				}
-
 				visit_tokens(c, [&](CXToken t) {
 					string token = spelling(c, t);
 					// a bare reference to the value type (e.g. Palette() or Colour::White) is qualified, the generated code lives outside its namespace

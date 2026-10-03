@@ -189,7 +189,7 @@ namespace two
 		//ShadowAtlas* m_shadow_atlas = nullptr;
 		//ReflectionAtlas* m_reflection_atlas = nullptr;
 
-		attr_ uint8_t m_pass_index = s_render_pass_id;
+		attr_ uint8_t m_pass_index = Render::s_render_pass_id;
 
 		uint8_t m_picking_pass_index = s_picking_pass_id;
 		uint8_t m_debug_pass_index = s_debug_pass_id;
