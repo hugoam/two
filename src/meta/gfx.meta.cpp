@@ -116,9 +116,9 @@ void two_Node3__default_construct(void* ref) { new(stl::placeholder(), ref) two:
 void two_Node3__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Node3( *static_cast<two::vec3*>(args[0]), *static_cast<two::quat*>(args[1]), *static_cast<two::vec3*>(args[2]) ); }
 void two_Node3_apply(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Node3*>(object)).apply(*static_cast<two::vec3*>(args[0]), *static_cast<two::quat*>(args[1]), *static_cast<two::vec3*>(args[2])); }
 void two_Node3_derive(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Node3*>(object)).derive(*static_cast<two::Node3*>(args[0]), *static_cast<two::vec3*>(args[1]), *static_cast<two::quat*>(args[2]), *static_cast<two::vec3*>(args[3])); }
-void two_Node3_position(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<two::v3<float>*>(result)) = (*static_cast<two::Node3*>(object)).position(); }
-void two_Node3_axis(void* object, span<void*> args, void*& result) { (*static_cast<two::v3<float>*>(result)) = (*static_cast<two::Node3*>(object)).axis(*static_cast<two::vec3*>(args[0])); }
-void two_Node3_direction(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<two::v3<float>*>(result)) = (*static_cast<two::Node3*>(object)).direction(); }
+void two_Node3_position(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<two::vec3*>(result)) = (*static_cast<two::Node3*>(object)).position(); }
+void two_Node3_axis(void* object, span<void*> args, void*& result) { (*static_cast<two::vec3*>(result)) = (*static_cast<two::Node3*>(object)).axis(*static_cast<two::vec3*>(args[0])); }
+void two_Node3_direction(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<two::vec3*>(result)) = (*static_cast<two::Node3*>(object)).direction(); }
 void two_Texture__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Texture( *static_cast<stl::string*>(args[0]) ); }
 void two_Texture__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Texture( *static_cast<two::uvec2*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<two::TextureFormat*>(args[2]), *static_cast<uint64_t*>(args[3]), *static_cast<bool*>(args[4]) ); }
 void two_Texture_valid(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<two::Texture*>(object)).valid(); }
@@ -168,7 +168,7 @@ void two_ProgramVersion__construct_0(void* ref, span<void*> args) { new(stl::pla
 void two_ProgramVersion_clear(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::ProgramVersion*>(object)).clear(); }
 void two_ProgramVersion_set_option(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ProgramVersion*>(object)).set_option(*static_cast<uint8_t*>(args[0]), *static_cast<uint8_t*>(args[1]), *static_cast<bool*>(args[2])); }
 void two_ProgramVersion_set_mode(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ProgramVersion*>(object)).set_mode(*static_cast<uint8_t*>(args[0]), *static_cast<uint8_t*>(args[1]), *static_cast<uint8_t*>(args[2])); }
-void two_ProgramVersion_hash(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<ullong*>(result)) = (*static_cast<two::ProgramVersion*>(object)).hash(); }
+void two_ProgramVersion_hash(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<uint64_t*>(result)) = (*static_cast<two::ProgramVersion*>(object)).hash(); }
 void two_Pass__default_construct(void* ref) { new(stl::placeholder(), ref) two::Pass(); }
 void two_Pass__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Pass((*static_cast<two::Pass*>(other))); }
 void two_RenderFrame__default_construct(void* ref) { new(stl::placeholder(), ref) two::RenderFrame(); }
@@ -305,8 +305,8 @@ void two_AssetStore_two_Prefab_clear(void* object, span<void*> args, void*& resu
 void two_Camera_set_look_at(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Camera*>(object)).set_look_at(*static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1])); }
 void two_Camera_set_isometric(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Camera*>(object)).set_isometric(*static_cast<two::IsometricAngle*>(args[0]), *static_cast<two::vec3*>(args[1])); }
 void two_Camera_ray(void* object, span<void*> args, void*& result) { (*static_cast<two::Ray*>(result)) = (*static_cast<two::Camera*>(object)).ray(*static_cast<two::vec2*>(args[0])); }
-void two_Camera_transform(void* object, span<void*> args, void*& result) { (*static_cast<two::v3<float>*>(result)) = (*static_cast<two::Camera*>(object)).transform(*static_cast<two::vec3*>(args[0])); }
-void two_Camera_project(void* object, span<void*> args, void*& result) { (*static_cast<two::v3<float>*>(result)) = (*static_cast<two::Camera*>(object)).project(*static_cast<two::vec3*>(args[0])); }
+void two_Camera_transform(void* object, span<void*> args, void*& result) { (*static_cast<two::vec3*>(result)) = (*static_cast<two::Camera*>(object)).transform(*static_cast<two::vec3*>(args[0])); }
+void two_Camera_project(void* object, span<void*> args, void*& result) { (*static_cast<two::vec3*>(result)) = (*static_cast<two::Camera*>(object)).project(*static_cast<two::vec3*>(args[0])); }
 void two_MirrorCamera__default_construct(void* ref) { new(stl::placeholder(), ref) two::MirrorCamera(); }
 void two_MirrorCamera__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::MirrorCamera((*static_cast<two::MirrorCamera*>(other))); }
 void two_DepthParams__default_construct(void* ref) { new(stl::placeholder(), ref) two::DepthParams(); }
@@ -440,9 +440,9 @@ void two_bxscale_3(span<void*> args, void*& result) { (*static_cast<two::mat4*>(
 void two_bxrotation_4(span<void*> args, void*& result) { (*static_cast<two::mat4*>(result)) = two::bxrotation(*static_cast<two::quat*>(args[0])); }
 void two_bxtranslation_5(span<void*> args, void*& result) { (*static_cast<two::mat4*>(result)) = two::bxtranslation(*static_cast<two::vec3*>(args[0])); }
 void two_bxmul_6(span<void*> args, void*& result) { (*static_cast<two::mat4*>(result)) = two::bxmul(*static_cast<two::mat4*>(args[0]), *static_cast<two::mat4*>(args[1])); }
-void two_bxmul_7(span<void*> args, void*& result) { (*static_cast<two::v4<float>*>(result)) = two::bxmul(*static_cast<two::mat4*>(args[0]), *static_cast<two::vec4*>(args[1])); }
-void two_bxmul_8(span<void*> args, void*& result) { (*static_cast<two::v3<float>*>(result)) = two::bxmul(*static_cast<two::mat4*>(args[0]), *static_cast<two::vec3*>(args[1])); }
-void two_bxmulh_9(span<void*> args, void*& result) { (*static_cast<two::v3<float>*>(result)) = two::bxmulh(*static_cast<two::mat4*>(args[0]), *static_cast<two::vec3*>(args[1])); }
+void two_bxmul_7(span<void*> args, void*& result) { (*static_cast<two::vec4*>(result)) = two::bxmul(*static_cast<two::mat4*>(args[0]), *static_cast<two::vec4*>(args[1])); }
+void two_bxmul_8(span<void*> args, void*& result) { (*static_cast<two::vec3*>(result)) = two::bxmul(*static_cast<two::mat4*>(args[0]), *static_cast<two::vec3*>(args[1])); }
+void two_bxmulh_9(span<void*> args, void*& result) { (*static_cast<two::vec3*>(result)) = two::bxmulh(*static_cast<two::mat4*>(args[0]), *static_cast<two::vec3*>(args[1])); }
 void two_bxlookat_10(span<void*> args, void*& result) { (*static_cast<two::mat4*>(result)) = two::bxlookat(*static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1])); }
 void two_bxlookat_11(span<void*> args, void*& result) { UNUSED(result);  two::bxlookat(*static_cast<two::mat4*>(args[0]), *static_cast<two::vec3*>(args[1]), *static_cast<two::vec3*>(args[2]), *static_cast<two::vec3*>(args[3])); }
 void two_bxlookat_12(span<void*> args, void*& result) { (*static_cast<two::mat4*>(result)) = two::bxlookat(*static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1]), *static_cast<two::vec3*>(args[2])); }
@@ -1034,7 +1034,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Node3", sizeof(two::Node3), TypeClass::Object };
 		// bases
 		// defaults
-		static uint32_t parent_default = uint();
 		static two::mat4 transform_default = bxidentity();
 		static two::quat construct_0_rotation_default = ZeroQuat;
 		static two::vec3 construct_0_scale_default = vec3(1.f);
@@ -1053,7 +1052,7 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Node3, m_parent), type<uint32_t>(), "parent", &parent_default, Member::Value, nullptr },
+			{ t, offsetof(two::Node3, m_parent), type<uint32_t>(), "parent", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Node3, m_transform), type<two::mat4>(), "transform", &transform_default, Member::Value, nullptr }
 		};
 		// methods
@@ -1073,9 +1072,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "AnimTrack", sizeof(two::AnimTrack), TypeClass::Object };
 		// bases
 		// defaults
-		static size_t node_default = ullong();
-		static stl::string node_name_default = stl::string();
-		static two::AnimTarget target_default = two::AnimTarget();
 		static two::Type* value_type_default = nullptr;
 		static float length_default = 0.f;
 		static two::Interpolation interpolation_default = two::Interpolation::Linear;
@@ -1085,9 +1081,9 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::AnimTrack, m_animation), type<two::Animation>(), "animation", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::AnimTrack, m_node), type<size_t>(), "node", &node_default, Member::Value, nullptr },
-			{ t, offsetof(two::AnimTrack, m_node_name), type<stl::string>(), "node_name", &node_name_default, Member::Value, nullptr },
-			{ t, offsetof(two::AnimTrack, m_target), type<two::AnimTarget>(), "target", &target_default, Member::Value, nullptr },
+			{ t, offsetof(two::AnimTrack, m_node), type<size_t>(), "node", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::AnimTrack, m_node_name), type<stl::string>(), "node_name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::AnimTrack, m_target), type<two::AnimTarget>(), "target", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::AnimTrack, m_value_type), type<two::Type>(), "value_type", value_type_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::AnimTrack, m_length), type<float>(), "length", &length_default, Member::Value, nullptr },
 			{ t, offsetof(two::AnimTrack, m_interpolation), type<two::Interpolation>(), "interpolation", &interpolation_default, Member::Value, nullptr }
@@ -1102,7 +1098,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Animation", sizeof(two::Animation), TypeClass::Object };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
 		static float length_default = 1.f;
 		static float step_default = 0.1f;
 		// default constructor
@@ -1110,7 +1105,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Animation, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(two::Animation, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Animation, m_length), type<float>(), "length", &length_default, Member::Value, nullptr },
 			{ t, offsetof(two::Animation, m_step), type<float>(), "step", &step_default, Member::Value, nullptr }
 		};
@@ -1124,10 +1119,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Texture", sizeof(two::Texture), TypeClass::Object };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
-		static stl::string location_default = stl::string();
-		static two::TextureFormat format_default = two::TextureFormat();
-		static two::uvec2 size_default = two::v2<uint>();
 		static uint16_t depth_default = 0;
 		static uint32_t memsize_default = 0;
 		static uint32_t bits_per_pixel_default = 0;
@@ -1155,10 +1146,10 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Texture, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
-			{ t, offsetof(two::Texture, m_location), type<stl::string>(), "location", &location_default, Member::Value, nullptr },
-			{ t, offsetof(two::Texture, m_format), type<two::TextureFormat>(), "format", &format_default, Member::Value, nullptr },
-			{ t, offsetof(two::Texture, m_size), type<two::uvec2>(), "size", &size_default, Member::Value, nullptr },
+			{ t, offsetof(two::Texture, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Texture, m_location), type<stl::string>(), "location", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Texture, m_format), type<two::TextureFormat>(), "format", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Texture, m_size), type<two::uvec2>(), "size", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Texture, m_depth), type<uint16_t>(), "depth", &depth_default, Member::Value, nullptr },
 			{ t, offsetof(two::Texture, m_memsize), type<uint32_t>(), "memsize", &memsize_default, Member::Value, nullptr },
 			{ t, offsetof(two::Texture, m_bits_per_pixel), type<uint32_t>(), "bits_per_pixel", &bits_per_pixel_default, Member::Value, nullptr },
@@ -1250,10 +1241,7 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "AnimNode", sizeof(two::AnimNode), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::vec3 position_default = two::v3<float>();
 		static two::quat rotation_default = ZeroQuat;
-		static two::vec3 scale_default = two::v3<float>();
-		static two::mat4 transform_default = two::mat4();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_AnimNode__default_construct }
@@ -1265,10 +1253,10 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::AnimNode, m_position), type<two::vec3>(), "position", &position_default, Member::Value, nullptr },
+			{ t, offsetof(two::AnimNode, m_position), type<two::vec3>(), "position", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::AnimNode, m_rotation), type<two::quat>(), "rotation", &rotation_default, Member::Value, nullptr },
-			{ t, offsetof(two::AnimNode, m_scale), type<two::vec3>(), "scale", &scale_default, Member::Value, nullptr },
-			{ t, offsetof(two::AnimNode, m_transform), type<two::mat4>(), "transform", &transform_default, Member::Value, nullptr }
+			{ t, offsetof(two::AnimNode, m_scale), type<two::vec3>(), "scale", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::AnimNode, m_transform), type<two::mat4>(), "transform", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1367,10 +1355,6 @@ namespace two
 		// defaults
 		static float fov_default = 60.f;
 		static float aspect_default = 1.f;
-		static float near_default = float();
-		static float far_default = float();
-		static two::vec3 center_default = two::v3<float>();
-		static float radius_default = float();
 		// default constructor
 		// copy constructor
 		// constructors
@@ -1378,10 +1362,10 @@ namespace two
 		static Member members[] = {
 			{ t, offsetof(two::Frustum, m_fov), type<float>(), "fov", &fov_default, Member::Value, nullptr },
 			{ t, offsetof(two::Frustum, m_aspect), type<float>(), "aspect", &aspect_default, Member::Value, nullptr },
-			{ t, offsetof(two::Frustum, m_near), type<float>(), "near", &near_default, Member::Value, nullptr },
-			{ t, offsetof(two::Frustum, m_far), type<float>(), "far", &far_default, Member::Value, nullptr },
-			{ t, offsetof(two::Frustum, m_center), type<two::vec3>(), "center", &center_default, Member::Value, nullptr },
-			{ t, offsetof(two::Frustum, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr }
+			{ t, offsetof(two::Frustum, m_near), type<float>(), "near", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Frustum, m_far), type<float>(), "far", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Frustum, m_center), type<two::vec3>(), "center", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Frustum, m_radius), type<float>(), "radius", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1414,8 +1398,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ShaderDefine", sizeof(two::ShaderDefine), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
-		static stl::string value_default = stl::string();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_ShaderDefine__default_construct }
@@ -1427,8 +1409,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ShaderDefine, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
-			{ t, offsetof(two::ShaderDefine, m_value), type<stl::string>(), "value", &value_default, Member::Value, nullptr }
+			{ t, offsetof(two::ShaderDefine, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ShaderDefine, m_value), type<stl::string>(), "value", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1441,7 +1423,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ShaderBlock", sizeof(two::ShaderBlock), TypeClass::Struct };
 		// bases
 		// defaults
-		static uint8_t index_default = uchar();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_ShaderBlock__default_construct }
@@ -1453,7 +1434,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ShaderBlock, m_index), type<uint8_t>(), "index", &index_default, Member::Value, nullptr },
+			{ t, offsetof(two::ShaderBlock, m_index), type<uint8_t>(), "index", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::ShaderBlock, m_options), type<stl::vector<stl::string>>(), "options", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::ShaderBlock, m_modes), type<stl::vector<stl::string>>(), "modes", nullptr, Member::NonMutable, nullptr }
 		};
@@ -1473,10 +1454,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ProgramMode", sizeof(two::ProgramMode), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
-		static uint32_t size_default = uint();
-		static uint32_t shift_default = uint();
-		static uint32_t mask_default = uint();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_ProgramMode__default_construct }
@@ -1488,10 +1465,10 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ProgramMode, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
-			{ t, offsetof(two::ProgramMode, size), type<uint32_t>(), "size", &size_default, Member::Value, nullptr },
-			{ t, offsetof(two::ProgramMode, shift), type<uint32_t>(), "shift", &shift_default, Member::Value, nullptr },
-			{ t, offsetof(two::ProgramMode, mask), type<uint32_t>(), "mask", &mask_default, Member::Value, nullptr }
+			{ t, offsetof(two::ProgramMode, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ProgramMode, size), type<uint32_t>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ProgramMode, shift), type<uint32_t>(), "shift", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ProgramMode, mask), type<uint32_t>(), "mask", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1533,7 +1510,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Program", sizeof(two::Program), TypeClass::Object };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
 		static bool set_block_0_enabled_default = true;
 		static bool set_pass_0_enabled_default = true;
 		// default constructor
@@ -1541,7 +1517,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Program, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr }
+			{ t, offsetof(two::Program, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
@@ -1605,13 +1581,10 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Pass", sizeof(two::Pass), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
 		static two::RenderTarget* target_default = nullptr;
 		static two::FrameBuffer* fbo_default = nullptr;
 		static two::Viewport* viewport_default = nullptr;
-		static two::vec4 rect_default = two::v4<float>();
 		static uint64_t bgfx_state_default = 0;
-		static two::PassType pass_type_default = two::PassType();
 		static bool use_mrt_default = false;
 		static uint8_t index_default = 0;
 		// default constructor
@@ -1625,13 +1598,13 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Pass, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(two::Pass, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Pass, m_target), type<two::RenderTarget>(), "target", target_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::Pass, m_fbo), type<two::FrameBuffer>(), "fbo", fbo_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::Pass, m_viewport), type<two::Viewport>(), "viewport", viewport_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::Pass, m_rect), type<two::vec4>(), "rect", &rect_default, Member::Value, nullptr },
+			{ t, offsetof(two::Pass, m_rect), type<two::vec4>(), "rect", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Pass, m_bgfx_state), type<uint64_t>(), "bgfx_state", &bgfx_state_default, Member::Value, nullptr },
-			{ t, offsetof(two::Pass, m_pass_type), type<two::PassType>(), "pass_type", &pass_type_default, Member::Value, nullptr },
+			{ t, offsetof(two::Pass, m_pass_type), type<two::PassType>(), "pass_type", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Pass, m_use_mrt), type<bool>(), "use_mrt", &use_mrt_default, Member::Value, nullptr },
 			{ t, offsetof(two::Pass, m_index), type<uint8_t>(), "index", &index_default, Member::Value, nullptr }
 		};
@@ -1646,10 +1619,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "RenderFrame", sizeof(two::RenderFrame), TypeClass::Struct };
 		// bases
 		// defaults
-		static uint32_t frame_default = uint();
-		static float time_default = float();
-		static float delta_time_default = float();
-		static uint8_t render_pass_default = uchar();
 		static uint32_t nudraw_calls_default = 0;
 		static uint32_t nuvertices_default = 0;
 		static uint32_t nutriangles_default = 0;
@@ -1664,10 +1633,10 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::RenderFrame, m_frame), type<uint32_t>(), "frame", &frame_default, Member::Value, nullptr },
-			{ t, offsetof(two::RenderFrame, m_time), type<float>(), "time", &time_default, Member::Value, nullptr },
-			{ t, offsetof(two::RenderFrame, m_delta_time), type<float>(), "delta_time", &delta_time_default, Member::Value, nullptr },
-			{ t, offsetof(two::RenderFrame, m_render_pass), type<uint8_t>(), "render_pass", &render_pass_default, Member::Value, nullptr },
+			{ t, offsetof(two::RenderFrame, m_frame), type<uint32_t>(), "frame", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::RenderFrame, m_time), type<float>(), "time", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::RenderFrame, m_delta_time), type<float>(), "delta_time", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::RenderFrame, m_render_pass), type<uint8_t>(), "render_pass", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::RenderFrame, m_num_draw_calls), type<uint32_t>(), "nudraw_calls", &nudraw_calls_default, Member::Value, nullptr },
 			{ t, offsetof(two::RenderFrame, m_num_vertices), type<uint32_t>(), "nuvertices", &nuvertices_default, Member::Value, nullptr },
 			{ t, offsetof(two::RenderFrame, m_num_triangles), type<uint32_t>(), "nutriangles", &nutriangles_default, Member::Value, nullptr }
@@ -1683,14 +1652,12 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Render", sizeof(two::Render), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::Shading shading_default = two::Shading();
-		static two::vec4 rect_default = two::v4<float>();
 		static two::Zone* env_default = nullptr;
 		static two::Lighting lighting_default = two::Lighting::None;
 		static bool vflip_default = false;
 		static bool needs_mrt_default = false;
 		static bool is_mrt_default = false;
-		static uint8_t pass_index_default = two::Render::s_render_pass_id;
+		static uint8_t pass_index_default = Render::s_render_pass_id;
 		static uint8_t next_pass_0_index_default = UINT8_MAX;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
@@ -1704,12 +1671,12 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Render, m_shading), type<two::Shading>(), "shading", &shading_default, Member::Value, nullptr },
+			{ t, offsetof(two::Render, m_shading), type<two::Shading>(), "shading", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Render, m_scene), type<two::Scene>(), "scene", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::Render, m_target), type<two::RenderTarget>(), "target", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::Render, m_fbo), type<two::FrameBuffer>(), "fbo", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::Render, m_viewport), type<two::Viewport>(), "viewport", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::Render, m_rect), type<two::vec4>(), "rect", &rect_default, Member::Value, nullptr },
+			{ t, offsetof(two::Render, m_rect), type<two::vec4>(), "rect", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Render, m_camera), type<two::Camera>(), "camera", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::Render, m_frame), type<two::RenderFrame>(), "frame", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::Render, m_frustum), type<two::Frustum>(), "frustum", nullptr, Member::NonMutable, nullptr },
@@ -1808,7 +1775,6 @@ namespace two
 		static two::BlockCopy* copy_default = nullptr;
 		static two::BlockFilter* filter_default = nullptr;
 		static bool flip_y_default = false;
-		static two::RenderFrame render_frame_default = two::RenderFrame();
 		static bool add_resource_path_0_relative_default = true;
 		static bool create_model_geo_0_readback_default = false;
 		static bool create_model_geo_0_optimize_default = false;
@@ -1830,7 +1796,7 @@ namespace two
 			{ t, offsetof(two::GfxSystem, m_copy), type<two::BlockCopy>(), "copy", copy_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::GfxSystem, m_filter), type<two::BlockFilter>(), "filter", filter_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::GfxSystem, m_flip_y), type<bool>(), "flip_y", &flip_y_default, Member::Value, nullptr },
-			{ t, offsetof(two::GfxSystem, m_render_frame), type<two::RenderFrame>(), "render_frame", &render_frame_default, Member::Value, nullptr },
+			{ t, offsetof(two::GfxSystem, m_render_frame), type<two::RenderFrame>(), "render_frame", nullptr, Member::Value, nullptr },
 			{ t, SIZE_MAX, type<two::AssetStore<two::Texture>>(), "textures", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_GfxSystem__get_textures },
 			{ t, SIZE_MAX, type<two::AssetStore<two::Program>>(), "programs", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_GfxSystem__get_programs },
 			{ t, SIZE_MAX, type<two::AssetStore<two::Material>>(), "materials", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_GfxSystem__get_materials },
@@ -1861,7 +1827,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "MaterialParam<two::Colour>", sizeof(two::MaterialParam<two::Colour>), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::Colour value_default = two::Colour();
 		static two::Texture* texture_default = nullptr;
 		static two::TextureChannel channel_default = two::TextureChannel::All;
 		// default constructor
@@ -1875,7 +1840,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::MaterialParam<two::Colour>, m_value), type<two::Colour>(), "value", &value_default, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialParam<two::Colour>, m_value), type<two::Colour>(), "value", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialParam<two::Colour>, m_texture), type<two::Texture>(), "texture", texture_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::MaterialParam<two::Colour>, m_channel), type<two::TextureChannel>(), "channel", &channel_default, Member::Value, nullptr }
 		};
@@ -1890,7 +1855,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "MaterialParam<float>", sizeof(two::MaterialParam<float>), TypeClass::Struct };
 		// bases
 		// defaults
-		static float value_default = float();
 		static two::Texture* texture_default = nullptr;
 		static two::TextureChannel channel_default = two::TextureChannel::All;
 		// default constructor
@@ -1904,7 +1868,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::MaterialParam<float>, m_value), type<float>(), "value", &value_default, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialParam<float>, m_value), type<float>(), "value", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialParam<float>, m_texture), type<two::Texture>(), "texture", texture_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::MaterialParam<float>, m_channel), type<two::TextureChannel>(), "channel", &channel_default, Member::Value, nullptr }
 		};
@@ -1919,7 +1883,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "MaterialParam<two::vec4>", sizeof(two::MaterialParam<two::vec4>), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::vec4 value_default = two::v4<float>();
 		static two::Texture* texture_default = nullptr;
 		static two::TextureChannel channel_default = two::TextureChannel::All;
 		// default constructor
@@ -1933,7 +1896,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::MaterialParam<two::vec4>, m_value), type<two::vec4>(), "value", &value_default, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialParam<two::vec4>, m_value), type<two::vec4>(), "value", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialParam<two::vec4>, m_texture), type<two::Texture>(), "texture", texture_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::MaterialParam<two::vec4>, m_channel), type<two::TextureChannel>(), "channel", &channel_default, Member::Value, nullptr }
 		};
@@ -1959,7 +1922,6 @@ namespace two
 		static two::ShaderColor shader_color_default = two::ShaderColor::Shader;
 		static bool flat_shaded_default = false;
 		static bool screen_filter_default = false;
-		static float anisotropy_default = float();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_MaterialBase__default_construct }
@@ -1982,7 +1944,7 @@ namespace two
 			{ t, offsetof(two::MaterialBase, m_shader_color), type<two::ShaderColor>(), "shader_color", &shader_color_default, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialBase, m_flat_shaded), type<bool>(), "flat_shaded", &flat_shaded_default, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialBase, m_screen_filter), type<bool>(), "screen_filter", &screen_filter_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialBase, m_anisotropy), type<float>(), "anisotropy", &anisotropy_default, Member::Value, nullptr }
+			{ t, offsetof(two::MaterialBase, m_anisotropy), type<float>(), "anisotropy", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -2001,12 +1963,6 @@ namespace two
 		static two::Texture* tex3_default = nullptr;
 		static two::Texture* tex4_default = nullptr;
 		static two::Texture* tex5_default = nullptr;
-		static two::vec4 attr0_default = two::v4<float>();
-		static two::vec4 attr1_default = two::v4<float>();
-		static two::vec4 attr2_default = two::v4<float>();
-		static two::vec4 attr3_default = two::v4<float>();
-		static two::vec4 attr4_default = two::v4<float>();
-		static two::vec4 attr5_default = two::v4<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_MaterialUser__default_construct }
@@ -2024,12 +1980,12 @@ namespace two
 			{ t, offsetof(two::MaterialUser, m_tex3), type<two::Texture>(), "tex3", tex3_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::MaterialUser, m_tex4), type<two::Texture>(), "tex4", tex4_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::MaterialUser, m_tex5), type<two::Texture>(), "tex5", tex5_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::MaterialUser, m_attr0), type<two::vec4>(), "attr0", &attr0_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialUser, m_attr1), type<two::vec4>(), "attr1", &attr1_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialUser, m_attr2), type<two::vec4>(), "attr2", &attr2_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialUser, m_attr3), type<two::vec4>(), "attr3", &attr3_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialUser, m_attr4), type<two::vec4>(), "attr4", &attr4_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialUser, m_attr5), type<two::vec4>(), "attr5", &attr5_default, Member::Value, nullptr }
+			{ t, offsetof(two::MaterialUser, m_attr0), type<two::vec4>(), "attr0", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialUser, m_attr1), type<two::vec4>(), "attr1", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialUser, m_attr2), type<two::vec4>(), "attr2", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialUser, m_attr3), type<two::vec4>(), "attr3", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialUser, m_attr4), type<two::vec4>(), "attr4", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialUser, m_attr5), type<two::vec4>(), "attr5", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -2195,8 +2151,6 @@ namespace two
 		static two::MaterialParam<float> bump_default = {1.f,nullptr};
 		static two::MaterialParam<float> displace_default = {1.f,nullptr};
 		static float displace_bias_default = 0.f;
-		static two::MaterialParam<float> occlusion_default = two::MaterialParam<float>();
-		static two::MaterialParam<float> lightmap_default = two::MaterialParam<float>();
 		static bool no_envmap_default = false;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
@@ -2215,8 +2169,8 @@ namespace two
 			{ t, offsetof(two::MaterialLit, m_bump), type<two::MaterialParam<float>>(), "bump", &bump_default, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialLit, m_displace), type<two::MaterialParam<float>>(), "displace", &displace_default, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialLit, m_displace_bias), type<float>(), "displace_bias", &displace_bias_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialLit, m_occlusion), type<two::MaterialParam<float>>(), "occlusion", &occlusion_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialLit, m_lightmap), type<two::MaterialParam<float>>(), "lightmap", &lightmap_default, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialLit, m_occlusion), type<two::MaterialParam<float>>(), "occlusion", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialLit, m_lightmap), type<two::MaterialParam<float>>(), "lightmap", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialLit, m_no_envmap), type<bool>(), "no_envmap", &no_envmap_default, Member::Value, nullptr }
 		};
 		// methods
@@ -2234,15 +2188,7 @@ namespace two
 		static float specular_default = 0.5f;
 		static two::MaterialParam<float> metallic_default = {0.f,nullptr,TextureChannel::Red};
 		static two::MaterialParam<float> roughness_default = {1.f,nullptr,TextureChannel::Red};
-		static two::MaterialParam<float> rim_default = two::MaterialParam<float>();
-		static float ritint_default = float();
-		static two::MaterialParam<float> clearcoat_default = two::MaterialParam<float>();
-		static float clearcoat_gloss_default = float();
-		static two::MaterialParam<float> anisotropy_default = two::MaterialParam<float>();
-		static two::MaterialParam<float> subsurface_default = two::MaterialParam<float>();
-		static two::MaterialParam<float> refraction_default = two::MaterialParam<float>();
 		static two::MaterialParam<float> depth_default = {-0.02f,nullptr};
-		static two::MaterialParam<two::Colour> transmission_default = two::MaterialParam<two::Colour>();
 		static bool deep_parallax_default = false;
 		static two::PbrDiffuseMode diffuse_mode_default = two::PbrDiffuseMode::Burley;
 		static two::PbrSpecularMode specular_mode_default = two::PbrSpecularMode::SchlickGGX;
@@ -2266,15 +2212,15 @@ namespace two
 			{ t, offsetof(two::MaterialPbr, m_specular), type<float>(), "specular", &specular_default, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialPbr, m_metallic), type<two::MaterialParam<float>>(), "metallic", &metallic_default, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialPbr, m_roughness), type<two::MaterialParam<float>>(), "roughness", &roughness_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialPbr, m_rim), type<two::MaterialParam<float>>(), "rim", &rim_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialPbr, m_rim_tint), type<float>(), "ritint", &ritint_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialPbr, m_clearcoat), type<two::MaterialParam<float>>(), "clearcoat", &clearcoat_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialPbr, m_clearcoat_gloss), type<float>(), "clearcoat_gloss", &clearcoat_gloss_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialPbr, m_anisotropy), type<two::MaterialParam<float>>(), "anisotropy", &anisotropy_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialPbr, m_subsurface), type<two::MaterialParam<float>>(), "subsurface", &subsurface_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialPbr, m_refraction), type<two::MaterialParam<float>>(), "refraction", &refraction_default, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialPbr, m_rim), type<two::MaterialParam<float>>(), "rim", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialPbr, m_rim_tint), type<float>(), "ritint", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialPbr, m_clearcoat), type<two::MaterialParam<float>>(), "clearcoat", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialPbr, m_clearcoat_gloss), type<float>(), "clearcoat_gloss", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialPbr, m_anisotropy), type<two::MaterialParam<float>>(), "anisotropy", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialPbr, m_subsurface), type<two::MaterialParam<float>>(), "subsurface", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialPbr, m_refraction), type<two::MaterialParam<float>>(), "refraction", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialPbr, m_depth), type<two::MaterialParam<float>>(), "depth", &depth_default, Member::Value, nullptr },
-			{ t, offsetof(two::MaterialPbr, m_transmission), type<two::MaterialParam<two::Colour>>(), "transmission", &transmission_default, Member::Value, nullptr },
+			{ t, offsetof(two::MaterialPbr, m_transmission), type<two::MaterialParam<two::Colour>>(), "transmission", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialPbr, m_deep_parallax), type<bool>(), "deep_parallax", &deep_parallax_default, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialPbr, m_diffuse_mode), type<two::PbrDiffuseMode>(), "diffuse_mode", &diffuse_mode_default, Member::Value, nullptr },
 			{ t, offsetof(two::MaterialPbr, m_specular_mode), type<two::PbrSpecularMode>(), "specular_mode", &specular_mode_default, Member::Value, nullptr }
@@ -2344,38 +2290,27 @@ namespace two
 		// bases
 		// defaults
 		static uint16_t index_default = 0;
-		static stl::string name_default = stl::string();
 		static bool builtin_default = false;
 		static two::Program* program_default = nullptr;
-		static two::MaterialBase base_default = two::MaterialBase();
-		static two::MaterialAlpha alpha_default = two::MaterialAlpha();
-		static two::MaterialSolid solid_default = two::MaterialSolid();
-		static two::MaterialPoint point_default = two::MaterialPoint();
-		static two::MaterialLine line_default = two::MaterialLine();
-		static two::MaterialLit lit_default = two::MaterialLit();
-		static two::MaterialPbr pbr_default = two::MaterialPbr();
-		static two::MaterialPhong phong_default = two::MaterialPhong();
-		static two::MaterialFresnel fresnel_default = two::MaterialFresnel();
-		static two::MaterialUser user_default = two::MaterialUser();
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::Material, m_index), type<uint16_t>(), "index", &index_default, Member::Value, nullptr },
-			{ t, offsetof(two::Material, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(two::Material, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Material, m_builtin), type<bool>(), "builtin", &builtin_default, Member::Value, nullptr },
 			{ t, offsetof(two::Material, m_program), type<two::Program>(), "program", program_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::Material, m_base), type<two::MaterialBase>(), "base", &base_default, Member::Value, nullptr },
-			{ t, offsetof(two::Material, m_alpha), type<two::MaterialAlpha>(), "alpha", &alpha_default, Member::Value, nullptr },
-			{ t, offsetof(two::Material, m_solid), type<two::MaterialSolid>(), "solid", &solid_default, Member::Value, nullptr },
-			{ t, offsetof(two::Material, m_point), type<two::MaterialPoint>(), "point", &point_default, Member::Value, nullptr },
-			{ t, offsetof(two::Material, m_line), type<two::MaterialLine>(), "line", &line_default, Member::Value, nullptr },
-			{ t, offsetof(two::Material, m_lit), type<two::MaterialLit>(), "lit", &lit_default, Member::Value, nullptr },
-			{ t, offsetof(two::Material, m_pbr), type<two::MaterialPbr>(), "pbr", &pbr_default, Member::Value, nullptr },
-			{ t, offsetof(two::Material, m_phong), type<two::MaterialPhong>(), "phong", &phong_default, Member::Value, nullptr },
-			{ t, offsetof(two::Material, m_fresnel), type<two::MaterialFresnel>(), "fresnel", &fresnel_default, Member::Value, nullptr },
-			{ t, offsetof(two::Material, m_user), type<two::MaterialUser>(), "user", &user_default, Member::Value, nullptr }
+			{ t, offsetof(two::Material, m_base), type<two::MaterialBase>(), "base", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Material, m_alpha), type<two::MaterialAlpha>(), "alpha", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Material, m_solid), type<two::MaterialSolid>(), "solid", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Material, m_point), type<two::MaterialPoint>(), "point", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Material, m_line), type<two::MaterialLine>(), "line", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Material, m_lit), type<two::MaterialLit>(), "lit", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Material, m_pbr), type<two::MaterialPbr>(), "pbr", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Material, m_phong), type<two::MaterialPhong>(), "phong", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Material, m_fresnel), type<two::MaterialFresnel>(), "fresnel", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Material, m_user), type<two::MaterialUser>(), "user", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -2387,11 +2322,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ModelElem", sizeof(two::ModelElem), TypeClass::Struct };
 		// bases
 		// defaults
-		static size_t index_default = ullong();
-		static bool has_transform_default = bool();
-		static two::mat4 transform_default = two::mat4();
-		static int skin_default = int();
-		static two::Colour colour_default = two::Colour();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_ModelElem__default_construct }
@@ -2403,12 +2333,12 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ModelElem, m_index), type<size_t>(), "index", &index_default, Member::Value, nullptr },
+			{ t, offsetof(two::ModelElem, m_index), type<size_t>(), "index", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::ModelElem, m_mesh), type<two::Mesh>(), "mesh", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::ModelElem, m_has_transform), type<bool>(), "has_transform", &has_transform_default, Member::Value, nullptr },
-			{ t, offsetof(two::ModelElem, m_transform), type<two::mat4>(), "transform", &transform_default, Member::Value, nullptr },
-			{ t, offsetof(two::ModelElem, m_skin), type<int>(), "skin", &skin_default, Member::Value, nullptr },
-			{ t, offsetof(two::ModelElem, m_colour), type<two::Colour>(), "colour", &colour_default, Member::Value, nullptr },
+			{ t, offsetof(two::ModelElem, m_has_transform), type<bool>(), "has_transform", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ModelElem, m_transform), type<two::mat4>(), "transform", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ModelElem, m_skin), type<int>(), "skin", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ModelElem, m_colour), type<two::Colour>(), "colour", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::ModelElem, m_material), type<two::Material>(), "material", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};
 		// methods
@@ -2422,11 +2352,8 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Model", sizeof(two::Model), TypeClass::Object };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
-		static uint16_t index_default = ushort();
 		static two::Aabb aabb_default = {vec3(0.f),vec3(0.f)};
 		static float radius_default = 0.f;
-		static two::vec3 origin_default = two::v3<float>();
 		static bool add_mesh_0_readback_default = false;
 		static int add_item_0_skin_default = -1;
 		static two::Colour add_item_0_colour_default = two::Colour::White;
@@ -2436,11 +2363,11 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Model, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
-			{ t, offsetof(two::Model, m_index), type<uint16_t>(), "index", &index_default, Member::Value, nullptr },
+			{ t, offsetof(two::Model, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Model, m_index), type<uint16_t>(), "index", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Model, m_aabb), type<two::Aabb>(), "aabb", &aabb_default, Member::Value, nullptr },
 			{ t, offsetof(two::Model, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr },
-			{ t, offsetof(two::Model, m_origin), type<two::vec3>(), "origin", &origin_default, Member::Value, nullptr }
+			{ t, offsetof(two::Model, m_origin), type<two::vec3>(), "origin", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
@@ -2459,7 +2386,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Flow", sizeof(two::Flow), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
 		static float duration_default = 1.f;
 		static float start_time_default = 0.f;
 		static bool loop_default = false;
@@ -2479,7 +2405,6 @@ namespace two
 		static two::ValueTrack<two::Colour> colour_default = {Colour::White};
 		static two::ValueTrack<float> scale_default = {0.1f};
 		static two::ValueTrack<float> sprite_frame_default = {0.f};
-		static stl::string sprite_name_default = stl::string();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Flow__default_construct }
@@ -2491,7 +2416,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Flow, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(two::Flow, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Flow, m_duration), type<float>(), "duration", &duration_default, Member::Value, nullptr },
 			{ t, offsetof(two::Flow, m_start_time), type<float>(), "start_time", &start_time_default, Member::Value, nullptr },
 			{ t, offsetof(two::Flow, m_loop), type<bool>(), "loop", &loop_default, Member::Value, nullptr },
@@ -2511,7 +2436,7 @@ namespace two
 			{ t, offsetof(two::Flow, m_colour), type<two::ValueTrack<two::Colour>>(), "colour", &colour_default, Member::Value, nullptr },
 			{ t, offsetof(two::Flow, m_scale), type<two::ValueTrack<float>>(), "scale", &scale_default, Member::Value, nullptr },
 			{ t, offsetof(two::Flow, m_sprite_frame), type<two::ValueTrack<float>>(), "sprite_frame", &sprite_frame_default, Member::Value, nullptr },
-			{ t, offsetof(two::Flow, m_sprite_name), type<stl::string>(), "sprite_name", &sprite_name_default, Member::Value, nullptr }
+			{ t, offsetof(two::Flow, m_sprite_name), type<stl::string>(), "sprite_name", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -2568,7 +2493,6 @@ namespace two
 		// bases
 		// defaults
 		static two::Item* item_default = nullptr;
-		static uint16_t stride_default = ushort();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Batch__default_construct }
@@ -2584,7 +2508,7 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::Batch, m_item), type<two::Item>(), "item", item_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::Batch, m_stride), type<uint16_t>(), "stride", &stride_default, Member::Value, nullptr }
+			{ t, offsetof(two::Batch, m_stride), type<uint16_t>(), "stride", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
@@ -2613,7 +2537,6 @@ namespace two
 		static bool visible_default = true;
 		static two::ItemShadow shadow_default = two::ItemShadow::Default;
 		static two::Rig* rig_default = nullptr;
-		static two::Aabb aabb_default = two::Aabb();
 		static two::Batch* batch_default = nullptr;
 		static uint32_t construct_0_flags_default = 0;
 		static two::Material* construct_0_material_default = nullptr;
@@ -2636,7 +2559,7 @@ namespace two
 			{ t, offsetof(two::Item, m_visible), type<bool>(), "visible", &visible_default, Member::Value, nullptr },
 			{ t, offsetof(two::Item, m_shadow), type<two::ItemShadow>(), "shadow", &shadow_default, Member::Value, nullptr },
 			{ t, offsetof(two::Item, m_rig), type<two::Rig>(), "rig", rig_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::Item, m_aabb), type<two::Aabb>(), "aabb", &aabb_default, Member::Value, nullptr },
+			{ t, offsetof(two::Item, m_aabb), type<two::Aabb>(), "aabb", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Item, m_batch), type<two::Batch>(), "batch", batch_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};
 		// methods
@@ -2653,11 +2576,8 @@ namespace two
 		// bases
 		// defaults
 		static two::ModelFormat format_default = two::ModelFormat::obj;
-		static two::vec3 position_default = two::v3<float>();
 		static two::quat rotation_default = ZeroQuat;
-		static two::vec3 scale_default = two::v3<float>();
 		static two::mat4 transform_default = bxidentity();
-		static stl::string suffix_default = stl::string();
 		static bool force_reimport_default = false;
 		static bool cache_geometry_default = false;
 		static bool optimize_geometry_default = false;
@@ -2677,15 +2597,15 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::ImportConfig, m_format), type<two::ModelFormat>(), "format", &format_default, Member::Value, nullptr },
-			{ t, offsetof(two::ImportConfig, m_position), type<two::vec3>(), "position", &position_default, Member::Value, nullptr },
+			{ t, offsetof(two::ImportConfig, m_position), type<two::vec3>(), "position", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::ImportConfig, m_rotation), type<two::quat>(), "rotation", &rotation_default, Member::Value, nullptr },
-			{ t, offsetof(two::ImportConfig, m_scale), type<two::vec3>(), "scale", &scale_default, Member::Value, nullptr },
+			{ t, offsetof(two::ImportConfig, m_scale), type<two::vec3>(), "scale", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::ImportConfig, m_transform), type<two::mat4>(), "transform", &transform_default, Member::Value, nullptr },
 			{ t, offsetof(two::ImportConfig, m_exclude_elements), type<stl::vector<stl::string>>(), "exclude_elements", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::ImportConfig, m_exclude_materials), type<stl::vector<stl::string>>(), "exclude_materials", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::ImportConfig, m_include_elements), type<stl::vector<stl::string>>(), "include_elements", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::ImportConfig, m_include_materials), type<stl::vector<stl::string>>(), "include_materials", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::ImportConfig, m_suffix), type<stl::string>(), "suffix", &suffix_default, Member::Value, nullptr },
+			{ t, offsetof(two::ImportConfig, m_suffix), type<stl::string>(), "suffix", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::ImportConfig, m_force_reimport), type<bool>(), "force_reimport", &force_reimport_default, Member::Value, nullptr },
 			{ t, offsetof(two::ImportConfig, m_cache_geometry), type<bool>(), "cache_geometry", &cache_geometry_default, Member::Value, nullptr },
 			{ t, offsetof(two::ImportConfig, m_optimize_geometry), type<bool>(), "optimize_geometry", &optimize_geometry_default, Member::Value, nullptr },
@@ -2705,19 +2625,15 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Import", sizeof(two::Import), TypeClass::Object };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
-		static stl::string file_default = stl::string();
-		static stl::string path_default = stl::string();
-		static two::ImportConfig config_default = two::ImportConfig();
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Import, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
-			{ t, offsetof(two::Import, m_file), type<stl::string>(), "file", &file_default, Member::Value, nullptr },
-			{ t, offsetof(two::Import, m_path), type<stl::string>(), "path", &path_default, Member::Value, nullptr },
-			{ t, offsetof(two::Import, m_config), type<two::ImportConfig>(), "config", &config_default, Member::Value, nullptr },
+			{ t, offsetof(two::Import, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Import, m_file), type<stl::string>(), "file", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Import, m_path), type<stl::string>(), "path", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Import, m_config), type<two::ImportConfig>(), "config", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Import, m_meshes), type<stl::vector<two::Mesh*>>(), "meshes", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::Import, m_models), type<stl::vector<two::Model*>>(), "models", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::Import, m_images), type<stl::vector<two::Texture*>>(), "images", nullptr, Member::NonMutable, nullptr },
@@ -2734,14 +2650,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Prefab", sizeof(two::Prefab), TypeClass::Object };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
 		static two::Mime* add_0_mime_default = nullptr;
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Prefab, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr }
+			{ t, offsetof(two::Prefab, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
@@ -2901,10 +2816,7 @@ namespace two
 		// bases
 		// defaults
 		static two::vec3 eye_default = z3;
-		static two::vec3 target_default = two::v3<float>();
 		static two::vec3 up_default = y3;
-		static two::mat4 view_default = two::mat4();
-		static two::mat4 proj_default = two::mat4();
 		static float fov_default = 60.f;
 		static float aspect_default = 1.f;
 		static float near_default = 0.1f;
@@ -2920,10 +2832,10 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::Camera, m_eye), type<two::vec3>(), "eye", &eye_default, Member::Value, nullptr },
-			{ t, offsetof(two::Camera, m_target), type<two::vec3>(), "target", &target_default, Member::Value, nullptr },
+			{ t, offsetof(two::Camera, m_target), type<two::vec3>(), "target", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Camera, m_up), type<two::vec3>(), "up", &up_default, Member::Value, nullptr },
-			{ t, offsetof(two::Camera, m_view), type<two::mat4>(), "view", &view_default, Member::Value, nullptr },
-			{ t, offsetof(two::Camera, m_proj), type<two::mat4>(), "proj", &proj_default, Member::Value, nullptr },
+			{ t, offsetof(two::Camera, m_view), type<two::mat4>(), "view", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Camera, m_proj), type<two::mat4>(), "proj", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Camera, m_fov), type<float>(), "fov", &fov_default, Member::Value, nullptr },
 			{ t, offsetof(two::Camera, m_aspect), type<float>(), "aspect", &aspect_default, Member::Value, nullptr },
 			{ t, offsetof(two::Camera, m_near), type<float>(), "near", &near_default, Member::Value, nullptr },
@@ -2952,7 +2864,6 @@ namespace two
 		// bases
 		// defaults
 		static bool visible_default = false;
-		static two::mat4 mirror_default = two::mat4();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_MirrorCamera__default_construct }
@@ -2966,7 +2877,7 @@ namespace two
 		static Member members[] = {
 			{ t, offsetof(two::MirrorCamera, m_visible), type<bool>(), "visible", &visible_default, Member::Value, nullptr },
 			{ t, offsetof(two::MirrorCamera, m_camera), type<two::Camera>(), "camera", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::MirrorCamera, m_mirror), type<two::mat4>(), "mirror", &mirror_default, Member::Value, nullptr }
+			{ t, offsetof(two::MirrorCamera, m_mirror), type<two::mat4>(), "mirror", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -3008,7 +2919,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "DistanceParams", sizeof(two::DistanceParams), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::vec3 eye_default = two::v3<float>();
 		static float near_default = 0.f;
 		static float far_default = 1.f;
 		// default constructor
@@ -3022,7 +2932,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::DistanceParams, m_eye), type<two::vec3>(), "eye", &eye_default, Member::Value, nullptr },
+			{ t, offsetof(two::DistanceParams, m_eye), type<two::vec3>(), "eye", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::DistanceParams, m_near), type<float>(), "near", &near_default, Member::Value, nullptr },
 			{ t, offsetof(two::DistanceParams, m_far), type<float>(), "far", &far_default, Member::Value, nullptr }
 		};
@@ -3074,12 +2984,9 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Mesh", sizeof(two::Mesh), TypeClass::Object };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
-		static uint16_t index_default = ushort();
 		static two::PrimitiveType primitive_default = two::PrimitiveType::Triangles;
 		static two::Aabb aabb_default = {};
 		static float radius_default = 0.f;
-		static two::vec3 origin_default = two::v3<float>();
 		static bool readback_default = false;
 		static uint32_t vertex_format_default = 0;
 		static bool qnormals_default = false;
@@ -3089,7 +2996,6 @@ namespace two
 		static two::Material* material_default = nullptr;
 		static bool is_dynamic_default = false;
 		static bool is_direct_default = false;
-		static two::MeshAdapter cache_default = two::MeshAdapter();
 		static bool write_0_optimize_default = false;
 		static bool write_0_dynamic_default = false;
 		static bool xwrite_0_optimize_default = false;
@@ -3101,12 +3007,12 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Mesh, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
-			{ t, offsetof(two::Mesh, m_index), type<uint16_t>(), "index", &index_default, Member::Value, nullptr },
+			{ t, offsetof(two::Mesh, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Mesh, m_index), type<uint16_t>(), "index", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Mesh, m_primitive), type<two::PrimitiveType>(), "primitive", &primitive_default, Member::Value, nullptr },
 			{ t, offsetof(two::Mesh, m_aabb), type<two::Aabb>(), "aabb", &aabb_default, Member::Value, nullptr },
 			{ t, offsetof(two::Mesh, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr },
-			{ t, offsetof(two::Mesh, m_origin), type<two::vec3>(), "origin", &origin_default, Member::Value, nullptr },
+			{ t, offsetof(two::Mesh, m_origin), type<two::vec3>(), "origin", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Mesh, m_readback), type<bool>(), "readback", &readback_default, Member::Value, nullptr },
 			{ t, offsetof(two::Mesh, m_vertex_format), type<uint32_t>(), "vertex_format", &vertex_format_default, Member::Value, nullptr },
 			{ t, offsetof(two::Mesh, m_qnormals), type<bool>(), "qnormals", &qnormals_default, Member::Value, nullptr },
@@ -3116,7 +3022,7 @@ namespace two
 			{ t, offsetof(two::Mesh, m_material), type<two::Material>(), "material", material_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::Mesh, m_is_dynamic), type<bool>(), "is_dynamic", &is_dynamic_default, Member::Value, nullptr },
 			{ t, offsetof(two::Mesh, m_is_direct), type<bool>(), "is_direct", &is_direct_default, Member::Value, nullptr },
-			{ t, offsetof(two::Mesh, m_cache), type<two::MeshAdapter>(), "cache", &cache_default, Member::Value, nullptr }
+			{ t, offsetof(two::Mesh, m_cache), type<two::MeshAdapter>(), "cache", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
@@ -3328,7 +3234,6 @@ namespace two
 		static uint32_t last_update_default = 0;
 		static float spot_angle_default = 45.f;
 		static float spot_attenuation_default = 0.5f;
-		static two::ShadowFlags shadow_flags_default = two::ShadowFlags();
 		static uint8_t shadow_nusplits_default = 1;
 		static float shadow_split_distribution_default = 0.6f;
 		static float shadow_normal_bias_default = 0.1f;
@@ -3361,7 +3266,7 @@ namespace two
 			{ t, offsetof(two::Light, m_last_update), type<uint32_t>(), "last_update", &last_update_default, Member::Value, nullptr },
 			{ t, offsetof(two::Light, m_spot_angle), type<float>(), "spot_angle", &spot_angle_default, Member::Value, nullptr },
 			{ t, offsetof(two::Light, m_spot_attenuation), type<float>(), "spot_attenuation", &spot_attenuation_default, Member::Value, nullptr },
-			{ t, offsetof(two::Light, m_shadow_flags), type<two::ShadowFlags>(), "shadow_flags", &shadow_flags_default, Member::Value, nullptr },
+			{ t, offsetof(two::Light, m_shadow_flags), type<two::ShadowFlags>(), "shadow_flags", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Light, m_shadow_num_splits), type<uint8_t>(), "shadow_nusplits", &shadow_nusplits_default, Member::Value, nullptr },
 			{ t, offsetof(two::Light, m_shadow_split_distribution), type<float>(), "shadow_split_distribution", &shadow_split_distribution_default, Member::Value, nullptr },
 			{ t, offsetof(two::Light, m_shadow_normal_bias), type<float>(), "shadow_normal_bias", &shadow_normal_bias_default, Member::Value, nullptr },
@@ -3560,7 +3465,6 @@ namespace two
 		static uint16_t index_default = 0;
 		static bool autorender_default = true;
 		static bool autoflip_default = false;
-		static two::vec4 rect_default = two::v4<float>();
 		static bool scissor_default = false;
 		static two::Colour clear_colour_default = two::Colour::Black;
 		static two::Shading shading_default = two::Shading::Shaded;
@@ -3585,7 +3489,7 @@ namespace two
 			{ t, offsetof(two::Viewport, m_index), type<uint16_t>(), "index", &index_default, Member::Value, nullptr },
 			{ t, offsetof(two::Viewport, m_autorender), type<bool>(), "autorender", &autorender_default, Member::Value, nullptr },
 			{ t, offsetof(two::Viewport, m_autoflip), type<bool>(), "autoflip", &autoflip_default, Member::Value, nullptr },
-			{ t, offsetof(two::Viewport, m_rect), type<two::vec4>(), "rect", &rect_default, Member::Value, nullptr },
+			{ t, offsetof(two::Viewport, m_rect), type<two::vec4>(), "rect", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Viewport, m_scissor), type<bool>(), "scissor", &scissor_default, Member::Value, nullptr },
 			{ t, offsetof(two::Viewport, m_clear_colour), type<two::Colour>(), "clear_colour", &clear_colour_default, Member::Value, nullptr },
 			{ t, offsetof(two::Viewport, m_shading), type<two::Shading>(), "shading", &shading_default, Member::Value, nullptr },
@@ -3647,7 +3551,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "FrameBuffer", sizeof(two::FrameBuffer), TypeClass::Object };
 		// bases
 		// defaults
-		static two::uvec2 size_default = two::v2<uint>();
 		static uint64_t construct_0_flags_default = 0U;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
@@ -3661,7 +3564,7 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::FrameBuffer, m_size), type<two::uvec2>(), "size", &size_default, Member::Value, nullptr },
+			{ t, offsetof(two::FrameBuffer, m_size), type<two::uvec2>(), "size", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::FrameBuffer, m_tex), type<two::Texture>(), "tex", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
@@ -3704,7 +3607,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Cascade", sizeof(two::Cascade), TypeClass::Object };
 		// bases
 		// defaults
-		static size_t numips_default = ullong();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Cascade__default_construct }
@@ -3714,7 +3616,7 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::Cascade, m_texture), type<two::Texture>(), "texture", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::Cascade, m_num_mips), type<size_t>(), "numips", &numips_default, Member::Value, nullptr }
+			{ t, offsetof(two::Cascade, m_num_mips), type<size_t>(), "numips", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
@@ -3790,8 +3692,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Sun", sizeof(two::Sun), TypeClass::Struct };
 		// bases
 		// defaults
-		static float azimuth_default = float();
-		static float elevation_default = float();
 		static two::Colour colour_default = {0.8f,0.8f,0.0f};
 		static float intensity_default = 0.f;
 		// default constructor
@@ -3805,8 +3705,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Sun, azimuth), type<float>(), "azimuth", &azimuth_default, Member::Value, nullptr },
-			{ t, offsetof(two::Sun, elevation), type<float>(), "elevation", &elevation_default, Member::Value, nullptr },
+			{ t, offsetof(two::Sun, azimuth), type<float>(), "azimuth", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Sun, elevation), type<float>(), "elevation", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Sun, m_colour), type<two::Colour>(), "colour", &colour_default, Member::Value, nullptr },
 			{ t, offsetof(two::Sun, m_intensity), type<float>(), "intensity", &intensity_default, Member::Value, nullptr }
 		};
@@ -3890,9 +3790,6 @@ namespace two
 		static bool enabled_default = false;
 		static float intensity_default = 1.f;
 		static two::vec3 position_default = vec3(0.f,1.f,0.f);
-		static two::vec3 direction_default = two::v3<float>();
-		static two::Colour color_default = two::Colour();
-		static two::Colour ground_default = two::Colour();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Skylight__default_construct }
@@ -3907,9 +3804,9 @@ namespace two
 			{ t, offsetof(two::Skylight, m_enabled), type<bool>(), "enabled", &enabled_default, Member::Value, nullptr },
 			{ t, offsetof(two::Skylight, m_intensity), type<float>(), "intensity", &intensity_default, Member::Value, nullptr },
 			{ t, offsetof(two::Skylight, m_position), type<two::vec3>(), "position", &position_default, Member::Value, nullptr },
-			{ t, offsetof(two::Skylight, m_direction), type<two::vec3>(), "direction", &direction_default, Member::Value, nullptr },
-			{ t, offsetof(two::Skylight, m_color), type<two::Colour>(), "color", &color_default, Member::Value, nullptr },
-			{ t, offsetof(two::Skylight, m_ground), type<two::Colour>(), "ground", &ground_default, Member::Value, nullptr }
+			{ t, offsetof(two::Skylight, m_direction), type<two::vec3>(), "direction", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Skylight, m_color), type<two::Colour>(), "color", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Skylight, m_ground), type<two::Colour>(), "ground", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -3971,11 +3868,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Zone", sizeof(two::Zone), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::Background background_default = two::Background();
-		static two::Radiance radiance_default = two::Radiance();
-		static two::Sun sun_default = two::Sun();
-		static two::Skylight skylight_default = two::Skylight();
-		static two::Fog fog_default = two::Fog();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Zone__default_construct }
@@ -3987,11 +3879,11 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Zone, m_background), type<two::Background>(), "background", &background_default, Member::Value, nullptr },
-			{ t, offsetof(two::Zone, m_radiance), type<two::Radiance>(), "radiance", &radiance_default, Member::Value, nullptr },
-			{ t, offsetof(two::Zone, m_sun), type<two::Sun>(), "sun", &sun_default, Member::Value, nullptr },
-			{ t, offsetof(two::Zone, m_skylight), type<two::Skylight>(), "skylight", &skylight_default, Member::Value, nullptr },
-			{ t, offsetof(two::Zone, m_fog), type<two::Fog>(), "fog", &fog_default, Member::Value, nullptr }
+			{ t, offsetof(two::Zone, m_background), type<two::Background>(), "background", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Zone, m_radiance), type<two::Radiance>(), "radiance", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Zone, m_sun), type<two::Sun>(), "sun", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Zone, m_skylight), type<two::Skylight>(), "skylight", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Zone, m_fog), type<two::Fog>(), "fog", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -4004,9 +3896,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Scene", sizeof(two::Scene), TypeClass::Object };
 		// bases
 		// defaults
-		static uint32_t index_default = uint();
-		static two::Zone env_default = two::Zone();
-		static two::Ref user_default = two::Ref();
 		// default constructor
 		// copy constructor
 		// constructors
@@ -4015,11 +3904,11 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Scene, m_index), type<uint32_t>(), "index", &index_default, Member::Value, nullptr },
+			{ t, offsetof(two::Scene, m_index), type<uint32_t>(), "index", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Scene, m_graph), type<two::Gnode>(), "graph", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::Scene, m_root_node), type<two::Node3>(), "root_node", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::Scene, m_env), type<two::Zone>(), "env", &env_default, Member::Value, nullptr },
-			{ t, offsetof(two::Scene, m_user), type<two::Ref>(), "user", &user_default, Member::Value, nullptr }
+			{ t, offsetof(two::Scene, m_env), type<two::Zone>(), "env", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Scene, m_user), type<two::Ref>(), "user", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {

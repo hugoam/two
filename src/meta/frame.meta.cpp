@@ -83,9 +83,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Shell", sizeof(two::Shell), TypeClass::Object };
 		// bases
 		// defaults
-		static stl::string exec_path_default = stl::string();
-		static stl::string resource_path_default = stl::string();
-		static two::ShellContext editor_default = two::ShellContext();
 		static stl::string construct_0_exec_path_default = "";
 		static bool construct_0_window_default = true;
 		static bool init_0_window_default = true;
@@ -98,11 +95,11 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Shell, m_exec_path), type<stl::string>(), "exec_path", &exec_path_default, Member::Value, nullptr },
-			{ t, offsetof(two::Shell, m_resource_path), type<stl::string>(), "resource_path", &resource_path_default, Member::Value, nullptr },
+			{ t, offsetof(two::Shell, m_exec_path), type<stl::string>(), "exec_path", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Shell, m_resource_path), type<stl::string>(), "resource_path", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Shell, m_job_system), type<two::JobSystem>(), "job_system", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::Shell, m_gfx), type<two::GfxSystem>(), "gfx", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::Shell, m_editor), type<two::ShellContext>(), "editor", &editor_default, Member::Value, nullptr }
+			{ t, offsetof(two::Shell, m_editor), type<two::ShellContext>(), "editor", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {

@@ -491,14 +491,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Creator", sizeof(two::Creator), TypeClass::Object };
 		// bases
 		// defaults
-		static bool construct_default = bool();
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		static Member members[] = {
 			{ t, SIZE_MAX, type<two::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Creator__get_type },
-			{ t, offsetof(two::Creator, m_construct), type<bool>(), "construct", &construct_default, Member::Value, nullptr },
+			{ t, offsetof(two::Creator, m_construct), type<bool>(), "construct", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Creator, m_prototype), type<two::Type>(), "prototype", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, SIZE_MAX, type<two::Injector>(), "injector", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Creator__get_injector }
 		};

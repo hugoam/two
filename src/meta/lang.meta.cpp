@@ -54,18 +54,15 @@ namespace two
 		static Type* bases[] = { &type<two::Callable>() };
 		static size_t bases_offsets[] = { base_offset<two::Script, two::Callable>() };
 		// defaults
-		static uint32_t index_default = uint();
-		static stl::string name_default = stl::string();
-		static bool locked_default = bool();
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Script, m_index), type<uint32_t>(), "index", &index_default, Member::Value, nullptr },
+			{ t, offsetof(two::Script, m_index), type<uint32_t>(), "index", nullptr, Member::Value, nullptr },
 			{ t, SIZE_MAX, type<two::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Script__get_type },
-			{ t, offsetof(two::Script, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
-			{ t, offsetof(two::Script, m_locked), type<bool>(), "locked", &locked_default, Member::Value, nullptr }
+			{ t, offsetof(two::Script, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Script, m_locked), type<bool>(), "locked", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -100,9 +97,6 @@ namespace two
 		static Type* bases[] = { &type<two::Script>() };
 		static size_t bases_offsets[] = { base_offset<two::TextScript, two::Script>() };
 		// defaults
-		static two::Language language_default = two::Language();
-		static stl::string script_default = stl::string();
-		static bool dirty_default = bool();
 		static two::Signature construct_0_signature_default = {};
 		// default constructor
 		// copy constructor
@@ -112,9 +106,9 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::TextScript, m_language), type<two::Language>(), "language", &language_default, Member::Value, nullptr },
-			{ t, offsetof(two::TextScript, m_script), type<stl::string>(), "script", &script_default, Member::Value, nullptr },
-			{ t, offsetof(two::TextScript, m_dirty), type<bool>(), "dirty", &dirty_default, Member::Value, nullptr }
+			{ t, offsetof(two::TextScript, m_language), type<two::Language>(), "language", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::TextScript, m_script), type<stl::string>(), "script", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::TextScript, m_dirty), type<bool>(), "dirty", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -140,7 +134,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ScriptClass", sizeof(two::ScriptClass), TypeClass::Object };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
 		// default constructor
 		// copy constructor
 		// constructors
@@ -149,7 +142,7 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ScriptClass, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(two::ScriptClass, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::ScriptClass, m_class_type), type<two::Type>(), "class_type", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::ScriptClass, m_class), type<two::Class>(), "class", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::ScriptClass, m_prototype), type<two::Prototype>(), "prototype", nullptr, Member::NonMutable, nullptr }

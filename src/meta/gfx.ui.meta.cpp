@@ -80,8 +80,6 @@ namespace two
 		static Type* bases[] = { &type<two::Widget>() };
 		static size_t bases_offsets[] = { base_offset<two::Viewer, two::Widget>() };
 		// defaults
-		static two::vec2 position_default = two::v2<float>();
-		static two::vec2 size_default = two::v2<float>();
 		// default constructor
 		// copy constructor
 		// constructors
@@ -90,8 +88,8 @@ namespace two
 			{ t, offsetof(two::Viewer, m_scene), type<two::Scene>(), "scene", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::Viewer, m_camera), type<two::Camera>(), "camera", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::Viewer, m_viewport), type<two::Viewport>(), "viewport", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::Viewer, m_position), type<two::vec2>(), "position", &position_default, Member::Value, nullptr },
-			{ t, offsetof(two::Viewer, m_size), type<two::vec2>(), "size", &size_default, Member::Value, nullptr }
+			{ t, offsetof(two::Viewer, m_position), type<two::vec2>(), "position", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Viewer, m_size), type<two::vec2>(), "size", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -121,7 +119,6 @@ namespace two
 		static Type* bases[] = { &type<two::ViewerController>() };
 		static size_t bases_offsets[] = { base_offset<two::OrbitController, two::ViewerController>() };
 		// defaults
-		static two::vec3 position_default = two::v3<float>();
 		static float yaw_default = 0.f;
 		static float pitch_default = 0.f;
 		static float distance_default = 1.f;
@@ -130,7 +127,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::OrbitController, m_position), type<two::vec3>(), "position", &position_default, Member::Value, nullptr },
+			{ t, offsetof(two::OrbitController, m_position), type<two::vec3>(), "position", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::OrbitController, m_yaw), type<float>(), "yaw", &yaw_default, Member::Value, nullptr },
 			{ t, offsetof(two::OrbitController, m_pitch), type<float>(), "pitch", &pitch_default, Member::Value, nullptr },
 			{ t, offsetof(two::OrbitController, m_distance), type<float>(), "distance", &distance_default, Member::Value, nullptr }
@@ -157,8 +154,6 @@ namespace two
 		static bool staticMoving_default = false;
 		static float dynamicDampingFactor_default = 0.2f;
 		static float minDistance_default = 0.f;
-		static float maxDistance_default = float();
-		static two::vec3 target_default = two::v3<float>();
 		// default constructor
 		// copy constructor
 		// constructors
@@ -170,8 +165,8 @@ namespace two
 			{ t, offsetof(two::TrackballController, m_staticMoving), type<bool>(), "staticMoving", &staticMoving_default, Member::Value, nullptr },
 			{ t, offsetof(two::TrackballController, m_dynamicDampingFactor), type<float>(), "dynamicDampingFactor", &dynamicDampingFactor_default, Member::Value, nullptr },
 			{ t, offsetof(two::TrackballController, m_minDistance), type<float>(), "minDistance", &minDistance_default, Member::Value, nullptr },
-			{ t, offsetof(two::TrackballController, m_maxDistance), type<float>(), "maxDistance", &maxDistance_default, Member::Value, nullptr },
-			{ t, offsetof(two::TrackballController, m_target), type<two::vec3>(), "target", &target_default, Member::Value, nullptr }
+			{ t, offsetof(two::TrackballController, m_maxDistance), type<float>(), "maxDistance", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::TrackballController, m_target), type<two::vec3>(), "target", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members

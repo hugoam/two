@@ -95,8 +95,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Tool", sizeof(two::Tool), TypeClass::Object };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
-		static two::ToolState state_default = two::ToolState();
 		// default constructor
 		// copy constructor
 		// constructors
@@ -104,8 +102,8 @@ namespace two
 		static Member members[] = {
 			{ t, SIZE_MAX, type<two::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Tool__get_type },
 			{ t, SIZE_MAX, type<two::ToolContext>(), "context", nullptr, Member::Flags(Member::Value|Member::NonMutable|Member::Link), two_Tool__get_context },
-			{ t, offsetof(two::Tool, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
-			{ t, offsetof(two::Tool, m_state), type<two::ToolState>(), "state", &state_default, Member::Value, nullptr }
+			{ t, offsetof(two::Tool, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Tool, m_state), type<two::ToolState>(), "state", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -315,8 +313,6 @@ namespace two
 		static Type* bases[] = { &type<two::Brush>() };
 		static size_t bases_offsets[] = { base_offset<two::CircleBrush, two::Brush>() };
 		// defaults
-		static float radius_default = float();
-		static float maxSpotRadius_default = float();
 		// default constructor
 		// copy constructor
 		// constructors
@@ -326,8 +322,8 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::CircleBrush, m_creator), type<two::Creator>(), "creator", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::CircleBrush, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr },
-			{ t, offsetof(two::CircleBrush, m_maxSpotRadius), type<float>(), "maxSpotRadius", &maxSpotRadius_default, Member::Value, nullptr }
+			{ t, offsetof(two::CircleBrush, m_radius), type<float>(), "radius", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::CircleBrush, m_maxSpotRadius), type<float>(), "maxSpotRadius", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -341,7 +337,6 @@ namespace two
 		static Type* bases[] = { &type<two::Brush>() };
 		static size_t bases_offsets[] = { base_offset<two::ScriptedBrush, two::Brush>() };
 		// defaults
-		static two::Call call_default = two::Call();
 		// default constructor
 		// copy constructor
 		// constructors
@@ -350,7 +345,7 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ScriptedBrush, m_call), type<two::Call>(), "call", &call_default, Member::Value, nullptr }
+			{ t, offsetof(two::ScriptedBrush, m_call), type<two::Call>(), "call", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -559,7 +554,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "EditContext", sizeof(two::EditContext), TypeClass::Object };
 		// bases
 		// defaults
-		static two::Plane work_plane_default = two::Plane();
 		static two::Viewer* viewer_default = nullptr;
 		static two::ViewportTool* tool_default = nullptr;
 		static two::SpatialTool* spatial_tool_default = nullptr;
@@ -571,7 +565,7 @@ namespace two
 		static Member members[] = {
 			{ t, offsetof(two::EditContext, m_undo_tool), type<two::UndoTool>(), "undo_tool", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::EditContext, m_redo_tool), type<two::RedoTool>(), "redo_tool", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::EditContext, m_work_plane), type<two::Plane>(), "work_plane", &work_plane_default, Member::Value, nullptr },
+			{ t, offsetof(two::EditContext, m_work_plane), type<two::Plane>(), "work_plane", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::EditContext, m_translate_tool), type<two::TranslateTool>(), "translate_tool", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::EditContext, m_rotate_tool), type<two::RotateTool>(), "rotate_tool", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::EditContext, m_scale_tool), type<two::ScaleTool>(), "scale_tool", nullptr, Member::NonMutable, nullptr },

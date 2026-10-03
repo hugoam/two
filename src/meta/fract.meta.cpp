@@ -141,7 +141,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Fract", sizeof(two::Fract), TypeClass::Object };
 		// bases
 		// defaults
-		static size_t nutabs_default = ullong();
 		static size_t construct_0_num_tabs_default = 75;
 		static size_t generate_0_num_tabs_default = 75;
 		// default constructor
@@ -152,7 +151,7 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Fract, m_num_tabs), type<size_t>(), "nutabs", &nutabs_default, Member::Value, nullptr }
+			{ t, offsetof(two::Fract, m_num_tabs), type<size_t>(), "nutabs", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
@@ -171,8 +170,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "FractSample", sizeof(two::FractSample), TypeClass::Object };
 		// bases
 		// defaults
-		static two::Rect rect_default = two::Rect();
-		static two::uvec2 resolution_default = two::v2<uint>();
 		// default constructor
 		// copy constructor
 		// constructors
@@ -182,8 +179,8 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, SIZE_MAX, type<two::Fract>(), "fract", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_FractSample__get_fract },
-			{ t, offsetof(two::FractSample, m_rect), type<two::Rect>(), "rect", &rect_default, Member::Value, nullptr },
-			{ t, offsetof(two::FractSample, m_resolution), type<two::uvec2>(), "resolution", &resolution_default, Member::Value, nullptr }
+			{ t, offsetof(two::FractSample, m_rect), type<two::Rect>(), "rect", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::FractSample, m_resolution), type<two::uvec2>(), "resolution", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {

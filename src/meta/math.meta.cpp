@@ -198,9 +198,9 @@ void two_rgba_1(span<void*> args, void*& result) { (*static_cast<two::Colour*>(r
 void two_abgr_2(span<void*> args, void*& result) { (*static_cast<two::Colour*>(result)) = two::abgr(*static_cast<uint32_t*>(args[0])); }
 void two_hsv_3(span<void*> args, void*& result) { (*static_cast<two::Colour*>(result)) = two::hsv(*static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
 void two_hsl_4(span<void*> args, void*& result) { (*static_cast<two::Colour*>(result)) = two::hsl(*static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
-void two_to_rgba_5(span<void*> args, void*& result) { (*static_cast<uint*>(result)) = two::to_rgba(*static_cast<two::Colour*>(args[0])); }
-void two_to_abgr_6(span<void*> args, void*& result) { (*static_cast<uint*>(result)) = two::to_abgr(*static_cast<two::Colour*>(args[0])); }
-void two_to_abgr_7(span<void*> args, void*& result) { (*static_cast<uint*>(result)) = two::to_abgr(*static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3])); }
+void two_to_rgba_5(span<void*> args, void*& result) { (*static_cast<uint32_t*>(result)) = two::to_rgba(*static_cast<two::Colour*>(args[0])); }
+void two_to_abgr_6(span<void*> args, void*& result) { (*static_cast<uint32_t*>(result)) = two::to_abgr(*static_cast<two::Colour*>(args[0])); }
+void two_to_abgr_7(span<void*> args, void*& result) { (*static_cast<uint32_t*>(result)) = two::to_abgr(*static_cast<float*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3])); }
 void two_to_linear_8(span<void*> args, void*& result) { (*static_cast<two::Colour*>(result)) = two::to_linear(*static_cast<two::Colour*>(args[0])); }
 void two_to_gamma_9(span<void*> args, void*& result) { (*static_cast<two::Colour*>(result)) = two::to_gamma(*static_cast<two::Colour*>(args[0])); }
 void two_to_srgb_10(span<void*> args, void*& result) { (*static_cast<two::Colour*>(result)) = two::to_srgb(*static_cast<two::Colour*>(args[0])); }
@@ -220,14 +220,14 @@ void two_nsinf_23(span<void*> args, void*& result) { (*static_cast<float*>(resul
 void two_ncosf_24(span<void*> args, void*& result) { (*static_cast<float*>(result)) = two::ncosf(*static_cast<float*>(args[0])); }
 void two_nsin_25(span<void*> args, void*& result) { (*static_cast<double*>(result)) = two::nsin(*static_cast<double*>(args[0])); }
 void two_ncos_26(span<void*> args, void*& result) { (*static_cast<double*>(result)) = two::ncos(*static_cast<double*>(args[0])); }
-void two_add_two_v3_float_27(span<void*> args, void*& result) { (*static_cast<two::v3<float>*>(result)) = two::add<two::v3<float>>(*static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1])); }
-void two_subtract_two_v3_float_28(span<void*> args, void*& result) { (*static_cast<two::v3<float>*>(result)) = two::subtract<two::v3<float>>(*static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1])); }
-void two_multiply_two_v3_float_29(span<void*> args, void*& result) { (*static_cast<two::v3<float>*>(result)) = two::multiply<two::v3<float>>(*static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1])); }
-void two_divide_two_v3_float_30(span<void*> args, void*& result) { (*static_cast<two::v3<float>*>(result)) = two::divide<two::v3<float>>(*static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1])); }
+void two_add_two_v3_float_27(span<void*> args, void*& result) { (*static_cast<two::vec3*>(result)) = two::add<two::v3<float>>(*static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1])); }
+void two_subtract_two_v3_float_28(span<void*> args, void*& result) { (*static_cast<two::vec3*>(result)) = two::subtract<two::v3<float>>(*static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1])); }
+void two_multiply_two_v3_float_29(span<void*> args, void*& result) { (*static_cast<two::vec3*>(result)) = two::multiply<two::v3<float>>(*static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1])); }
+void two_divide_two_v3_float_30(span<void*> args, void*& result) { (*static_cast<two::vec3*>(result)) = two::divide<two::v3<float>>(*static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1])); }
 void two_look_dir_31(span<void*> args, void*& result) { (*static_cast<two::quat*>(result)) = two::look_dir(*static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1])); }
 void two_look_at_32(span<void*> args, void*& result) { (*static_cast<two::quat*>(result)) = two::look_at(*static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1]), *static_cast<two::vec3*>(args[2])); }
 void two_grid_33(span<void*> args, void*& result) { UNUSED(result);  two::grid(*static_cast<two::uvec3*>(args[0]), *static_cast<stl::vector<two::uvec3>*>(args[1])); }
-void two_grid_center_34(span<void*> args, void*& result) { (*static_cast<two::v3<float>*>(result)) = two::grid_center(*static_cast<two::uvec3*>(args[0]), *static_cast<two::vec3*>(args[1])); }
+void two_grid_center_34(span<void*> args, void*& result) { (*static_cast<two::vec3*>(result)) = two::grid_center(*static_cast<two::uvec3*>(args[0]), *static_cast<two::vec3*>(args[1])); }
 void two_index_list_35(span<void*> args, void*& result) { UNUSED(result);  two::index_list(*static_cast<uint32_t*>(args[0]), *static_cast<stl::vector<uint32_t>*>(args[1])); }
 
 namespace two
@@ -510,8 +510,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "v2<float>", sizeof(two::v2<float>), TypeClass::Struct };
 		// bases
 		// defaults
-		static float x_default = float();
-		static float y_default = float();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_v2_float__default_construct }
@@ -527,8 +525,8 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::v2<float>, x), type<float>(), "x", &x_default, Member::Value, nullptr },
-			{ t, offsetof(two::v2<float>, y), type<float>(), "y", &y_default, Member::Value, nullptr }
+			{ t, offsetof(two::v2<float>, x), type<float>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v2<float>, y), type<float>(), "y", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -541,9 +539,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "v3<float>", sizeof(two::v3<float>), TypeClass::Struct };
 		// bases
 		// defaults
-		static float x_default = float();
-		static float y_default = float();
-		static float z_default = float();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_v3_float__default_construct }
@@ -559,9 +554,9 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::v3<float>, x), type<float>(), "x", &x_default, Member::Value, nullptr },
-			{ t, offsetof(two::v3<float>, y), type<float>(), "y", &y_default, Member::Value, nullptr },
-			{ t, offsetof(two::v3<float>, z), type<float>(), "z", &z_default, Member::Value, nullptr }
+			{ t, offsetof(two::v3<float>, x), type<float>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v3<float>, y), type<float>(), "y", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v3<float>, z), type<float>(), "z", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -574,10 +569,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "v4<float>", sizeof(two::v4<float>), TypeClass::Struct };
 		// bases
 		// defaults
-		static float x_default = float();
-		static float y_default = float();
-		static float z_default = float();
-		static float w_default = float();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_v4_float__default_construct }
@@ -593,10 +584,10 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::v4<float>, x), type<float>(), "x", &x_default, Member::Value, nullptr },
-			{ t, offsetof(two::v4<float>, y), type<float>(), "y", &y_default, Member::Value, nullptr },
-			{ t, offsetof(two::v4<float>, z), type<float>(), "z", &z_default, Member::Value, nullptr },
-			{ t, offsetof(two::v4<float>, w), type<float>(), "w", &w_default, Member::Value, nullptr }
+			{ t, offsetof(two::v4<float>, x), type<float>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v4<float>, y), type<float>(), "y", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v4<float>, z), type<float>(), "z", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v4<float>, w), type<float>(), "w", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -609,8 +600,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "v2<int>", sizeof(two::v2<int>), TypeClass::Struct };
 		// bases
 		// defaults
-		static int x_default = int();
-		static int y_default = int();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_v2_int__default_construct }
@@ -626,8 +615,8 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::v2<int>, x), type<int>(), "x", &x_default, Member::Value, nullptr },
-			{ t, offsetof(two::v2<int>, y), type<int>(), "y", &y_default, Member::Value, nullptr }
+			{ t, offsetof(two::v2<int>, x), type<int>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v2<int>, y), type<int>(), "y", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -640,9 +629,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "v3<int>", sizeof(two::v3<int>), TypeClass::Struct };
 		// bases
 		// defaults
-		static int x_default = int();
-		static int y_default = int();
-		static int z_default = int();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_v3_int__default_construct }
@@ -658,9 +644,9 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::v3<int>, x), type<int>(), "x", &x_default, Member::Value, nullptr },
-			{ t, offsetof(two::v3<int>, y), type<int>(), "y", &y_default, Member::Value, nullptr },
-			{ t, offsetof(two::v3<int>, z), type<int>(), "z", &z_default, Member::Value, nullptr }
+			{ t, offsetof(two::v3<int>, x), type<int>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v3<int>, y), type<int>(), "y", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v3<int>, z), type<int>(), "z", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -673,10 +659,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "v4<int>", sizeof(two::v4<int>), TypeClass::Struct };
 		// bases
 		// defaults
-		static int x_default = int();
-		static int y_default = int();
-		static int z_default = int();
-		static int w_default = int();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_v4_int__default_construct }
@@ -692,10 +674,10 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::v4<int>, x), type<int>(), "x", &x_default, Member::Value, nullptr },
-			{ t, offsetof(two::v4<int>, y), type<int>(), "y", &y_default, Member::Value, nullptr },
-			{ t, offsetof(two::v4<int>, z), type<int>(), "z", &z_default, Member::Value, nullptr },
-			{ t, offsetof(two::v4<int>, w), type<int>(), "w", &w_default, Member::Value, nullptr }
+			{ t, offsetof(two::v4<int>, x), type<int>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v4<int>, y), type<int>(), "y", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v4<int>, z), type<int>(), "z", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v4<int>, w), type<int>(), "w", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -708,8 +690,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "v2<uint>", sizeof(two::v2<uint>), TypeClass::Struct };
 		// bases
 		// defaults
-		static uint x_default = uint();
-		static uint y_default = uint();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_v2_uint__default_construct }
@@ -725,8 +705,8 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::v2<uint>, x), type<uint>(), "x", &x_default, Member::Value, nullptr },
-			{ t, offsetof(two::v2<uint>, y), type<uint>(), "y", &y_default, Member::Value, nullptr }
+			{ t, offsetof(two::v2<uint>, x), type<uint>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v2<uint>, y), type<uint>(), "y", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -739,9 +719,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "v3<uint>", sizeof(two::v3<uint>), TypeClass::Struct };
 		// bases
 		// defaults
-		static uint x_default = uint();
-		static uint y_default = uint();
-		static uint z_default = uint();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_v3_uint__default_construct }
@@ -757,9 +734,9 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::v3<uint>, x), type<uint>(), "x", &x_default, Member::Value, nullptr },
-			{ t, offsetof(two::v3<uint>, y), type<uint>(), "y", &y_default, Member::Value, nullptr },
-			{ t, offsetof(two::v3<uint>, z), type<uint>(), "z", &z_default, Member::Value, nullptr }
+			{ t, offsetof(two::v3<uint>, x), type<uint>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v3<uint>, y), type<uint>(), "y", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v3<uint>, z), type<uint>(), "z", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -772,10 +749,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "v4<uint>", sizeof(two::v4<uint>), TypeClass::Struct };
 		// bases
 		// defaults
-		static uint x_default = uint();
-		static uint y_default = uint();
-		static uint z_default = uint();
-		static uint w_default = uint();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_v4_uint__default_construct }
@@ -791,10 +764,10 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::v4<uint>, x), type<uint>(), "x", &x_default, Member::Value, nullptr },
-			{ t, offsetof(two::v4<uint>, y), type<uint>(), "y", &y_default, Member::Value, nullptr },
-			{ t, offsetof(two::v4<uint>, z), type<uint>(), "z", &z_default, Member::Value, nullptr },
-			{ t, offsetof(two::v4<uint>, w), type<uint>(), "w", &w_default, Member::Value, nullptr }
+			{ t, offsetof(two::v4<uint>, x), type<uint>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v4<uint>, y), type<uint>(), "y", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v4<uint>, z), type<uint>(), "z", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v4<uint>, w), type<uint>(), "w", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -807,8 +780,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "v2<bool>", sizeof(two::v2<bool>), TypeClass::Struct };
 		// bases
 		// defaults
-		static bool x_default = bool();
-		static bool y_default = bool();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_v2_bool__default_construct }
@@ -824,8 +795,8 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::v2<bool>, x), type<bool>(), "x", &x_default, Member::Value, nullptr },
-			{ t, offsetof(two::v2<bool>, y), type<bool>(), "y", &y_default, Member::Value, nullptr }
+			{ t, offsetof(two::v2<bool>, x), type<bool>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v2<bool>, y), type<bool>(), "y", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -838,9 +809,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "v3<bool>", sizeof(two::v3<bool>), TypeClass::Struct };
 		// bases
 		// defaults
-		static bool x_default = bool();
-		static bool y_default = bool();
-		static bool z_default = bool();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_v3_bool__default_construct }
@@ -856,9 +824,9 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::v3<bool>, x), type<bool>(), "x", &x_default, Member::Value, nullptr },
-			{ t, offsetof(two::v3<bool>, y), type<bool>(), "y", &y_default, Member::Value, nullptr },
-			{ t, offsetof(two::v3<bool>, z), type<bool>(), "z", &z_default, Member::Value, nullptr }
+			{ t, offsetof(two::v3<bool>, x), type<bool>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v3<bool>, y), type<bool>(), "y", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v3<bool>, z), type<bool>(), "z", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -871,10 +839,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "v4<bool>", sizeof(two::v4<bool>), TypeClass::Struct };
 		// bases
 		// defaults
-		static bool x_default = bool();
-		static bool y_default = bool();
-		static bool z_default = bool();
-		static bool w_default = bool();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_v4_bool__default_construct }
@@ -890,10 +854,10 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::v4<bool>, x), type<bool>(), "x", &x_default, Member::Value, nullptr },
-			{ t, offsetof(two::v4<bool>, y), type<bool>(), "y", &y_default, Member::Value, nullptr },
-			{ t, offsetof(two::v4<bool>, z), type<bool>(), "z", &z_default, Member::Value, nullptr },
-			{ t, offsetof(two::v4<bool>, w), type<bool>(), "w", &w_default, Member::Value, nullptr }
+			{ t, offsetof(two::v4<bool>, x), type<bool>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v4<bool>, y), type<bool>(), "y", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v4<bool>, z), type<bool>(), "z", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v4<bool>, w), type<bool>(), "w", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -989,9 +953,7 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Transform", sizeof(two::Transform), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::vec3 position_default = two::v3<float>();
 		static two::quat rotation_default = ZeroQuat;
-		static two::vec3 scale_default = two::v3<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Transform__default_construct }
@@ -1003,9 +965,9 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Transform, m_position), type<two::vec3>(), "position", &position_default, Member::Value, nullptr },
+			{ t, offsetof(two::Transform, m_position), type<two::vec3>(), "position", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Transform, m_rotation), type<two::quat>(), "rotation", &rotation_default, Member::Value, nullptr },
-			{ t, offsetof(two::Transform, m_scale), type<two::vec3>(), "scale", &scale_default, Member::Value, nullptr }
+			{ t, offsetof(two::Transform, m_scale), type<two::vec3>(), "scale", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1018,10 +980,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ColourHSL", sizeof(two::ColourHSL), TypeClass::Struct };
 		// bases
 		// defaults
-		static float h_default = float();
-		static float s_default = float();
-		static float l_default = float();
-		static float a_default = float();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_ColourHSL__default_construct }
@@ -1033,10 +991,10 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ColourHSL, h), type<float>(), "h", &h_default, Member::Value, nullptr },
-			{ t, offsetof(two::ColourHSL, s), type<float>(), "s", &s_default, Member::Value, nullptr },
-			{ t, offsetof(two::ColourHSL, l), type<float>(), "l", &l_default, Member::Value, nullptr },
-			{ t, offsetof(two::ColourHSL, a), type<float>(), "a", &a_default, Member::Value, nullptr }
+			{ t, offsetof(two::ColourHSL, h), type<float>(), "h", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ColourHSL, s), type<float>(), "s", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ColourHSL, l), type<float>(), "l", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ColourHSL, a), type<float>(), "a", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1049,10 +1007,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Colour", sizeof(two::Colour), TypeClass::Struct };
 		// bases
 		// defaults
-		static float r_default = float();
-		static float g_default = float();
-		static float b_default = float();
-		static float a_default = float();
 		static float construct_0_a_default = 1.f;
 		static float construct_1_a_default = 1.f;
 		// default constructor
@@ -1070,10 +1024,10 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Colour, r), type<float>(), "r", &r_default, Member::Value, nullptr },
-			{ t, offsetof(two::Colour, g), type<float>(), "g", &g_default, Member::Value, nullptr },
-			{ t, offsetof(two::Colour, b), type<float>(), "b", &b_default, Member::Value, nullptr },
-			{ t, offsetof(two::Colour, a), type<float>(), "a", &a_default, Member::Value, nullptr }
+			{ t, offsetof(two::Colour, r), type<float>(), "r", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Colour, g), type<float>(), "g", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Colour, b), type<float>(), "b", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Colour, a), type<float>(), "a", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1241,13 +1195,9 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ValueTrack<two::vec3>", sizeof(two::ValueTrack<two::vec3>), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::TrackMode mode_default = two::TrackMode();
 		static two::vec3 value_default = One<two::vec3>::value();
 		static two::vec3 min_default = One<two::vec3>::value();
 		static two::vec3 max_default = One<two::vec3>::value();
-		static two::ValueCurve<two::vec3> curve_default = two::ValueCurve<two::vec3>();
-		static two::ValueCurve<two::vec3> min_curve_default = two::ValueCurve<two::vec3>();
-		static two::ValueCurve<two::vec3> max_curve_default = two::ValueCurve<two::vec3>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_ValueTrack_two_vec3__default_construct }
@@ -1262,13 +1212,13 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ValueTrack<two::vec3>, m_mode), type<two::TrackMode>(), "mode", &mode_default, Member::Value, nullptr },
+			{ t, offsetof(two::ValueTrack<two::vec3>, m_mode), type<two::TrackMode>(), "mode", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::ValueTrack<two::vec3>, m_value), type<two::vec3>(), "value", &value_default, Member::Value, nullptr },
 			{ t, offsetof(two::ValueTrack<two::vec3>, m_min), type<two::vec3>(), "min", &min_default, Member::Value, nullptr },
 			{ t, offsetof(two::ValueTrack<two::vec3>, m_max), type<two::vec3>(), "max", &max_default, Member::Value, nullptr },
-			{ t, offsetof(two::ValueTrack<two::vec3>, m_curve), type<two::ValueCurve<two::vec3>>(), "curve", &curve_default, Member::Value, nullptr },
-			{ t, offsetof(two::ValueTrack<two::vec3>, m_min_curve), type<two::ValueCurve<two::vec3>>(), "min_curve", &min_curve_default, Member::Value, nullptr },
-			{ t, offsetof(two::ValueTrack<two::vec3>, m_max_curve), type<two::ValueCurve<two::vec3>>(), "max_curve", &max_curve_default, Member::Value, nullptr }
+			{ t, offsetof(two::ValueTrack<two::vec3>, m_curve), type<two::ValueCurve<two::vec3>>(), "curve", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ValueTrack<two::vec3>, m_min_curve), type<two::ValueCurve<two::vec3>>(), "min_curve", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ValueTrack<two::vec3>, m_max_curve), type<two::ValueCurve<two::vec3>>(), "max_curve", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1281,13 +1231,9 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ValueTrack<two::quat>", sizeof(two::ValueTrack<two::quat>), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::TrackMode mode_default = two::TrackMode();
 		static two::quat value_default = One<two::quat>::value();
 		static two::quat min_default = One<two::quat>::value();
 		static two::quat max_default = One<two::quat>::value();
-		static two::ValueCurve<two::quat> curve_default = two::ValueCurve<two::quat>();
-		static two::ValueCurve<two::quat> min_curve_default = two::ValueCurve<two::quat>();
-		static two::ValueCurve<two::quat> max_curve_default = two::ValueCurve<two::quat>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_ValueTrack_two_quat__default_construct }
@@ -1302,13 +1248,13 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ValueTrack<two::quat>, m_mode), type<two::TrackMode>(), "mode", &mode_default, Member::Value, nullptr },
+			{ t, offsetof(two::ValueTrack<two::quat>, m_mode), type<two::TrackMode>(), "mode", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::ValueTrack<two::quat>, m_value), type<two::quat>(), "value", &value_default, Member::Value, nullptr },
 			{ t, offsetof(two::ValueTrack<two::quat>, m_min), type<two::quat>(), "min", &min_default, Member::Value, nullptr },
 			{ t, offsetof(two::ValueTrack<two::quat>, m_max), type<two::quat>(), "max", &max_default, Member::Value, nullptr },
-			{ t, offsetof(two::ValueTrack<two::quat>, m_curve), type<two::ValueCurve<two::quat>>(), "curve", &curve_default, Member::Value, nullptr },
-			{ t, offsetof(two::ValueTrack<two::quat>, m_min_curve), type<two::ValueCurve<two::quat>>(), "min_curve", &min_curve_default, Member::Value, nullptr },
-			{ t, offsetof(two::ValueTrack<two::quat>, m_max_curve), type<two::ValueCurve<two::quat>>(), "max_curve", &max_curve_default, Member::Value, nullptr }
+			{ t, offsetof(two::ValueTrack<two::quat>, m_curve), type<two::ValueCurve<two::quat>>(), "curve", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ValueTrack<two::quat>, m_min_curve), type<two::ValueCurve<two::quat>>(), "min_curve", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ValueTrack<two::quat>, m_max_curve), type<two::ValueCurve<two::quat>>(), "max_curve", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1321,13 +1267,9 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ValueTrack<float>", sizeof(two::ValueTrack<float>), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::TrackMode mode_default = two::TrackMode();
 		static float value_default = One<float>::value();
 		static float min_default = One<float>::value();
 		static float max_default = One<float>::value();
-		static two::ValueCurve<float> curve_default = two::ValueCurve<float>();
-		static two::ValueCurve<float> min_curve_default = two::ValueCurve<float>();
-		static two::ValueCurve<float> max_curve_default = two::ValueCurve<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_ValueTrack_float__default_construct }
@@ -1342,13 +1284,13 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ValueTrack<float>, m_mode), type<two::TrackMode>(), "mode", &mode_default, Member::Value, nullptr },
+			{ t, offsetof(two::ValueTrack<float>, m_mode), type<two::TrackMode>(), "mode", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::ValueTrack<float>, m_value), type<float>(), "value", &value_default, Member::Value, nullptr },
 			{ t, offsetof(two::ValueTrack<float>, m_min), type<float>(), "min", &min_default, Member::Value, nullptr },
 			{ t, offsetof(two::ValueTrack<float>, m_max), type<float>(), "max", &max_default, Member::Value, nullptr },
-			{ t, offsetof(two::ValueTrack<float>, m_curve), type<two::ValueCurve<float>>(), "curve", &curve_default, Member::Value, nullptr },
-			{ t, offsetof(two::ValueTrack<float>, m_min_curve), type<two::ValueCurve<float>>(), "min_curve", &min_curve_default, Member::Value, nullptr },
-			{ t, offsetof(two::ValueTrack<float>, m_max_curve), type<two::ValueCurve<float>>(), "max_curve", &max_curve_default, Member::Value, nullptr }
+			{ t, offsetof(two::ValueTrack<float>, m_curve), type<two::ValueCurve<float>>(), "curve", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ValueTrack<float>, m_min_curve), type<two::ValueCurve<float>>(), "min_curve", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ValueTrack<float>, m_max_curve), type<two::ValueCurve<float>>(), "max_curve", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1361,13 +1303,9 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ValueTrack<uint32_t>", sizeof(two::ValueTrack<uint32_t>), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::TrackMode mode_default = two::TrackMode();
 		static uint32_t value_default = One<uint32_t>::value();
 		static uint32_t min_default = One<uint32_t>::value();
 		static uint32_t max_default = One<uint32_t>::value();
-		static two::ValueCurve<uint32_t> curve_default = two::ValueCurve<uint32_t>();
-		static two::ValueCurve<uint32_t> min_curve_default = two::ValueCurve<uint32_t>();
-		static two::ValueCurve<uint32_t> max_curve_default = two::ValueCurve<uint32_t>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_ValueTrack_uint32_t__default_construct }
@@ -1382,13 +1320,13 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ValueTrack<uint32_t>, m_mode), type<two::TrackMode>(), "mode", &mode_default, Member::Value, nullptr },
+			{ t, offsetof(two::ValueTrack<uint32_t>, m_mode), type<two::TrackMode>(), "mode", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::ValueTrack<uint32_t>, m_value), type<uint32_t>(), "value", &value_default, Member::Value, nullptr },
 			{ t, offsetof(two::ValueTrack<uint32_t>, m_min), type<uint32_t>(), "min", &min_default, Member::Value, nullptr },
 			{ t, offsetof(two::ValueTrack<uint32_t>, m_max), type<uint32_t>(), "max", &max_default, Member::Value, nullptr },
-			{ t, offsetof(two::ValueTrack<uint32_t>, m_curve), type<two::ValueCurve<uint32_t>>(), "curve", &curve_default, Member::Value, nullptr },
-			{ t, offsetof(two::ValueTrack<uint32_t>, m_min_curve), type<two::ValueCurve<uint32_t>>(), "min_curve", &min_curve_default, Member::Value, nullptr },
-			{ t, offsetof(two::ValueTrack<uint32_t>, m_max_curve), type<two::ValueCurve<uint32_t>>(), "max_curve", &max_curve_default, Member::Value, nullptr }
+			{ t, offsetof(two::ValueTrack<uint32_t>, m_curve), type<two::ValueCurve<uint32_t>>(), "curve", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ValueTrack<uint32_t>, m_min_curve), type<two::ValueCurve<uint32_t>>(), "min_curve", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ValueTrack<uint32_t>, m_max_curve), type<two::ValueCurve<uint32_t>>(), "max_curve", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1401,13 +1339,9 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ValueTrack<two::Colour>", sizeof(two::ValueTrack<two::Colour>), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::TrackMode mode_default = two::TrackMode();
 		static two::Colour value_default = One<two::Colour>::value();
 		static two::Colour min_default = One<two::Colour>::value();
 		static two::Colour max_default = One<two::Colour>::value();
-		static two::ValueCurve<two::Colour> curve_default = two::ValueCurve<two::Colour>();
-		static two::ValueCurve<two::Colour> min_curve_default = two::ValueCurve<two::Colour>();
-		static two::ValueCurve<two::Colour> max_curve_default = two::ValueCurve<two::Colour>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_ValueTrack_two_Colour__default_construct }
@@ -1422,13 +1356,13 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ValueTrack<two::Colour>, m_mode), type<two::TrackMode>(), "mode", &mode_default, Member::Value, nullptr },
+			{ t, offsetof(two::ValueTrack<two::Colour>, m_mode), type<two::TrackMode>(), "mode", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::ValueTrack<two::Colour>, m_value), type<two::Colour>(), "value", &value_default, Member::Value, nullptr },
 			{ t, offsetof(two::ValueTrack<two::Colour>, m_min), type<two::Colour>(), "min", &min_default, Member::Value, nullptr },
 			{ t, offsetof(two::ValueTrack<two::Colour>, m_max), type<two::Colour>(), "max", &max_default, Member::Value, nullptr },
-			{ t, offsetof(two::ValueTrack<two::Colour>, m_curve), type<two::ValueCurve<two::Colour>>(), "curve", &curve_default, Member::Value, nullptr },
-			{ t, offsetof(two::ValueTrack<two::Colour>, m_min_curve), type<two::ValueCurve<two::Colour>>(), "min_curve", &min_curve_default, Member::Value, nullptr },
-			{ t, offsetof(two::ValueTrack<two::Colour>, m_max_curve), type<two::ValueCurve<two::Colour>>(), "max_curve", &max_curve_default, Member::Value, nullptr }
+			{ t, offsetof(two::ValueTrack<two::Colour>, m_curve), type<two::ValueCurve<two::Colour>>(), "curve", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ValueTrack<two::Colour>, m_min_curve), type<two::ValueCurve<two::Colour>>(), "min_curve", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ValueTrack<two::Colour>, m_max_curve), type<two::ValueCurve<two::Colour>>(), "max_curve", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1441,8 +1375,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Image", sizeof(two::Image), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string d_name_default = stl::string();
-		static stl::string d_path_default = stl::string();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Image__default_construct }
@@ -1454,8 +1386,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Image, d_name), type<stl::string>(), "d_name", &d_name_default, Member::Value, nullptr },
-			{ t, offsetof(two::Image, d_path), type<stl::string>(), "d_path", &d_path_default, Member::Value, nullptr }
+			{ t, offsetof(two::Image, d_name), type<stl::string>(), "d_name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Image, d_path), type<stl::string>(), "d_path", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1493,8 +1425,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Image256", sizeof(two::Image256), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::uvec2 size_default = two::v2<uint>();
-		static two::Palette palette_default = two::Palette();
 		static two::uvec2 construct_0_size_default = uvec2(0U);
 		static two::Palette construct_0_palette_default = two::Palette();
 		// default constructor
@@ -1509,8 +1439,8 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::Image256, m_pixels), type<stl::vector<uint32_t>>(), "pixels", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::Image256, m_size), type<two::uvec2>(), "size", &size_default, Member::Value, nullptr },
-			{ t, offsetof(two::Image256, m_palette), type<two::Palette>(), "palette", &palette_default, Member::Value, nullptr }
+			{ t, offsetof(two::Image256, m_size), type<two::uvec2>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Image256, m_palette), type<two::Palette>(), "palette", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1584,8 +1514,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Range<two::vec3>", sizeof(two::Range<two::vec3>), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::vec3 min_default = two::v3<float>();
-		static two::vec3 max_default = two::v3<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Range_two_vec3__default_construct }
@@ -1597,8 +1525,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Range<two::vec3>, m_min), type<two::vec3>(), "min", &min_default, Member::Value, nullptr },
-			{ t, offsetof(two::Range<two::vec3>, m_max), type<two::vec3>(), "max", &max_default, Member::Value, nullptr }
+			{ t, offsetof(two::Range<two::vec3>, m_min), type<two::vec3>(), "min", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Range<two::vec3>, m_max), type<two::vec3>(), "max", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1611,8 +1539,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Range<two::quat>", sizeof(two::Range<two::quat>), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::quat min_default = two::quat();
-		static two::quat max_default = two::quat();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Range_two_quat__default_construct }
@@ -1624,8 +1550,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Range<two::quat>, m_min), type<two::quat>(), "min", &min_default, Member::Value, nullptr },
-			{ t, offsetof(two::Range<two::quat>, m_max), type<two::quat>(), "max", &max_default, Member::Value, nullptr }
+			{ t, offsetof(two::Range<two::quat>, m_min), type<two::quat>(), "min", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Range<two::quat>, m_max), type<two::quat>(), "max", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1638,8 +1564,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Range<float>", sizeof(two::Range<float>), TypeClass::Struct };
 		// bases
 		// defaults
-		static float min_default = float();
-		static float max_default = float();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Range_float__default_construct }
@@ -1651,8 +1575,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Range<float>, m_min), type<float>(), "min", &min_default, Member::Value, nullptr },
-			{ t, offsetof(two::Range<float>, m_max), type<float>(), "max", &max_default, Member::Value, nullptr }
+			{ t, offsetof(two::Range<float>, m_min), type<float>(), "min", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Range<float>, m_max), type<float>(), "max", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1665,8 +1589,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Range<uint32_t>", sizeof(two::Range<uint32_t>), TypeClass::Struct };
 		// bases
 		// defaults
-		static uint32_t min_default = uint();
-		static uint32_t max_default = uint();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Range_uint32_t__default_construct }
@@ -1678,8 +1600,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Range<uint32_t>, m_min), type<uint32_t>(), "min", &min_default, Member::Value, nullptr },
-			{ t, offsetof(two::Range<uint32_t>, m_max), type<uint32_t>(), "max", &max_default, Member::Value, nullptr }
+			{ t, offsetof(two::Range<uint32_t>, m_min), type<uint32_t>(), "min", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Range<uint32_t>, m_max), type<uint32_t>(), "max", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1692,8 +1614,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Range<two::Colour>", sizeof(two::Range<two::Colour>), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::Colour min_default = two::Colour();
-		static two::Colour max_default = two::Colour();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Range_two_Colour__default_construct }
@@ -1705,8 +1625,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Range<two::Colour>, m_min), type<two::Colour>(), "min", &min_default, Member::Value, nullptr },
-			{ t, offsetof(two::Range<two::Colour>, m_max), type<two::Colour>(), "max", &max_default, Member::Value, nullptr }
+			{ t, offsetof(two::Range<two::Colour>, m_min), type<two::Colour>(), "min", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Range<two::Colour>, m_max), type<two::Colour>(), "max", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1777,7 +1697,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Time", sizeof(two::Time), TypeClass::Struct };
 		// bases
 		// defaults
-		static double value_default = double();
 		// default constructor
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -1789,7 +1708,7 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Time, m_value), type<double>(), "value", &value_default, Member::Value, nullptr }
+			{ t, offsetof(two::Time, m_value), type<double>(), "value", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1801,8 +1720,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "TimeSpan", sizeof(two::TimeSpan), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::Time start_default = two::Time();
-		static two::Time end_default = two::Time();
 		// default constructor
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
@@ -1814,8 +1731,8 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::TimeSpan, start), type<two::Time>(), "start", &start_default, Member::Value, nullptr },
-			{ t, offsetof(two::TimeSpan, end), type<two::Time>(), "end", &end_default, Member::Value, nullptr }
+			{ t, offsetof(two::TimeSpan, start), type<two::Time>(), "start", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::TimeSpan, end), type<two::Time>(), "end", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1883,57 +1800,57 @@ namespace two
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<two::v2<float>>();
+		Type& t = type<two::float2>();
 		static Alias alias = { &t, &namspc({ "two" }), "vec2" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<two::v3<float>>();
+		Type& t = type<two::float3>();
 		static Alias alias = { &t, &namspc({ "two" }), "vec3" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<two::v4<float>>();
+		Type& t = type<two::float4>();
 		static Alias alias = { &t, &namspc({ "two" }), "vec4" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<two::v2<uint>>();
+		Type& t = type<two::uint2>();
 		static Alias alias = { &t, &namspc({ "two" }), "uvec2" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<two::v3<uint>>();
+		Type& t = type<two::uint3>();
 		static Alias alias = { &t, &namspc({ "two" }), "uvec3" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<two::v4<uint>>();
+		Type& t = type<two::uint4>();
 		static Alias alias = { &t, &namspc({ "two" }), "uvec4" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<two::v2<int>>();
+		Type& t = type<two::int2>();
 		static Alias alias = { &t, &namspc({ "two" }), "ivec2" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<two::v3<int>>();
+		Type& t = type<two::int3>();
 		static Alias alias = { &t, &namspc({ "two" }), "ivec3" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<two::v4<int>>();
+		Type& t = type<two::int4>();
 		static Alias alias = { &t, &namspc({ "two" }), "ivec4" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<two::v3<bool>>();
+		Type& t = type<two::bool3>();
 		static Alias alias = { &t, &namspc({ "two" }), "bvec3" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<two::v4<bool>>();
+		Type& t = type<two::bool4>();
 		static Alias alias = { &t, &namspc({ "two" }), "bvec4" };
 		m.m_aliases.push_back(&alias);
 	}

@@ -482,9 +482,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Space", sizeof(two::Space), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::FlowAxis direction_default = two::FlowAxis();
-		static two::Sizing sizingLength_default = two::Sizing();
-		static two::Sizing sizingDepth_default = two::Sizing();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Space__default_construct }
@@ -496,9 +493,9 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Space, direction), type<two::FlowAxis>(), "direction", &direction_default, Member::Value, nullptr },
-			{ t, offsetof(two::Space, sizingLength), type<two::Sizing>(), "sizingLength", &sizingLength_default, Member::Value, nullptr },
-			{ t, offsetof(two::Space, sizingDepth), type<two::Sizing>(), "sizingDepth", &sizingDepth_default, Member::Value, nullptr }
+			{ t, offsetof(two::Space, direction), type<two::FlowAxis>(), "direction", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Space, sizingLength), type<two::Sizing>(), "sizingLength", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Space, sizingDepth), type<two::Sizing>(), "sizingDepth", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -511,8 +508,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "v2<two::AutoLayout>", sizeof(two::v2<two::AutoLayout>), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::AutoLayout x_default = two::AutoLayout();
-		static two::AutoLayout y_default = two::AutoLayout();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_v2_two_AutoLayout__default_construct }
@@ -528,8 +523,8 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::v2<two::AutoLayout>, x), type<two::AutoLayout>(), "x", &x_default, Member::Value, nullptr },
-			{ t, offsetof(two::v2<two::AutoLayout>, y), type<two::AutoLayout>(), "y", &y_default, Member::Value, nullptr }
+			{ t, offsetof(two::v2<two::AutoLayout>, x), type<two::AutoLayout>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v2<two::AutoLayout>, y), type<two::AutoLayout>(), "y", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -542,8 +537,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "v2<two::Sizing>", sizeof(two::v2<two::Sizing>), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::Sizing x_default = two::Sizing();
-		static two::Sizing y_default = two::Sizing();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_v2_two_Sizing__default_construct }
@@ -559,8 +552,8 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::v2<two::Sizing>, x), type<two::Sizing>(), "x", &x_default, Member::Value, nullptr },
-			{ t, offsetof(two::v2<two::Sizing>, y), type<two::Sizing>(), "y", &y_default, Member::Value, nullptr }
+			{ t, offsetof(two::v2<two::Sizing>, x), type<two::Sizing>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v2<two::Sizing>, y), type<two::Sizing>(), "y", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -573,8 +566,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "v2<two::Align>", sizeof(two::v2<two::Align>), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::Align x_default = two::Align();
-		static two::Align y_default = two::Align();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_v2_two_Align__default_construct }
@@ -590,8 +581,8 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::v2<two::Align>, x), type<two::Align>(), "x", &x_default, Member::Value, nullptr },
-			{ t, offsetof(two::v2<two::Align>, y), type<two::Align>(), "y", &y_default, Member::Value, nullptr }
+			{ t, offsetof(two::v2<two::Align>, x), type<two::Align>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v2<two::Align>, y), type<two::Align>(), "y", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -604,8 +595,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "v2<two::Pivot>", sizeof(two::v2<two::Pivot>), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::Pivot x_default = two::Pivot();
-		static two::Pivot y_default = two::Pivot();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_v2_two_Pivot__default_construct }
@@ -621,8 +610,8 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::v2<two::Pivot>, x), type<two::Pivot>(), "x", &x_default, Member::Value, nullptr },
-			{ t, offsetof(two::v2<two::Pivot>, y), type<two::Pivot>(), "y", &y_default, Member::Value, nullptr }
+			{ t, offsetof(two::v2<two::Pivot>, x), type<two::Pivot>(), "x", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::v2<two::Pivot>, y), type<two::Pivot>(), "y", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -673,11 +662,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Shadow", sizeof(two::Shadow), TypeClass::Struct };
 		// bases
 		// defaults
-		static float d_xpos_default = float();
-		static float d_ypos_default = float();
-		static float d_blur_default = float();
-		static float d_spread_default = float();
-		static two::Colour d_colour_default = two::Colour();
 		static two::Colour construct_0_colour_default = two::Colour::AlphaBlack;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
@@ -693,11 +677,11 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Shadow, d_xpos), type<float>(), "d_xpos", &d_xpos_default, Member::Value, nullptr },
-			{ t, offsetof(two::Shadow, d_ypos), type<float>(), "d_ypos", &d_ypos_default, Member::Value, nullptr },
-			{ t, offsetof(two::Shadow, d_blur), type<float>(), "d_blur", &d_blur_default, Member::Value, nullptr },
-			{ t, offsetof(two::Shadow, d_spread), type<float>(), "d_spread", &d_spread_default, Member::Value, nullptr },
-			{ t, offsetof(two::Shadow, d_colour), type<two::Colour>(), "d_colour", &d_colour_default, Member::Value, nullptr }
+			{ t, offsetof(two::Shadow, d_xpos), type<float>(), "d_xpos", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Shadow, d_ypos), type<float>(), "d_ypos", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Shadow, d_blur), type<float>(), "d_blur", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Shadow, d_spread), type<float>(), "d_spread", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Shadow, d_colour), type<two::Colour>(), "d_colour", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -710,9 +694,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Paint", sizeof(two::Paint), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::Colour fill_colour_default = two::Colour();
-		static two::Colour stroke_colour_default = two::Colour();
-		static float stroke_width_default = float();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Paint__default_construct }
@@ -724,9 +705,9 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Paint, m_fill_colour), type<two::Colour>(), "fill_colour", &fill_colour_default, Member::Value, nullptr },
-			{ t, offsetof(two::Paint, m_stroke_colour), type<two::Colour>(), "stroke_colour", &stroke_colour_default, Member::Value, nullptr },
-			{ t, offsetof(two::Paint, m_stroke_width), type<float>(), "stroke_width", &stroke_width_default, Member::Value, nullptr }
+			{ t, offsetof(two::Paint, m_fill_colour), type<two::Colour>(), "fill_colour", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Paint, m_stroke_colour), type<two::Colour>(), "stroke_colour", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Paint, m_stroke_width), type<float>(), "stroke_width", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -739,11 +720,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "TextPaint", sizeof(two::TextPaint), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::Colour colour_default = two::Colour();
-		static float size_default = float();
-		static two::v2<two::Align> align_default = two::v2<two::Align>();
-		static bool text_break_default = bool();
-		static bool text_wrap_default = bool();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_TextPaint__default_construct }
@@ -756,11 +732,11 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::TextPaint, m_font), type<const char*>(), "font", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::TextPaint, m_colour), type<two::Colour>(), "colour", &colour_default, Member::Value, nullptr },
-			{ t, offsetof(two::TextPaint, m_size), type<float>(), "size", &size_default, Member::Value, nullptr },
-			{ t, offsetof(two::TextPaint, m_align), type<two::v2<two::Align>>(), "align", &align_default, Member::Value, nullptr },
-			{ t, offsetof(two::TextPaint, m_text_break), type<bool>(), "text_break", &text_break_default, Member::Value, nullptr },
-			{ t, offsetof(two::TextPaint, m_text_wrap), type<bool>(), "text_wrap", &text_wrap_default, Member::Value, nullptr }
+			{ t, offsetof(two::TextPaint, m_colour), type<two::Colour>(), "colour", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::TextPaint, m_size), type<float>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::TextPaint, m_align), type<two::v2<two::Align>>(), "align", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::TextPaint, m_text_break), type<bool>(), "text_break", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::TextPaint, m_text_wrap), type<bool>(), "text_wrap", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -773,8 +749,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Gradient", sizeof(two::Gradient), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::Colour start_default = two::Colour();
-		static two::Colour end_default = two::Colour();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Gradient__default_construct }
@@ -786,8 +760,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Gradient, m_start), type<two::Colour>(), "start", &start_default, Member::Value, nullptr },
-			{ t, offsetof(two::Gradient, m_end), type<two::Colour>(), "end", &end_default, Member::Value, nullptr }
+			{ t, offsetof(two::Gradient, m_start), type<two::Colour>(), "start", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Gradient, m_end), type<two::Colour>(), "end", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -810,21 +784,13 @@ namespace two
 		static float text_size_default = 13.f;
 		static bool text_break_default = false;
 		static bool text_wrap_default = false;
-		static two::vec4 border_width_default = two::v4<float>();
-		static two::vec4 corner_radius_default = two::v4<float>();
 		static bool weak_corners_default = false;
-		static two::vec4 padding_default = two::v4<float>();
-		static two::vec4 margin_default = two::v4<float>();
 		static two::v2<two::Align> align_default = {Align::Left,Align::Left};
-		static two::vec2 linear_gradient_default = two::v2<float>();
 		static two::Axis linear_gradient_dim_default = two::Axis::Y;
 		static two::v2<bool> stretch_default = {false,false};
 		static two::Image* image_default = nullptr;
 		static two::Image* overlay_default = nullptr;
 		static two::Image* tile_default = nullptr;
-		static two::ImageSkin image_skin_default = two::ImageSkin();
-		static two::Shadow shadow_default = two::Shadow();
-		static two::Colour shadow_colour_default = two::Colour();
 		static two::Style* hover_cursor_default = nullptr;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
@@ -850,21 +816,21 @@ namespace two
 			{ t, offsetof(two::InkStyle, m_text_size), type<float>(), "text_size", &text_size_default, Member::Value, nullptr },
 			{ t, offsetof(two::InkStyle, m_text_break), type<bool>(), "text_break", &text_break_default, Member::Value, nullptr },
 			{ t, offsetof(two::InkStyle, m_text_wrap), type<bool>(), "text_wrap", &text_wrap_default, Member::Value, nullptr },
-			{ t, offsetof(two::InkStyle, m_border_width), type<two::vec4>(), "border_width", &border_width_default, Member::Value, nullptr },
-			{ t, offsetof(two::InkStyle, m_corner_radius), type<two::vec4>(), "corner_radius", &corner_radius_default, Member::Value, nullptr },
+			{ t, offsetof(two::InkStyle, m_border_width), type<two::vec4>(), "border_width", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::InkStyle, m_corner_radius), type<two::vec4>(), "corner_radius", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::InkStyle, m_weak_corners), type<bool>(), "weak_corners", &weak_corners_default, Member::Value, nullptr },
-			{ t, offsetof(two::InkStyle, m_padding), type<two::vec4>(), "padding", &padding_default, Member::Value, nullptr },
-			{ t, offsetof(two::InkStyle, m_margin), type<two::vec4>(), "margin", &margin_default, Member::Value, nullptr },
+			{ t, offsetof(two::InkStyle, m_padding), type<two::vec4>(), "padding", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::InkStyle, m_margin), type<two::vec4>(), "margin", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::InkStyle, m_align), type<two::v2<two::Align>>(), "align", &align_default, Member::Value, nullptr },
-			{ t, offsetof(two::InkStyle, m_linear_gradient), type<two::vec2>(), "linear_gradient", &linear_gradient_default, Member::Value, nullptr },
+			{ t, offsetof(two::InkStyle, m_linear_gradient), type<two::vec2>(), "linear_gradient", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::InkStyle, m_linear_gradient_dim), type<two::Axis>(), "linear_gradient_dim", &linear_gradient_dim_default, Member::Value, nullptr },
 			{ t, offsetof(two::InkStyle, m_stretch), type<two::v2<bool>>(), "stretch", &stretch_default, Member::Value, nullptr },
 			{ t, offsetof(two::InkStyle, m_image), type<two::Image>(), "image", image_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::InkStyle, m_overlay), type<two::Image>(), "overlay", overlay_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::InkStyle, m_tile), type<two::Image>(), "tile", tile_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::InkStyle, m_image_skin), type<two::ImageSkin>(), "image_skin", &image_skin_default, Member::Value, nullptr },
-			{ t, offsetof(two::InkStyle, m_shadow), type<two::Shadow>(), "shadow", &shadow_default, Member::Value, nullptr },
-			{ t, offsetof(two::InkStyle, m_shadow_colour), type<two::Colour>(), "shadow_colour", &shadow_colour_default, Member::Value, nullptr },
+			{ t, offsetof(two::InkStyle, m_image_skin), type<two::ImageSkin>(), "image_skin", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::InkStyle, m_shadow), type<two::Shadow>(), "shadow", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::InkStyle, m_shadow_colour), type<two::Colour>(), "shadow_colour", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::InkStyle, m_hover_cursor), type<two::Style>(), "hover_cursor", hover_cursor_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};
 		// methods
@@ -886,11 +852,6 @@ namespace two
 		static two::Clip clipping_default = two::Clip::None;
 		static two::Opacity opacity_default = two::Opacity::Clear;
 		static two::v2<two::Align> align_default = {Align::Left,Align::Left};
-		static two::vec2 span_default = two::v2<float>();
-		static two::vec2 size_default = two::v2<float>();
-		static two::vec4 padding_default = two::v4<float>();
-		static two::vec2 margin_default = two::v2<float>();
-		static two::vec2 spacing_default = two::v2<float>();
 		static two::v2<two::Pivot> pivot_default = {Pivot::Forward,Pivot::Forward};
 		static int zorder_default = 0;
 		static bool no_grid_default = false;
@@ -917,11 +878,11 @@ namespace two
 			{ t, offsetof(two::Layout, m_clipping), type<two::Clip>(), "clipping", &clipping_default, Member::Value, nullptr },
 			{ t, offsetof(two::Layout, m_opacity), type<two::Opacity>(), "opacity", &opacity_default, Member::Value, nullptr },
 			{ t, offsetof(two::Layout, m_align), type<two::v2<two::Align>>(), "align", &align_default, Member::Value, nullptr },
-			{ t, offsetof(two::Layout, m_span), type<two::vec2>(), "span", &span_default, Member::Value, nullptr },
-			{ t, offsetof(two::Layout, m_size), type<two::vec2>(), "size", &size_default, Member::Value, nullptr },
-			{ t, offsetof(two::Layout, m_padding), type<two::vec4>(), "padding", &padding_default, Member::Value, nullptr },
-			{ t, offsetof(two::Layout, m_margin), type<two::vec2>(), "margin", &margin_default, Member::Value, nullptr },
-			{ t, offsetof(two::Layout, m_spacing), type<two::vec2>(), "spacing", &spacing_default, Member::Value, nullptr },
+			{ t, offsetof(two::Layout, m_span), type<two::vec2>(), "span", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Layout, m_size), type<two::vec2>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Layout, m_padding), type<two::vec4>(), "padding", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Layout, m_margin), type<two::vec2>(), "margin", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Layout, m_spacing), type<two::vec2>(), "spacing", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Layout, m_pivot), type<two::v2<two::Pivot>>(), "pivot", &pivot_default, Member::Value, nullptr },
 			{ t, offsetof(two::Layout, m_zorder), type<int>(), "zorder", &zorder_default, Member::Value, nullptr },
 			{ t, offsetof(two::Layout, m_no_grid), type<bool>(), "no_grid", &no_grid_default, Member::Value, nullptr },
@@ -940,8 +901,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Subskin", sizeof(two::Subskin), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::InkStyle skin_default = two::InkStyle();
-		static two::WidgetState state_default = two::WidgetState();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Subskin__default_construct }
@@ -953,8 +912,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Subskin, skin), type<two::InkStyle>(), "skin", &skin_default, Member::Value, nullptr },
-			{ t, offsetof(two::Subskin, state), type<two::WidgetState>(), "state", &state_default, Member::Value, nullptr }
+			{ t, offsetof(two::Subskin, skin), type<two::InkStyle>(), "skin", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Subskin, state), type<two::WidgetState>(), "state", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -967,18 +926,15 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Style", sizeof(two::Style), TypeClass::Object };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
-		static two::Layout layout_default = two::Layout();
-		static two::InkStyle skin_default = two::InkStyle();
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::Style, m_base), type<two::Style>(), "base", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::Style, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
-			{ t, offsetof(two::Style, m_layout), type<two::Layout>(), "layout", &layout_default, Member::Value, nullptr },
-			{ t, offsetof(two::Style, m_skin), type<two::InkStyle>(), "skin", &skin_default, Member::Value, nullptr },
+			{ t, offsetof(two::Style, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Style, m_layout), type<two::Layout>(), "layout", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Style, m_skin), type<two::InkStyle>(), "skin", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Style, m_skins), type<stl::vector<two::Subskin>>(), "skins", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
@@ -991,10 +947,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "UiRect", sizeof(two::UiRect), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::vec2 position_default = two::v2<float>();
-		static two::vec2 size_default = two::v2<float>();
-		static two::vec2 content_default = two::v2<float>();
-		static two::vec2 span_default = two::v2<float>();
 		static float scale_default = 1.f;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
@@ -1007,10 +959,10 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::UiRect, m_position), type<two::vec2>(), "position", &position_default, Member::Value, nullptr },
-			{ t, offsetof(two::UiRect, m_size), type<two::vec2>(), "size", &size_default, Member::Value, nullptr },
-			{ t, offsetof(two::UiRect, m_content), type<two::vec2>(), "content", &content_default, Member::Value, nullptr },
-			{ t, offsetof(two::UiRect, m_span), type<two::vec2>(), "span", &span_default, Member::Value, nullptr },
+			{ t, offsetof(two::UiRect, m_position), type<two::vec2>(), "position", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::UiRect, m_size), type<two::vec2>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::UiRect, m_content), type<two::vec2>(), "content", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::UiRect, m_span), type<two::vec2>(), "span", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::UiRect, m_scale), type<float>(), "scale", &scale_default, Member::Value, nullptr }
 		};
 		// methods
@@ -1249,20 +1201,17 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "UiWindow", sizeof(two::UiWindow), TypeClass::Object };
 		// bases
 		// defaults
-		static stl::string resource_path_default = stl::string();
-		static two::uvec2 size_default = two::v2<uint>();
-		static two::Colour colour_default = two::Colour();
 		static bool shutdown_default = false;
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::UiWindow, m_resource_path), type<stl::string>(), "resource_path", &resource_path_default, Member::Flags(Member::Value|Member::NonMutable), nullptr },
+			{ t, offsetof(two::UiWindow, m_resource_path), type<stl::string>(), "resource_path", nullptr, Member::Flags(Member::Value|Member::NonMutable), nullptr },
 			{ t, SIZE_MAX, type<two::Context>(), "context", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_UiWindow__get_context },
 			{ t, SIZE_MAX, type<two::Vg>(), "vg", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_UiWindow__get_vg },
-			{ t, offsetof(two::UiWindow, m_size), type<two::uvec2>(), "size", &size_default, Member::Value, nullptr },
-			{ t, offsetof(two::UiWindow, m_colour), type<two::Colour>(), "colour", &colour_default, Member::Value, nullptr },
+			{ t, offsetof(two::UiWindow, m_size), type<two::uvec2>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::UiWindow, m_colour), type<two::Colour>(), "colour", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::UiWindow, m_shutdown), type<bool>(), "shutdown", &shutdown_default, Member::Value, nullptr }
 		};
 		// methods
@@ -1668,14 +1617,13 @@ namespace two
 		static Type* bases[] = { &type<two::Dockable>() };
 		static size_t bases_offsets[] = { base_offset<two::Window, two::Dockable>() };
 		// defaults
-		static two::WindowState window_state_default = two::WindowState();
 		static two::Widget* menu_default = nullptr;
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Window, m_window_state), type<two::WindowState>(), "window_state", &window_state_default, Member::Value, nullptr },
+			{ t, offsetof(two::Window, m_window_state), type<two::WindowState>(), "window_state", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Window, m_menu), type<two::Widget>(), "menu", menu_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};
 		// methods
@@ -1684,7 +1632,7 @@ namespace two
 	}
 	
 	{
-		Type& t = type<ushort>();
+		Type& t = type<uint16_t>();
 		static Alias alias = { &t, &namspc({ "two" }), "PaletteIndex" };
 		m.m_aliases.push_back(&alias);
 	}

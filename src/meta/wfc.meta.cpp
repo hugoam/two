@@ -50,11 +50,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Tile", sizeof(two::Tile), TypeClass::Struct };
 		// bases
 		// defaults
-		static uint32_t index_default = uint();
-		static stl::string name_default = stl::string();
-		static char symmetry_default = char();
-		static int cardinality_default = int();
-		static int profile_default = int();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Tile__default_construct }
@@ -66,11 +61,11 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Tile, m_index), type<uint32_t>(), "index", &index_default, Member::Value, nullptr },
-			{ t, offsetof(two::Tile, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
-			{ t, offsetof(two::Tile, m_symmetry), type<char>(), "symmetry", &symmetry_default, Member::Value, nullptr },
-			{ t, offsetof(two::Tile, m_cardinality), type<int>(), "cardinality", &cardinality_default, Member::Value, nullptr },
-			{ t, offsetof(two::Tile, m_profile), type<int>(), "profile", &profile_default, Member::Value, nullptr }
+			{ t, offsetof(two::Tile, m_index), type<uint32_t>(), "index", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Tile, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Tile, m_symmetry), type<char>(), "symmetry", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Tile, m_cardinality), type<int>(), "cardinality", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Tile, m_profile), type<int>(), "profile", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -83,10 +78,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Tileset", sizeof(two::Tileset), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
-		static two::vec3 tile_size_default = two::v3<float>();
-		static two::vec3 tile_scale_default = two::v3<float>();
-		static uint16_t nutiles_default = ushort();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Tileset__default_construct }
@@ -98,10 +89,10 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Tileset, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
-			{ t, offsetof(two::Tileset, m_tile_size), type<two::vec3>(), "tile_size", &tile_size_default, Member::Value, nullptr },
-			{ t, offsetof(two::Tileset, m_tile_scale), type<two::vec3>(), "tile_scale", &tile_scale_default, Member::Value, nullptr },
-			{ t, offsetof(two::Tileset, m_num_tiles), type<uint16_t>(), "nutiles", &nutiles_default, Member::Value, nullptr }
+			{ t, offsetof(two::Tileset, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Tileset, m_tile_size), type<two::vec3>(), "tile_size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Tileset, m_tile_scale), type<two::vec3>(), "tile_scale", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Tileset, m_num_tiles), type<uint16_t>(), "nutiles", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -179,22 +170,22 @@ namespace two
 	}
 	
 	{
-		Type& t = type<uchar>();
+		Type& t = type<uint8_t>();
 		static Alias alias = { &t, &namspc({ "two" }), "ubool" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<uchar>();
+		Type& t = type<uint8_t>();
 		static Alias alias = { &t, &namspc({ "two" }), "ColorIndex" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<ullong>();
+		Type& t = type<uint64_t>();
 		static Alias alias = { &t, &namspc({ "two" }), "PatternHash" };
 		m.m_aliases.push_back(&alias);
 	}
 	{
-		Type& t = type<ushort>();
+		Type& t = type<uint16_t>();
 		static Alias alias = { &t, &namspc({ "two" }), "PatternIndex" };
 		m.m_aliases.push_back(&alias);
 	}

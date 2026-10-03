@@ -493,10 +493,6 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFBuffer", sizeof(glTFBuffer), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
-		static stl::string mime_type_default = stl::string();
-		static stl::string uri_default = stl::string();
-		static size_t byte_length_default = ullong();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFBuffer__default_construct }
@@ -508,10 +504,10 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFBuffer, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
-			{ t, offsetof(glTFBuffer, mime_type), type<stl::string>(), "mime_type", &mime_type_default, Member::Value, nullptr },
-			{ t, offsetof(glTFBuffer, uri), type<stl::string>(), "uri", &uri_default, Member::Value, nullptr },
-			{ t, offsetof(glTFBuffer, byte_length), type<size_t>(), "byte_length", &byte_length_default, Member::Value, nullptr }
+			{ t, offsetof(glTFBuffer, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFBuffer, mime_type), type<stl::string>(), "mime_type", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFBuffer, uri), type<stl::string>(), "uri", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFBuffer, byte_length), type<size_t>(), "byte_length", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -524,10 +520,6 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFImage", sizeof(glTFImage), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
-		static stl::string mime_type_default = stl::string();
-		static stl::string uri_default = stl::string();
-		static int buffer_view_default = int();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFImage__default_construct }
@@ -539,10 +531,10 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFImage, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
-			{ t, offsetof(glTFImage, mime_type), type<stl::string>(), "mime_type", &mime_type_default, Member::Value, nullptr },
-			{ t, offsetof(glTFImage, uri), type<stl::string>(), "uri", &uri_default, Member::Value, nullptr },
-			{ t, offsetof(glTFImage, buffer_view), type<int>(), "buffer_view", &buffer_view_default, Member::Value, nullptr }
+			{ t, offsetof(glTFImage, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFImage, mime_type), type<stl::string>(), "mime_type", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFImage, uri), type<stl::string>(), "uri", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFImage, buffer_view), type<int>(), "buffer_view", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -555,7 +547,6 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFBufferView", sizeof(glTFBufferView), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
 		static int buffer_default = 0;
 		static size_t byte_offset_default = 0;
 		static size_t byte_length_default = 0;
@@ -572,7 +563,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFBufferView, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(glTFBufferView, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFBufferView, buffer), type<int>(), "buffer", &buffer_default, Member::Value, nullptr },
 			{ t, offsetof(glTFBufferView, byte_offset), type<size_t>(), "byte_offset", &byte_offset_default, Member::Value, nullptr },
 			{ t, offsetof(glTFBufferView, byte_length), type<size_t>(), "byte_length", &byte_length_default, Member::Value, nullptr },
@@ -590,9 +581,7 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFSparseIndices", sizeof(glTFSparseIndices), TypeClass::Struct };
 		// bases
 		// defaults
-		static int buffer_view_default = int();
 		static int byte_offset_default = 0;
-		static glTFComponentType component_type_default = glTFComponentType();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFSparseIndices__default_construct }
@@ -604,9 +593,9 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFSparseIndices, buffer_view), type<int>(), "buffer_view", &buffer_view_default, Member::Value, nullptr },
+			{ t, offsetof(glTFSparseIndices, buffer_view), type<int>(), "buffer_view", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFSparseIndices, byte_offset), type<int>(), "byte_offset", &byte_offset_default, Member::Value, nullptr },
-			{ t, offsetof(glTFSparseIndices, component_type), type<glTFComponentType>(), "component_type", &component_type_default, Member::Value, nullptr }
+			{ t, offsetof(glTFSparseIndices, component_type), type<glTFComponentType>(), "component_type", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -619,7 +608,6 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFSparseValues", sizeof(glTFSparseValues), TypeClass::Struct };
 		// bases
 		// defaults
-		static int buffer_view_default = int();
 		static int byte_offset_default = 0;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
@@ -632,7 +620,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFSparseValues, buffer_view), type<int>(), "buffer_view", &buffer_view_default, Member::Value, nullptr },
+			{ t, offsetof(glTFSparseValues, buffer_view), type<int>(), "buffer_view", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFSparseValues, byte_offset), type<int>(), "byte_offset", &byte_offset_default, Member::Value, nullptr }
 		};
 		// methods
@@ -647,8 +635,6 @@ namespace two
 		// bases
 		// defaults
 		static int count_default = 0;
-		static glTFSparseIndices indices_default = glTFSparseIndices();
-		static glTFSparseValues values_default = glTFSparseValues();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFSparse__default_construct }
@@ -661,8 +647,8 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, offsetof(glTFSparse, count), type<int>(), "count", &count_default, Member::Value, nullptr },
-			{ t, offsetof(glTFSparse, indices), type<glTFSparseIndices>(), "indices", &indices_default, Member::Value, nullptr },
-			{ t, offsetof(glTFSparse, values), type<glTFSparseValues>(), "values", &values_default, Member::Value, nullptr }
+			{ t, offsetof(glTFSparse, indices), type<glTFSparseIndices>(), "indices", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFSparse, values), type<glTFSparseValues>(), "values", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -675,14 +661,10 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFAccessor", sizeof(glTFAccessor), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
 		static int buffer_view_default = -1;
 		static int byte_offset_default = 0;
-		static glTFComponentType component_type_default = glTFComponentType();
 		static bool normalized_default = false;
-		static int count_default = int();
 		static glTFType type_default = glTFType::INVALID;
-		static glTFSparse sparse_default = glTFSparse();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFAccessor__default_construct }
@@ -694,14 +676,14 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFAccessor, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(glTFAccessor, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFAccessor, buffer_view), type<int>(), "buffer_view", &buffer_view_default, Member::Value, nullptr },
 			{ t, offsetof(glTFAccessor, byte_offset), type<int>(), "byte_offset", &byte_offset_default, Member::Value, nullptr },
-			{ t, offsetof(glTFAccessor, component_type), type<glTFComponentType>(), "component_type", &component_type_default, Member::Value, nullptr },
+			{ t, offsetof(glTFAccessor, component_type), type<glTFComponentType>(), "component_type", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFAccessor, normalized), type<bool>(), "normalized", &normalized_default, Member::Value, nullptr },
-			{ t, offsetof(glTFAccessor, count), type<int>(), "count", &count_default, Member::Value, nullptr },
+			{ t, offsetof(glTFAccessor, count), type<int>(), "count", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFAccessor, type), type<glTFType>(), "type", &type_default, Member::Value, nullptr },
-			{ t, offsetof(glTFAccessor, sparse), type<glTFSparse>(), "sparse", &sparse_default, Member::Value, nullptr }
+			{ t, offsetof(glTFAccessor, sparse), type<glTFSparse>(), "sparse", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -714,11 +696,8 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFSampler", sizeof(glTFSampler), TypeClass::Struct };
 		// bases
 		// defaults
-		static int mag_filter_default = int();
-		static int min_filter_default = int();
 		static int wrap_s_default = 10497;
 		static int wrap_t_default = 10497;
-		static stl::string name_default = stl::string();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFSampler__default_construct }
@@ -730,11 +709,11 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFSampler, mag_filter), type<int>(), "mag_filter", &mag_filter_default, Member::Value, nullptr },
-			{ t, offsetof(glTFSampler, min_filter), type<int>(), "min_filter", &min_filter_default, Member::Value, nullptr },
+			{ t, offsetof(glTFSampler, mag_filter), type<int>(), "mag_filter", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFSampler, min_filter), type<int>(), "min_filter", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFSampler, wrap_s), type<int>(), "wrap_s", &wrap_s_default, Member::Value, nullptr },
 			{ t, offsetof(glTFSampler, wrap_t), type<int>(), "wrap_t", &wrap_t_default, Member::Value, nullptr },
-			{ t, offsetof(glTFSampler, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr }
+			{ t, offsetof(glTFSampler, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -747,7 +726,6 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFTexture", sizeof(glTFTexture), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
 		static int sampler_default = -1;
 		static int source_default = -1;
 		// default constructor
@@ -761,7 +739,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFTexture, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(glTFTexture, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFTexture, sampler), type<int>(), "sampler", &sampler_default, Member::Value, nullptr },
 			{ t, offsetof(glTFTexture, source), type<int>(), "source", &source_default, Member::Value, nullptr }
 		};
@@ -776,9 +754,7 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFSkin", sizeof(glTFSkin), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
 		static int skeleton_default = -1;
-		static int inverse_bind_matrices_default = int();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFSkin__default_construct }
@@ -790,10 +766,10 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFSkin, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(glTFSkin, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFSkin, skeleton), type<int>(), "skeleton", &skeleton_default, Member::Value, nullptr },
 			{ t, offsetof(glTFSkin, joints), type<stl::vector<int>>(), "joints", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(glTFSkin, inverse_bind_matrices), type<int>(), "inverse_bind_matrices", &inverse_bind_matrices_default, Member::Value, nullptr }
+			{ t, offsetof(glTFSkin, inverse_bind_matrices), type<int>(), "inverse_bind_matrices", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -874,7 +850,6 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFPrimitive", sizeof(glTFPrimitive), TypeClass::Struct };
 		// bases
 		// defaults
-		static glTFAttributes attributes_default = glTFAttributes();
 		static int indices_default = -1;
 		static int material_default = -1;
 		static glTFPrimitiveType mode_default = glTFPrimitiveType::TRIANGLES;
@@ -889,7 +864,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFPrimitive, attributes), type<glTFAttributes>(), "attributes", &attributes_default, Member::Value, nullptr },
+			{ t, offsetof(glTFPrimitive, attributes), type<glTFAttributes>(), "attributes", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFPrimitive, indices), type<int>(), "indices", &indices_default, Member::Value, nullptr },
 			{ t, offsetof(glTFPrimitive, material), type<int>(), "material", &material_default, Member::Value, nullptr },
 			{ t, offsetof(glTFPrimitive, mode), type<glTFPrimitiveType>(), "mode", &mode_default, Member::Value, nullptr },
@@ -906,7 +881,6 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFMesh", sizeof(glTFMesh), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFMesh__default_construct }
@@ -918,7 +892,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFMesh, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(glTFMesh, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFMesh, primitives), type<stl::vector<glTFPrimitive>>(), "primitives", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(glTFMesh, weights), type<stl::vector<float>>(), "weights", nullptr, Member::NonMutable, nullptr }
 		};
@@ -933,10 +907,6 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFPerspective", sizeof(glTFPerspective), TypeClass::Struct };
 		// bases
 		// defaults
-		static float yfov_default = float();
-		static float zfar_default = float();
-		static float znear_default = float();
-		static float aspect_ratio_default = float();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFPerspective__default_construct }
@@ -948,10 +918,10 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFPerspective, yfov), type<float>(), "yfov", &yfov_default, Member::Value, nullptr },
-			{ t, offsetof(glTFPerspective, zfar), type<float>(), "zfar", &zfar_default, Member::Value, nullptr },
-			{ t, offsetof(glTFPerspective, znear), type<float>(), "znear", &znear_default, Member::Value, nullptr },
-			{ t, offsetof(glTFPerspective, aspect_ratio), type<float>(), "aspect_ratio", &aspect_ratio_default, Member::Value, nullptr }
+			{ t, offsetof(glTFPerspective, yfov), type<float>(), "yfov", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFPerspective, zfar), type<float>(), "zfar", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFPerspective, znear), type<float>(), "znear", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFPerspective, aspect_ratio), type<float>(), "aspect_ratio", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -964,10 +934,6 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFOrthographic", sizeof(glTFOrthographic), TypeClass::Struct };
 		// bases
 		// defaults
-		static float xmag_default = float();
-		static float ymag_default = float();
-		static float zfar_default = float();
-		static float znear_default = float();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFOrthographic__default_construct }
@@ -979,10 +945,10 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFOrthographic, xmag), type<float>(), "xmag", &xmag_default, Member::Value, nullptr },
-			{ t, offsetof(glTFOrthographic, ymag), type<float>(), "ymag", &ymag_default, Member::Value, nullptr },
-			{ t, offsetof(glTFOrthographic, zfar), type<float>(), "zfar", &zfar_default, Member::Value, nullptr },
-			{ t, offsetof(glTFOrthographic, znear), type<float>(), "znear", &znear_default, Member::Value, nullptr }
+			{ t, offsetof(glTFOrthographic, xmag), type<float>(), "xmag", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFOrthographic, ymag), type<float>(), "ymag", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFOrthographic, zfar), type<float>(), "zfar", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFOrthographic, znear), type<float>(), "znear", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -995,10 +961,6 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFCamera", sizeof(glTFCamera), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
-		static stl::string type_default = stl::string();
-		static glTFOrthographic orthographic_default = glTFOrthographic();
-		static glTFPerspective perspective_default = glTFPerspective();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFCamera__default_construct }
@@ -1010,10 +972,10 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFCamera, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
-			{ t, offsetof(glTFCamera, type), type<stl::string>(), "type", &type_default, Member::Value, nullptr },
-			{ t, offsetof(glTFCamera, orthographic), type<glTFOrthographic>(), "orthographic", &orthographic_default, Member::Value, nullptr },
-			{ t, offsetof(glTFCamera, perspective), type<glTFPerspective>(), "perspective", &perspective_default, Member::Value, nullptr }
+			{ t, offsetof(glTFCamera, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFCamera, type), type<stl::string>(), "type", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFCamera, orthographic), type<glTFOrthographic>(), "orthographic", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFCamera, perspective), type<glTFPerspective>(), "perspective", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1026,8 +988,6 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFAnimationTarget", sizeof(glTFAnimationTarget), TypeClass::Struct };
 		// bases
 		// defaults
-		static int node_default = int();
-		static stl::string path_default = stl::string();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFAnimationTarget__default_construct }
@@ -1039,8 +999,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFAnimationTarget, node), type<int>(), "node", &node_default, Member::Value, nullptr },
-			{ t, offsetof(glTFAnimationTarget, path), type<stl::string>(), "path", &path_default, Member::Value, nullptr }
+			{ t, offsetof(glTFAnimationTarget, node), type<int>(), "node", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFAnimationTarget, path), type<stl::string>(), "path", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1053,8 +1013,6 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFAnimationChannel", sizeof(glTFAnimationChannel), TypeClass::Struct };
 		// bases
 		// defaults
-		static int sampler_default = int();
-		static glTFAnimationTarget target_default = glTFAnimationTarget();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFAnimationChannel__default_construct }
@@ -1066,8 +1024,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFAnimationChannel, sampler), type<int>(), "sampler", &sampler_default, Member::Value, nullptr },
-			{ t, offsetof(glTFAnimationChannel, target), type<glTFAnimationTarget>(), "target", &target_default, Member::Value, nullptr }
+			{ t, offsetof(glTFAnimationChannel, sampler), type<int>(), "sampler", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFAnimationChannel, target), type<glTFAnimationTarget>(), "target", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1080,9 +1038,6 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFAnimationSampler", sizeof(glTFAnimationSampler), TypeClass::Struct };
 		// bases
 		// defaults
-		static glTFInterpolation interpolation_default = glTFInterpolation();
-		static int input_default = int();
-		static int output_default = int();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFAnimationSampler__default_construct }
@@ -1094,9 +1049,9 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFAnimationSampler, interpolation), type<glTFInterpolation>(), "interpolation", &interpolation_default, Member::Value, nullptr },
-			{ t, offsetof(glTFAnimationSampler, input), type<int>(), "input", &input_default, Member::Value, nullptr },
-			{ t, offsetof(glTFAnimationSampler, output), type<int>(), "output", &output_default, Member::Value, nullptr }
+			{ t, offsetof(glTFAnimationSampler, interpolation), type<glTFInterpolation>(), "interpolation", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFAnimationSampler, input), type<int>(), "input", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFAnimationSampler, output), type<int>(), "output", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1109,7 +1064,6 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFAnimation", sizeof(glTFAnimation), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFAnimation__default_construct }
@@ -1121,7 +1075,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFAnimation, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(glTFAnimation, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFAnimation, samplers), type<stl::vector<glTFAnimationSampler>>(), "samplers", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(glTFAnimation, channels), type<stl::vector<glTFAnimationChannel>>(), "channels", nullptr, Member::NonMutable, nullptr }
 		};
@@ -1163,11 +1117,8 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFMaterialPBR", sizeof(glTFMaterialPBR), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::vec4 base_color_factor_default = two::v4<float>();
-		static glTFTextureInfo base_color_texture_default = glTFTextureInfo();
 		static float metallic_factor_default = 1.f;
 		static float roughness_factor_default = 1.f;
-		static glTFTextureInfo metallic_roughness_texture_default = glTFTextureInfo();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFMaterialPBR__default_construct }
@@ -1179,11 +1130,11 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFMaterialPBR, base_color_factor), type<two::vec4>(), "base_color_factor", &base_color_factor_default, Member::Value, nullptr },
-			{ t, offsetof(glTFMaterialPBR, base_color_texture), type<glTFTextureInfo>(), "base_color_texture", &base_color_texture_default, Member::Value, nullptr },
+			{ t, offsetof(glTFMaterialPBR, base_color_factor), type<two::vec4>(), "base_color_factor", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFMaterialPBR, base_color_texture), type<glTFTextureInfo>(), "base_color_texture", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterialPBR, metallic_factor), type<float>(), "metallic_factor", &metallic_factor_default, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterialPBR, roughness_factor), type<float>(), "roughness_factor", &roughness_factor_default, Member::Value, nullptr },
-			{ t, offsetof(glTFMaterialPBR, metallic_roughness_texture), type<glTFTextureInfo>(), "metallic_roughness_texture", &metallic_roughness_texture_default, Member::Value, nullptr }
+			{ t, offsetof(glTFMaterialPBR, metallic_roughness_texture), type<glTFTextureInfo>(), "metallic_roughness_texture", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1196,14 +1147,9 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFMaterial", sizeof(glTFMaterial), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
-		static glTFTextureInfo normal_texture_default = glTFTextureInfo();
-		static glTFTextureInfo occlusion_texture_default = glTFTextureInfo();
 		static two::vec3 emissive_factor_default = to_vec3(two::Colour::Black);
-		static glTFTextureInfo emissive_texture_default = glTFTextureInfo();
 		static bool double_sided_default = false;
 		static glTFAlphaMode alpha_mode_default = glTFAlphaMode::OPAQUE;
-		static glTFMaterialPBR pbr_metallic_roughness_default = glTFMaterialPBR();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFMaterial__default_construct }
@@ -1215,14 +1161,14 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFMaterial, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
-			{ t, offsetof(glTFMaterial, normal_texture), type<glTFTextureInfo>(), "normal_texture", &normal_texture_default, Member::Value, nullptr },
-			{ t, offsetof(glTFMaterial, occlusion_texture), type<glTFTextureInfo>(), "occlusion_texture", &occlusion_texture_default, Member::Value, nullptr },
+			{ t, offsetof(glTFMaterial, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFMaterial, normal_texture), type<glTFTextureInfo>(), "normal_texture", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFMaterial, occlusion_texture), type<glTFTextureInfo>(), "occlusion_texture", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, emissive_factor), type<two::vec3>(), "emissive_factor", &emissive_factor_default, Member::Value, nullptr },
-			{ t, offsetof(glTFMaterial, emissive_texture), type<glTFTextureInfo>(), "emissive_texture", &emissive_texture_default, Member::Value, nullptr },
+			{ t, offsetof(glTFMaterial, emissive_texture), type<glTFTextureInfo>(), "emissive_texture", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, double_sided), type<bool>(), "double_sided", &double_sided_default, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, alpha_mode), type<glTFAlphaMode>(), "alpha_mode", &alpha_mode_default, Member::Value, nullptr },
-			{ t, offsetof(glTFMaterial, pbr_metallic_roughness), type<glTFMaterialPBR>(), "pbr_metallic_roughness", &pbr_metallic_roughness_default, Member::Value, nullptr }
+			{ t, offsetof(glTFMaterial, pbr_metallic_roughness), type<glTFMaterialPBR>(), "pbr_metallic_roughness", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1235,14 +1181,11 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFNode", sizeof(glTFNode), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
 		static int mesh_default = -1;
 		static int camera_default = -1;
 		static int skin_default = -1;
 		static two::mat4 matrix_default = {};
-		static two::vec3 translation_default = two::v3<float>();
 		static two::quat rotation_default = two::ZeroQuat;
-		static two::vec3 scale_default = two::v3<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFNode__default_construct }
@@ -1254,14 +1197,14 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFNode, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, mesh), type<int>(), "mesh", &mesh_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, camera), type<int>(), "camera", &camera_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, skin), type<int>(), "skin", &skin_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, matrix), type<two::mat4>(), "matrix", &matrix_default, Member::Value, nullptr },
-			{ t, offsetof(glTFNode, translation), type<two::vec3>(), "translation", &translation_default, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, translation), type<two::vec3>(), "translation", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, rotation), type<two::quat>(), "rotation", &rotation_default, Member::Value, nullptr },
-			{ t, offsetof(glTFNode, scale), type<two::vec3>(), "scale", &scale_default, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, scale), type<two::vec3>(), "scale", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, children), type<stl::vector<int>>(), "children", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
@@ -1275,7 +1218,6 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFScene", sizeof(glTFScene), TypeClass::Struct };
 		// bases
 		// defaults
-		static stl::string name_default = stl::string();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, glTFScene__default_construct }
@@ -1287,7 +1229,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFScene, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(glTFScene, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
 			{ t, offsetof(glTFScene, nodes), type<stl::vector<int>>(), "nodes", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods

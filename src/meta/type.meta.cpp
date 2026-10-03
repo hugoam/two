@@ -156,16 +156,16 @@ namespace two
 		static Meta meta = { t, &namspc({}), "const char*", sizeof(const char*), TypeClass::BaseType };
 	}
 	{
+		Type& t = type<void>();
+		static Meta meta = { t, &namspc({}), "void", 0, TypeClass::BaseType };
+	}
+	{
 		Type& t = type<stl::string>();
 		static Meta meta = { t, &namspc({}), "stl::string", sizeof(stl::string), TypeClass::BaseType };
 		meta.m_empty_var = var(stl::string());
 		static Convert convert = { [](void* val, string& str) { to_string<stl::string>((*static_cast<stl::string*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<stl::string>(str, (*static_cast<stl::string*>(val))); } };
 		g_convert[t.m_id] = &convert;
-	}
-	{
-		Type& t = type<void>();
-		static Meta meta = { t, &namspc({}), "void", 0, TypeClass::BaseType };
 	}
 	
 	// Enums
@@ -206,17 +206,15 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Type", sizeof(two::Type), TypeClass::Object };
 		// bases
 		// defaults
-		static uint32_t id_default = uint();
-		static size_t size_default = ullong();
 		static two::Type* base_default = nullptr;
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Type, m_id), type<uint32_t>(), "id", &id_default, Member::Value, nullptr },
+			{ t, offsetof(two::Type, m_id), type<uint32_t>(), "id", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Type, m_name), type<const char*>(), "name", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::Type, m_size), type<size_t>(), "size", &size_default, Member::Value, nullptr },
+			{ t, offsetof(two::Type, m_size), type<size_t>(), "size", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Type, m_base), type<two::Type>(), "base", base_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};
 		// methods
@@ -336,6 +334,7 @@ namespace two
 		m.m_types.push_back(&type<float>());
 		m.m_types.push_back(&type<double>());
 		m.m_types.push_back(&type<const char*>());
+		m.m_types.push_back(&type<void>());
 		m.m_types.push_back(&type<stl::string>());
 		m.m_types.push_back(&type<stl::vector<stl::string>>());
 		m.m_types.push_back(&type<stl::vector<two::Ref>>());
@@ -345,7 +344,6 @@ namespace two
 		m.m_types.push_back(&type<two::Indexer>());
 		m.m_types.push_back(&type<two::Index>());
 		m.m_types.push_back(&type<two::Prototype>());
-		m.m_types.push_back(&type<void>());
 		{
 			static Function f = { &namspc({ "two" }), "indexed", funcptr<two::Ref(*)(const two::Type&, uint32_t)>(two::indexed), two_indexed_0, { { "type", type<two::Type>(),  }, { "id", type<uint32_t>(),  } }, { &type<two::Ref>(), QualType::None } };
 			m.m_functions.push_back(&f);

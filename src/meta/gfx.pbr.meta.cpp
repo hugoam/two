@@ -210,7 +210,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "CubeTarget", sizeof(two::CubeTarget), TypeClass::Object };
 		// bases
 		// defaults
-		static uint32_t size_default = uint();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_CubeTarget__default_construct }
@@ -221,7 +220,7 @@ namespace two
 		static Member members[] = {
 			{ t, offsetof(two::CubeTarget, m_cubemap), type<two::Texture>(), "cubemap", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::CubeTarget, m_depth), type<two::Texture>(), "depth", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::CubeTarget, m_size), type<uint32_t>(), "size", &size_default, Member::Value, nullptr }
+			{ t, offsetof(two::CubeTarget, m_size), type<uint32_t>(), "size", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
@@ -237,7 +236,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "CubeCamera", sizeof(two::CubeCamera), TypeClass::Object };
 		// bases
 		// defaults
-		static two::uvec2 size_default = two::v2<uint>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_CubeCamera__default_construct }
@@ -250,7 +248,7 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::CubeCamera, m_cubemap), type<two::CubeTarget>(), "cubemap", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::CubeCamera, m_size), type<two::uvec2>(), "size", &size_default, Member::Value, nullptr }
+			{ t, offsetof(two::CubeCamera, m_size), type<two::uvec2>(), "size", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
@@ -267,7 +265,6 @@ namespace two
 		// defaults
 		static bool visible_default = true;
 		static float intensity_default = 1.f;
-		static two::vec3 extents_default = two::v3<float>();
 		static bool shadows_default = false;
 		static bool dirty_default = true;
 		// default constructor
@@ -278,7 +275,7 @@ namespace two
 			{ t, SIZE_MAX, type<two::Node3>(), "node", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_ReflectionProbe__get_node },
 			{ t, offsetof(two::ReflectionProbe, m_visible), type<bool>(), "visible", &visible_default, Member::Value, nullptr },
 			{ t, offsetof(two::ReflectionProbe, m_intensity), type<float>(), "intensity", &intensity_default, Member::Value, nullptr },
-			{ t, offsetof(two::ReflectionProbe, m_extents), type<two::vec3>(), "extents", &extents_default, Member::Value, nullptr },
+			{ t, offsetof(two::ReflectionProbe, m_extents), type<two::vec3>(), "extents", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::ReflectionProbe, m_shadows), type<bool>(), "shadows", &shadows_default, Member::Value, nullptr },
 			{ t, offsetof(two::ReflectionProbe, m_dirty), type<bool>(), "dirty", &dirty_default, Member::Value, nullptr }
 		};
@@ -451,9 +448,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "DofParams", sizeof(two::DofParams), TypeClass::Struct };
 		// bases
 		// defaults
-		static float distance_default = float();
-		static float transition_default = float();
-		static float radius_default = float();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_DofParams__default_construct }
@@ -465,9 +459,9 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::DofParams, m_distance), type<float>(), "distance", &distance_default, Member::Value, nullptr },
-			{ t, offsetof(two::DofParams, m_transition), type<float>(), "transition", &transition_default, Member::Value, nullptr },
-			{ t, offsetof(two::DofParams, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr }
+			{ t, offsetof(two::DofParams, m_distance), type<float>(), "distance", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::DofParams, m_transition), type<float>(), "transition", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::DofParams, m_radius), type<float>(), "radius", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -481,8 +475,6 @@ namespace two
 		// bases
 		// defaults
 		static bool enabled_default = false;
-		static two::DofParams far_default = two::DofParams();
-		static two::DofParams near_default = two::DofParams();
 		static float max_coc_radius_default = 8.f;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
@@ -496,8 +488,8 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::DofBlur, m_enabled), type<bool>(), "enabled", &enabled_default, Member::Value, nullptr },
-			{ t, offsetof(two::DofBlur, m_far), type<two::DofParams>(), "far", &far_default, Member::Value, nullptr },
-			{ t, offsetof(two::DofBlur, m_near), type<two::DofParams>(), "near", &near_default, Member::Value, nullptr },
+			{ t, offsetof(two::DofBlur, m_far), type<two::DofParams>(), "far", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::DofBlur, m_near), type<two::DofParams>(), "near", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::DofBlur, m_max_coc_radius), type<float>(), "max_coc_radius", &max_coc_radius_default, Member::Value, nullptr }
 		};
 		// methods
@@ -529,7 +521,6 @@ namespace two
 		// defaults
 		static bool enabled_default = false;
 		static two::vec4 levels_1_4_default = {1.f,0.f,0.f,0.f};
-		static two::vec4 levels_5_8_default = two::v4<float>();
 		static float intensity_default = 0.4f;
 		static float bloom_default = 0.0f;
 		static float bleed_threshold_default = 1.0f;
@@ -548,7 +539,7 @@ namespace two
 		static Member members[] = {
 			{ t, offsetof(two::Glow, m_enabled), type<bool>(), "enabled", &enabled_default, Member::Value, nullptr },
 			{ t, offsetof(two::Glow, m_levels_1_4), type<two::vec4>(), "levels_1_4", &levels_1_4_default, Member::Value, nullptr },
-			{ t, offsetof(two::Glow, m_levels_5_8), type<two::vec4>(), "levels_5_8", &levels_5_8_default, Member::Value, nullptr },
+			{ t, offsetof(two::Glow, m_levels_5_8), type<two::vec4>(), "levels_5_8", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Glow, m_intensity), type<float>(), "intensity", &intensity_default, Member::Value, nullptr },
 			{ t, offsetof(two::Glow, m_bloom), type<float>(), "bloom", &bloom_default, Member::Value, nullptr },
 			{ t, offsetof(two::Glow, m_bleed_threshold), type<float>(), "bleed_threshold", &bleed_threshold_default, Member::Value, nullptr },

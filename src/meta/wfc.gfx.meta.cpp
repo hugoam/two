@@ -53,10 +53,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "WfcBlock", sizeof(two::WfcBlock), TypeClass::Object };
 		// bases
 		// defaults
-		static two::vec3 position_default = two::v3<float>();
-		static two::uvec3 size_default = two::v3<uint>();
-		static two::vec3 scale_default = two::v3<float>();
-		static two::Aabb aabb_default = two::Aabb();
 		static bool construct_0_auto_solve_default = false;
 		static size_t solve_0_limit_default = 0;
 		// default constructor
@@ -70,10 +66,10 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::WfcBlock, m_position), type<two::vec3>(), "position", &position_default, Member::Value, nullptr },
-			{ t, offsetof(two::WfcBlock, m_size), type<two::uvec3>(), "size", &size_default, Member::Value, nullptr },
-			{ t, offsetof(two::WfcBlock, m_scale), type<two::vec3>(), "scale", &scale_default, Member::Value, nullptr },
-			{ t, offsetof(two::WfcBlock, m_aabb), type<two::Aabb>(), "aabb", &aabb_default, Member::Value, nullptr }
+			{ t, offsetof(two::WfcBlock, m_position), type<two::vec3>(), "position", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::WfcBlock, m_size), type<two::uvec3>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::WfcBlock, m_scale), type<two::vec3>(), "scale", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::WfcBlock, m_aabb), type<two::Aabb>(), "aabb", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {

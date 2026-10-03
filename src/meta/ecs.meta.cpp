@@ -94,7 +94,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Complex", sizeof(two::Complex), TypeClass::Object };
 		// bases
 		// defaults
-		static uint32_t id_default = uint();
 		// default constructor
 		// copy constructor
 		// constructors
@@ -104,7 +103,7 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Complex, m_id), type<uint32_t>(), "id", &id_default, Member::Value, nullptr },
+			{ t, offsetof(two::Complex, m_id), type<uint32_t>(), "id", nullptr, Member::Value, nullptr },
 			{ t, SIZE_MAX, type<two::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Complex__get_type },
 			{ t, SIZE_MAX, type<two::Prototype>(), "prototype", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Complex__get_prototype },
 			{ t, offsetof(two::Complex, m_parts), type<stl::vector<two::Ref>>(), "parts", nullptr, Member::NonMutable, nullptr }

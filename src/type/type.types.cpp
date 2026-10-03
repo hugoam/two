@@ -22,8 +22,8 @@ namespace two
     template <> TWO_TYPE_EXPORT Type& type<float>() { static Type ty("float", sizeof(float)); return ty; }
     template <> TWO_TYPE_EXPORT Type& type<double>() { static Type ty("double", sizeof(double)); return ty; }
     template <> TWO_TYPE_EXPORT Type& type<const char*>() { static Type ty("const char*", sizeof(const char*)); return ty; }
-    template <> TWO_TYPE_EXPORT Type& type<stl::string>() { static Type ty("stl::string", sizeof(stl::string)); return ty; }
     template <> TWO_TYPE_EXPORT Type& type<void>() { static Type ty("void"); return ty; }
+    template <> TWO_TYPE_EXPORT Type& type<stl::string>() { static Type ty("stl::string", sizeof(stl::string)); return ty; }
     
     template <> TWO_TYPE_EXPORT Type& type<stl::vector<stl::string>>() { static Type ty("vector<stl::string>", sizeof(stl::vector<stl::string>)); return ty; }
     template <> TWO_TYPE_EXPORT Type& type<stl::vector<two::Ref>>() { static Type ty("vector<two::Ref>", sizeof(stl::vector<two::Ref>)); return ty; }

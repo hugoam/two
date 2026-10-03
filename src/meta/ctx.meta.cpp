@@ -125,32 +125,27 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Context", sizeof(two::Context), TypeClass::Object };
 		// bases
 		// defaults
-		static stl::string resource_path_default = stl::string();
-		static stl::string title_default = stl::string();
-		static two::uvec2 size_default = two::v2<uint>();
-		static two::uvec2 fb_size_default = two::v2<uint>();
 		static bool fullscreen_default = false;
 		static bool is_main_default = true;
 		static float pixel_ratio_default = 1.f;
 		static bool active_default = true;
 		static bool shutdown_default = false;
-		static two::vec2 cursor_default = two::v2<float>();
 		static bool mouse_lock_default = false;
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Context, m_resource_path), type<stl::string>(), "resource_path", &resource_path_default, Member::Flags(Member::Value|Member::NonMutable), nullptr },
-			{ t, offsetof(two::Context, m_title), type<stl::string>(), "title", &title_default, Member::Value, nullptr },
-			{ t, offsetof(two::Context, m_size), type<two::uvec2>(), "size", &size_default, Member::Value, nullptr },
-			{ t, offsetof(two::Context, m_fb_size), type<two::uvec2>(), "fb_size", &fb_size_default, Member::Value, nullptr },
+			{ t, offsetof(two::Context, m_resource_path), type<stl::string>(), "resource_path", nullptr, Member::Flags(Member::Value|Member::NonMutable), nullptr },
+			{ t, offsetof(two::Context, m_title), type<stl::string>(), "title", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Context, m_size), type<two::uvec2>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Context, m_fb_size), type<two::uvec2>(), "fb_size", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Context, m_fullscreen), type<bool>(), "fullscreen", &fullscreen_default, Member::Value, nullptr },
 			{ t, offsetof(two::Context, m_is_main), type<bool>(), "is_main", &is_main_default, Member::Value, nullptr },
 			{ t, offsetof(two::Context, m_pixel_ratio), type<float>(), "pixel_ratio", &pixel_ratio_default, Member::Value, nullptr },
 			{ t, offsetof(two::Context, m_active), type<bool>(), "active", &active_default, Member::Value, nullptr },
 			{ t, offsetof(two::Context, m_shutdown), type<bool>(), "shutdown", &shutdown_default, Member::Value, nullptr },
-			{ t, offsetof(two::Context, m_cursor), type<two::vec2>(), "cursor", &cursor_default, Member::Value, nullptr },
+			{ t, offsetof(two::Context, m_cursor), type<two::vec2>(), "cursor", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Context, m_mouse_lock), type<bool>(), "mouse_lock", &mouse_lock_default, Member::Value, nullptr }
 		};
 		// methods
@@ -251,8 +246,6 @@ namespace two
 		static Type* bases[] = { &type<two::InputEvent>() };
 		static size_t bases_offsets[] = { base_offset<two::KeyEvent, two::InputEvent>() };
 		// defaults
-		static two::Key code_default = two::Key();
-		static char char_default = char();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_KeyEvent__default_construct }
@@ -264,8 +257,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::KeyEvent, m_code), type<two::Key>(), "code", &code_default, Member::Value, nullptr },
-			{ t, offsetof(two::KeyEvent, m_char), type<char>(), "char", &char_default, Member::Value, nullptr }
+			{ t, offsetof(two::KeyEvent, m_code), type<two::Key>(), "code", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::KeyEvent, m_char), type<char>(), "char", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members

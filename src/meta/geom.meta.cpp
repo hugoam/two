@@ -35,8 +35,8 @@ void stl_vector_two_Circle__remove(void* vec, void* value) { vector_remove_any((
 void two_Aabb__default_construct(void* ref) { new(stl::placeholder(), ref) two::Aabb(); }
 void two_Aabb__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Aabb((*static_cast<two::Aabb*>(other))); }
 void two_Aabb__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Aabb( *static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1]) ); }
-void two_Curve2_point(void* object, span<void*> args, void*& result) { (*static_cast<two::v2<float>*>(result)) = (*static_cast<two::Curve2*>(object)).point(*static_cast<float*>(args[0])); }
-void two_Curve3_point(void* object, span<void*> args, void*& result) { (*static_cast<two::v3<float>*>(result)) = (*static_cast<two::Curve3*>(object)).point(*static_cast<float*>(args[0])); }
+void two_Curve2_point(void* object, span<void*> args, void*& result) { (*static_cast<two::vec2*>(result)) = (*static_cast<two::Curve2*>(object)).point(*static_cast<float*>(args[0])); }
+void two_Curve3_point(void* object, span<void*> args, void*& result) { (*static_cast<two::vec3*>(result)) = (*static_cast<two::Curve3*>(object)).point(*static_cast<float*>(args[0])); }
 void two_CurveSpline__default_construct(void* ref) { new(stl::placeholder(), ref) two::CurveSpline(); }
 void two_CurveSpline__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::CurveSpline((*static_cast<two::CurveSpline*>(other))); }
 void two_CurveSpline3__default_construct(void* ref) { new(stl::placeholder(), ref) two::CurveSpline3(); }
@@ -203,7 +203,7 @@ void two_Symbol__copy_construct(void* ref, void* other) { new(stl::placeholder()
 void two_Symbol__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Symbol( *static_cast<two::Colour*>(args[0]), *static_cast<two::Colour*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<bool*>(args[3]), *static_cast<two::SymbolDetail*>(args[4]) ); }
 void two_MarchingCubes__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::MarchingCubes( *static_cast<uint32_t*>(args[0]) ); }
 void two_MarchingCubes_reset(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::MarchingCubes*>(object)).reset(); }
-void two_MarchingCubes_count(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<uint*>(result)) = (*static_cast<two::MarchingCubes*>(object)).count(); }
+void two_MarchingCubes_count(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<uint32_t*>(result)) = (*static_cast<two::MarchingCubes*>(object)).count(); }
 void two_MarchingCubes_direct(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::MarchingCubes*>(object)).direct(*static_cast<two::MeshAdapter*>(args[0])); }
 void two_MarchingCubes_render(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::MarchingCubes*>(object)).render(*static_cast<two::MeshPacker*>(args[0])); }
 void two_to_ray_0(span<void*> args, void*& result) { (*static_cast<two::Ray*>(result)) = two::to_ray(*static_cast<two::vec3*>(args[0]), *static_cast<two::vec3*>(args[1]), *static_cast<float*>(args[2])); }
@@ -339,9 +339,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Aabb", sizeof(two::Aabb), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::vec3 center_default = two::v3<float>();
-		static two::vec3 extents_default = two::v3<float>();
-		static bool empty_default = bool();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Aabb__default_construct }
@@ -356,9 +353,9 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Aabb, m_center), type<two::vec3>(), "center", &center_default, Member::Value, nullptr },
-			{ t, offsetof(two::Aabb, m_extents), type<two::vec3>(), "extents", &extents_default, Member::Value, nullptr },
-			{ t, offsetof(two::Aabb, m_empty), type<bool>(), "empty", &empty_default, Member::Value, nullptr }
+			{ t, offsetof(two::Aabb, m_center), type<two::vec3>(), "center", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Aabb, m_extents), type<two::vec3>(), "extents", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Aabb, m_empty), type<bool>(), "empty", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -459,10 +456,6 @@ namespace two
 		static Type* bases[] = { &type<two::Curve2>() };
 		static size_t bases_offsets[] = { base_offset<two::CurveBezierCubic, two::Curve2>() };
 		// defaults
-		static two::vec2 v0_default = two::v2<float>();
-		static two::vec2 v1_default = two::v2<float>();
-		static two::vec2 v2_default = two::v2<float>();
-		static two::vec2 v3_default = two::v2<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_CurveBezierCubic__default_construct }
@@ -474,10 +467,10 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::CurveBezierCubic, v0), type<two::vec2>(), "v0", &v0_default, Member::Value, nullptr },
-			{ t, offsetof(two::CurveBezierCubic, v1), type<two::vec2>(), "v1", &v1_default, Member::Value, nullptr },
-			{ t, offsetof(two::CurveBezierCubic, v2), type<two::vec2>(), "v2", &v2_default, Member::Value, nullptr },
-			{ t, offsetof(two::CurveBezierCubic, v3), type<two::vec2>(), "v3", &v3_default, Member::Value, nullptr }
+			{ t, offsetof(two::CurveBezierCubic, v0), type<two::vec2>(), "v0", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::CurveBezierCubic, v1), type<two::vec2>(), "v1", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::CurveBezierCubic, v2), type<two::vec2>(), "v2", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::CurveBezierCubic, v3), type<two::vec2>(), "v3", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -492,10 +485,6 @@ namespace two
 		static Type* bases[] = { &type<two::Curve3>() };
 		static size_t bases_offsets[] = { base_offset<two::CurveBezierCubic3, two::Curve3>() };
 		// defaults
-		static two::vec3 v0_default = two::v3<float>();
-		static two::vec3 v1_default = two::v3<float>();
-		static two::vec3 v2_default = two::v3<float>();
-		static two::vec3 v3_default = two::v3<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_CurveBezierCubic3__default_construct }
@@ -507,10 +496,10 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::CurveBezierCubic3, v0), type<two::vec3>(), "v0", &v0_default, Member::Value, nullptr },
-			{ t, offsetof(two::CurveBezierCubic3, v1), type<two::vec3>(), "v1", &v1_default, Member::Value, nullptr },
-			{ t, offsetof(two::CurveBezierCubic3, v2), type<two::vec3>(), "v2", &v2_default, Member::Value, nullptr },
-			{ t, offsetof(two::CurveBezierCubic3, v3), type<two::vec3>(), "v3", &v3_default, Member::Value, nullptr }
+			{ t, offsetof(two::CurveBezierCubic3, v0), type<two::vec3>(), "v0", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::CurveBezierCubic3, v1), type<two::vec3>(), "v1", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::CurveBezierCubic3, v2), type<two::vec3>(), "v2", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::CurveBezierCubic3, v3), type<two::vec3>(), "v3", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -525,8 +514,6 @@ namespace two
 		static Type* bases[] = { &type<two::Curve2>() };
 		static size_t bases_offsets[] = { base_offset<two::CurveLine, two::Curve2>() };
 		// defaults
-		static two::vec2 v0_default = two::v2<float>();
-		static two::vec2 v1_default = two::v2<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_CurveLine__default_construct }
@@ -538,8 +525,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::CurveLine, v0), type<two::vec2>(), "v0", &v0_default, Member::Value, nullptr },
-			{ t, offsetof(two::CurveLine, v1), type<two::vec2>(), "v1", &v1_default, Member::Value, nullptr }
+			{ t, offsetof(two::CurveLine, v0), type<two::vec2>(), "v0", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::CurveLine, v1), type<two::vec2>(), "v1", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -554,8 +541,6 @@ namespace two
 		static Type* bases[] = { &type<two::Curve3>() };
 		static size_t bases_offsets[] = { base_offset<two::CurveLine3, two::Curve3>() };
 		// defaults
-		static two::vec3 v0_default = two::v3<float>();
-		static two::vec3 v1_default = two::v3<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_CurveLine3__default_construct }
@@ -567,8 +552,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::CurveLine3, v0), type<two::vec3>(), "v0", &v0_default, Member::Value, nullptr },
-			{ t, offsetof(two::CurveLine3, v1), type<two::vec3>(), "v1", &v1_default, Member::Value, nullptr }
+			{ t, offsetof(two::CurveLine3, v0), type<two::vec3>(), "v0", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::CurveLine3, v1), type<two::vec3>(), "v1", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -583,9 +568,6 @@ namespace two
 		static Type* bases[] = { &type<two::Curve2>() };
 		static size_t bases_offsets[] = { base_offset<two::CurveBezierQuadratic, two::Curve2>() };
 		// defaults
-		static two::vec2 v0_default = two::v2<float>();
-		static two::vec2 v1_default = two::v2<float>();
-		static two::vec2 v2_default = two::v2<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_CurveBezierQuadratic__default_construct }
@@ -597,9 +579,9 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::CurveBezierQuadratic, v0), type<two::vec2>(), "v0", &v0_default, Member::Value, nullptr },
-			{ t, offsetof(two::CurveBezierQuadratic, v1), type<two::vec2>(), "v1", &v1_default, Member::Value, nullptr },
-			{ t, offsetof(two::CurveBezierQuadratic, v2), type<two::vec2>(), "v2", &v2_default, Member::Value, nullptr }
+			{ t, offsetof(two::CurveBezierQuadratic, v0), type<two::vec2>(), "v0", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::CurveBezierQuadratic, v1), type<two::vec2>(), "v1", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::CurveBezierQuadratic, v2), type<two::vec2>(), "v2", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -614,9 +596,6 @@ namespace two
 		static Type* bases[] = { &type<two::Curve3>() };
 		static size_t bases_offsets[] = { base_offset<two::CurveBezierQuadratic3, two::Curve3>() };
 		// defaults
-		static two::vec3 v0_default = two::v3<float>();
-		static two::vec3 v1_default = two::v3<float>();
-		static two::vec3 v2_default = two::v3<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_CurveBezierQuadratic3__default_construct }
@@ -628,9 +607,9 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::CurveBezierQuadratic3, v0), type<two::vec3>(), "v0", &v0_default, Member::Value, nullptr },
-			{ t, offsetof(two::CurveBezierQuadratic3, v1), type<two::vec3>(), "v1", &v1_default, Member::Value, nullptr },
-			{ t, offsetof(two::CurveBezierQuadratic3, v2), type<two::vec3>(), "v2", &v2_default, Member::Value, nullptr }
+			{ t, offsetof(two::CurveBezierQuadratic3, v0), type<two::vec3>(), "v0", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::CurveBezierQuadratic3, v1), type<two::vec3>(), "v1", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::CurveBezierQuadratic3, v2), type<two::vec3>(), "v2", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -685,8 +664,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Plane", sizeof(two::Plane), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::vec3 normal_default = two::v3<float>();
-		static float distance_default = float();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Plane__default_construct }
@@ -698,8 +675,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Plane, m_normal), type<two::vec3>(), "normal", &normal_default, Member::Value, nullptr },
-			{ t, offsetof(two::Plane, m_distance), type<float>(), "distance", &distance_default, Member::Value, nullptr }
+			{ t, offsetof(two::Plane, m_normal), type<two::vec3>(), "normal", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Plane, m_distance), type<float>(), "distance", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -712,9 +689,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Plane3", sizeof(two::Plane3), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::vec3 origin_default = two::v3<float>();
-		static two::vec3 a_default = two::v3<float>();
-		static two::vec3 b_default = two::v3<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Plane3__default_construct }
@@ -726,9 +700,9 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Plane3, m_origin), type<two::vec3>(), "origin", &origin_default, Member::Value, nullptr },
-			{ t, offsetof(two::Plane3, m_a), type<two::vec3>(), "a", &a_default, Member::Value, nullptr },
-			{ t, offsetof(two::Plane3, m_b), type<two::vec3>(), "b", &b_default, Member::Value, nullptr }
+			{ t, offsetof(two::Plane3, m_origin), type<two::vec3>(), "origin", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Plane3, m_a), type<two::vec3>(), "a", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Plane3, m_b), type<two::vec3>(), "b", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -762,8 +736,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Segment", sizeof(two::Segment), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::vec3 start_default = two::v3<float>();
-		static two::vec3 end_default = two::v3<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Segment__default_construct }
@@ -775,8 +747,8 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Segment, m_start), type<two::vec3>(), "start", &start_default, Member::Value, nullptr },
-			{ t, offsetof(two::Segment, m_end), type<two::vec3>(), "end", &end_default, Member::Value, nullptr }
+			{ t, offsetof(two::Segment, m_start), type<two::vec3>(), "start", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Segment, m_end), type<two::vec3>(), "end", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -789,10 +761,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Ray", sizeof(two::Ray), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::vec3 start_default = two::v3<float>();
-		static two::vec3 end_default = two::v3<float>();
-		static two::vec3 dir_default = two::v3<float>();
-		static two::vec3 inv_dir_default = two::v3<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Ray__default_construct }
@@ -804,10 +772,10 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Ray, m_start), type<two::vec3>(), "start", &start_default, Member::Value, nullptr },
-			{ t, offsetof(two::Ray, m_end), type<two::vec3>(), "end", &end_default, Member::Value, nullptr },
-			{ t, offsetof(two::Ray, m_dir), type<two::vec3>(), "dir", &dir_default, Member::Value, nullptr },
-			{ t, offsetof(two::Ray, m_inv_dir), type<two::vec3>(), "inv_dir", &inv_dir_default, Member::Value, nullptr }
+			{ t, offsetof(two::Ray, m_start), type<two::vec3>(), "start", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Ray, m_end), type<two::vec3>(), "end", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Ray, m_dir), type<two::vec3>(), "dir", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Ray, m_inv_dir), type<two::vec3>(), "inv_dir", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -990,8 +958,6 @@ namespace two
 		static Type* bases[] = { &type<two::Shape>() };
 		static size_t bases_offsets[] = { base_offset<two::Line, two::Shape>() };
 		// defaults
-		static two::vec3 start_default = two::v3<float>();
-		static two::vec3 end_default = two::v3<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Line__default_construct }
@@ -1006,8 +972,8 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Line, m_start), type<two::vec3>(), "start", &start_default, Member::Value, nullptr },
-			{ t, offsetof(two::Line, m_end), type<two::vec3>(), "end", &end_default, Member::Value, nullptr }
+			{ t, offsetof(two::Line, m_start), type<two::vec3>(), "start", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Line, m_end), type<two::vec3>(), "end", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1022,8 +988,6 @@ namespace two
 		static Type* bases[] = { &type<two::Shape>() };
 		static size_t bases_offsets[] = { base_offset<two::Rect, two::Shape>() };
 		// defaults
-		static two::vec2 position_default = two::v2<float>();
-		static two::vec2 size_default = two::v2<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Rect__default_construct }
@@ -1039,8 +1003,8 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Rect, m_position), type<two::vec2>(), "position", &position_default, Member::Value, nullptr },
-			{ t, offsetof(two::Rect, m_size), type<two::vec2>(), "size", &size_default, Member::Value, nullptr }
+			{ t, offsetof(two::Rect, m_position), type<two::vec2>(), "position", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Rect, m_size), type<two::vec2>(), "size", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1081,8 +1045,6 @@ namespace two
 		static Type* bases[] = { &type<two::Shape>() };
 		static size_t bases_offsets[] = { base_offset<two::Grid2, two::Shape>() };
 		// defaults
-		static two::vec2 size_default = two::v2<float>();
-		static two::vec2 space_default = two::v2<float>();
 		static two::vec2 construct_0_space_default = vec2(1.f);
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
@@ -1098,8 +1060,8 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Grid2, m_size), type<two::vec2>(), "size", &size_default, Member::Value, nullptr },
-			{ t, offsetof(two::Grid2, m_space), type<two::vec2>(), "space", &space_default, Member::Value, nullptr }
+			{ t, offsetof(two::Grid2, m_size), type<two::vec2>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Grid2, m_space), type<two::vec2>(), "space", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1114,7 +1076,6 @@ namespace two
 		static Type* bases[] = { &type<two::Shape>() };
 		static size_t bases_offsets[] = { base_offset<two::Triangle, two::Shape>() };
 		// defaults
-		static two::vec2 size_default = two::v2<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Triangle__default_construct }
@@ -1129,7 +1090,7 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Triangle, m_size), type<two::vec2>(), "size", &size_default, Member::Value, nullptr }
+			{ t, offsetof(two::Triangle, m_size), type<two::vec2>(), "size", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1291,7 +1252,6 @@ namespace two
 		static Type* bases[] = { &type<two::Shape>() };
 		static size_t bases_offsets[] = { base_offset<two::Ellipsis, two::Shape>() };
 		// defaults
-		static two::vec2 radius_default = two::v2<float>();
 		static two::Axis axis_default = two::Axis::Y;
 		static two::Axis construct_0_axis_default = two::Axis::Y;
 		// default constructor
@@ -1308,7 +1268,7 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Ellipsis, m_radius), type<two::vec2>(), "radius", &radius_default, Member::Value, nullptr },
+			{ t, offsetof(two::Ellipsis, m_radius), type<two::vec2>(), "radius", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Ellipsis, m_axis), type<two::Axis>(), "axis", &axis_default, Member::Value, nullptr }
 		};
 		// methods
@@ -1358,9 +1318,6 @@ namespace two
 		static Type* bases[] = { &type<two::Shape>() };
 		static size_t bases_offsets[] = { base_offset<two::ArcLine, two::Shape>() };
 		// defaults
-		static two::vec3 start_default = two::v3<float>();
-		static two::vec3 middle_default = two::v3<float>();
-		static two::vec3 end_default = two::v3<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_ArcLine__default_construct }
@@ -1376,9 +1333,9 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ArcLine, m_start), type<two::vec3>(), "start", &start_default, Member::Value, nullptr },
-			{ t, offsetof(two::ArcLine, m_middle), type<two::vec3>(), "middle", &middle_default, Member::Value, nullptr },
-			{ t, offsetof(two::ArcLine, m_end), type<two::vec3>(), "end", &end_default, Member::Value, nullptr }
+			{ t, offsetof(two::ArcLine, m_start), type<two::vec3>(), "start", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ArcLine, m_middle), type<two::vec3>(), "middle", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ArcLine, m_end), type<two::vec3>(), "end", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1465,7 +1422,6 @@ namespace two
 		static Type* bases[] = { &type<two::Shape>() };
 		static size_t bases_offsets[] = { base_offset<two::Cube, two::Shape>() };
 		// defaults
-		static two::vec3 extents_default = two::v3<float>();
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Cube__default_construct }
@@ -1481,7 +1437,7 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Cube, m_extents), type<two::vec3>(), "extents", &extents_default, Member::Value, nullptr }
+			{ t, offsetof(two::Cube, m_extents), type<two::vec3>(), "extents", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -1778,7 +1734,6 @@ namespace two
 		static Type* bases[] = { &type<two::Shape>() };
 		static size_t bases_offsets[] = { base_offset<two::Grid3, two::Shape>() };
 		// defaults
-		static two::uvec2 size_default = two::v2<uint>();
 		static stl::span<two::vec3> construct_0_points_default = {};
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
@@ -1794,7 +1749,7 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Grid3, m_size), type<two::uvec2>(), "size", &size_default, Member::Value, nullptr },
+			{ t, offsetof(two::Grid3, m_size), type<two::uvec2>(), "size", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Grid3, m_points), type<stl::vector<two::vec3>>(), "points", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
@@ -1837,12 +1792,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Symbol", sizeof(two::Symbol), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::Colour outline_default = two::Colour();
-		static two::Colour fill_default = two::Colour();
-		static bool overlay_default = bool();
-		static bool double_sided_default = bool();
-		static two::SymbolDetail detail_default = two::SymbolDetail();
-		static two::uvec2 subdiv_default = two::v2<uint>();
 		static const char* image_default = nullptr;
 		static two::Image256* image256_default = nullptr;
 		static const char* program_default = nullptr;
@@ -1864,12 +1813,12 @@ namespace two
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Symbol, m_outline), type<two::Colour>(), "outline", &outline_default, Member::Value, nullptr },
-			{ t, offsetof(two::Symbol, m_fill), type<two::Colour>(), "fill", &fill_default, Member::Value, nullptr },
-			{ t, offsetof(two::Symbol, m_overlay), type<bool>(), "overlay", &overlay_default, Member::Value, nullptr },
-			{ t, offsetof(two::Symbol, m_double_sided), type<bool>(), "double_sided", &double_sided_default, Member::Value, nullptr },
-			{ t, offsetof(two::Symbol, m_detail), type<two::SymbolDetail>(), "detail", &detail_default, Member::Value, nullptr },
-			{ t, offsetof(two::Symbol, m_subdiv), type<two::uvec2>(), "subdiv", &subdiv_default, Member::Value, nullptr },
+			{ t, offsetof(two::Symbol, m_outline), type<two::Colour>(), "outline", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Symbol, m_fill), type<two::Colour>(), "fill", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Symbol, m_overlay), type<bool>(), "overlay", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Symbol, m_double_sided), type<bool>(), "double_sided", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Symbol, m_detail), type<two::SymbolDetail>(), "detail", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Symbol, m_subdiv), type<two::uvec2>(), "subdiv", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Symbol, m_image), type<const char*>(), "image", image_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::Symbol, m_image256), type<two::Image256>(), "image256", image256_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::Symbol, m_program), type<const char*>(), "program", program_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
@@ -1910,7 +1859,7 @@ namespace two
 	}
 	
 	{
-		Type& t = type<ushort>();
+		Type& t = type<uint16_t>();
 		static Alias alias = { &t, &namspc({ "two" }), "ShapeIndex" };
 		m.m_aliases.push_back(&alias);
 	}
