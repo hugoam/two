@@ -714,7 +714,7 @@ namespace clgen
 		return t;
 	}
 
-	string module_ixx_template(CLModule& m)
+	string module_ixx_template(CLModule& m, bool std_module = false)
 	{
 		string t;
 		int i = 0;
@@ -727,6 +727,12 @@ namespace clgen
 		p("");
 		p("export module " + m.module_name() + ";");
 		p("");
+		// clang and gcc get the standard library from its named module, MSVC from header units
+		if(std_module)
+		{
+			p("import std;");
+			p("");
+		}
 		for (CLModule* d : m.m_dependencies)
 			p("import " + d->module_name() + ";");
 		p("");
@@ -737,7 +743,7 @@ namespace clgen
 		return t;
 	}
 
-	string module_meta_ixx_template(CLModule& m)
+	string module_meta_ixx_template(CLModule& m, bool std_module = false)
 	{
 		string t;
 		int i = 0;
@@ -750,6 +756,12 @@ namespace clgen
 		p("");
 		p("export module " + m.module_name() + ".meta;");
 		p("");
+		// clang and gcc get the standard library from its named module, MSVC from header units
+		if(std_module)
+		{
+			p("import std;");
+			p("");
+		}
 		p("import " + m.module_name() + ";");
 		p("import " + m.m_namespace + ".refl;");
 		for (CLModule* d : m.m_dependencies)

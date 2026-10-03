@@ -3,8 +3,12 @@
 #include <cctype>
 #include <cstdio>
 
+#if defined _MSC_VER
 import <string>;
 import <map>;
+#else
+import std;
+#endif
 import two.clrefl;
 
 #include <clrefl/Generator.h>
@@ -773,14 +777,16 @@ namespace two
 			}
 		}
 
-		// C++20 module name -> path of its interface (.ixx)
+		// C++20 module name -> path of its interface
+		// the MSVC interfaces (.ixx) are preferred to the clang/gcc ones (.cppm), as they list the std headers they use
 		map<string, string> m_module_interfaces;
 
 		void find_module_interfaces(const string& dir)
 		{
 			visit_files(dir, [&](const string& file)
 			{
-				if(file_extension(file) != "ixx")
+				const string extension = file_extension(file);
+				if(extension != "ixx" && extension != "cppm")
 					return;
 				const string path = dir + "/" + file;
 				read_text_file(path, [&](const string& line)
@@ -789,7 +795,8 @@ namespace two
 					if(line.rfind(prefix, 0) != 0)
 						return true;
 					const string name = line.substr(prefix.size(), line.find(';') - prefix.size());
-					m_module_interfaces[name] = path;
+					if(extension == "ixx" || m_module_interfaces.find(name) == m_module_interfaces.end())
+						m_module_interfaces[name] = path;
 					return false;
 				});
 			});
@@ -864,6 +871,7 @@ namespace two
 				"c++",
 				"-std=c++20",
 				"-ferror-limit=0",
+#ifdef _WIN32
 				"-fdelayed-template-parsing",
 				"-fms-compatibility",
 				"-fms-extensions",
@@ -871,6 +879,7 @@ namespace two
 				// MSVC and Windows SDK include paths and the MSVC version are detected by the clang driver
 				// the MSVC STL refuses clang versions older than the one it ships with, the generator only parses declarations
 				"-D_ALLOW_COMPILER_AND_STL_VERSION_MISMATCH",
+#endif
 				"-DTWO_META_GENERATOR",
 				// same configuration as the module builds (see two_module() in two.lua), minus USE_STL: the generated code names the stl:: containers
 				"-DTWO_MODULES",
@@ -999,6 +1008,9 @@ namespace two
 
 			string module_ixx = clgen::module_meta_ixx_template(module);
 			update_file(module.m_refl_path + "/" + module.m_dotname + ".meta.ixx", module_ixx);
+
+			string module_cppm = clgen::module_meta_ixx_template(module, true);
+			update_file(module.m_refl_path + "/" + module.m_dotname + ".meta.cppm", module_cppm);
 
 			string convert_h = clgen::convert_h_template(module);
 			update_file(module.m_refl_path + "/" + module.m_dotname + ".conv.h", convert_h);
