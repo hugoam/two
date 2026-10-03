@@ -7,9 +7,6 @@
 [submodule "3rdparty/nanovg-layers"]
 	path = 3rdparty/nanovg-layers
 	url = https://github.com/hugoam/nanovg
-[submodule "3rdparty/GENie"]
-	path = 3rdparty/GENie
-	url = https://github.com/hugoam/GENie
 [submodule "3rdparty/vg-renderer"]
 	path = 3rdparty/vg-renderer
 	url = https://github.com/hugoam/vg-renderer
