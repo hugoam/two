@@ -267,52 +267,6 @@ namespace two
 		}
 	}
 
-	// the copy constructor is deleted when explicitly deleted, or implicitly when a move constructor or assignment is declared
-	// without a copy constructor: e.g. a struct holding a unique<> member, which then declares its move constructor
-	bool is_move_only(CXCursor cursor)
-	{
-		bool copy = false, deleted_copy = false, move = false;
-		visit_children(cursor, [&](CXCursor c)
-		{
-			if(c.kind == CXCursor_Constructor && clang_CXXConstructor_isCopyConstructor(c))
-				(clang_CXXMethod_isDeleted(c) ? deleted_copy : copy) = true;
-			else if(c.kind == CXCursor_Constructor && clang_CXXConstructor_isMoveConstructor(c))
-				move = true;
-			else if(c.kind == CXCursor_CXXMethod && clang_CXXMethod_isMoveAssignmentOperator(c))
-				move = true;
-		});
-		return deleted_copy || (move && !copy);
-	}
-
-	// the default constructor is either declared (possibly with all its parameters defaulted), or implicit when no constructor is declared,
-	// as long as no reference or const member is left without an initializer
-	bool has_default_constructor(CXCursor cursor)
-	{
-		if(clang_CXXRecord_isAbstract(cursor))
-			return false;
-
-		bool declared = false, default_ctor = false, uninitialized = false;
-		visit_children(cursor, [&](CXCursor c)
-		{
-			if(c.kind == CXCursor_Constructor)
-			{
-				declared = true;
-				if(clang_CXXConstructor_isDefaultConstructor(c) && !clang_CXXMethod_isDeleted(c) && clang_getCXXAccessSpecifier(c) == CX_CXXPublic)
-					default_ctor = true;
-			}
-			else if(c.kind == CXCursor_FieldDecl)
-			{
-				bool initializer = false;
-				visit_children(c, [&](CXCursor e) { initializer |= clang_isExpression(e.kind) != 0; });
-				const CXType t = clang_getCursorType(c);
-				const bool reference = t.kind == CXType_LValueReference || t.kind == CXType_RValueReference;
-				if(!initializer && (reference || clang_isConstQualifiedType(t)))
-					uninitialized = true;
-			}
-		});
-		return default_ctor || (!declared && !uninitialized);
-	}
-
 	void decl_class(CLModule& module, CLPrimitive& parent, CLClass& c, CXCursor cursor, CXType cxtype, bool sequence)
 	{
 		c.m_cursor = cursor;
@@ -320,7 +274,7 @@ namespace two
 		c.m_annotations = get_annotations(cursor);
 
 		c.m_struct = has(c.m_annotations, "struct") || cursor.kind == CXCursor_StructDecl;
-		c.m_move_only = has(c.m_annotations, "nocopy") || is_move_only(cursor);
+		c.m_move_only = has(c.m_annotations, "nocopy");
 		c.m_reflect = has(c.m_annotations, "refl") && should_reflect(cursor, module);
 		c.m_array = has(c.m_annotations, "array");
 		c.m_span = has(c.m_annotations, "span");
@@ -520,14 +474,6 @@ namespace two
 				f.m_min_args = i + 1;
 	}
 
-	// a declared default constructor keeps its spelling (e.g. v2<T> for a template), so that it overloads with the other constructors
-	void reflect_default_constructor(CLModule& module, CLClass& c, const string& name)
-	{
-		c.m_default_constructor = make_unique<CLConstructor>(c, name);
-		c.m_default_constructor->m_module = &module;
-		c.m_default_constructor->m_overload_index = 0;
-	}
-
 	void parse_constructor(CLModule& module, CLClass& c, CXCursor cursor)
 	{
 		CLConstructor& ctor = push(c.m_constructors, c, spelling(cursor));
@@ -538,9 +484,9 @@ namespace two
 		// a constructor without parameters is the default constructor, which is reflected separately
 		if(ctor.m_params.empty())
 		{
-			const string name = ctor.m_name;
+			c.m_default_constructor = make_unique<CLConstructor>(c, ctor.m_name);
+			c.m_default_constructor->m_module = &module;
 			c.m_constructors.pop_back();
-			reflect_default_constructor(module, c, name);
 		}
 	}
 
@@ -699,11 +645,11 @@ namespace two
 			method_names.insert(method.m_name);
 		}
 
-		c.m_default_constructible = c.m_sequence || has_default_constructor(cursor);
-
-		// a struct without any reflected constructor exposes its implicit default constructor
-		if(c.m_struct && !c.m_sequence && c.m_constructors.empty() && !c.m_default_constructor && c.m_default_constructible)
-			reflect_default_constructor(module, c, c.m_name);
+		if(c.m_struct && c.m_constructors.empty() && !c.m_default_constructor)
+		{
+			c.m_default_constructor = make_unique<CLConstructor>(c, c.m_name);
+			c.m_default_constructor->m_module = &module;
+		}
 	}
 
 	void parse_sequence(CLModule& module, CLClass& c)

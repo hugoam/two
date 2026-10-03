@@ -155,7 +155,7 @@ namespace two
 	export_ using GatherFunc = void(*)(Scene&, Render&);
 	export_ using RenderFunc = void(*)(GfxSystem&, Render&);
 
-	export_ struct refl_ TWO_GFX_EXPORT Render
+	export_ struct refl_ nocopy_ TWO_GFX_EXPORT Render
 	{
 		constr_ Render() {}
 		constr_ Render(Shading shading, Viewport& viewport, RenderTarget& target, RenderFrame& frame);

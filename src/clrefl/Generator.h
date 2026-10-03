@@ -332,7 +332,6 @@ namespace two
 		bool m_nested = false;
 		bool m_struct = true;
 		bool m_move_only = false;
-		bool m_default_constructible = true;
 		bool m_pointer = false;
 
 		bool m_array = false;

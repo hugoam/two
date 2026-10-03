@@ -424,27 +424,16 @@ namespace clgen
 	}
 #endif
 
-	// the default value of a member is the one in its declaration, or a value initialized one when its type can be default constructed
-	string member_default_value(const CLMember& m)
-	{
-		if(m.m_default != "")
-			return m.m_default;
-		const CLType& t = *m.m_type.m_type;
-		if(m.m_type.value() && !m.m_type.m_array && t.copyable() && t.m_default_constructible)
-			return t.m_id + "()";
-		return "";
-	}
-
 	string member_default_decl(const CLType& c, const CLMember& m)
 	{
 		UNUSED(c);
-		return  "static " + type_decl(m.m_type) + " " + m.m_name + "_default = " + member_default_value(m) + ";";
+		return  "static " + type_decl(m.m_type) + " " + m.m_name + "_default = " + m.m_default + ";";
 	}
 
 	string member_default(const CLType& c, const CLMember& m)
 	{
 		UNUSED(c);
-		return member_default_value(m) != "" ? string(m.m_type.pointer() ? "" : "&") + m.m_name + "_default" : "nullptr";
+		return m.m_default != "" ? string(m.m_type.pointer() ? "" : "&") + m.m_name + "_default" : "nullptr";
 	}
 
 	string method_body(const CLType& c, const CLMethod& m)
@@ -1016,7 +1005,7 @@ namespace clgen
 				}
 				p("// defaults");
 				for(CLMember& a : c.m_members)
-					if(member_default_value(a) != "")
+					if(a.m_default != "")
 						p(member_default_decl(c, a));
 				for(CLConstructor& f : c.m_constructors)
 					for(const CLParam& a : f.m_params)
