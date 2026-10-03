@@ -402,7 +402,7 @@ namespace two
 			}
 		});
 
-		// default arguments can't be repeated on an explicit specialization, they are the ones of its primary template
+		// the default arguments of a template specialization are the ones of its template
 		size_t index = 0;
 		if(f.m_cursor.kind == CXCursor_FunctionDecl)
 			visit_children(clang_getSpecializedCursorTemplate(f.m_cursor), [&](CXCursor a)
