@@ -1,0 +1,45 @@
+//  Copyright (c) 2023 Hugo Amiard hugo.amiard@laposte.net
+//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
+//  This notice and the license may not be removed or altered from any source distribution.
+
+#pragma once
+
+#include <infra/Global.h>
+#include <type/Ref.h>
+#include <type/Var.h>
+#include <type/DoubleDispatch.h>
+#include <type/DispatchDecl.h>
+
+namespace two
+{
+	export_ template <class T_Source, class T_Dest>
+	inline void convert(T_Source& from, T_Dest& to)
+	{
+		to = static_cast<T_Dest>(from);
+	}
+
+	export_ template <class T_Source, class T_Dest>
+	inline void copy_convert(T_Source& from, T_Dest& to)
+	{
+		to = T_Dest(from);
+	}
+
+	export_ class TWO_TYPE_EXPORT TypeConverter : public DoubleDispatch, public LazyGlobal<TypeConverter>
+	{
+	public:
+		TypeConverter();
+
+		bool check(const Type& input, const Type& output);
+		bool check(Ref input, const Type& output);
+
+		// the result must already hold a value of the output type, the conversion writes into it
+		void convert(Ref input, Var& result);
+
+		template <class T_First, class T_Second>
+		void default_converter()
+		{
+			dispatch_branch<T_First, T_Second, copy_convert<T_First, T_Second>>(*this);
+			dispatch_branch<T_Second, T_First, copy_convert<T_Second, T_First>>(*this);
+		}
+	};
+}
