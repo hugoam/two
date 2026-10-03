@@ -375,6 +375,8 @@ namespace two
 
 		CXType m_cxtarget;
 		CLType* m_target = nullptr;
+		// the target as written, e.g. uint64_t, which is a different base type depending on the platform
+		string m_target_spelling;
 	};
 
 	struct CLQualType

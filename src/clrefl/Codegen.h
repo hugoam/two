@@ -218,8 +218,9 @@ namespace clgen
 	
 	string value_assign(const CLQualType& t, string var, string value)
 	{
+		// the type is the one written (e.g. uint64_t), which is a different base type depending on the platform
 		if(t.value() && !t.pointer())
-			return cast(*t.m_type, var) + " = " + value;
+			return "(*static_cast<" + t.m_type_name + "*>(" + var + "))" + " = " + value;
 		else
 			return var + " = " + string(t.pointer() ? "" : "&") + value;
 	}
@@ -1088,7 +1089,7 @@ namespace clgen
 			{
 				CLAlias& a = *pa;
 				p("{");
-				p("Type& t = " + type_get(*a.m_target) + ";");
+				p("Type& t = type<" + a.m_target_spelling + ">();");
 				p("static Alias alias = { &t, " + clnamespace(a) + ", \"" + a.m_name + "\" };");
 				p("m.m_aliases.push_back(&alias);");
 				p("}");

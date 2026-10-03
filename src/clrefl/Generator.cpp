@@ -649,6 +649,7 @@ namespace two
 					CLAlias& t = vector_emplace<CLAlias>(module.m_aliases, module, parent, cxalias, cxtarget);
 					//printf("aliased %s to %s\n", t.m_id.c_str(), target->m_id.c_str());
 					t.m_target = target;
+					t.m_target_spelling = spelling(clang_getTypedefDeclUnderlyingType(c));
 					t.m_reflect = should_reflect(c, module);
 					module.register_type(t);
 				}
