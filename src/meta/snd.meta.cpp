@@ -5,7 +5,7 @@ module two.snd.meta;
 namespace two
 {
 	two_snd::two_snd()
-		: Module("two::snd", {  })
+		: Module("two::snd", { &two_type::m(), &two_math::m() })
 	{}
 }
 

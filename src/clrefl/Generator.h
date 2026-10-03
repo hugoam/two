@@ -70,7 +70,9 @@ namespace two
 
 	string spelling(CXCursor cursor, CXToken token) { CXTranslationUnit tu = clang_Cursor_getTranslationUnit(cursor); return clean_name(clang_string(clang_getTokenSpelling(tu, token))); }
 	string spelling(CXCursor cursor) { return clean_name(clang_string(clang_getCursorSpelling(cursor))); }
-	string spelling(CXType type) { return clean_name(clang_string(clang_getTypeSpelling(type))); }
+	// since libclang 22 types are spelled as written, they are printed qualified (the generated code lives outside of their namespace)
+	inline CXPrintingPolicy g_printing_policy = nullptr;
+	string spelling(CXType type) { return clean_name(clang_string(g_printing_policy ? clang_getTypePrettyPrinted(type, g_printing_policy) : clang_getTypeSpelling(type))); }
 
 	string displayname(CXCursor cursor) { return clean_name(clang_string(clang_getCursorDisplayName(cursor))); }
 
@@ -80,7 +82,7 @@ namespace two
 
 	CXType type(CXCursor cursor) { CXType t = clang_getCursorType(cursor); return t.kind == CXType_Elaborated ? clang_Type_getNamedType(t) : t; }
 	//CXType actual_type(CXCursor cursor) { CXType t = type(cursor); return t.kind == CXType_Elaborated ? clang_Type_getNamedType(t) : t; }
-	CXType result_type(CXCursor cursor) { CXType t = clang_getCursorResultType(cursor); return t.kind == CXType_Elaborated ? clang_Type_getNamedType(t) : t; }
+	CXType result_type(CXCursor cursor) { return clang_getCursorResultType(cursor); }
 
 	CXType pointee(CXType type)
 	{
@@ -810,21 +812,19 @@ namespace two
 
 		CLType* find_type(CXType cxtype)
 		{
-			// since clang 16, types written in the source (e.g. float3, two::uvec2) come wrapped in an elaborated type sugar,
-			// which never compares equal to the typedef/record type registered from the declaration
-			if(cxtype.kind == CXType_Elaborated)
-				cxtype = clang_Type_getNamedType(cxtype);
 			// libclang doesn't expose the type of a name brought by a using-declaration (e.g. two::string, from using stl::string):
-			// it is Unexposed and has no declaration, but its spelling is the qualified name of the type it refers to
+			// it is Unexposed and has no declaration, it is the alias of the same name which refers to the same type
 			if(cxtype.kind == CXType_Unexposed)
 			{
-				string name = spelling(cxtype);
-				if(name.rfind("const ", 0) == 0)
-					name = name.substr(6);
-				auto alias = find_if(m_aliases, [&](const unique<CLAlias>& a) { return a->m_id == name; });
+				const string name = spelling(cxtype);
+				const string short_name = name.substr(name.rfind("::") == string::npos ? 0 : name.rfind("::") + 2);
+				const CXType cxcanonical = clang_getCanonicalType(clang_getUnqualifiedType(cxtype));
+				auto alias = find_if(m_aliases, [&](const unique<CLAlias>& a) { return a->m_name == short_name && clang_equalTypes(a->m_cxtarget, cxcanonical); });
 				if(alias != m_aliases.end()) return &**alias;
 			}
-			auto alias = find_if(m_aliases, [&](const unique<CLAlias>& a) { return clang_equalTypes(a->m_cxtype, cxtype); });
+			// since libclang 22 a typedef written qualified (two::vec3) is not the same type as its declaration, it has the same name
+			const string typedef_name = cxtype.kind == CXType_Typedef ? spelling(cxtype) : "";
+			auto alias = find_if(m_aliases, [&](const unique<CLAlias>& a) { return clang_equalTypes(a->m_cxtype, cxtype) || a->m_id == typedef_name; });
 			if(alias != m_aliases.end()) return &**alias;
 			auto type = find_if(m_types, [&](CLType* t) { return clang_equalTypes(t->m_cxtype, cxtype); });
 			if(type != m_types.end()) return *type;
@@ -846,13 +846,14 @@ namespace two
 
 		// libclang gives template arguments desugared (e.g. stl::basic_string<stl::allocator>), they are named by their alias
 		// when exactly one alias refers to that type (stl::string), otherwise by the type itself (v3<float> is vec3 and float3)
+		// reserved names are the implementation details of the standard library (e.g. _Float32), they don't name a type
 		string alias_spelling(CXType cxtype)
 		{
 			const CXType cxcanonical = clang_getCanonicalType(cxtype);
 			CLAlias* found = nullptr;
 			size_t count = 0;
 			for(const unique<CLAlias>& a : m_aliases)
-				if(clang_equalTypes(a->m_cxtarget, cxcanonical))
+				if(clang_equalTypes(a->m_cxtarget, cxcanonical) && a->m_name[0] != '_')
 				{
 					found = a.get();
 					count++;
@@ -868,6 +869,10 @@ namespace two
 
 		CLType* get_type(CXType cxtype, const string& name)
 		{
+			// a type which doesn't depend on the template parameters is found as in a non templated context (e.g. a const string&)
+			for(CXType c : { cxtype, upointee(cxtype), class_type(cxtype) })
+				if(CLType* cl = this->find_type(c))
+					return cl;
 			CLType* t = this->find_type(name);
 			for(const string& n : { "stl", "two" })
 				if(!t)

@@ -22,6 +22,21 @@ namespace two
 {
 	using Json = json11::Json;
 
+	// the C++20 standard library headers, which a module importing the std module gets all of
+	const char* c_std_headers[] = {
+		"algorithm", "any", "array", "atomic", "barrier", "bit", "bitset", "cassert", "cctype", "cerrno", "cfenv",
+		"cfloat", "charconv", "chrono", "cinttypes", "climits", "clocale", "cmath", "codecvt", "compare", "complex",
+		"concepts", "condition_variable", "coroutine", "csetjmp", "csignal", "cstdarg", "cstddef", "cstdint", "cstdio",
+		"cstdlib", "cstring", "ctime", "cuchar", "cwchar", "cwctype", "deque", "exception", "execution", "filesystem",
+		"format", "forward_list", "fstream", "functional", "future", "initializer_list", "iomanip", "ios", "iosfwd",
+		"iostream", "istream", "iterator", "latch", "limits", "list", "locale", "map", "memory", "memory_resource",
+		"mutex", "new", "numbers", "numeric", "optional", "ostream", "queue", "random", "ranges", "ratio", "regex",
+		"scoped_allocator", "semaphore", "set", "shared_mutex", "source_location", "span", "sstream", "stack",
+		"stdexcept", "stop_token", "streambuf", "string", "string_view", "syncstream", "system_error", "thread",
+		"tuple", "type_traits", "typeindex", "typeinfo", "unordered_map", "unordered_set", "utility", "valarray",
+		"variant", "vector", "version",
+	};
+
 	struct TopoSort
 	{
 		vector<vector<size_t>> links;
@@ -133,10 +148,7 @@ namespace two
 	{
 		//if(upointee(type).kind == CXType_Unexposed && !parent.m_is_templated)
 		//	type = canonical(type);
-		CXType base = upointee(type);
-		if(base.kind == CXType_Elaborated)
-			base = clang_Type_getNamedType(base);
-		bool templated = parent.m_is_templated && base.kind == CXType_Unexposed;
+		bool templated = parent.m_is_templated && upointee(type).kind == CXType_Unexposed;
 
 		CLQualType t;
 		auto fix = [&](const string& name) { return templated ? parent.fix_template(name) : name; };
@@ -411,7 +423,8 @@ namespace two
 
 		visit_children(cursor, [&](CXCursor c)
 		{
-			if(has({ CXCursor_CXXBoolLiteralExpr, CXCursor_FloatingLiteral, CXCursor_IntegerLiteral, CXCursor_StringLiteral }, c.kind))
+			// a parenthesized literal is e.g. the expansion of a macro (UINT32_MAX with glibc)
+			if(has({ CXCursor_CXXBoolLiteralExpr, CXCursor_FloatingLiteral, CXCursor_IntegerLiteral, CXCursor_StringLiteral, CXCursor_ParenExpr }, c.kind))
 			{
 				has_default = true;
 				default_value = first_token(c);
@@ -447,6 +460,9 @@ namespace two
 						default_value += token;
 					else if(token != "=") default_value += token;
 				});
+				// the tokens of an expression expanded from a macro (e.g. UINT8_MAX converted to uint8_t) are not visited
+				if(default_value == "")
+					default_value = last_token(cursor);
 			}
 		});
 	}
@@ -479,6 +495,25 @@ namespace two
 				parse_param(module, *f.m_parent, f, f.m_params.back(), a);
 			}
 		});
+
+		// default arguments can't be repeated on an explicit specialization, they are the ones of its primary template
+		const CXCursor primary = clang_getSpecializedCursorTemplate(f.m_cursor);
+		if(f.m_cursor.kind == CXCursor_FunctionDecl && !clang_Cursor_isNull(primary))
+		{
+			size_t index = 0;
+			visit_children(primary, [&](CXCursor a)
+			{
+				if(a.kind != CXCursor_ParmDecl)
+					return;
+				if(index < f.m_params.size())
+				{
+					CLParam& p = f.m_params[index];
+					if(!p.m_has_default && p.m_type.m_type)
+						find_default_value(a, *p.m_type.m_type, p.m_has_default, p.m_default);
+				}
+				index++;
+			});
+		}
 
 		for(size_t i = 0; i < f.m_params.size(); ++i)
 			if(!f.m_params[i].m_has_default)
@@ -564,9 +599,7 @@ namespace two
 		if(!c.m_is_template)
 		{
 			m.m_nonmutable |= m.m_type.reference();
-			// the spelling loses the const of a by-value member whose type is elaborated (e.g. const string), so ask the field itself
-			const bool isconst = m.m_type.isconst() || (cursor.kind == CXCursor_FieldDecl && clang_isConstQualifiedType(clang_getCursorType(cursor)));
-			m.m_nonmutable |= !m.m_type.pointer() && (isconst || !m.m_type.m_type->copyable());
+			m.m_nonmutable |= !m.m_type.pointer() && (m.m_type.isconst() || !m.m_type.m_type->copyable());
 			m.m_nonmutable |= !m.m_setter && m.m_method;
 		}
 
@@ -778,7 +811,13 @@ namespace two
 		}
 
 		// C++20 module name -> path of its interface
-		// the MSVC interfaces (.ixx) are preferred to the clang/gcc ones (.cppm), as they list the std headers they use
+		// the interfaces of the compiler the generator runs along are preferred: on Windows the MSVC ones (.ixx), which
+		// import the std headers they use, elsewhere the clang/gcc ones (.cppm), which import the whole std module
+#ifdef _WIN32
+		const string m_preferred_interface = "ixx";
+#else
+		const string m_preferred_interface = "cppm";
+#endif
 		map<string, string> m_module_interfaces;
 
 		void find_module_interfaces(const string& dir)
@@ -795,7 +834,7 @@ namespace two
 					if(line.rfind(prefix, 0) != 0)
 						return true;
 					const string name = line.substr(prefix.size(), line.find(';') - prefix.size());
-					if(extension == "ixx" || m_module_interfaces.find(name) == m_module_interfaces.end())
+					if(extension == m_preferred_interface || m_module_interfaces.find(name) == m_module_interfaces.end())
 						m_module_interfaces[name] = path;
 					return false;
 				});
@@ -839,8 +878,16 @@ namespace two
 				const string imported = line.substr(7, line.find(';') - 7);
 				if(imported[0] == '<')
 					source += "#include " + imported + "\n";
+				// the std module is the whole standard library
+				else if(imported == "std")
+				{
+					if(visited.find(imported) == visited.end())
+						for(const char* header : c_std_headers)
+							source += "#include <" + string(header) + ">\n";
+					visited.insert(imported);
+				}
 				// the old MSVC std modules, and the meta modules which are generated from what we parse here
-				else if(imported == "std" || imported.rfind("std.", 0) == 0 || file_extension(imported) == "meta")
+				else if(imported.rfind("std.", 0) == 0 || file_extension(imported) == "meta")
 					;
 				else
 					this->flatten_module_interface(imported, visited, source);
@@ -944,6 +991,8 @@ namespace two
 			//update_file((module.m_path + "/" + "Forward.h", forward_h);
 
 			CXTranslationUnit tu = this->parse(module);
+			g_printing_policy = clang_getCursorPrintingPolicy(cursor(tu));
+			clang_PrintingPolicy_setProperty(g_printing_policy, CXPrintingPolicy_FullyQualifiedName, 1);
 			build_classes(cursor(tu), module, module.m_global);
 
 #if RESOLVE_TEMPLATES
@@ -967,6 +1016,8 @@ namespace two
 			for(auto& f : module.m_methods)
 				parse_function_method(module, *f);
 
+			clang_PrintingPolicy_dispose(g_printing_policy);
+			g_printing_policy = nullptr;
 			clang_disposeTranslationUnit(tu);
 
 			auto cmp_types = [](CLType& a, CLType& b) -> int

@@ -6,5 +6,9 @@ export module two.snd.meta;
 
 import two.snd;
 import two.refl;
+import two.type;
+import two.type.meta;
+import two.math;
+import two.math.meta;
 
 #include <meta/snd.meta.h>
