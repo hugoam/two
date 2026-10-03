@@ -40,13 +40,15 @@ namespace two
 
 	void Injector::inject(Var& value)
 	{
-		//m_constructor(value, to_array(m_args, 1));
+		this->prepare();
+		operator()(value.m_ref);
 	}
 
 	Ref Injector::inject(Pool& pool)
 	{
 		Ref ref = pool.alloc();
-		//m_constructor.m_call(ref, to_array(m_args, 1));
+		this->prepare();
+		operator()(ref);
 		return ref;
 	}
 

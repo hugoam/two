@@ -4,8 +4,6 @@ module two.gltf.meta;
 
 using namespace two;
 
-namespace two { using stl::string; }
-
 void glTFComponentType__to_string(void* val, string& str) { str = g_enu[type<glTFComponentType>().m_id]->name(uint32_t((*static_cast<glTFComponentType*>(val)))); }
 void glTFComponentType__to_value(const string& str, void* val) { (*static_cast<glTFComponentType*>(val)) = glTFComponentType(g_enu[type<glTFComponentType>().m_id]->value(str.c_str())); }
 void glTFType__to_string(void* val, string& str) { str = g_enu[type<glTFType>().m_id]->name(uint32_t((*static_cast<glTFType*>(val)))); }
@@ -101,61 +99,61 @@ void* stl_vector_glTFScene__at(void* vec, size_t i) { return &(*static_cast<stl:
 void stl_vector_glTFScene__push(void* vec) { (*static_cast<stl::vector<glTFScene>*>(vec)).emplace_back(); }
 void stl_vector_glTFScene__add(void* vec, void* value) { (*static_cast<stl::vector<glTFScene>*>(vec)).push_back(*static_cast<glTFScene*>(value)); }
 void stl_vector_glTFScene__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<glTFScene>*>(vec)), *static_cast<glTFScene*>(value)); }
-void glTFNodeExtras__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFNodeExtras(  ); }
+void glTFNodeExtras__default_construct(void* ref) { new(stl::placeholder(), ref) glTFNodeExtras(); }
 void glTFNodeExtras__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFNodeExtras((*static_cast<glTFNodeExtras*>(other))); }
-void glTFBuffer__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFBuffer(  ); }
+void glTFBuffer__default_construct(void* ref) { new(stl::placeholder(), ref) glTFBuffer(); }
 void glTFBuffer__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFBuffer((*static_cast<glTFBuffer*>(other))); }
-void glTFImage__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFImage(  ); }
+void glTFImage__default_construct(void* ref) { new(stl::placeholder(), ref) glTFImage(); }
 void glTFImage__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFImage((*static_cast<glTFImage*>(other))); }
-void glTFBufferView__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFBufferView(  ); }
+void glTFBufferView__default_construct(void* ref) { new(stl::placeholder(), ref) glTFBufferView(); }
 void glTFBufferView__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFBufferView((*static_cast<glTFBufferView*>(other))); }
-void glTFSparseIndices__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFSparseIndices(  ); }
+void glTFSparseIndices__default_construct(void* ref) { new(stl::placeholder(), ref) glTFSparseIndices(); }
 void glTFSparseIndices__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFSparseIndices((*static_cast<glTFSparseIndices*>(other))); }
-void glTFSparseValues__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFSparseValues(  ); }
+void glTFSparseValues__default_construct(void* ref) { new(stl::placeholder(), ref) glTFSparseValues(); }
 void glTFSparseValues__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFSparseValues((*static_cast<glTFSparseValues*>(other))); }
-void glTFSparse__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFSparse(  ); }
+void glTFSparse__default_construct(void* ref) { new(stl::placeholder(), ref) glTFSparse(); }
 void glTFSparse__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFSparse((*static_cast<glTFSparse*>(other))); }
-void glTFAccessor__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFAccessor(  ); }
+void glTFAccessor__default_construct(void* ref) { new(stl::placeholder(), ref) glTFAccessor(); }
 void glTFAccessor__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFAccessor((*static_cast<glTFAccessor*>(other))); }
-void glTFSampler__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFSampler(  ); }
+void glTFSampler__default_construct(void* ref) { new(stl::placeholder(), ref) glTFSampler(); }
 void glTFSampler__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFSampler((*static_cast<glTFSampler*>(other))); }
-void glTFTexture__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFTexture(  ); }
+void glTFTexture__default_construct(void* ref) { new(stl::placeholder(), ref) glTFTexture(); }
 void glTFTexture__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFTexture((*static_cast<glTFTexture*>(other))); }
-void glTFSkin__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFSkin(  ); }
+void glTFSkin__default_construct(void* ref) { new(stl::placeholder(), ref) glTFSkin(); }
 void glTFSkin__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFSkin((*static_cast<glTFSkin*>(other))); }
-void glTFAttributes__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFAttributes(  ); }
+void glTFAttributes__default_construct(void* ref) { new(stl::placeholder(), ref) glTFAttributes(); }
 void glTFAttributes__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFAttributes((*static_cast<glTFAttributes*>(other))); }
-void glTFMorphTarget__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFMorphTarget(  ); }
+void glTFMorphTarget__default_construct(void* ref) { new(stl::placeholder(), ref) glTFMorphTarget(); }
 void glTFMorphTarget__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFMorphTarget((*static_cast<glTFMorphTarget*>(other))); }
-void glTFPrimitive__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFPrimitive(  ); }
+void glTFPrimitive__default_construct(void* ref) { new(stl::placeholder(), ref) glTFPrimitive(); }
 void glTFPrimitive__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFPrimitive((*static_cast<glTFPrimitive*>(other))); }
-void glTFMesh__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFMesh(  ); }
+void glTFMesh__default_construct(void* ref) { new(stl::placeholder(), ref) glTFMesh(); }
 void glTFMesh__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFMesh((*static_cast<glTFMesh*>(other))); }
-void glTFPerspective__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFPerspective(  ); }
+void glTFPerspective__default_construct(void* ref) { new(stl::placeholder(), ref) glTFPerspective(); }
 void glTFPerspective__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFPerspective((*static_cast<glTFPerspective*>(other))); }
-void glTFOrthographic__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFOrthographic(  ); }
+void glTFOrthographic__default_construct(void* ref) { new(stl::placeholder(), ref) glTFOrthographic(); }
 void glTFOrthographic__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFOrthographic((*static_cast<glTFOrthographic*>(other))); }
-void glTFCamera__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFCamera(  ); }
+void glTFCamera__default_construct(void* ref) { new(stl::placeholder(), ref) glTFCamera(); }
 void glTFCamera__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFCamera((*static_cast<glTFCamera*>(other))); }
-void glTFAnimationTarget__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFAnimationTarget(  ); }
+void glTFAnimationTarget__default_construct(void* ref) { new(stl::placeholder(), ref) glTFAnimationTarget(); }
 void glTFAnimationTarget__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFAnimationTarget((*static_cast<glTFAnimationTarget*>(other))); }
-void glTFAnimationChannel__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFAnimationChannel(  ); }
+void glTFAnimationChannel__default_construct(void* ref) { new(stl::placeholder(), ref) glTFAnimationChannel(); }
 void glTFAnimationChannel__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFAnimationChannel((*static_cast<glTFAnimationChannel*>(other))); }
-void glTFAnimationSampler__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFAnimationSampler(  ); }
+void glTFAnimationSampler__default_construct(void* ref) { new(stl::placeholder(), ref) glTFAnimationSampler(); }
 void glTFAnimationSampler__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFAnimationSampler((*static_cast<glTFAnimationSampler*>(other))); }
-void glTFAnimation__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFAnimation(  ); }
+void glTFAnimation__default_construct(void* ref) { new(stl::placeholder(), ref) glTFAnimation(); }
 void glTFAnimation__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFAnimation((*static_cast<glTFAnimation*>(other))); }
-void glTFTextureInfo__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFTextureInfo(  ); }
+void glTFTextureInfo__default_construct(void* ref) { new(stl::placeholder(), ref) glTFTextureInfo(); }
 void glTFTextureInfo__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFTextureInfo((*static_cast<glTFTextureInfo*>(other))); }
-void glTFMaterialPBR__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFMaterialPBR(  ); }
+void glTFMaterialPBR__default_construct(void* ref) { new(stl::placeholder(), ref) glTFMaterialPBR(); }
 void glTFMaterialPBR__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFMaterialPBR((*static_cast<glTFMaterialPBR*>(other))); }
-void glTFMaterial__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFMaterial(  ); }
+void glTFMaterial__default_construct(void* ref) { new(stl::placeholder(), ref) glTFMaterial(); }
 void glTFMaterial__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFMaterial((*static_cast<glTFMaterial*>(other))); }
-void glTFNode__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFNode(  ); }
+void glTFNode__default_construct(void* ref) { new(stl::placeholder(), ref) glTFNode(); }
 void glTFNode__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFNode((*static_cast<glTFNode*>(other))); }
-void glTFScene__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTFScene(  ); }
+void glTFScene__default_construct(void* ref) { new(stl::placeholder(), ref) glTFScene(); }
 void glTFScene__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTFScene((*static_cast<glTFScene*>(other))); }
-void glTF__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) glTF(  ); }
+void glTF__default_construct(void* ref) { new(stl::placeholder(), ref) glTF(); }
 void glTF__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) glTF((*static_cast<glTF*>(other))); }
 
 namespace two
@@ -233,6 +231,7 @@ namespace two
 		Type& t = type<stl::vector<glTFAnimationSampler>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFAnimationSampler>", sizeof(stl::vector<glTFAnimationSampler>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFAnimationSampler>());
 		static Iterable iterable = { &type<glTFAnimationSampler>(),
 		                             stl_vector_glTFAnimationSampler__size,
 		                             stl_vector_glTFAnimationSampler__at};
@@ -246,6 +245,7 @@ namespace two
 		Type& t = type<stl::vector<glTFAnimationChannel>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFAnimationChannel>", sizeof(stl::vector<glTFAnimationChannel>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFAnimationChannel>());
 		static Iterable iterable = { &type<glTFAnimationChannel>(),
 		                             stl_vector_glTFAnimationChannel__size,
 		                             stl_vector_glTFAnimationChannel__at};
@@ -259,6 +259,7 @@ namespace two
 		Type& t = type<stl::vector<glTFMorphTarget>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFMorphTarget>", sizeof(stl::vector<glTFMorphTarget>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFMorphTarget>());
 		static Iterable iterable = { &type<glTFMorphTarget>(),
 		                             stl_vector_glTFMorphTarget__size,
 		                             stl_vector_glTFMorphTarget__at};
@@ -272,6 +273,7 @@ namespace two
 		Type& t = type<stl::vector<glTFPrimitive>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFPrimitive>", sizeof(stl::vector<glTFPrimitive>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFPrimitive>());
 		static Iterable iterable = { &type<glTFPrimitive>(),
 		                             stl_vector_glTFPrimitive__size,
 		                             stl_vector_glTFPrimitive__at};
@@ -285,6 +287,7 @@ namespace two
 		Type& t = type<stl::vector<glTFBuffer>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFBuffer>", sizeof(stl::vector<glTFBuffer>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFBuffer>());
 		static Iterable iterable = { &type<glTFBuffer>(),
 		                             stl_vector_glTFBuffer__size,
 		                             stl_vector_glTFBuffer__at};
@@ -298,6 +301,7 @@ namespace two
 		Type& t = type<stl::vector<glTFBufferView>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFBufferView>", sizeof(stl::vector<glTFBufferView>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFBufferView>());
 		static Iterable iterable = { &type<glTFBufferView>(),
 		                             stl_vector_glTFBufferView__size,
 		                             stl_vector_glTFBufferView__at};
@@ -311,6 +315,7 @@ namespace two
 		Type& t = type<stl::vector<glTFAccessor>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFAccessor>", sizeof(stl::vector<glTFAccessor>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFAccessor>());
 		static Iterable iterable = { &type<glTFAccessor>(),
 		                             stl_vector_glTFAccessor__size,
 		                             stl_vector_glTFAccessor__at};
@@ -324,6 +329,7 @@ namespace two
 		Type& t = type<stl::vector<glTFImage>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFImage>", sizeof(stl::vector<glTFImage>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFImage>());
 		static Iterable iterable = { &type<glTFImage>(),
 		                             stl_vector_glTFImage__size,
 		                             stl_vector_glTFImage__at};
@@ -337,6 +343,7 @@ namespace two
 		Type& t = type<stl::vector<glTFTexture>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFTexture>", sizeof(stl::vector<glTFTexture>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFTexture>());
 		static Iterable iterable = { &type<glTFTexture>(),
 		                             stl_vector_glTFTexture__size,
 		                             stl_vector_glTFTexture__at};
@@ -350,6 +357,7 @@ namespace two
 		Type& t = type<stl::vector<glTFMaterial>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFMaterial>", sizeof(stl::vector<glTFMaterial>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFMaterial>());
 		static Iterable iterable = { &type<glTFMaterial>(),
 		                             stl_vector_glTFMaterial__size,
 		                             stl_vector_glTFMaterial__at};
@@ -363,6 +371,7 @@ namespace two
 		Type& t = type<stl::vector<glTFMesh>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFMesh>", sizeof(stl::vector<glTFMesh>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFMesh>());
 		static Iterable iterable = { &type<glTFMesh>(),
 		                             stl_vector_glTFMesh__size,
 		                             stl_vector_glTFMesh__at};
@@ -376,6 +385,7 @@ namespace two
 		Type& t = type<stl::vector<glTFNode>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFNode>", sizeof(stl::vector<glTFNode>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFNode>());
 		static Iterable iterable = { &type<glTFNode>(),
 		                             stl_vector_glTFNode__size,
 		                             stl_vector_glTFNode__at};
@@ -389,6 +399,7 @@ namespace two
 		Type& t = type<stl::vector<glTFSkin>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFSkin>", sizeof(stl::vector<glTFSkin>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFSkin>());
 		static Iterable iterable = { &type<glTFSkin>(),
 		                             stl_vector_glTFSkin__size,
 		                             stl_vector_glTFSkin__at};
@@ -402,6 +413,7 @@ namespace two
 		Type& t = type<stl::vector<glTFAnimation>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFAnimation>", sizeof(stl::vector<glTFAnimation>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFAnimation>());
 		static Iterable iterable = { &type<glTFAnimation>(),
 		                             stl_vector_glTFAnimation__size,
 		                             stl_vector_glTFAnimation__at};
@@ -415,6 +427,7 @@ namespace two
 		Type& t = type<stl::vector<glTFCamera>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFCamera>", sizeof(stl::vector<glTFCamera>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFCamera>());
 		static Iterable iterable = { &type<glTFCamera>(),
 		                             stl_vector_glTFCamera__size,
 		                             stl_vector_glTFCamera__at};
@@ -428,6 +441,7 @@ namespace two
 		Type& t = type<stl::vector<glTFSampler>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFSampler>", sizeof(stl::vector<glTFSampler>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFSampler>());
 		static Iterable iterable = { &type<glTFSampler>(),
 		                             stl_vector_glTFSampler__size,
 		                             stl_vector_glTFSampler__at};
@@ -441,6 +455,7 @@ namespace two
 		Type& t = type<stl::vector<glTFScene>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<glTFScene>", sizeof(stl::vector<glTFScene>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<glTFScene>());
 		static Iterable iterable = { &type<glTFScene>(),
 		                             stl_vector_glTFScene__size,
 		                             stl_vector_glTFScene__at};
@@ -457,18 +472,20 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFNodeExtras", sizeof(glTFNodeExtras), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFNodeExtras__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFNodeExtras__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFNodeExtras__copy_construct }
 		};
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, {}, {}, {}, };
+		meta.m_empty_var = var(glTFNodeExtras());
 	}
 	// glTFBuffer
 	{
@@ -476,24 +493,30 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFBuffer", sizeof(glTFBuffer), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFBuffer__construct_0, {} }
+		static stl::string name_default = stl::string();
+		static stl::string mime_type_default = stl::string();
+		static stl::string uri_default = stl::string();
+		static size_t byte_length_default = ullong();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFBuffer__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFBuffer__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFBuffer, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFBuffer, mime_type), type<stl::string>(), "mime_type", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFBuffer, uri), type<stl::string>(), "uri", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFBuffer, byte_length), type<size_t>(), "byte_length", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFBuffer, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(glTFBuffer, mime_type), type<stl::string>(), "mime_type", &mime_type_default, Member::Value, nullptr },
+			{ t, offsetof(glTFBuffer, uri), type<stl::string>(), "uri", &uri_default, Member::Value, nullptr },
+			{ t, offsetof(glTFBuffer, byte_length), type<size_t>(), "byte_length", &byte_length_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFBuffer());
 	}
 	// glTFImage
 	{
@@ -501,24 +524,30 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFImage", sizeof(glTFImage), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFImage__construct_0, {} }
+		static stl::string name_default = stl::string();
+		static stl::string mime_type_default = stl::string();
+		static stl::string uri_default = stl::string();
+		static int buffer_view_default = int();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFImage__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFImage__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFImage, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFImage, mime_type), type<stl::string>(), "mime_type", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFImage, uri), type<stl::string>(), "uri", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFImage, buffer_view), type<int>(), "buffer_view", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFImage, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(glTFImage, mime_type), type<stl::string>(), "mime_type", &mime_type_default, Member::Value, nullptr },
+			{ t, offsetof(glTFImage, uri), type<stl::string>(), "uri", &uri_default, Member::Value, nullptr },
+			{ t, offsetof(glTFImage, buffer_view), type<int>(), "buffer_view", &buffer_view_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFImage());
 	}
 	// glTFBufferView
 	{
@@ -526,22 +555,24 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFBufferView", sizeof(glTFBufferView), TypeClass::Struct };
 		// bases
 		// defaults
+		static stl::string name_default = stl::string();
 		static int buffer_default = 0;
 		static size_t byte_offset_default = 0;
 		static size_t byte_length_default = 0;
 		static size_t byte_stride_default = 0;
 		static int target_default = 0;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFBufferView__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFBufferView__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFBufferView__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFBufferView, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFBufferView, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
 			{ t, offsetof(glTFBufferView, buffer), type<int>(), "buffer", &buffer_default, Member::Value, nullptr },
 			{ t, offsetof(glTFBufferView, byte_offset), type<size_t>(), "byte_offset", &byte_offset_default, Member::Value, nullptr },
 			{ t, offsetof(glTFBufferView, byte_length), type<size_t>(), "byte_length", &byte_length_default, Member::Value, nullptr },
@@ -550,7 +581,8 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFBufferView());
 	}
 	// glTFSparseIndices
 	{
@@ -558,24 +590,28 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFSparseIndices", sizeof(glTFSparseIndices), TypeClass::Struct };
 		// bases
 		// defaults
+		static int buffer_view_default = int();
 		static int byte_offset_default = 0;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFSparseIndices__construct_0, {} }
+		static glTFComponentType component_type_default = glTFComponentType();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFSparseIndices__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFSparseIndices__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFSparseIndices, buffer_view), type<int>(), "buffer_view", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFSparseIndices, buffer_view), type<int>(), "buffer_view", &buffer_view_default, Member::Value, nullptr },
 			{ t, offsetof(glTFSparseIndices, byte_offset), type<int>(), "byte_offset", &byte_offset_default, Member::Value, nullptr },
-			{ t, offsetof(glTFSparseIndices, component_type), type<glTFComponentType>(), "component_type", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFSparseIndices, component_type), type<glTFComponentType>(), "component_type", &component_type_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFSparseIndices());
 	}
 	// glTFSparseValues
 	{
@@ -583,23 +619,26 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFSparseValues", sizeof(glTFSparseValues), TypeClass::Struct };
 		// bases
 		// defaults
+		static int buffer_view_default = int();
 		static int byte_offset_default = 0;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFSparseValues__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFSparseValues__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFSparseValues__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFSparseValues, buffer_view), type<int>(), "buffer_view", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFSparseValues, buffer_view), type<int>(), "buffer_view", &buffer_view_default, Member::Value, nullptr },
 			{ t, offsetof(glTFSparseValues, byte_offset), type<int>(), "byte_offset", &byte_offset_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFSparseValues());
 	}
 	// glTFSparse
 	{
@@ -608,23 +647,27 @@ namespace two
 		// bases
 		// defaults
 		static int count_default = 0;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFSparse__construct_0, {} }
+		static glTFSparseIndices indices_default = glTFSparseIndices();
+		static glTFSparseValues values_default = glTFSparseValues();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFSparse__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFSparse__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(glTFSparse, count), type<int>(), "count", &count_default, Member::Value, nullptr },
-			{ t, offsetof(glTFSparse, indices), type<glTFSparseIndices>(), "indices", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFSparse, values), type<glTFSparseValues>(), "values", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFSparse, indices), type<glTFSparseIndices>(), "indices", &indices_default, Member::Value, nullptr },
+			{ t, offsetof(glTFSparse, values), type<glTFSparseValues>(), "values", &values_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFSparse());
 	}
 	// glTFAccessor
 	{
@@ -632,32 +675,38 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFAccessor", sizeof(glTFAccessor), TypeClass::Struct };
 		// bases
 		// defaults
+		static stl::string name_default = stl::string();
 		static int buffer_view_default = -1;
 		static int byte_offset_default = 0;
+		static glTFComponentType component_type_default = glTFComponentType();
 		static bool normalized_default = false;
+		static int count_default = int();
 		static glTFType type_default = glTFType::INVALID;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFAccessor__construct_0, {} }
+		static glTFSparse sparse_default = glTFSparse();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFAccessor__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFAccessor__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFAccessor, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFAccessor, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
 			{ t, offsetof(glTFAccessor, buffer_view), type<int>(), "buffer_view", &buffer_view_default, Member::Value, nullptr },
 			{ t, offsetof(glTFAccessor, byte_offset), type<int>(), "byte_offset", &byte_offset_default, Member::Value, nullptr },
-			{ t, offsetof(glTFAccessor, component_type), type<glTFComponentType>(), "component_type", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFAccessor, component_type), type<glTFComponentType>(), "component_type", &component_type_default, Member::Value, nullptr },
 			{ t, offsetof(glTFAccessor, normalized), type<bool>(), "normalized", &normalized_default, Member::Value, nullptr },
-			{ t, offsetof(glTFAccessor, count), type<int>(), "count", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFAccessor, count), type<int>(), "count", &count_default, Member::Value, nullptr },
 			{ t, offsetof(glTFAccessor, type), type<glTFType>(), "type", &type_default, Member::Value, nullptr },
-			{ t, offsetof(glTFAccessor, sparse), type<glTFSparse>(), "sparse", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFAccessor, sparse), type<glTFSparse>(), "sparse", &sparse_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFAccessor());
 	}
 	// glTFSampler
 	{
@@ -665,27 +714,32 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFSampler", sizeof(glTFSampler), TypeClass::Struct };
 		// bases
 		// defaults
+		static int mag_filter_default = int();
+		static int min_filter_default = int();
 		static int wrap_s_default = 10497;
 		static int wrap_t_default = 10497;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFSampler__construct_0, {} }
+		static stl::string name_default = stl::string();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFSampler__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFSampler__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFSampler, mag_filter), type<int>(), "mag_filter", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFSampler, min_filter), type<int>(), "min_filter", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFSampler, mag_filter), type<int>(), "mag_filter", &mag_filter_default, Member::Value, nullptr },
+			{ t, offsetof(glTFSampler, min_filter), type<int>(), "min_filter", &min_filter_default, Member::Value, nullptr },
 			{ t, offsetof(glTFSampler, wrap_s), type<int>(), "wrap_s", &wrap_s_default, Member::Value, nullptr },
 			{ t, offsetof(glTFSampler, wrap_t), type<int>(), "wrap_t", &wrap_t_default, Member::Value, nullptr },
-			{ t, offsetof(glTFSampler, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFSampler, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFSampler());
 	}
 	// glTFTexture
 	{
@@ -693,25 +747,28 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFTexture", sizeof(glTFTexture), TypeClass::Struct };
 		// bases
 		// defaults
+		static stl::string name_default = stl::string();
 		static int sampler_default = -1;
 		static int source_default = -1;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFTexture__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFTexture__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFTexture__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFTexture, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFTexture, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
 			{ t, offsetof(glTFTexture, sampler), type<int>(), "sampler", &sampler_default, Member::Value, nullptr },
 			{ t, offsetof(glTFTexture, source), type<int>(), "source", &source_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFTexture());
 	}
 	// glTFSkin
 	{
@@ -719,25 +776,29 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFSkin", sizeof(glTFSkin), TypeClass::Struct };
 		// bases
 		// defaults
+		static stl::string name_default = stl::string();
 		static int skeleton_default = -1;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFSkin__construct_0, {} }
+		static int inverse_bind_matrices_default = int();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFSkin__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFSkin__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFSkin, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFSkin, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
 			{ t, offsetof(glTFSkin, skeleton), type<int>(), "skeleton", &skeleton_default, Member::Value, nullptr },
 			{ t, offsetof(glTFSkin, joints), type<stl::vector<int>>(), "joints", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(glTFSkin, inverse_bind_matrices), type<int>(), "inverse_bind_matrices", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFSkin, inverse_bind_matrices), type<int>(), "inverse_bind_matrices", &inverse_bind_matrices_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFSkin());
 	}
 	// glTFAttributes
 	{
@@ -753,14 +814,15 @@ namespace two
 		static int COLOR_0_default = -1;
 		static int JOINTS_0_default = -1;
 		static int WEIGHTS_0_default = -1;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFAttributes__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFAttributes__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFAttributes__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(glTFAttributes, POSITION), type<int>(), "POSITION", &POSITION_default, Member::Value, nullptr },
@@ -774,7 +836,8 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFAttributes());
 	}
 	// glTFMorphTarget
 	{
@@ -785,14 +848,15 @@ namespace two
 		static int POSITION_default = -1;
 		static int NORMAL_default = -1;
 		static int TANGENT_default = -1;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFMorphTarget__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFMorphTarget__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFMorphTarget__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(glTFMorphTarget, POSITION), type<int>(), "POSITION", &POSITION_default, Member::Value, nullptr },
@@ -801,7 +865,8 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFMorphTarget());
 	}
 	// glTFPrimitive
 	{
@@ -809,20 +874,22 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFPrimitive", sizeof(glTFPrimitive), TypeClass::Struct };
 		// bases
 		// defaults
+		static glTFAttributes attributes_default = glTFAttributes();
 		static int indices_default = -1;
 		static int material_default = -1;
 		static glTFPrimitiveType mode_default = glTFPrimitiveType::TRIANGLES;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFPrimitive__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFPrimitive__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFPrimitive__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFPrimitive, attributes), type<glTFAttributes>(), "attributes", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFPrimitive, attributes), type<glTFAttributes>(), "attributes", &attributes_default, Member::Value, nullptr },
 			{ t, offsetof(glTFPrimitive, indices), type<int>(), "indices", &indices_default, Member::Value, nullptr },
 			{ t, offsetof(glTFPrimitive, material), type<int>(), "material", &material_default, Member::Value, nullptr },
 			{ t, offsetof(glTFPrimitive, mode), type<glTFPrimitiveType>(), "mode", &mode_default, Member::Value, nullptr },
@@ -830,7 +897,8 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFPrimitive());
 	}
 	// glTFMesh
 	{
@@ -838,23 +906,26 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFMesh", sizeof(glTFMesh), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFMesh__construct_0, {} }
+		static stl::string name_default = stl::string();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFMesh__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFMesh__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFMesh, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFMesh, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
 			{ t, offsetof(glTFMesh, primitives), type<stl::vector<glTFPrimitive>>(), "primitives", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(glTFMesh, weights), type<stl::vector<float>>(), "weights", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFMesh());
 	}
 	// glTFPerspective
 	{
@@ -862,24 +933,30 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFPerspective", sizeof(glTFPerspective), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFPerspective__construct_0, {} }
+		static float yfov_default = float();
+		static float zfar_default = float();
+		static float znear_default = float();
+		static float aspect_ratio_default = float();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFPerspective__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFPerspective__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFPerspective, yfov), type<float>(), "yfov", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFPerspective, zfar), type<float>(), "zfar", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFPerspective, znear), type<float>(), "znear", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFPerspective, aspect_ratio), type<float>(), "aspect_ratio", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFPerspective, yfov), type<float>(), "yfov", &yfov_default, Member::Value, nullptr },
+			{ t, offsetof(glTFPerspective, zfar), type<float>(), "zfar", &zfar_default, Member::Value, nullptr },
+			{ t, offsetof(glTFPerspective, znear), type<float>(), "znear", &znear_default, Member::Value, nullptr },
+			{ t, offsetof(glTFPerspective, aspect_ratio), type<float>(), "aspect_ratio", &aspect_ratio_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFPerspective());
 	}
 	// glTFOrthographic
 	{
@@ -887,24 +964,30 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFOrthographic", sizeof(glTFOrthographic), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFOrthographic__construct_0, {} }
+		static float xmag_default = float();
+		static float ymag_default = float();
+		static float zfar_default = float();
+		static float znear_default = float();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFOrthographic__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFOrthographic__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFOrthographic, xmag), type<float>(), "xmag", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFOrthographic, ymag), type<float>(), "ymag", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFOrthographic, zfar), type<float>(), "zfar", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFOrthographic, znear), type<float>(), "znear", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFOrthographic, xmag), type<float>(), "xmag", &xmag_default, Member::Value, nullptr },
+			{ t, offsetof(glTFOrthographic, ymag), type<float>(), "ymag", &ymag_default, Member::Value, nullptr },
+			{ t, offsetof(glTFOrthographic, zfar), type<float>(), "zfar", &zfar_default, Member::Value, nullptr },
+			{ t, offsetof(glTFOrthographic, znear), type<float>(), "znear", &znear_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFOrthographic());
 	}
 	// glTFCamera
 	{
@@ -912,24 +995,30 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFCamera", sizeof(glTFCamera), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFCamera__construct_0, {} }
+		static stl::string name_default = stl::string();
+		static stl::string type_default = stl::string();
+		static glTFOrthographic orthographic_default = glTFOrthographic();
+		static glTFPerspective perspective_default = glTFPerspective();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFCamera__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFCamera__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFCamera, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFCamera, type), type<stl::string>(), "type", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFCamera, orthographic), type<glTFOrthographic>(), "orthographic", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFCamera, perspective), type<glTFPerspective>(), "perspective", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFCamera, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(glTFCamera, type), type<stl::string>(), "type", &type_default, Member::Value, nullptr },
+			{ t, offsetof(glTFCamera, orthographic), type<glTFOrthographic>(), "orthographic", &orthographic_default, Member::Value, nullptr },
+			{ t, offsetof(glTFCamera, perspective), type<glTFPerspective>(), "perspective", &perspective_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFCamera());
 	}
 	// glTFAnimationTarget
 	{
@@ -937,22 +1026,26 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFAnimationTarget", sizeof(glTFAnimationTarget), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFAnimationTarget__construct_0, {} }
+		static int node_default = int();
+		static stl::string path_default = stl::string();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFAnimationTarget__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFAnimationTarget__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFAnimationTarget, node), type<int>(), "node", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFAnimationTarget, path), type<stl::string>(), "path", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFAnimationTarget, node), type<int>(), "node", &node_default, Member::Value, nullptr },
+			{ t, offsetof(glTFAnimationTarget, path), type<stl::string>(), "path", &path_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFAnimationTarget());
 	}
 	// glTFAnimationChannel
 	{
@@ -960,22 +1053,26 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFAnimationChannel", sizeof(glTFAnimationChannel), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFAnimationChannel__construct_0, {} }
+		static int sampler_default = int();
+		static glTFAnimationTarget target_default = glTFAnimationTarget();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFAnimationChannel__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFAnimationChannel__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFAnimationChannel, sampler), type<int>(), "sampler", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFAnimationChannel, target), type<glTFAnimationTarget>(), "target", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFAnimationChannel, sampler), type<int>(), "sampler", &sampler_default, Member::Value, nullptr },
+			{ t, offsetof(glTFAnimationChannel, target), type<glTFAnimationTarget>(), "target", &target_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFAnimationChannel());
 	}
 	// glTFAnimationSampler
 	{
@@ -983,23 +1080,28 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFAnimationSampler", sizeof(glTFAnimationSampler), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFAnimationSampler__construct_0, {} }
+		static glTFInterpolation interpolation_default = glTFInterpolation();
+		static int input_default = int();
+		static int output_default = int();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFAnimationSampler__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFAnimationSampler__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFAnimationSampler, interpolation), type<glTFInterpolation>(), "interpolation", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFAnimationSampler, input), type<int>(), "input", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFAnimationSampler, output), type<int>(), "output", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFAnimationSampler, interpolation), type<glTFInterpolation>(), "interpolation", &interpolation_default, Member::Value, nullptr },
+			{ t, offsetof(glTFAnimationSampler, input), type<int>(), "input", &input_default, Member::Value, nullptr },
+			{ t, offsetof(glTFAnimationSampler, output), type<int>(), "output", &output_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFAnimationSampler());
 	}
 	// glTFAnimation
 	{
@@ -1007,23 +1109,26 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFAnimation", sizeof(glTFAnimation), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFAnimation__construct_0, {} }
+		static stl::string name_default = stl::string();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFAnimation__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFAnimation__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFAnimation, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFAnimation, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
 			{ t, offsetof(glTFAnimation, samplers), type<stl::vector<glTFAnimationSampler>>(), "samplers", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(glTFAnimation, channels), type<stl::vector<glTFAnimationChannel>>(), "channels", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFAnimation());
 	}
 	// glTFTextureInfo
 	{
@@ -1033,14 +1138,15 @@ namespace two
 		// defaults
 		static int index_default = -1;
 		static float scale_default = 1.f;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFTextureInfo__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFTextureInfo__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFTextureInfo__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(glTFTextureInfo, index), type<int>(), "index", &index_default, Member::Value, nullptr },
@@ -1048,7 +1154,8 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFTextureInfo());
 	}
 	// glTFMaterialPBR
 	{
@@ -1056,27 +1163,32 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFMaterialPBR", sizeof(glTFMaterialPBR), TypeClass::Struct };
 		// bases
 		// defaults
+		static two::vec4 base_color_factor_default = two::v4<float>();
+		static glTFTextureInfo base_color_texture_default = glTFTextureInfo();
 		static float metallic_factor_default = 1.f;
 		static float roughness_factor_default = 1.f;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFMaterialPBR__construct_0, {} }
+		static glTFTextureInfo metallic_roughness_texture_default = glTFTextureInfo();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFMaterialPBR__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFMaterialPBR__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFMaterialPBR, base_color_factor), type<two::vec4>(), "base_color_factor", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFMaterialPBR, base_color_texture), type<glTFTextureInfo>(), "base_color_texture", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFMaterialPBR, base_color_factor), type<two::vec4>(), "base_color_factor", &base_color_factor_default, Member::Value, nullptr },
+			{ t, offsetof(glTFMaterialPBR, base_color_texture), type<glTFTextureInfo>(), "base_color_texture", &base_color_texture_default, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterialPBR, metallic_factor), type<float>(), "metallic_factor", &metallic_factor_default, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterialPBR, roughness_factor), type<float>(), "roughness_factor", &roughness_factor_default, Member::Value, nullptr },
-			{ t, offsetof(glTFMaterialPBR, metallic_roughness_texture), type<glTFTextureInfo>(), "metallic_roughness_texture", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFMaterialPBR, metallic_roughness_texture), type<glTFTextureInfo>(), "metallic_roughness_texture", &metallic_roughness_texture_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFMaterialPBR());
 	}
 	// glTFMaterial
 	{
@@ -1084,31 +1196,38 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFMaterial", sizeof(glTFMaterial), TypeClass::Struct };
 		// bases
 		// defaults
+		static stl::string name_default = stl::string();
+		static glTFTextureInfo normal_texture_default = glTFTextureInfo();
+		static glTFTextureInfo occlusion_texture_default = glTFTextureInfo();
 		static two::vec3 emissive_factor_default = to_vec3(two::Colour::Black);
+		static glTFTextureInfo emissive_texture_default = glTFTextureInfo();
 		static bool double_sided_default = false;
 		static glTFAlphaMode alpha_mode_default = glTFAlphaMode::OPAQUE;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFMaterial__construct_0, {} }
+		static glTFMaterialPBR pbr_metallic_roughness_default = glTFMaterialPBR();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFMaterial__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFMaterial__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFMaterial, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFMaterial, normal_texture), type<glTFTextureInfo>(), "normal_texture", nullptr, Member::Value, nullptr },
-			{ t, offsetof(glTFMaterial, occlusion_texture), type<glTFTextureInfo>(), "occlusion_texture", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFMaterial, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(glTFMaterial, normal_texture), type<glTFTextureInfo>(), "normal_texture", &normal_texture_default, Member::Value, nullptr },
+			{ t, offsetof(glTFMaterial, occlusion_texture), type<glTFTextureInfo>(), "occlusion_texture", &occlusion_texture_default, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, emissive_factor), type<two::vec3>(), "emissive_factor", &emissive_factor_default, Member::Value, nullptr },
-			{ t, offsetof(glTFMaterial, emissive_texture), type<glTFTextureInfo>(), "emissive_texture", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFMaterial, emissive_texture), type<glTFTextureInfo>(), "emissive_texture", &emissive_texture_default, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, double_sided), type<bool>(), "double_sided", &double_sided_default, Member::Value, nullptr },
 			{ t, offsetof(glTFMaterial, alpha_mode), type<glTFAlphaMode>(), "alpha_mode", &alpha_mode_default, Member::Value, nullptr },
-			{ t, offsetof(glTFMaterial, pbr_metallic_roughness), type<glTFMaterialPBR>(), "pbr_metallic_roughness", nullptr, Member::Value, nullptr }
+			{ t, offsetof(glTFMaterial, pbr_metallic_roughness), type<glTFMaterialPBR>(), "pbr_metallic_roughness", &pbr_metallic_roughness_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFMaterial());
 	}
 	// glTFNode
 	{
@@ -1116,34 +1235,39 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFNode", sizeof(glTFNode), TypeClass::Struct };
 		// bases
 		// defaults
+		static stl::string name_default = stl::string();
 		static int mesh_default = -1;
 		static int camera_default = -1;
 		static int skin_default = -1;
 		static two::mat4 matrix_default = {};
+		static two::vec3 translation_default = two::v3<float>();
 		static two::quat rotation_default = two::ZeroQuat;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFNode__construct_0, {} }
+		static two::vec3 scale_default = two::v3<float>();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFNode__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFNode__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFNode, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, mesh), type<int>(), "mesh", &mesh_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, camera), type<int>(), "camera", &camera_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, skin), type<int>(), "skin", &skin_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, matrix), type<two::mat4>(), "matrix", &matrix_default, Member::Value, nullptr },
-			{ t, offsetof(glTFNode, translation), type<two::vec3>(), "translation", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, translation), type<two::vec3>(), "translation", &translation_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, rotation), type<two::quat>(), "rotation", &rotation_default, Member::Value, nullptr },
-			{ t, offsetof(glTFNode, scale), type<two::vec3>(), "scale", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFNode, scale), type<two::vec3>(), "scale", &scale_default, Member::Value, nullptr },
 			{ t, offsetof(glTFNode, children), type<stl::vector<int>>(), "children", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFNode());
 	}
 	// glTFScene
 	{
@@ -1151,22 +1275,25 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTFScene", sizeof(glTFScene), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTFScene__construct_0, {} }
+		static stl::string name_default = stl::string();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTFScene__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTFScene__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(glTFScene, name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(glTFScene, name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
 			{ t, offsetof(glTFScene, nodes), type<stl::vector<int>>(), "nodes", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTFScene());
 	}
 	// glTF
 	{
@@ -1174,14 +1301,15 @@ namespace two
 		static Meta meta = { t, &namspc({}), "glTF", sizeof(glTF), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, glTF__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, glTF__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, glTF__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(glTF, m_buffers), type<stl::vector<glTFBuffer>>(), "buffers", nullptr, Member::NonMutable, nullptr },
@@ -1200,7 +1328,8 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(glTF());
 	}
 	
 	

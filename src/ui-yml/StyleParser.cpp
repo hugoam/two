@@ -47,21 +47,21 @@ namespace two
 	void decline_images(Styler& styler, const string& style, Options& skin_def, const string& state)
 	{
 		for(size_t i = 0; i < skin_def.m_fields.size(); ++i)
-			if(!skin_def.m_fields[i].none() && (type(skin_def.m_fields[i]).is<Image>()
-											|| type(skin_def.m_fields[i]).is<ImageSkin>()))
+			if(skin_def.m_fields[i] && (skin_def.m_fields[i].is<Image>()
+									|| skin_def.m_fields[i].is<ImageSkin>()))
 			{
 				Member& member = cls<InkStyle>().m_members[i];
 
 				Var value = skin_def.m_fields[member.m_index];
 				Options& declined_skin_def = styler.m_skins[style + ":" + state];
 
-				if(type(value).is<Image>())
+				if(value.is<Image>())
 				{
 					string image_name = string(val<Image>(value).d_name) + "_" + replace_all(state, "|", "_");
 					Image& declined_image = *styler.m_ui_window.find_image(image_name.c_str());
 					declined_skin_def.set(member.m_index, Ref(&declined_image));
 				}
-				else if(type(value).is<ImageSkin>())
+				else if(value.is<ImageSkin>())
 				{
 					string image_name = string(val<ImageSkin>(value).d_image->d_name) + "_" + replace_all(state, "|", "_");
 					Image& declined_image = *styler.m_ui_window.find_image(image_name.c_str());
@@ -196,14 +196,14 @@ namespace two
 	void Options::merge(const Options& other)
 	{
 		for(size_t i = 0; i < other.m_fields.size(); ++i)
-			if(!other.m_fields[i].none())
+			if(m_fields[i])
 				set(i, other.m_fields[i]);
 	}
 
 	void Options::apply(Ref object)
 	{
 		for(size_t i = 0; i < m_fields.size(); ++i)
-			if(!m_fields[i].none())
+			if(m_fields[i])
 				cls(object).m_members[i].set(object, m_fields[i]);
 	}
 

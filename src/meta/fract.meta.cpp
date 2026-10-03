@@ -4,8 +4,6 @@ module two.fract.meta;
 
 using namespace two;
 
-namespace two { using stl::string; }
-
 void two_PatternSampling__to_string(void* val, string& str) { str = g_enu[type<two::PatternSampling>().m_id]->name(uint32_t((*static_cast<two::PatternSampling*>(val)))); }
 void two_PatternSampling__to_value(const string& str, void* val) { (*static_cast<two::PatternSampling*>(val)) = two::PatternSampling(g_enu[type<two::PatternSampling>().m_id]->value(str.c_str())); }
 size_t stl_vector_two_Image256__size(void* vec) { return (*static_cast<stl::vector<two::Image256>*>(vec)).size(); }
@@ -15,10 +13,10 @@ void stl_vector_two_Image256__add(void* vec, void* value) { (*static_cast<stl::v
 void stl_vector_two_Image256__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<two::Image256>*>(vec)), *static_cast<two::Image256*>(value)); }
 void two_Circlifier__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Circlifier( *static_cast<two::Image256*>(args[0]) ); }
 void two_Circlifier_compute(void* object, span<void*> args, void*& result) { (*static_cast<stl::vector<two::Circle>*>(result)) = (*static_cast<two::Circlifier*>(object)).compute(*static_cast<two::Colour*>(args[0]), *static_cast<float*>(args[1])); }
-void two_Pattern__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Pattern( *static_cast<two::Palette*>(args[0]), *static_cast<two::PatternSampling*>(args[1]), *static_cast<float*>(args[2]), *static_cast<size_t*>(args[3]) ); }
-void two_Pattern__construct_1(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::Pattern(  ); }
+void two_Pattern__default_construct(void* ref) { new(stl::placeholder(), ref) two::Pattern(); }
 void two_Pattern__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Pattern((*static_cast<two::Pattern*>(other))); }
-void two_FractTab__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::FractTab(  ); }
+void two_Pattern__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Pattern( *static_cast<two::Palette*>(args[0]), *static_cast<two::PatternSampling*>(args[1]), *static_cast<float*>(args[2]), *static_cast<size_t*>(args[3]) ); }
+void two_FractTab__default_construct(void* ref) { new(stl::placeholder(), ref) two::FractTab(); }
 void two_FractTab__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::FractTab((*static_cast<two::FractTab*>(other))); }
 void two_Fract__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Fract( *static_cast<size_t*>(args[0]) ); }
 void two_Fract_generate(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Fract*>(object)).generate(*static_cast<size_t*>(args[0])); }
@@ -58,6 +56,7 @@ namespace two
 		Type& t = type<stl::vector<two::Image256>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<two::Image256>", sizeof(stl::vector<two::Image256>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<two::Image256>());
 		static Iterable iterable = { &type<two::Image256>(),
 		                             stl_vector_two_Image256__size,
 		                             stl_vector_two_Image256__at};
@@ -75,18 +74,19 @@ namespace two
 		// bases
 		// defaults
 		static float compute_0_scale_default = 1.f;
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_Circlifier__construct_0, { { "image", type<two::Image256>(),  } } }
+			{ t, two_Circlifier__construct_0, { { "image", type<two::Image256>(), Param::Reference } } }
 		};
-		// copy constructor
 		// members
 		// methods
 		static Method methods[] = {
 			{ t, "compute", Address(), two_Circlifier_compute, { { "colour", type<two::Colour>(),  }, { "scale", type<float>(), Param::Default, &compute_0_scale_default } }, { &type<stl::vector<two::Circle>>(), QualType::None } }
 		};
 		// static members
-		static Class cls = { t, {}, {}, constructors, {}, {}, methods, {}, };
+		static Class cls = { t, {}, {}, {}, {}, constructors, {}, methods, {}, };
 	}
 	// two::Pattern
 	{
@@ -96,19 +96,23 @@ namespace two
 		// defaults
 		static float construct_0_precision_default = 1.f;
 		static size_t construct_0_step_default = 1;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_Pattern__construct_0, { { "palette", type<two::Palette>(),  }, { "sampling", type<two::PatternSampling>(),  }, { "precision", type<float>(), Param::Default, &construct_0_precision_default }, { "step", type<size_t>(), Param::Default, &construct_0_step_default } } },
-			{ t, two_Pattern__construct_1, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_Pattern__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_Pattern__copy_construct }
 		};
+		// constructors
+		static Constructor constructors[] = {
+			{ t, two_Pattern__construct_0, { { "palette", type<two::Palette>(),  }, { "sampling", type<two::PatternSampling>(),  }, { "precision", type<float>(), Param::Default, &construct_0_precision_default }, { "step", type<size_t>(), Param::Default, &construct_0_step_default } } }
+		};
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, constructors, {}, {}, {}, };
+		meta.m_empty_var = var(two::Pattern());
 	}
 	// two::FractTab
 	{
@@ -116,18 +120,20 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "FractTab", sizeof(two::FractTab), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_FractTab__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_FractTab__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_FractTab__copy_construct }
 		};
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, {}, {}, {}, };
+		meta.m_empty_var = var(two::FractTab());
 	}
 	// two::Fract
 	{
@@ -135,27 +141,29 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Fract", sizeof(two::Fract), TypeClass::Object };
 		// bases
 		// defaults
+		static size_t nutabs_default = ullong();
 		static size_t construct_0_num_tabs_default = 75;
 		static size_t generate_0_num_tabs_default = 75;
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
 			{ t, two_Fract__construct_0, { { "num_tabs", type<size_t>(), Param::Default, &construct_0_num_tabs_default } } }
 		};
-		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Fract, m_num_tabs), type<size_t>(), "nutabs", nullptr, Member::Value, nullptr }
+			{ t, offsetof(two::Fract, m_num_tabs), type<size_t>(), "nutabs", &nutabs_default, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
 			{ t, "generate", Address(), two_Fract_generate, { { "num_tabs", type<size_t>(), Param::Default, &generate_0_num_tabs_default } }, g_qvoid },
 			{ t, "regen", Address(), two_Fract_regen, {}, g_qvoid },
-			{ t, "render", Address(), two_Fract_render, { { "rect", type<two::Rect>(),  }, { "pattern", type<two::Pattern>(),  }, { "resolution", type<two::uvec2>(),  }, { "output_image", type<two::Image256>(), Param::Output } }, g_qvoid },
-			{ t, "render_whole", Address(), two_Fract_render_whole, { { "pattern", type<two::Pattern>(),  }, { "resolution", type<two::uvec2>(),  }, { "output_image", type<two::Image256>(), Param::Output } }, g_qvoid },
-			{ t, "render_grid", Address(), two_Fract_render_grid, { { "size", type<two::uvec2>(),  }, { "pattern", type<two::Pattern>(),  }, { "resolution", type<two::uvec2>(),  }, { "output_images", type<stl::vector<two::Image256>>(), Param::Output } }, g_qvoid }
+			{ t, "render", Address(), two_Fract_render, { { "rect", type<two::Rect>(),  }, { "pattern", type<two::Pattern>(),  }, { "resolution", type<two::uvec2>(),  }, { "output_image", type<two::Image256>(), Param::Flags(Param::Reference|Param::Output) } }, g_qvoid },
+			{ t, "render_whole", Address(), two_Fract_render_whole, { { "pattern", type<two::Pattern>(),  }, { "resolution", type<two::uvec2>(),  }, { "output_image", type<two::Image256>(), Param::Flags(Param::Reference|Param::Output) } }, g_qvoid },
+			{ t, "render_grid", Address(), two_Fract_render_grid, { { "size", type<two::uvec2>(),  }, { "pattern", type<two::Pattern>(),  }, { "resolution", type<two::uvec2>(),  }, { "output_images", type<stl::vector<two::Image256>>(), Param::Flags(Param::Reference|Param::Output) } }, g_qvoid }
 		};
 		// static members
-		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, {}, {}, constructors, members, methods, {}, };
 	}
 	// two::FractSample
 	{
@@ -163,23 +171,26 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "FractSample", sizeof(two::FractSample), TypeClass::Object };
 		// bases
 		// defaults
+		static two::Rect rect_default = two::Rect();
+		static two::uvec2 resolution_default = two::v2<uint>();
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_FractSample__construct_0, { { "fract", type<two::Fract>(),  }, { "rect", type<two::Rect>(),  }, { "resolution", type<two::uvec2>(),  } } }
+			{ t, two_FractSample__construct_0, { { "fract", type<two::Fract>(), Param::Reference }, { "rect", type<two::Rect>(),  }, { "resolution", type<two::uvec2>(),  } } }
 		};
-		// copy constructor
 		// members
 		static Member members[] = {
 			{ t, SIZE_MAX, type<two::Fract>(), "fract", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_FractSample__get_fract },
-			{ t, offsetof(two::FractSample, m_rect), type<two::Rect>(), "rect", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::FractSample, m_resolution), type<two::uvec2>(), "resolution", nullptr, Member::Value, nullptr }
+			{ t, offsetof(two::FractSample, m_rect), type<two::Rect>(), "rect", &rect_default, Member::Value, nullptr },
+			{ t, offsetof(two::FractSample, m_resolution), type<two::uvec2>(), "resolution", &resolution_default, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
-			{ t, "render", Address(), two_FractSample_render, { { "pattern", type<two::Pattern>(),  }, { "outputImage", type<two::Image256>(), Param::Output } }, g_qvoid }
+			{ t, "render", Address(), two_FractSample_render, { { "pattern", type<two::Pattern>(),  }, { "outputImage", type<two::Image256>(), Param::Flags(Param::Reference|Param::Output) } }, g_qvoid }
 		};
 		// static members
-		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, {}, {}, constructors, members, methods, {}, };
 	}
 	
 	
@@ -191,7 +202,7 @@ namespace two
 		m.m_types.push_back(&type<two::Fract>());
 		m.m_types.push_back(&type<two::FractSample>());
 		{
-			static Function f = { &namspc({ "two" }), "generate_fract", funcptr<void(*)(two::uvec2, const two::Pattern&, two::Image256&)>(two::generate_fract), two_generate_fract_0, { { "resolution", type<two::uvec2>(),  }, { "pattern", type<two::Pattern>(),  }, { "output_image", type<two::Image256>(), Param::Output } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "generate_fract", funcptr<void(*)(two::uvec2, const two::Pattern&, two::Image256&)>(two::generate_fract), two_generate_fract_0, { { "resolution", type<two::uvec2>(),  }, { "pattern", type<two::Pattern>(),  }, { "output_image", type<two::Image256>(), Param::Flags(Param::Reference|Param::Output) } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

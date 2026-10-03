@@ -15,10 +15,6 @@ module two.infra;
 
 namespace two
 {
-#ifdef TWO_MODULES
-	using stl::string;
-#endif
-
 	void copy_file(const string& source, const string& dest)
 	{
 		std::ifstream source_file(source.c_str(), std::ios::binary);

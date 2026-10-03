@@ -28,9 +28,8 @@
 #include <infra/ToValue.h>
 #include <infra/StringConvert.h>
 #include <infra/Thread.h>
-#ifdef TWO_MODULES
 #include <infra/Vector.h>
 #include <infra/AlignedAlloc.h>
 #include <infra/TypeTraits.h>
-#endif
+#include <infra/VectorTraits.h>
 

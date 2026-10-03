@@ -12,15 +12,24 @@ namespace two
 	{
 		vector<Var> args;
 		for(const Param& p : callable.m_params)
-		{
-			if(p.defaulted())
-				args.push_back(Ref(p.m_default, *p.m_type));
-			else if(!meta(*p.m_type).m_empty_var.none())
-				args.push_back(meta(*p.m_type).m_empty_var);
-			else
-				args.push_back(Ref(*p.m_type));
-		}
+			args.push_back(p.storage_var());
 		return args;
+	}
+
+	Var QualType::storage_var() const
+	{
+		Var value = meta(*m_type).m_empty_var;
+		if(!value) value = Ref(*m_type);
+		return value;
+	}
+
+	Var Param::storage_var() const
+	{
+		Var value = meta(*m_type).m_empty_var;
+		if(!value) value = Ref(*m_type);
+		if(defaulted())
+			value.copy(Ref(m_default, *m_type));
+		return value;
 	}
 
 	Call::Call()
@@ -32,13 +41,7 @@ namespace two
 		, m_vargs(args.size(), nullptr)
 	{
 		if(!callable.m_return_type.isvoid())
-		{
-			Type& return_type = *callable.m_return_type.m_type;
-			if(!meta(return_type).m_empty_var.none())
-				m_result = meta(return_type).m_empty_var;
-			else
-				m_result = Ref(return_type);
-		}
+			m_args.push_back(callable.m_return_type.storage_var());
 		this->prepare();
 	}
 
@@ -56,7 +59,6 @@ namespace two
 	Call::Call(const Call& other)
 		: m_callable(other.m_callable)
 		, m_args(other.m_args)
-		, m_result(other.m_result)
 	{
 		this->prepare();
 	}
@@ -65,7 +67,6 @@ namespace two
 	{
 		m_callable = other.m_callable;
 		m_args = other.m_args;
-		m_result = other.m_result;
 		this->prepare();
 		return *this;
 	}
@@ -81,14 +82,14 @@ namespace two
 
 	const Var& Call::operator()()
 	{
-		(*m_callable)(m_vargs, m_result.m_ref.m_value);
-		return m_result;
+		(*m_callable)(m_vargs, result().m_ref.m_value);
+		return result();
 	}
 
 	const Var& Call::operator()(Ref object)
 	{
 		m_args[0] = object; m_vargs[0] = object.m_value;
-		(*m_callable)(m_vargs, m_result.m_ref.m_value);
-		return m_result;
+		(*m_callable)(m_vargs, result().m_ref.m_value);
+		return result();
 	}
 }

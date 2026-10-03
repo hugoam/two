@@ -4,32 +4,30 @@ module two.gfx.pbr.meta;
 
 using namespace two;
 
-namespace two { using stl::string; }
-
 void two_TonemapMode__to_string(void* val, string& str) { str = g_enu[type<two::TonemapMode>().m_id]->name(uint32_t((*static_cast<two::TonemapMode*>(val)))); }
 void two_TonemapMode__to_value(const string& str, void* val) { (*static_cast<two::TonemapMode*>(val)) = two::TonemapMode(g_enu[type<two::TonemapMode>().m_id]->value(str.c_str())); }
-void two_CubeTarget__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::CubeTarget(  ); }
+void two_CubeTarget__default_construct(void* ref) { new(stl::placeholder(), ref) two::CubeTarget(); }
 void two_CubeTarget_create(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::CubeTarget*>(object)).create(*static_cast<uint32_t*>(args[0])); }
 void two_CubeTarget_side(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::CubeTarget*>(object)).side(*static_cast<size_t*>(args[0])); }
-void two_CubeCamera__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::CubeCamera(  ); }
-void two_CubeCamera__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::CubeCamera( *static_cast<two::Scene*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<uint32_t*>(args[3]) ); }
+void two_CubeCamera__default_construct(void* ref) { new(stl::placeholder(), ref) two::CubeCamera(); }
+void two_CubeCamera__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::CubeCamera( *static_cast<two::Scene*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<uint32_t*>(args[3]) ); }
 void two_CubeCamera_render(void* object, span<void*> args, void*& result) { (*static_cast<two::Render*>(result)) = (*static_cast<two::CubeCamera*>(object)).render(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1]), *static_cast<two::SignedAxis*>(args[2])); }
 void* two_ReflectionProbe__get_node(void* object) { return &(*static_cast<two::ReflectionProbe*>(object)).m_node; }
-void two_LightShadow__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::LightShadow(  ); }
+void two_LightShadow__default_construct(void* ref) { new(stl::placeholder(), ref) two::LightShadow(); }
 void two_LightShadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::LightShadow((*static_cast<two::LightShadow*>(other))); }
-void two_CSMSlice__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::CSMSlice(  ); }
+void two_CSMSlice__default_construct(void* ref) { new(stl::placeholder(), ref) two::CSMSlice(); }
 void two_CSMSlice__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::CSMSlice((*static_cast<two::CSMSlice*>(other))); }
-void two_CSMShadow__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::CSMShadow(  ); }
+void two_CSMShadow__default_construct(void* ref) { new(stl::placeholder(), ref) two::CSMShadow(); }
 void two_CSMShadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::CSMShadow((*static_cast<two::CSMShadow*>(other))); }
-void two_DofParams__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::DofParams(  ); }
+void two_DofParams__default_construct(void* ref) { new(stl::placeholder(), ref) two::DofParams(); }
 void two_DofParams__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::DofParams((*static_cast<two::DofParams*>(other))); }
-void two_DofBlur__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::DofBlur(  ); }
+void two_DofBlur__default_construct(void* ref) { new(stl::placeholder(), ref) two::DofBlur(); }
 void two_DofBlur__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::DofBlur((*static_cast<two::DofBlur*>(other))); }
-void two_Glow__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::Glow(  ); }
+void two_Glow__default_construct(void* ref) { new(stl::placeholder(), ref) two::Glow(); }
 void two_Glow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Glow((*static_cast<two::Glow*>(other))); }
-void two_BCS__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::BCS(  ); }
+void two_BCS__default_construct(void* ref) { new(stl::placeholder(), ref) two::BCS(); }
 void two_BCS__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::BCS((*static_cast<two::BCS*>(other))); }
-void two_Tonemap__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::Tonemap(  ); }
+void two_Tonemap__default_construct(void* ref) { new(stl::placeholder(), ref) two::Tonemap(); }
 void two_Tonemap__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Tonemap((*static_cast<two::Tonemap*>(other))); }
 void two_begin_pbr_render_0(span<void*> args, void*& result) { UNUSED(result);  two::begin_pbr_render(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
 void two_pass_gi_probes_1(span<void*> args, void*& result) { UNUSED(result);  two::pass_gi_probes(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
@@ -92,12 +90,13 @@ namespace two
 		static Type* bases[] = { &type<two::DrawBlock>() };
 		static size_t bases_offsets[] = { base_offset<two::BlockLight, two::DrawBlock>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::LightmapItem
 	{
@@ -105,12 +104,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "LightmapItem", sizeof(two::LightmapItem), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Lightmap
 	{
@@ -118,12 +118,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Lightmap", sizeof(two::Lightmap), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::LightmapAtlas
 	{
@@ -131,12 +132,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "LightmapAtlas", sizeof(two::LightmapAtlas), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::BlockLightmap
 	{
@@ -146,12 +148,13 @@ namespace two
 		static Type* bases[] = { &type<two::DrawBlock>() };
 		static size_t bases_offsets[] = { base_offset<two::BlockLightmap, two::DrawBlock>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::PBRShot
 	{
@@ -161,12 +164,13 @@ namespace two
 		static Type* bases[] = { &type<two::Shot>() };
 		static size_t bases_offsets[] = { base_offset<two::PBRShot, two::Shot>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::BlockGeometry
 	{
@@ -176,12 +180,13 @@ namespace two
 		static Type* bases[] = { &type<two::DrawBlock>() };
 		static size_t bases_offsets[] = { base_offset<two::BlockGeometry, two::DrawBlock>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::BlockRadiance
 	{
@@ -191,12 +196,13 @@ namespace two
 		static Type* bases[] = { &type<two::DrawBlock>() };
 		static size_t bases_offsets[] = { base_offset<two::BlockRadiance, two::DrawBlock>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::CubeTarget
 	{
@@ -204,16 +210,18 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "CubeTarget", sizeof(two::CubeTarget), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_CubeTarget__construct_0, {} }
+		static uint32_t size_default = uint();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_CubeTarget__default_construct }
 		};
 		// copy constructor
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::CubeTarget, m_cubemap), type<two::Texture>(), "cubemap", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::CubeTarget, m_depth), type<two::Texture>(), "depth", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::CubeTarget, m_size), type<uint32_t>(), "size", nullptr, Member::Value, nullptr }
+			{ t, offsetof(two::CubeTarget, m_size), type<uint32_t>(), "size", &size_default, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
@@ -221,7 +229,7 @@ namespace two
 			{ t, "side", Address(), two_CubeTarget_side, { { "i", type<size_t>(),  } }, { &type<two::FrameBuffer>(), QualType::None } }
 		};
 		// static members
-		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, default_constructor, {}, {}, members, methods, {}, };
 	}
 	// two::CubeCamera
 	{
@@ -229,23 +237,27 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "CubeCamera", sizeof(two::CubeCamera), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_CubeCamera__construct_0, {} },
-			{ t, two_CubeCamera__construct_1, { { "scene", type<two::Scene>(),  }, { "near", type<float>(),  }, { "far", type<float>(),  }, { "size", type<uint32_t>(),  } } }
+		static two::uvec2 size_default = two::v2<uint>();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_CubeCamera__default_construct }
 		};
 		// copy constructor
+		// constructors
+		static Constructor constructors[] = {
+			{ t, two_CubeCamera__construct_0, { { "scene", type<two::Scene>(), Param::Reference }, { "near", type<float>(),  }, { "far", type<float>(),  }, { "size", type<uint32_t>(),  } } }
+		};
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::CubeCamera, m_cubemap), type<two::CubeTarget>(), "cubemap", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::CubeCamera, m_size), type<two::uvec2>(), "size", nullptr, Member::Value, nullptr }
+			{ t, offsetof(two::CubeCamera, m_size), type<two::uvec2>(), "size", &size_default, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
-			{ t, "render", Address(), two_CubeCamera_render, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  }, { "axis", type<two::SignedAxis>(),  } }, { &type<two::Render>(), QualType::None } }
+			{ t, "render", Address(), two_CubeCamera_render, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference }, { "axis", type<two::SignedAxis>(),  } }, { &type<two::Render>(), QualType::None } }
 		};
 		// static members
-		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, default_constructor, {}, constructors, members, methods, {}, };
 	}
 	// two::ReflectionProbe
 	{
@@ -255,22 +267,24 @@ namespace two
 		// defaults
 		static bool visible_default = true;
 		static float intensity_default = 1.f;
+		static two::vec3 extents_default = two::v3<float>();
 		static bool shadows_default = false;
 		static bool dirty_default = true;
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, SIZE_MAX, type<two::Node3>(), "node", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_ReflectionProbe__get_node },
 			{ t, offsetof(two::ReflectionProbe, m_visible), type<bool>(), "visible", &visible_default, Member::Value, nullptr },
 			{ t, offsetof(two::ReflectionProbe, m_intensity), type<float>(), "intensity", &intensity_default, Member::Value, nullptr },
-			{ t, offsetof(two::ReflectionProbe, m_extents), type<two::vec3>(), "extents", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ReflectionProbe, m_extents), type<two::vec3>(), "extents", &extents_default, Member::Value, nullptr },
 			{ t, offsetof(two::ReflectionProbe, m_shadows), type<bool>(), "shadows", &shadows_default, Member::Value, nullptr },
 			{ t, offsetof(two::ReflectionProbe, m_dirty), type<bool>(), "dirty", &dirty_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, members, {}, {}, };
 	}
 	// two::BlockReflection
 	{
@@ -280,12 +294,13 @@ namespace two
 		static Type* bases[] = { &type<two::DrawBlock>() };
 		static size_t bases_offsets[] = { base_offset<two::BlockReflection, two::DrawBlock>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::LightShadow
 	{
@@ -293,18 +308,20 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "LightShadow", sizeof(two::LightShadow), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_LightShadow__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_LightShadow__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_LightShadow__copy_construct }
 		};
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, {}, {}, {}, };
+		meta.m_empty_var = var(two::LightShadow());
 	}
 	// two::CSMSlice
 	{
@@ -314,18 +331,20 @@ namespace two
 		static Type* bases[] = { &type<two::LightShadow>(), &type<two::FrustumSlice>() };
 		static size_t bases_offsets[] = { base_offset<two::CSMSlice, two::LightShadow>(), base_offset<two::CSMSlice, two::FrustumSlice>() };
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_CSMSlice__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_CSMSlice__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_CSMSlice__copy_construct }
 		};
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, {}, {}, {}, };
+		meta.m_empty_var = var(two::CSMSlice());
 	}
 	// two::CSMShadow
 	{
@@ -333,18 +352,20 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "CSMShadow", sizeof(two::CSMShadow), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_CSMShadow__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_CSMShadow__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_CSMShadow__copy_construct }
 		};
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, {}, {}, {}, };
+		meta.m_empty_var = var(two::CSMShadow());
 	}
 	// two::BlockShadow
 	{
@@ -354,12 +375,13 @@ namespace two
 		static Type* bases[] = { &type<two::DrawBlock>() };
 		static size_t bases_offsets[] = { base_offset<two::BlockShadow, two::DrawBlock>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::GIProbe
 	{
@@ -367,12 +389,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "GIProbe", sizeof(two::GIProbe), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::BlockGITrace
 	{
@@ -382,12 +405,13 @@ namespace two
 		static Type* bases[] = { &type<two::DrawBlock>() };
 		static size_t bases_offsets[] = { base_offset<two::BlockGITrace, two::DrawBlock>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::BlockGIBake
 	{
@@ -397,12 +421,13 @@ namespace two
 		static Type* bases[] = { &type<two::DrawBlock>() };
 		static size_t bases_offsets[] = { base_offset<two::BlockGIBake, two::DrawBlock>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::BlockBlur
 	{
@@ -412,12 +437,13 @@ namespace two
 		static Type* bases[] = { &type<two::GfxBlock>() };
 		static size_t bases_offsets[] = { base_offset<two::BlockBlur, two::GfxBlock>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::DofParams
 	{
@@ -425,23 +451,28 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "DofParams", sizeof(two::DofParams), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_DofParams__construct_0, {} }
+		static float distance_default = float();
+		static float transition_default = float();
+		static float radius_default = float();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_DofParams__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_DofParams__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::DofParams, m_distance), type<float>(), "distance", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::DofParams, m_transition), type<float>(), "transition", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::DofParams, m_radius), type<float>(), "radius", nullptr, Member::Value, nullptr }
+			{ t, offsetof(two::DofParams, m_distance), type<float>(), "distance", &distance_default, Member::Value, nullptr },
+			{ t, offsetof(two::DofParams, m_transition), type<float>(), "transition", &transition_default, Member::Value, nullptr },
+			{ t, offsetof(two::DofParams, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::DofParams());
 	}
 	// two::DofBlur
 	{
@@ -450,25 +481,29 @@ namespace two
 		// bases
 		// defaults
 		static bool enabled_default = false;
+		static two::DofParams far_default = two::DofParams();
+		static two::DofParams near_default = two::DofParams();
 		static float max_coc_radius_default = 8.f;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_DofBlur__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_DofBlur__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_DofBlur__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::DofBlur, m_enabled), type<bool>(), "enabled", &enabled_default, Member::Value, nullptr },
-			{ t, offsetof(two::DofBlur, m_far), type<two::DofParams>(), "far", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::DofBlur, m_near), type<two::DofParams>(), "near", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::DofBlur, m_far), type<two::DofParams>(), "far", &far_default, Member::Value, nullptr },
+			{ t, offsetof(two::DofBlur, m_near), type<two::DofParams>(), "near", &near_default, Member::Value, nullptr },
 			{ t, offsetof(two::DofBlur, m_max_coc_radius), type<float>(), "max_coc_radius", &max_coc_radius_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::DofBlur());
 	}
 	// two::BlockDofBlur
 	{
@@ -478,12 +513,13 @@ namespace two
 		static Type* bases[] = { &type<two::GfxBlock>() };
 		static size_t bases_offsets[] = { base_offset<two::BlockDofBlur, two::GfxBlock>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Glow
 	{
@@ -493,24 +529,26 @@ namespace two
 		// defaults
 		static bool enabled_default = false;
 		static two::vec4 levels_1_4_default = {1.f,0.f,0.f,0.f};
+		static two::vec4 levels_5_8_default = two::v4<float>();
 		static float intensity_default = 0.4f;
 		static float bloom_default = 0.0f;
 		static float bleed_threshold_default = 1.0f;
 		static float bleed_scale_default = 2.0f;
 		static bool bicubic_filter_default = false;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_Glow__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_Glow__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_Glow__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::Glow, m_enabled), type<bool>(), "enabled", &enabled_default, Member::Value, nullptr },
 			{ t, offsetof(two::Glow, m_levels_1_4), type<two::vec4>(), "levels_1_4", &levels_1_4_default, Member::Value, nullptr },
-			{ t, offsetof(two::Glow, m_levels_5_8), type<two::vec4>(), "levels_5_8", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Glow, m_levels_5_8), type<two::vec4>(), "levels_5_8", &levels_5_8_default, Member::Value, nullptr },
 			{ t, offsetof(two::Glow, m_intensity), type<float>(), "intensity", &intensity_default, Member::Value, nullptr },
 			{ t, offsetof(two::Glow, m_bloom), type<float>(), "bloom", &bloom_default, Member::Value, nullptr },
 			{ t, offsetof(two::Glow, m_bleed_threshold), type<float>(), "bleed_threshold", &bleed_threshold_default, Member::Value, nullptr },
@@ -519,7 +557,8 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::Glow());
 	}
 	// two::BlockGlow
 	{
@@ -529,12 +568,13 @@ namespace two
 		static Type* bases[] = { &type<two::GfxBlock>() };
 		static size_t bases_offsets[] = { base_offset<two::BlockGlow, two::GfxBlock>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::BCS
 	{
@@ -546,14 +586,15 @@ namespace two
 		static float brightness_default = 1.0f;
 		static float contrast_default = 1.0f;
 		static float saturation_default = 1.0f;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_BCS__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_BCS__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_BCS__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::BCS, m_enabled), type<bool>(), "enabled", &enabled_default, Member::Value, nullptr },
@@ -563,7 +604,8 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::BCS());
 	}
 	// two::Tonemap
 	{
@@ -575,14 +617,15 @@ namespace two
 		static bool enabled_default = false;
 		static float exposure_default = 1.0f;
 		static float white_point_default = 1.0f;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_Tonemap__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_Tonemap__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_Tonemap__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::Tonemap, m_mode), type<two::TonemapMode>(), "mode", &mode_default, Member::Value, nullptr },
@@ -592,7 +635,8 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::Tonemap());
 	}
 	// two::BlockTonemap
 	{
@@ -602,12 +646,13 @@ namespace two
 		static Type* bases[] = { &type<two::GfxBlock>() };
 		static size_t bases_offsets[] = { base_offset<two::BlockTonemap, two::GfxBlock>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	
 	
@@ -641,118 +686,118 @@ namespace two
 		m.m_types.push_back(&type<two::Tonemap>());
 		m.m_types.push_back(&type<two::BlockTonemap>());
 		{
-			static Function f = { &namspc({ "two" }), "begin_pbr_render", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::begin_pbr_render), two_begin_pbr_render_0, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "begin_pbr_render", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::begin_pbr_render), two_begin_pbr_render_0, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_gi_probes", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_gi_probes), two_pass_gi_probes_1, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_gi_probes", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_gi_probes), two_pass_gi_probes_1, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_shadowmaps", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_shadowmaps), two_pass_shadowmaps_2, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_shadowmaps", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_shadowmaps), two_pass_shadowmaps_2, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_shadow", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_shadow), two_pass_shadow_3, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_shadow", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_shadow), two_pass_shadow_3, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_opaque", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_opaque), two_pass_opaque_4, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_opaque", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_opaque), two_pass_opaque_4, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_alpha", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_alpha), two_pass_alpha_5, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_alpha", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_alpha), two_pass_alpha_5, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_geometry", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_geometry), two_pass_geometry_6, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_geometry", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_geometry), two_pass_geometry_6, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_lights", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_lights), two_pass_lights_7, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_lights", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_lights), two_pass_lights_7, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_voxel_gi", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_voxel_gi), two_pass_voxel_gi_8, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_voxel_gi", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_voxel_gi), two_pass_voxel_gi_8, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_lightmap", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_lightmap), two_pass_lightmap_9, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_lightmap", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_lightmap), two_pass_lightmap_9, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_begin_post", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_begin_post), two_pass_begin_post_10, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_begin_post", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_begin_post), two_pass_begin_post_10, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_post_auto", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_post_auto), two_pass_post_auto_11, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_post_auto", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_post_auto), two_pass_post_auto_11, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_post_effects", funcptr<void(*)(two::GfxSystem&, two::Render&, two::DofBlur&, two::Glow&, two::Tonemap&, two::BCS&)>(two::pass_post_effects), two_pass_post_effects_12, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  }, { "dof", type<two::DofBlur>(),  }, { "glow", type<two::Glow>(),  }, { "tonemap", type<two::Tonemap>(),  }, { "bcs", type<two::BCS>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_post_effects", funcptr<void(*)(two::GfxSystem&, two::Render&, two::DofBlur&, two::Glow&, two::Tonemap&, two::BCS&)>(two::pass_post_effects), two_pass_post_effects_12, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference }, { "dof", type<two::DofBlur>(), Param::Reference }, { "glow", type<two::Glow>(), Param::Reference }, { "tonemap", type<two::Tonemap>(), Param::Reference }, { "bcs", type<two::BCS>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "render_pbr_forward", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_pbr_forward), two_render_pbr_forward_13, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "render_pbr_forward", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_pbr_forward), two_render_pbr_forward_13, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "render_pbr_deferred", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_pbr_deferred), two_render_pbr_deferred_14, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "render_pbr_deferred", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_pbr_deferred), two_render_pbr_deferred_14, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "render_shadow", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_shadow), two_render_shadow_15, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "render_shadow", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_shadow), two_render_shadow_15, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "render_voxel", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_voxel), two_render_voxel_16, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "render_voxel", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_voxel), two_render_voxel_16, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "render_lightmap", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_lightmap), two_render_lightmap_17, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "render_lightmap", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_lightmap), two_render_lightmap_17, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "render_reflection", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_reflection), two_render_reflection_18, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "render_reflection", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_reflection), two_render_reflection_18, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool deferred_default = false;
-			static Function f = { &namspc({ "two" }), "pipeline_pbr", funcptr<void(*)(two::GfxSystem&, two::Renderer&, bool)>(two::pipeline_pbr), two_pipeline_pbr_19, { { "gfx", type<two::GfxSystem>(),  }, { "pipeline", type<two::Renderer>(),  }, { "deferred", type<bool>(), Param::Default, &deferred_default } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pipeline_pbr", funcptr<void(*)(two::GfxSystem&, two::Renderer&, bool)>(two::pipeline_pbr), two_pipeline_pbr_19, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "pipeline", type<two::Renderer>(), Param::Reference }, { "deferred", type<bool>(), Param::Default, &deferred_default } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "gfx" }), "setup_pipeline_pbr", funcptr<void(*)(two::GfxSystem&)>(two::gfx::setup_pipeline_pbr), two_gfx_setup_pipeline_pbr_20, { { "gfx", type<two::GfxSystem>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two", "gfx" }), "setup_pipeline_pbr", funcptr<void(*)(two::GfxSystem&)>(two::gfx::setup_pipeline_pbr), two_gfx_setup_pipeline_pbr_20, { { "gfx", type<two::GfxSystem>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_shadowmaps", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_shadowmaps), two_pass_shadowmaps_21, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_shadowmaps", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_shadowmaps), two_pass_shadowmaps_21, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_shadow", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_shadow), two_pass_shadow_22, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_shadow", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_shadow), two_pass_shadow_22, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "gfx" }), "gi_probe", funcptr<two::GIProbe&(*)(two::Gnode&, uint16_t, const two::vec3&)>(two::gfx::gi_probe), two_gfx_gi_probe_23, { { "parent", type<two::Gnode>(),  }, { "subdiv", type<uint16_t>(),  }, { "extents", type<two::vec3>(),  } }, { &type<two::GIProbe>(), QualType::None } };
+			static Function f = { &namspc({ "two", "gfx" }), "gi_probe", funcptr<two::GIProbe&(*)(two::Gnode&, uint16_t, const two::vec3&)>(two::gfx::gi_probe), two_gfx_gi_probe_23, { { "parent", type<two::Gnode>(), Param::Reference }, { "subdiv", type<uint16_t>(),  }, { "extents", type<two::vec3>(),  } }, { &type<two::GIProbe>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float density_default = 8.f;
 			static stl::string save_path_default = "";
-			static Function f = { &namspc({ "two", "gfx" }), "lightmap", funcptr<two::LightmapAtlas&(*)(two::Gnode&, uint32_t, float, const stl::string&)>(two::gfx::lightmap), two_gfx_lightmap_24, { { "parent", type<two::Gnode>(),  }, { "resolution", type<uint32_t>(),  }, { "density", type<float>(), Param::Default, &density_default }, { "save_path", type<stl::string>(), Param::Default, &save_path_default } }, { &type<two::LightmapAtlas>(), QualType::None } };
+			static Function f = { &namspc({ "two", "gfx" }), "lightmap", funcptr<two::LightmapAtlas&(*)(two::Gnode&, uint32_t, float, const stl::string&)>(two::gfx::lightmap), two_gfx_lightmap_24, { { "parent", type<two::Gnode>(), Param::Reference }, { "resolution", type<uint32_t>(),  }, { "density", type<float>(), Param::Default, &density_default }, { "save_path", type<stl::string>(), Param::Default, &save_path_default } }, { &type<two::LightmapAtlas>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_dofblur", funcptr<void(*)(two::GfxSystem&, two::Render&, const two::DofBlur&)>(two::pass_dofblur), two_pass_dofblur_25, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  }, { "blur", type<two::DofBlur>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_dofblur", funcptr<void(*)(two::GfxSystem&, two::Render&, const two::DofBlur&)>(two::pass_dofblur), two_pass_dofblur_25, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference }, { "blur", type<two::DofBlur>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_glow", funcptr<void(*)(two::GfxSystem&, two::Render&, two::Glow&)>(two::pass_glow), two_pass_glow_26, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  }, { "glow", type<two::Glow>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_glow", funcptr<void(*)(two::GfxSystem&, two::Render&, two::Glow&)>(two::pass_glow), two_pass_glow_26, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference }, { "glow", type<two::Glow>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_tonemap", funcptr<void(*)(two::GfxSystem&, two::Render&, two::Tonemap&, two::BCS&)>(two::pass_tonemap), two_pass_tonemap_27, { { "gfx", type<two::GfxSystem>(),  }, { "render", type<two::Render>(),  }, { "tonemap", type<two::Tonemap>(),  }, { "bcs", type<two::BCS>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_tonemap", funcptr<void(*)(two::GfxSystem&, two::Render&, two::Tonemap&, two::BCS&)>(two::pass_tonemap), two_pass_tonemap_27, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference }, { "tonemap", type<two::Tonemap>(), Param::Reference }, { "bcs", type<two::BCS>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

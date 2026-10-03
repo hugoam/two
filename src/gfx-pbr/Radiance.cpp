@@ -11,11 +11,7 @@ module two.gfx.pbr;
 #define DEBUG_ENVMAP 0
 #define DEBUG_RADIANCE 0
 
-#ifndef TWO_MODULES
 #define CONSTEXPR constexpr
-#else
-#define CONSTEXPR
-#endif
 
 namespace two
 {

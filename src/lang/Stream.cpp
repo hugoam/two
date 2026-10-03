@@ -75,7 +75,7 @@ namespace two
 
 	void StreamBranch::write(const Var& value, bool multiplex)
 	{
-		if(multiplex && !(value == Var(Ref())) && is_sequence(type(value)))
+		if(multiplex && value && is_sequence(type(value)))
 		{
 			Iterable& it = iter(value);
 			this->resize(it.size(value));
@@ -98,10 +98,10 @@ namespace two
 			return true;
 		}
 		bool result = convert(m_value, *expected_type, value, ref);
-#if 0
+
 		if(!result)
-			warn("No conversion possible from %s to %s : dest set to None", type(source).m_name, output.m_name);
-#endif
+			warn("No conversion possible from %s to %s : dest set to None", type(m_value).m_name, expected_type->m_name);
+
 		return result;
 	}
 

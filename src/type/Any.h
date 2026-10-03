@@ -83,25 +83,13 @@ namespace two
 
 	export_ template <class T, class U>
 	inline void setval(Any& v, U&& value) { TAnyHandler<T>::value(v) = value; }
-	
+
 	export_ template <class T>
 	inline T& val(Var& var) { return val<T>(var.m_ref); }
 
 	export_ template <class T>
 	inline T val(const Var& var) { return val<T>(var.m_ref); }
 	
-	template <>
-	inline void*& val(Var& var) { return var.m_ref.m_value; }
-
-	template <>
-	inline void* val(const Var& var) { return var.m_ref.m_value; }
-
-	template <>
-	inline cstring& val(Var& var) { return (cstring&)var.m_ref.m_value; }
-
-	template <>
-	inline cstring val(const Var& var) { return (cstring)var.m_ref.m_value; }
-
 	export_ template <class T, class U>
 	inline enable_if<ValueSemantic<T>, void>
 		setval(Var& var, U&& value) { if(var.m_mode == VarMode::Val) { setval<T>(var.m_any, value); /*setval(var.m_ref, val<T>(var.m_any));*/ } else setval<T>(var.m_ref, value); }
@@ -111,7 +99,7 @@ namespace two
 		setval(Var& var, U&& value) { setval(var.m_ref, static_cast<U&&>(value)); }
 
 	export_ template <class T, class U>
-	inline Var make_any(U&& value) { return TAnyHandler<T>::create(static_cast<U&&>(value)); }
+	inline Var make_any(U&& value) { return Var(TAnyHandler<T>::create(static_cast<U&&>(value))); }
 	
 	export_ template <class T, class U>
 	inline enable_if<ValueSemantic<T>, Var>
@@ -135,5 +123,5 @@ namespace two
 	template <>
 	inline Var var(Ref&& ref) { return Var(ref); }
 
-	export_ inline Var var(cstring value) { return Ref(const_cast<char*>(value), type<cstring>()); }
+	export_ inline Var var(cstring value) { return Var(Ref(const_cast<char*>(value), type<cstring>())); }
 }

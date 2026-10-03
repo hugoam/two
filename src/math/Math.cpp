@@ -44,11 +44,9 @@ namespace two
 
 	void register_math_conversions()
 	{
-#if 0
 		dispatch_branch<float, vec3, copy_convert<float, vec3>>(TypeConverter::me());
 		TypeConverter::me().default_converter<vec3, ivec3>();
 		TypeConverter::me().default_converter<vec3, uvec3>();
-#endif
 	}
 
 	quat average_quat(quat& cumulative, const quat& rotation, const quat& first, uint32_t count)

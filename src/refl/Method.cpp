@@ -138,6 +138,18 @@ namespace two
 		return m_call(args[0], span<void*>{ args, 1 }, result);
 	}
 
+	DefaultConstructor::DefaultConstructor() {}
+	DefaultConstructor::DefaultConstructor(Type& object_type, DefaultConstructorFunc constructor)
+		: Callable(object_type.m_name, { { "self", object_type } })
+		, m_object_type(&object_type)
+		, m_call(constructor)
+	{}
+
+	void DefaultConstructor::operator()(span<void*> args, void*& result) const
+	{
+		UNUSED(result); m_call(args[0]);
+	}
+
 	Constructor::Constructor() {}
 	Constructor::Constructor(Type& object_type, ConstructorFunc constructor, span<Param> params)
 		: Callable(object_type.m_name, prepend(params, { "self", object_type }))

@@ -4,8 +4,6 @@ module two.noise.meta;
 
 using namespace two;
 
-namespace two { using stl::string; }
-
 void two_Noise_NoiseType__to_string(void* val, string& str) { str = g_enu[type<two::Noise::NoiseType>().m_id]->name(uint32_t((*static_cast<two::Noise::NoiseType*>(val)))); }
 void two_Noise_NoiseType__to_value(const string& str, void* val) { (*static_cast<two::Noise::NoiseType*>(val)) = two::Noise::NoiseType(g_enu[type<two::Noise::NoiseType>().m_id]->value(str.c_str())); }
 void two_Noise_Interp__to_string(void* val, string& str) { str = g_enu[type<two::Noise::Interp>().m_id]->name(uint32_t((*static_cast<two::Noise::Interp*>(val)))); }
@@ -103,6 +101,7 @@ namespace two
 		Type& t = type<two::vector3d<float>>();
 		static Meta meta = { t, &namspc({ "two" }), "vector3d<float>", sizeof(two::vector3d<float>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(two::vector3d<float>());
 		static Iterable iterable = { &type<float>(),
 		                             two_vector3d_float__size,
 		                             two_vector3d_float__at};
@@ -119,12 +118,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Noise", sizeof(two::Noise), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	
 	
@@ -168,13 +168,13 @@ namespace two
 		{
 			static float frequency_default = 0.01f;
 			static two::Noise::Interp interp_default = Noise::Quintic;
-			static Function f = { &namspc({ "two" }), "noise_field_2d", funcptr<void(*)(two::vector3d<float>&, two::Noise::NoiseType, float, two::Noise::Interp)>(two::noise_field_2d), two_noise_field_2d_4, { { "output_values", type<two::vector3d<float>>(), Param::Output }, { "noise_type", type<two::Noise::NoiseType>(),  }, { "frequency", type<float>(), Param::Default, &frequency_default }, { "interp", type<two::Noise::Interp>(), Param::Default, &interp_default } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "noise_field_2d", funcptr<void(*)(two::vector3d<float>&, two::Noise::NoiseType, float, two::Noise::Interp)>(two::noise_field_2d), two_noise_field_2d_4, { { "output_values", type<two::vector3d<float>>(), Param::Flags(Param::Reference|Param::Output) }, { "noise_type", type<two::Noise::NoiseType>(),  }, { "frequency", type<float>(), Param::Default, &frequency_default }, { "interp", type<two::Noise::Interp>(), Param::Default, &interp_default } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float frequency_default = 0.01f;
 			static two::Noise::Interp interp_default = Noise::Quintic;
-			static Function f = { &namspc({ "two" }), "noise_field_3d", funcptr<void(*)(two::vector3d<float>&, two::Noise::NoiseType, float, two::Noise::Interp)>(two::noise_field_3d), two_noise_field_3d_5, { { "output_values", type<two::vector3d<float>>(), Param::Output }, { "noise_type", type<two::Noise::NoiseType>(),  }, { "frequency", type<float>(), Param::Default, &frequency_default }, { "interp", type<two::Noise::Interp>(), Param::Default, &interp_default } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "noise_field_3d", funcptr<void(*)(two::vector3d<float>&, two::Noise::NoiseType, float, two::Noise::Interp)>(two::noise_field_3d), two_noise_field_3d_5, { { "output_values", type<two::vector3d<float>>(), Param::Flags(Param::Reference|Param::Output) }, { "noise_type", type<two::Noise::NoiseType>(),  }, { "frequency", type<float>(), Param::Default, &frequency_default }, { "interp", type<two::Noise::Interp>(), Param::Default, &interp_default } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

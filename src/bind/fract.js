@@ -33,7 +33,6 @@ Pattern.prototype["__destroy"] = Pattern.prototype.__destroy = function() {
 };
 // FractTab
 function FractTab() {
-    
     this.__ptr = _two_FractTab__construct_0(); getCache(FractTab)[this.__ptr] = this;
 };
 FractTab.prototype = Object.create(WrapperObject.prototype);
@@ -63,7 +62,6 @@ Fract.prototype["generate"] = Fract.prototype.generate = function(a0) {
     else { _two_Fract_generate_1(this.__ptr, /*num_tabs*/a0); }
 };
 Fract.prototype["regen"] = Fract.prototype.regen = function() {
-    
     _two_Fract_regen_0(this.__ptr);
 };
 Fract.prototype["render"] = Fract.prototype.render = function(a0, a1, a2, a3) {

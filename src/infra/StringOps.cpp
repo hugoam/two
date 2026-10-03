@@ -8,10 +8,6 @@ module two.infra;
 
 namespace two
 {
-#ifdef TWO_MODULES
-	using stl::string;
-#endif
-
 	const size_t g_num_precision = 3;
 
 	void split(const string& str, const string& separator, span<string> output)

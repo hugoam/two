@@ -34,24 +34,13 @@ namespace gfx
 
 		Node3& m_node;
 
-#if !TWO_MODULES
 		Texture m_raster = {};
 		Texture m_voxels_color = {};
 		Texture m_voxels_normals = {};
 		Texture m_voxels_light = {};
-#else
-		Texture m_raster;
-		Texture m_voxels_color;
-		Texture m_voxels_normals;
-		Texture m_voxels_light;
-#endif
 		FrameBuffer m_fbo = {};
 
-#if !TWO_MODULES
 		Texture m_voxels_light_rgba = {};
-#else
-		Texture m_voxels_light_rgba;
-#endif
 
 		bool m_enabled = true;
 		mat4 m_transform;

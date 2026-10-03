@@ -3,7 +3,6 @@ import two.frame;
 
 using namespace two;
 
-namespace two { using stl::string; }
 
 #include <00_ui/00_ui.h>
 

@@ -1330,6 +1330,9 @@ extern "C" {
 	two::Type* DECL two_Symbol__type() {
 		return &two::type<two::Symbol>();
 	}
+	two::Symbol* DECL two_Symbol__construct_0() {
+		return new two::Symbol();
+	}
 	two::Symbol* DECL two_Symbol__construct_1(two::Colour* fill) {
 		return new two::Symbol(*fill);
 	}

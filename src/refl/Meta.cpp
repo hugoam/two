@@ -131,14 +131,15 @@ namespace two
 		g_class[type.m_id] = this;
 	}
 
-	Class::Class(Type& type, span<Type*> bases, span<size_t> bases_offsets, span<Constructor> constructors, span<CopyConstructor> copy_constructors,
-				 span<Member> members, span<Method> methods, span<Static> static_members)
+	Class::Class(Type& type, span<Type*> bases, span<size_t> bases_offsets, span<DefaultConstructor> default_constructors, span<CopyConstructor> copy_constructors,
+				 span<Constructor> constructors, span<Member> members, span<Method> methods, span<Static> static_members)
 		: m_type(&type)
 		, m_meta(&meta(type))
 		, m_bases(bases)
 		, m_bases_offsets(bases_offsets)
-		, m_constructors(constructors)
+		, m_default_constructors(default_constructors)
 		, m_copy_constructors(copy_constructors)
+		, m_constructors(constructors)
 		, m_members(members)
 		, m_methods(methods)
 		, m_static_members(static_members)
@@ -378,56 +379,6 @@ namespace two
 		return name;
 	}
 
-	TypeConverter::TypeConverter()
-		: DoubleDispatch()
-	{
-		this->default_converter<float, double>();
-		this->default_converter<float, int>();
-		this->default_converter<float, ushort>();
-		this->default_converter<float, uint>();
-		this->default_converter<float, ulong>();
-		this->default_converter<float, ullong>();
-		this->default_converter<double, int>();
-		this->default_converter<double, ushort>();
-		this->default_converter<double, uint>();
-		this->default_converter<double, ulong>();
-		this->default_converter<double, ullong>();
-		this->default_converter<int, ushort>();
-		this->default_converter<int, uint>();
-		this->default_converter<int, ulong>();
-		this->default_converter<int, ullong>();
-		this->default_converter<ushort, uint>();
-		this->default_converter<ushort, ulong>();
-		this->default_converter<ushort, ullong>();
-		this->default_converter<uint, ulong>();
-		this->default_converter<uint, ullong>();
-		this->default_converter<ulong, ullong>();
-	}
-
-	bool TypeConverter::check(const Type& input, const Type& output)
-	{
-		return DoubleDispatch::check(input, output);
-	}
-
-	bool TypeConverter::check(Ref input, const Type& output)
-	{
-		return DoubleDispatch::check(*input.m_type, output);
-	}
-
-	Var TypeConverter::convert(Ref input, const Type& output)
-	{
-		Var result = meta(output).m_empty_var;
-		DoubleDispatch::dispatch(input, result);
-		return result;
-	}
-
-	void TypeConverter::convert(Ref input, const Type& output, Var& result)
-	{
-		if(result.none() || !type(result).is(output))
-			result = meta(output).m_empty_var;
-		DoubleDispatch::dispatch(input, result);
-	}
-
 	bool is_related(const Type& input, const Type& output)
 	{
 		UNUSED(input); UNUSED(output);
@@ -452,7 +403,12 @@ namespace two
 		else if(g_class[type(source).m_id] && cls(source).is(output))
 			dest = cls(source).as(source.m_ref, output);
 		else if(TypeConverter::me().check(value, output))
-			TypeConverter::me().convert(value, output, dest);
+		{
+			// the converter writes into a value of the output type
+			if(!dest || !type(dest).is(output))
+				dest = meta(output).m_empty_var;
+			TypeConverter::me().convert(value, dest);
+		}
 		else
 		{
 			dest.clear();
@@ -464,7 +420,7 @@ namespace two
 
 	bool convert(Ref input, const Type& output, Var& result)
 	{
-		Var inputvar = input;
+		Var inputvar = Var(input);
 		return convert(inputvar, output, result);
 	}
 

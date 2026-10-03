@@ -4,18 +4,16 @@ module two.tool.meta;
 
 using namespace two;
 
-namespace two { using stl::string; }
-
 void two_ToolState__to_string(void* val, string& str) { str = g_enu[type<two::ToolState>().m_id]->name(uint32_t((*static_cast<two::ToolState*>(val)))); }
 void two_ToolState__to_value(const string& str, void* val) { (*static_cast<two::ToolState*>(val)) = two::ToolState(g_enu[type<two::ToolState>().m_id]->value(str.c_str())); }
-void two_ToolContext__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::ToolContext(  ); }
+void two_ToolContext__default_construct(void* ref) { new(stl::placeholder(), ref) two::ToolContext(); }
 void two_ToolContext__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::ToolContext((*static_cast<two::ToolContext*>(other))); }
 void* two_Tool__get_type(void* object) { return &(*static_cast<two::Tool*>(object)).m_type; }
 void* two_Tool__get_context(void* object) { return &(*static_cast<two::Tool*>(object)).m_context; }
 void two_PlaceBrush__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::PlaceBrush( *static_cast<two::ToolContext*>(args[0]) ); }
 void two_CircleBrush__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::CircleBrush( *static_cast<two::ToolContext*>(args[0]) ); }
 void two_ScriptedBrush__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ScriptedBrush( *static_cast<two::ToolContext*>(args[0]), *static_cast<two::Script*>(args[1]) ); }
-void two_Selection__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::Selection(  ); }
+void two_Selection__default_construct(void* ref) { new(stl::placeholder(), ref) two::Selection(); }
 void two_Selection__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Selection((*static_cast<two::Selection*>(other))); }
 
 namespace two
@@ -48,12 +46,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "EditorAction", sizeof(two::EditorAction), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::ToolContext
 	{
@@ -61,18 +60,20 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ToolContext", sizeof(two::ToolContext), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_ToolContext__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_ToolContext__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_ToolContext__copy_construct }
 		};
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, {}, {}, {}, };
+		meta.m_empty_var = var(two::ToolContext());
 	}
 	// two::ToolOption
 	{
@@ -80,12 +81,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ToolOption", sizeof(two::ToolOption), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Tool
 	{
@@ -93,18 +95,21 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Tool", sizeof(two::Tool), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		static stl::string name_default = stl::string();
+		static two::ToolState state_default = two::ToolState();
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, SIZE_MAX, type<two::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Tool__get_type },
 			{ t, SIZE_MAX, type<two::ToolContext>(), "context", nullptr, Member::Flags(Member::Value|Member::NonMutable|Member::Link), two_Tool__get_context },
-			{ t, offsetof(two::Tool, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::Tool, m_state), type<two::ToolState>(), "state", nullptr, Member::Value, nullptr }
+			{ t, offsetof(two::Tool, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(two::Tool, m_state), type<two::ToolState>(), "state", &state_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, members, {}, {}, };
 	}
 	// two::ViewportTool
 	{
@@ -114,12 +119,13 @@ namespace two
 		static Type* bases[] = { &type<two::Tool>() };
 		static size_t bases_offsets[] = { base_offset<two::ViewportTool, two::Tool>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::SpatialTool
 	{
@@ -129,12 +135,13 @@ namespace two
 		static Type* bases[] = { &type<two::ViewportTool>() };
 		static size_t bases_offsets[] = { base_offset<two::SpatialTool, two::ViewportTool>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Gizmo
 	{
@@ -142,12 +149,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Gizmo", sizeof(two::Gizmo), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::TransformAction
 	{
@@ -157,12 +165,13 @@ namespace two
 		static Type* bases[] = { &type<two::EditorAction>() };
 		static size_t bases_offsets[] = { base_offset<two::TransformAction, two::EditorAction>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::TransformTool
 	{
@@ -172,12 +181,13 @@ namespace two
 		static Type* bases[] = { &type<two::SpatialTool>() };
 		static size_t bases_offsets[] = { base_offset<two::TransformTool, two::SpatialTool>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::TransformGizmo
 	{
@@ -187,12 +197,13 @@ namespace two
 		static Type* bases[] = { &type<two::Gizmo>() };
 		static size_t bases_offsets[] = { base_offset<two::TransformGizmo, two::Gizmo>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::UndoTool
 	{
@@ -202,12 +213,13 @@ namespace two
 		static Type* bases[] = { &type<two::Tool>() };
 		static size_t bases_offsets[] = { base_offset<two::UndoTool, two::Tool>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::RedoTool
 	{
@@ -217,12 +229,13 @@ namespace two
 		static Type* bases[] = { &type<two::Tool>() };
 		static size_t bases_offsets[] = { base_offset<two::RedoTool, two::Tool>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Brush
 	{
@@ -232,12 +245,13 @@ namespace two
 		static Type* bases[] = { &type<two::SpatialTool>() };
 		static size_t bases_offsets[] = { base_offset<two::Brush, two::SpatialTool>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::PlaneSnapOption
 	{
@@ -247,12 +261,13 @@ namespace two
 		static Type* bases[] = { &type<two::ToolOption>() };
 		static size_t bases_offsets[] = { base_offset<two::PlaneSnapOption, two::ToolOption>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::WorldSnapOption
 	{
@@ -262,12 +277,13 @@ namespace two
 		static Type* bases[] = { &type<two::ToolOption>() };
 		static size_t bases_offsets[] = { base_offset<two::WorldSnapOption, two::ToolOption>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::PlaceBrush
 	{
@@ -277,18 +293,19 @@ namespace two
 		static Type* bases[] = { &type<two::Brush>() };
 		static size_t bases_offsets[] = { base_offset<two::PlaceBrush, two::Brush>() };
 		// defaults
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_PlaceBrush__construct_0, { { "context", type<two::ToolContext>(),  } } }
+			{ t, two_PlaceBrush__construct_0, { { "context", type<two::ToolContext>(), Param::Reference } } }
 		};
-		// copy constructor
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::PlaceBrush, m_creator), type<two::Creator>(), "creator", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, {}, members, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, constructors, members, {}, {}, };
 	}
 	// two::CircleBrush
 	{
@@ -298,20 +315,23 @@ namespace two
 		static Type* bases[] = { &type<two::Brush>() };
 		static size_t bases_offsets[] = { base_offset<two::CircleBrush, two::Brush>() };
 		// defaults
+		static float radius_default = float();
+		static float maxSpotRadius_default = float();
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_CircleBrush__construct_0, { { "context", type<two::ToolContext>(),  } } }
+			{ t, two_CircleBrush__construct_0, { { "context", type<two::ToolContext>(), Param::Reference } } }
 		};
-		// copy constructor
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::CircleBrush, m_creator), type<two::Creator>(), "creator", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::CircleBrush, m_radius), type<float>(), "radius", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::CircleBrush, m_maxSpotRadius), type<float>(), "maxSpotRadius", nullptr, Member::Value, nullptr }
+			{ t, offsetof(two::CircleBrush, m_radius), type<float>(), "radius", &radius_default, Member::Value, nullptr },
+			{ t, offsetof(two::CircleBrush, m_maxSpotRadius), type<float>(), "maxSpotRadius", &maxSpotRadius_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, {}, members, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, constructors, members, {}, {}, };
 	}
 	// two::ScriptedBrush
 	{
@@ -321,18 +341,20 @@ namespace two
 		static Type* bases[] = { &type<two::Brush>() };
 		static size_t bases_offsets[] = { base_offset<two::ScriptedBrush, two::Brush>() };
 		// defaults
+		static two::Call call_default = two::Call();
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_ScriptedBrush__construct_0, { { "context", type<two::ToolContext>(),  }, { "script", type<two::Script>(),  } } }
+			{ t, two_ScriptedBrush__construct_0, { { "context", type<two::ToolContext>(), Param::Reference }, { "script", type<two::Script>(), Param::Reference } } }
 		};
-		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ScriptedBrush, m_call), type<two::Call>(), "call", nullptr, Member::Value, nullptr }
+			{ t, offsetof(two::ScriptedBrush, m_call), type<two::Call>(), "call", &call_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, {}, members, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, constructors, members, {}, {}, };
 	}
 	// two::TranslateAction
 	{
@@ -342,12 +364,13 @@ namespace two
 		static Type* bases[] = { &type<two::TransformAction>() };
 		static size_t bases_offsets[] = { base_offset<two::TranslateAction, two::TransformAction>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::TranslateTool
 	{
@@ -357,12 +380,13 @@ namespace two
 		static Type* bases[] = { &type<two::TransformTool>() };
 		static size_t bases_offsets[] = { base_offset<two::TranslateTool, two::TransformTool>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::RotateAction
 	{
@@ -372,12 +396,13 @@ namespace two
 		static Type* bases[] = { &type<two::TransformAction>() };
 		static size_t bases_offsets[] = { base_offset<two::RotateAction, two::TransformAction>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::RotateTool
 	{
@@ -387,12 +412,13 @@ namespace two
 		static Type* bases[] = { &type<two::TransformTool>() };
 		static size_t bases_offsets[] = { base_offset<two::RotateTool, two::TransformTool>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::ScaleAction
 	{
@@ -402,12 +428,13 @@ namespace two
 		static Type* bases[] = { &type<two::TransformAction>() };
 		static size_t bases_offsets[] = { base_offset<two::ScaleAction, two::TransformAction>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::ScaleTool
 	{
@@ -417,12 +444,13 @@ namespace two
 		static Type* bases[] = { &type<two::TransformTool>() };
 		static size_t bases_offsets[] = { base_offset<two::ScaleTool, two::TransformTool>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::CopyAction
 	{
@@ -432,12 +460,13 @@ namespace two
 		static Type* bases[] = { &type<two::TranslateAction>() };
 		static size_t bases_offsets[] = { base_offset<two::CopyAction, two::TranslateAction>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::CopyTool
 	{
@@ -447,12 +476,13 @@ namespace two
 		static Type* bases[] = { &type<two::TransformTool>() };
 		static size_t bases_offsets[] = { base_offset<two::CopyTool, two::TransformTool>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::ViewAction
 	{
@@ -462,12 +492,13 @@ namespace two
 		static Type* bases[] = { &type<two::EditorAction>() };
 		static size_t bases_offsets[] = { base_offset<two::ViewAction, two::EditorAction>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::FrameViewTool
 	{
@@ -477,12 +508,13 @@ namespace two
 		static Type* bases[] = { &type<two::ViewportTool>() };
 		static size_t bases_offsets[] = { base_offset<two::FrameViewTool, two::ViewportTool>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::ViewTool
 	{
@@ -492,12 +524,13 @@ namespace two
 		static Type* bases[] = { &type<two::ViewportTool>() };
 		static size_t bases_offsets[] = { base_offset<two::ViewTool, two::ViewportTool>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Selection
 	{
@@ -505,18 +538,20 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Selection", sizeof(two::Selection), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_Selection__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_Selection__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_Selection__copy_construct }
 		};
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, {}, {}, {}, };
+		meta.m_empty_var = var(two::Selection());
 	}
 	// two::EditContext
 	{
@@ -524,17 +559,19 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "EditContext", sizeof(two::EditContext), TypeClass::Object };
 		// bases
 		// defaults
+		static two::Plane work_plane_default = two::Plane();
 		static two::Viewer* viewer_default = nullptr;
 		static two::ViewportTool* tool_default = nullptr;
 		static two::SpatialTool* spatial_tool_default = nullptr;
 		static two::Brush* brush_default = nullptr;
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::EditContext, m_undo_tool), type<two::UndoTool>(), "undo_tool", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::EditContext, m_redo_tool), type<two::RedoTool>(), "redo_tool", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::EditContext, m_work_plane), type<two::Plane>(), "work_plane", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::EditContext, m_work_plane), type<two::Plane>(), "work_plane", &work_plane_default, Member::Value, nullptr },
 			{ t, offsetof(two::EditContext, m_translate_tool), type<two::TranslateTool>(), "translate_tool", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::EditContext, m_rotate_tool), type<two::RotateTool>(), "rotate_tool", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::EditContext, m_scale_tool), type<two::ScaleTool>(), "scale_tool", nullptr, Member::NonMutable, nullptr },
@@ -545,7 +582,7 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, members, {}, {}, };
 	}
 	// two::WorkPlaneAction
 	{
@@ -555,12 +592,13 @@ namespace two
 		static Type* bases[] = { &type<two::EditorAction>() };
 		static size_t bases_offsets[] = { base_offset<two::WorkPlaneAction, two::EditorAction>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::WorkPlaneTool
 	{
@@ -570,12 +608,13 @@ namespace two
 		static Type* bases[] = { &type<two::Tool>() };
 		static size_t bases_offsets[] = { base_offset<two::WorkPlaneTool, two::Tool>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	
 	

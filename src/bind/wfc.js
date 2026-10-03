@@ -1,6 +1,5 @@
 // Tile
 function Tile() {
-    
     this.__ptr = _two_Tile__construct_0(); getCache(Tile)[this.__ptr] = this;
 };
 Tile.prototype = Object.create(WrapperObject.prototype);
@@ -58,7 +57,6 @@ Tile.prototype["__destroy"] = Tile.prototype.__destroy = function() {
 };
 // Tileset
 function Tileset() {
-    
     this.__ptr = _two_Tileset__construct_0(); getCache(Tileset)[this.__ptr] = this;
 };
 Tileset.prototype = Object.create(WrapperObject.prototype);
@@ -107,7 +105,6 @@ Tileset.prototype["__destroy"] = Tileset.prototype.__destroy = function() {
 };
 // Wave
 function Wave() {
-    
     this.__ptr = _two_Wave__construct_0(); getCache(Wave)[this.__ptr] = this;
 };
 Wave.prototype = Object.create(WrapperObject.prototype);
@@ -124,7 +121,6 @@ Wave.prototype["__destroy"] = Wave.prototype.__destroy = function() {
 };
 // WaveTileset
 function WaveTileset() {
-    
     this.__ptr = _two_WaveTileset__construct_0(); getCache(WaveTileset)[this.__ptr] = this;
 };
 WaveTileset.prototype = Object.create(Tileset.prototype);

@@ -22,7 +22,8 @@ namespace two
 	export_ struct refl_ TWO_GEOM_EXPORT Symbol
 	{
 	public:
-		constr_ Symbol(Colour fill = Colour(1.f), Colour outline = Colour(0.f, 0.f), bool overlay = false, bool double_sided = false, SymbolDetail detail = SymbolDetail::Medium);
+		constr_ Symbol() : Symbol(Colour(1.f)) {}
+		constr_ Symbol(Colour fill, Colour outline = Colour(0.f, 0.f), bool overlay = false, bool double_sided = false, SymbolDetail detail = SymbolDetail::Medium);
 		Symbol(cstring image, float alpha = 1.f);
 		Symbol(const Image256& image256, float alpha = 1.f);
 

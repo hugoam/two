@@ -17,6 +17,7 @@ namespace two
     export_ class Any;
     export_ class Var;
     export_ class DoubleDispatch;
+    export_ class TypeConverter;
     export_ class Indexer;
     export_ class Index;
 	export_ class Prototype;

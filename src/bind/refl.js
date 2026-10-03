@@ -1,7 +1,6 @@
 Module['stl'] = Module['stl'] || {};
 // QualType
 function QualType() {
-    
     this.__ptr = _two_QualType__construct_0(); getCache(QualType)[this.__ptr] = this;
 };
 QualType.prototype = Object.create(WrapperObject.prototype);
@@ -55,7 +54,6 @@ Function.prototype["__destroy"] = Function.prototype.__destroy = function() {
 };
 // Operator
 function Operator() {
-    
     this.__ptr = _two_Operator__construct_0(); getCache(Operator)[this.__ptr] = this;
 };
 Operator.prototype = Object.create(WrapperObject.prototype);
@@ -113,6 +111,17 @@ Module['Method'] = Method;
 Method.prototype["__destroy"] = Method.prototype.__destroy = function() {
     _two_Method__destroy(this.__ptr);
 };
+// DefaultConstructor
+function DefaultConstructor() { throw "cannot construct a DefaultConstructor, no constructor in IDL" }
+DefaultConstructor.prototype = Object.create(Callable.prototype);
+DefaultConstructor.prototype.constructor = DefaultConstructor;
+DefaultConstructor.prototype.__class = DefaultConstructor;
+DefaultConstructor.__base = Callable;
+DefaultConstructor.__cache = {};
+Module['DefaultConstructor'] = DefaultConstructor;
+DefaultConstructor.prototype["__destroy"] = DefaultConstructor.prototype.__destroy = function() {
+    _two_DefaultConstructor__destroy(this.__ptr);
+};
 // Constructor
 function Constructor() { throw "cannot construct a Constructor, no constructor in IDL" }
 Constructor.prototype = Object.create(Callable.prototype);
@@ -148,7 +157,6 @@ Destructor.prototype["__destroy"] = Destructor.prototype.__destroy = function() 
 };
 // Call
 function Call() {
-    
     this.__ptr = _two_Call__construct_0(); getCache(Call)[this.__ptr] = this;
 };
 Call.prototype = Object.create(WrapperObject.prototype);
@@ -286,7 +294,6 @@ Namespace.prototype["__destroy"] = Namespace.prototype.__destroy = function() {
 };
 // Alias
 function Alias() {
-    
     this.__ptr = _two_Alias__construct_0(); getCache(Alias)[this.__ptr] = this;
 };
 Alias.prototype = Object.create(WrapperObject.prototype);
@@ -308,7 +315,6 @@ System.prototype["__destroy"] = System.prototype.__destroy = function() {
     _two_System__destroy(this.__ptr);
 };
 Module['system'] = function() {
-    
     return wrapPointer(_two_system_0(), System);
 };
 
@@ -321,6 +327,7 @@ Module['system'] = function() {
         Function.prototype.__type = _two_Function__type();
         Operator.prototype.__type = _two_Operator__type();
         Method.prototype.__type = _two_Method__type();
+        DefaultConstructor.prototype.__type = _two_DefaultConstructor__type();
         Constructor.prototype.__type = _two_Constructor__type();
         CopyConstructor.prototype.__type = _two_CopyConstructor__type();
         Destructor.prototype.__type = _two_Destructor__type();

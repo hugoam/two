@@ -229,7 +229,7 @@ namespace two
 
 				// @todo : add blending of multiple animations
 				/*
-				if(track.m_value.none())
+				if(!track.m_value)
 					track.m_value = value;
 				else
 					track.m_value = interpolate(track.m_value, value, interp);

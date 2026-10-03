@@ -62,14 +62,14 @@ namespace two
 
 	export_ template <class T>
 	inline enable_if<is_default_constructible<T>, void>
-		init_default_value() { meta<T>().m_empty_var = var(T()); meta<T>().m_empty_ref = Ref(type<T>()); }
+		init_default_value() { meta<T>().m_empty_var = var(T()); }
 
 	export_ template <class T>
 	inline enable_if<!is_default_constructible<T>, void>
-		init_default_value() { meta<T>().m_empty_var = Ref(type<T>()); meta<T>().m_empty_ref = Ref(type<T>()); }
+		init_default_value() { meta<T>().m_empty_var = Ref(type<T>()); }
 	
 	template <>
-	inline void	init_default_value<Ref>() { meta<Ref>().m_empty_var = Ref(); meta<Ref>().m_empty_ref = Ref(); }
+	inline void	init_default_value<Ref>() { meta<Ref>().m_empty_var = Ref(); }
 
 	export_ template <class T>
 	inline enable_if<is_copy_assignable<T>, void>

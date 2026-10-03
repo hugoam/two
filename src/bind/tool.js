@@ -10,7 +10,6 @@ EditorAction.prototype["__destroy"] = EditorAction.prototype.__destroy = functio
 };
 // ToolContext
 function ToolContext() {
-    
     this.__ptr = _two_ToolContext__construct_0(); getCache(ToolContext)[this.__ptr] = this;
 };
 ToolContext.prototype = Object.create(WrapperObject.prototype);
@@ -387,7 +386,6 @@ ViewTool.prototype["__destroy"] = ViewTool.prototype.__destroy = function() {
 };
 // Selection
 function Selection() {
-    
     this.__ptr = _two_Selection__construct_0(); getCache(Selection)[this.__ptr] = this;
 };
 Selection.prototype = Object.create(WrapperObject.prototype);

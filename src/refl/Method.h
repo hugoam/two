@@ -13,6 +13,7 @@ namespace two
 
 	export_ using FunctionPointer = void* (*)();
 
+	export_ using DefaultConstructorFunc = void(*)(void*);
 	export_ using ConstructorFunc = void(*)(void*, span<void*>);
 	export_ using CopyConstructorFunc = void(*)(void*, void*);
 	export_ using DestructorFunc = void(*)(void*);
@@ -33,6 +34,7 @@ namespace two
 		Flags m_flags;
 
 		bool isvoid() const;
+		Var storage_var() const;
 
 		bool operator==(const QualType& other) const;
 		bool operator!=(const QualType& other) const;
@@ -64,6 +66,9 @@ namespace two
 
 		Ref default_val() const { return Ref(m_default, *m_type); }
 
+		Var storage_var() const;
+
+		bool value() const { return !nullable() && !reference(); }
 		bool nullable() const { return (m_flags & Nullable) != 0; }
 		bool reference() const { return (m_flags & Reference) != 0; }
 		bool defaulted() const { return (m_flags & Default) != 0; }
@@ -149,6 +154,18 @@ namespace two
 		Default = 0,
 		Proto = 0,
 		ProtoParts = 1
+	};
+
+	export_ class refl_ TWO_REFL_EXPORT DefaultConstructor final : public Callable
+	{
+	public:
+		DefaultConstructor();
+		DefaultConstructor(Type& object_type, DefaultConstructorFunc func);
+
+		virtual void operator()(span<void*> args, void*& result) const;
+
+		Type* m_object_type;
+		DefaultConstructorFunc m_call;
 	};
 
 	export_ class refl_ TWO_REFL_EXPORT Constructor final : public Callable

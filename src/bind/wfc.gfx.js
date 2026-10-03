@@ -1,6 +1,5 @@
 // TileModel
 function TileModel() {
-    
     this.__ptr = _two_TileModel__construct_0(); getCache(TileModel)[this.__ptr] = this;
 };
 TileModel.prototype = Object.create(WrapperObject.prototype);
@@ -26,15 +25,12 @@ WfcBlock.prototype.__class = WfcBlock;
 WfcBlock.__cache = {};
 Module['WfcBlock'] = WfcBlock;
 WfcBlock.prototype["reset"] = WfcBlock.prototype.reset = function() {
-    
     _two_WfcBlock_reset_0(this.__ptr);
 };
 WfcBlock.prototype["observe"] = WfcBlock.prototype.observe = function() {
-    
     _two_WfcBlock_observe_0(this.__ptr);
 };
 WfcBlock.prototype["propagate"] = WfcBlock.prototype.propagate = function() {
-    
     _two_WfcBlock_propagate_0(this.__ptr);
 };
 WfcBlock.prototype["solve"] = WfcBlock.prototype.solve = function(a0) {

@@ -29,8 +29,9 @@ namespace two
 		static float time_default = 0.f;
 		static float frame_time_default = 0.f;
 		static float delta_time_default = 0.f;
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::BgfxSystem, m_frame), type<uint32_t>(), "frame", &frame_default, Member::Value, nullptr },
@@ -40,7 +41,7 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, members, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, members, {}, {}, };
 	}
 	
 	

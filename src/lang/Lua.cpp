@@ -9,7 +9,7 @@ module two.lang;
 
 #include <infra/Swap.h>
 
-#define TWO_LUA_DEBUG 0
+#define TWO_LUA_DEBUG 1
 #define TWO_LUA_DEBUG_IO 0
 
 // @todo: there is a weird thing where there are constantly about 10 tables on the stack when entering a script
@@ -241,14 +241,13 @@ namespace two
 	inline Ref read_object(lua_State* state, int index, const Type& type_to_read)
 	{
 		if(lua_isnil(state, index)) return Ref(type_to_read);
-		else if(lua_isuserdata(state, index))
-		{
-			Ref object = userdata(state, index);
-			if(object.m_type->is(type_to_read))
-				return object;
-		}
+		if(!lua_isuserdata(state, index)) assert(false);
+		Ref object = userdata(state, index);
+		if(object.m_type->is(type_to_read))
+			return Ref(object.m_value, type_to_read);
+		assert(false);
 #if TWO_LUA_DEBUG
-		//printf("Lua -> read_value object %s at %p\n", type(result).m_name, result.m_value);
+		printf("Lua -> read_value object %s at %p\n", type_to_read.m_name, object.m_value);
 #endif
 	}
 
@@ -265,15 +264,17 @@ namespace two
 	{
 		UNUSED(type);
 		FromLua::me().dispatch(result, state, index);
-		//if(result.none())
-		//	lua_printf("ERROR : lua -> reading wrong type %s expected %s\n", lua_typename(state, lua_type(state, index)), type.m_name);
+#if TWO_LUA_DEBUG
+		if(!result)
+			lua_printf("ERROR : lua -> reading wrong type %s expected %s\n", lua_typename(state, lua_type(state, index)), type.m_name);
+#endif
 	}
 
 	inline Stack push_value(lua_State* state, const Var& var)
 	{
 		// @todo: what about automatic conversion as with visual scripts ? it might not belong here, maybe in read_value() ?
 		// @todo: might want a case for is_complex() before is_object() ?
-		if(var.none() || var.null())
+		if(var.empty() || var.null())
 			return push_null(state);
 		// kludge
 		else if(var.m_mode == VarMode::Ref && type(var).is<Member>())
@@ -292,10 +293,14 @@ namespace two
 			return push_value(state, var.m_ref);
 	}
 
+	inline void read_cstring(lua_State* state, int index, Var& result);
+
 	inline void read_value(lua_State* state, int index, Var& value)
 	{
 		if(value.m_mode == VarMode::Ref && value.m_ref == Ref())
 			value = read_ref(state, index);
+		else if(type(value).is<cstring>())
+			read_cstring(state, index, value);
 		else if(type(value).is<Type>())
 			value = read_type(state, index);
 		else if(is_sequence(type(value)))
@@ -430,7 +435,7 @@ namespace two
 		auto read_param = [&](const Param& param , Var& arg, size_t i)
 		{
 			read_value(state, -int(vars.m_count) + int(i), arg);
-			success &= !arg.none();
+			success &= !!arg;
 			success &= param.nullable() || !arg.null();
 			if(!success)
 				error("lua -> %s wrong argument %s, expect %s%s, got %s%s\n",
@@ -447,13 +452,13 @@ namespace two
 		if(enough_arguments && read_params(state, *call.m_callable, { call.m_args, 0, num_arguments }))
 		{
 			call.prepare();
-			call();
+			const Var& res = call();
 #if TWO_LUA_DEBUG
 			printf("Lua -> called %s\n", call.m_callable->m_name);
 #endif
 			Stack result = Stack{ state, 0 };
-			if(!call.m_result.none())
-				result = push_value(state, call.m_result);
+			if(res)
+				result = push_value(state, res);
 #if TWO_LUA_DEBUG
 			//lua_dump_stack(state);
 #endif
@@ -487,7 +492,7 @@ namespace two
 	{
 		const Member& member = val<Member>(userdata(state, -1));
 		Ref object = userdata(state, object_index);
-		Var value = member.m_default_value;
+		Var value = Var(member.m_default_value);
 		read_value(state, value_index, value);
 		member.cast_set(object, value);
 		return 0;
@@ -561,8 +566,9 @@ namespace two
 	{
 		Type* type = static_cast<Type*>(lua_touserdata(state, lua_upvalueindex(1)));
 		LuaRef object = userdata(state, 1);
-		//if(object.m_alloc && cls(object).m_destructor.size() > 0)
-		//	cls(*type).m_destructor[0](object);
+		void* n = nullptr;
+		if(object.m_alloc && cls(object).m_destructor.size() > 0)
+			cls(object).m_destructor[0]({ object.m_value }, n);
 		return 0;
 	}
 
@@ -607,7 +613,7 @@ namespace two
 	void register_field(lua_State* state, const Type& type, cstring key, Ref field)
 	{
 		get_type_table(state, type);
-		set_table(state, key, field);
+		set_table(state, key, Var(field));
 		lua_pop(state, 1);
 	}
 	
@@ -628,6 +634,14 @@ namespace two
 	}
 
 	inline void read_cstring(lua_State* state, int index, Ref result)
+	{
+		size_t len; const char* value = lua_tolstring(state, index, &len);
+		if(value)
+			val<const char*>(result) = value;
+	}
+
+	// a cstring Ref holds the pointer itself, so it's replaced in the Var rather than written through (see val())
+	inline void read_cstring(lua_State* state, int index, Var& result)
 	{
 		size_t len; const char* value = lua_tolstring(state, index, &len);
 		if(value)
@@ -733,7 +747,7 @@ namespace two
 		Stack obj = push_array(state);
 		size_t index = 1;
 		iter(value).iterate(value, [&](/*size_t index, */Ref element) {
-			set_table(state, var(index++ /*+ 1*/), element); });
+			set_table(state, var(index++ /*+ 1*/), Var(element)); });
 		return obj;
 	}
 
@@ -831,7 +845,7 @@ namespace two
 
 			for(size_t i = 0; i < e.m_names.size(); ++i)
 			{
-				set_table(m_state, e.m_names[i], e.varn(uint32_t(i)));
+				set_table(m_state, e.m_names[i], Var(e.varn(uint32_t(i))));
 			}
 		}
 
@@ -863,14 +877,14 @@ namespace two
 		void register_function(Function& function)
 		{
 			Stack stack = lookup_table(m_state, namespace_path(*function.m_namespace));
-			set_table(m_state, function.m_name, Ref(&function));
+			set_table(m_state, function.m_name, Var(Ref(&function)));
 		}
 
 		void register_static(const Type& type, Static& member)
 		{
 			//Stack stack = lookup_table(m_state, { string(type.m_name) });
 			get_type_table(m_state, type);
-			set_table(m_state, member.m_name, member.m_value);
+			set_table(m_state, member.m_name, Var(member.m_value));
 		}
 
 		void register_method(const Type& type, Method& method)

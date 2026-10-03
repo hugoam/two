@@ -4,7 +4,7 @@ module two.frame.meta;
 
 using namespace two;
 
-void two_ShellContext__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::ShellContext(  ); }
+void two_ShellContext__default_construct(void* ref) { new(stl::placeholder(), ref) two::ShellContext(); }
 void two_ShellContext__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::ShellContext((*static_cast<two::ShellContext*>(other))); }
 void two_Shell__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Shell( *static_cast<stl::string*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<bool*>(args[2]) ); }
 void two_Shell_init(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Shell*>(object)).init(*static_cast<bool*>(args[0])); }
@@ -35,14 +35,15 @@ namespace two
 		// defaults
 		static two::Widget* screen_default = nullptr;
 		static two::Dockbar* dockbar_default = nullptr;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_ShellContext__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_ShellContext__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_ShellContext__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::ShellContext, m_screen), type<two::Widget>(), "screen", screen_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
@@ -50,7 +51,8 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::ShellContext());
 	}
 	// two::ShellWindow
 	{
@@ -62,8 +64,9 @@ namespace two
 		// defaults
 		static uint32_t index_default = 0;
 		static two::Ui* ui_default = nullptr;
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::ShellWindow, m_index), type<uint32_t>(), "index", &index_default, Member::Value, nullptr },
@@ -72,7 +75,7 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, members, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, members, {}, {}, };
 	}
 	// two::Shell
 	{
@@ -80,22 +83,26 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Shell", sizeof(two::Shell), TypeClass::Object };
 		// bases
 		// defaults
+		static stl::string exec_path_default = stl::string();
+		static stl::string resource_path_default = stl::string();
+		static two::ShellContext editor_default = two::ShellContext();
 		static stl::string construct_0_exec_path_default = "";
 		static bool construct_0_window_default = true;
 		static bool init_0_window_default = true;
 		static bool window_0_fullscreen_default = false;
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
 			{ t, two_Shell__construct_0, { { "resource_path", type<stl::string>(),  }, { "exec_path", type<stl::string>(), Param::Default, &construct_0_exec_path_default }, { "window", type<bool>(), Param::Default, &construct_0_window_default } } }
 		};
-		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Shell, m_exec_path), type<stl::string>(), "exec_path", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::Shell, m_resource_path), type<stl::string>(), "resource_path", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Shell, m_exec_path), type<stl::string>(), "exec_path", &exec_path_default, Member::Value, nullptr },
+			{ t, offsetof(two::Shell, m_resource_path), type<stl::string>(), "resource_path", &resource_path_default, Member::Value, nullptr },
 			{ t, offsetof(two::Shell, m_job_system), type<two::JobSystem>(), "job_system", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::Shell, m_gfx), type<two::GfxSystem>(), "gfx", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::Shell, m_editor), type<two::ShellContext>(), "editor", nullptr, Member::Value, nullptr }
+			{ t, offsetof(two::Shell, m_editor), type<two::ShellContext>(), "editor", &editor_default, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
@@ -108,7 +115,7 @@ namespace two
 			{ t, "main_window", Address(), two_Shell_main_window, {}, { &type<two::ShellWindow>(), QualType::None } }
 		};
 		// static members
-		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, {}, {}, constructors, members, methods, {}, };
 	}
 	
 	

@@ -33,21 +33,22 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ImporterOBJ", sizeof(two::ImporterOBJ), TypeClass::Object };
 		// bases
 		// defaults
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_ImporterOBJ__construct_0, { { "gfx", type<two::GfxSystem>(),  } } }
+			{ t, two_ImporterOBJ__construct_0, { { "gfx", type<two::GfxSystem>(), Param::Reference } } }
 		};
-		// copy constructor
 		// members
 		// methods
 		static Method methods[] = {
-			{ t, "import", Address(), two_ImporterOBJ_import, { { "import", type<two::Import>(),  }, { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid },
-			{ t, "import_model", Address(), two_ImporterOBJ_import_model, { { "model", type<two::Model>(),  }, { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid },
-			{ t, "import_prefab", Address(), two_ImporterOBJ_import_prefab, { { "prefab", type<two::Prefab>(),  }, { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid },
+			{ t, "import", Address(), two_ImporterOBJ_import, { { "import", type<two::Import>(), Param::Reference }, { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid },
+			{ t, "import_model", Address(), two_ImporterOBJ_import_model, { { "model", type<two::Model>(), Param::Reference }, { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid },
+			{ t, "import_prefab", Address(), two_ImporterOBJ_import_prefab, { { "prefab", type<two::Prefab>(), Param::Reference }, { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid },
 			{ t, "repack", Address(), two_ImporterOBJ_repack, { { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid }
 		};
 		// static members
-		static Class cls = { t, {}, {}, constructors, {}, {}, methods, {}, };
+		static Class cls = { t, {}, {}, {}, {}, constructors, {}, methods, {}, };
 	}
 	// two::ImporterPLY
 	{
@@ -55,21 +56,22 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ImporterPLY", sizeof(two::ImporterPLY), TypeClass::Object };
 		// bases
 		// defaults
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_ImporterPLY__construct_0, { { "gfx", type<two::GfxSystem>(),  } } }
+			{ t, two_ImporterPLY__construct_0, { { "gfx", type<two::GfxSystem>(), Param::Reference } } }
 		};
-		// copy constructor
 		// members
 		// methods
 		static Method methods[] = {
-			{ t, "import", Address(), two_ImporterPLY_import, { { "import", type<two::Import>(),  }, { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid },
-			{ t, "import_model", Address(), two_ImporterPLY_import_model, { { "model", type<two::Model>(),  }, { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid },
-			{ t, "import_prefab", Address(), two_ImporterPLY_import_prefab, { { "prefab", type<two::Prefab>(),  }, { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid },
+			{ t, "import", Address(), two_ImporterPLY_import, { { "import", type<two::Import>(), Param::Reference }, { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid },
+			{ t, "import_model", Address(), two_ImporterPLY_import_model, { { "model", type<two::Model>(), Param::Reference }, { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid },
+			{ t, "import_prefab", Address(), two_ImporterPLY_import_prefab, { { "prefab", type<two::Prefab>(), Param::Reference }, { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid },
 			{ t, "repack", Address(), two_ImporterPLY_repack, { { "filepath", type<stl::string>(),  }, { "config", type<two::ImportConfig>(),  } }, g_qvoid }
 		};
 		// static members
-		static Class cls = { t, {}, {}, constructors, {}, {}, methods, {}, };
+		static Class cls = { t, {}, {}, {}, {}, constructors, {}, methods, {}, };
 	}
 	
 	

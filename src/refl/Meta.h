@@ -8,10 +8,6 @@
 
 namespace two
 {
-#ifdef TWO_MODULES
-	export_ using stl::string;
-#endif
-
 	using cstring = const char*;
 
 	export_ enum class refl_ TypeClass : unsigned int
@@ -43,7 +39,6 @@ namespace two
 		bool m_is_array = false;
 
 		const void* m_empty_value;
-		Ref m_empty_ref;
 		Var m_empty_var;
 
 		using CopyConstruct = void(*)(void*, void*); CopyConstruct m_copy_construct;

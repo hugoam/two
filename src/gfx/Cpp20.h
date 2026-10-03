@@ -5,7 +5,7 @@
 #pragma once
 
 #include <infra/Cpp20.h>
-#ifdef TWO_MODULES
+
 #include <xmmintrin.h>
 #include <bx/bx.h>
 #include <bgfx/bgfx.h>
@@ -21,6 +21,4 @@
 #define TEXTURE_POINT  BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT | BGFX_SAMPLER_MIP_POINT
 
 #define TEXTURE_DEPTH 0
-
-#endif
 

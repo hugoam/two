@@ -70,7 +70,7 @@ namespace two
 		
 		meth_ inline InputEvent& consume(ControlNode& consumer) { m_consumer = &consumer; return *this; }
 		meth_ inline bool valid() { return m_deviceType != DeviceType::None && m_consumer == nullptr; }
-		inline operator bool() { return this->valid(); }
+		inline explicit operator bool() { return this->valid(); }
 
 		//bool operator==(const InputEvent& other) const { UNUSED(other); return false; }
 	};

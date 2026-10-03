@@ -106,7 +106,7 @@ namespace two
 		{
 			std::map<std::string, Json> json_values;
 			json_values["callable"] = string(call.m_callable->m_name);
-			pack(Ref(&call.m_args), json_values["arguments"]);
+			pack(Var(Ref(&call.m_args)), json_values["arguments"]);
 			json_value = json_values;
 		});
 	}
@@ -131,7 +131,7 @@ namespace two
 	void unpack(Ref object, const Json& json_value)
 	{
 		static FromJson unpacker;
-		Var value = object;
+		Var value = Var(object);
 		unpack(unpacker, value, json_value);
 	}
 	
@@ -302,7 +302,7 @@ namespace two
 			size_t i = 0;
 			std::vector<Json> json_values = std::vector<Json>(iter(value).size(value));
 			iter(value).iterate(value, [&](Ref element) {
-				pack(packer, element, json_values[i++]);
+				pack(packer, Var(element), json_values[i++]);
 			});
 			json_value = json_values;
 		}
@@ -320,7 +320,7 @@ namespace two
 				for(Member& member : cls(value).m_members)
 					if(&member != cls(value).m_type_member)
 					{
-						Var member_val = member.get(value.m_ref);
+						Var member_val = Var(member.get(value.m_ref));
 						pack(packer, member_val, json_members[member.m_index]);
 					}
 
@@ -333,7 +333,7 @@ namespace two
 				for(Member& member : cls(value).m_members)
 					if(&member != cls(value).m_type_member)
 					{
-						Var member_val = member.get(value.m_ref);
+						Var member_val = Var(member.get(value.m_ref));
 #ifdef NO_PACK_DEFAULT
 						if(memcmp(member_val.m_ref.m_value, member.m_default_value.m_value, meta(member_val).m_size) == 0)
 							continue;

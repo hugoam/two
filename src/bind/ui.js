@@ -2,7 +2,6 @@ Module['stl'] = Module['stl'] || {};
 Module['ui'] = Module['ui'] || {};
 // Space
 function Space() {
-    
     this.__ptr = _two_Space__construct_0(); getCache(Space)[this.__ptr] = this;
 };
 Space.prototype = Object.create(WrapperObject.prototype);
@@ -324,7 +323,6 @@ Shadow.prototype["__destroy"] = Shadow.prototype.__destroy = function() {
 };
 // Paint
 function Paint() {
-    
     this.__ptr = _two_Paint__construct_0(); getCache(Paint)[this.__ptr] = this;
 };
 Paint.prototype = Object.create(WrapperObject.prototype);
@@ -364,7 +362,6 @@ Paint.prototype["__destroy"] = Paint.prototype.__destroy = function() {
 };
 // TextPaint
 function TextPaint() {
-    
     this.__ptr = _two_TextPaint__construct_0(); getCache(TextPaint)[this.__ptr] = this;
 };
 TextPaint.prototype = Object.create(WrapperObject.prototype);
@@ -431,7 +428,6 @@ TextPaint.prototype["__destroy"] = TextPaint.prototype.__destroy = function() {
 };
 // Gradient
 function Gradient() {
-    
     this.__ptr = _two_Gradient__construct_0(); getCache(Gradient)[this.__ptr] = this;
 };
 Gradient.prototype = Object.create(WrapperObject.prototype);
@@ -885,7 +881,6 @@ Layout.prototype["__destroy"] = Layout.prototype.__destroy = function() {
 };
 // Subskin
 function Subskin() {
-    
     this.__ptr = _two_Subskin__construct_0(); getCache(Subskin)[this.__ptr] = this;
 };
 Subskin.prototype = Object.create(WrapperObject.prototype);
@@ -962,7 +957,6 @@ Style.prototype["__destroy"] = Style.prototype.__destroy = function() {
 };
 // UiRect
 function UiRect() {
-    
     this.__ptr = _two_UiRect__construct_0(); getCache(UiRect)[this.__ptr] = this;
 };
 UiRect.prototype = Object.create(WrapperObject.prototype);
@@ -1038,51 +1032,39 @@ Widget.__base = ControlNode;
 Widget.__cache = {};
 Module['Widget'] = Widget;
 Widget.prototype["focused"] = Widget.prototype.focused = function() {
-    
     return !!(_two_Widget_focused_0(this.__ptr));
 };
 Widget.prototype["hovered"] = Widget.prototype.hovered = function() {
-    
     return !!(_two_Widget_hovered_0(this.__ptr));
 };
 Widget.prototype["pressed"] = Widget.prototype.pressed = function() {
-    
     return !!(_two_Widget_pressed_0(this.__ptr));
 };
 Widget.prototype["activated"] = Widget.prototype.activated = function() {
-    
     return !!(_two_Widget_activated_0(this.__ptr));
 };
 Widget.prototype["active"] = Widget.prototype.active = function() {
-    
     return !!(_two_Widget_active_0(this.__ptr));
 };
 Widget.prototype["selected"] = Widget.prototype.selected = function() {
-    
     return !!(_two_Widget_selected_0(this.__ptr));
 };
 Widget.prototype["modal"] = Widget.prototype.modal = function() {
-    
     return !!(_two_Widget_modal_0(this.__ptr));
 };
 Widget.prototype["closed"] = Widget.prototype.closed = function() {
-    
     return !!(_two_Widget_closed_0(this.__ptr));
 };
 Widget.prototype["ui_window"] = Widget.prototype.ui_window = function() {
-    
     return wrapPointer(_two_Widget_ui_window_0(this.__ptr), UiWindow);
 };
 Widget.prototype["ui"] = Widget.prototype.ui = function() {
-    
     return wrapPointer(_two_Widget_ui_0(this.__ptr), Ui);
 };
 Widget.prototype["parent_modal"] = Widget.prototype.parent_modal = function() {
-    
     return wrapPointer(_two_Widget_parent_modal_0(this.__ptr), Widget);
 };
 Widget.prototype["clear"] = Widget.prototype.clear = function() {
-    
     _two_Widget_clear_0(this.__ptr);
 };
 Widget.prototype["toggle_state"] = Widget.prototype.toggle_state = function(a0) {
@@ -1102,15 +1084,12 @@ Widget.prototype["enable_state"] = Widget.prototype.enable_state = function(a0) 
     _two_Widget_enable_state_1(this.__ptr, /*state*/a0);
 };
 Widget.prototype["clear_focus"] = Widget.prototype.clear_focus = function() {
-    
     _two_Widget_clear_focus_0(this.__ptr);
 };
 Widget.prototype["take_focus"] = Widget.prototype.take_focus = function() {
-    
     _two_Widget_take_focus_0(this.__ptr);
 };
 Widget.prototype["yield_focus"] = Widget.prototype.yield_focus = function() {
-    
     _two_Widget_yield_focus_0(this.__ptr);
 };
 Widget.prototype["take_modal"] = Widget.prototype.take_modal = function(a0) {
@@ -1118,7 +1097,6 @@ Widget.prototype["take_modal"] = Widget.prototype.take_modal = function(a0) {
     _two_Widget_take_modal_1(this.__ptr, /*device_filter*/a0);
 };
 Widget.prototype["yield_modal"] = Widget.prototype.yield_modal = function() {
-    
     _two_Widget_yield_modal_0(this.__ptr);
 };
 Object.defineProperty(Widget.prototype, "frame", {
@@ -1175,7 +1153,6 @@ Widget.prototype["__destroy"] = Widget.prototype.__destroy = function() {
 };
 // TextCursor
 function TextCursor() {
-    
     this.__ptr = _two_TextCursor__construct_0(); getCache(TextCursor)[this.__ptr] = this;
 };
 TextCursor.prototype = Object.create(WrapperObject.prototype);
@@ -1188,7 +1165,6 @@ TextCursor.prototype["__destroy"] = TextCursor.prototype.__destroy = function() 
 };
 // TextSelection
 function TextSelection() {
-    
     this.__ptr = _two_TextSelection__construct_0(); getCache(TextSelection)[this.__ptr] = this;
 };
 TextSelection.prototype = Object.create(WrapperObject.prototype);
@@ -1201,7 +1177,6 @@ TextSelection.prototype["__destroy"] = TextSelection.prototype.__destroy = funct
 };
 // TextMarker
 function TextMarker() {
-    
     this.__ptr = _two_TextMarker__construct_0(); getCache(TextMarker)[this.__ptr] = this;
 };
 TextMarker.prototype = Object.create(WrapperObject.prototype);
@@ -1235,7 +1210,6 @@ TextEdit.prototype["__destroy"] = TextEdit.prototype.__destroy = function() {
 };
 // NodeConnection
 function NodeConnection() {
-    
     this.__ptr = _two_NodeConnection__construct_0(); getCache(NodeConnection)[this.__ptr] = this;
 };
 NodeConnection.prototype = Object.create(WrapperObject.prototype);
@@ -1258,7 +1232,6 @@ Vg.prototype["__destroy"] = Vg.prototype.__destroy = function() {
 };
 // Clipboard
 function Clipboard() {
-    
     this.__ptr = _two_Clipboard__construct_0(); getCache(Clipboard)[this.__ptr] = this;
 };
 Clipboard.prototype = Object.create(WrapperObject.prototype);
@@ -1295,7 +1268,6 @@ UiWindow.prototype.__class = UiWindow;
 UiWindow.__cache = {};
 Module['UiWindow'] = UiWindow;
 UiWindow.prototype["reset_styles"] = UiWindow.prototype.reset_styles = function() {
-    
     _two_UiWindow_reset_styles_0(this.__ptr);
 };
 Object.defineProperty(UiWindow.prototype, "resource_path", {
@@ -1481,7 +1453,6 @@ Table.prototype["__destroy"] = Table.prototype.__destroy = function() {
 };
 // Dock
 function Dock() {
-    
     this.__ptr = _two_Dock__construct_0(); getCache(Dock)[this.__ptr] = this;
 };
 Dock.prototype = Object.create(WrapperObject.prototype);
@@ -1570,7 +1541,6 @@ Node.prototype["__destroy"] = Node.prototype.__destroy = function() {
 };
 // CanvasConnect
 function CanvasConnect() {
-    
     this.__ptr = _two_CanvasConnect__construct_0(); getCache(CanvasConnect)[this.__ptr] = this;
 };
 CanvasConnect.prototype = Object.create(WrapperObject.prototype);
@@ -1601,11 +1571,9 @@ Ui.__base = Widget;
 Ui.__cache = {};
 Module['Ui'] = Ui;
 Ui.prototype["begin"] = Ui.prototype.begin = function() {
-    
     return wrapPointer(_two_Ui_begin_0(this.__ptr), Widget);
 };
 Ui.prototype["reset_styles"] = Ui.prototype.reset_styles = function() {
-    
     _two_Ui_reset_styles_0(this.__ptr);
 };
 Ui.prototype["__destroy"] = Ui.prototype.__destroy = function() {

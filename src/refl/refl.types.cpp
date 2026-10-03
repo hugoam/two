@@ -22,6 +22,7 @@ namespace two
     template <> TWO_REFL_EXPORT Type& type<two::Function>() { static Type ty("Function", type<two::Callable>(), sizeof(two::Function)); return ty; }
     template <> TWO_REFL_EXPORT Type& type<two::Operator>() { static Type ty("Operator", sizeof(two::Operator)); return ty; }
     template <> TWO_REFL_EXPORT Type& type<two::Method>() { static Type ty("Method", type<two::Callable>(), sizeof(two::Method)); return ty; }
+    template <> TWO_REFL_EXPORT Type& type<two::DefaultConstructor>() { static Type ty("DefaultConstructor", type<two::Callable>(), sizeof(two::DefaultConstructor)); return ty; }
     template <> TWO_REFL_EXPORT Type& type<two::Constructor>() { static Type ty("Constructor", type<two::Callable>(), sizeof(two::Constructor)); return ty; }
     template <> TWO_REFL_EXPORT Type& type<two::CopyConstructor>() { static Type ty("CopyConstructor", type<two::Callable>(), sizeof(two::CopyConstructor)); return ty; }
     template <> TWO_REFL_EXPORT Type& type<two::Destructor>() { static Type ty("Destructor", type<two::Callable>(), sizeof(two::Destructor)); return ty; }

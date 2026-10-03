@@ -86,7 +86,6 @@ BlockRadiance.prototype["__destroy"] = BlockRadiance.prototype.__destroy = funct
 };
 // CubeTarget
 function CubeTarget() {
-    
     this.__ptr = _two_CubeTarget__construct_0(); getCache(CubeTarget)[this.__ptr] = this;
 };
 CubeTarget.prototype = Object.create(WrapperObject.prototype);
@@ -226,7 +225,6 @@ BlockReflection.prototype["__destroy"] = BlockReflection.prototype.__destroy = f
 };
 // LightShadow
 function LightShadow() {
-    
     this.__ptr = _two_LightShadow__construct_0(); getCache(LightShadow)[this.__ptr] = this;
 };
 LightShadow.prototype = Object.create(WrapperObject.prototype);
@@ -239,7 +237,6 @@ LightShadow.prototype["__destroy"] = LightShadow.prototype.__destroy = function(
 };
 // CSMSlice
 function CSMSlice() {
-    
     this.__ptr = _two_CSMSlice__construct_0(); getCache(CSMSlice)[this.__ptr] = this;
 };
 CSMSlice.prototype = Object.create(LightShadow.prototype);
@@ -253,7 +250,6 @@ CSMSlice.prototype["__destroy"] = CSMSlice.prototype.__destroy = function() {
 };
 // CSMShadow
 function CSMShadow() {
-    
     this.__ptr = _two_CSMShadow__construct_0(); getCache(CSMShadow)[this.__ptr] = this;
 };
 CSMShadow.prototype = Object.create(WrapperObject.prototype);
@@ -320,7 +316,6 @@ BlockBlur.prototype["__destroy"] = BlockBlur.prototype.__destroy = function() {
 };
 // DofParams
 function DofParams() {
-    
     this.__ptr = _two_DofParams__construct_0(); getCache(DofParams)[this.__ptr] = this;
 };
 DofParams.prototype = Object.create(WrapperObject.prototype);
@@ -360,7 +355,6 @@ DofParams.prototype["__destroy"] = DofParams.prototype.__destroy = function() {
 };
 // DofBlur
 function DofBlur() {
-    
     this.__ptr = _two_DofBlur__construct_0(); getCache(DofBlur)[this.__ptr] = this;
 };
 DofBlur.prototype = Object.create(WrapperObject.prototype);
@@ -420,7 +414,6 @@ BlockDofBlur.prototype["__destroy"] = BlockDofBlur.prototype.__destroy = functio
 };
 // Glow
 function Glow() {
-    
     this.__ptr = _two_Glow__construct_0(); getCache(Glow)[this.__ptr] = this;
 };
 Glow.prototype = Object.create(WrapperObject.prototype);
@@ -516,7 +509,6 @@ BlockGlow.prototype["__destroy"] = BlockGlow.prototype.__destroy = function() {
 };
 // BCS
 function BCS() {
-    
     this.__ptr = _two_BCS__construct_0(); getCache(BCS)[this.__ptr] = this;
 };
 BCS.prototype = Object.create(WrapperObject.prototype);
@@ -565,7 +557,6 @@ BCS.prototype["__destroy"] = BCS.prototype.__destroy = function() {
 };
 // Tonemap
 function Tonemap() {
-    
     this.__ptr = _two_Tonemap__construct_0(); getCache(Tonemap)[this.__ptr] = this;
 };
 Tonemap.prototype = Object.create(WrapperObject.prototype);

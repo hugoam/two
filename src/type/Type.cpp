@@ -56,4 +56,45 @@ namespace two
 		else
 			return false;
 	}
+
+	TypeConverter::TypeConverter()
+		: DoubleDispatch()
+	{
+		this->default_converter<float, double>();
+		this->default_converter<float, int>();
+		this->default_converter<float, ushort>();
+		this->default_converter<float, uint>();
+		this->default_converter<float, ulong>();
+		this->default_converter<float, ullong>();
+		this->default_converter<double, int>();
+		this->default_converter<double, ushort>();
+		this->default_converter<double, uint>();
+		this->default_converter<double, ulong>();
+		this->default_converter<double, ullong>();
+		this->default_converter<int, ushort>();
+		this->default_converter<int, uint>();
+		this->default_converter<int, ulong>();
+		this->default_converter<int, ullong>();
+		this->default_converter<ushort, uint>();
+		this->default_converter<ushort, ulong>();
+		this->default_converter<ushort, ullong>();
+		this->default_converter<uint, ulong>();
+		this->default_converter<uint, ullong>();
+		this->default_converter<ulong, ullong>();
+	}
+
+	bool TypeConverter::check(const Type& input, const Type& output)
+	{
+		return DoubleDispatch::check(input, output);
+	}
+
+	bool TypeConverter::check(Ref input, const Type& output)
+	{
+		return DoubleDispatch::check(*input.m_type, output);
+	}
+
+	void TypeConverter::convert(Ref input, Var& result)
+	{
+		DoubleDispatch::dispatch(input, result);
+	}
 }

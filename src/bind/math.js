@@ -599,7 +599,6 @@ quat.prototype["__destroy"] = quat.prototype.__destroy = function() {
 };
 // Transform
 function Transform() {
-    
     this.__ptr = _two_Transform__construct_0(); getCache(Transform)[this.__ptr] = this;
 };
 Transform.prototype = Object.create(WrapperObject.prototype);
@@ -639,7 +638,6 @@ Transform.prototype["__destroy"] = Transform.prototype.__destroy = function() {
 };
 // ColourHSL
 function ColourHSL() {
-    
     this.__ptr = _two_ColourHSL__construct_0(); getCache(ColourHSL)[this.__ptr] = this;
 };
 ColourHSL.prototype = Object.create(WrapperObject.prototype);
@@ -802,7 +800,6 @@ ValueCurve_two_vec3.prototype["__destroy"] = ValueCurve_two_vec3.prototype.__des
 };
 // ValueCurve<two::quat>
 function ValueCurve_two_quat() {
-    
     this.__ptr = _two_ValueCurve_two_quat__construct_0(); getCache(ValueCurve_two_quat)[this.__ptr] = this;
 };
 ValueCurve_two_quat.prototype = Object.create(WrapperObject.prototype);
@@ -1224,7 +1221,6 @@ ValueTrack_two_Colour.prototype["__destroy"] = ValueTrack_two_Colour.prototype._
 };
 // Image
 function Image() {
-    
     this.__ptr = _two_Image__construct_0(); getCache(Image)[this.__ptr] = this;
 };
 Image.prototype = Object.create(WrapperObject.prototype);
@@ -1354,7 +1350,6 @@ SpriteAtlas.prototype["__destroy"] = SpriteAtlas.prototype.__destroy = function(
 };
 // Range<two::vec3>
 function Range_two_vec3() {
-    
     this.__ptr = _two_Range_two_vec3__construct_0(); getCache(Range_two_vec3)[this.__ptr] = this;
 };
 Range_two_vec3.prototype = Object.create(WrapperObject.prototype);
@@ -1385,7 +1380,6 @@ Range_two_vec3.prototype["__destroy"] = Range_two_vec3.prototype.__destroy = fun
 };
 // Range<two::quat>
 function Range_two_quat() {
-    
     this.__ptr = _two_Range_two_quat__construct_0(); getCache(Range_two_quat)[this.__ptr] = this;
 };
 Range_two_quat.prototype = Object.create(WrapperObject.prototype);
@@ -1416,7 +1410,6 @@ Range_two_quat.prototype["__destroy"] = Range_two_quat.prototype.__destroy = fun
 };
 // Range<float>
 function Range_float() {
-    
     this.__ptr = _two_Range_float__construct_0(); getCache(Range_float)[this.__ptr] = this;
 };
 Range_float.prototype = Object.create(WrapperObject.prototype);
@@ -1447,7 +1440,6 @@ Range_float.prototype["__destroy"] = Range_float.prototype.__destroy = function(
 };
 // Range<uint32_t>
 function Range_uint32_t() {
-    
     this.__ptr = _two_Range_uint32_t__construct_0(); getCache(Range_uint32_t)[this.__ptr] = this;
 };
 Range_uint32_t.prototype = Object.create(WrapperObject.prototype);
@@ -1478,7 +1470,6 @@ Range_uint32_t.prototype["__destroy"] = Range_uint32_t.prototype.__destroy = fun
 };
 // Range<two::Colour>
 function Range_two_Colour() {
-    
     this.__ptr = _two_Range_two_Colour__construct_0(); getCache(Range_two_Colour)[this.__ptr] = this;
 };
 Range_two_Colour.prototype = Object.create(WrapperObject.prototype);
@@ -1509,7 +1500,6 @@ Range_two_Colour.prototype["__destroy"] = Range_two_Colour.prototype.__destroy =
 };
 // StatDef<int>
 function StatDef_int() {
-    
     this.__ptr = _two_StatDef_int__construct_0(); getCache(StatDef_int)[this.__ptr] = this;
 };
 StatDef_int.prototype = Object.create(WrapperObject.prototype);
@@ -1549,7 +1539,6 @@ StatDef_int.prototype["__destroy"] = StatDef_int.prototype.__destroy = function(
 };
 // StatDef<float>
 function StatDef_float() {
-    
     this.__ptr = _two_StatDef_float__construct_0(); getCache(StatDef_float)[this.__ptr] = this;
 };
 StatDef_float.prototype = Object.create(WrapperObject.prototype);

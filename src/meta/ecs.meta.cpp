@@ -4,9 +4,9 @@ module two.ecs.meta;
 
 using namespace two;
 
-void two_Entity__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::Entity(  ); }
+void two_Entity__default_construct(void* ref) { new(stl::placeholder(), ref) two::Entity(); }
 void two_Entity__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Entity((*static_cast<two::Entity*>(other))); }
-void two_Entt__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::Entt(  ); }
+void two_Entt__default_construct(void* ref) { new(stl::placeholder(), ref) two::Entt(); }
 void two_Entt__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Entt((*static_cast<two::Entt*>(other))); }
 void two_Complex__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Complex( *static_cast<uint32_t*>(args[0]), *static_cast<two::Type*>(args[1]) ); }
 void two_Complex__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Complex( *static_cast<uint32_t*>(args[0]), *static_cast<two::Type*>(args[1]), *static_cast<stl::span<two::Ref>*>(args[2]) ); }
@@ -36,18 +36,20 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Entity", sizeof(two::Entity), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_Entity__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_Entity__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_Entity__copy_construct }
 		};
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, {}, {}, {}, };
+		meta.m_empty_var = var(two::Entity());
 	}
 	// two::Entt
 	{
@@ -55,18 +57,20 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Entt", sizeof(two::Entt), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_Entt__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_Entt__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_Entt__copy_construct }
 		};
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, {}, {}, {}, };
+		meta.m_empty_var = var(two::Entt());
 	}
 	// two::OEntt
 	{
@@ -76,12 +80,13 @@ namespace two
 		static Type* bases[] = { &type<two::Entt>() };
 		static size_t bases_offsets[] = { base_offset<two::OEntt, two::Entt>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Complex
 	{
@@ -89,15 +94,17 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Complex", sizeof(two::Complex), TypeClass::Object };
 		// bases
 		// defaults
+		static uint32_t id_default = uint();
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_Complex__construct_0, { { "id", type<uint32_t>(),  }, { "type", type<two::Type>(),  } } },
-			{ t, two_Complex__construct_1, { { "id", type<uint32_t>(),  }, { "type", type<two::Type>(),  }, { "parts", type<stl::span<two::Ref>>(),  } } }
+			{ t, two_Complex__construct_0, { { "id", type<uint32_t>(),  }, { "type", type<two::Type>(), Param::Reference } } },
+			{ t, two_Complex__construct_1, { { "id", type<uint32_t>(),  }, { "type", type<two::Type>(), Param::Reference }, { "parts", type<stl::span<two::Ref>>(),  } } }
 		};
-		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Complex, m_id), type<uint32_t>(), "id", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Complex, m_id), type<uint32_t>(), "id", &id_default, Member::Value, nullptr },
 			{ t, SIZE_MAX, type<two::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Complex__get_type },
 			{ t, SIZE_MAX, type<two::Prototype>(), "prototype", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Complex__get_prototype },
 			{ t, offsetof(two::Complex, m_parts), type<stl::vector<two::Ref>>(), "parts", nullptr, Member::NonMutable, nullptr }
@@ -106,12 +113,12 @@ namespace two
 		static Method methods[] = {
 			{ t, "setup", Address(), two_Complex_setup, { { "parts", type<stl::span<two::Ref>>(),  } }, g_qvoid },
 			{ t, "add_part", Address(), two_Complex_add_part, { { "part", type<two::Ref>(), Param::Nullable } }, g_qvoid },
-			{ t, "has_part", Address(), two_Complex_has_part, { { "type", type<two::Type>(),  } }, { &type<bool>(), QualType::None } },
-			{ t, "part", Address(), two_Complex_part, { { "type", type<two::Type>(),  } }, { &type<two::Ref>(), QualType::None } },
-			{ t, "try_part", Address(), two_Complex_try_part, { { "type", type<two::Type>(),  } }, { &type<two::Ref>(), QualType::None } }
+			{ t, "has_part", Address(), two_Complex_has_part, { { "type", type<two::Type>(), Param::Reference } }, { &type<bool>(), QualType::None } },
+			{ t, "part", Address(), two_Complex_part, { { "type", type<two::Type>(), Param::Reference } }, { &type<two::Ref>(), QualType::None } },
+			{ t, "try_part", Address(), two_Complex_try_part, { { "type", type<two::Type>(), Param::Reference } }, { &type<two::Ref>(), QualType::None } }
 		};
 		// static members
-		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, {}, {}, constructors, members, methods, {}, };
 	}
 	
 	

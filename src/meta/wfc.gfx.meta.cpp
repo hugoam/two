@@ -4,10 +4,10 @@ module two.wfc.gfx.meta;
 
 using namespace two;
 
-void two_TileModel__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::TileModel(  ); }
+void two_TileModel__default_construct(void* ref) { new(stl::placeholder(), ref) two::TileModel(); }
 void two_TileModel__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::TileModel((*static_cast<two::TileModel*>(other))); }
-void two_WfcBlock__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::WfcBlock(  ); }
-void two_WfcBlock__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::WfcBlock( *static_cast<two::vec3*>(args[0]), *static_cast<two::uvec3*>(args[1]), *static_cast<two::vec3*>(args[2]), *static_cast<two::WaveTileset*>(args[3]), *static_cast<bool*>(args[4]) ); }
+void two_WfcBlock__default_construct(void* ref) { new(stl::placeholder(), ref) two::WfcBlock(); }
+void two_WfcBlock__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::WfcBlock( *static_cast<two::vec3*>(args[0]), *static_cast<two::uvec3*>(args[1]), *static_cast<two::vec3*>(args[2]), *static_cast<two::WaveTileset*>(args[3]), *static_cast<bool*>(args[4]) ); }
 void two_WfcBlock_reset(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::WfcBlock*>(object)).reset(); }
 void two_WfcBlock_observe(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::WfcBlock*>(object)).observe(); }
 void two_WfcBlock_propagate(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::WfcBlock*>(object)).propagate(); }
@@ -32,18 +32,20 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "TileModel", sizeof(two::TileModel), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_TileModel__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_TileModel__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_TileModel__copy_construct }
 		};
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, {}, {}, {}, };
+		meta.m_empty_var = var(two::TileModel());
 	}
 	// two::WfcBlock
 	{
@@ -51,20 +53,27 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "WfcBlock", sizeof(two::WfcBlock), TypeClass::Object };
 		// bases
 		// defaults
-		static bool construct_1_auto_solve_default = false;
+		static two::vec3 position_default = two::v3<float>();
+		static two::uvec3 size_default = two::v3<uint>();
+		static two::vec3 scale_default = two::v3<float>();
+		static two::Aabb aabb_default = two::Aabb();
+		static bool construct_0_auto_solve_default = false;
 		static size_t solve_0_limit_default = 0;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_WfcBlock__construct_0, {} },
-			{ t, two_WfcBlock__construct_1, { { "position", type<two::vec3>(),  }, { "size", type<two::uvec3>(),  }, { "scale", type<two::vec3>(),  }, { "tileset", type<two::WaveTileset>(),  }, { "auto_solve", type<bool>(), Param::Default, &construct_1_auto_solve_default } } }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_WfcBlock__default_construct }
 		};
 		// copy constructor
+		// constructors
+		static Constructor constructors[] = {
+			{ t, two_WfcBlock__construct_0, { { "position", type<two::vec3>(),  }, { "size", type<two::uvec3>(),  }, { "scale", type<two::vec3>(),  }, { "tileset", type<two::WaveTileset>(), Param::Reference }, { "auto_solve", type<bool>(), Param::Default, &construct_0_auto_solve_default } } }
+		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::WfcBlock, m_position), type<two::vec3>(), "position", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::WfcBlock, m_size), type<two::uvec3>(), "size", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::WfcBlock, m_scale), type<two::vec3>(), "scale", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::WfcBlock, m_aabb), type<two::Aabb>(), "aabb", nullptr, Member::Value, nullptr }
+			{ t, offsetof(two::WfcBlock, m_position), type<two::vec3>(), "position", &position_default, Member::Value, nullptr },
+			{ t, offsetof(two::WfcBlock, m_size), type<two::uvec3>(), "size", &size_default, Member::Value, nullptr },
+			{ t, offsetof(two::WfcBlock, m_scale), type<two::vec3>(), "scale", &scale_default, Member::Value, nullptr },
+			{ t, offsetof(two::WfcBlock, m_aabb), type<two::Aabb>(), "aabb", &aabb_default, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
@@ -72,10 +81,10 @@ namespace two
 			{ t, "observe", Address(), two_WfcBlock_observe, {}, g_qvoid },
 			{ t, "propagate", Address(), two_WfcBlock_propagate, {}, g_qvoid },
 			{ t, "solve", Address(), two_WfcBlock_solve, { { "limit", type<size_t>(), Param::Default, &solve_0_limit_default } }, g_qvoid },
-			{ t, "update", Address(), two_WfcBlock_update, { { "wave", type<two::Wave>(),  } }, g_qvoid }
+			{ t, "update", Address(), two_WfcBlock_update, { { "wave", type<two::Wave>(), Param::Reference } }, g_qvoid }
 		};
 		// static members
-		static Class cls = { t, {}, {}, constructors, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, default_constructor, {}, constructors, members, methods, {}, };
 	}
 	
 	

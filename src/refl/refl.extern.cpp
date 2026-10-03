@@ -22,6 +22,7 @@ namespace stl
 	template class TWO_REFL_EXPORT vector<Operator>;
 	template class TWO_REFL_EXPORT vector<Constructor>;
 	template class TWO_REFL_EXPORT vector<CopyConstructor>;
+	template class TWO_REFL_EXPORT vector<DefaultConstructor>;
 	template class TWO_REFL_EXPORT vector<Destructor>;
 	template class TWO_REFL_EXPORT vector<Method>;
 	template class TWO_REFL_EXPORT vector<Member>;

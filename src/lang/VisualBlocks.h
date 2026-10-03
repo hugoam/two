@@ -46,8 +46,7 @@ namespace two
 		virtual void process(const StreamLocation& branch) override;
 
 	protected:
-		vector<Var> m_parameters;
-		Callable& m_callable;
+		Call m_call;
 		vector<object<Valve>> m_params;
 		// @todo : try moving to this
 		//vector<Valve> m_inputParams;
@@ -122,7 +121,7 @@ namespace two
 	Valve& VisualScript::value(const T& value) { return this->node<ProcessValue>(var(value)).output(); }
 
 	template <class T>
-	Valve& VisualScript::reference(T&& value) { return this->node<ProcessValue>(Ref(static_cast<T&&>(value))).output(); }
+	Valve& VisualScript::reference(T&& value) { return this->node<ProcessValue>(Var(Ref(static_cast<T&&>(value)))).output(); }
 
 	template <class T>
 	Valve* VisualScript::function(T f, span<Valve*> params, Process* flow, span<StreamModifier> modifiers) { return this->node<ProcessFunction>(func(f)).pipe(params, flow, modifiers); }

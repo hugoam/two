@@ -1,6 +1,5 @@
 // ShellContext
 function ShellContext() {
-    
     this.__ptr = _two_ShellContext__construct_0(); getCache(ShellContext)[this.__ptr] = this;
 };
 ShellContext.prototype = Object.create(WrapperObject.prototype);
@@ -96,19 +95,15 @@ Shell.prototype["add_file"] = Shell.prototype.add_file = function(a0, a1) {
     _two_Shell_add_file_2(this.__ptr, ensureString(/*path*/a0), ensureInt8(/*data*/a1), /*data*/a1.length);
 };
 Shell.prototype["begin_frame"] = Shell.prototype.begin_frame = function() {
-    
     return !!(_two_Shell_begin_frame_0(this.__ptr));
 };
 Shell.prototype["end_frame"] = Shell.prototype.end_frame = function() {
-    
     _two_Shell_end_frame_0(this.__ptr);
 };
 Shell.prototype["pump"] = Shell.prototype.pump = function() {
-    
     return !!(_two_Shell_pump_0(this.__ptr));
 };
 Shell.prototype["main_window"] = Shell.prototype.main_window = function() {
-    
     return wrapPointer(_two_Shell_main_window_0(this.__ptr), ShellWindow);
 };
 Object.defineProperty(Shell.prototype, "exec_path", {

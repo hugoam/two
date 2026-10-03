@@ -4,12 +4,10 @@ module two.lang.meta;
 
 using namespace two;
 
-namespace two { using stl::string; }
-
 void two_Language__to_string(void* val, string& str) { str = g_enu[type<two::Language>().m_id]->name(uint32_t((*static_cast<two::Language*>(val)))); }
 void two_Language__to_value(const string& str, void* val) { (*static_cast<two::Language*>(val)) = two::Language(g_enu[type<two::Language>().m_id]->value(str.c_str())); }
 void* two_Script__get_type(void* object) { return &(*static_cast<two::Script*>(object)).m_type; }
-void two_ScriptError__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::ScriptError(  ); }
+void two_ScriptError__default_construct(void* ref) { new(stl::placeholder(), ref) two::ScriptError(); }
 void two_ScriptError__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::ScriptError((*static_cast<two::ScriptError*>(other))); }
 void two_TextScript__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::TextScript( *static_cast<stl::string*>(args[0]), *static_cast<two::Language*>(args[1]), *static_cast<two::Signature*>(args[2]) ); }
 void two_ScriptClass__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ScriptClass( *static_cast<stl::string*>(args[0]), *static_cast<stl::span<two::Type*>*>(args[1]) ); }
@@ -56,18 +54,22 @@ namespace two
 		static Type* bases[] = { &type<two::Callable>() };
 		static size_t bases_offsets[] = { base_offset<two::Script, two::Callable>() };
 		// defaults
-		// constructors
+		static uint32_t index_default = uint();
+		static stl::string name_default = stl::string();
+		static bool locked_default = bool();
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Script, m_index), type<uint32_t>(), "index", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Script, m_index), type<uint32_t>(), "index", &index_default, Member::Value, nullptr },
 			{ t, SIZE_MAX, type<two::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Script__get_type },
-			{ t, offsetof(two::Script, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::Script, m_locked), type<bool>(), "locked", nullptr, Member::Value, nullptr }
+			{ t, offsetof(two::Script, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
+			{ t, offsetof(two::Script, m_locked), type<bool>(), "locked", &locked_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, members, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, members, {}, {}, };
 	}
 	// two::ScriptError
 	{
@@ -75,18 +77,20 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ScriptError", sizeof(two::ScriptError), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_ScriptError__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_ScriptError__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_ScriptError__copy_construct }
 		};
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, {}, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, {}, {}, {}, };
+		meta.m_empty_var = var(two::ScriptError());
 	}
 	// two::TextScript
 	{
@@ -96,21 +100,25 @@ namespace two
 		static Type* bases[] = { &type<two::Script>() };
 		static size_t bases_offsets[] = { base_offset<two::TextScript, two::Script>() };
 		// defaults
+		static two::Language language_default = two::Language();
+		static stl::string script_default = stl::string();
+		static bool dirty_default = bool();
 		static two::Signature construct_0_signature_default = {};
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
 			{ t, two_TextScript__construct_0, { { "name", type<stl::string>(),  }, { "language", type<two::Language>(),  }, { "signature", type<two::Signature>(), Param::Default, &construct_0_signature_default } } }
 		};
-		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::TextScript, m_language), type<two::Language>(), "language", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::TextScript, m_script), type<stl::string>(), "script", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::TextScript, m_dirty), type<bool>(), "dirty", nullptr, Member::Value, nullptr }
+			{ t, offsetof(two::TextScript, m_language), type<two::Language>(), "language", &language_default, Member::Value, nullptr },
+			{ t, offsetof(two::TextScript, m_script), type<stl::string>(), "script", &script_default, Member::Value, nullptr },
+			{ t, offsetof(two::TextScript, m_dirty), type<bool>(), "dirty", &dirty_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, {}, members, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, constructors, members, {}, {}, };
 	}
 	// two::Interpreter
 	{
@@ -118,12 +126,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Interpreter", sizeof(two::Interpreter), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::ScriptClass
 	{
@@ -131,21 +140,23 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ScriptClass", sizeof(two::ScriptClass), TypeClass::Object };
 		// bases
 		// defaults
+		static stl::string name_default = stl::string();
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
 			{ t, two_ScriptClass__construct_0, { { "name", type<stl::string>(),  }, { "parts", type<stl::span<two::Type*>>(),  } } }
 		};
-		// copy constructor
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ScriptClass, m_name), type<stl::string>(), "name", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::ScriptClass, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
 			{ t, offsetof(two::ScriptClass, m_class_type), type<two::Type>(), "class_type", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::ScriptClass, m_class), type<two::Class>(), "class", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::ScriptClass, m_prototype), type<two::Prototype>(), "prototype", nullptr, Member::NonMutable, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, {}, members, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, constructors, members, {}, {}, };
 	}
 	// two::LuaInterpreter
 	{
@@ -155,12 +166,13 @@ namespace two
 		static Type* bases[] = { &type<two::Interpreter>() };
 		static size_t bases_offsets[] = { base_offset<two::LuaInterpreter, two::Interpreter>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::StreamBranch
 	{
@@ -168,12 +180,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "StreamBranch", sizeof(two::StreamBranch), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Stream
 	{
@@ -183,12 +196,13 @@ namespace two
 		static Type* bases[] = { &type<two::StreamBranch>() };
 		static size_t bases_offsets[] = { base_offset<two::Stream, two::StreamBranch>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Valve
 	{
@@ -196,12 +210,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Valve", sizeof(two::Valve), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Pipe
 	{
@@ -209,12 +224,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Pipe", sizeof(two::Pipe), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Process
 	{
@@ -222,15 +238,16 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Process", sizeof(two::Process), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, SIZE_MAX, type<two::Type>(), "type", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Process__get_type }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, members, {}, {}, };
 	}
 	// two::VisualScript
 	{
@@ -241,15 +258,16 @@ namespace two
 		static size_t bases_offsets[] = { base_offset<two::VisualScript, two::Script>() };
 		// defaults
 		static two::Signature construct_0_signature_default = {};
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
 			{ t, two_VisualScript__construct_0, { { "name", type<stl::string>(),  }, { "signature", type<two::Signature>(), Param::Default, &construct_0_signature_default } } }
 		};
-		// copy constructor
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, constructors, {}, {}, {}, };
 	}
 	// two::ProcessInput
 	{
@@ -259,12 +277,13 @@ namespace two
 		static Type* bases[] = { &type<two::Process>(), &type<two::Param>() };
 		static size_t bases_offsets[] = { base_offset<two::ProcessInput, two::Process>(), base_offset<two::ProcessInput, two::Param>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::ProcessOutput
 	{
@@ -274,12 +293,13 @@ namespace two
 		static Type* bases[] = { &type<two::Process>(), &type<two::Param>() };
 		static size_t bases_offsets[] = { base_offset<two::ProcessOutput, two::Process>(), base_offset<two::ProcessOutput, two::Param>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::ProcessValue
 	{
@@ -289,15 +309,16 @@ namespace two
 		static Type* bases[] = { &type<two::Process>() };
 		static size_t bases_offsets[] = { base_offset<two::ProcessValue, two::Process>() };
 		// defaults
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_ProcessValue__construct_0, { { "script", type<two::VisualScript>(),  }, { "value", type<two::Var>(),  } } }
+			{ t, two_ProcessValue__construct_0, { { "script", type<two::VisualScript>(), Param::Reference }, { "value", type<two::Var>(),  } } }
 		};
-		// copy constructor
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, constructors, {}, {}, {}, };
 	}
 	// two::ProcessCreate
 	{
@@ -307,15 +328,16 @@ namespace two
 		static Type* bases[] = { &type<two::Process>() };
 		static size_t bases_offsets[] = { base_offset<two::ProcessCreate, two::Process>() };
 		// defaults
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_ProcessCreate__construct_0, { { "script", type<two::VisualScript>(),  }, { "type", type<two::Type>(),  }, { "constructor", type<two::Constructor>(),  } } }
+			{ t, two_ProcessCreate__construct_0, { { "script", type<two::VisualScript>(), Param::Reference }, { "type", type<two::Type>(), Param::Reference }, { "constructor", type<two::Constructor>(),  } } }
 		};
-		// copy constructor
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, constructors, {}, {}, {}, };
 	}
 	// two::ProcessCallable
 	{
@@ -325,15 +347,16 @@ namespace two
 		static Type* bases[] = { &type<two::Process>() };
 		static size_t bases_offsets[] = { base_offset<two::ProcessCallable, two::Process>() };
 		// defaults
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_ProcessCallable__construct_0, { { "script", type<two::VisualScript>(),  }, { "callable", type<two::Callable>(),  } } }
+			{ t, two_ProcessCallable__construct_0, { { "script", type<two::VisualScript>(), Param::Reference }, { "callable", type<two::Callable>(), Param::Reference } } }
 		};
-		// copy constructor
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, constructors, {}, {}, {}, };
 	}
 	// two::ProcessScript
 	{
@@ -343,15 +366,16 @@ namespace two
 		static Type* bases[] = { &type<two::ProcessCallable>() };
 		static size_t bases_offsets[] = { base_offset<two::ProcessScript, two::ProcessCallable>() };
 		// defaults
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_ProcessScript__construct_0, { { "script", type<two::VisualScript>(),  }, { "target", type<two::VisualScript>(),  } } }
+			{ t, two_ProcessScript__construct_0, { { "script", type<two::VisualScript>(), Param::Reference }, { "target", type<two::VisualScript>(), Param::Reference } } }
 		};
-		// copy constructor
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, constructors, {}, {}, {}, };
 	}
 	// two::ProcessFunction
 	{
@@ -361,15 +385,16 @@ namespace two
 		static Type* bases[] = { &type<two::ProcessCallable>() };
 		static size_t bases_offsets[] = { base_offset<two::ProcessFunction, two::ProcessCallable>() };
 		// defaults
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_ProcessFunction__construct_0, { { "script", type<two::VisualScript>(),  }, { "function", type<two::Function>(),  } } }
+			{ t, two_ProcessFunction__construct_0, { { "script", type<two::VisualScript>(), Param::Reference }, { "function", type<two::Function>(), Param::Reference } } }
 		};
-		// copy constructor
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, constructors, {}, {}, {}, };
 	}
 	// two::ProcessMethod
 	{
@@ -379,15 +404,16 @@ namespace two
 		static Type* bases[] = { &type<two::ProcessCallable>() };
 		static size_t bases_offsets[] = { base_offset<two::ProcessMethod, two::ProcessCallable>() };
 		// defaults
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_ProcessMethod__construct_0, { { "script", type<two::VisualScript>(),  }, { "method", type<two::Method>(),  } } }
+			{ t, two_ProcessMethod__construct_0, { { "script", type<two::VisualScript>(), Param::Reference }, { "method", type<two::Method>(), Param::Reference } } }
 		};
-		// copy constructor
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, constructors, {}, {}, {}, };
 	}
 	// two::ProcessGetMember
 	{
@@ -397,15 +423,16 @@ namespace two
 		static Type* bases[] = { &type<two::Process>() };
 		static size_t bases_offsets[] = { base_offset<two::ProcessGetMember, two::Process>() };
 		// defaults
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_ProcessGetMember__construct_0, { { "script", type<two::VisualScript>(),  }, { "member", type<two::Member>(),  } } }
+			{ t, two_ProcessGetMember__construct_0, { { "script", type<two::VisualScript>(), Param::Reference }, { "member", type<two::Member>(), Param::Reference } } }
 		};
-		// copy constructor
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, constructors, {}, {}, {}, };
 	}
 	// two::ProcessSetMember
 	{
@@ -415,15 +442,16 @@ namespace two
 		static Type* bases[] = { &type<two::Process>() };
 		static size_t bases_offsets[] = { base_offset<two::ProcessSetMember, two::Process>() };
 		// defaults
+		// default constructor
+		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_ProcessSetMember__construct_0, { { "script", type<two::VisualScript>(),  }, { "member", type<two::Member>(),  } } }
+			{ t, two_ProcessSetMember__construct_0, { { "script", type<two::VisualScript>(), Param::Reference }, { "member", type<two::Member>(), Param::Reference } } }
 		};
-		// copy constructor
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, constructors, {}, {}, {}, };
 	}
 	// two::ProcessDisplay
 	{
@@ -433,12 +461,13 @@ namespace two
 		static Type* bases[] = { &type<two::Process>() };
 		static size_t bases_offsets[] = { base_offset<two::ProcessDisplay, two::Process>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::WrenInterpreter
 	{
@@ -448,12 +477,13 @@ namespace two
 		static Type* bases[] = { &type<two::Interpreter>() };
 		static size_t bases_offsets[] = { base_offset<two::WrenInterpreter, two::Interpreter>() };
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
 	
 	

@@ -14,9 +14,9 @@ void* stl_vector_two_Ref__at(void* vec, size_t i) { return &(*static_cast<stl::v
 void stl_vector_two_Ref__push(void* vec) { (*static_cast<stl::vector<two::Ref>*>(vec)).emplace_back(); }
 void stl_vector_two_Ref__add(void* vec, void* value) { (*static_cast<stl::vector<two::Ref>*>(vec)).push_back(*static_cast<two::Ref*>(value)); }
 void stl_vector_two_Ref__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<two::Ref>*>(vec)), *static_cast<two::Ref*>(value)); }
-void two_Ref__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::Ref(  ); }
-void two_Ref__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Ref( static_cast<void**>(args[0]), *static_cast<two::Type*>(args[1]) ); }
+void two_Ref__default_construct(void* ref) { new(stl::placeholder(), ref) two::Ref(); }
 void two_Ref__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Ref((*static_cast<two::Ref*>(other))); }
+void two_Ref__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Ref( static_cast<void**>(args[0]), *static_cast<two::Type*>(args[1]) ); }
 void two_Index_indexer(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::Index*>(object)).indexer(*static_cast<two::Type*>(args[0])); }
 void two_indexed_0(span<void*> args, void*& result) { (*static_cast<two::Ref*>(result)) = two::indexed(*static_cast<two::Type*>(args[0]), *static_cast<uint32_t*>(args[1])); }
 
@@ -34,7 +34,7 @@ namespace two
 	{
 		Type& t = type<bool>();
 		static Meta meta = { t, &namspc({}), "bool", sizeof(bool), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(bool());
+		meta.m_empty_var = var(bool());
 		static Convert convert = { [](void* val, string& str) { to_string<bool>((*static_cast<bool*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<bool>(str, (*static_cast<bool*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -42,7 +42,7 @@ namespace two
 	{
 		Type& t = type<char>();
 		static Meta meta = { t, &namspc({}), "char", sizeof(char), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(char());
+		meta.m_empty_var = var(char());
 		static Convert convert = { [](void* val, string& str) { to_string<char>((*static_cast<char*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<char>(str, (*static_cast<char*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -50,7 +50,7 @@ namespace two
 	{
 		Type& t = type<schar>();
 		static Meta meta = { t, &namspc({}), "schar", sizeof(schar), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(schar());
+		meta.m_empty_var = var(schar());
 		static Convert convert = { [](void* val, string& str) { to_string<schar>((*static_cast<schar*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<schar>(str, (*static_cast<schar*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -58,7 +58,7 @@ namespace two
 	{
 		Type& t = type<short>();
 		static Meta meta = { t, &namspc({}), "short", sizeof(short), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(short());
+		meta.m_empty_var = var(short());
 		static Convert convert = { [](void* val, string& str) { to_string<short>((*static_cast<short*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<short>(str, (*static_cast<short*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -66,7 +66,7 @@ namespace two
 	{
 		Type& t = type<int>();
 		static Meta meta = { t, &namspc({}), "int", sizeof(int), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(int());
+		meta.m_empty_var = var(int());
 		static Convert convert = { [](void* val, string& str) { to_string<int>((*static_cast<int*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<int>(str, (*static_cast<int*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -74,7 +74,7 @@ namespace two
 	{
 		Type& t = type<long>();
 		static Meta meta = { t, &namspc({}), "long", sizeof(long), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(long());
+		meta.m_empty_var = var(long());
 		static Convert convert = { [](void* val, string& str) { to_string<long>((*static_cast<long*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<long>(str, (*static_cast<long*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -82,7 +82,7 @@ namespace two
 	{
 		Type& t = type<uchar>();
 		static Meta meta = { t, &namspc({}), "uchar", sizeof(uchar), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(uchar());
+		meta.m_empty_var = var(uchar());
 		static Convert convert = { [](void* val, string& str) { to_string<uchar>((*static_cast<uchar*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<uchar>(str, (*static_cast<uchar*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -90,7 +90,7 @@ namespace two
 	{
 		Type& t = type<ushort>();
 		static Meta meta = { t, &namspc({}), "ushort", sizeof(ushort), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(ushort());
+		meta.m_empty_var = var(ushort());
 		static Convert convert = { [](void* val, string& str) { to_string<ushort>((*static_cast<ushort*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<ushort>(str, (*static_cast<ushort*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -98,7 +98,7 @@ namespace two
 	{
 		Type& t = type<uint>();
 		static Meta meta = { t, &namspc({}), "uint", sizeof(uint), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(uint());
+		meta.m_empty_var = var(uint());
 		static Convert convert = { [](void* val, string& str) { to_string<uint>((*static_cast<uint*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<uint>(str, (*static_cast<uint*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -106,7 +106,7 @@ namespace two
 	{
 		Type& t = type<ulong>();
 		static Meta meta = { t, &namspc({}), "ulong", sizeof(ulong), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(ulong());
+		meta.m_empty_var = var(ulong());
 		static Convert convert = { [](void* val, string& str) { to_string<ulong>((*static_cast<ulong*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<ulong>(str, (*static_cast<ulong*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -114,7 +114,7 @@ namespace two
 	{
 		Type& t = type<ullong>();
 		static Meta meta = { t, &namspc({}), "ullong", sizeof(ullong), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(ullong());
+		meta.m_empty_var = var(ullong());
 		static Convert convert = { [](void* val, string& str) { to_string<ullong>((*static_cast<ullong*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<ullong>(str, (*static_cast<ullong*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -122,7 +122,7 @@ namespace two
 	{
 		Type& t = type<llong>();
 		static Meta meta = { t, &namspc({}), "llong", sizeof(llong), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(llong());
+		meta.m_empty_var = var(llong());
 		static Convert convert = { [](void* val, string& str) { to_string<llong>((*static_cast<llong*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<llong>(str, (*static_cast<llong*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -130,7 +130,7 @@ namespace two
 	{
 		Type& t = type<ldouble>();
 		static Meta meta = { t, &namspc({}), "ldouble", sizeof(ldouble), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(ldouble());
+		meta.m_empty_var = var(ldouble());
 		static Convert convert = { [](void* val, string& str) { to_string<ldouble>((*static_cast<ldouble*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<ldouble>(str, (*static_cast<ldouble*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -138,7 +138,7 @@ namespace two
 	{
 		Type& t = type<float>();
 		static Meta meta = { t, &namspc({}), "float", sizeof(float), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(float());
+		meta.m_empty_var = var(float());
 		static Convert convert = { [](void* val, string& str) { to_string<float>((*static_cast<float*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<float>(str, (*static_cast<float*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -146,7 +146,7 @@ namespace two
 	{
 		Type& t = type<double>();
 		static Meta meta = { t, &namspc({}), "double", sizeof(double), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(double());
+		meta.m_empty_var = var(double());
 		static Convert convert = { [](void* val, string& str) { to_string<double>((*static_cast<double*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<double>(str, (*static_cast<double*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -158,7 +158,7 @@ namespace two
 	{
 		Type& t = type<stl::string>();
 		static Meta meta = { t, &namspc({}), "stl::string", sizeof(stl::string), TypeClass::BaseType };
-		g_meta[t.m_id]->m_empty_var = var(stl::string());
+		meta.m_empty_var = var(stl::string());
 		static Convert convert = { [](void* val, string& str) { to_string<stl::string>((*static_cast<stl::string*>(val)), str); }, 
 		                           [](const string& str, void* val) { to_value<stl::string>(str, (*static_cast<stl::string*>(val))); } };
 		g_convert[t.m_id] = &convert;
@@ -175,6 +175,7 @@ namespace two
 		Type& t = type<stl::vector<stl::string>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<stl::string>", sizeof(stl::vector<stl::string>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<stl::string>());
 		static Iterable iterable = { &type<stl::string>(),
 		                             stl_vector_stl_string__size,
 		                             stl_vector_stl_string__at};
@@ -188,6 +189,7 @@ namespace two
 		Type& t = type<stl::vector<two::Ref>>();
 		static Meta meta = { t, &namspc({ "stl" }), "vector<two::Ref>", sizeof(stl::vector<two::Ref>), TypeClass::Sequence };
 		static Class cls = { t };
+		meta.m_empty_var = var(stl::vector<two::Ref>());
 		static Iterable iterable = { &type<two::Ref>(),
 		                             stl_vector_two_Ref__size,
 		                             stl_vector_two_Ref__at};
@@ -204,19 +206,22 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Type", sizeof(two::Type), TypeClass::Object };
 		// bases
 		// defaults
+		static uint32_t id_default = uint();
+		static size_t size_default = ullong();
 		static two::Type* base_default = nullptr;
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Type, m_id), type<uint32_t>(), "id", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Type, m_id), type<uint32_t>(), "id", &id_default, Member::Value, nullptr },
 			{ t, offsetof(two::Type, m_name), type<const char*>(), "name", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::Type, m_size), type<size_t>(), "size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Type, m_size), type<size_t>(), "size", &size_default, Member::Value, nullptr },
 			{ t, offsetof(two::Type, m_base), type<two::Type>(), "base", base_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, members, {}, {}, };
 	}
 	// two::Ref
 	{
@@ -224,14 +229,17 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Ref", sizeof(two::Ref), TypeClass::Struct };
 		// bases
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_Ref__construct_0, {} },
-			{ t, two_Ref__construct_1, { { "value", type<void*>(), Param::Nullable }, { "type", type<two::Type>(),  } } }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_Ref__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_Ref__copy_construct }
+		};
+		// constructors
+		static Constructor constructors[] = {
+			{ t, two_Ref__construct_0, { { "value", type<void*>(), Param::Nullable }, { "type", type<two::Type>(),  } } }
 		};
 		// members
 		static Member members[] = {
@@ -240,7 +248,8 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, constructors, members, {}, {}, };
+		meta.m_empty_var = var(two::Ref());
 	}
 	// two::Var
 	{
@@ -248,12 +257,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Var", sizeof(two::Var), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Indexer
 	{
@@ -261,8 +271,9 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Indexer", sizeof(two::Indexer), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::Indexer, m_type), type<two::Type>(), "type", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
@@ -270,7 +281,7 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, members, {}, {}, };
 	}
 	// two::Index
 	{
@@ -278,8 +289,9 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Index", sizeof(two::Index), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		static Method methods[] = {
@@ -289,7 +301,7 @@ namespace two
 		static Static statics[] = {
 			{ t, "me", Ref(&two::Index::me) }
 		};
-		static Class cls = { t, {}, {}, {}, {}, {}, methods, statics, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, methods, statics, };
 	}
 	// two::Prototype
 	{
@@ -297,12 +309,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Prototype", sizeof(two::Prototype), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	
 	

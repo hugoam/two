@@ -92,6 +92,13 @@ extern "C" {
 	void DECL two_Method__destroy(two::Method* self) {
 		delete self;
 	}
+	// DefaultConstructor
+	two::Type* DECL two_DefaultConstructor__type() {
+		return &two::type<two::DefaultConstructor>();
+	}
+	void DECL two_DefaultConstructor__destroy(two::DefaultConstructor* self) {
+		delete self;
+	}
 	// Constructor
 	two::Type* DECL two_Constructor__type() {
 		return &two::type<two::Constructor>();
@@ -124,7 +131,7 @@ extern "C" {
 		return (void**)self->m_vargs.data();
 	}
 	two::Var* DECL two_Call__get_result(two::Call* self) {
-		return &self->m_result;
+		return &self->result();
 	}
 	void DECL two_Call__destroy(two::Call* self) {
 		delete self;

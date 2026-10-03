@@ -201,7 +201,7 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 	UNUSED(app);
 	static LuaInterpreter interpreter = { true };
 	static TextScript script = create_script(interpreter);
-	static Call call = { script, vector<Var>{ Ref(&parent) } };
+	static Call call = { script, vector<Var>{ Var(Ref(&parent)) } };
 
 	call();
 

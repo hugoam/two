@@ -23,12 +23,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Pool", sizeof(two::Pool), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::HandlePool
 	{
@@ -36,12 +37,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "HandlePool", sizeof(two::HandlePool), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	
 	

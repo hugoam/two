@@ -5,6 +5,7 @@
 #pragma once
 
 #include <type/Ref.h>
+#include <type/Type.h>
 
 namespace two
 {
@@ -71,8 +72,8 @@ namespace two
 	{
 	public:
 		Var() : m_mode(VarMode::Val), m_any(), m_ref() {}
-		Var(const Any& val) : m_mode(VarMode::Val), m_any(val), m_ref(m_any.ref()) {}
-		Var(const Ref& ref) : m_mode(VarMode::Ref), m_ref(ref) {}
+		explicit Var(const Any& val) : m_mode(VarMode::Val), m_any(val), m_ref(m_any.ref()) {}
+		explicit Var(const Ref& ref) : m_mode(VarMode::Ref), m_ref(ref) {}
 
 		Var(const Var& other) : m_mode(other.m_mode), m_any(other.m_any), m_ref(m_mode == VarMode::Val ? m_any.ref() : other.m_ref) {}
 		Var& operator=(const Var& other) { m_mode = other.m_mode; if(m_mode == VarMode::Val) { m_any = other.m_any; m_ref = m_any.ref(); } else m_ref = other.m_ref; return *this; }
@@ -84,12 +85,15 @@ namespace two
 
 		bool operator==(const Var& other) const { return m_mode == other.m_mode && (m_mode == VarMode::Val ? m_any == other.m_any : m_ref == other.m_ref); }
 
-		explicit operator bool() const { return !this->none(); }
+		template <class T>
+		inline bool is() const { return m_ref.m_type->is(type<T>()); }
+
+		explicit operator bool() const { return !this->empty(); }
 
 		inline void copy(const Ref& ref) { if(m_mode == VarMode::Val) m_any = ref; else m_ref = ref; }
 
 		inline bool null() const { return m_mode == VarMode::Val ? false : m_ref.m_value == nullptr; }
-		inline bool none() const { return m_mode == VarMode::Val ? !m_any : false; }
+		inline bool empty() const { return m_mode == VarMode::Val ? !m_any : false; }
 		inline void set(Ref value) { if(m_mode == VarMode::Val) m_any = value; else m_ref = value; }
 		inline void clear() { m_mode = VarMode::Val; m_any = Any(); m_ref = Ref(); }
 

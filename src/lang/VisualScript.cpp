@@ -7,7 +7,7 @@ module;
 #include <infra/Cpp20.h>
 module two.lang;
 
-#define TWO_DEBUG_SCRIPT
+//#define TWO_DEBUG_SCRIPT
 
 namespace two
 {
@@ -43,7 +43,7 @@ namespace two
 	}
 
 	Valve::Valve(Process& process, const Param& param)
-		: Valve(process, param.m_name, param.output() ? OUTPUT_VALVE : INPUT_VALVE, param.default_val(), param.nullable(), param.reference())
+		: Valve(process, param.m_name, param.output() ? OUTPUT_VALVE : INPUT_VALVE, param.storage_var(), param.nullable(), param.reference())
 	{}
 
 	Valve::~Valve()
@@ -152,8 +152,15 @@ namespace two
 		{
 			for(size_t d = 0; d < branch.m_depth; ++d)
 				printf("    ");
-			printf("Branch %s value %s\n", to_string(branch.m_index).c_str(), convert(type(branch.m_value)).m_to_string ? to_string(branch.m_value.m_ref).c_str()
-																														: to_name(type(branch.m_value), branch.m_value.m_ref).c_str());
+			if(!branch.m_value)
+				printf("Branch %s value %s\n", "Var()");
+			else {
+				Convert* conv = g_convert[type(branch.m_value).m_id];
+				const string value = conv && conv->m_to_string
+					? to_string(branch.m_value.m_ref).c_str()
+					: to_name(type(branch.m_value), branch.m_value.m_ref).c_str();
+				printf("Branch %s value %s\n", to_string(branch.m_index).c_str(), value.c_str());
+			}
 		});
 	}
 
@@ -168,7 +175,9 @@ namespace two
 
 		m_input.m_process.invalidate();
 
-		//dump_stream(m_input.m_stream, m_input.m_process.m_title + " " + m_input.m_name);
+#ifdef TWO_DEBUG_SCRIPT
+		dump_stream(m_input.m_stream, m_input.m_process.m_title + " " + m_input.m_name);
+#endif
 	}
 
 	Process::Process(VisualScript& script, cstring title, Type& type)
@@ -198,7 +207,7 @@ namespace two
 
 	void Process::recompute()
 	{
-		//printf("[debug] Process %s executing\n", m_title.c_str());
+		printf("[debug] Process %s executing\n", m_title.c_str());
 		this->execute();
 		m_state = COMPUTED;
 
@@ -405,11 +414,9 @@ namespace two
 		for(auto& process : m_processes)
 			m_execution.push_back(process.get());
 
-		//quicksort<Process*>(m_execution, [](Process* lhs, Process* rhs) { return lhs->m_order < rhs->m_order; });
-#ifndef TWO_MODULES
+		quicksort<Process*>(m_execution, [](Process* lhs, Process* rhs) { return lhs->m_order < rhs->m_order; });
 		// TODO (hugoam) fix swap() ADL issues
-		std::sort(m_execution.begin(), m_execution.end(), [](Process* lhs, Process* rhs) { return lhs->m_order < rhs->m_order; });
-#endif
+		//std::sort(m_execution.begin(), m_execution.end(), [](Process* lhs, Process* rhs) { return lhs->m_order < rhs->m_order; });
 	}
 
 	void VisualScript::connect(Valve& output, Valve& input, StreamModifier modifier)
@@ -453,7 +460,7 @@ namespace two
 		VisualScript& self = const_cast<VisualScript&>(*this);
 		self.lock();
 		for(size_t i = 0; i < m_inputs.size(); ++i)
-			m_inputs[i]->m_output.m_stream.write(Ref(args[i], *m_signature.m_params[i].m_type));
+			m_inputs[i]->m_output.m_stream.write(Var(Ref(args[i], *m_signature.m_params[i].m_type)));
 		self.unlock(false);
 
 		self.reorder();
@@ -464,7 +471,7 @@ namespace two
 	ProcessInput::ProcessInput(VisualScript& script, const Param& param)
 		: Process(script, param.m_name, type<ProcessInput>())
 		, Param(param)
-		, m_output(*this, param.m_name, OUTPUT_VALVE, param.default_val(), param.nullable(), param.reference())
+		, m_output(*this, param.m_name, OUTPUT_VALVE, param.storage_var(), param.nullable(), param.reference())
 	{
 		script.m_inputs.push_back(this);
 	}
@@ -472,7 +479,7 @@ namespace two
 	ProcessOutput::ProcessOutput(VisualScript& script, const Param& param)
 		: Process(script, param.m_name, type<ProcessOutput>())
 		, Param(param)
-		, m_input(*this, param.m_name, INPUT_VALVE, param.default_val(), param.nullable(), param.reference())
+		, m_input(*this, param.m_name, INPUT_VALVE, param.storage_var(), param.nullable(), param.reference())
 	{
 		script.m_outputs.push_back(this);
 	}

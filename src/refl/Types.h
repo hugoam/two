@@ -27,6 +27,7 @@ namespace two
     template <> TWO_REFL_EXPORT Type& type<two::Function>();
     template <> TWO_REFL_EXPORT Type& type<two::Operator>();
     template <> TWO_REFL_EXPORT Type& type<two::Method>();
+    template <> TWO_REFL_EXPORT Type& type<two::DefaultConstructor>();
     template <> TWO_REFL_EXPORT Type& type<two::Constructor>();
     template <> TWO_REFL_EXPORT Type& type<two::CopyConstructor>();
     template <> TWO_REFL_EXPORT Type& type<two::Destructor>();

@@ -24,15 +24,12 @@ Context.prototype["init_input"] = Context.prototype.init_input = function(a0, a1
     _two_Context_init_input_2(this.__ptr, /*mouse*/a0.__ptr, /*keyboard*/a1.__ptr);
 };
 Context.prototype["begin_frame"] = Context.prototype.begin_frame = function() {
-    
     return !!(_two_Context_begin_frame_0(this.__ptr));
 };
 Context.prototype["render_frame"] = Context.prototype.render_frame = function() {
-    
     _two_Context_render_frame_0(this.__ptr);
 };
 Context.prototype["end_frame"] = Context.prototype.end_frame = function() {
-    
     _two_Context_end_frame_0(this.__ptr);
 };
 Context.prototype["lock_mouse"] = Context.prototype.lock_mouse = function(a0) {
@@ -138,7 +135,6 @@ Context.prototype["__destroy"] = Context.prototype.__destroy = function() {
 };
 // InputEvent
 function InputEvent() {
-    
     this.__ptr = _two_InputEvent__construct_0(); getCache(InputEvent)[this.__ptr] = this;
 };
 InputEvent.prototype = Object.create(WrapperObject.prototype);
@@ -151,7 +147,6 @@ InputEvent.prototype["consume"] = InputEvent.prototype.consume = function(a0) {
     return wrapPointer(_two_InputEvent_consume_1(this.__ptr, /*consumer*/a0.__ptr), InputEvent);
 };
 InputEvent.prototype["valid"] = InputEvent.prototype.valid = function() {
-    
     return !!(_two_InputEvent_valid_0(this.__ptr));
 };
 Object.defineProperty(InputEvent.prototype, "deviceType", {
@@ -222,7 +217,6 @@ InputEvent.prototype["__destroy"] = InputEvent.prototype.__destroy = function() 
 };
 // MouseEvent
 function MouseEvent() {
-    
     this.__ptr = _two_MouseEvent__construct_0(); getCache(MouseEvent)[this.__ptr] = this;
 };
 MouseEvent.prototype = Object.create(InputEvent.prototype);
@@ -290,7 +284,6 @@ MouseEvent.prototype["__destroy"] = MouseEvent.prototype.__destroy = function() 
 };
 // KeyEvent
 function KeyEvent() {
-    
     this.__ptr = _two_KeyEvent__construct_0(); getCache(KeyEvent)[this.__ptr] = this;
 };
 KeyEvent.prototype = Object.create(InputEvent.prototype);

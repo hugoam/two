@@ -3,6 +3,7 @@
 #include <type/Dispatch.h>
 #include <type/DispatchDecl.h>
 #include <type/DoubleDispatch.h>
+#include <type/TypeConverter.h>
 #include <type/Forward.h>
 #include <type/Indexer.h>
 #include <type/Ref.h>

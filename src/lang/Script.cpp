@@ -41,7 +41,7 @@ namespace two
 
 		for(const Param& param : script.m_signature.m_params)
 		{
-			this->set(param.m_name, Ref(args[param.m_index], *param.m_type));
+			this->set(param.m_name, Var(Ref(args[param.m_index], *param.m_type)));
 		}
 
 		this->call(script.m_script, nullptr);

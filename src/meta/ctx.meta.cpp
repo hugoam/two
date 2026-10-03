@@ -4,8 +4,6 @@ module two.ctx.meta;
 
 using namespace two;
 
-namespace two { using stl::string; }
-
 void two_Key__to_string(void* val, string& str) { str = g_enu[type<two::Key>().m_id]->name(uint32_t((*static_cast<two::Key*>(val)))); }
 void two_Key__to_value(const string& str, void* val) { (*static_cast<two::Key*>(val)) = two::Key(g_enu[type<two::Key>().m_id]->value(str.c_str())); }
 void two_MouseButtonCode__to_string(void* val, string& str) { str = g_enu[type<two::MouseButtonCode>().m_id]->name(uint32_t((*static_cast<two::MouseButtonCode*>(val)))); }
@@ -22,13 +20,13 @@ void two_Context_begin_frame(void* object, span<void*> args, void*& result) { UN
 void two_Context_render_frame(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::Context*>(object)).render_frame(); }
 void two_Context_end_frame(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::Context*>(object)).end_frame(); }
 void two_Context_lock_mouse(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Context*>(object)).lock_mouse(*static_cast<bool*>(args[0])); }
-void two_InputEvent__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::InputEvent(  ); }
+void two_InputEvent__default_construct(void* ref) { new(stl::placeholder(), ref) two::InputEvent(); }
 void two_InputEvent__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::InputEvent((*static_cast<two::InputEvent*>(other))); }
 void two_InputEvent_consume(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::InputEvent*>(object)).consume(*static_cast<two::ControlNode*>(args[0])); }
 void two_InputEvent_valid(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<two::InputEvent*>(object)).valid(); }
-void two_MouseEvent__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::MouseEvent(  ); }
+void two_MouseEvent__default_construct(void* ref) { new(stl::placeholder(), ref) two::MouseEvent(); }
 void two_MouseEvent__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::MouseEvent((*static_cast<two::MouseEvent*>(other))); }
-void two_KeyEvent__construct_0(void* ref, span<void*> args) { UNUSED(args); new(stl::placeholder(), ref) two::KeyEvent(  ); }
+void two_KeyEvent__default_construct(void* ref) { new(stl::placeholder(), ref) two::KeyEvent(); }
 void two_KeyEvent__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::KeyEvent((*static_cast<two::KeyEvent*>(other))); }
 void two_ControlNode_key_event(void* object, span<void*> args, void*& result) { (*static_cast<two::KeyEvent*>(result)) = (*static_cast<two::ControlNode*>(object)).key_event(*static_cast<two::Key*>(args[0]), *static_cast<two::EventType*>(args[1]), *static_cast<two::InputMod*>(args[2])); }
 void two_ControlNode_key_stroke(void* object, span<void*> args, void*& result) { (*static_cast<two::KeyEvent*>(result)) = (*static_cast<two::ControlNode*>(object)).key_stroke(*static_cast<two::Key*>(args[0]), *static_cast<two::InputMod*>(args[1])); }
@@ -113,12 +111,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "RenderSystem", sizeof(two::RenderSystem), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Context
 	{
@@ -126,39 +125,45 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Context", sizeof(two::Context), TypeClass::Object };
 		// bases
 		// defaults
+		static stl::string resource_path_default = stl::string();
+		static stl::string title_default = stl::string();
+		static two::uvec2 size_default = two::v2<uint>();
+		static two::uvec2 fb_size_default = two::v2<uint>();
 		static bool fullscreen_default = false;
 		static bool is_main_default = true;
 		static float pixel_ratio_default = 1.f;
 		static bool active_default = true;
 		static bool shutdown_default = false;
+		static two::vec2 cursor_default = two::v2<float>();
 		static bool mouse_lock_default = false;
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Context, m_resource_path), type<stl::string>(), "resource_path", nullptr, Member::Flags(Member::Value|Member::NonMutable), nullptr },
-			{ t, offsetof(two::Context, m_title), type<stl::string>(), "title", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::Context, m_size), type<two::uvec2>(), "size", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::Context, m_fb_size), type<two::uvec2>(), "fb_size", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Context, m_resource_path), type<stl::string>(), "resource_path", &resource_path_default, Member::Flags(Member::Value|Member::NonMutable), nullptr },
+			{ t, offsetof(two::Context, m_title), type<stl::string>(), "title", &title_default, Member::Value, nullptr },
+			{ t, offsetof(two::Context, m_size), type<two::uvec2>(), "size", &size_default, Member::Value, nullptr },
+			{ t, offsetof(two::Context, m_fb_size), type<two::uvec2>(), "fb_size", &fb_size_default, Member::Value, nullptr },
 			{ t, offsetof(two::Context, m_fullscreen), type<bool>(), "fullscreen", &fullscreen_default, Member::Value, nullptr },
 			{ t, offsetof(two::Context, m_is_main), type<bool>(), "is_main", &is_main_default, Member::Value, nullptr },
 			{ t, offsetof(two::Context, m_pixel_ratio), type<float>(), "pixel_ratio", &pixel_ratio_default, Member::Value, nullptr },
 			{ t, offsetof(two::Context, m_active), type<bool>(), "active", &active_default, Member::Value, nullptr },
 			{ t, offsetof(two::Context, m_shutdown), type<bool>(), "shutdown", &shutdown_default, Member::Value, nullptr },
-			{ t, offsetof(two::Context, m_cursor), type<two::vec2>(), "cursor", nullptr, Member::Value, nullptr },
+			{ t, offsetof(two::Context, m_cursor), type<two::vec2>(), "cursor", &cursor_default, Member::Value, nullptr },
 			{ t, offsetof(two::Context, m_mouse_lock), type<bool>(), "mouse_lock", &mouse_lock_default, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
 			{ t, "reset_fb", Address(), two_Context_reset_fb, { { "size", type<two::uvec2>(),  } }, g_qvoid },
-			{ t, "init_input", Address(), two_Context_init_input, { { "mouse", type<two::Mouse>(),  }, { "keyboard", type<two::Keyboard>(),  } }, g_qvoid },
+			{ t, "init_input", Address(), two_Context_init_input, { { "mouse", type<two::Mouse>(), Param::Reference }, { "keyboard", type<two::Keyboard>(), Param::Reference } }, g_qvoid },
 			{ t, "begin_frame", Address(), two_Context_begin_frame, {}, { &type<bool>(), QualType::None } },
 			{ t, "render_frame", Address(), two_Context_render_frame, {}, g_qvoid },
 			{ t, "end_frame", Address(), two_Context_end_frame, {}, g_qvoid },
 			{ t, "lock_mouse", Address(), two_Context_lock_mouse, { { "locked", type<bool>(),  } }, g_qvoid }
 		};
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, members, methods, {}, };
 	}
 	// two::InputEvent
 	{
@@ -173,14 +178,15 @@ namespace two
 		static bool abort_default = false;
 		static two::InputMod modifiers_default = two::InputMod::None;
 		static int key_default = -1;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_InputEvent__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_InputEvent__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_InputEvent__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::InputEvent, m_deviceType), type<two::DeviceType>(), "deviceType", &deviceType_default, Member::Value, nullptr },
@@ -193,11 +199,12 @@ namespace two
 		};
 		// methods
 		static Method methods[] = {
-			{ t, "consume", Address(), two_InputEvent_consume, { { "consumer", type<two::ControlNode>(),  } }, { &type<two::InputEvent>(), QualType::None } },
+			{ t, "consume", Address(), two_InputEvent_consume, { { "consumer", type<two::ControlNode>(), Param::Reference } }, { &type<two::InputEvent>(), QualType::None } },
 			{ t, "valid", Address(), two_InputEvent_valid, {}, { &type<bool>(), QualType::None } }
 		};
 		// static members
-		static Class cls = { t, {}, {}, constructors, copy_constructor, members, methods, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, methods, {}, };
+		meta.m_empty_var = var(two::InputEvent());
 	}
 	// two::MouseEvent
 	{
@@ -213,14 +220,15 @@ namespace two
 		static float deltaZ_default = 0.f;
 		static two::vec2 pressed_default = {0.f,0.f};
 		static two::MouseButtonCode button_default = NO_BUTTON;
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_MouseEvent__construct_0, {} }
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_MouseEvent__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_MouseEvent__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::MouseEvent, m_pos), type<two::vec2>(), "pos", &pos_default, Member::Value, nullptr },
@@ -232,7 +240,8 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::MouseEvent());
 	}
 	// two::KeyEvent
 	{
@@ -242,22 +251,26 @@ namespace two
 		static Type* bases[] = { &type<two::InputEvent>() };
 		static size_t bases_offsets[] = { base_offset<two::KeyEvent, two::InputEvent>() };
 		// defaults
-		// constructors
-		static Constructor constructors[] = {
-			{ t, two_KeyEvent__construct_0, {} }
+		static two::Key code_default = two::Key();
+		static char char_default = char();
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_KeyEvent__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
 			{ t, two_KeyEvent__copy_construct }
 		};
+		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::KeyEvent, m_code), type<two::Key>(), "code", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::KeyEvent, m_char), type<char>(), "char", nullptr, Member::Value, nullptr }
+			{ t, offsetof(two::KeyEvent, m_code), type<two::Key>(), "code", &code_default, Member::Value, nullptr },
+			{ t, offsetof(two::KeyEvent, m_char), type<char>(), "char", &char_default, Member::Value, nullptr }
 		};
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, constructors, copy_constructor, members, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::KeyEvent());
 	}
 	// two::ControlNode
 	{
@@ -270,8 +283,9 @@ namespace two
 		static two::InputMod char_stroke_0_modifier_default = two::InputMod::Any;
 		static two::InputMod mouse_event_0_modifier_default = two::InputMod::None;
 		static bool mouse_event_0_consume_default = true;
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		static Method methods[] = {
@@ -281,7 +295,7 @@ namespace two
 			{ t, "mouse_event", Address(), two_ControlNode_mouse_event, { { "device", type<two::DeviceType>(),  }, { "event_type", type<two::EventType>(),  }, { "modifier", type<two::InputMod>(), Param::Default, &mouse_event_0_modifier_default }, { "consume", type<bool>(), Param::Default, &mouse_event_0_consume_default } }, { &type<two::MouseEvent>(), QualType::None } }
 		};
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, methods, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, methods, {}, };
 	}
 	// two::Keyboard
 	{
@@ -289,12 +303,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Keyboard", sizeof(two::Keyboard), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Mouse
 	{
@@ -302,12 +317,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Mouse", sizeof(two::Mouse), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	
 	

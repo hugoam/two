@@ -8,9 +8,6 @@
 
 namespace two
 {
-#ifdef TWO_MODULES
-	using stl::string;
-#endif
 	using cstring = const char*;
 
 	export_ class refl_ TWO_CTX_EXPORT RenderSystem

@@ -8,7 +8,7 @@ module two.uio;
 
 namespace two
 {
-	struct TypeColours : public Global<TypeColours>
+	struct TypeColours : public LazyGlobal<TypeColours>
 	{
 		TypeColours();
 
@@ -107,7 +107,7 @@ namespace two
 
 	void process_valve(VisualScript& script, Canvas& canvas, Node& node, Valve& valve)
 	{
-		Colour colour = TypeColours::me.colour(*valve.m_stream.m_type, Colour::Green);
+		Colour colour = TypeColours::me().colour(*valve.m_stream.m_type, Colour::Green);
 		string icon = valve.m_stream.m_type ? "(" + string(valve.m_stream.m_type->m_name) + ")" : "";
 		bool input = (valve.m_kind == INPUT_VALVE || valve.m_kind == FLOW_VALVE_IN);
 

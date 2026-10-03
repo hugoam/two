@@ -314,7 +314,7 @@ namespace two
 		string version = asset["version"].string_value().c_str();
 
 		static FromJson unpacker = gltf_unpacker();
-		Var gltfvar = Ref(&gltf);
+		Var gltfvar = Var(Ref(&gltf));
 		unpack(unpacker, gltfvar, data);
 	}
 
@@ -349,6 +349,6 @@ namespace two
 		write_binary_file(path + "/" + buffer.uri, gltf.m_binary_buffers[0]);
 
 		ToJson packer = gltf_packer();
-		pack_json_file(packer, Ref(&gltf), path + "/" + file + ".repack.gltf");
+		pack_json_file(packer, Var(Ref(&gltf)), path + "/" + file + ".repack.gltf");
 	}
 }

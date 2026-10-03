@@ -22,7 +22,7 @@ namespace two
 		for(auto& member : cls(object).m_members)
 			if(member.is_structure() && is_iterable(*member.m_type))
 			{
-				Var value = member.get(object);
+				Var value = Var(member.get(object));
 				iter(value).iterate(value, [&](Ref element) {
 					structure_node(self, element, selection);
 				});

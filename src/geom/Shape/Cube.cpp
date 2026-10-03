@@ -6,11 +6,7 @@ module;
 #include <infra/Cpp20.h>
 module two.geom;
 
-#ifndef TWO_MODULES
 #define CONSTEXPR constexpr
-#else
-#define CONSTEXPR
-#endif
 
 namespace two
 {

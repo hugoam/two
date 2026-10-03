@@ -33,7 +33,6 @@ Node3.prototype["derive"] = Node3.prototype.derive = function(a0, a1, a2, a3) {
     else { _two_Node3_derive_4(this.__ptr, /*parent*/a0.__ptr, /*position*/a1.__ptr, /*rotation*/a2.__ptr, /*scale*/a3.__ptr); }
 };
 Node3.prototype["position"] = Node3.prototype.position = function() {
-    
     return wrapPointer(_two_Node3_position_0(this.__ptr), v3_float);
 };
 Node3.prototype["axis"] = Node3.prototype.axis = function(a0) {
@@ -41,7 +40,6 @@ Node3.prototype["axis"] = Node3.prototype.axis = function(a0) {
     return wrapPointer(_two_Node3_axis_1(this.__ptr, /*dir*/a0.__ptr), v3_float);
 };
 Node3.prototype["direction"] = Node3.prototype.direction = function() {
-    
     return wrapPointer(_two_Node3_direction_0(this.__ptr), v3_float);
 };
 Object.defineProperty(Node3.prototype, "parent", {
@@ -194,7 +192,6 @@ Texture.prototype.__class = Texture;
 Texture.__cache = {};
 Module['Texture'] = Texture;
 Texture.prototype["valid"] = Texture.prototype.valid = function() {
-    
     return !!(_two_Texture_valid_0(this.__ptr));
 };
 Texture.prototype["load"] = Texture.prototype.load = function(a0, a1, a2, a3) {
@@ -362,7 +359,6 @@ Skeleton.prototype["__destroy"] = Skeleton.prototype.__destroy = function() {
 };
 // Joint
 function Joint() {
-    
     this.__ptr = _two_Joint__construct_0(); getCache(Joint)[this.__ptr] = this;
 };
 Joint.prototype = Object.create(WrapperObject.prototype);
@@ -395,7 +391,6 @@ Rig.prototype["__destroy"] = Rig.prototype.__destroy = function() {
 };
 // AnimNode
 function AnimNode() {
-    
     this.__ptr = _two_AnimNode__construct_0(); getCache(AnimNode)[this.__ptr] = this;
 };
 AnimNode.prototype = Object.create(WrapperObject.prototype);
@@ -444,7 +439,6 @@ AnimNode.prototype["__destroy"] = AnimNode.prototype.__destroy = function() {
 };
 // AnimPlay
 function AnimPlay() {
-    
     this.__ptr = _two_AnimPlay__construct_0(); getCache(AnimPlay)[this.__ptr] = this;
 };
 AnimPlay.prototype = Object.create(WrapperObject.prototype);
@@ -529,7 +523,6 @@ AnimPlay.prototype["__destroy"] = AnimPlay.prototype.__destroy = function() {
 };
 // Mime
 function Mime() {
-    
     this.__ptr = _two_Mime__construct_0(); getCache(Mime)[this.__ptr] = this;
 };
 Mime.prototype = Object.create(WrapperObject.prototype);
@@ -563,11 +556,9 @@ Mime.prototype["seek"] = Mime.prototype.seek = function(a0) {
     _two_Mime_seek_1(this.__ptr, /*time*/a0);
 };
 Mime.prototype["pause"] = Mime.prototype.pause = function() {
-    
     _two_Mime_pause_0(this.__ptr);
 };
 Mime.prototype["stop"] = Mime.prototype.stop = function() {
-    
     _two_Mime_stop_0(this.__ptr);
 };
 Mime.prototype["advance"] = Mime.prototype.advance = function(a0) {
@@ -575,7 +566,6 @@ Mime.prototype["advance"] = Mime.prototype.advance = function(a0) {
     _two_Mime_advance_1(this.__ptr, /*time*/a0);
 };
 Mime.prototype["next_animation"] = Mime.prototype.next_animation = function() {
-    
     _two_Mime_next_animation_0(this.__ptr);
 };
 Mime.prototype["add_item"] = Mime.prototype.add_item = function(a0) {
@@ -583,7 +573,6 @@ Mime.prototype["add_item"] = Mime.prototype.add_item = function(a0) {
     _two_Mime_add_item_1(this.__ptr, /*item*/a0.__ptr);
 };
 Mime.prototype["playing"] = Mime.prototype.playing = function() {
-    
     return UTF8ToString(_two_Mime_playing_0(this.__ptr));
 };
 Object.defineProperty(Mime.prototype, "active", {
@@ -682,7 +671,6 @@ Frustum.prototype["__destroy"] = Frustum.prototype.__destroy = function() {
 };
 // FrustumSlice
 function FrustumSlice() {
-    
     this.__ptr = _two_FrustumSlice__construct_0(); getCache(FrustumSlice)[this.__ptr] = this;
 };
 FrustumSlice.prototype = Object.create(WrapperObject.prototype);
@@ -695,7 +683,6 @@ FrustumSlice.prototype["__destroy"] = FrustumSlice.prototype.__destroy = functio
 };
 // ShaderDefine
 function ShaderDefine() {
-    
     this.__ptr = _two_ShaderDefine__construct_0(); getCache(ShaderDefine)[this.__ptr] = this;
 };
 ShaderDefine.prototype = Object.create(WrapperObject.prototype);
@@ -726,7 +713,6 @@ ShaderDefine.prototype["__destroy"] = ShaderDefine.prototype.__destroy = functio
 };
 // ShaderBlock
 function ShaderBlock() {
-    
     this.__ptr = _two_ShaderBlock__construct_0(); getCache(ShaderBlock)[this.__ptr] = this;
 };
 ShaderBlock.prototype = Object.create(WrapperObject.prototype);
@@ -763,7 +749,6 @@ ShaderBlock.prototype["__destroy"] = ShaderBlock.prototype.__destroy = function(
 };
 // ProgramMode
 function ProgramMode() {
-    
     this.__ptr = _two_ProgramMode__construct_0(); getCache(ProgramMode)[this.__ptr] = this;
 };
 ProgramMode.prototype = Object.create(WrapperObject.prototype);
@@ -812,7 +797,6 @@ ProgramMode.prototype["__destroy"] = ProgramMode.prototype.__destroy = function(
 };
 // ProgramBlock
 function ProgramBlock() {
-    
     this.__ptr = _two_ProgramBlock__construct_0(); getCache(ProgramBlock)[this.__ptr] = this;
 };
 ProgramBlock.prototype = Object.create(WrapperObject.prototype);
@@ -907,7 +891,6 @@ ProgramVersion.prototype.__class = ProgramVersion;
 ProgramVersion.__cache = {};
 Module['ProgramVersion'] = ProgramVersion;
 ProgramVersion.prototype["clear"] = ProgramVersion.prototype.clear = function() {
-    
     _two_ProgramVersion_clear_0(this.__ptr);
 };
 ProgramVersion.prototype["set_option"] = ProgramVersion.prototype.set_option = function(a0, a1, a2) {
@@ -921,7 +904,6 @@ ProgramVersion.prototype["set_mode"] = ProgramVersion.prototype.set_mode = funct
     _two_ProgramVersion_set_mode_3(this.__ptr, /*block*/a0, /*mode*/a1, /*value*/a2);
 };
 ProgramVersion.prototype["hash"] = ProgramVersion.prototype.hash = function() {
-    
     return _two_ProgramVersion_hash_0(this.__ptr);
 };
 ProgramVersion.prototype["__destroy"] = ProgramVersion.prototype.__destroy = function() {
@@ -939,7 +921,6 @@ Shot.prototype["__destroy"] = Shot.prototype.__destroy = function() {
 };
 // Pass
 function Pass() {
-    
     this.__ptr = _two_Pass__construct_0(); getCache(Pass)[this.__ptr] = this;
 };
 Pass.prototype = Object.create(WrapperObject.prototype);
@@ -1033,7 +1014,6 @@ Pass.prototype["__destroy"] = Pass.prototype.__destroy = function() {
 };
 // RenderFrame
 function RenderFrame() {
-    
     this.__ptr = _two_RenderFrame__construct_0(); getCache(RenderFrame)[this.__ptr] = this;
 };
 RenderFrame.prototype = Object.create(WrapperObject.prototype);
@@ -1341,11 +1321,9 @@ GfxSystem.__base = BgfxSystem;
 GfxSystem.__cache = {};
 Module['GfxSystem'] = GfxSystem;
 GfxSystem.prototype["main_target"] = GfxSystem.prototype.main_target = function() {
-    
     return wrapPointer(_two_GfxSystem_main_target_0(this.__ptr), RenderTarget);
 };
 GfxSystem.prototype["default_pipeline"] = GfxSystem.prototype.default_pipeline = function() {
-    
     _two_GfxSystem_default_pipeline_0(this.__ptr);
 };
 GfxSystem.prototype["add_resource_path"] = GfxSystem.prototype.add_resource_path = function(a0, a1) {
@@ -1356,7 +1334,6 @@ GfxSystem.prototype["add_resource_path"] = GfxSystem.prototype.add_resource_path
     else { _two_GfxSystem_add_resource_path_2(this.__ptr, ensureString(/*path*/a0), /*relative*/a1); }
 };
 GfxSystem.prototype["debug_material"] = GfxSystem.prototype.debug_material = function() {
-    
     return wrapPointer(_two_GfxSystem_debug_material_0(this.__ptr), Material);
 };
 GfxSystem.prototype["create_model"] = GfxSystem.prototype.create_model = function(a0) {
@@ -1476,7 +1453,6 @@ GfxSystem.prototype["__destroy"] = GfxSystem.prototype.__destroy = function() {
 };
 // MaterialParam<two::Colour>
 function MaterialParam_two_Colour() {
-    
     this.__ptr = _two_MaterialParam_two_Colour__construct_0(); getCache(MaterialParam_two_Colour)[this.__ptr] = this;
 };
 MaterialParam_two_Colour.prototype = Object.create(WrapperObject.prototype);
@@ -1516,7 +1492,6 @@ MaterialParam_two_Colour.prototype["__destroy"] = MaterialParam_two_Colour.proto
 };
 // MaterialParam<float>
 function MaterialParam_float() {
-    
     this.__ptr = _two_MaterialParam_float__construct_0(); getCache(MaterialParam_float)[this.__ptr] = this;
 };
 MaterialParam_float.prototype = Object.create(WrapperObject.prototype);
@@ -1556,7 +1531,6 @@ MaterialParam_float.prototype["__destroy"] = MaterialParam_float.prototype.__des
 };
 // MaterialParam<two::vec4>
 function MaterialParam_two_vec4() {
-    
     this.__ptr = _two_MaterialParam_two_vec4__construct_0(); getCache(MaterialParam_two_vec4)[this.__ptr] = this;
 };
 MaterialParam_two_vec4.prototype = Object.create(WrapperObject.prototype);
@@ -1596,7 +1570,6 @@ MaterialParam_two_vec4.prototype["__destroy"] = MaterialParam_two_vec4.prototype
 };
 // MaterialBase
 function MaterialBase() {
-    
     this.__ptr = _two_MaterialBase__construct_0(); getCache(MaterialBase)[this.__ptr] = this;
 };
 MaterialBase.prototype = Object.create(WrapperObject.prototype);
@@ -1717,7 +1690,6 @@ MaterialBase.prototype["__destroy"] = MaterialBase.prototype.__destroy = functio
 };
 // MaterialUser
 function MaterialUser() {
-    
     this.__ptr = _two_MaterialUser__construct_0(); getCache(MaterialUser)[this.__ptr] = this;
 };
 MaterialUser.prototype = Object.create(WrapperObject.prototype);
@@ -1838,7 +1810,6 @@ MaterialUser.prototype["__destroy"] = MaterialUser.prototype.__destroy = functio
 };
 // MaterialAlpha
 function MaterialAlpha() {
-    
     this.__ptr = _two_MaterialAlpha__construct_0(); getCache(MaterialAlpha)[this.__ptr] = this;
 };
 MaterialAlpha.prototype = Object.create(WrapperObject.prototype);
@@ -1887,7 +1858,6 @@ MaterialAlpha.prototype["__destroy"] = MaterialAlpha.prototype.__destroy = funct
 };
 // MaterialSolid
 function MaterialSolid() {
-    
     this.__ptr = _two_MaterialSolid__construct_0(); getCache(MaterialSolid)[this.__ptr] = this;
 };
 MaterialSolid.prototype = Object.create(WrapperObject.prototype);
@@ -1909,7 +1879,6 @@ MaterialSolid.prototype["__destroy"] = MaterialSolid.prototype.__destroy = funct
 };
 // MaterialPoint
 function MaterialPoint() {
-    
     this.__ptr = _two_MaterialPoint__construct_0(); getCache(MaterialPoint)[this.__ptr] = this;
 };
 MaterialPoint.prototype = Object.create(WrapperObject.prototype);
@@ -1940,7 +1909,6 @@ MaterialPoint.prototype["__destroy"] = MaterialPoint.prototype.__destroy = funct
 };
 // MaterialLine
 function MaterialLine() {
-    
     this.__ptr = _two_MaterialLine__construct_0(); getCache(MaterialLine)[this.__ptr] = this;
 };
 MaterialLine.prototype = Object.create(WrapperObject.prototype);
@@ -1998,7 +1966,6 @@ MaterialLine.prototype["__destroy"] = MaterialLine.prototype.__destroy = functio
 };
 // MaterialFresnel
 function MaterialFresnel() {
-    
     this.__ptr = _two_MaterialFresnel__construct_0(); getCache(MaterialFresnel)[this.__ptr] = this;
 };
 MaterialFresnel.prototype = Object.create(WrapperObject.prototype);
@@ -2047,7 +2014,6 @@ MaterialFresnel.prototype["__destroy"] = MaterialFresnel.prototype.__destroy = f
 };
 // MaterialLit
 function MaterialLit() {
-    
     this.__ptr = _two_MaterialLit__construct_0(); getCache(MaterialLit)[this.__ptr] = this;
 };
 MaterialLit.prototype = Object.create(WrapperObject.prototype);
@@ -2304,7 +2270,6 @@ MaterialPbr.prototype["__destroy"] = MaterialPbr.prototype.__destroy = function(
 };
 // MaterialPhong
 function MaterialPhong() {
-    
     this.__ptr = _two_MaterialPhong__construct_0(); getCache(MaterialPhong)[this.__ptr] = this;
 };
 MaterialPhong.prototype = Object.create(WrapperObject.prototype);
@@ -2527,7 +2492,6 @@ Material.prototype["__destroy"] = Material.prototype.__destroy = function() {
 };
 // ModelElem
 function ModelElem() {
-    
     this.__ptr = _two_ModelElem__construct_0(); getCache(ModelElem)[this.__ptr] = this;
 };
 ModelElem.prototype = Object.create(WrapperObject.prototype);
@@ -2635,7 +2599,6 @@ Model.prototype["add_item"] = Model.prototype.add_item = function(a0, a1, a2, a3
     else { return wrapPointer(_two_Model_add_item_5(this.__ptr, /*mesh*/a0.__ptr, /*transform*/a1.__ptr, /*skin*/a2, /*colour*/a3.__ptr, /*material*/a4.__ptr), ModelElem); }
 };
 Model.prototype["prepare"] = Model.prototype.prepare = function() {
-    
     _two_Model_prepare_0(this.__ptr);
 };
 Object.defineProperty(Model.prototype, "name", {
@@ -2688,7 +2651,6 @@ Model.prototype["__destroy"] = Model.prototype.__destroy = function() {
 };
 // Flow
 function Flow() {
-    
     this.__ptr = _two_Flow__construct_0(); getCache(Flow)[this.__ptr] = this;
 };
 Flow.prototype = Object.create(WrapperObject.prototype);
@@ -2885,7 +2847,6 @@ Flow.prototype["__destroy"] = Flow.prototype.__destroy = function() {
 };
 // Flare
 function Flare() {
-    
     this.__ptr = _two_Flare__construct_0(); getCache(Flare)[this.__ptr] = this;
 };
 Flare.prototype = Object.create(Flow.prototype);
@@ -2930,11 +2891,9 @@ Batch.prototype.__class = Batch;
 Batch.__cache = {};
 Module['Batch'] = Batch;
 Batch.prototype["update_aabb"] = Batch.prototype.update_aabb = function(a0) {
-    
     _two_Batch_update_aabb_1(this.__ptr, ensureFloat32(/*instances*/a0), /*instances*/a0.length);
 };
 Batch.prototype["transforms"] = Batch.prototype.transforms = function(a0) {
-    
     _two_Batch_transforms_1(this.__ptr, ensureFloat32(/*instances*/a0), /*instances*/a0.length);
 };
 Batch.prototype["begin"] = Batch.prototype.begin = function(a0) {
@@ -2942,11 +2901,9 @@ Batch.prototype["begin"] = Batch.prototype.begin = function(a0) {
     return _two_Batch_begin_1(this.__ptr, /*count*/a0);
 };
 Batch.prototype["commit"] = Batch.prototype.commit = function(a0) {
-    
     _two_Batch_commit_1(this.__ptr, ensureFloat32(/*data*/a0), /*data*/a0.length);
 };
 Batch.prototype["cache"] = Batch.prototype.cache = function(a0) {
-    
     _two_Batch_cache_1(this.__ptr, ensureFloat32(/*data*/a0), /*data*/a0.length);
 };
 Batch.prototype["transform"] = Batch.prototype.transform = function(a0) {
@@ -2991,7 +2948,6 @@ Item.prototype.__class = Item;
 Item.__cache = {};
 Module['Item'] = Item;
 Item.prototype["update_aabb"] = Item.prototype.update_aabb = function() {
-    
     _two_Item_update_aabb_0(this.__ptr);
 };
 Object.defineProperty(Item.prototype, "node", {
@@ -3089,7 +3045,6 @@ Item.prototype["__destroy"] = Item.prototype.__destroy = function() {
 };
 // ImportConfig
 function ImportConfig() {
-    
     this.__ptr = _two_ImportConfig__construct_0(); getCache(ImportConfig)[this.__ptr] = this;
 };
 ImportConfig.prototype = Object.create(WrapperObject.prototype);
@@ -3331,7 +3286,6 @@ AssetStore_two_Texture.prototype["destroy"] = AssetStore_two_Texture.prototype.d
     _two_AssetStore_two_Texture_destroy_1(this.__ptr, ensureString(/*name*/a0));
 };
 AssetStore_two_Texture.prototype["clear"] = AssetStore_two_Texture.prototype.clear = function() {
-    
     _two_AssetStore_two_Texture_clear_0(this.__ptr);
 };
 AssetStore_two_Texture.prototype["__destroy"] = AssetStore_two_Texture.prototype.__destroy = function() {
@@ -3380,7 +3334,6 @@ AssetStore_two_Program.prototype["destroy"] = AssetStore_two_Program.prototype.d
     _two_AssetStore_two_Program_destroy_1(this.__ptr, ensureString(/*name*/a0));
 };
 AssetStore_two_Program.prototype["clear"] = AssetStore_two_Program.prototype.clear = function() {
-    
     _two_AssetStore_two_Program_clear_0(this.__ptr);
 };
 AssetStore_two_Program.prototype["__destroy"] = AssetStore_two_Program.prototype.__destroy = function() {
@@ -3429,7 +3382,6 @@ AssetStore_two_Material.prototype["destroy"] = AssetStore_two_Material.prototype
     _two_AssetStore_two_Material_destroy_1(this.__ptr, ensureString(/*name*/a0));
 };
 AssetStore_two_Material.prototype["clear"] = AssetStore_two_Material.prototype.clear = function() {
-    
     _two_AssetStore_two_Material_clear_0(this.__ptr);
 };
 AssetStore_two_Material.prototype["__destroy"] = AssetStore_two_Material.prototype.__destroy = function() {
@@ -3478,7 +3430,6 @@ AssetStore_two_Model.prototype["destroy"] = AssetStore_two_Model.prototype.destr
     _two_AssetStore_two_Model_destroy_1(this.__ptr, ensureString(/*name*/a0));
 };
 AssetStore_two_Model.prototype["clear"] = AssetStore_two_Model.prototype.clear = function() {
-    
     _two_AssetStore_two_Model_clear_0(this.__ptr);
 };
 AssetStore_two_Model.prototype["__destroy"] = AssetStore_two_Model.prototype.__destroy = function() {
@@ -3527,7 +3478,6 @@ AssetStore_two_Flow.prototype["destroy"] = AssetStore_two_Flow.prototype.destroy
     _two_AssetStore_two_Flow_destroy_1(this.__ptr, ensureString(/*name*/a0));
 };
 AssetStore_two_Flow.prototype["clear"] = AssetStore_two_Flow.prototype.clear = function() {
-    
     _two_AssetStore_two_Flow_clear_0(this.__ptr);
 };
 AssetStore_two_Flow.prototype["__destroy"] = AssetStore_two_Flow.prototype.__destroy = function() {
@@ -3576,7 +3526,6 @@ AssetStore_two_Prefab.prototype["destroy"] = AssetStore_two_Prefab.prototype.des
     _two_AssetStore_two_Prefab_destroy_1(this.__ptr, ensureString(/*name*/a0));
 };
 AssetStore_two_Prefab.prototype["clear"] = AssetStore_two_Prefab.prototype.clear = function() {
-    
     _two_AssetStore_two_Prefab_clear_0(this.__ptr);
 };
 AssetStore_two_Prefab.prototype["__destroy"] = AssetStore_two_Prefab.prototype.__destroy = function() {
@@ -3740,7 +3689,6 @@ Camera.prototype["__destroy"] = Camera.prototype.__destroy = function() {
 };
 // MirrorCamera
 function MirrorCamera() {
-    
     this.__ptr = _two_MirrorCamera__construct_0(); getCache(MirrorCamera)[this.__ptr] = this;
 };
 MirrorCamera.prototype = Object.create(WrapperObject.prototype);
@@ -3775,7 +3723,6 @@ MirrorCamera.prototype["__destroy"] = MirrorCamera.prototype.__destroy = functio
 };
 // DepthParams
 function DepthParams() {
-    
     this.__ptr = _two_DepthParams__construct_0(); getCache(DepthParams)[this.__ptr] = this;
 };
 DepthParams.prototype = Object.create(WrapperObject.prototype);
@@ -3815,7 +3762,6 @@ DepthParams.prototype["__destroy"] = DepthParams.prototype.__destroy = function(
 };
 // DistanceParams
 function DistanceParams() {
-    
     this.__ptr = _two_DistanceParams__construct_0(); getCache(DistanceParams)[this.__ptr] = this;
 };
 DistanceParams.prototype = Object.create(WrapperObject.prototype);
@@ -3866,7 +3812,6 @@ BlockDepth.prototype["__destroy"] = BlockDepth.prototype.__destroy = function() 
 };
 // GpuMesh
 function GpuMesh() {
-    
     this.__ptr = _two_GpuMesh__construct_0(); getCache(GpuMesh)[this.__ptr] = this;
 };
 GpuMesh.prototype = Object.create(WrapperObject.prototype);
@@ -3885,7 +3830,6 @@ Mesh.prototype.__class = Mesh;
 Mesh.__cache = {};
 Module['Mesh'] = Mesh;
 Mesh.prototype["clear"] = Mesh.prototype.clear = function() {
-    
     _two_Mesh_clear_0(this.__ptr);
 };
 Mesh.prototype["write"] = Mesh.prototype.write = function(a0, a1, a2) {
@@ -4148,7 +4092,6 @@ Lines.prototype["next"] = Lines.prototype.next = function(a0, a1) {
     else { _two_Lines_next_2(this.__ptr, /*position*/a0.__ptr, /*colour*/a1.__ptr); }
 };
 Lines.prototype["setup"] = Lines.prototype.setup = function() {
-    
     _two_Lines_setup_0(this.__ptr);
 };
 Lines.prototype["write"] = Lines.prototype.write = function(a0) {
@@ -4282,7 +4225,6 @@ BlockCopy.prototype["__destroy"] = BlockCopy.prototype.__destroy = function() {
 };
 // ClusteredFrustum
 function ClusteredFrustum() {
-    
     this.__ptr = _two_ClusteredFrustum__construct_0(); getCache(ClusteredFrustum)[this.__ptr] = this;
 };
 ClusteredFrustum.prototype = Object.create(Frustum.prototype);
@@ -4519,7 +4461,6 @@ TPool_two_Node3.prototype["add"] = TPool_two_Node3.prototype.add = function(a0) 
     return wrapPointer(_two_TPool_two_Node3_add_1(this.__ptr, /*value*/a0.__ptr), Node3);
 };
 TPool_two_Node3.prototype["talloc"] = TPool_two_Node3.prototype.talloc = function() {
-    
     return wrapPointer(_two_TPool_two_Node3_talloc_0(this.__ptr), Node3);
 };
 TPool_two_Node3.prototype["tdestroy"] = TPool_two_Node3.prototype.tdestroy = function(a0) {
@@ -4545,7 +4486,6 @@ TPool_two_Item.prototype["add"] = TPool_two_Item.prototype.add = function(a0) {
     return wrapPointer(_two_TPool_two_Item_add_1(this.__ptr, /*value*/a0.__ptr), Item);
 };
 TPool_two_Item.prototype["talloc"] = TPool_two_Item.prototype.talloc = function() {
-    
     return wrapPointer(_two_TPool_two_Item_talloc_0(this.__ptr), Item);
 };
 TPool_two_Item.prototype["tdestroy"] = TPool_two_Item.prototype.tdestroy = function(a0) {
@@ -4571,7 +4511,6 @@ TPool_two_Batch.prototype["add"] = TPool_two_Batch.prototype.add = function(a0) 
     return wrapPointer(_two_TPool_two_Batch_add_1(this.__ptr, /*value*/a0.__ptr), Batch);
 };
 TPool_two_Batch.prototype["talloc"] = TPool_two_Batch.prototype.talloc = function() {
-    
     return wrapPointer(_two_TPool_two_Batch_talloc_0(this.__ptr), Batch);
 };
 TPool_two_Batch.prototype["tdestroy"] = TPool_two_Batch.prototype.tdestroy = function(a0) {
@@ -4597,7 +4536,6 @@ TPool_two_Direct.prototype["add"] = TPool_two_Direct.prototype.add = function(a0
     return wrapPointer(_two_TPool_two_Direct_add_1(this.__ptr, /*value*/a0.__ptr), Direct);
 };
 TPool_two_Direct.prototype["talloc"] = TPool_two_Direct.prototype.talloc = function() {
-    
     return wrapPointer(_two_TPool_two_Direct_talloc_0(this.__ptr), Direct);
 };
 TPool_two_Direct.prototype["tdestroy"] = TPool_two_Direct.prototype.tdestroy = function(a0) {
@@ -4623,7 +4561,6 @@ TPool_two_Mime.prototype["add"] = TPool_two_Mime.prototype.add = function(a0) {
     return wrapPointer(_two_TPool_two_Mime_add_1(this.__ptr, /*value*/a0.__ptr), Mime);
 };
 TPool_two_Mime.prototype["talloc"] = TPool_two_Mime.prototype.talloc = function() {
-    
     return wrapPointer(_two_TPool_two_Mime_talloc_0(this.__ptr), Mime);
 };
 TPool_two_Mime.prototype["tdestroy"] = TPool_two_Mime.prototype.tdestroy = function(a0) {
@@ -4649,7 +4586,6 @@ TPool_two_Light.prototype["add"] = TPool_two_Light.prototype.add = function(a0) 
     return wrapPointer(_two_TPool_two_Light_add_1(this.__ptr, /*value*/a0.__ptr), Light);
 };
 TPool_two_Light.prototype["talloc"] = TPool_two_Light.prototype.talloc = function() {
-    
     return wrapPointer(_two_TPool_two_Light_talloc_0(this.__ptr), Light);
 };
 TPool_two_Light.prototype["tdestroy"] = TPool_two_Light.prototype.tdestroy = function(a0) {
@@ -4675,7 +4611,6 @@ TPool_two_Flare.prototype["add"] = TPool_two_Flare.prototype.add = function(a0) 
     return wrapPointer(_two_TPool_two_Flare_add_1(this.__ptr, /*value*/a0.__ptr), Flare);
 };
 TPool_two_Flare.prototype["talloc"] = TPool_two_Flare.prototype.talloc = function() {
-    
     return wrapPointer(_two_TPool_two_Flare_talloc_0(this.__ptr), Flare);
 };
 TPool_two_Flare.prototype["tdestroy"] = TPool_two_Flare.prototype.tdestroy = function(a0) {
@@ -4920,7 +4855,6 @@ FrameBuffer.prototype.__class = FrameBuffer;
 FrameBuffer.__cache = {};
 Module['FrameBuffer'] = FrameBuffer;
 FrameBuffer.prototype["valid"] = FrameBuffer.prototype.valid = function() {
-    
     return !!(_two_FrameBuffer_valid_0(this.__ptr));
 };
 Object.defineProperty(FrameBuffer.prototype, "size", {
@@ -4941,7 +4875,6 @@ FrameBuffer.prototype["__destroy"] = FrameBuffer.prototype.__destroy = function(
 };
 // SwapBuffer
 function SwapBuffer() {
-    
     this.__ptr = _two_SwapBuffer__construct_0(); getCache(SwapBuffer)[this.__ptr] = this;
 };
 SwapBuffer.prototype = Object.create(WrapperObject.prototype);
@@ -4954,15 +4887,12 @@ SwapBuffer.prototype["create"] = SwapBuffer.prototype.create = function(a0, a1) 
     _two_SwapBuffer_create_2(this.__ptr, /*size*/a0.__ptr, /*color_format*/a1);
 };
 SwapBuffer.prototype["swap"] = SwapBuffer.prototype.swap = function() {
-    
     return wrapPointer(_two_SwapBuffer_swap_0(this.__ptr), FrameBuffer);
 };
 SwapBuffer.prototype["current"] = SwapBuffer.prototype.current = function() {
-    
     return wrapPointer(_two_SwapBuffer_current_0(this.__ptr), FrameBuffer);
 };
 SwapBuffer.prototype["last"] = SwapBuffer.prototype.last = function() {
-    
     return wrapPointer(_two_SwapBuffer_last_0(this.__ptr), Texture);
 };
 Object.defineProperty(SwapBuffer.prototype, "one", {
@@ -4978,7 +4908,6 @@ SwapBuffer.prototype["__destroy"] = SwapBuffer.prototype.__destroy = function() 
 };
 // Cascade
 function Cascade() {
-    
     this.__ptr = _two_Cascade__construct_0(); getCache(Cascade)[this.__ptr] = this;
 };
 Cascade.prototype = Object.create(WrapperObject.prototype);
@@ -5012,7 +4941,6 @@ Cascade.prototype["__destroy"] = Cascade.prototype.__destroy = function() {
 };
 // SwapCascade
 function SwapCascade() {
-    
     this.__ptr = _two_SwapCascade__construct_0(); getCache(SwapCascade)[this.__ptr] = this;
 };
 SwapCascade.prototype = Object.create(WrapperObject.prototype);
@@ -5025,11 +4953,9 @@ SwapCascade.prototype["create"] = SwapCascade.prototype.create = function(a0, a1
     _two_SwapCascade_create_2(this.__ptr, /*size*/a0.__ptr, /*color_format*/a1);
 };
 SwapCascade.prototype["swap"] = SwapCascade.prototype.swap = function() {
-    
     return wrapPointer(_two_SwapCascade_swap_0(this.__ptr), Cascade);
 };
 SwapCascade.prototype["last"] = SwapCascade.prototype.last = function() {
-    
     return wrapPointer(_two_SwapCascade_last_0(this.__ptr), Cascade);
 };
 Object.defineProperty(SwapCascade.prototype, "one", {
@@ -5123,7 +5049,6 @@ RenderTarget.prototype["__destroy"] = RenderTarget.prototype.__destroy = functio
 };
 // Sun
 function Sun() {
-    
     this.__ptr = _two_Sun__construct_0(); getCache(Sun)[this.__ptr] = this;
 };
 Sun.prototype = Object.create(WrapperObject.prototype);
@@ -5172,7 +5097,6 @@ Sun.prototype["__destroy"] = Sun.prototype.__destroy = function() {
 };
 // Radiance
 function Radiance() {
-    
     this.__ptr = _two_Radiance__construct_0(); getCache(Radiance)[this.__ptr] = this;
 };
 Radiance.prototype = Object.create(WrapperObject.prototype);
@@ -5239,7 +5163,6 @@ Radiance.prototype["__destroy"] = Radiance.prototype.__destroy = function() {
 };
 // Background
 function Background() {
-    
     this.__ptr = _two_Background__construct_0(); getCache(Background)[this.__ptr] = this;
 };
 Background.prototype = Object.create(WrapperObject.prototype);
@@ -5288,7 +5211,6 @@ Background.prototype["__destroy"] = Background.prototype.__destroy = function() 
 };
 // Skylight
 function Skylight() {
-    
     this.__ptr = _two_Skylight__construct_0(); getCache(Skylight)[this.__ptr] = this;
 };
 Skylight.prototype = Object.create(WrapperObject.prototype);
@@ -5355,7 +5277,6 @@ Skylight.prototype["__destroy"] = Skylight.prototype.__destroy = function() {
 };
 // Fog
 function Fog() {
-    
     this.__ptr = _two_Fog__construct_0(); getCache(Fog)[this.__ptr] = this;
 };
 Fog.prototype = Object.create(WrapperObject.prototype);
@@ -5485,7 +5406,6 @@ Fog.prototype["__destroy"] = Fog.prototype.__destroy = function() {
 };
 // Zone
 function Zone() {
-    
     this.__ptr = _two_Zone__construct_0(); getCache(Zone)[this.__ptr] = this;
 };
 Zone.prototype = Object.create(WrapperObject.prototype);
@@ -5552,39 +5472,30 @@ Scene.prototype.__class = Scene;
 Scene.__cache = {};
 Module['Scene'] = Scene;
 Scene.prototype["begin"] = Scene.prototype.begin = function() {
-    
     return wrapPointer(_two_Scene_begin_0(this.__ptr), Gnode);
 };
 Scene.prototype["update"] = Scene.prototype.update = function() {
-    
     _two_Scene_update_0(this.__ptr);
 };
 Scene.prototype["nodes"] = Scene.prototype.nodes = function() {
-    
     return wrapPointer(_two_Scene_nodes_0(this.__ptr), TPool_two_Node3);
 };
 Scene.prototype["items"] = Scene.prototype.items = function() {
-    
     return wrapPointer(_two_Scene_items_0(this.__ptr), TPool_two_Item);
 };
 Scene.prototype["batches"] = Scene.prototype.batches = function() {
-    
     return wrapPointer(_two_Scene_batches_0(this.__ptr), TPool_two_Batch);
 };
 Scene.prototype["directs"] = Scene.prototype.directs = function() {
-    
     return wrapPointer(_two_Scene_directs_0(this.__ptr), TPool_two_Direct);
 };
 Scene.prototype["mimes"] = Scene.prototype.mimes = function() {
-    
     return wrapPointer(_two_Scene_mimes_0(this.__ptr), TPool_two_Mime);
 };
 Scene.prototype["lights"] = Scene.prototype.lights = function() {
-    
     return wrapPointer(_two_Scene_lights_0(this.__ptr), TPool_two_Light);
 };
 Scene.prototype["flares"] = Scene.prototype.flares = function() {
-    
     return wrapPointer(_two_Scene_flares_0(this.__ptr), TPool_two_Flare);
 };
 Object.defineProperty(Scene.prototype, "index", {
@@ -5637,7 +5548,6 @@ BlockSky.prototype["__destroy"] = BlockSky.prototype.__destroy = function() {
     _two_BlockSky__destroy(this.__ptr);
 };
 Module['bxidentity'] = function() {
-    
     return wrapPointer(_two_bxidentity_0(), mat4);
 };
 Module['bxinverse'] = function(a0) {

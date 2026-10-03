@@ -55,21 +55,15 @@
 
 #define UNUSED(x) (void)(x)
 
-#if defined _MSC_VER && _MSC_VER >= 1914
-//#define TWO_MODULES
-#endif
-
 // the reflection generator parses the module headers as a plain header (see clrefl), outside of any module unit
-#if defined TWO_MODULES && !defined TWO_META_GENERATOR
+#if !defined TWO_META_GENERATOR
 #define export_ export
 #else
 #define export_
 #endif
 
-#ifdef TWO_MODULES
 #undef TWO_EXPORT
 #define TWO_EXPORT
-#endif
 
 #ifndef TWO_INFRA_EXPORT
 #define TWO_INFRA_EXPORT TWO_IMPORT

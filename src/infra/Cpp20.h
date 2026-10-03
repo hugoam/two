@@ -1,4 +1,3 @@
-#ifdef TWO_MODULES
 #include <infra/Config.h>
 
 #include <stddef.h>
@@ -17,4 +16,3 @@
 #include <cstdio>
 #include <cstring>
 #include <cmath>
-#endif

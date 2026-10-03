@@ -20,8 +20,9 @@ namespace two
 			Type& type,
 			span<Type*> bases,
 			span<size_t> bases_offsets,
-			span<Constructor> constructors,
+			span<DefaultConstructor> default_constructors,
 			span<CopyConstructor> copy_constructors,
+			span<Constructor> constructors,
 			span<Member> members,
 			span<Method> methods,
 			span<Static> static_members
@@ -65,8 +66,9 @@ namespace two
 		span<Type*> m_bases;
 		span<size_t> m_bases_offsets;
 
-		span<Constructor> m_constructors;
+		span<DefaultConstructor> m_default_constructors; // in a vector until we update to c++17 optional
 		span<CopyConstructor> m_copy_constructors; // in a vector until we update to c++17 optional
+		span<Constructor> m_constructors;
 		span<Destructor> m_destructor; // in a vector until we update to c++17 optional
 		span<Member> m_members;
 		span<Method> m_methods;

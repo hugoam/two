@@ -30,6 +30,6 @@ namespace two
 		const Callable* m_callable = nullptr;
 		attr_ vector<Var> m_args;
 		attr_ vector<void*> m_vargs;
-		attr_ Var m_result;
+		attr_ Var& result() { return m_args.back(); }
 	};
 }

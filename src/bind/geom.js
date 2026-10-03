@@ -71,7 +71,6 @@ Curve3.prototype["__destroy"] = Curve3.prototype.__destroy = function() {
 };
 // CurveSpline
 function CurveSpline() {
-    
     this.__ptr = _two_CurveSpline__construct_0(); getCache(CurveSpline)[this.__ptr] = this;
 };
 CurveSpline.prototype = Object.create(Curve2.prototype);
@@ -89,7 +88,6 @@ CurveSpline.prototype["__destroy"] = CurveSpline.prototype.__destroy = function(
 };
 // CurveSpline3
 function CurveSpline3() {
-    
     this.__ptr = _two_CurveSpline3__construct_0(); getCache(CurveSpline3)[this.__ptr] = this;
 };
 CurveSpline3.prototype = Object.create(Curve3.prototype);
@@ -107,7 +105,6 @@ CurveSpline3.prototype["__destroy"] = CurveSpline3.prototype.__destroy = functio
 };
 // CurveBezierCubic
 function CurveBezierCubic() {
-    
     this.__ptr = _two_CurveBezierCubic__construct_0(); getCache(CurveBezierCubic)[this.__ptr] = this;
 };
 CurveBezierCubic.prototype = Object.create(Curve2.prototype);
@@ -157,7 +154,6 @@ CurveBezierCubic.prototype["__destroy"] = CurveBezierCubic.prototype.__destroy =
 };
 // CurveBezierCubic3
 function CurveBezierCubic3() {
-    
     this.__ptr = _two_CurveBezierCubic3__construct_0(); getCache(CurveBezierCubic3)[this.__ptr] = this;
 };
 CurveBezierCubic3.prototype = Object.create(Curve3.prototype);
@@ -207,7 +203,6 @@ CurveBezierCubic3.prototype["__destroy"] = CurveBezierCubic3.prototype.__destroy
 };
 // CurveLine
 function CurveLine() {
-    
     this.__ptr = _two_CurveLine__construct_0(); getCache(CurveLine)[this.__ptr] = this;
 };
 CurveLine.prototype = Object.create(Curve2.prototype);
@@ -239,7 +234,6 @@ CurveLine.prototype["__destroy"] = CurveLine.prototype.__destroy = function() {
 };
 // CurveLine3
 function CurveLine3() {
-    
     this.__ptr = _two_CurveLine3__construct_0(); getCache(CurveLine3)[this.__ptr] = this;
 };
 CurveLine3.prototype = Object.create(Curve3.prototype);
@@ -271,7 +265,6 @@ CurveLine3.prototype["__destroy"] = CurveLine3.prototype.__destroy = function() 
 };
 // CurveBezierQuadratic
 function CurveBezierQuadratic() {
-    
     this.__ptr = _two_CurveBezierQuadratic__construct_0(); getCache(CurveBezierQuadratic)[this.__ptr] = this;
 };
 CurveBezierQuadratic.prototype = Object.create(Curve2.prototype);
@@ -312,7 +305,6 @@ CurveBezierQuadratic.prototype["__destroy"] = CurveBezierQuadratic.prototype.__d
 };
 // CurveBezierQuadratic3
 function CurveBezierQuadratic3() {
-    
     this.__ptr = _two_CurveBezierQuadratic3__construct_0(); getCache(CurveBezierQuadratic3)[this.__ptr] = this;
 };
 CurveBezierQuadratic3.prototype = Object.create(Curve3.prototype);
@@ -353,7 +345,6 @@ CurveBezierQuadratic3.prototype["__destroy"] = CurveBezierQuadratic3.prototype._
 };
 // CurveCatmullRom3
 function CurveCatmullRom3() {
-    
     this.__ptr = _two_CurveCatmullRom3__construct_0(); getCache(CurveCatmullRom3)[this.__ptr] = this;
 };
 CurveCatmullRom3.prototype = Object.create(Curve3.prototype);
@@ -402,7 +393,6 @@ CurveCatmullRom3.prototype["__destroy"] = CurveCatmullRom3.prototype.__destroy =
 };
 // Plane
 function Plane() {
-    
     this.__ptr = _two_Plane__construct_0(); getCache(Plane)[this.__ptr] = this;
 };
 Plane.prototype = Object.create(WrapperObject.prototype);
@@ -433,7 +423,6 @@ Plane.prototype["__destroy"] = Plane.prototype.__destroy = function() {
 };
 // Plane3
 function Plane3() {
-    
     this.__ptr = _two_Plane3__construct_0(); getCache(Plane3)[this.__ptr] = this;
 };
 Plane3.prototype = Object.create(WrapperObject.prototype);
@@ -473,7 +462,6 @@ Plane3.prototype["__destroy"] = Plane3.prototype.__destroy = function() {
 };
 // Face3
 function Face3() {
-    
     this.__ptr = _two_Face3__construct_0(); getCache(Face3)[this.__ptr] = this;
 };
 Face3.prototype = Object.create(WrapperObject.prototype);
@@ -486,7 +474,6 @@ Face3.prototype["__destroy"] = Face3.prototype.__destroy = function() {
 };
 // Segment
 function Segment() {
-    
     this.__ptr = _two_Segment__construct_0(); getCache(Segment)[this.__ptr] = this;
 };
 Segment.prototype = Object.create(WrapperObject.prototype);
@@ -517,7 +504,6 @@ Segment.prototype["__destroy"] = Segment.prototype.__destroy = function() {
 };
 // Ray
 function Ray() {
-    
     this.__ptr = _two_Ray__construct_0(); getCache(Ray)[this.__ptr] = this;
 };
 Ray.prototype = Object.create(WrapperObject.prototype);
@@ -566,7 +552,6 @@ Ray.prototype["__destroy"] = Ray.prototype.__destroy = function() {
 };
 // MeshAdapter
 function MeshAdapter() {
-    
     this.__ptr = _two_MeshAdapter__construct_0(); getCache(MeshAdapter)[this.__ptr] = this;
 };
 MeshAdapter.prototype = Object.create(WrapperObject.prototype);
@@ -575,7 +560,6 @@ MeshAdapter.prototype.__class = MeshAdapter;
 MeshAdapter.__cache = {};
 Module['MeshAdapter'] = MeshAdapter;
 MeshAdapter.prototype["rewind"] = MeshAdapter.prototype.rewind = function() {
-    
     _two_MeshAdapter_rewind_0(this.__ptr);
 };
 MeshAdapter.prototype["copy"] = MeshAdapter.prototype.copy = function(a0) {
@@ -587,7 +571,6 @@ MeshAdapter.prototype["xcopy"] = MeshAdapter.prototype.xcopy = function(a0, a1) 
     _two_MeshAdapter_xcopy_2(this.__ptr, /*dest*/a0.__ptr, /*transform*/a1.__ptr);
 };
 MeshAdapter.prototype["next"] = MeshAdapter.prototype.next = function() {
-    
     _two_MeshAdapter_next_0(this.__ptr);
 };
 MeshAdapter.prototype["position"] = MeshAdapter.prototype.position = function(a0) {
@@ -713,7 +696,6 @@ ShapeVar.prototype["__destroy"] = ShapeVar.prototype.__destroy = function() {
 };
 // Geometry
 function Geometry() {
-    
     this.__ptr = _two_Geometry__construct_0(); getCache(Geometry)[this.__ptr] = this;
 };
 Geometry.prototype = Object.create(Shape.prototype);
@@ -727,7 +709,6 @@ Geometry.prototype["__destroy"] = Geometry.prototype.__destroy = function() {
 };
 // MeshPacker
 function MeshPacker() {
-    
     this.__ptr = _two_MeshPacker__construct_0(); getCache(MeshPacker)[this.__ptr] = this;
 };
 MeshPacker.prototype = Object.create(WrapperObject.prototype);
@@ -780,7 +761,6 @@ MeshPacker.prototype["resize"] = MeshPacker.prototype.resize = function(a0, a1, 
     _two_MeshPacker_resize_3(this.__ptr, /*vertex_count*/a0, /*index_count*/a1, /*vertex_format*/a2);
 };
 MeshPacker.prototype["clear"] = MeshPacker.prototype.clear = function() {
-    
     _two_MeshPacker_clear_0(this.__ptr);
 };
 MeshPacker.prototype["pack"] = MeshPacker.prototype.pack = function(a0) {
@@ -802,15 +782,12 @@ MeshPacker.prototype["gen_normals"] = MeshPacker.prototype.gen_normals = functio
     else { _two_MeshPacker_gen_normals_1(this.__ptr, /*area_weighted*/a0); }
 };
 MeshPacker.prototype["gen_flat_normals"] = MeshPacker.prototype.gen_flat_normals = function() {
-    
     _two_MeshPacker_gen_flat_normals_0(this.__ptr);
 };
 MeshPacker.prototype["gen_tangents"] = MeshPacker.prototype.gen_tangents = function() {
-    
     _two_MeshPacker_gen_tangents_0(this.__ptr);
 };
 MeshPacker.prototype["smooth_normals"] = MeshPacker.prototype.smooth_normals = function() {
-    
     _two_MeshPacker_smooth_normals_0(this.__ptr);
 };
 Object.defineProperty(MeshPacker.prototype, "primitive", {
@@ -1677,7 +1654,6 @@ Polygon.prototype["__destroy"] = Polygon.prototype.__destroy = function() {
 };
 // Box
 function Box() {
-    
     this.__ptr = _two_Box__construct_0(); getCache(Box)[this.__ptr] = this;
 };
 Box.prototype = Object.create(Shape.prototype);
@@ -1762,12 +1738,14 @@ ConvexHull.prototype["__destroy"] = ConvexHull.prototype.__destroy = function() 
 };
 // Symbol
 function Symbol(a0, a1, a2, a3, a4) {
-    if (a1 === undefined) { if (!checkClass(a0, Colour)) throw Error('Symbol(0:fill): expected Colour'); }
+    if (a0 === undefined) {  }
+    else if (a1 === undefined) { if (!checkClass(a0, Colour)) throw Error('Symbol(0:fill): expected Colour'); }
     else if (a2 === undefined) { if (!checkClass(a0, Colour)) throw Error('Symbol(0:fill): expected Colour'); if (!checkClass(a1, Colour)) throw Error('Symbol(1:outline): expected Colour'); }
     else if (a3 === undefined) { if (!checkClass(a0, Colour)) throw Error('Symbol(0:fill): expected Colour'); if (!checkClass(a1, Colour)) throw Error('Symbol(1:outline): expected Colour'); if (typeof a2 !== 'boolean') throw Error('Symbol(2:overlay): expected boolean'); }
     else if (a4 === undefined) { if (!checkClass(a0, Colour)) throw Error('Symbol(0:fill): expected Colour'); if (!checkClass(a1, Colour)) throw Error('Symbol(1:outline): expected Colour'); if (typeof a2 !== 'boolean') throw Error('Symbol(2:overlay): expected boolean'); if (typeof a3 !== 'boolean') throw Error('Symbol(3:double_sided): expected boolean'); }
     else { if (!checkClass(a0, Colour)) throw Error('Symbol(0:fill): expected Colour'); if (!checkClass(a1, Colour)) throw Error('Symbol(1:outline): expected Colour'); if (typeof a2 !== 'boolean') throw Error('Symbol(2:overlay): expected boolean'); if (typeof a3 !== 'boolean') throw Error('Symbol(3:double_sided): expected boolean'); if (typeof a4 !== 'number') throw Error('Symbol(4:detail): expected integer'); }
-    if (a1 === undefined) { this.__ptr = _two_Symbol__construct_1(/*fill*/a0.__ptr); getCache(Symbol)[this.__ptr] = this; }
+    if (a0 === undefined) { this.__ptr = _two_Symbol__construct_0(); getCache(Symbol)[this.__ptr] = this; }
+    else if (a1 === undefined) { this.__ptr = _two_Symbol__construct_1(/*fill*/a0.__ptr); getCache(Symbol)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _two_Symbol__construct_2(/*fill*/a0.__ptr, /*outline*/a1.__ptr); getCache(Symbol)[this.__ptr] = this; }
     else if (a3 === undefined) { this.__ptr = _two_Symbol__construct_3(/*fill*/a0.__ptr, /*outline*/a1.__ptr, /*overlay*/a2); getCache(Symbol)[this.__ptr] = this; }
     else if (a4 === undefined) { this.__ptr = _two_Symbol__construct_4(/*fill*/a0.__ptr, /*outline*/a1.__ptr, /*overlay*/a2, /*double_sided*/a3); getCache(Symbol)[this.__ptr] = this; }
@@ -1873,11 +1851,9 @@ MarchingCubes.prototype.__class = MarchingCubes;
 MarchingCubes.__cache = {};
 Module['MarchingCubes'] = MarchingCubes;
 MarchingCubes.prototype["reset"] = MarchingCubes.prototype.reset = function() {
-    
     _two_MarchingCubes_reset_0(this.__ptr);
 };
 MarchingCubes.prototype["count"] = MarchingCubes.prototype.count = function() {
-    
     return _two_MarchingCubes_count_0(this.__ptr);
 };
 MarchingCubes.prototype["direct"] = MarchingCubes.prototype.direct = function(a0) {

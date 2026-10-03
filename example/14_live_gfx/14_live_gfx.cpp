@@ -122,7 +122,7 @@ void ex_14_live_gfx(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if(language == Language::Lua)
 	{
-		static Call call = { lua_script, vector<Var>{ Ref(&scene), Ref(&time) } };
+		static Call call = { lua_script, vector<Var>{ Var(Ref(&scene)), Var(Ref(&time)) } };
 		call();
 	}
 	else if(language == Language::Wren)

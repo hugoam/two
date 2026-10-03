@@ -23,12 +23,13 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "JobSystem", sizeof(two::JobSystem), TypeClass::Object };
 		// bases
 		// defaults
-		// constructors
+		// default constructor
 		// copy constructor
+		// constructors
 		// members
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	
 	

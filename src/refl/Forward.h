@@ -20,6 +20,7 @@ namespace two
     export_ class Method;
     export_ class Constructor;
     export_ class CopyConstructor;
+    export_ class DefaultConstructor;
     export_ class Destructor;
     export_ struct Call;
     export_ class Meta;
@@ -28,7 +29,6 @@ namespace two
 	export_ struct Alias;
     export_ class Class;
     export_ class Convert;
-    export_ class TypeConverter;
     export_ class Enum;
     export_ class Injector;
     export_ class Creator;

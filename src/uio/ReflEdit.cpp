@@ -117,6 +117,8 @@ namespace two
 	{
 		Widget& self = ui::widget(parent, meta_styles().frame);
 
+		for(DefaultConstructor& constructor : cls.m_default_constructors)
+			meta_callable(self, constructor, true, false);
 		for(Constructor& constructor : cls.m_constructors)
 			meta_callable(self, constructor, true, false);
 	}
@@ -169,7 +171,7 @@ namespace two
 	void meta_class(Widget& parent, Class& cls)
 	{
 		//meta_description(parent, type);
-		if(!cls.m_constructors.empty())
+		if(!cls.m_default_constructors.empty() || !cls.m_constructors.empty())
 		{
 			ui::item(parent, meta_styles().label, "constructors:");
 			meta_constructors(parent, cls);

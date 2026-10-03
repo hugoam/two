@@ -27,6 +27,4 @@
 #include <geom/Shape/Sphere.h>
 #include <geom/Shape/Spheroid.h>
 #include <geom/Shape/Triangle.h>
-#ifdef TWO_MODULES
 #include <geom/Primitive.hpp>
-#endif

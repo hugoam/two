@@ -61,7 +61,7 @@ namespace two
 		static string destination = "";
 		if(select_value(parent, SAVE_PARTICLES, destination, true))
 		{
-			pack_json_file(Ref(&generator), system.m_resource_path + "/" + destination);
+			pack_json_file(Var(Ref(&generator)), system.m_resource_path + "/" + destination);
 		}
 	}
 

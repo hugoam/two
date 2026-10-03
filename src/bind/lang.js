@@ -42,7 +42,6 @@ Script.prototype["__destroy"] = Script.prototype.__destroy = function() {
 };
 // ScriptError
 function ScriptError() {
-    
     this.__ptr = _two_ScriptError__construct_0(); getCache(ScriptError)[this.__ptr] = this;
 };
 ScriptError.prototype = Object.create(WrapperObject.prototype);
@@ -108,6 +107,7 @@ Interpreter.prototype["__destroy"] = Interpreter.prototype.__destroy = function(
     _two_Interpreter__destroy(this.__ptr);
 };
 // ScriptClass
+function ScriptClass() { throw "cannot construct a ScriptClass, no constructor in IDL" }
 ScriptClass.prototype = Object.create(WrapperObject.prototype);
 ScriptClass.prototype.constructor = ScriptClass;
 ScriptClass.prototype.__class = ScriptClass;

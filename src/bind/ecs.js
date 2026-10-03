@@ -1,6 +1,5 @@
 // Entity
 function Entity() {
-    
     this.__ptr = _two_Entity__construct_0(); getCache(Entity)[this.__ptr] = this;
 };
 Entity.prototype = Object.create(WrapperObject.prototype);
@@ -13,7 +12,6 @@ Entity.prototype["__destroy"] = Entity.prototype.__destroy = function() {
 };
 // Entt
 function Entt() {
-    
     this.__ptr = _two_Entt__construct_0(); getCache(Entt)[this.__ptr] = this;
 };
 Entt.prototype = Object.create(WrapperObject.prototype);
