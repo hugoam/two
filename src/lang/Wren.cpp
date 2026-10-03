@@ -132,8 +132,10 @@ namespace two
 	inline void read_value(WrenVM* vm, int index, const Type& type, Ref& result)
 	{
 		FromWren::me().dispatch(Ref(type), vm, index, result);
-		//if(result.none())
-		//	printf("ERROR : wren -> reading wrong type %s expected %s\n", "", type.m_name);//lua_typename(vm, lua_type(vm, index)), type.m_name);
+		#if TWO_WREN_DEBUG
+		if(!result)
+			printf("ERROR : wren -> reading wrong type %s expected %s\n", "", type.m_name);//lua_typename(vm, lua_type(vm, index)), type.m_name);
+		#endif
 	}
 
 	inline Ref alloc_object(WrenVM* vm, int slot, int class_slot, const Type& type)
@@ -249,7 +251,7 @@ namespace two
 		for(size_t i = offset; i < offset + num_args; ++i)
 		{
 			read_value(vm, int(first_slot - offset + i), vars[i].m_ref);
-			bool success = !vars[i].none();
+			bool success = !!vars[i];
 			success &= callable.m_params[i].nullable() || !vars[i].null();
 			if(!success)
 			{
@@ -269,9 +271,9 @@ namespace two
 		bool enough_arguments = num_arguments >= call.m_callable->m_num_required;
 		if(enough_arguments && read_params(vm, *call.m_callable, call.m_args, 0, first))
 		{
-			call();
-			if(!call.m_result.none())
-				push_value(vm, 0, call.m_result);
+			const Var& result = call();
+			if(result)
+				push_value(vm, 0, result);
 		}
 		else
 			error("wren -> %s wrong arguments\n", call.m_callable->m_name);
@@ -354,7 +356,7 @@ namespace two
 		if(member.is_pointer())
 			member.cast_set(object, value);
 #else
-		Var value = member.m_default_value;
+		Var value = Var(member.m_default_value);
 		read_value(vm, 2, value);
 		member.cast_set(object, value);
 #endif
@@ -370,7 +372,7 @@ namespace two
 	{
 		Ref ref = read_ref(vm, 0);
 		Static& member = val<Static>(ref);
-		Var result = member.m_value;
+		Var result = Var(member.m_value);
 		read_value(vm, 1, result);
 		assign(member.m_value, result);
 	}
@@ -388,6 +390,17 @@ namespace two
 			Ref object = alloc_object(vm, 0, 1, *constructor->m_object_type);
 			construct(object);
 		}
+	}
+
+	inline void default_construct(WrenVM* vm)
+	{
+		const DefaultConstructor* constructor = &val<DefaultConstructor>(read_ref(vm, 0));
+		if(!constructor) return;
+#ifdef TWO_WREN_DEBUG
+		info("wren -> default construct %s\n", constructor->m_name);
+#endif
+		Ref object = alloc_object(vm, 0, 1, *constructor->m_object_type);
+		constructor->m_call(object.m_value);
 	}
 
 	inline void copy_construct(WrenVM* vm)
@@ -471,7 +484,7 @@ namespace two
 
 	inline void register_class(WrenVM* vm, string module, string name, const Type& type)
 	{
-		if(type.is<Function>() || type.is<Type>() || type.is<Constructor>() || type.is<CopyConstructor>() || type.is<Method>() || type.is<Member>() || type.is<Static>()) return;
+		if(type.is<Function>() || type.is<Type>() || type.is<DefaultConstructor>() || type.is<Constructor>() || type.is<CopyConstructor>() || type.is<Method>() || type.is<Member>() || type.is<Static>()) return;
 		if(type.is<Class>() || type.is<Creator>() || type.is<System>()) return;
 
 		string constructors;
@@ -485,6 +498,15 @@ namespace two
 
 		bind += t + t + "__ty = Type.ref(\"" + c + "\")\n";
 
+		for(DefaultConstructor& constructor : cls(type).m_default_constructors)
+		{
+			UNUSED(constructor);
+
+			bind += t + t + "__default_constructor = DefaultConstructor.ref(\"" + c + "\")\n";
+
+			constructors += t + "static new() { __default_constructor.call(this) }\n";
+		}
+
 		for(Constructor& constructor : cls(type).m_constructors)
 		{
 			string n = "constructor" + to_string(constructor.m_index);
@@ -496,7 +518,12 @@ namespace two
 				string params = callable_params(constructor, 1, count);
 				string paramsnext = params.empty() ? "" : ", " + params;
 
-				if(constructor.m_name == string(constructor.m_object_type->m_name))
+				const bool is_new = constructor.m_name == string(constructor.m_object_type->m_name);
+				// new() is already bound to the default constructor, when the parameters of this one are all defaulted
+				if(is_new && params.empty() && !cls(type).m_default_constructors.empty())
+					continue;
+
+				if(is_new)
 					constructors += t + "static new(" + params + ") { __" + n + ".call(this" + paramsnext + ") }\n";
 				else
 					constructors += t + "static " + constructor.m_name + "(" + params + ") { __" + n + ".call(this" + paramsnext + ") }\n";
@@ -631,6 +658,16 @@ namespace two
 					alloc_ref(vm, 0, 0, Ref(type));
 					g_wren_types[type->m_id] = wrenGetSlotHandle(vm, 0);
 				}
+			};
+		}
+		else if(strcmp(className, "DefaultConstructor") == 0)
+		{
+			methods.allocate = [](WrenVM* vm)
+			{
+				const char* c = wrenGetSlotString(vm, 1);
+				Type* type = system().find_type(c);
+				const DefaultConstructor* constructor = &cls(*type).m_default_constructors[0];
+				alloc_ref(vm, 0, 0, Ref(constructor));
 			};
 		}
 		else if(strcmp(className, "Constructor") == 0)
@@ -768,6 +805,11 @@ namespace two
 				return call_function_args<2>;
 		}
 
+		if(strcmp(className, "DefaultConstructor") == 0)
+		{
+			return default_construct;
+		}
+
 		if(strcmp(className, "Constructor") == 0)
 		{
 			return construct;
@@ -867,7 +909,7 @@ namespace two
 
 		for(int i = 0; i < count; ++i)
 		{
-			Var element = meta(*iter(sequence_type).m_element_type).m_empty_ref;
+			Var element = Var(Ref(*iter(sequence_type).m_element_type));
 			wrenGetListElement(vm, slot, i, slot + 1);
 			read_value(vm, slot + 1, element);
 			sequence(result).add(result, element);
@@ -1042,7 +1084,13 @@ namespace two
 				"    construct ref(name) {}\n"
 				"}\n"
 				"\n"
-				"foreign class Constructor {\n"
+				"foreign class DefaultConstructor {\n"
+			"    construct ref(class_name) {}\n"
+			"    \n"
+			"    foreign call(cls)\n"
+			"}\n"
+			"\n"
+			"foreign class Constructor {\n"
 				"    construct ref(class_name, index) {}\n"
 				"    \n"
 				"    foreign call(cls)\n"
@@ -1120,7 +1168,7 @@ namespace two
 		{
 			if(location.is_root())
 				return;
-			string imports = "import \"main\" for Function, Type, Constructor, CopyConstructor, Member, Method, Static, Operator, VirtualConstructor\n";
+			string imports = "import \"main\" for Function, Type, DefaultConstructor, Constructor, CopyConstructor, Member, Method, Static, Operator, VirtualConstructor\n";
 			wrenInterpret(m_vm, location.m_name, imports.c_str());
 		}
 
@@ -1268,7 +1316,7 @@ namespace two
 		wrenBegin(m_context->m_vm);
 		wrenEnsureSlots(m_context->m_vm, 1);
 		wrenGetVariable(m_context->m_vm, "main", name.c_str(), 0);
-		Var result = Ref(&type);
+		Var result = Var(Ref(&type));
 		read_value(m_context->m_vm, 0, result);
 		return result;
 	}
