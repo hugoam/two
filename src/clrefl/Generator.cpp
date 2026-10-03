@@ -22,19 +22,11 @@ namespace two
 {
 	using Json = json11::Json;
 
-	// the C++20 standard library headers, which a module importing the std module gets all of
+	// the standard headers a module importing the std module gets: the ones imported by the MSVC interfaces (.ixx), and atomic,
+	// which the MSVC standard library includes with memory
 	const char* c_std_headers[] = {
-		"algorithm", "any", "array", "atomic", "barrier", "bit", "bitset", "cassert", "cctype", "cerrno", "cfenv",
-		"cfloat", "charconv", "chrono", "cinttypes", "climits", "clocale", "cmath", "codecvt", "compare", "complex",
-		"concepts", "condition_variable", "coroutine", "csetjmp", "csignal", "cstdarg", "cstddef", "cstdint", "cstdio",
-		"cstdlib", "cstring", "ctime", "cuchar", "cwchar", "cwctype", "deque", "exception", "execution", "filesystem",
-		"format", "forward_list", "fstream", "functional", "future", "initializer_list", "iomanip", "ios", "iosfwd",
-		"iostream", "istream", "iterator", "latch", "limits", "list", "locale", "map", "memory", "memory_resource",
-		"mutex", "new", "numbers", "numeric", "optional", "ostream", "queue", "random", "ranges", "ratio", "regex",
-		"scoped_allocator", "semaphore", "set", "shared_mutex", "source_location", "span", "sstream", "stack",
-		"stdexcept", "stop_token", "streambuf", "string", "string_view", "syncstream", "system_error", "thread",
-		"tuple", "type_traits", "typeindex", "typeinfo", "unordered_map", "unordered_set", "utility", "valarray",
-		"variant", "vector", "version",
+		"algorithm", "atomic", "cmath", "fstream", "functional", "initializer_list", "map", "memory", "mutex", "random",
+		"regex", "set", "string", "thread", "tuple", "unordered_map", "unordered_set", "vector",
 	};
 
 	struct TopoSort
@@ -371,11 +363,9 @@ namespace two
 				has_default = true;
 				visit_tokens(c, [&](CXToken t) {
 					string token = spelling(c, t);
-					// a bare reference to the value type (e.g. Palette() or Colour::White) is qualified, the generated code lives outside its namespace
-					// it must be checked before the suffix rule below, which would otherwise match the bare name on its own
-					if(kind(t) == CXToken_Identifier && value_type.m_name == token && !ends_with(default_value, "::")) default_value += value_type.m_id;
-					else if(ends_with(default_value + token, value_type.m_name))
+					if(ends_with(default_value + token, value_type.m_name))
 						default_value += token;
+					else if(kind(t) == CXToken_Identifier && value_type.m_name == token) default_value += value_type.m_id;
 					else if(token != "=") default_value += token;
 				});
 				// the tokens of an expression expanded from a macro (e.g. UINT8_MAX converted to uint8_t) are not visited
