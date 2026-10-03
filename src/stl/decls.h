@@ -26,9 +26,9 @@ namespace stl
 
 	template <class T> struct span;
 	template <class T, size_t Size> struct array;
-	template <class T, class Alloc = TINYSTL_ALLOCATOR> class vector;
+	export_ template <class T, class Alloc = TINYSTL_ALLOCATOR> class vector;
 
-	template <class T> class function;
+	export_ template <class T> class function;
 }
 #endif
 

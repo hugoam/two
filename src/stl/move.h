@@ -14,7 +14,7 @@ namespace stl
 #include <stl/traits.h>
 namespace stl
 {
-	template <class T>
+	export_ template <class T>
 	constexpr remove_reference<T>&& move(T&& arg) noexcept
 	{
 		return (static_cast<remove_reference<T>&&>(arg));

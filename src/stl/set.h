@@ -15,8 +15,8 @@ namespace stl
 #include <stl/unordered_set.h>
 namespace stl
 {
-	template <class T>
-	export_ using set = stl::unordered_set<T>;
+	export_ template <class T>
+	using set = stl::unordered_set<T>;
 }
 #endif
 

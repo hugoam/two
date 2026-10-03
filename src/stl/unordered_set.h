@@ -14,7 +14,7 @@ namespace stl
 
 namespace stl {
 
-	template <class Key, class Alloc = TINYSTL_ALLOCATOR>
+	export_ template <class Key, class Alloc = TINYSTL_ALLOCATOR>
 	class unordered_set {
 	public:
 		unordered_set();

@@ -130,8 +130,6 @@ namespace stl {
 		this->m_last++;
 	}
 
-	template <class T, class Alloc>
-	inline bool operator==(const vector<T, Alloc>& left, const vector<T, Alloc>& right);
 }
 #endif
 

@@ -17,7 +17,7 @@ namespace stl
 {
 	using nullptr_t = decltype(nullptr);
 
-	template <class T>
+	export_ template <class T>
 	class refl_ nocopy_ unique_ptr
 	{
 	public:
@@ -101,7 +101,7 @@ namespace stl
 	template <class T, class U> inline bool operator==(const unique_ptr<T>& l, const unique_ptr<U>& r) { return (l.get() == r.get()); }
 	template <class T, class U> inline bool operator!=(const unique_ptr<T>& l, const unique_ptr<U>& r) {	return (l.get() != r.get()); }
 
-	template <class T, class... Types>
+	export_ template <class T, class... Types>
 	inline unique_ptr<T> make_unique(Types&&... args)
 	{
 		return unique_ptr<T>(new T(static_cast<Types&&>(args)...));
