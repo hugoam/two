@@ -635,6 +635,8 @@ namespace two
 			m_has_structs = file_exists(m_path + "/" + "Structs.h");
 		}
 
+		set<string> m_function_usrs;
+
 		// full C++20 module name, e.g. two.gfx.pbr
 		string module_name() const { return m_namespace != "" ? m_namespace + "." + m_dotname : m_dotname; }
 

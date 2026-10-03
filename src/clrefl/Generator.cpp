@@ -403,23 +403,16 @@ namespace two
 		});
 
 		// default arguments can't be repeated on an explicit specialization, they are the ones of its primary template
-		const CXCursor primary = clang_getSpecializedCursorTemplate(f.m_cursor);
-		if(f.m_cursor.kind == CXCursor_FunctionDecl && !clang_Cursor_isNull(primary))
-		{
-			size_t index = 0;
-			visit_children(primary, [&](CXCursor a)
+		size_t index = 0;
+		if(f.m_cursor.kind == CXCursor_FunctionDecl)
+			visit_children(clang_getSpecializedCursorTemplate(f.m_cursor), [&](CXCursor a)
 			{
-				if(a.kind != CXCursor_ParmDecl)
+				if(a.kind != CXCursor_ParmDecl || index >= f.m_params.size())
 					return;
-				if(index < f.m_params.size())
-				{
-					CLParam& p = f.m_params[index];
-					if(!p.m_has_default && p.m_type.m_type)
-						find_default_value(a, *p.m_type.m_type, p.m_has_default, p.m_default);
-				}
-				index++;
+				CLParam& p = f.m_params[index++];
+				if(!p.m_has_default && p.m_type.m_type)
+					find_default_value(a, *p.m_type.m_type, p.m_has_default, p.m_default);
 			});
-		}
 
 		for(size_t i = 0; i < f.m_params.size(); ++i)
 			if(!f.m_params[i].m_has_default)
@@ -661,7 +654,8 @@ namespace two
 			}
 			else if(c.kind == CXCursor_FunctionTemplate && has(annotations, "func"))
 				decl_function_template(module, parent, c);
-			else if(c.kind == CXCursor_FunctionDecl && has(annotations, "func") && should_reflect(c, module))
+			// a function is reflected once, not again at its redeclarations (e.g. the definition of an explicit specialization)
+			else if(c.kind == CXCursor_FunctionDecl && has(annotations, "func") && should_reflect(c, module) && module.m_function_usrs.insert(clang_string(clang_getCursorUSR(c))).second)
 				decl_function(module, parent, c);
 			else if(c.kind == CXCursor_FunctionDecl && has(annotations, "meth") && should_reflect(c, module))
 				decl_function_method(module, parent, c);

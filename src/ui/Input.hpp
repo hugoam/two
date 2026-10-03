@@ -87,6 +87,24 @@ namespace ui
 	}
 
 	template <>
+	inline bool input(Widget& parent, int& value, StatDef<int> def) { return number_input(parent, value, def); }
+
+	template <>
+	inline bool input(Widget& parent, float& value, StatDef<float> def) { return number_input(parent, value, def); }
+
+	template <>
+	inline bool field(Widget& parent, cstring name, bool& value, bool reverse) { return do_field([&](Widget& self) { return input<bool>(self, value); }, parent, name, reverse); }
+
+	template <>
+	inline bool field(Widget& parent, cstring name, string& value, bool reverse) { return do_field([&](Widget& self) { return input<string>(self, value); }, parent, name, reverse); }
+
+	template <>
+	inline bool field(Widget& parent, cstring name, int& value, StatDef<int> def, bool reverse) { return do_field([&](Widget& self) { return number_input<int>(self, value, def); }, parent, name, reverse); }
+
+	template <>
+	inline bool field(Widget& parent, cstring name, float& value, StatDef<float> def, bool reverse) { return do_field([&](Widget& self) { return number_input<float>(self, value, def); }, parent, name, reverse); }
+
+	template <>
 	inline bool input(Widget& parent, vec3& value) { return vec3_edit(parent, value); }
 
 	template <>
