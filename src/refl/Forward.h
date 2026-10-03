@@ -40,8 +40,6 @@ namespace two
 }
 
 #ifdef TWO_META_GENERATOR
-#include <stl/span.h>
-#include <stl/vector.h>
 namespace stl
 {
 	extern template struct refl_ span_ span<two::Type*>;

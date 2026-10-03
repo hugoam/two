@@ -100,25 +100,25 @@ namespace stl {
 		char m_small[12];
 	};
 
-	template <class Alloc>
+	export_ template <class Alloc>
 	inline bool operator==(const basic_string<Alloc>& lhs, const char* rhs) { return lhs == basic_string<Alloc>(rhs); }
 
-	template <class Alloc>
+	export_ template <class Alloc>
 	inline bool operator==(const char* lhs, const basic_string<Alloc>& rhs) { return basic_string<Alloc>(lhs) == rhs; }
 
-	template <class Alloc>
+	export_ template <class Alloc>
 	inline bool operator!=(const basic_string<Alloc>& lhs, const char* rhs) { return lhs != basic_string<Alloc>(rhs); }
 
-	template <class Alloc>
+	export_ template <class Alloc>
 	inline bool operator!=(const char* lhs, const basic_string<Alloc>& rhs) { return basic_string<Alloc>(lhs) != rhs; }
 
-	template <class Alloc>
+	export_ template <class Alloc>
 	basic_string<Alloc> operator+(const basic_string<Alloc>& lhs, const basic_string<Alloc>& rhs);
 
-	template <class Alloc>
+	export_ template <class Alloc>
 	basic_string<Alloc> operator+(const basic_string<Alloc>& lhs, const char* rhs);
 
-	template <class Alloc>
+	export_ template <class Alloc>
 	basic_string<Alloc> operator+(const char* lhs, const basic_string<Alloc>& rhs);
 
 	template <class Alloc>

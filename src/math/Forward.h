@@ -94,8 +94,6 @@ namespace two
 }
 
 #ifdef TWO_META_GENERATOR
-#include <stl/span.h>
-#include <stl/vector.h>
 //#include <math/Vec.h>
 namespace stl
 {

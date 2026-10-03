@@ -114,8 +114,6 @@ namespace two
 }
 
 #ifdef TWO_META_GENERATOR
-#include <stl/vector.h>
-#include <stl/span.h>
 #include <ui/Style/Style.h>
 namespace stl
 {

@@ -19,7 +19,6 @@ namespace two
 }
 
 #ifdef TWO_META_GENERATOR
-#include <stl/vector.h>
 namespace stl
 {
 	extern template class refl_ seque_ vector<two::Circle>;

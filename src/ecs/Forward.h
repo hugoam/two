@@ -20,7 +20,6 @@ namespace two
 }
 
 #ifdef TWO_META_GENERATOR
-#include <stl/vector.h>
 namespace stl
 {
 }
