@@ -540,12 +540,6 @@ extern "C" {
 	void DECL two_Layout__set_name(two::Layout* self, const char* value) {
 		self->m_name = value;
 	}
-	two::Solver DECL two_Layout__get_solver(two::Layout* self) {
-		return self->m_solver;
-	}
-	void DECL two_Layout__set_solver(two::Layout* self, two::Solver value) {
-		self->m_solver = value;
-	}
 	two::v2<two::AutoLayout>* DECL two_Layout__get_layout(two::Layout* self) {
 		return &self->m_layout;
 	}
@@ -1716,19 +1710,6 @@ extern "C" {
 	}
 	two::Align DECL two_Align_Count() {
 		return two::Align::Count;
-	}
-	// Solver
-	two::Solver DECL two_Solver_Frame() {
-		return two::Solver::Frame;
-	}
-	two::Solver DECL two_Solver_Row() {
-		return two::Solver::Row;
-	}
-	two::Solver DECL two_Solver_Grid() {
-		return two::Solver::Grid;
-	}
-	two::Solver DECL two_Solver_Table() {
-		return two::Solver::Table;
 	}
 	// AutoLayout
 	two::AutoLayout DECL two_AutoLayout_None() {

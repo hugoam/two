@@ -95,6 +95,7 @@ namespace two
 		v2<uint> d_index = { 0, 0 };
 		Axis d_length_override = Axis::None;	// the flow axis given explicitly, overriding the one of the style
 		Axis d_length = Axis::None;				// the flow axis, as resolved by the last layout
+		span<float> d_columns;					// the weights of the columns, for a table
 
 		Opacity m_opacity = Opacity::Clear;
 

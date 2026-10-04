@@ -46,14 +46,6 @@ namespace two
 	extern table<Align, float> c_align_extent;
 	extern table<Align, float> c_align_space;
 
-	export_ enum class refl_ Solver : unsigned int
-	{
-		Frame = 0,
-		Row = 1,
-		Grid = 2,
-		Table = 3,
-	};
-
 	export_ enum class refl_ AutoLayout : unsigned int
 	{
 		None = 0,

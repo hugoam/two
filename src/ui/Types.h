@@ -13,7 +13,6 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::FlowAxis>();
     template <> TWO_UI_EXPORT Type& type<two::Pivot>();
     template <> TWO_UI_EXPORT Type& type<two::Align>();
-    template <> TWO_UI_EXPORT Type& type<two::Solver>();
     template <> TWO_UI_EXPORT Type& type<two::AutoLayout>();
     template <> TWO_UI_EXPORT Type& type<two::LayoutFlow>();
     template <> TWO_UI_EXPORT Type& type<two::Sizing>();

@@ -728,15 +728,6 @@ Object.defineProperty(Layout.prototype, "name", {
         _two_Layout__set_name(this.__ptr, ensureString(value));
     }
 });
-Object.defineProperty(Layout.prototype, "solver", {
-    get: function() {
-        return _two_Layout__get_solver(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('Layout.solver: expected integer');
-        _two_Layout__set_solver(this.__ptr, value);
-    }
-});
 Object.defineProperty(Layout.prototype, "layout", {
     get: function() {
         return wrapPointer(_two_Layout__get_layout(this.__ptr), v2_two_AutoLayout);
@@ -2282,12 +2273,6 @@ Module['ui']['file_tree'] = function(a0, a1, a2) {
         Module['Align']['OutLeft'] = _two_Align_OutLeft();
         Module['Align']['OutRight'] = _two_Align_OutRight();
         Module['Align']['Count'] = _two_Align_Count();
-        // Solver
-        Module['Solver'] = Module['Solver'] || {};
-        Module['Solver']['Frame'] = _two_Solver_Frame();
-        Module['Solver']['Row'] = _two_Solver_Row();
-        Module['Solver']['Grid'] = _two_Solver_Grid();
-        Module['Solver']['Table'] = _two_Solver_Table();
         // AutoLayout
         Module['AutoLayout'] = Module['AutoLayout'] || {};
         Module['AutoLayout']['None'] = _two_AutoLayout_None();

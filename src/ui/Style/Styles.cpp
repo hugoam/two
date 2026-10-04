@@ -24,8 +24,8 @@ namespace two
 
 	void Styles::reset()
 	{
-		widget = Style("Widget", nullptr, [](Layout& l) { l.m_solver = Solver::Frame; });
-		wedge = Style("Wedge", widget, [](Layout& l) { l.m_solver = Solver::Row; l.m_space = Preset::Sheet; });
+		widget = Style("Widget", nullptr, [](Layout& l) { l.m_layout = { AutoLayout::None, AutoLayout::None }; });
+		wedge = Style("Wedge", widget, [](Layout& l) { l.m_layout = { AutoLayout::Layout, AutoLayout::Layout }; l.m_space = Preset::Sheet; });
 		ui = Style("Ui", wedge, [](Layout& l) { l.m_space = Preset::Layout; l.m_clipping = Clip::Clip; l.m_opacity = Opacity::Opaque; });
 
 		unit = Style("Unit", wedge, [](Layout& l) { l.m_space = Preset::Unit; l.m_align = { Align::Left, Align::Center }; },
@@ -113,15 +113,15 @@ namespace two
 		color_wheel = Style("ColourWheel", control, [](Layout& l) { l.m_size = vec2(200.f); }, [](InkStyle& l) { l.m_empty = false; });
 		color_slab = Style("ColourSlab", control, [](Layout& l) { l.m_size = vec2(22.f); }, [](InkStyle& l) { l.m_empty = false; });
 		color_display = Style("ColourDisplay", flex, {}, [](InkStyle& l) { l.m_empty = false; });
-		color_toggle = Style("ColourToggle", color_slab, [](Layout& l) { l.m_solver = Solver::Row; }, [](InkStyle& l) { l.m_empty = false; });
+		color_toggle = Style("ColourToggle", color_slab, [](Layout& l) { l.m_layout = { AutoLayout::Layout, AutoLayout::Layout }; }, [](InkStyle& l) { l.m_empty = false; });
 
-		scrollsheet = Style("ScrollSheet", wedge, [](Layout& l) { l.m_solver = Solver::Grid; l.m_opacity = Opacity::Opaque; l.m_grid_division = { Preset::Layout, Preset::Line }; });
+		scrollsheet = Style("ScrollSheet", wedge, [](Layout& l) { l.m_opacity = Opacity::Opaque; l.m_grid_division = { Preset::Layout, Preset::Line }; });
 		scroll_zone = Style("ScrollZone", layout, [](Layout& l) { l.m_layout = { AutoLayout::Size, AutoLayout::Size }; l.m_clipping = Clip::Clip; });
 
 		scroll_surface = Style("ScrollSurface", wedge, {});
 		scroll_plan = Style("ScrollPlan", sheet, [](Layout& l) { l.m_space = Preset::Block; }); // { l.m_custom_draw = &draw_grid }
 
-		table = Style("Table", stack, [](Layout& l) { l.m_solver = Solver::Table; l.m_spacing = vec2(0.f, 2.f); });
+		table = Style("Table", stack, [](Layout& l) { l.m_spacing = vec2(0.f, 2.f); });
 		table_head = Style("TableHead", gridsheet, [](Layout& l) { l.m_space = Preset::Div; });
 		column_header = Style("ColumnHeader", row, [](Layout& l) { l.m_space = Preset::Line; });
 

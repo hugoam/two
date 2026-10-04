@@ -11,12 +11,16 @@ namespace two
 	Table::Table(Widget* parent, void* identity, span<float> weights)
 		: Widget(parent, identity)
 		, m_weights(to_vector(weights))
-	{}
+	{
+		m_frame.d_columns = m_weights;
+	}
 
 	Table::Table(Widget* parent, void* identity, size_t columns)
 		: Widget(parent, identity)
 		, m_weights(columns, 1.f)
-	{}
+	{
+		m_frame.d_columns = m_weights;
+	}
 
 namespace ui
 {

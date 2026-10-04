@@ -10,8 +10,6 @@ void two_Pivot__to_string(void* val, string& str) { str = g_enu[type<two::Pivot>
 void two_Pivot__to_value(const string& str, void* val) { (*static_cast<two::Pivot*>(val)) = two::Pivot(g_enu[type<two::Pivot>().m_id]->value(str.c_str())); }
 void two_Align__to_string(void* val, string& str) { str = g_enu[type<two::Align>().m_id]->name(uint32_t((*static_cast<two::Align*>(val)))); }
 void two_Align__to_value(const string& str, void* val) { (*static_cast<two::Align*>(val)) = two::Align(g_enu[type<two::Align>().m_id]->value(str.c_str())); }
-void two_Solver__to_string(void* val, string& str) { str = g_enu[type<two::Solver>().m_id]->name(uint32_t((*static_cast<two::Solver*>(val)))); }
-void two_Solver__to_value(const string& str, void* val) { (*static_cast<two::Solver*>(val)) = two::Solver(g_enu[type<two::Solver>().m_id]->value(str.c_str())); }
 void two_AutoLayout__to_string(void* val, string& str) { str = g_enu[type<two::AutoLayout>().m_id]->name(uint32_t((*static_cast<two::AutoLayout*>(val)))); }
 void two_AutoLayout__to_value(const string& str, void* val) { (*static_cast<two::AutoLayout*>(val)) = two::AutoLayout(g_enu[type<two::AutoLayout>().m_id]->value(str.c_str())); }
 void two_LayoutFlow__to_string(void* val, string& str) { str = g_enu[type<two::LayoutFlow>().m_id]->name(uint32_t((*static_cast<two::LayoutFlow*>(val)))); }
@@ -311,18 +309,6 @@ namespace two
 		static Enum enu = { t, true, ids, values, refs };
 		static Convert convert = { two_Align__to_string,
 		                           two_Align__to_value };
-		g_convert[t.m_id] = &convert;
-	}
-	{
-		Type& t = type<two::Solver>();
-		static Meta meta = { t, &namspc({ "two" }), "Solver", sizeof(two::Solver), TypeClass::Enum };
-		static cstring ids[] = { "Frame", "Row", "Grid", "Table" };
-		static uint32_t values[] = { 0, 1, 2, 3 };
-		static two::Solver vars[] = { two::Solver::Frame, two::Solver::Row, two::Solver::Grid, two::Solver::Table};
-		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3]};
-		static Enum enu = { t, true, ids, values, refs };
-		static Convert convert = { two_Solver__to_string,
-		                           two_Solver__to_value };
 		g_convert[t.m_id] = &convert;
 	}
 	{
@@ -843,7 +829,6 @@ namespace two
 		// bases
 		// defaults
 		static stl::string name_default = "";
-		static two::Solver solver_default = Solver::Frame;
 		static two::v2<two::AutoLayout> layout_default = {AutoLayout::Layout,AutoLayout::Layout};
 		static two::LayoutFlow flow_default = LayoutFlow::Flow;
 		static two::Space space_default = Preset::Sheet;
@@ -869,7 +854,6 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::Layout, m_name), type<stl::string>(), "name", &name_default, Member::Value, nullptr },
-			{ t, offsetof(two::Layout, m_solver), type<two::Solver>(), "solver", &solver_default, Member::Value, nullptr },
 			{ t, offsetof(two::Layout, m_layout), type<two::v2<two::AutoLayout>>(), "layout", &layout_default, Member::Value, nullptr },
 			{ t, offsetof(two::Layout, m_flow), type<two::LayoutFlow>(), "flow", &flow_default, Member::Value, nullptr },
 			{ t, offsetof(two::Layout, m_space), type<two::Space>(), "space", &space_default, Member::Value, nullptr },
@@ -1567,7 +1551,6 @@ namespace two
 		m.m_types.push_back(&type<two::FlowAxis>());
 		m.m_types.push_back(&type<two::Pivot>());
 		m.m_types.push_back(&type<two::Align>());
-		m.m_types.push_back(&type<two::Solver>());
 		m.m_types.push_back(&type<two::AutoLayout>());
 		m.m_types.push_back(&type<two::LayoutFlow>());
 		m.m_types.push_back(&type<two::Sizing>());

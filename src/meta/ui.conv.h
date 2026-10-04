@@ -17,9 +17,6 @@ namespace two
 	template <> inline void to_value(const string& str, two::Align& val) { val = two::Align(enu<two::Align>().value(str.c_str())); };
 	template <> inline void to_string(const two::Align& val, string& str) { str = enu<two::Align>().name(uint32_t(val)); };
 	
-	template <> inline void to_value(const string& str, two::Solver& val) { val = two::Solver(enu<two::Solver>().value(str.c_str())); };
-	template <> inline void to_string(const two::Solver& val, string& str) { str = enu<two::Solver>().name(uint32_t(val)); };
-	
 	template <> inline void to_value(const string& str, two::AutoLayout& val) { val = two::AutoLayout(enu<two::AutoLayout>().value(str.c_str())); };
 	template <> inline void to_string(const two::AutoLayout& val, string& str) { str = enu<two::AutoLayout>().name(uint32_t(val)); };
 	

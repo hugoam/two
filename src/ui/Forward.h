@@ -39,7 +39,6 @@ namespace two
     export_ enum class FlowAxis : unsigned int;
     export_ enum class Pivot : unsigned int;
     export_ enum class Align : unsigned int;
-    export_ enum class Solver : unsigned int;
     export_ enum class AutoLayout : unsigned int;
     export_ enum class LayoutFlow : unsigned int;
     export_ enum class Sizing : unsigned int;

@@ -51,14 +51,12 @@ namespace two
 	LayoutNode LayoutTree::node(const Layout& layout, Axis length, Axis parent_length) const
 	{
 		LayoutNode node;
-		node.solver = layout.m_solver;
 		node.flow = layout.m_flow;
 		node.autolayout = layout.m_layout;
 		node.align = layout.m_align;
 		node.padding = layout.m_padding;
 		node.margin = layout.m_margin;
 		node.spacing = layout.m_spacing;
-		node.no_grid = layout.m_no_grid;
 		node.length = flow_axis(layout.m_space.direction, length, parent_length);
 		set_sizing(node, layout.m_space);
 		return node;
@@ -114,22 +112,20 @@ namespace two
 
 	// a child is laid out by its parent frame, except:
 	// - the children of a grid are laid out by the line of the grid they are on
-	// - the children of the rows of a table are laid out by their column along the row
+	// - the cells of the rows of a table are laid out by their column along the row
 	uint32_t LayoutTree::container(uint32_t parent, Frame& frame, Axis dim) const
 	{
 		const LayoutNode& p = m_nodes[parent];
-		if(p.solver == Solver::Grid && p.length != Axis::None)
+		if(p.tracks == LayoutTracks::Lines && p.length != Axis::None)
 		{
 			const uint line = frame.d_index[p.length];
 			return line < p.virtuals ? parent + 1 + line : parent;
 		}
 
-		const uint32_t grand = p.frame_parent;
-		const LayoutNode& g = m_nodes[grand];
-		if(parent > 0 && dim == p.length && g.solver == Solver::Table && !p.no_grid)
+		if(p.row_of && dim == p.length)
 		{
 			const uint column = frame.d_widget.m_sibling;
-			return column + 1 < g.virtuals ? grand + 2 + column : grand;
+			return column < m_nodes[p.row_of].virtuals ? p.row_of + 1 + column : p.row_of;
 		}
 
 		return parent;
@@ -146,6 +142,7 @@ namespace two
 		LayoutNode node = this->node(*frame.d_layout, frame.d_length_override, root ? Axis::Y : m_nodes[parent].length);
 		node.frame_parent = parent;
 		node.container = root ? v2<uint32_t>(0, 0) : v2<uint32_t>(this->container(parent, frame, Axis::X), this->container(parent, frame, Axis::Y));
+		node.row_of = !root && m_nodes[parent].tracks == LayoutTracks::Columns && !frame.d_layout->m_no_grid ? parent : 0;
 		this->read_frame(node, frame);
 
 		m_nodes.push_back(node);
@@ -171,33 +168,31 @@ namespace two
 		};
 
 		const uint32_t first = uint32_t(m_nodes.size());
+		const span<float> columns = !frame.d_columns.empty() ? frame.d_columns : span<float>(layout.m_table_division);
 
-		if(layout.m_solver == Solver::Grid)
+		if(!layout.m_grid_division.empty())
 		{
 			// a line of a grid spans the grid along the reading direction
+			m_nodes[index].tracks = LayoutTracks::Lines;
 			for(const Space& space : layout.m_grid_division)
 			{
 				LayoutNode& line = add(index, Axis::X);
 				set_sizing(line, space);
 			}
 		}
-		else if(layout.m_solver == Solver::Table)
+		else if(!columns.empty())
 		{
-			// the columns of a table are laid out in sequence in an overlay spanning the table
-			LayoutNode& overlay = add(index, Axis::X);
-			overlay.flow = LayoutFlow::Overlay;
-			overlay.sizing = { Sizing::Wrap, Sizing::Wrap };
-			overlay.spacing = vec2(2.f);
-
-			const uint32_t overlay_index = first;
-			Widget& widget = frame.d_widget;
-			span<float> weights = widget.is_type<Table>(widget) ? span<float>(static_cast<Table&>(widget).m_weights) : span<float>(layout.m_table_division);
-			for(float weight : weights)
+			// the columns of a table are tracks laid out in sequence across its rows, and grow by their weight
+			m_nodes[index].tracks = LayoutTracks::Columns;
+			const Axis across = flip(m_nodes[index].length);
+			for(float weight : columns)
 			{
-				LayoutNode& column = add(overlay_index, Axis::Y);
+				LayoutNode& column = add(index, flip(across));
+				column.track = across;
 				column.sizing = { Sizing::Wrap, Sizing::Wrap };
-				column.autolayout = { AutoLayout::Layout, AutoLayout::None };
-				column.span = { weight, 0.f };
+				column.autolayout[across] = AutoLayout::Layout;
+				column.autolayout[flip(across)] = AutoLayout::None;
+				column.span[across] = weight;
 			}
 		}
 
@@ -234,6 +229,12 @@ namespace two
 		return n.sizing[dim] >= Sizing::Wrap;
 	}
 
+	// a flowing node is laid out in sequence along the flow of its container, or along its own track for the columns of a table
+	static bool flows(const LayoutNode& container, const LayoutNode& n, Axis dim)
+	{
+		return n.flow == LayoutFlow::Flow && dim == (n.track != Axis::None ? n.track : container.length);
+	}
+
 	// across the flow, or out of it, a node is sized in the space of its container alone
 	static float fit(const LayoutNode& n, Axis dim, float space)
 	{
@@ -254,9 +255,8 @@ namespace two
 		for(uint32_t i = uint32_t(m_nodes.size()); i-- > 0;)
 		{
 			LayoutNode& p = m_nodes[i];
-			if(p.solver != Solver::Frame && p.sizing[dim] != Sizing::Fixed)
+			if(p.autolayout[dim] != AutoLayout::None && p.sizing[dim] != Sizing::Fixed)
 			{
-				const bool along = dim == p.length;
 				float sequence = 0.f;
 				float largest = 0.f;
 				uint32_t count = 0;
@@ -266,7 +266,7 @@ namespace two
 					const float bounds = minimum(n, dim) + n.margin[dim] * 2.f;
 					if(n.flow > LayoutFlow::Overlay)
 						continue;
-					else if(along && n.flow == LayoutFlow::Flow)
+					else if(flows(p, n, dim))
 						sequence += bounds, ++count;
 					else if(n.sizing[dim] != Sizing::Expand)
 						largest = max(largest, bounds);
@@ -298,7 +298,7 @@ namespace two
 		for(uint32_t c = m_first[container][dim]; c; c = m_next[c][dim])
 		{
 			LayoutNode& n = m_nodes[c];
-			if(n.flow != LayoutFlow::Flow)
+			if(!flows(p, n, dim))
 				continue;
 
 			++count;
@@ -323,7 +323,7 @@ namespace two
 			for(uint32_t c = m_first[container][dim]; c; c = m_next[c][dim])
 			{
 				LayoutNode& n = m_nodes[c];
-				if(n.flow != LayoutFlow::Flow || !grows(n, dim) || m_frozen[c])
+				if(!flows(p, n, dim) || !grows(n, dim) || m_frozen[c])
 					continue;
 
 				const float least = minimum(n, dim);
@@ -341,7 +341,7 @@ namespace two
 		for(uint32_t c = m_first[container][dim]; c; c = m_next[c][dim])
 		{
 			LayoutNode& n = m_nodes[c];
-			if(n.flow == LayoutFlow::Flow && grows(n, dim) && !m_frozen[c])
+			if(flows(p, n, dim) && grows(n, dim) && !m_frozen[c])
 				n.size[dim] = spans > 0.f ? left * n.span[dim] / spans : 0.f;
 		}
 	}
@@ -356,7 +356,7 @@ namespace two
 		for(uint32_t c = m_first[container][dim]; c; c = m_next[c][dim])
 		{
 			const LayoutNode& n = m_nodes[c];
-			if(n.flow == LayoutFlow::Flow)
+			if(flows(p, n, dim))
 				used += n.extent(dim), ++count;
 		}
 		used += count > 1 ? float(count - 1) * p.spacing[dim] : 0.f;
@@ -366,7 +366,7 @@ namespace two
 		for(uint32_t c = m_first[container][dim]; c; c = m_next[c][dim])
 		{
 			LayoutNode& n = m_nodes[c];
-			if(n.flow != LayoutFlow::Flow)
+			if(!flows(p, n, dim))
 				continue;
 			n.position[dim] = cursor + n.margin[dim] + leftover * c_align_space[n.align[dim]];
 			n.positioned[dim] = true;
@@ -383,44 +383,38 @@ namespace two
 		for(uint32_t i = 0; i < uint32_t(m_nodes.size()); ++i)
 		{
 			const LayoutNode& p = m_nodes[i];
-			if(p.solver == Solver::Frame || !m_first[i][dim])
+			if(p.autolayout[dim] == AutoLayout::None || !m_first[i][dim])
 				continue;
 
-			const bool along = dim == p.length;
 			const float space = p.space(dim);
 
 			// the spans of the growing children are normalized, so that they read as fractions of the space they share
-			if(along)
-			{
-				float spans = 0.f;
-				for(uint32_t c = m_first[i][dim]; c; c = m_next[c][dim])
-					if(m_nodes[c].flow == LayoutFlow::Flow && grows(m_nodes[c], dim))
-						spans += m_nodes[c].span[dim];
-				for(uint32_t c = m_first[i][dim]; c; c = m_next[c][dim])
-					if(m_nodes[c].flow == LayoutFlow::Flow && grows(m_nodes[c], dim) && spans > 0.f)
-						m_nodes[c].span[dim] /= spans;
-			}
+			float spans = 0.f;
+			for(uint32_t c = m_first[i][dim]; c; c = m_next[c][dim])
+				if(flows(p, m_nodes[c], dim) && grows(m_nodes[c], dim))
+					spans += m_nodes[c].span[dim];
+			for(uint32_t c = m_first[i][dim]; c; c = m_next[c][dim])
+				if(flows(p, m_nodes[c], dim) && grows(m_nodes[c], dim) && spans > 0.f)
+					m_nodes[c].span[dim] /= spans;
 
 			if(p.autolayout[dim] >= AutoLayout::Size)
 			{
-				if(along)
-					this->distribute(i, dim, space);
+				this->distribute(i, dim, space);
 				for(uint32_t c = m_first[i][dim]; c; c = m_next[c][dim])
 				{
 					LayoutNode& n = m_nodes[c];
-					if(!(along && n.flow == LayoutFlow::Flow))
+					if(!flows(p, n, dim))
 						n.size[dim] = fit(n, dim, space - n.margin[dim] * 2.f);
 				}
 			}
 
 			if(p.autolayout[dim] >= AutoLayout::Layout)
 			{
-				if(along)
-					this->sequence(i, dim, space);
+				this->sequence(i, dim, space);
 				for(uint32_t c = m_first[i][dim]; c; c = m_next[c][dim])
 				{
 					LayoutNode& n = m_nodes[c];
-					if(n.flow > LayoutFlow::Align || (along && n.flow == LayoutFlow::Flow))
+					if(n.flow > LayoutFlow::Align || flows(p, n, dim))
 						continue;
 					const bool flow = n.flow == LayoutFlow::Flow;
 					const Align align = n.align[dim];

@@ -18,7 +18,6 @@ namespace two
 		Layout(T_Initializer func) { func(*this); }
 
 		attr_ string m_name = "";
-		attr_ Solver m_solver = Solver::Frame;
 		attr_ v2<AutoLayout> m_layout = { AutoLayout::Layout, AutoLayout::Layout };
 		attr_ LayoutFlow m_flow = LayoutFlow::Flow;
 		attr_ Space m_space = Preset::Sheet;

@@ -8,7 +8,6 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::FlowAxis>() { static Type ty("FlowAxis", sizeof(two::FlowAxis)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Pivot>() { static Type ty("Pivot", sizeof(two::Pivot)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Align>() { static Type ty("Align", sizeof(two::Align)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::Solver>() { static Type ty("Solver", sizeof(two::Solver)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::AutoLayout>() { static Type ty("AutoLayout", sizeof(two::AutoLayout)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::LayoutFlow>() { static Type ty("LayoutFlow", sizeof(two::LayoutFlow)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Sizing>() { static Type ty("Sizing", sizeof(two::Sizing)); return ty; }
