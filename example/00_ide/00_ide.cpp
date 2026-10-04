@@ -216,21 +216,21 @@ namespace
 	{
 		Widget& tools = ui::tooldock(key(), parent);
 
-		Widget& navigation = ui::toolbar(key(), tools);
+		Widget& navigation = ui::toolbar(key(), tools, true);
 		ui::toolbutton(key(), navigation, "(vs/backwards)");
 		ui::toolbutton(key(), navigation, "(vs/forwards)");
 
-		Widget& files = ui::toolbar(key(), tools);
+		Widget& files = ui::toolbar(key(), tools, true);
 		ui::toolbutton(key(), files, "(vs/new_item)");
 		ui::toolbutton(key(), files, "(vs/open_file)");
 		ui::toolbutton(key(), files, "(vs/save)");
 		ui::toolbutton(key(), files, "(vs/save_all)");
 
-		Widget& edit = ui::toolbar(key(), tools);
+		Widget& edit = ui::toolbar(key(), tools, true);
 		ui::toolbutton(key(), edit, "(vs/undo)");
 		ui::toolbutton(key(), edit, "(vs/redo)");
 
-		Widget& build = ui::toolbar(key(), tools);
+		Widget& build = ui::toolbar(key(), tools, true);
 		static cstring configurations[] = { "Debug", "Release" };
 		static cstring platforms[] = { "x64", "x86", "ARM64" };
 		static cstring arguments[] = { "No command-line arg", "--test", "--verbose" };
@@ -238,7 +238,7 @@ namespace
 		ui::dropdown_input(key(), build, platforms, ide.m_platform);
 		ui::dropdown_input(key(), build, arguments, ide.m_arguments);
 
-		Widget& debug = ui::toolbar(key(), tools);
+		Widget& debug = ui::toolbar(key(), tools, true);
 		static cstring debuggers[] = { "Local Windows Debugger", "Remote Windows Debugger", "Web Browser" };
 		static cstring scopes[] = { "Auto", "Current Document", "Entire Solution" };
 		ui::toolbutton(key(), debug, "(vs/run)");
@@ -246,7 +246,7 @@ namespace
 		ui::toolbutton(key(), debug, "(vs/run_outline)");
 		ui::dropdown_input(key(), debug, scopes, ide.m_scope);
 
-		Widget& misc = ui::toolbar(key(), tools);
+		Widget& misc = ui::toolbar(key(), tools, true);
 		ui::toolbutton(key(), misc, "(vs/attach)");
 		ui::toolbutton(key(), misc, "(vs/bookmark)");
 		ui::toolbutton(key(), misc, "(vs/comment)");
