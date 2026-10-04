@@ -814,9 +814,12 @@ bool pump(RenderSystem& render_system, BgfxContext& context, UiWindow& ui_window
 	void iterate() { pump(*g_render_system, *g_window); }
 #endif
 
+void install_crash_report();
+
 int main(int argc, char *argv[])
 {
 	UNUSED(argc); UNUSED(argv);
+	install_crash_report();
 #ifdef SCRIPT
 	System::instance().load_modules({ &two_obj::m(), &two_math::m(), &two_lang::m(), &two_ui::m() });
 #endif

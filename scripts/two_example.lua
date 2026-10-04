@@ -35,6 +35,12 @@ function two_example(name, deps, exdeps, ismodule)
     end
 
     two_binary(name, table.union({ _G[name] }, exdeps))
+
+    -- install_crash_report(): with TWO_NO_CRASH_DIALOG set, crashes print a stack trace instead of popping a dialog
+    configuration {}
+        files {
+            path.join(TWO_DIR, "example", "CrashReport.cpp"),
+        }
 end
 
 group "examples"
