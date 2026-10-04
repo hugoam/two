@@ -58,30 +58,27 @@ namespace ui
 		return self;
 	}
 
-	Widget* dockitem(Widget& parent, Docksystem& docksystem, Dock& dock)
+	Widget* dockitem(Widget& parent, Docksystem& docksystem, cstring name)
 	{
-		UNUSED(docksystem);
-		if(dock.m_dockid.size() > 0)
+		Dock*& dock = docksystem.m_item_docks[name];
+		if(dock)
 		{
-			return dock.m_docker->docksection(dock);
+			return dock->m_docker->docksection(*dock, name);
 		}
 		else
 		{
-			Window& container = window(parent, dock.m_name, WindowState(uint(WindowState::Dockable) | uint(WindowState::Default)), &dock);
-			container.m_dock = &dock;
+			Window& container = window(parent, name, WindowState(uint(WindowState::Dockable) | uint(WindowState::Default)), &dock);
 			return &container;
 		}
 	}
 
 	Widget* dockitem(Docker& docker, cstring name, span<uint16_t> dockid, float span)
 	{
-		if(docker.m_docksystem->m_docks.find(name) == docker.m_docksystem->m_docks.end())
-		{
-			docker.m_docksystem->m_docks[name] = { docker, name, to_vector(dockid), span };
-			docker.m_docks.push_back(&docker.m_docksystem->m_docks[name]);
-		}
+		// the first time an item is seen, it's stacked in the dock at dockid, or left floating if there is none
+		if(!dockid.empty() && !docker.m_docksystem->m_item_docks.contains(name))
+			docker.dock_create(name, dockid, span);
 
-		return dockitem(docker, *docker.m_docksystem, docker.m_docksystem->m_docks[name]);
+		return dockitem(docker, *docker.m_docksystem, name);
 	}
 }
 }

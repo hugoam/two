@@ -26,7 +26,7 @@ namespace ui
 	export_ TWO_UI_EXPORT func_ Dockspace& dockspace(Widget& parent, Docksystem& docksystem);
 	export_ TWO_UI_EXPORT func_ Dockbar& dockbar(Widget& parent, Docksystem& docksystem);
 
-	export_ TWO_UI_EXPORT func_ Widget* dockitem(Widget& parent, Docksystem& docksystem, Dock& dock);
+	export_ TWO_UI_EXPORT func_ Widget* dockitem(Widget& parent, Docksystem& docksystem, cstring name);
 
 	export_ TWO_UI_EXPORT Widget* dockitem(Docker& docker, cstring name, span<uint16_t> dockid = {}, float span = 0.f);
 }

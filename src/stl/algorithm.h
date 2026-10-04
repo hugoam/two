@@ -231,13 +231,31 @@ namespace stl
 		auto result = find_if(vec.begin(), vec.end(), predicate);
 		return result == vec.end() ? *result : nullptr;
 	}
+	
+	export_ template <class T, class V>
+	inline bool equals(const T& vec, const V& other)
+	{
+		return equal(vec.begin(), vec.end(), other.begin(), other.end());
+	}
 
 	export_ template <class T>
 	inline bool contains(const T& vec, const T& other)
 	{
 		return includes(vec.begin(), vec.end(), other.begin(), other.end());
 	}
-	
+
+	export_ template <class T, class U>
+	inline bool has_prefix(const T& vec, const U& prefix)
+	{
+		return vec.size() >= prefix.size() && equal(prefix.begin(), prefix.end(), vec.begin(), vec.begin() + prefix.size());
+	}
+
+	export_ template <class T, class U>
+	inline bool has_suffix(const T& vec, const U& suffix)
+	{
+		return vec.size() >= suffix.size() && equal(suffix.begin(), suffix.end(), vec.end() - suffix.size(), vec.end());
+	}
+
 	export_ template <class T>
 	inline T reverse(const T& vec)
 	{
@@ -393,7 +411,10 @@ namespace two
 	export_ using stl::find_if;
   //export_ using stl::in;
 	export_ using stl::equal;
+	export_ using stl::equals;
 	export_ using stl::contains;
+	export_ using stl::has_prefix;
+	export_ using stl::has_suffix;
 	export_ using stl::reverse;
 	export_ using stl::push;
 	export_ using stl::add;

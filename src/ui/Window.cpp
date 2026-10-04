@@ -92,6 +92,7 @@ namespace ui
 	{
 		Window& self = parent.subi<Window>(identity);
 		self.m_dock = dock;
+		self.m_name = title;
 		self.init(dock ? window_styles().dock_window : window_styles().window).layer();
 
 		if(self.once())

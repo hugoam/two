@@ -13,11 +13,11 @@ namespace two
 	export_ struct refl_ TWO_UI_EXPORT Dock
 	{
 		Dock();
-		Dock(Docker& docker, cstring name, vector<uint16_t> dockid, float span = 0.f);
+		Dock(Docker& docker, vector<uint16_t> dockid, float span = 0.f);
 		Docker* m_docker = nullptr;
-		cstring m_name;
 		vector<uint16_t> m_dockid;
 		float m_span = 0.f;
+		vector<string> m_items;
 	};
 
 	export_ class refl_ TWO_UI_EXPORT Docksystem
@@ -27,7 +27,7 @@ namespace two
 
 		void dock(Dockable& widget, const vec2& pos);
 
-		map<string, Dock> m_docks;
+		map<string, Dock*> m_item_docks;
 		vector<Docker*> m_dockers;
 	};
 
@@ -36,41 +36,50 @@ namespace two
 	public:
 		Dockable(Widget* parent, void* identity);
 		Dock* m_dock = nullptr;
+		cstring m_name = nullptr;
 	};
 
 	export_ class refl_ TWO_UI_EXPORT Docker : public Widget
 	{
 	public:
 		Docker(Widget* parent, void* identity, Docksystem& docksystem);
+		~Docker();
 
-		virtual Widget* docksection(Dock& dock) = 0;
+		virtual Widget* docksection(Dock& dock, cstring name) = 0;
 
 		virtual void dock(Dockable& widget, const vec2& pos) = 0;
 
-		void dock_split(Dock& dock, Dock& target, bool after);
-		void dock_insert(Dock& dock, Dock& target, bool after);
+		Dock& dock_split(Dock& target, bool after);
+		Dock& dock_insert(Dock& target, bool after);
+		void dock_stack(Dock& dock, cstring name);
+		void dock_remove(Dock& dock, cstring name);
 
+		void dock_create(cstring name, span<uint16_t> dockid, float span);
 		void undock(Dockable& dockable);
 
-		void shift(Dock& start, bool add);
+		Dock& add_dock(vector<uint16_t> dockid, float span = 0.f);
+
+		span<unique<Dock>> sub_docks(span<uint16_t> dockid);
+
+		void shift_add(const vector<uint16_t>& dockid);
+		void shift_remove(const vector<uint16_t>& dockid);
 
 		Docksystem* m_docksystem;
-		vector<Dock*> m_docks;
+		vector<unique<Dock>> m_docks;
 	};
 
 	export_ class refl_ TWO_UI_EXPORT Dockspace : public Docker
 	{
 	public:
 		Dockspace(Widget* parent, void* identity, Docksystem& docksystem);
-		~Dockspace();
 
 		Dockable& pinpoint_dock(const vec2& pos);
 
-		virtual Widget* docksection(Dock& dock) final;
+		virtual Widget* docksection(Dock& dock, cstring name) final;
 
 		virtual void dock(Dockable& widget, const vec2& pos) final;
 
-		void dock(Dock& dock, Dock& target, Frame& frame, const vec2& pos);
+		void dock(cstring name, Dock& target, Frame& frame, const vec2& pos);
 
 		Widget* m_mainline;
 	};
@@ -83,7 +92,7 @@ namespace two
 		Widget* m_togglebar = nullptr;
 		Widget* m_dockzone = nullptr;
 
-		virtual Widget* docksection(Dock& dock) final;
+		virtual Widget* docksection(Dock& dock, cstring name) final;
 
 		virtual void dock(Dockable& widget, const vec2& pos) final;
 
