@@ -12,13 +12,13 @@ namespace two
 {
 namespace ui
 {
-	Widget* hoverbox(Widget& parent, const vec2& position, float delay)
+	Widget* hoverbox(NodeKey id, Widget& parent, const vec2& position, float delay)
 	{
 		Ui& ui = parent.ui();
 
 		if(&parent == ui.m_hovered && ui.m_tooltip_clock.read() > delay)
 		{
-			Widget& self = widget(ui, styles().tooltip).layer();
+			Widget& self = widget(id, ui, styles().tooltip).layer();
 			self.m_frame.set_position(parent.m_frame.absolute_position() + position);
 			return &self;
 		}
@@ -26,74 +26,74 @@ namespace ui
 		return nullptr;
 	}
 
-	Widget* hoverbox(Widget& parent, float delay)
+	Widget* hoverbox(NodeKey id, Widget& parent, float delay)
 	{
 		const vec2 position = parent.ui().m_mouse.m_pos + vec2(4.f) - parent.m_frame.absolute_position();
-		return hoverbox(parent, position, delay);
+		return hoverbox(id, parent, position, delay);
 	}
 
-	Widget* tooltip(Widget& parent, const vec2& position, span<cstring> elements)
+	Widget* tooltip(NodeKey id, Widget& parent, const vec2& position, span<cstring> elements)
 	{
-		Widget* self = hoverbox(parent, position);
+		Widget* self = hoverbox(id, parent, position);
 		if(self)
-			multi_item(*self, styles().tooltip, elements);
+			multi_item(key(), *self, styles().tooltip, elements);
 		return self;
 	}
 
-	Widget* tooltip(Widget& parent, span<cstring> elements)
+	Widget* tooltip(NodeKey id, Widget& parent, span<cstring> elements)
 	{
 		const vec2 position = parent.ui().m_mouse.m_pos + vec2(4.f) - parent.m_frame.absolute_position();
-		return tooltip(parent, position, elements);
+		return tooltip(id, parent, position, elements);
 	}
 
-	Widget* tooltip(Widget& parent, cstring element)
+	Widget* tooltip(NodeKey id, Widget& parent, cstring element)
 	{
-		return tooltip(parent, { &element, 1 });
+		return tooltip(id, parent, { &element, 1 });
 	}
 
-	Widget* tooltip(Widget& parent, const Frame& parent_frame)
+	Widget* tooltip(NodeKey id, Widget& parent, const Frame& parent_frame)
 	{
-		return hoverbox(parent, vec2(0.f, 0.f + parent_frame.m_size.y));
+		return hoverbox(id, parent, vec2(0.f, 0.f + parent_frame.m_size.y));
 	}
 
-	Widget* tooltip(Widget& parent, const Frame& parent_frame, span<cstring> elements)
+	Widget* tooltip(NodeKey id, Widget& parent, const Frame& parent_frame, span<cstring> elements)
 	{
-		return tooltip(parent, vec2(parent_frame.m_position.x, parent_frame.m_position.y + parent_frame.m_size.y), elements);
+		return tooltip(id, parent, vec2(parent_frame.m_position.x, parent_frame.m_position.y + parent_frame.m_size.y), elements);
 	}
 
-	Widget* tooltip(Widget& parent, const Frame& parent_frame, cstring element)
+	Widget* tooltip(NodeKey id, Widget& parent, const Frame& parent_frame, cstring element)
 	{
-		return tooltip(parent, parent_frame, { &element, 1 });
+		return tooltip(id, parent, parent_frame, { &element, 1 });
 	}
 
-	Widget& rectangle(Widget& parent, const vec4& rect)
+	Widget& rectangle(NodeKey id, Widget& parent, const vec4& rect)
 	{
-		Widget& self = widget(parent, styles().rectangle).layer();
+		Widget& self = widget(id, parent, styles().rectangle).layer();
 		self.m_frame.set_position(rect.pos);
 		self.m_frame.set_size(rect.size);
 		return self;
 	}
 
-	Widget& viewport(Widget& parent, const vec4& rect)
+	Widget& viewport(NodeKey id, Widget& parent, const vec4& rect)
 	{
-		Widget& self = widget(parent, styles().viewport).layer();
+		Widget& self = widget(id, parent, styles().viewport).layer();
 		self.m_frame.set_position(rect.pos);
 		self.m_frame.set_size(rect.size);
 		return self;
 	}
 
-	Widget& cursor(Widget& parent, const vec2& position, Style& style, bool locked)
+	Widget& cursor(NodeKey id, Widget& parent, const vec2& position, Style& style, bool locked)
 	{
 		UNUSED(locked);
-		Widget& self = widget(parent, style).layer();
+		Widget& self = widget(id, parent, style).layer();
 		self.m_frame.m_position = position;
 		return self;
 	}
 
-	Widget& cursor(Widget& parent, const vec2& position, Widget& hovered, bool locked)
+	Widget& cursor(NodeKey id, Widget& parent, const vec2& position, Widget& hovered, bool locked)
 	{
 		Style* style = hovered.m_frame.d_style->m_skin.m_hover_cursor ? hovered.m_frame.d_style->m_skin.m_hover_cursor : &cursor_styles().cursor;
-		return cursor(parent, position, *style, locked);
+		return cursor(id, parent, position, *style, locked);
 	}
 }
 }

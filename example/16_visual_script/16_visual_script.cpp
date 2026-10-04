@@ -42,7 +42,7 @@ static VisualScript& create_script()
 void ex_16_visual_script(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
 
 	Gnode& scene = viewer.m_scene->begin();

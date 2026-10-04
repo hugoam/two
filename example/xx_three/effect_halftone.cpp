@@ -332,7 +332,7 @@ EX(xx_effect_halftone)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer.m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
@@ -414,25 +414,25 @@ EX(xx_effect_halftone)
 #if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::sheet(*dock);
+		Widget& sheet = ui::sheet(key(), *dock);
 
 		vec3 rotate = halftone.m_rotate / (c_pi / 180.f);
 
-		Widget& controls = ui::stack(sheet);
+		Widget& controls = ui::stack(key(), sheet);
 
-		ui::dropdown_field(controls, "shape", { "None", "Dot", "Ellipse", "Line", "Square" }, (uint32_t&)halftone.m_shape);
+		ui::dropdown_field(key(), controls, "shape", { "None", "Dot", "Ellipse", "Line", "Square" }, (uint32_t&)halftone.m_shape);
 
-		ui::slider_field(controls, "radius",   halftone.m_radius, { 1.f, 25.f, 0.1f });
-		ui::slider_field(controls, "rotateR",  rotate.r, { 0.f, 90.f, 0.1f });
-		ui::slider_field(controls, "rotateG",  rotate.g, { 0.f, 90.f, 0.1f });
-		ui::slider_field(controls, "rotateB",  rotate.b, { 0.f, 90.f, 0.1f });
-		ui::slider_field(controls, "scatter",  halftone.m_scatter, { 0.f, 1.f, 0.01f });
-		ui::field<bool>  (controls, "grayscale", halftone.m_grayscale);
+		ui::slider_field(key(), controls, "radius",   halftone.m_radius, { 1.f, 25.f, 0.1f });
+		ui::slider_field(key(), controls, "rotateR",  rotate.r, { 0.f, 90.f, 0.1f });
+		ui::slider_field(key(), controls, "rotateG",  rotate.g, { 0.f, 90.f, 0.1f });
+		ui::slider_field(key(), controls, "rotateB",  rotate.b, { 0.f, 90.f, 0.1f });
+		ui::slider_field(key(), controls, "scatter",  halftone.m_scatter, { 0.f, 1.f, 0.01f });
+		ui::field<bool>  (key(), controls, "grayscale", halftone.m_grayscale);
 
-		ui::slider_field(controls, "blending", halftone.m_blending, { 0.f, 1.f, 0.01f });
-		ui::dropdown_field(controls, "blend mode", { "None", "Linear", "Multiply", "Add", "Lighter", "Darker" }, (uint32_t&)halftone.m_blend_mode);
+		ui::slider_field(key(), controls, "blending", halftone.m_blending, { 0.f, 1.f, 0.01f });
+		ui::dropdown_field(key(), controls, "blend mode", { "None", "Linear", "Multiply", "Add", "Lighter", "Darker" }, (uint32_t&)halftone.m_blend_mode);
 
-		ui::field<bool>  (controls, "disable", halftone.m_disable);
+		ui::field<bool>  (key(), controls, "disable", halftone.m_disable);
 
 		halftone.m_rotate = rotate * (c_pi / 180.f);
 	}

@@ -24,7 +24,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	static ImporterOBJ obj_importer(app.m_gfx);
 
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	Tonemap& tonemap = viewer.m_viewport.comp<Tonemap>();
 
 	tonemap.m_enabled = true;
@@ -119,42 +119,42 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::columns(*dock, { 0.3f, 0.7f });
+		Widget& sheet = ui::columns(key(), *dock, { 0.3f, 0.7f });
 
-		ui::label(sheet, "Zone :");
-		ui::color_field(sheet, "Ambient", viewer.m_scene.m_env.m_radiance.m_ambient);
+		ui::label(key(), sheet, "Zone :");
+		ui::color_field(key(), sheet, "Ambient", viewer.m_scene.m_env.m_radiance.m_ambient);
 
 #if POSTPROCESS
 		Tonemap& tonemap = viewer.m_viewport.comp<Tonemap>();
 		BCS& bcs = viewer.m_viewport.comp<BCS>();
 
-		ui::label(sheet, "Post process :");
-		ui::slider_field(sheet, "Exposure",   tonemap.m_exposure,    { 0.f, 2.f, 0.01f });
-		ui::slider_field(sheet, "Whitepoint", tonemap.m_white_point, { 0.f, 2.f, 0.01f });
+		ui::label(key(), sheet, "Post process :");
+		ui::slider_field(key(), sheet, "Exposure",   tonemap.m_exposure,    { 0.f, 2.f, 0.01f });
+		ui::slider_field(key(), sheet, "Whitepoint", tonemap.m_white_point, { 0.f, 2.f, 0.01f });
 
 		bcs.m_enabled = true;
-		ui::slider_field(sheet, "Brightness", bcs.m_brightness, { 0.f, 2.f, 0.01f });
-		ui::slider_field(sheet, "Contrast",   bcs.m_contrast,   { 0.f, 2.f, 0.01f });
-		ui::slider_field(sheet, "Saturation", bcs.m_saturation, { 0.f, 2.f, 0.01f });
+		ui::slider_field(key(), sheet, "Brightness", bcs.m_brightness, { 0.f, 2.f, 0.01f });
+		ui::slider_field(key(), sheet, "Contrast",   bcs.m_contrast,   { 0.f, 2.f, 0.01f });
+		ui::slider_field(key(), sheet, "Saturation", bcs.m_saturation, { 0.f, 2.f, 0.01f });
 #endif
 
 #if DIRECT_LIGHT
-		ui::label(sheet, "Shadow : ");
-		ui::flag_field(sheet, "Stabilize", (uint32_t&) direct_light.m_shadow_flags, 0);
+		ui::label(key(), sheet, "Shadow : ");
+		ui::flag_field(key(), sheet, "Stabilize", (uint32_t&) direct_light.m_shadow_flags, 0);
 
-		ui::label(sheet, "Sun :");
-		ui::slider_field(sheet, "Azimuth", azimuth, { 0.f, c_pi, 0.01f });
-		ui::slider_field(sheet, "Altitude", altitude, { 0.f, c_pi2, 0.01f });
+		ui::label(key(), sheet, "Sun :");
+		ui::slider_field(key(), sheet, "Azimuth", azimuth, { 0.f, c_pi, 0.01f });
+		ui::slider_field(key(), sheet, "Altitude", altitude, { 0.f, c_pi2, 0.01f });
 #endif
 
 #if GI_PROBE
-		ui::label(sheet, "GI Probe :");
-		ui::slider_field(sheet, "Diffuse", probe.m_diffuse, { 0.f, 10.f, 0.1f });
-		ui::slider_field(sheet, "Bounces", probe.m_bounces, { 0, 10, 1 });
-		ui::slider_field(sheet, "Bias", probe.m_bias, { 0.f, 10.f, 0.1f });
-		ui::slider_field(sheet, "Normal Bias", probe.m_normal_bias, { 0.f, 10.f, 0.1f });
+		ui::label(key(), sheet, "GI Probe :");
+		ui::slider_field(key(), sheet, "Diffuse", probe.m_diffuse, { 0.f, 10.f, 0.1f });
+		ui::slider_field(key(), sheet, "Bounces", probe.m_bounces, { 0, 10, 1 });
+		ui::slider_field(key(), sheet, "Bias", probe.m_bias, { 0.f, 10.f, 0.1f });
+		ui::slider_field(key(), sheet, "Normal Bias", probe.m_normal_bias, { 0.f, 10.f, 0.1f });
 
-		if(ui::button(sheet, "Recompute GI").activated())
+		if(ui::button(key(), sheet, "Recompute GI").activated())
 			probe.m_dirty = true;
 #endif
 	}

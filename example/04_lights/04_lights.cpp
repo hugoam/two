@@ -72,7 +72,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 	g_time += 0.01f;
 #endif
 
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	ui::free_orbit_controller(viewer);
 
 	//viewer.m_viewport.m_to_gamma = true;
@@ -122,7 +122,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 #if DEBUG_CLUSTERED
 	if(debug)
 	{
-		Viewer& debug_viewer = ui::viewer(parent, viewer.m_scene);
+		Viewer& debug_viewer = ui::viewer(key(), parent, viewer.m_scene);
 		ui::free_orbit_controller(debug_viewer);
 		debug_draw_light_clusters(scene, viewer.m_camera);
 	}
@@ -137,24 +137,24 @@ void ex_04_lights(Shell& app, Widget& parent)
 #if DOCKBAR
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::columns(*dock, { 0.3f, 0.7f });
+		Widget& sheet = ui::columns(key(), *dock, { 0.3f, 0.7f });
 
-		ui::label(sheet, "Zone :");
-		ui::color_field(sheet, "Ambient", viewer.m_scene.m_env.m_radiance.m_ambient);
+		ui::label(key(), sheet, "Zone :");
+		ui::color_field(key(), sheet, "Ambient", viewer.m_scene.m_env.m_radiance.m_ambient);
 
-		ui::label(sheet, "Lights :");
+		ui::label(key(), sheet, "Lights :");
 
-		ui::field(sheet, "Moving", moving_lights);
+		ui::field(key(), sheet, "Moving", moving_lights);
 
 		uint32_t light_type_index = UINT32_MAX;
 		static const cstring light_types[3] = { "Direct", "Point", "Spot" };
-		if(ui::radio_field(sheet, "Type", light_types, light_type_index))
+		if(ui::radio_field(key(), sheet, "Type", light_types, light_type_index))
 			light_type = LightType(light_type_index);
 
-		ui::slider_field(sheet, "Range", light_range, { 0.f, 100.f, 0.01f });
-		ui::slider_field(sheet, "Attenuation", light_attenuation, { 0.f, 4.f, 0.01f });
-		ui::slider_field(sheet, "Spot Angle", spot_angle, { 0.f, 180.f, 0.1f });
-		ui::slider_field(sheet, "Spot Attenuation", spot_attenuation, { 0.f, 4.f, 0.01f });
+		ui::slider_field(key(), sheet, "Range", light_range, { 0.f, 100.f, 0.01f });
+		ui::slider_field(key(), sheet, "Attenuation", light_attenuation, { 0.f, 4.f, 0.01f });
+		ui::slider_field(key(), sheet, "Spot Angle", spot_angle, { 0.f, 180.f, 0.1f });
+		ui::slider_field(key(), sheet, "Spot Attenuation", spot_attenuation, { 0.f, 4.f, 0.01f });
 	}
 #endif
 }

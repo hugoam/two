@@ -54,26 +54,26 @@ namespace game
 
 	void character_sheet(Widget& parent, Character& character)
 	{
-		Widget& modal = ui::modal(parent);
-		//Widget& sheet = ui::sheet(modal);
-		Widget& sheet = ui::widget(modal, game_styles().character_sheet);
+		Widget& modal = ui::modal(key(), parent);
+		//Widget& sheet = ui::sheet(key(), modal);
+		Widget& sheet = ui::widget(key(), modal, game_styles().character_sheet);
 
-		Widget& skills = ui::stack(sheet);
-		ui::label(skills, "Skills");
+		Widget& skills = ui::stack(key(), sheet);
+		ui::label(key(), skills, "Skills");
 		for(Skill& skill : character.m_skills)
 		{
-			Widget& row = ui::row(skills);
-			ui::label(row, skill.m_name.c_str());
-			ui::label(row, to_string(skill.m_level).c_str());
+			Widget& row = ui::row(key(), skills);
+			ui::label(key(), row, skill.m_name.c_str());
+			ui::label(key(), row, to_string(skill.m_level).c_str());
 		}
 
-		Widget& traits = ui::stack(sheet);
-		ui::label(traits, "Traits");
+		Widget& traits = ui::stack(key(), sheet);
+		ui::label(key(), traits, "Traits");
 		for(Trait& trait : character.m_traits)
 		{
-			Widget& row = ui::row(traits);
-			ui::label(row, trait.m_name.c_str());
-			ui::label(row, to_string(trait.m_value).c_str());
+			Widget& row = ui::row(key(), traits);
+			ui::label(key(), row, trait.m_name.c_str());
+			ui::label(key(), row, to_string(trait.m_value).c_str());
 		}
 
 		//if(!modal.m_open)
@@ -82,23 +82,23 @@ namespace game
 
 	void inventory_sheet(Widget& parent, Inventory& inventory)
 	{
-		Widget& modal = ui::modal(parent);
-		//Widget& sheet = ui::sheet(modal);
-		Widget& sheet = ui::widget(modal, game_styles().inventory_sheet);
-		ui::label(sheet, "Inventory");
+		Widget& modal = ui::modal(key(), parent);
+		//Widget& sheet = ui::sheet(key(), modal);
+		Widget& sheet = ui::widget(key(), modal, game_styles().inventory_sheet);
+		ui::label(key(), sheet, "Inventory");
 
 		//for(Item* slot : inventory.m_slots)
 		for(size_t y = 0; y < 2; ++y)
 		{
-			Widget& row = ui::row(sheet);
+			Widget& row = ui::row(key(), sheet);
 
 			for(size_t x = 0; x < 10; ++x)
 			{
 				Item* slot = inventory.m_slots[x + y * 10];
 
-				Widget& slot_widget = ui::item(row, game_styles().inventory_slot, "(inventory_slot)");
+				Widget& slot_widget = ui::item(key(), row, game_styles().inventory_slot, "(inventory_slot)");
 				if(slot)
-					ui::icon(slot_widget, ("(" + string(slot->m_name) + ")").c_str());
+					ui::icon(key(), slot_widget, ("(" + string(slot->m_name) + ")").c_str());
 			}
 		}
 
@@ -124,12 +124,12 @@ void edit_styles(Widget& parent)
 	static std::vector<Style*> styles = { &game::game_styles().character_sheet, &game::game_styles().inventory_sheet, &game::game_styles().inventory_slot };
 	static std::vector<cstring> style_names = { "Character Sheet", "Inventory Sheet", "Inventory Slot" };
 
-	Widget& layout = ui::layout_span(parent, 0.3f);
-	ScrollSheet& scroll_sheet = ui::scroll_sheet(layout);
-	Widget& self = ui::sheet(*scroll_sheet.m_body);
+	Widget& layout = ui::layout_span(key(), parent, 0.3f);
+	ScrollSheet& scroll_sheet = ui::scroll_sheet(key(), layout);
+	Widget& self = ui::sheet(key(), *scroll_sheet.m_body);
 
 	static uint32_t selected_style = 0;
-	ui::dropdown_input(self, style_names, selected_style);
+	ui::dropdown_input(key(), self, style_names, selected_style);
 
 	Style* edited_style = styles[selected_style];
 	object_edit(parent, Ref(&edited_style->layout()));
@@ -146,9 +146,9 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 	};
 
 	UNUSED(app); UNUSED(dockbar);
-	Widget& umain = ui::board(parent);
+	Widget& umain = ui::board(key(), parent);
 
-	SceneViewer& viewer = ui::scene_viewer(umain);
+	SceneViewer& viewer = ui::scene_viewer(key(), umain);
 	ui::orbit_controller(viewer);
 
 	edit_styles(umain);
@@ -175,10 +175,10 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if((umain.m_switch & Context) != 0)
 	{
-		Widget& popup = ui::popup(viewer, ui::PopupFlags::Modal);
-		if(ui::button(popup, "character").activated())
+		Widget& popup = ui::popup(key(), viewer, ui::PopupFlags::Modal);
+		if(ui::button(key(), popup, "character").activated())
 			umain.m_switch |= Character;
-		if(ui::button(popup, "inventory").activated())
+		if(ui::button(key(), popup, "inventory").activated())
 			umain.m_switch |= Inventory;
 		if((umain.m_switch & Character) != 0
 			|| (umain.m_switch & Inventory) != 0

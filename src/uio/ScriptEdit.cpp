@@ -73,13 +73,13 @@ namespace two
 
 	void script_edit_output(Widget& parent, Interpreter& interpreter)
 	{
-		Widget& self = ui::sheet(parent);
-		ui::title_header(self, "Output");
+		Widget& self = ui::sheet(key(), parent);
+		ui::title_header(key(), self, "Output");
 
 		static string output = "";
 		output = interpreter.flush();
 
-		ui::text_box(self, styles().type_in, output, true, 5);
+		ui::text_box(key(), self, styles().type_in, output, true, 5);
 	}
 
 	void script_edit_hover(TextEdit& edit)
@@ -88,7 +88,7 @@ namespace two
 		{
 			vec2 hover_at = edit.m_hovered_word_rect.pos + vec2(0.f, edit.m_hovered_word_rect.height);
 
-			//ui::rectangle(edit, edit.m_hovered_word_rect);
+			//ui::rectangle(key(), edit, edit.m_hovered_word_rect);
 			
 			Function* function = system().find_function(edit.m_hovered_word.c_str());
 			Type* type = system().find_type(edit.m_hovered_word.c_str());
@@ -96,7 +96,7 @@ namespace two
 
 			if(function || type || lowertype)
 			{
-				if(Widget* popup = ui::hoverbox(edit, hover_at))
+				if(Widget* popup = ui::hoverbox(key(), edit, hover_at))
 				{
 					if(function)
 						meta_synopsis(*popup, *function);
@@ -115,8 +115,8 @@ namespace two
 	Widget& error_tooltip(Widget& parent)
 	{
 		Widget* tooltip = ui::tooltip();
-		ui::label("Error at line %d:", errorIt->first); // Colour(1.0f, 0.2f, 0.2f, 1.0f)
-		ui::label("%s", errorIt->second.c_str()); // Colour(1.0f, 1.0f, 0.2f, 1.0f)
+		ui::label(key(), "Error at line %d:", errorIt->first); // Colour(1.0f, 0.2f, 0.2f, 1.0f)
+		ui::label(key(), "%s", errorIt->second.c_str()); // Colour(1.0f, 1.0f, 0.2f, 1.0f)
 	}
 #endif
 
@@ -125,13 +125,13 @@ namespace two
 		//auto run = [&] { script({}); };
 		auto reload = [&] { script.m_dirty = true; };
 		//actions.push_back({ "Run",  });
-		Section& self = section(parent, script.m_name.c_str());
+		Section& self = section(key(), parent, script.m_name.c_str());
 
 		if(section_action(self, "Reload"))
 			reload();
 
 		vector<string> known_words = meta_words();
-		TextEdit& edit = ui::code_edit(*self.m_body, script.m_script, 0, &known_words);
+		TextEdit& edit = ui::code_edit(key(), *self.m_body, script.m_script, 0, &known_words);
 		
 		if(script.m_language == Language::Lua)
 			edit.m_language = &LanguageLua();
@@ -165,15 +165,15 @@ namespace two
 	Section& script_edit(Widget& parent, TextScript& script)
 	{
 		return script_edit_code(parent, script);
-		//Widget& span_0 = ui::layout_span(parent, 0.8f);
+		//Widget& span_0 = ui::layout_span(key(), parent, 0.8f);
 		//script_edit_code(span_0, script, actions);
-		//Widget& span_1 = ui::layout_span(parent, 0.2f);
+		//Widget& span_1 = ui::layout_span(key(), parent, 0.2f);
 		//script_edit_output(span_1, *script.m_interpreter);
 	}
 
 	void script_tab(Tabber& parent, ScriptEditor& editor, Script& script)
 	{
-		if(Widget* tab = ui::tab(parent, script.m_name.c_str()))
+		if(Widget* tab = ui::tab(key(), parent, script.m_name.c_str()))
 		{
 			Section& edit = script.m_type.is<VisualScript>()
 				? visual_script_edit(*tab, as<VisualScript>(script))
@@ -188,16 +188,16 @@ namespace two
 	{
 		enum Modes { Open = 1 << 0, Browse = 1 << 1 };
 
-		Section& self = section(parent, "Script Editor");
+		Section& self = section(key(), parent, "Script Editor");
 
 		if(section_action(self, "New Script"))
 			editor.create_script("Untitled " + to_string(editor.m_scripts.size()), Language::Lua);
 		if(section_action(self, "New Visual Script"))
 			editor.create_visual("Untitled " + to_string(editor.m_scripts.size()));
 
-		if(ui::modal_button(self, *self.m_toolbar, "Open Script", Open))
+		if(ui::modal_button(key(), self, *self.m_toolbar, "Open Script", Open))
 		{
-			Widget& modal = ui::auto_modal(self, Open, { 600, 400 });
+			Widget& modal = ui::auto_modal(key(), self, Open, { 600, 400 });
 			Ref result = Ref(type<Script>());
 			if(object_selector(*modal.m_body, result))
 			{
@@ -206,15 +206,15 @@ namespace two
 			}
 		}
 
-		if(ui::modal_button(self, *self.m_toolbar, "Browse API", Browse))
+		if(ui::modal_button(key(), self, *self.m_toolbar, "Browse API", Browse))
 		{
-			Widget& modal = ui::auto_modal(self, Browse, { 600, 600 });
+			Widget& modal = ui::auto_modal(key(), self, Browse, { 600, 600 });
 			meta_browser(*modal.m_body);
-			if(ui::button(*modal.m_body, "Close").activated())
+			if(ui::button(key(), *modal.m_body, "Close").activated())
 				self.m_switch &= ~Browse;
 		}
 
-		Tabber& tabber = ui::tabber(*self.m_body);
+		Tabber& tabber = ui::tabber(key(), *self.m_body);
 		for(Script* script : editor.m_scripts)
 			script_tab(tabber, editor, *script);
 	}

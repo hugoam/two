@@ -272,11 +272,11 @@ namespace two
 
 namespace ui
 {
-	export_ TWO_GFX_UI_EXPORT func_ Viewer& viewer(Widget& parent, Scene& scene);
-	export_ TWO_GFX_UI_EXPORT func_ SceneViewer& scene_viewer(Widget& parent, const vec2& size = vec2(0.f));
+	export_ TWO_GFX_UI_EXPORT func_ Viewer& viewer(NodeKey id, Widget& parent, Scene& scene);
+	export_ TWO_GFX_UI_EXPORT func_ SceneViewer& scene_viewer(NodeKey id, Widget& parent, const vec2& size = vec2(0.f));
 
 	export_ TWO_GFX_UI_EXPORT void viewport_picker(Viewer& viewer, Widget& widget, vector<Ref>& selection);
-	export_ TWO_GFX_UI_EXPORT Viewer& scene_viewport(Widget& parent, Scene& scene, Camera& camera, vector<Ref>& selection);
+	export_ TWO_GFX_UI_EXPORT Viewer& scene_viewport(NodeKey id, Widget& parent, Scene& scene, Camera& camera, vector<Ref>& selection);
 
 	enum class refl_ OrbitMode
 	{

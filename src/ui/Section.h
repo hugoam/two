@@ -14,6 +14,6 @@ namespace two
 		Widget* m_toolbar = nullptr;
 	};
 
-	export_ TWO_UI_EXPORT Section& section(Widget& parent, const string& name, bool no_toolbar = false);
+	export_ TWO_UI_EXPORT Section& section(NodeKey id, Widget& parent, const string& name, bool no_toolbar = false);
 	export_ TWO_UI_EXPORT bool section_action(Section& parent, const string& name);
 }

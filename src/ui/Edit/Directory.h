@@ -21,14 +21,14 @@ namespace ui
 
 	export_ TWO_UI_EXPORT FileStyles& file_styles();
 
-	export_ TWO_UI_EXPORT func_ Widget& dir_item(Widget& parent, const string& name);
-	export_ TWO_UI_EXPORT func_ Widget& file_item(Widget& parent, const string& name);
-	export_ TWO_UI_EXPORT func_ Widget& file_list(Widget& parent, string& path);
+	export_ TWO_UI_EXPORT func_ Widget& dir_item(NodeKey id, Widget& parent, const string& name);
+	export_ TWO_UI_EXPORT func_ Widget& file_item(NodeKey id, Widget& parent, const string& name);
+	export_ TWO_UI_EXPORT func_ Widget& file_list(NodeKey id, Widget& parent, string& path);
 
-	export_ TWO_UI_EXPORT func_ Widget& file_browser(Widget& parent, string& path);
+	export_ TWO_UI_EXPORT func_ Widget& file_browser(NodeKey id, Widget& parent, string& path);
 
-	export_ TWO_UI_EXPORT func_ Widget& dir_node(Widget& parent, const string& path, const string& name, bool collapsed);
-	export_ TWO_UI_EXPORT func_ Widget& file_node(Widget& parent, const string& name);
-	export_ TWO_UI_EXPORT func_ Widget& file_tree(Widget& parent, const string& path);
+	export_ TWO_UI_EXPORT func_ Widget& dir_node(NodeKey id, Widget& parent, const string& path, const string& name, bool collapsed);
+	export_ TWO_UI_EXPORT func_ Widget& file_node(NodeKey id, Widget& parent, const string& name);
+	export_ TWO_UI_EXPORT func_ Widget& file_tree(NodeKey id, Widget& parent, const string& path);
 }
 }

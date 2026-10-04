@@ -39,7 +39,7 @@ namespace two
 	void script_canvas_insert(Canvas& canvas, Widget& parent, VisualScript& script)
 	{
 		static string filter = "";
-		ui::type_in(parent, filter);
+		ui::type_in(key(), parent, filter);
 
 		auto add_process = [&](object<Process> process)
 		{
@@ -49,49 +49,49 @@ namespace two
 			script.m_processes.back()->m_position[1] = position.y;
 		};
 
-		Widget& board = ui::widget(parent, styles().sheet, false, Axis::X);
+		Widget& board = ui::widget(key(), parent, styles().sheet, false, Axis::X);
 
-		Widget& functions = ui::sheet(board);
-		ui::label(functions, "Functions");
+		Widget& functions = ui::sheet(key(), board);
+		ui::label(key(), functions, "Functions");
 
 		for(Module* m : System::instance().m_modules)
 		{
-			ui::label(functions, m->m_name).enable_state(DISABLED);
+			ui::label(key(), functions, m->m_name).enable_state(DISABLED);
 			for(Function* function : m->m_functions)
 				if(fits_filter(function->m_name, filter))
-					if(ui::multi_button(functions, ui::dropdown_styles().choice, { "(function)", function->m_name }).activated())
+					if(ui::multi_button(key(), functions, ui::dropdown_styles().choice, { "(function)", function->m_name }).activated())
 					{
 						add_process(oconstruct<ProcessFunction>(script, *function));
 						parent.m_open = false;
 					}
 		}
 
-		Widget& values = ui::sheet(board);
-		ui::label(values, "Values");
+		Widget& values = ui::sheet(key(), board);
+		ui::label(key(), values, "Values");
 
 		for(Module* m : System::instance().m_modules)
 		{
-			ui::label(values, m->m_name).enable_state(DISABLED);
+			ui::label(key(), values, m->m_name).enable_state(DISABLED);
 			for(Type* type : m->m_types)
 				if(is_struct(*type) || is_base_type(*type))
 					if(fits_filter(type->m_name, filter))
-						if(ui::multi_button(values, ui::dropdown_styles().choice, { "(value)", type->m_name }).activated())
+						if(ui::multi_button(key(), values, ui::dropdown_styles().choice, { "(value)", type->m_name }).activated())
 						{
 							add_process(oconstruct<ProcessValue>(script, *type));
 							parent.m_open = false;
 						}
 		}
 
-		Widget& types = ui::sheet(board);
-		ui::label(types, "Objects");
+		Widget& types = ui::sheet(key(), board);
+		ui::label(key(), types, "Objects");
 
 		for(Module* m : System::instance().m_modules)
 		{
-			ui::label(types, m->m_name).enable_state(DISABLED);
+			ui::label(key(), types, m->m_name).enable_state(DISABLED);
 			for(Type* type : m->m_types)
 				if(g_class[type->m_id] && !cls(*type).m_constructors.empty()) //is_struct(*type) || is_base_type(*type))
 					if(fits_filter(type->m_name, filter))
-						if(ui::multi_button(types, ui::dropdown_styles().choice, { "(class)", type->m_name }).activated())
+						if(ui::multi_button(key(), types, ui::dropdown_styles().choice, { "(class)", type->m_name }).activated())
 						{
 							add_process(oconstruct<ProcessCreate>(script, *type));
 							parent.m_open = false;
@@ -125,12 +125,12 @@ namespace two
 				enabled = false;
 		}
 
-		NodePlug& plug = ui::node_plug(node, valve.m_name.c_str(), icon.c_str(), colour, input, enabled, !valve.m_pipes.empty());
+		NodePlug& plug = ui::node_plug(key(), node, valve.m_name.c_str(), icon.c_str(), colour, input, enabled, !valve.m_pipes.empty());
 		
-		if(Widget* tooltip = ui::tooltip(plug, plug.m_frame))
+		if(Widget* tooltip = ui::tooltip(key(), plug, plug.m_frame))
 		{
 			string info = valve.error_info() + valve.param_info();
-			ui::label(*tooltip, info.c_str());
+			ui::label(key(), *tooltip, info.c_str());
 		}
 	}
 
@@ -171,13 +171,13 @@ namespace two
 		bool destroy = false;
 
 		Node& node = ui::node(canvas, { process.m_title.c_str() }, &process.m_position[0], process.m_order, Ref(&process));
-		if(ui::button(*node.m_header, "R").activated())
+		if(ui::button(key(), *node.m_header, "R").activated())
 			process.recompute();
-		if(ui::button(*node.m_header, "X").activated())
+		if(ui::button(key(), *node.m_header, "X").activated())
 			destroy = true;
 
 #if 0
-		if(Widget* context = ui::context(node, (1 << 0), ui::PopupModal))
+		if(Widget* context = ui::context(key(), node, (1 << 0), ui::PopupModal))
 		{
 
 		}
@@ -221,7 +221,7 @@ namespace two
 
 	void script_pipe(Canvas& canvas, Pipe& pipe)
 	{
-		ui::node_cable(canvas, node_plug(canvas, pipe.m_output), node_plug(canvas, pipe.m_input));
+		ui::node_cable(key(), canvas, node_plug(canvas, pipe.m_output), node_plug(canvas, pipe.m_input));
 		//canvas.autoLayout();
 	}
 
@@ -229,9 +229,9 @@ namespace two
 	{
 		enum Modes { Insert = 1 << 0 };
 
-		Canvas& canvas = ui::canvas(parent, script.m_processes.size());
+		Canvas& canvas = ui::canvas(key(), parent, script.m_processes.size());
 
-		if(Widget* popup = ui::context(*canvas.m_scroll_plan, Insert, ui::PopupFlags::Modal))
+		if(Widget* popup = ui::context(key(), *canvas.m_scroll_plan, Insert, ui::PopupFlags::Modal))
 			script_canvas_insert(canvas, *popup, script);
 
 		Process* destroy = nullptr;
@@ -267,14 +267,14 @@ namespace two
 
 	Section& visual_script_edit(Widget& parent, VisualScript& script)
 	{
-		Section& self = section(parent, script.m_name.c_str());
+		Section& self = section(key(), parent, script.m_name.c_str());
 
 		Canvas& canvas = script_canvas(*self.m_body, script);
 
-		if(ui::button(*self.m_toolbar, "Autolayout").activated())
+		if(ui::button(key(), *self.m_toolbar, "Autolayout").activated())
 			ui::canvas_autolayout(canvas);
 
-		ui::toggle(*self.m_toolbar, canvas.m_rounded_links, "Rounded Links");
+		ui::toggle(key(), *self.m_toolbar, canvas.m_rounded_links, "Rounded Links");
 		return self;
 	}
 }

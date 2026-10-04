@@ -78,14 +78,14 @@ namespace ui
 		return scroll_plan_zoom(scroll_sheet.m_scroll_zone->m_frame, scroll_sheet.m_body->m_frame, mouse_event, clamped);
 	}
 
-	ScrollSheet& scroll_sheet(Widget& parent, Style& style, Style* surface_style)
+	ScrollSheet& scroll_sheet(NodeKey id, Widget& parent, Style& style, Style* surface_style)
 	{
-		ScrollSheet& self = twidget<ScrollSheet>(parent, style);
-		self.m_scroll_zone = &widget(self, styles().scroll_zone, false, Axis::None, { 0, 0 });
-		self.m_body = &widget(*self.m_scroll_zone, surface_style ? *surface_style : styles().scroll_surface);
+		ScrollSheet& self = twidget<ScrollSheet>(id, parent, style);
+		self.m_scroll_zone = &widget(key(), self, styles().scroll_zone, false, Axis::None, { 0, 0 });
+		self.m_body = &widget(key(), *self.m_scroll_zone, surface_style ? *surface_style : styles().scroll_surface);
 
-		scrollbar(self, self.m_scroll_zone->m_frame, self.m_body->m_frame, Axis::X, { 0, 1 });
-		scrollbar(self, self.m_scroll_zone->m_frame, self.m_body->m_frame, Axis::Y, { 1, 0 });
+		scrollbar(key(), self, self.m_scroll_zone->m_frame, self.m_body->m_frame, Axis::X, { 0, 1 });
+		scrollbar(key(), self, self.m_scroll_zone->m_frame, self.m_body->m_frame, Axis::Y, { 1, 0 });
 
 #if 0
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
@@ -99,11 +99,11 @@ namespace ui
 		return self;
 	}
 
-	ScrollSheet& scroll_plan(Widget& parent, Style& style)
+	ScrollSheet& scroll_plan(NodeKey id, Widget& parent, Style& style)
 	{
 		static const bool clamped = true;
 
-		ScrollSheet& self = scroll_sheet(parent, style, &styles().scroll_plan);
+		ScrollSheet& self = scroll_sheet(id, parent, style, &styles().scroll_plan);
 
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseMiddle, EventType::Dragged))
 			scroll_plan_drag(self, event);
@@ -144,9 +144,9 @@ namespace ui
 		scroll_plan.m_size = bounds;
 	}
 
-	Widget& scrollable(Widget& parent)
+	Widget& scrollable(NodeKey id, Widget& parent)
 	{
-		return *scroll_sheet(parent).m_body;
+		return *scroll_sheet(id, parent).m_body;
 	}
 }
 }

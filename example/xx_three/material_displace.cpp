@@ -9,7 +9,7 @@ EX(xx_material_displace)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer.m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
@@ -94,23 +94,23 @@ EX(xx_material_displace)
 #if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::sheet(*dock);
+		Widget& sheet = ui::sheet(key(), *dock);
 
 		auto panel = [&](const string& name) -> Widget&
 		{
-			Widget& s = ui::expandbox(sheet, name.c_str());
-			return ui::columns(s, { 0.3f, 0.7f });
+			Widget& s = ui::expandbox(key(), sheet, name.c_str());
+			return ui::columns(key(), s, { 0.3f, 0.7f });
 		};
 
 		Widget& a = panel("Material");
 
-		ui::slider_field(a, "metalness",    material->m_pbr.m_metallic.m_value,  { 0.f, 1.f, 0.01f });
-		ui::slider_field(a, "roughness",    material->m_pbr.m_roughness.m_value, { 0.f, 1.f, 0.01f });
-		ui::slider_field(a, "occlusion",    material->m_lit.m_occlusion.m_value, { 0.f, 1.f, 0.01f });
-		ui::slider_field(a, "displacement", material->m_lit.m_displace.m_value,  { 0.f, 5.f, 0.01f });
-		ui::slider_field(a, "normal scale", material->m_lit.m_normal.m_value,    { -1.f, 1.f, 0.01f });
+		ui::slider_field(key(), a, "metalness",    material->m_pbr.m_metallic.m_value,  { 0.f, 1.f, 0.01f });
+		ui::slider_field(key(), a, "roughness",    material->m_pbr.m_roughness.m_value, { 0.f, 1.f, 0.01f });
+		ui::slider_field(key(), a, "occlusion",    material->m_lit.m_occlusion.m_value, { 0.f, 1.f, 0.01f });
+		ui::slider_field(key(), a, "displacement", material->m_lit.m_displace.m_value,  { 0.f, 5.f, 0.01f });
+		ui::slider_field(key(), a, "normal scale", material->m_lit.m_normal.m_value,    { -1.f, 1.f, 0.01f });
 
-		ui::color_field(a, "ambient", scene.m_env.m_radiance.m_ambient);
+		ui::color_field(key(), a, "ambient", scene.m_env.m_radiance.m_ambient);
 
 		// envMapIntensity
 	}

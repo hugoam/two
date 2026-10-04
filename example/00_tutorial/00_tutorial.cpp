@@ -30,7 +30,7 @@ void bar(MyObject& object)
 void ex_00_tutorial_pump(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
 
 	Gnode& scene = viewer.m_scene->begin();
@@ -40,14 +40,14 @@ void ex_00_tutorial_pump(Shell& app, Widget& parent, Dockbar& dockbar)
 	static std::vector<Var> objects = { var(MyObject(ShapeType::Sphere, Colour::Pink)) };
 	static size_t selected = SIZE_MAX;
 
-	Widget& modal = ui::popup(viewer, styles().modal, { 800, 600 }, ui::PopupFlags::None);
-	//Widget& modal = ui::modal(viewer, { 800, 600 });
-	Widget& board = ui::board(*modal.m_body);
+	Widget& modal = ui::popup(key(), viewer, styles().modal, { 800, 600 }, ui::PopupFlags::None);
+	//Widget& modal = ui::modal(key(), viewer, { 800, 600 });
+	Widget& board = ui::board(key(), *modal.m_body);
 	multi_inspector(board, type<MyObject>(), objects, selected);
 	
 	if(selected != SIZE_MAX)
 	{
-		Widget& div = ui::layout_span(board, 0.3f);
+		Widget& div = ui::layout_span(key(), board, 0.3f);
 		inspector(div, objects[selected]);
 	}
 }

@@ -174,7 +174,7 @@ void roughness_spheres(Gnode& parent)
 void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	OrbitController& controller = ui::orbit_controller(viewer);
 	UNUSED(controller);
 
@@ -214,10 +214,10 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::columns(*dock, { 0.3f, 0.7f });
+		Widget& sheet = ui::columns(key(), *dock, { 0.3f, 0.7f });
 
-		ui::label(sheet, "Zone :");
-		ui::color_field(sheet, "Ambient", viewer.m_scene.m_env.m_radiance.m_ambient);
+		ui::label(key(), sheet, "Zone :");
+		ui::color_field(key(), sheet, "Ambient", viewer.m_scene.m_env.m_radiance.m_ambient);
 
 		if(edited)
 			object_edit(*dock, Ref(edited)); // "Particle Editor" // identity = edited

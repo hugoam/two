@@ -35,7 +35,7 @@ namespace two
 	void brush_preview(Widget& parent, Brush& brush)
 	{
 		UNUSED(brush);
-		Widget& self = ui::stack(parent);
+		Widget& self = ui::stack(key(), parent);
 		UNUSED(self);
 	}
 
@@ -47,14 +47,14 @@ namespace two
 
 	void current_brush_edit(Widget& parent, EditContext& context)
 	{
-		Widget& self = section(parent, "Current Brush");
+		Widget& self = section(key(), parent, "Current Brush");
 		if(context.m_brush)
 			brush_options(self, *context.m_brush);
 	}
 
 	bool edit_tool(Widget& parent, Tool& tool, cstring icon)
 	{
-		Widget& self = ui::toolbutton(parent, icon);
+		Widget& self = ui::toolbutton(key(), parent, icon);
 		self.set_state(ACTIVE, tool.m_state == ToolState::Active);
 		return self.activated();
 	}
@@ -84,7 +84,7 @@ namespace two
 
 	void edit_transform(Widget& parent, EditContext& context)
 	{
-		Widget& self = ui::toolbar(parent);
+		Widget& self = ui::toolbar(key(), parent);
 		tools_transform(self, context);
 
 		if(context.m_brush)
@@ -97,7 +97,7 @@ namespace two
 		static string line = "type lua code here";
 		static string command = "";
 
-		ui::console(parent, feed, line, command, 18);
+		ui::console(key(), parent, feed, line, command, 18);
 		if(command != "")
 		{
 			lua.call(command.c_str());
@@ -108,18 +108,18 @@ namespace two
 
 	void object_editor(Widget& parent, const Selection& selection)
 	{
-		Widget& self = section(parent, "Inspector");
+		Widget& self = section(key(), parent, "Inspector");
 
 		if(!selection.objects.empty() && selection.objects[0])
 		{
 			Ref selected = selection.objects[0];
-			Widget& sheet = ui::widget(*self.m_body, styles().sheet, (void*)selected.m_value);
+			Widget& sheet = ui::widget(key(), *self.m_body, styles().sheet, (void*)selected.m_value);
 			object_edit(sheet, selected);
 		}
 		else if(!selection.entities.empty() && selection.entities[0])
 		{
 			Entity selected = selection.entities[0];
-			Widget& sheet = ui::widget(*self.m_body, styles().sheet, (void*)selected.m_handle);
+			Widget& sheet = ui::widget(key(), *self.m_body, styles().sheet, (void*)selected.m_handle);
 			entity_edit(sheet, selected);
 		}
 	}
@@ -155,9 +155,9 @@ namespace two
 
 	void edit_context(Widget& parent, EditContext& context, bool tools)
 	{
-		Widget& board = ui::board(parent);
-		context.m_screen = &ui::board(board);
-		context.m_dockbar = &ui::dockbar(board, context.m_docksystem);
+		Widget& board = ui::board(key(), parent);
+		context.m_screen = &ui::board(key(), board);
+		context.m_dockbar = &ui::dockbar(key(), board, context.m_docksystem);
 
 		if(tools)
 			edit_tools(*context.m_screen, context);

@@ -11,7 +11,7 @@ using namespace two;
 void ex_10_post_process(Shell& app, Widget& parent, Dockbar& dockbar)//, Dockbar& dockbar)
 {
 	UNUSED(app);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
 
 	//if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))

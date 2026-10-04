@@ -15,7 +15,7 @@ namespace two
 		while(current_target && current_node)
 		{
 			string elements[2] = { current_target->m_frame.d_style->m_name, to_string(current_target->m_control.m_mask) };
-			current_node = ui::tree_node(*current_node, { elements[0].c_str(), elements[1].c_str() }).m_body;
+			current_node = ui::tree_node(key(), *current_node, { elements[0].c_str(), elements[1].c_str() }).m_body;
 			current_target = static_cast<Widget*>(current_target->m_control.m_modal);
 		}
 	}
@@ -25,7 +25,7 @@ namespace two
 		for(auto& widget : target.m_nodes)
 		{
 			string size = "size : " + truncate_number(to_string(widget->m_frame.m_size.x)) + ", " + truncate_number(to_string(widget->m_frame.m_size.y));
-			TreeNode& node = ui::tree_node(parent, { widget->m_frame.d_style->m_name.c_str(), size.c_str() });
+			TreeNode& node = ui::tree_node(key(), parent, { widget->m_frame.d_style->m_name.c_str(), size.c_str() });
 			node.m_header->set_state(SELECTED, selected == widget.get());
 			if(node.m_header->activated())
 				selected = widget.get();
@@ -36,7 +36,7 @@ namespace two
 
 	void ui_debug_layout(Widget& parent, Widget& target, Widget*& selected)
 	{
-		ScrollSheet& scroll_sheet = ui::scroll_sheet(parent);
+		ScrollSheet& scroll_sheet = ui::scroll_sheet(key(), parent);
 		ui_debug_layout_node(*scroll_sheet.m_body, target, selected);
 	}
 
@@ -45,33 +45,33 @@ namespace two
 		static Widget* selected = nullptr;
 		static bool selecting = false;
 
-		Section& self = section(parent, "Ui Edit");
-		ui::toggle(*self.m_toolbar, selecting, "Select Mode");
+		Section& self = section(key(), parent, "Ui Edit");
+		ui::toggle(key(), *self.m_toolbar, selecting, "Select Mode");
 
-		Tabber& tabber = ui::tabber(*self.m_body);
-		if(Widget* tab = ui::tab(tabber, "Modal"))
+		Tabber& tabber = ui::tabber(key(), *self.m_body);
+		if(Widget* tab = ui::tab(key(), tabber, "Modal"))
 			ui_debug_modal(*tab, target);
-		if(Widget* tab = ui::tab(tabber, "Layout"))
+		if(Widget* tab = ui::tab(key(), tabber, "Layout"))
 			ui_debug_layout(*tab, target, selected);
 
 		if(selected)
-			ui::rectangle(parent.ui(), { selected->m_frame.absolute_position(), selected->m_frame.m_size });
+			ui::rectangle(key(), parent.ui(), { selected->m_frame.absolute_position(), selected->m_frame.m_size });
 
 		if(selecting)
 		{
 			Widget* highlighted = target.pinpoint(target.ui().m_mouse.m_pos);
 			if(highlighted)
-				ui::rectangle(parent.ui(), { highlighted->m_frame.absolute_position(), highlighted->m_frame.m_size });
+				ui::rectangle(key(), parent.ui(), { highlighted->m_frame.absolute_position(), highlighted->m_frame.m_size });
 		}
 
 		if(selected)
 		{
-			if(Widget* tab = ui::tab(tabber, "Widget"))
+			if(Widget* tab = ui::tab(key(), tabber, "Widget"))
 				object_edit(*tab, Ref(selected));
 
-			if(Widget* tab = ui::tab(tabber, "Style"))
+			if(Widget* tab = ui::tab(key(), tabber, "Style"))
 				object_edit(*tab, Ref(selected->m_frame.d_layout));
-			if(Widget* tab = ui::tab(tabber, "Skin"))
+			if(Widget* tab = ui::tab(key(), tabber, "Skin"))
 				object_edit(*tab, Ref(&selected->m_frame.d_style->m_skin));
 		}
 	}

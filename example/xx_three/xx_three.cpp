@@ -142,18 +142,18 @@ void ex_xx_three(ShellX& app, Widget& parent, Dockbar& dockbar, bool& init, uint
 
 #if !MULTI_VIEWPORT
 #if SIDE_PANEL
-	Widget& sheet = ui::board(parent);
-	bool changed = ui::radio_switch(sheet, labels, example, Axis::Y);
+	Widget& sheet = ui::board(key(), parent);
+	bool changed = ui::radio_switch(key(), sheet, labels, example, Axis::Y);
 #else
-	Widget& sheet = ui::sheet(parent);
-	bool changed = ui::dropdown_field(sheet, "switch example:", labels, example);
+	Widget& sheet = ui::sheet(key(), parent);
+	bool changed = ui::dropdown_field(key(), sheet, "switch example:", labels, example);
 #endif
 #else
 	Widget& sheet = parent;
 	bool changed = false;
 #endif
 
-	Widget& canvas = ui::sheet(sheet);
+	Widget& canvas = ui::sheet(key(), sheet);
 
 	if(changed)
 	{
@@ -221,15 +221,15 @@ int main(int argc, char *argv[])
 #if MULTI_VIEWPORT
 		shell_context(w0.m_ui->begin(), app.m_editor);
 
-		Widget& screen = ui::sheet(*app.m_editor.m_screen);
+		Widget& screen = ui::sheet(key(), *app.m_editor.m_screen);
 
-		Widget& row0 = ui::board(screen);
-		Widget& row1 = ui::board(screen);
+		Widget& row0 = ui::board(key(), screen);
+		Widget& row1 = ui::board(key(), screen);
 
 		for(size_t i = 0; i < 6; ++i)
 		{
 			Widget& parent = i < 3 ? row0 : row1;
-			Widget& panel = ui::sheet(parent);
+			Widget& panel = ui::sheet(key(), parent);
 			ex_xx_three(app, panel, *app.m_editor.m_dockbar, init[i], example[i]);
 	}
 #else

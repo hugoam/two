@@ -47,7 +47,7 @@ void shape_grid(Gnode& parent, span2d<ShapeInstance> shape_grid, const Symbol* s
 void ex_01_shapes(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
 
 	Gnode& scene = viewer.m_scene.begin();

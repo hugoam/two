@@ -427,7 +427,7 @@ EX(xx_shader_ocean)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer.m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
@@ -549,22 +549,22 @@ EX(xx_shader_ocean)
 #if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::sheet(*dock);
+		Widget& sheet = ui::sheet(key(), *dock);
 
 		auto panel = [&](const string& name) -> Widget&
 		{
-			Widget& s = ui::expandbox(sheet, name.c_str());
-			return ui::columns(s, { 0.3f, 0.7f });
+			Widget& s = ui::expandbox(key(), sheet, name.c_str());
+			return ui::columns(key(), s, { 0.3f, 0.7f });
 		};
 
 		Widget& a = panel("Sky");
-		ui::slider_field(a, "inclination", params.inclination,  { 0.f, 0.5f, 0.0001f });
-		ui::slider_field(a, "azimuth",     params.azimuth,      { 0.f, 1.f,  0.0001f });
+		ui::slider_field(key(), a, "inclination", params.inclination,  { 0.f, 0.5f, 0.0001f });
+		ui::slider_field(key(), a, "azimuth",     params.azimuth,      { 0.f, 1.f,  0.0001f });
 	
 		Widget& b = panel("Water");
-		ui::slider_field(b, "distortion", water.distortionScale,	{ 0.f, 8.f, 0.1f });
-		ui::slider_field(b, "size",		 water.size,			{ 0.1f, 10.f, 0.1f });
-		ui::slider_field(b, "alpha",		 water.alpha,			{ 0.9f, 1.f, 0.001f });
+		ui::slider_field(key(), b, "distortion", water.distortionScale,	{ 0.f, 8.f, 0.1f });
+		ui::slider_field(key(), b, "size",		 water.size,			{ 0.1f, 10.f, 0.1f });
+		ui::slider_field(key(), b, "alpha",		 water.alpha,			{ 0.9f, 1.f, 0.001f });
 	}
 #endif
 

@@ -261,7 +261,7 @@ EX(xx_effect_bloom)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer.m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
@@ -344,17 +344,17 @@ EX(xx_effect_bloom)
 #if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::sheet(*dock);
+		Widget& sheet = ui::sheet(key(), *dock);
 
 		float exposure = pow(tonemap.m_exposure, 1.0 / 4.0);
 
-		Widget& controls = ui::stack(sheet);
-		ui::slider_field(controls, "threshold", bloom.threshold, { 0.f, 1.f, 0.01f });
-		ui::slider_field(controls, "strength",  bloom.strength,  { 0.f, 3.f, 0.1f  });
-		ui::slider_field(controls, "radius",    bloom.radius,    { 0.f, 1.f, 0.01f });
+		Widget& controls = ui::stack(key(), sheet);
+		ui::slider_field(key(), controls, "threshold", bloom.threshold, { 0.f, 1.f, 0.01f });
+		ui::slider_field(key(), controls, "strength",  bloom.strength,  { 0.f, 3.f, 0.1f  });
+		ui::slider_field(key(), controls, "radius",    bloom.radius,    { 0.f, 1.f, 0.01f });
 
 
-		ui::slider_field(controls, "exposure", exposure, { 0.1f, 2.f, 0.01f });
+		ui::slider_field(key(), controls, "exposure", exposure, { 0.1f, 2.f, 0.01f });
 
 		tonemap.m_exposure = pow(exposure, 4.0);
 	}

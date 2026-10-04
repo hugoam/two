@@ -11,7 +11,7 @@ EX(xx_sprites)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer.m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
@@ -22,7 +22,7 @@ EX(xx_sprites)
 	ui::orbit_controls(viewer);
 #endif
 
-	//SceneViewer& overlay = ui::scene_viewer(parent);
+	//SceneViewer& overlay = ui::scene_viewer(key(), parent);
 
 	//cameraOrtho = new THREE.OrthographicCamera(- width / 2, width / 2, height / 2, - height / 2, 1, 10);
 	//cameraOrtho.position.z = 10;

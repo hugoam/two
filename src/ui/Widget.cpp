@@ -19,52 +19,43 @@ namespace ui
 			self.disable_state(HOVERED);
 	}
 
-	Widget& widget(Widget& parent, Style& style, void* identity)
+	Widget& widget(NodeKey id, Widget& parent, Style& style, bool open, Axis length, v2<uint> index)
 	{
-		Widget& self = parent.subi(identity).init(style);
+		Widget& self = parent.sub(id).init(style, open, length, index);
 		assert(self.m_frame.d_style);
 		widget_logic(self);
 		return self;
 	}
 
-	Widget& widget(Widget& parent, Style& style, bool open, Axis length, v2<uint> index)
+	Widget& item(NodeKey id, Widget& parent, Style& style, cstring content)
 	{
-
-		Widget& self = parent.subi(&style).init(style, open, length, index);
-		assert(self.m_frame.d_style);
-		widget_logic(self);
-		return self;
-	}
-
-	Widget& item(Widget& parent, Style& style, cstring content)
-	{
-		Widget& self = widget(parent, style);
+		Widget& self = widget(id, parent, style);
 		if(content != nullptr)
 			self.set_content(content);
 		return self;
 	}
 
-	Widget& item(Widget& parent, Style& style, const string& content)
+	Widget& item(NodeKey id, Widget& parent, Style& style, const string& content)
 	{
-		return item(parent, style, content.c_str());
+		return item(id, parent, style, content.c_str());
 	}
 
-	Widget& multi_item(Widget& parent, Style& style, span<cstring> elements, Style* element_style)
+	Widget& multi_item(NodeKey id, Widget& parent, Style& style, span<cstring> elements, Style* element_style)
 	{
-		Widget& self = widget(parent, style);
+		Widget& self = widget(id, parent, style);
 		for(cstring value : elements)
-			item(self, element_style ? *element_style : styles().item, value);
+			item(key(), self, element_style ? *element_style : styles().item, value);
 		return self;
 	}
 
-	Widget& multi_item(Widget& parent, span<cstring> elements, Style* element_style)
+	Widget& multi_item(NodeKey id, Widget& parent, span<cstring> elements, Style* element_style)
 	{
-		return multi_item(parent, styles().row, elements, element_style);
+		return multi_item(id, parent, styles().row, elements, element_style);
 	}
 
-	Widget& spanner(Widget& parent, Style& style, Axis dim, float span)
+	Widget& spanner(NodeKey id, Widget& parent, Style& style, Axis dim, float span)
 	{
-		Widget& self = widget(parent, style);
+		Widget& self = widget(id, parent, style);
 		self.m_frame.set_span(dim, span);
 		return self;
 	}

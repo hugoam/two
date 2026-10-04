@@ -55,42 +55,42 @@ namespace ui
 		}
 	}
 
-	Widget& window_header(Widget& parent, Window& window, cstring title)
+	Widget& window_header(NodeKey id, Widget& parent, Window& window, cstring title)
 	{
 		Style* style = window.movable() ? &window_styles().header_movable : &window_styles().header;
-		Widget& self = widget(parent, *style);
+		Widget& self = widget(id, parent, *style);
 		self.set_state(ACTIVE, window.active());
 
-		item(self, styles().title, title);
+		item(key(), self, styles().title, title);
 		if(window.closable())
-			if(button(self, window_styles().close_button).activated())
+			if(button(key(), self, window_styles().close_button).activated())
 				window.m_open = false;
 
-		tooltip(self, "Drag me");
+		tooltip(key(), self, "Drag me");
 
 		window_drag_logic(self, window);
 
 		return self;
 	}
 	
-	Widget& window_sizer(Widget& parent, Style& style, Window& window, bool left)
+	Widget& window_sizer(NodeKey id, Widget& parent, Style& style, Window& window, bool left)
 	{
-		Widget& self = widget(parent, style);
+		Widget& self = widget(id, parent, style);
 		window_resize_logic(self, window, left);
 		return self;
 	}
 
-	Widget& window_footer(Widget& parent, Window& window)
+	Widget& window_footer(NodeKey id, Widget& parent, Window& window)
 	{
-		Widget& self = widget(parent, window_styles().footer);
-		window_sizer(self, window_styles().sizer_left, window, true);
-		window_sizer(self, window_styles().sizer_right, window, false);
+		Widget& self = widget(id, parent, window_styles().footer);
+		window_sizer(key(), self, window_styles().sizer_left, window, true);
+		window_sizer(key(), self, window_styles().sizer_right, window, false);
 		return self;
 	}
 
-	Window& window(Widget& parent, cstring title, WindowState state, void* identity, Dock* dock)
+	Window& window(NodeKey id, Widget& parent, cstring title, WindowState state, Dock* dock)
 	{
-		Window& self = parent.subi<Window>(identity);
+		Window& self = parent.sub<Window>(id);
 		self.m_dock = dock;
 		self.m_name = title;
 		self.init(dock ? window_styles().dock_window : window_styles().window).layer();
@@ -108,15 +108,15 @@ namespace ui
 		}
 
 		if(self.header())
-			window_header(self, self, title);
+			window_header(key(), self, self, title);
 
 		if(self.hasmenu())
-			self.m_menu = &menubar(self);
+			self.m_menu = &menubar(key(), self);
 
-		Widget& body = widget(self, window_styles().body);
+		Widget& body = widget(key(), self, window_styles().body);
 
 		if(!self.m_dock && self.sizable())
-			window_footer(self, self);
+			window_footer(key(), self, self);
 
 		if(!self.m_dock && self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 			self.m_frame.layer().moveToTop();
@@ -124,11 +124,6 @@ namespace ui
 		self.m_body = self.m_open ? &body : nullptr;
 
 		return self;
-	}
-
-	Window& window(Widget& parent, cstring title, WindowState state)
-	{
-		return window(parent, title, state, nullptr, nullptr);
 	}
 }
 }

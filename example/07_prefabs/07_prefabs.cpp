@@ -12,9 +12,9 @@ namespace mud
 	void prefab_edit(Widget& parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected, EditContext& context)
 	{
 		prefab_edit(parent, gfx_system, node, selected);
-		Widget& layout = ui::layout(*context.m_viewer);
-		//Widget& toolbar = ui::toolbar(layout);
-		Widget& toolbar = ui::row(layout);
+		Widget& layout = ui::layout(key(), *context.m_viewer);
+		//Widget& toolbar = ui::toolbar(key(), layout);
+		Widget& toolbar = ui::row(key(), layout);
 		tools_transform(toolbar, context);
 	}
 }
@@ -55,13 +55,13 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 	static Prefab& prefab = app.m_gfx_system.prefabs().create("Prefab");
 	static PrefabNode* selected = nullptr;
 
-	Widget& board = ui::board(parent);
-	Widget& right = ui::layout_span(board, 0.2f);
-	Widget& left = ui::layout_span(board, 0.8f);
+	Widget& board = ui::board(key(), parent);
+	Widget& right = ui::layout_span(key(), board, 0.2f);
+	Widget& left = ui::layout_span(key(), board, 0.8f);
 
 	asset_browser(right, app.m_gfx_system);
 
-	SceneViewer& viewer = ui::scene_viewer(left);
+	SceneViewer& viewer = ui::scene_viewer(key(), left);
 	ui::orbit_controller(viewer);
 	app.m_editor.m_viewer = &viewer;
 
@@ -75,9 +75,9 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::DraggedTarget))
 		if(parent.ui().m_drop.m_object)
 		{
-			Widget& tooltip = ui::widget(viewer.ui(), styles().tooltip).layer();
+			Widget& tooltip = ui::widget(key(), viewer.ui(), styles().tooltip).layer();
 			tooltip.m_frame.set_position(mouse_event.m_pos);
-			ui::label(tooltip, "dropping");
+			ui::label(key(), tooltip, "dropping");
 		}
 
 	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Dropped))

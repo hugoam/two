@@ -45,7 +45,7 @@ namespace two
 		Docker(Widget* parent, void* identity, Docksystem& docksystem);
 		~Docker();
 
-		virtual Widget* docksection(Dock& dock, cstring name) = 0;
+		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) = 0;
 
 		virtual void dock(Dockable& widget, const vec2& pos) = 0;
 
@@ -75,7 +75,7 @@ namespace two
 
 		Dockable& pinpoint_dock(const vec2& pos);
 
-		virtual Widget* docksection(Dock& dock, cstring name) final;
+		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) final;
 
 		virtual void dock(Dockable& widget, const vec2& pos) final;
 
@@ -92,7 +92,7 @@ namespace two
 		Widget* m_togglebar = nullptr;
 		Widget* m_dockzone = nullptr;
 
-		virtual Widget* docksection(Dock& dock, cstring name) final;
+		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) final;
 
 		virtual void dock(Dockable& widget, const vec2& pos) final;
 

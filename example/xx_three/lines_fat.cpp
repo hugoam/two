@@ -12,7 +12,7 @@ EX(xx_lines_fat)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer.m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
@@ -114,14 +114,14 @@ EX(xx_lines_fat)
 #if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::columns(*dock, { 0.3f, 0.7f });
+		Widget& sheet = ui::columns(key(), *dock, { 0.3f, 0.7f });
 
-		ui::slider_field(sheet, "line width", material->m_line.m_line_width, { 0.f, 20.f, 0.1f });
+		ui::slider_field(key(), sheet, "line width", material->m_line.m_line_width, { 0.f, 20.f, 0.1f });
 
-		ui::field<bool>(sheet, "dashed", material->m_line.m_dashed);
-		ui::slider_field(sheet, "dash scale", material->m_line.m_dash_scale, { 0.f, 20.f, 0.1f });
-		ui::slider_field(sheet, "dash size",  material->m_line.m_dash_size,  { 0.f, 20.f, 0.1f });
-		ui::slider_field(sheet, "dash gap",   material->m_line.m_dash_gap,   { 0.f, 20.f, 0.1f });
+		ui::field<bool>(key(), sheet, "dashed", material->m_line.m_dashed);
+		ui::slider_field(key(), sheet, "dash scale", material->m_line.m_dash_scale, { 0.f, 20.f, 0.1f });
+		ui::slider_field(key(), sheet, "dash size",  material->m_line.m_dash_size,  { 0.f, 20.f, 0.1f });
+		ui::slider_field(key(), sheet, "dash gap",   material->m_line.m_dash_gap,   { 0.f, 20.f, 0.1f });
 	}
 #endif
 }

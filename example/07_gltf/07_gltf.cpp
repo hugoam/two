@@ -23,7 +23,7 @@ void ex_07_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	static ImporterGltf gltf_importer(app.m_gfx);
 
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
 
 	Gnode& scene = viewer.m_scene.begin();

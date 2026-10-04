@@ -10,9 +10,9 @@ size_t viewport_mode(Widget& parent)
 {
 	vector<size_t> num_viewer_vals = { 1, 2, 4 };
 
-	ui::label(parent, "num viewports : ");
+	ui::label(key(), parent, "num viewports : ");
 	static uint32_t choice = 1;
-	ui::radio_switch(parent, { "1", "2", "4" }, choice);
+	ui::radio_switch(key(), parent, { "1", "2", "4" }, choice);
 
 	return num_viewer_vals[choice];
 }
@@ -28,9 +28,9 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar)
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 		num_viewers = viewport_mode(*dock);
 
-	Widget& layout = ui::layout(parent);
-	Widget& first_split = ui::board(layout);
-	Widget* second_split = num_viewers > 2 ? &ui::board(layout) : nullptr;
+	Widget& layout = ui::layout(key(), parent);
+	Widget& first_split = ui::board(key(), layout);
+	Widget* second_split = num_viewers > 2 ? &ui::board(key(), layout) : nullptr;
 
 	vector<Viewer*> viewers = {};
 
@@ -38,12 +38,12 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar)
 	{
 		static Scene scene = { app.m_gfx };
 		for(size_t i = 0; i < num_viewers; ++i)
-			viewers.push_back(&ui::viewer(i >= 2 ? *second_split : first_split, scene));
+			viewers.push_back(&ui::viewer(key(), i >= 2 ? *second_split : first_split, scene));
 	}
 	else
 	{
 		for(size_t i = 0; i < num_viewers; ++i)
-			viewers.push_back(&ui::scene_viewer(i >= 2 ? *second_split : first_split));
+			viewers.push_back(&ui::scene_viewer(key(), i >= 2 ? *second_split : first_split));
 	}
 
 

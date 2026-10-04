@@ -77,9 +77,9 @@ namespace ui
 		vg.stroke_gradient(paint, 1.f, pos_out, pos_in);
 	}
 
-	Widget& node_knob(Widget& parent, Style& style, const Colour& colour, bool active, bool connected)
+	Widget& node_knob(NodeKey id, Widget& parent, Style& style, const Colour& colour, bool active, bool connected)
 	{
-		Widget& self = widget(parent, style);
+		Widget& self = widget(id, parent, style);
 		static Colour disabled_colour = Colour::DarkGrey;
 		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg)
 		{
@@ -88,9 +88,9 @@ namespace ui
 		return self;
 	}
 
-	Widget& canvas_cable(Widget& parent, NodeKnob& out, NodeKnob& in, bool straight = false)
+	Widget& canvas_cable(NodeKey id, Widget& parent, NodeKnob& out, NodeKnob& in, bool straight = false)
 	{
-		Widget& self = widget(parent, node_styles().cable);
+		Widget& self = widget(id, parent, node_styles().cable);
 		self.m_frame.m_position = min(out.m_end, in.m_end);
 		self.m_frame.m_size = max(out.m_end, in.m_end) - self.m_frame.m_position;
 		self.m_custom_draw = [&, straight](const Frame& frame, const vec4& rect, Vg& vg)
@@ -112,27 +112,27 @@ namespace ui
 		return knob.derive_position({ 0.f, knob.m_size.y / 2 }, canvas.m_plan->m_frame);
 	}
 
-	Widget& node_cable(Canvas& canvas, NodePlug& out, NodePlug& in)
+	Widget& node_cable(NodeKey id, Canvas& canvas, NodePlug& out, NodePlug& in)
 	{
-		return canvas_cable(*canvas.m_plan, out, in, !canvas.m_rounded_links);
+		return canvas_cable(id, *canvas.m_plan, out, in, !canvas.m_rounded_links);
 	}
 
-	NodePlug& node_plug(Node& node, cstring name, cstring icon, const Colour& colour, bool input, bool active, bool connected)
+	NodePlug& node_plug(NodeKey id, Node& node, cstring name, cstring icon, const Colour& colour, bool input, bool active, bool connected)
 	{
-		NodePlug& self = input ? twidget<NodePlug>(*node.m_inputs, node_styles().plug)
-							   : twidget<NodePlug>(*node.m_outputs, node_styles().plug);
+		NodePlug& self = input ? twidget<NodePlug>(id, *node.m_inputs, node_styles().plug)
+							   : twidget<NodePlug>(id, *node.m_outputs, node_styles().plug);
 		self.m_node = &node;
 		self.m_colour = colour;
 
 		if(input)
-			self.m_knob = &node_knob(self, node_styles().knob, colour, active, connected);
+			self.m_knob = &node_knob(key(), self, node_styles().knob, colour, active, connected);
 
-		label(self, name).set_state(DISABLED, !active);
+		label(key(), self, name).set_state(DISABLED, !active);
 		UNUSED(icon);
-		//item(self, icon);
+		//item(key(), self, icon);
 
 		if(!input)
-			self.m_knob = &node_knob(self, node_styles().knob_output, colour, active, connected);
+			self.m_knob = &node_knob(key(), self, node_styles().knob_output, colour, active, connected);
 
 		Canvas& canvas = *node.m_canvas;
 
@@ -171,10 +171,10 @@ namespace ui
 		return self;
 	}
 
-	Widget& node_header(Widget& parent, span<cstring> title)
+	Widget& node_header(NodeKey id, Widget& parent, span<cstring> title)
 	{
-		Widget& self = multi_item(parent, node_styles().header, title);
-		spacer(self);
+		Widget& self = multi_item(id, parent, node_styles().header, title);
+		spacer(key(), self);
 		return self;
 	}
 
@@ -199,22 +199,22 @@ namespace ui
 	}
 
 	template <class T>
-	inline T& ttwidget(Widget& parent, Style& style, void* identity)
+	inline T& ttwidget(NodeKey id, Widget& parent, Style& style)
 	{
-		T& self = parent.subi<T>(identity); self.init(style); return self;
+		T& self = parent.sub<T>(id); self.init(style); return self;
 	}
 
 	Node& node(Canvas& parent, span<cstring> title, int order, Ref identity)
 	{
-		Node& self = ttwidget<Node>(*parent.m_plan, node_styles().node, identity.m_value);
+		Node& self = ttwidget<Node>(key(identity.m_value), *parent.m_plan, node_styles().node);
 		self.layer();
 		self.m_canvas = &parent;
 		self.m_order = order;
-		self.m_header = &node_header(self, title);
+		self.m_header = &node_header(key(), self, title);
 
-		Widget& plugs = widget(self, node_styles().plugs);
-		self.m_inputs = &widget(plugs, node_styles().inputs);
-		self.m_outputs = &widget(plugs, node_styles().outputs);
+		Widget& plugs = widget(key(), self, node_styles().plugs);
+		self.m_inputs = &widget(key(), plugs, node_styles().inputs);
+		self.m_outputs = &widget(key(), plugs, node_styles().outputs);
 
 		self.m_body = &self;
 
@@ -263,12 +263,12 @@ namespace ui
 		return node(parent, { title }, &position[0], order, identity);
 	}
 
-	Canvas& canvas(Widget& parent, size_t num_nodes) // , const Callback& context_trigger
+	Canvas& canvas(NodeKey id, Widget& parent, size_t num_nodes) // , const Callback& context_trigger
 	{
-		Canvas& self = twidget<Canvas>(parent, canvas_styles().canvas);
+		Canvas& self = twidget<Canvas>(id, parent, canvas_styles().canvas);
 		self.layer();
 
-		self.m_scroll_plan = &scroll_plan(self);
+		self.m_scroll_plan = &scroll_plan(key(), self);
 		self.m_plan = self.m_scroll_plan->m_body;
 
 		autofit_scroll_plan(*self.m_scroll_plan, to_array_cast<Widget*>(self.m_nodes));
@@ -301,7 +301,7 @@ namespace ui
 		CanvasConnect& connect = canvas.m_connect;
 		if(connect.m_origin)
 		{
-			canvas_cable(*canvas.m_plan, connect.m_out ? *connect.m_out : connect.m_end, connect.m_in ?  *connect.m_in : connect.m_end);
+			canvas_cable(key(), *canvas.m_plan, connect.m_out ? *connect.m_out : connect.m_end, connect.m_in ?  *connect.m_in : connect.m_end);
 
 			if(connect.m_done)
 			{
@@ -315,7 +315,7 @@ namespace ui
 		else
 		{
 			static NodeKnob dum = { vec2(0.f), Colour(0.f, 0.f) };
-			canvas_cable(*canvas.m_plan, dum, dum);
+			canvas_cable(key(), *canvas.m_plan, dum, dum);
 			connect = {};
 		}
 

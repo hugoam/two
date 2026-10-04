@@ -10,7 +10,7 @@ namespace two
 {
 	void object_injector(Widget& parent, Injector& injector)
 	{
-		Widget& self = ui::sheet(parent);
+		Widget& self = ui::sheet(key(), parent);
 		call_edit(self, injector);
 	}
 
@@ -23,12 +23,12 @@ namespace two
 
 	bool object_creator(Widget& parent, Injector& injector)
 	{
-		Widget& self = ui::widget(parent, styles().sheet, &injector);
+		Widget& self = ui::widget(key(), parent, styles().sheet, &injector);
 		
-		Table& fields = ui::columns(self, { 0.4f, 0.6f });
+		Table& fields = ui::columns(key(), self, { 0.4f, 0.6f });
 		call_edit(fields, injector);
 
-		if(ui::button(self, "Create").activated())
+		if(ui::button(key(), self, "Create").activated())
 		{
 			if(false)//injector.m_constructor.validate(injector.m_args, 1))
 			{
@@ -42,8 +42,8 @@ namespace two
 
 	bool object_switch_creator(Widget& parent, span<Type*> types)
 	{
-		Widget& self = ui::sheet(parent);
-		ui::title(self, "Create Object");
+		Widget& self = ui::sheet(key(), parent);
+		ui::title(key(), self, "Create Object");
 
 		CreatorState& state = self.state<CreatorState>(*types[0]);
 
@@ -55,14 +55,14 @@ namespace two
 
 	bool object_creator(Widget& parent, Creator& creator)
 	{
-		Widget& self = ui::sheet(parent);
+		Widget& self = ui::sheet(key(), parent);
 
-		ui::title(self, creator.m_prototype ? creator.m_prototype->m_name : creator.m_type.m_name);
+		ui::title(key(), self, creator.m_prototype ? creator.m_prototype->m_name : creator.m_type.m_name);
 
-		Table& fields = ui::table(self, { "field", "value" }, { 0.3f, 0.7f });
+		Table& fields = ui::table(key(), self, { "field", "value" }, { 0.3f, 0.7f });
 		call_edit(fields, creator.injector());
 
-		if(ui::button(self, "Create").activated())
+		if(ui::button(key(), self, "Create").activated())
 		{
 			creator.m_injector->injectpool();
 			return true;
@@ -79,7 +79,7 @@ namespace two
 
 	bool object_creator(Widget& parent, Type& type)
 	{
-		Widget& self = ui::sheet(parent);
+		Widget& self = ui::sheet(key(), parent);
 		ObjectCreatorState& state = self.state<ObjectCreatorState>(type);
 		return object_creator(self, state.m_creator);
 	}
@@ -91,7 +91,7 @@ namespace two
 
 	void meta_object_creator(Widget& parent)
 	{
-		Widget& self = ui::sheet(parent);
+		Widget& self = ui::sheet(key(), parent);
 		MetaObjectCreatorState& state = self.state<MetaObjectCreatorState>();
 
 		for(Type* type : System::instance().m_types)

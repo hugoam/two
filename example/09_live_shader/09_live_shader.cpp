@@ -52,7 +52,7 @@ static string fragment =
 void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
 
 	Gnode& scene = viewer.m_scene.begin();
@@ -69,12 +69,12 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Section& edit = section(*dock, "Shader Editor");
+		Section& edit = section(key(), *dock, "Shader Editor");
 		
 		if(section_action(edit, "Reload"))
 			program.reload();
 
-		TextEdit& text_edit = ui::code_edit(*edit.m_body, program.m_sources[ShaderType::Fragment], 0);
+		TextEdit& text_edit = ui::code_edit(key(), *edit.m_body, program.m_sources[ShaderType::Fragment], 0);
 		if(text_edit.m_changed)
 			program.reload();
 		text_edit.m_changed = false;

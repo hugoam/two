@@ -23,15 +23,15 @@ namespace ui
 		//content.layer().setForceRedraw();
 	}
 
-	bool scroller(Widget& parent, float& cursor, float overflow, float visible_size, Axis dim)
+	bool scroller(NodeKey id, Widget& parent, float& cursor, float overflow, float visible_size, Axis dim)
 	{
-		return slider(parent, scrollbar_styles().scroller, cursor, SliderMetrics{ 0.f, overflow, 1.f, visible_size },
+		return slider(id, parent, scrollbar_styles().scroller, cursor, SliderMetrics{ 0.f, overflow, 1.f, visible_size },
 					  dim, true, false, &scrollbar_styles().scroller_knob);
 	}
 
-	Widget& scrollbar(Widget& parent, Frame& frame, Frame& content, Axis dim, v2<uint> grid_index)
+	Widget& scrollbar(NodeKey id, Widget& parent, Frame& frame, Frame& content, Axis dim, v2<uint> grid_index)
 	{
-		Widget& self = widget(parent, styles().row, false, dim, grid_index);
+		Widget& self = widget(id, parent, styles().row, false, dim, grid_index);
 
 		float visible_size = frame.m_size[dim];
 		float content_size = content.m_size[dim] * content.m_scale;
@@ -40,18 +40,18 @@ namespace ui
 		if(overflow <= 0.f)
 			return self;
 
-		Widget& scrollbar = widget(self, scrollbar_styles().scrollbar, false, dim);
+		Widget& scrollbar = widget(key(), self, scrollbar_styles().scrollbar, false, dim);
 
 		float cursor = -content.m_position[dim];
 		if(cursor > 0.f && content_size - cursor < visible_size)
 			cursor = max(content_size - visible_size, 0.f);
 
-		Widget& rewind = button(scrollbar, dim == Axis::Y ? scrollbar_styles().scroll_up
+		Widget& rewind = button(key(), scrollbar, dim == Axis::Y ? scrollbar_styles().scroll_up
 														  : scrollbar_styles().scroll_left);
 
-		scroller(scrollbar, cursor, overflow, visible_size, dim);
+		scroller(key(), scrollbar, cursor, overflow, visible_size, dim);
 
-		Widget& forward = button(scrollbar, dim == Axis::Y ? scrollbar_styles().scroll_down
+		Widget& forward = button(key(), scrollbar, dim == Axis::Y ? scrollbar_styles().scroll_down
 														   : scrollbar_styles().scroll_right);
 
 		if(rewind.activated())

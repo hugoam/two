@@ -404,7 +404,7 @@ EX(xx_effect_sao)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer.m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
@@ -490,27 +490,27 @@ EX(xx_effect_sao)
 #if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::sheet(*dock);
+		Widget& sheet = ui::sheet(key(), *dock);
 
 		auto panel = [&](const string& name) -> Widget&
 		{
-			Widget& s = ui::expandbox(sheet, name.c_str());
-			return ui::columns(s, { 0.3f, 0.7f });
+			Widget& s = ui::expandbox(key(), sheet, name.c_str());
+			return ui::columns(key(), s, { 0.3f, 0.7f });
 		};
 
 		Widget& a = panel("Material");
 
-		ui::dropdown_field(a, "shape", { "Beauty+SAO", "Beauty", "SAO", "Depth", "Normal" }, (uint32_t&)sao.output);
+		ui::dropdown_field(key(), a, "shape", { "Beauty+SAO", "Beauty", "SAO", "Depth", "Normal" }, (uint32_t&)sao.output);
 
-		ui::slider_field(a, "bias",           sao.bias,         { -1.f, 1.f, 0.1f });
-		ui::slider_field(a, "intensity",      sao.intensity,    { 0.f, 1.f, 0.01f });
-		ui::slider_field(a, "scale",          sao.scale,        { 0.f, 10.f, 0.1f });
-		ui::slider_field(a, "kernel radius", sao.kernelRadius, { 1, 100, 1 });
+		ui::slider_field(key(), a, "bias",           sao.bias,         { -1.f, 1.f, 0.1f });
+		ui::slider_field(key(), a, "intensity",      sao.intensity,    { 0.f, 1.f, 0.01f });
+		ui::slider_field(key(), a, "scale",          sao.scale,        { 0.f, 10.f, 0.1f });
+		ui::slider_field(key(), a, "kernel radius", sao.kernelRadius, { 1, 100, 1 });
 
-		ui::field(a,    "blur", sao.blur);
-		ui::slider_field(a, "blur radius",       sao.blurRadius,      { 0, 200, 1 });
-		ui::slider_field(a,  "blur std dev",      sao.blurStdDev,      { 0.5f, 150.f, 0.1f });
-		ui::slider_field(a,  "blur depth cutoff", sao.blurDepthCutoff, { 0.0f, 0.1f, 0.01f });
+		ui::field(key(), a,    "blur", sao.blur);
+		ui::slider_field(key(), a, "blur radius",       sao.blurRadius,      { 0, 200, 1 });
+		ui::slider_field(key(), a,  "blur std dev",      sao.blurStdDev,      { 0.5f, 150.f, 0.1f });
+		ui::slider_field(key(), a,  "blur depth cutoff", sao.blurDepthCutoff, { 0.0f, 0.1f, 0.01f });
 	}
 #endif
 

@@ -411,14 +411,14 @@ static void generator_script(VisualScript& script)
 
 void example_options(Widget& parent, PerezSky& sky)
 {
-	//Widget& body = *ui::window(parent, "Procedural Sky").m_body;
-	//Widget& body = ui::columns(parent, {});
-	Widget& body = ui::table(parent, { "field", "value" }, {});
-	ui::slider_field(body, "Time scale", sky.m_time_scale,     { 0.0f, 1.0f, 0.01f });
-	ui::slider_field(body, "Time",       sky.m_time,           { 0.0f, 24.0f });
-	ui::slider_field(body, "Latitude",   sky.m_sun.m_latitude, { -90.0f, 90.0f });
-	ui::slider_field(body, "Turbidity",  sky.m_turbidity,      { 1.9f, 10.0f, 0.1f });
-	ui::field<bool>(body, "Prevent color banding", sky.m_sky.m_preventBanding);
+	//Widget& body = *ui::window(key(), parent, "Procedural Sky").m_body;
+	//Widget& body = ui::columns(key(), parent, {});
+	Widget& body = ui::table(key(), parent, { "field", "value" }, {});
+	ui::slider_field(key(), body, "Time scale", sky.m_time_scale,     { 0.0f, 1.0f, 0.01f });
+	ui::slider_field(key(), body, "Time",       sky.m_time,           { 0.0f, 24.0f });
+	ui::slider_field(key(), body, "Latitude",   sky.m_sun.m_latitude, { -90.0f, 90.0f });
+	ui::slider_field(key(), body, "Turbidity",  sky.m_turbidity,      { 1.9f, 10.0f, 0.1f });
+	ui::field<bool>(key(), body, "Prevent color banding", sky.m_sky.m_preventBanding);
 
 	static cstring months[12] =
 	{
@@ -436,7 +436,7 @@ void example_options(Widget& parent, PerezSky& sky)
 		"December"
 	};
 
-	ui::dropdown_field(body, "Month", { months, 12 }, (uint32_t&)sky.m_sun.m_month);
+	ui::dropdown_field(key(), body, "Month", { months, 12 }, (uint32_t&)sky.m_sun.m_month);
 }
 
 static PerezSky g_sky;
@@ -449,7 +449,7 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	//app.m_gfx->m_renderer.block<BlockTonemap>()->m_enabled = false;
 
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	//viewer.m_viewport.m_lighting = Lighting::VoxelGI;
 
 	ui::orbit_controller(viewer);

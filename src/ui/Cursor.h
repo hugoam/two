@@ -19,22 +19,22 @@ namespace ui
 
 	export_ TWO_UI_EXPORT CursorStyles& cursor_styles();
 
-	export_ TWO_UI_EXPORT Widget* hoverbox(Widget& parent, const vec2& position, float delay = 0.5f);
-	export_ TWO_UI_EXPORT func_ Widget* hoverbox(Widget& parent, float delay = 0.5f);
+	export_ TWO_UI_EXPORT Widget* hoverbox(NodeKey id, Widget& parent, const vec2& position, float delay = 0.5f);
+	export_ TWO_UI_EXPORT func_ Widget* hoverbox(NodeKey id, Widget& parent, float delay = 0.5f);
 
-	export_ TWO_UI_EXPORT Widget* tooltip(Widget& parent, const vec2& position, span<cstring> elements);
+	export_ TWO_UI_EXPORT Widget* tooltip(NodeKey id, Widget& parent, const vec2& position, span<cstring> elements);
 
-	export_ TWO_UI_EXPORT Widget* tooltip(Widget& parent, cstring content);
-	export_ TWO_UI_EXPORT Widget* tooltip(Widget& parent, span<cstring> elements);
+	export_ TWO_UI_EXPORT Widget* tooltip(NodeKey id, Widget& parent, cstring content);
+	export_ TWO_UI_EXPORT Widget* tooltip(NodeKey id, Widget& parent, span<cstring> elements);
 
-	export_ TWO_UI_EXPORT Widget* tooltip(Widget& parent, const Frame& parent_frame);
-	export_ TWO_UI_EXPORT Widget* tooltip(Widget& parent, const Frame& parent_frame, cstring content);
-	export_ TWO_UI_EXPORT Widget* tooltip(Widget& parent, const Frame& parent_frame, span<cstring> elements);
+	export_ TWO_UI_EXPORT Widget* tooltip(NodeKey id, Widget& parent, const Frame& parent_frame);
+	export_ TWO_UI_EXPORT Widget* tooltip(NodeKey id, Widget& parent, const Frame& parent_frame, cstring content);
+	export_ TWO_UI_EXPORT Widget* tooltip(NodeKey id, Widget& parent, const Frame& parent_frame, span<cstring> elements);
 
-	export_ TWO_UI_EXPORT Widget& cursor(Widget& parent, const vec2& position, Style& style, bool locked = false);
-	export_ TWO_UI_EXPORT func_ Widget& cursor(Widget& parent, const vec2& position, Widget& hovered, bool locked = false);
+	export_ TWO_UI_EXPORT Widget& cursor(NodeKey id, Widget& parent, const vec2& position, Style& style, bool locked = false);
+	export_ TWO_UI_EXPORT func_ Widget& cursor(NodeKey id, Widget& parent, const vec2& position, Widget& hovered, bool locked = false);
 
-	export_ TWO_UI_EXPORT func_ Widget& rectangle(Widget& parent, const vec4& rect);
-	export_ TWO_UI_EXPORT func_ Widget& viewport(Widget& parent, const vec4& rect);
+	export_ TWO_UI_EXPORT func_ Widget& rectangle(NodeKey id, Widget& parent, const vec4& rect);
+	export_ TWO_UI_EXPORT func_ Widget& viewport(NodeKey id, Widget& parent, const vec4& rect);
 }
 }

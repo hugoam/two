@@ -12,7 +12,7 @@ namespace two
 {
 namespace ui
 {
-	export_ TWO_UI_EXPORT func_ Widget& command_line(Widget& parent, string& text, string& command);
-	export_ TWO_UI_EXPORT func_ Widget& console(Widget& parent, string& feed, string& line, string& command, size_t num_lines = 0);
+	export_ TWO_UI_EXPORT func_ Widget& command_line(NodeKey id, Widget& parent, string& text, string& command);
+	export_ TWO_UI_EXPORT func_ Widget& console(NodeKey id, Widget& parent, string& feed, string& line, string& command, size_t num_lines = 0);
 }
 }

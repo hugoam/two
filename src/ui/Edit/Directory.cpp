@@ -10,24 +10,24 @@ namespace two
 {
 namespace ui
 {
-	Widget& dir_item(Widget& parent, const string& name)
+	Widget& dir_item(NodeKey id, Widget& parent, const string& name)
 	{
-		return multi_button(parent, file_styles().dir, { "(folder_20)" , name.c_str() });
+		return multi_button(id, parent, file_styles().dir, { "(folder_20)" , name.c_str() });
 	}
 
-	Widget& file_item(Widget& parent, const string& name)
+	Widget& file_item(NodeKey id, Widget& parent, const string& name)
 	{
-		return multi_button(parent, file_styles().file, { "(file_20)" , name.c_str() });
+		return multi_button(id, parent, file_styles().file, { "(file_20)" , name.c_str() });
 	}
 
-	Widget& file_list(Widget& parent, string& path)
+	Widget& file_list(NodeKey id, Widget& parent, string& path)
 	{
-		Widget& self = widget(parent, styles().wedge);//file_styles().directory);
+		Widget& self = widget(id, parent, styles().wedge);//file_styles().directory);
 
 		auto on_dir = [&](const string& dir)
 		{
 			if(dir == ".") return;
-			Widget& item = dir_item(self, dir.c_str());
+			Widget& item = dir_item(key(), self, dir.c_str());
 			if(item.activated())
 			{
 				if(dir == "..")
@@ -39,7 +39,7 @@ namespace ui
 
 		auto on_file = [&](const string& file)
 		{
-			file_item(self, file.c_str());
+			file_item(key(), self, file.c_str());
 		};
 
 		visit_folders(path, on_dir, false);
@@ -47,27 +47,27 @@ namespace ui
 		return self;
 	}
 
-	Widget& file_browser(Widget& parent, string& path)
+	Widget& file_browser(NodeKey id, Widget& parent, string& path)
 	{
-		Widget& self = widget(parent, styles().wedge);// styles().file_browser);
-		file_list(self, path);
+		Widget& self = widget(id, parent, styles().wedge);// styles().file_browser);
+		file_list(key(), self, path);
 		return self;
 	}
 
-	Widget& dir_node(Widget& parent, const string& path, const string& name, bool open)
+	Widget& dir_node(NodeKey id, Widget& parent, const string& path, const string& name, bool open)
 	{
 		cstring elements[] = { "(folder_20)", name.c_str() };
-		Widget& self = tree_node(parent, elements, false, open);
+		Widget& self = tree_node(id, parent, elements, false, open);
 		if(!self.m_body) return self;
 
 		auto on_dir = [&](const string& dir)
 		{
-			dir_node(*self.m_body, path + "/" + dir, dir, false);
+			dir_node(key(), *self.m_body, path + "/" + dir, dir, false);
 		};
 
 		auto on_file = [&](const string& file)
 		{
-			file_node(*self.m_body, file.c_str());
+			file_node(key(), *self.m_body, file.c_str());
 		};
 
 		visit_folders(path, on_dir);
@@ -75,16 +75,16 @@ namespace ui
 		return self;
 	}
 
-	Widget& file_node(Widget& parent, const string& name)
+	Widget& file_node(NodeKey id, Widget& parent, const string& name)
 	{
-		Widget& self = tree_node(parent, { "(file_20)", name.c_str() }, true, false);
+		Widget& self = tree_node(id, parent, { "(file_20)", name.c_str() }, true, false);
 		return self;
 	}
 	
-	Widget& file_tree(Widget& parent, const string& path)
+	Widget& file_tree(NodeKey id, Widget& parent, const string& path)
 	{
-		Widget& self = tree(parent);
-		dir_node(self, path, path, false);
+		Widget& self = tree(id, parent);
+		dir_node(key(), self, path, path, false);
 		return self;
 	}
 }

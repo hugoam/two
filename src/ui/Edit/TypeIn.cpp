@@ -700,9 +700,9 @@ namespace ui
 		return true;
 	}
 
-	TextEdit& text_box(Widget& parent, Style& style, string& text, bool editor, size_t lines, const string& allowed_chars)
+	TextEdit& text_box(NodeKey id, Widget& parent, Style& style, string& text, bool editor, size_t lines, const string& allowed_chars)
 	{
-		TextEdit& self = parent.suba<TextEdit, bool, string>(editor, allowed_chars);
+		TextEdit& self = parent.sub<TextEdit, bool, string>(id, editor, allowed_chars);
 		self.init(style);
 
 		if(lines > 0)
@@ -715,17 +715,17 @@ namespace ui
 		text = self.m_string;
 
 		const vec2 size = self.frame_size();
-		ui::dummy(self, size);
+		ui::dummy(key(), self, size);
 
 		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(frame); UNUSED(rect); self.render(vg); };
 
 		return self;
 	}
 
-	TextEdit& type_in(Widget& parent, string& text, size_t lines, const string& allowed_chars)
+	TextEdit& type_in(NodeKey id, Widget& parent, string& text, size_t lines, const string& allowed_chars)
 	{
-		Widget& self = widget(parent, styles().type_in);
-		TextEdit& edit = text_box(self, styles().type_in, text, false, lines, allowed_chars);
+		Widget& self = widget(id, parent, styles().type_in);
+		TextEdit& edit = text_box(key(), self, styles().type_in, text, false, lines, allowed_chars);
 		return edit;
 	}
 
@@ -736,7 +736,7 @@ namespace ui
 
 		static uint32_t current = 0;
 
-		const bool selected = ui::popdown(edit, completions, current, popup_position, PopupFlags::None); //auto_complete_style
+		const bool selected = ui::popdown(key(), edit, completions, current, popup_position, PopupFlags::None); //auto_complete_style
 
 		if(edit.key_stroke(Key::Up))
 			current = max(current - 1, uint32_t(0));
@@ -753,11 +753,11 @@ namespace ui
 		}
 	}
 
-	TextEdit& text_edit(Widget& parent, string& text, size_t lines, vector<string>* vocabulary)
+	TextEdit& text_edit(NodeKey id, Widget& parent, string& text, size_t lines, vector<string>* vocabulary)
 	{
-		Widget& self = widget(parent, styles().text_edit);
-		ScrollSheet& scroll_sheet = ui::scroll_sheet(self);
-		TextEdit& edit = text_box(*scroll_sheet.m_body, styles().type_zone, text, true, lines);
+		Widget& self = widget(id, parent, styles().text_edit);
+		ScrollSheet& scroll_sheet = ui::scroll_sheet(key(), self);
+		TextEdit& edit = text_box(key(), *scroll_sheet.m_body, styles().type_zone, text, true, lines);
 
 		edit.update_scroll(scroll_sheet.m_scroll_zone->m_frame, scroll_sheet.m_body->m_frame);
 
@@ -788,9 +788,9 @@ namespace ui
 		return edit;
 	}
 
-	TextEdit& code_edit(Widget& parent, string& text, size_t lines, vector<string>* vocabulary)
+	TextEdit& code_edit(NodeKey id, Widget& parent, string& text, size_t lines, vector<string>* vocabulary)
 	{
-		return text_edit(parent, text, lines, vocabulary);
+		return text_edit(id, parent, text, lines, vocabulary);
 	}
 
 	string auto_indent(TextEdit& edit)

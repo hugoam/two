@@ -34,7 +34,6 @@ namespace ui
 
 	export_ TWO_UI_EXPORT WindowStyles& window_styles();
 
-	export_ func_ TWO_UI_EXPORT Window& window(Widget& parent, cstring title, WindowState state = WindowState::Default);
-	export_ TWO_UI_EXPORT Window& window(Widget& parent, cstring title, WindowState state, void* identity, Dock* dock = nullptr);
+	export_ func_ TWO_UI_EXPORT Window& window(NodeKey id, Widget& parent, cstring title, WindowState state = WindowState::Default, Dock* dock = nullptr);
 }
 }

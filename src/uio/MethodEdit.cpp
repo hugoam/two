@@ -36,7 +36,7 @@ namespace two
 
 	void callable_edit(Widget& parent, Callable& callable)
 	{
-		Widget& self = ui::row(parent);
+		Widget& self = ui::row(key(), parent);
 		CallableEditState& state = self.state<CallableEditState>(callable);
 		call_edit(self, state.m_call);
 	}
@@ -48,9 +48,9 @@ namespace two
 
 	void method_edit(Widget& parent, Ref object, Method& method)
 	{
-		Widget& self = ui::row(parent);
+		Widget& self = ui::row(key(), parent);
 		CallableEditState& state = self.state<CallableEditState>(method, object);
-		if(ui::button(self, method.m_name).activated())
+		if(ui::button(key(), self, method.m_name).activated())
 			state.m_call();
 		call_edit(self, state.m_call);
 	}
@@ -60,16 +60,16 @@ namespace two
 		enum Modes { CALL = 1 << 0 };
 		string name = "Call method " + string(method.m_object_type->m_name) + "::" + method.m_name;
 		
-		if(ui::modal_button(parent, parent, "Call", CALL))
+		if(ui::modal_button(key(), parent, parent, "Call", CALL))
 		{
-			Widget& modal = ui::auto_modal(parent, CALL, { 600, 400 });
+			Widget& modal = ui::auto_modal(key(), parent, CALL, { 600, 400 });
 			method_edit(modal, object, method);
 		}
 	}
 
 	void method_trigger(Widget& parent, Ref object, Method& method)
 	{
-		if(ui::modal_button(parent, parent, method.m_name, uint32_t(1 << 0)))
+		if(ui::modal_button(key(), parent, parent, method.m_name, uint32_t(1 << 0)))
 			method_edit_modal(parent, object, method);
 	}
 

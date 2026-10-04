@@ -10,15 +10,15 @@ namespace two
 {
 namespace ui
 {
-	Sequence& sequence(Widget& parent)
+	Sequence& sequence(NodeKey id, Widget& parent)
 	{
-		return twidget<Sequence>(parent, styles().sequence);
+		return twidget<Sequence>(id, parent, styles().sequence);
 	}
 
-	Sequence& scroll_sequence(Widget& parent)
+	Sequence& scroll_sequence(NodeKey id, Widget& parent)
 	{
-		Sequence& self = twidget<Sequence>(parent, styles().sequence);
-		self.m_body = scroll_sheet(self).m_body;
+		Sequence& self = twidget<Sequence>(id, parent, styles().sequence);
+		self.m_body = scroll_sheet(key(), self).m_body;
 		return self;
 	}
 
@@ -58,9 +58,9 @@ namespace ui
 		return changed;
 	}
 
-	Widget& element(Widget& parent, Ref object)
+	Widget& element(NodeKey id, Widget& parent, Ref object)
 	{
-		Widget& self = widget(parent, styles().element, object.m_value);
+		Widget& self = widget(key(object.m_value, id), parent, styles().element);
 
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 			parent.ui().m_drop = { static_cast<Widget*>(event.m_target), object, DropState::Preview };
@@ -71,16 +71,16 @@ namespace ui
 		return self;
 	}
 
-	Widget& element(Widget& parent, Ref object, vector<Ref>& selection)
+	Widget& element(NodeKey id, Widget& parent, Ref object, vector<Ref>& selection)
 	{
-		Widget& self = element(parent, object);
+		Widget& self = element(id, parent, object);
 		multiselect_logic(self, object, selection);
 		return self;
 	}
 
 	Widget& sequence_element(Sequence& sequence, Ref object)
 	{
-		return element(sequence.m_body ? *sequence.m_body : sequence, object, *sequence.m_selection);
+		return element(key(), sequence.m_body ? *sequence.m_body : sequence, object, *sequence.m_selection);
 	}
 }
 }

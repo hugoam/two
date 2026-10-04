@@ -68,8 +68,8 @@ void example_select(Shell& app, Widget& parent, Dockbar& dockbar)
 	static std::vector<cstring> example_names = []() { std::vector<cstring> names; for(Example ex : examples) names.push_back(ex.m_name); return names; }();
 
 	size_t example = 0;
-	ui::label(parent, "Select an example");
-	if(ui::dropdown_input(parent, example_names, example))
+	ui::label(key(), parent, "Select an example");
+	if(ui::dropdown_input(key(), parent, example_names, example))
 	{
 		current_example = &examples[example];
 		if(examples[example].m_with_tab)
@@ -85,7 +85,7 @@ void pump(Shell& app)
 		example_select(app, *dock, *app.m_editor.m_dockbar);
 	
 	if(current_example)
-		current_example->m_func(app, ui::widget(*app.m_editor.m_screen, styles().board, current_example), *app.m_editor.m_dockbar);
+		current_example->m_func(app, ui::widget(key(), *app.m_editor.m_screen, styles().board, current_example), *app.m_editor.m_dockbar);
 
 	edit_tools(app.m_editor, *app.m_editor.m_screen);
 }

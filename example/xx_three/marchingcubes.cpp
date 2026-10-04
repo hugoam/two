@@ -365,7 +365,7 @@ EX(xx_marching_cubes)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer.m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
@@ -449,12 +449,12 @@ EX(xx_marching_cubes)
 #if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::sheet(*dock);
+		Widget& sheet = ui::sheet(key(), *dock);
 
 		auto panel = [&](const string& name) -> Widget&
 		{
-			Widget& s = ui::expandbox(sheet, name.c_str());
-			return ui::columns(s, { 0.3f, 0.7f });
+			Widget& s = ui::expandbox(key(), sheet, name.c_str());
+			return ui::columns(key(), s, { 0.3f, 0.7f });
 		};
 
 		// material (type)
@@ -463,8 +463,8 @@ EX(xx_marching_cubes)
 
 		static vector<cstring> labels = material_labels(materials);
 		static uint32_t material_index = 0;
-		bool changed = ui::radio_switch(sheet, labels, material_index, Axis::Y);
-		//bool changed = ui::dropdown_field(sheet, "material", labels, material_index);
+		bool changed = ui::radio_switch(key(), sheet, labels, material_index, Axis::Y);
+		//bool changed = ui::dropdown_field(key(), sheet, "material", labels, material_index);
 		if(changed)
 		{
 			current = &materials[material_index];
@@ -475,38 +475,38 @@ EX(xx_marching_cubes)
 
 		Widget& b = panel("Material color");
 
-		ui::slider_field(b, "hue",        current->color.h, { 0.f, 1.f, 0.025f });
-		ui::slider_field(b, "saturation", current->color.s, { 0.f, 1.f, 0.025f });
-		ui::slider_field(b, "lightness",  current->color.l, { 0.f, 1.f, 0.025f });
+		ui::slider_field(key(), b, "hue",        current->color.h, { 0.f, 1.f, 0.025f });
+		ui::slider_field(key(), b, "saturation", current->color.s, { 0.f, 1.f, 0.025f });
+		ui::slider_field(key(), b, "lightness",  current->color.l, { 0.f, 1.f, 0.025f });
 
 		// light (point)
 
 		Widget& c = panel("Point light color");
 
-		ui::slider_field(c, "hue",        controller.lhue,        { 0.f, 1.f, 0.025f });
-		ui::slider_field(c, "saturation", controller.lsaturation, { 0.f, 1.f, 0.025f });
-		ui::slider_field(c, "lightness",  controller.llightness,  { 0.f, 1.f, 0.025f });
+		ui::slider_field(key(), c, "hue",        controller.lhue,        { 0.f, 1.f, 0.025f });
+		ui::slider_field(key(), c, "saturation", controller.lsaturation, { 0.f, 1.f, 0.025f });
+		ui::slider_field(key(), c, "lightness",  controller.llightness,  { 0.f, 1.f, 0.025f });
 
 		// light (directional)
 
 		Widget& d = panel("Directional light orientation");
 
-		ui::slider_field(d, "x", controller.lx, { -1.f, 1.f, 0.025f });
-		ui::slider_field(d, "y", controller.ly, { -1.f, 1.f, 0.025f });
-		ui::slider_field(d, "z", controller.lz, { -1.f, 1.f, 0.025f });
+		ui::slider_field(key(), d, "x", controller.lx, { -1.f, 1.f, 0.025f });
+		ui::slider_field(key(), d, "y", controller.ly, { -1.f, 1.f, 0.025f });
+		ui::slider_field(key(), d, "z", controller.lz, { -1.f, 1.f, 0.025f });
 
 		// simulation
 
 		Widget& e = panel("Simulation");
 
-		ui::slider_field(e,    "speed",      controller.speed,      { 0.1f, 8.0f, 0.05f });
-		ui::slider_field(e, "numBlobs",   controller.numBlobs,   { 1, 50, 1 });
-		ui::slider_field(e, "resolution", controller.resolution, { 14, 100, 1 });
-		ui::slider_field(e,    "isolation",  controller.isolation,  { 10.f, 300.f, 1.f });
+		ui::slider_field(key(), e,    "speed",      controller.speed,      { 0.1f, 8.0f, 0.05f });
+		ui::slider_field(key(), e, "numBlobs",   controller.numBlobs,   { 1, 50, 1 });
+		ui::slider_field(key(), e, "resolution", controller.resolution, { 14, 100, 1 });
+		ui::slider_field(key(), e,    "isolation",  controller.isolation,  { 10.f, 300.f, 1.f });
 
-		ui::field(e, "floor", controller.floor);
-		ui::field(e, "wallx", controller.wallx);
-		ui::field(e, "wallz", controller.wallz);
+		ui::field(key(), e, "floor", controller.floor);
+		ui::field(key(), e, "wallx", controller.wallx);
+		ui::field(key(), e, "wallz", controller.wallz);
 	}
 #endif
 

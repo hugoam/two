@@ -115,7 +115,7 @@ EX(xx_material_translucent)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer.m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
@@ -198,21 +198,21 @@ EX(xx_material_translucent)
 #if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::sheet(*dock);
+		Widget& sheet = ui::sheet(key(), *dock);
 
 		auto panel = [&](const string& name) -> Widget&
 		{
-			Widget& s = ui::expandbox(sheet, name.c_str());
-			return ui::columns(s, { 0.3f, 0.7f });
+			Widget& s = ui::expandbox(key(), sheet, name.c_str());
+			return ui::columns(key(), s, { 0.3f, 0.7f });
 		};
 
 		Widget& a = panel("Thickness Control");
 
-		ui::slider_field(a, "distortion",  thickness.m_distortion,  { 0.01f, 1.f, 0.01f });
-		ui::slider_field(a, "ambient",     thickness.m_ambient,     { 0.01f, 5.f, 0.05f });
-		ui::slider_field(a, "attenuation", thickness.m_attenuation, { 0.01f, 5.f, 0.05f });
-		ui::slider_field(a, "power",       thickness.m_power,       { 0.01f, 16.f, 0.1f });
-		ui::slider_field(a, "scale",       thickness.m_scale,       { 0.01f, 50.f, 0.1f });
+		ui::slider_field(key(), a, "distortion",  thickness.m_distortion,  { 0.01f, 1.f, 0.01f });
+		ui::slider_field(key(), a, "ambient",     thickness.m_ambient,     { 0.01f, 5.f, 0.05f });
+		ui::slider_field(key(), a, "attenuation", thickness.m_attenuation, { 0.01f, 5.f, 0.05f });
+		ui::slider_field(key(), a, "power",       thickness.m_power,       { 0.01f, 16.f, 0.1f });
+		ui::slider_field(key(), a, "scale",       thickness.m_scale,       { 0.01f, 50.f, 0.1f });
 	}
 #endif
 

@@ -11,9 +11,9 @@ namespace two
 {
 	void animation_edit(Widget& parent, Mime& animated)
 	{
-		Widget& self = ui::sheet(parent);
+		Widget& self = ui::sheet(key(), parent);
 
-		Table& table = ui::table(self, { "Field", "Value" }, { 0.3f, 0.7f });
+		Table& table = ui::table(key(), self, { "Field", "Value" }, { 0.3f, 0.7f });
 
 		static vector<cstring> animations;
 		animations.clear();
@@ -21,22 +21,22 @@ namespace two
 			animations.push_back(animation->m_name.c_str());
 
 		static uint32_t animation = 0;
-		if(ui::radio_field(table, "animation", animations, animation, Axis::Y))
+		if(ui::radio_field(key(), table, "animation", animations, animation, Axis::Y))
 			animated.start(animations[animation], true, 0.f, 1.f);
 
 		if(!animated.m_playing.empty())
 		{
 			AnimPlay& play = animated.m_playing.back();
-			ui::slider_field(table, "speed", play.m_speed, { -5.f, 5.f, 0.01f });
-			ui::slider_field(table, "timeline", play.m_cursor, { 0.f, play.m_animation->m_length, 0.01f });
+			ui::slider_field(key(), table, "speed", play.m_speed, { -5.f, 5.f, 0.01f });
+			ui::slider_field(key(), table, "timeline", play.m_cursor, { 0.f, play.m_animation->m_length, 0.01f });
 		}
 
-		Table& playing = ui::table(self, { "Animation", "Time" }, { 0.6f, 0.4f });
+		Table& playing = ui::table(key(), self, { "Animation", "Time" }, { 0.6f, 0.4f });
 		for(AnimPlay& play : animated.m_playing)
 		{
-			Widget& row = ui::table_row(playing);
-			ui::label(row, play.m_animation->m_name.c_str());
-			ui::label(row, to_string(play.m_cursor).c_str());
+			Widget& row = ui::table_row(key(), playing);
+			ui::label(key(), row, play.m_animation->m_name.c_str());
+			ui::label(key(), row, to_string(play.m_cursor).c_str());
 		}
 
 	}
@@ -53,19 +53,19 @@ namespace two
 
 	void double_label(Widget& parent, const string& label, const string& value)
 	{
-		Widget& row = ui::row(parent);
-		ui::label(row, label);
-		ui::label(row, value);
+		Widget& row = ui::row(key(), parent);
+		ui::label(key(), row, label);
+		ui::label(key(), row, value);
 	}
 
 	void panel_gfx_stats(Widget& parent)
 	{
-		Widget& self = ui::sheet(parent);
+		Widget& self = ui::sheet(key(), parent);
 
 		const bgfx::Stats* stats = bgfx::getStats();
 
 		{
-			Table& columns = ui::columns(self, { 0.4f, 0.6f });
+			Table& columns = ui::columns(key(), self, { 0.4f, 0.6f });
 
 			double cpu_time = 1000.0f * stats->cpuTimeFrame / (double)stats->cpuTimerFreq;
 
@@ -78,7 +78,7 @@ namespace two
 		}
 
 		static cstring columns[3] = { "view", "gpu time", "cpu time" };
-		Table& table = ui::table(self, { columns, 3 }, {});
+		Table& table = ui::table(key(), self, { columns, 3 }, {});
 
 		for(int i = 0; i < stats->numViews; ++i)
 		{
@@ -86,10 +86,10 @@ namespace two
 			double gpu_time = 1000.0f * (view_stats.gpuTimeEnd - view_stats.gpuTimeBegin) / (double)stats->gpuTimerFreq;
 			double cpu_time = 1000.0f * (view_stats.cpuTimeEnd - view_stats.cpuTimeBegin) / (double)stats->cpuTimerFreq;
 
-			Widget& row = ui::row(table);
-			ui::label(row, view_stats.name);
-			ui::label(row, truncate_number(to_string(gpu_time)).c_str());
-			ui::label(row, truncate_number(to_string(cpu_time)).c_str());
+			Widget& row = ui::row(key(), table);
+			ui::label(key(), row, view_stats.name);
+			ui::label(key(), row, truncate_number(to_string(gpu_time)).c_str());
+			ui::label(key(), row, truncate_number(to_string(cpu_time)).c_str());
 		}
 	}
 
@@ -99,7 +99,7 @@ namespace two
 		static float time = 0.f;
 		time += 0.01f;
 
-		SceneViewer& viewer = ui::scene_viewer(parent, vec2(200.f));
+		SceneViewer& viewer = ui::scene_viewer(key(), parent, vec2(200.f));
 		viewer.m_camera.m_eye = radius * 2.5f * z3;
 
 		quat rotation = axis_angle(y3, fmod(time, c_2pi));
@@ -149,11 +149,11 @@ namespace two
 
 	Widget& asset_item(Widget& parent, const string& icon, const string& name, Ref asset)
 	{
-		Widget& self = ui::element(parent, asset);
-		ui::multi_item(self, { icon.c_str(), name.c_str() });
+		Widget& self = ui::element(key(), parent, asset);
+		ui::multi_item(key(), self, { icon.c_str(), name.c_str() });
 		//if(self.selected())
 		//	asset_viewer(self, asset);
-		if(Widget* tooltip = ui::hoverbox(self, 0.f))
+		if(Widget* tooltip = ui::hoverbox(key(), self, 0.f))
 			asset_viewer(*tooltip, asset);
 		return self;
 	}
@@ -167,7 +167,7 @@ namespace two
 
 	void asset_browser(Widget& parent, GfxSystem& gfx, vector<Ref>& selection)
 	{
-		Section& self = section(parent, "Assets");
+		Section& self = section(key(), parent, "Assets");
 
 		static bool textures = true;
 		static bool programs = true;
@@ -176,14 +176,14 @@ namespace two
 		static bool particles = true;
 		static bool prefabs = true;
 
-		ui::toggle(*self.m_toolbar, textures, "tex");
-		ui::toggle(*self.m_toolbar, programs, "prg");
-		ui::toggle(*self.m_toolbar, materials, "mat");
-		ui::toggle(*self.m_toolbar, models, "mdl");
-		ui::toggle(*self.m_toolbar, particles, "ptc");
-		ui::toggle(*self.m_toolbar, prefabs, "pfb");
+		ui::toggle(key(), *self.m_toolbar, textures, "tex");
+		ui::toggle(key(), *self.m_toolbar, programs, "prg");
+		ui::toggle(key(), *self.m_toolbar, materials, "mat");
+		ui::toggle(key(), *self.m_toolbar, models, "mdl");
+		ui::toggle(key(), *self.m_toolbar, particles, "ptc");
+		ui::toggle(key(), *self.m_toolbar, prefabs, "pfb");
 
-		ui::Sequence& sequence = ui::sequence(*self.m_body);
+		ui::Sequence& sequence = ui::sequence(key(), *self.m_body);
 		sequence.m_selection = &selection;
 
 		if(materials)
@@ -196,8 +196,8 @@ namespace two
 		if(programs)
 			for(Program* program : gfx.programs().m_vector)
 			{
-				Widget& element = ui::element(sequence, Ref(program));
-				ui::multi_item(element, { "(program)", program->m_name.c_str() });
+				Widget& element = ui::element(key(), sequence, Ref(program));
+				ui::multi_item(key(), element, { "(program)", program->m_name.c_str() });
 			}
 
 		if(models)
@@ -231,8 +231,8 @@ namespace two
 
 	void edit_viewer_filters(Widget& parent, Viewer& viewer)
 	{
-		ScrollSheet& scroll_sheet = ui::scroll_sheet(parent);
-		Widget& self = ui::sheet(*scroll_sheet.m_body);
+		ScrollSheet& scroll_sheet = ui::scroll_sheet(key(), parent);
+		Widget& self = ui::sheet(key(), *scroll_sheet.m_body);
 		UNUSED(self); UNUSED(viewer);
 
 		Entt& filters = viewer.m_viewport;
@@ -245,15 +245,15 @@ namespace two
 #if 0
 	void painter_edit(Widget& parent, VisuPainter& painter)
 	{
-		Widget& self = ui::row(parent);
-		ui::label(self, painter.m_name);
+		Widget& self = ui::row(key(), parent);
+		ui::label(key(), self, painter.m_name);
 		Ref value = &painter.m_enabled;
 		value_edit(self, value);
 	}
 
 	void painter_panel(Widget& parent, VisuScene& scene)
 	{
-		Widget& self = section(parent, "Painters");
+		Widget& self = section(key(), parent, "Painters");
 		for(auto& painter : scene.m_painters)
 			painter_edit(self, *painter);
 	}
@@ -268,7 +268,7 @@ namespace two
 
 	void edit_gfx_scenes(Widget& parent, GfxSystem& gfx)
 	{
-		Widget& self = ui::layout(parent);
+		Widget& self = ui::layout(key(), parent);
 		UNUSED(gfx);
 		UNUSED(self);
 	}
@@ -279,12 +279,12 @@ namespace two
 
 		static Ref asset = {};
 
-		Section& self = section(parent, "Gfx Editor");
+		Section& self = section(key(), parent, "Gfx Editor");
 		Widget& sheet = *self.m_body;
-		ui::label(sheet, "Editing : ");
-		if(ui::modal_button(sheet, sheet, "Select", SELECT))
+		ui::label(key(), sheet, "Editing : ");
+		if(ui::modal_button(key(), sheet, sheet, "Select", SELECT))
 		{
-			Widget& modal = ui::auto_modal(sheet, SELECT, { 800.f, 600.f });
+			Widget& modal = ui::auto_modal(key(), sheet, SELECT, { 800.f, 600.f });
 			asset_browser(*modal.m_body, gfx, asset);
 		}
 
@@ -297,38 +297,38 @@ namespace two
 
 	void edit_gfx(Widget& parent, GfxSystem& gfx)
 	{
-		Tabber& tabber = ui::tabber(parent);
+		Tabber& tabber = ui::tabber(key(), parent);
 
-		if(Widget* stats = ui::tab(tabber, "Profiling"))
+		if(Widget* stats = ui::tab(key(), tabber, "Profiling"))
 			panel_gfx_stats(*stats);
 
 #if 0
-		if(Widget* textures = ui::tab(tabber, "Textures"))
+		if(Widget* textures = ui::tab(key(), tabber, "Textures"))
 			multi_object_edit_container<Texture>(*textures, gfx.m_textures);
 
-		if(Widget* programs = ui::tab(tabber, "Programs"))
+		if(Widget* programs = ui::tab(key(), tabber, "Programs"))
 			multi_object_edit_container<Program>(*programs, gfx.m_programs);
 
-		if(Widget* materials = ui::tab(tabber, "Materials"))
+		if(Widget* materials = ui::tab(key(), tabber, "Materials"))
 			multi_object_edit_container<Material>(*materials, gfx.m_materials);
 
-		if(Widget* blocks = ui::tab(tabber, "Blocks"))
+		if(Widget* blocks = ui::tab(key(), tabber, "Blocks"))
 			multi_object_edit_container<GfxBlock>(*blocks, gfx.m_renderer.m_gfx_blocks);
 
 #endif
 
 #if 0
-		if(Widget* items = ui::tab(tabber, "Items"))
+		if(Widget* items = ui::tab(key(), tabber, "Items"))
 			edit_gfx_items(*items, gfx);
 
-		if(Widget* scenes = ui::tab(tabber, "Scenes"))
+		if(Widget* scenes = ui::tab(key(), tabber, "Scenes"))
 			edit_gfx_scenes(*scenes, gfx);
 #endif
 
-		if(Widget* editor = ui::tab(tabber, "Editor"))
+		if(Widget* editor = ui::tab(key(), tabber, "Editor"))
 			gfx_editor(*editor, gfx);
 
-		if(Widget* particles = ui::tab(tabber, "Particle Editor"))
+		if(Widget* particles = ui::tab(key(), tabber, "Particle Editor"))
 			particle_editor(*particles, gfx);
 	}
 
@@ -352,7 +352,7 @@ namespace two
 
 		auto type_index = [&](Type* type) -> uint32_t { for(size_t i = 0; i < shape_types.size(); ++i) { if(shape_types[i] == type) return uint32_t(i); } return UINT32_MAX; };
 
-		Widget& self = ui::sheet(parent);
+		Widget& self = ui::sheet(key(), parent);
 		uint32_t type = type_index(shape.m_shape ? &shape.m_shape->m_type : nullptr);
 		if(type_selector(self, type, shape_types))
 		{
@@ -362,7 +362,7 @@ namespace two
 
 		if(shape.m_shape)
 		{
-			Widget& sheet = ui::widget(self, styles().sheet, &shape.shape());
+			Widget& sheet = ui::widget(key(), self, styles().sheet, &shape.shape());
 			changed |= object_edit_columns(sheet, Ref(&shape.shape()));
 		}
 		return changed;

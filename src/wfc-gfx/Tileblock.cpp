@@ -282,7 +282,7 @@ namespace two
 
 	void model_array_view(Widget& parent, function<void(ModelArrayView&)> query_state, void* id = nullptr)
 	{
-		Widget& self = ui::widget(parent, styles().stack, id);
+		Widget& self = ui::widget(key(), parent, styles().stack, id);
 		ModelArrayView& state = self.state<ModelArrayView>();
 
 		if(state.m_items.empty())
@@ -295,7 +295,7 @@ namespace two
 		uint16_t num_columns = uint16_t(state.m_items.size()) / num_rows;
 
 		float size = 90.f;//parent.m_frame.m_size.x / float(num_columns);
-		SceneViewer& viewer = ui::scene_viewer(self, { num_columns * size, num_rows * size });
+		SceneViewer& viewer = ui::scene_viewer(key(), self, { num_columns * size, num_rows * size });
 
 		vec3 array_size = { float(num_columns - 1), 1.f, float(num_rows - 1) };
 		vec3 center = array_size * 0.5f;
@@ -426,10 +426,10 @@ namespace two
 
 	void tileblock_edit(Widget& parent, Viewer& viewer, WfcBlock& tileblock, uvec3& highlighted, uvec3& selected, uvec3& focused)
 	{
-		Section& self = section(parent, "Edit WfcBlock");
+		Section& self = section(key(), parent, "Edit WfcBlock");
 		Widget& body = *self.m_body;
 
-		auto button = [&](cstring label) { Widget& row = ui::row(body); return ui::button(row, label).activated(); };
+		auto button = [&](cstring label) { Widget& row = ui::row(key(), body); return ui::button(key(), row, label).activated(); };
 
 		if(button("reset"))
 			tileblock.reset();
@@ -438,7 +438,7 @@ namespace two
 			tileblock.solve(10);
 
 		static uint16_t tile = 0;
-		ui::field<uint16_t>(body, "tile", tile, {});
+		ui::field<uint16_t>(key(), body, "tile", tile, {});
 
 		if(button("set tile"))
 			tileblock.m_wave.set_tile(selected, tile);
@@ -446,10 +446,10 @@ namespace two
 		if(button("propagate once"))
 			tileblock.m_wave.propagate(1);
 
-		Widget& row = ui::row(body);
-		ui::toggle(row, tileblock.m_auto_solve, "auto solve");
+		Widget& row = ui::row(key(), body);
+		ui::toggle(key(), row, tileblock.m_auto_solve, "auto solve");
 
-		//Widget& overlay = ui::screen(viewer);
+		//Widget& overlay = ui::screen(key(), viewer);
 		//tileset_view(overlay, tileblock, tileblock.m_tileset);
 
 		//if(highlighted != uvec3(UINT32_MAX))
@@ -470,25 +470,25 @@ namespace two
 
 		if(focused != uvec3(UINT32_MAX))
 		{
-			Widget& widget = ui::popup(viewer, styles().modal, ui::PopupFlags::None);
+			Widget& widget = ui::popup(key(), viewer, styles().modal, ui::PopupFlags::None);
 
 			size_t entropy = tileblock.m_entropy.at(focused.x, focused.y, focused.z);
 			if(entropy == 1)
 			{
 				paint_connections(viewer.m_scene->m_graph, tileblock, focused);
-				ui::label(widget, "Allowed Connections");
+				ui::label(key(), widget, "Allowed Connections");
 			}
 			else
 			{
 				paint_states(viewer.m_scene->m_graph, tileblock, focused);
-				ui::label(widget, "Possible States");
+				ui::label(key(), widget, "Possible States");
 			}
 		}
 	}
 
 	void tileblock_editor(Widget& parent, Viewer& viewer, WfcBlock& tileblock)
 	{
-		Widget& self = ui::layout(parent);
+		Widget& self = ui::layout(key(), parent);
 
 		static uvec3 highlighted = uvec3(UINT32_MAX);
 		static uvec3 selected = uvec3(UINT32_MAX);

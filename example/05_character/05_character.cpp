@@ -104,7 +104,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	static ImporterGltf gltf_importer(app.m_gfx);
 
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	OrbitController& orbit = ui::orbit_controller(viewer);
 	viewer.take_focus();
 

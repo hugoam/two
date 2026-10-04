@@ -135,7 +135,7 @@ EX(xx_effect_dof)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer.m_scene;
 	ControlNode& input = viewer;
 #else
@@ -252,12 +252,12 @@ EX(xx_effect_dof)
 #if UI
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::sheet(*dock);
+		Widget& sheet = ui::sheet(key(), *dock);
 
-		Widget& controls = ui::stack(sheet);
-		ui::slider_field(controls, "focus",    bokeh.focus,    { 10.f, 3000.f, 10.f });
-		ui::slider_field(controls, "aperture", bokeh.aperture, { 0.f, 10.f, 0.1f });
-		ui::slider_field(controls, "maxblur",  bokeh.maxblur,  { 0.f, 3.f, 0.025f });
+		Widget& controls = ui::stack(key(), sheet);
+		ui::slider_field(key(), controls, "focus",    bokeh.focus,    { 10.f, 3000.f, 10.f });
+		ui::slider_field(key(), controls, "aperture", bokeh.aperture, { 0.f, 10.f, 0.1f });
+		ui::slider_field(key(), controls, "maxblur",  bokeh.maxblur,  { 0.f, 3.f, 0.025f });
 	}
 #endif
 

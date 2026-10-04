@@ -11,12 +11,12 @@ namespace two
 namespace ui
 {
 	template <class T>
-	inline bool enum_input(Widget& parent, T& value)
+	inline bool enum_input(NodeKey id, Widget& parent, T& value)
 	{
 		Enum& e = enu<T>();
 		uint32_t index = e.index(Ref(&value));
-		//ui::radio_switch(parent, e.m_names, index);
-		if(ui::dropdown_input(parent, e.m_names, index))
+		//ui::radio_switch(id, parent, e.m_names, index);
+		if(ui::dropdown_input(id, parent, e.m_names, index))
 		{
 			e.varn(index, Ref(&value));
 			return true;
@@ -25,7 +25,7 @@ namespace ui
 	}
 
 	template <class T>
-	inline bool enum_field(Widget& parent, cstring name, T& value, bool reverse = false) { return do_field([&](Widget& self) { return enum_input<T>(self, value); }, parent, name, reverse); }
+	inline bool enum_field(NodeKey id, Widget& parent, cstring name, T& value, bool reverse = false) { return do_field(id, [&](Widget& self) { return enum_input<T>(key(), self, value); }, parent, name, reverse); }
 }
 
 	export_ TWO_UIO_EXPORT void set_meta_palette(span<uint32_t> palette);

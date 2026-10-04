@@ -25,31 +25,31 @@ namespace ui
 	{
 		if(parent.m_nodes.size() > 0 && parent.m_nodes[0]->m_heartbeat == parent.m_heartbeat)
 			return as<Tabber>(*parent.m_nodes[0]);
-		//Widget& section = ui::widget(parent, dock_styles().docksection); // dockid.back()
-		Tabber& tabber = ui::tabber(parent); // dockspace_styles().docksection, 
+		//Widget& section = ui::widget(id, parent, dock_styles().docksection); // dockid.back()
+		Tabber& tabber = ui::tabber(key(), parent); // dockspace_styles().docksection, 
 		return tabber;
 	}
 
-	Dockspace& dockspace(Widget& parent, Docksystem& docksystem)
+	Dockspace& dockspace(NodeKey id, Widget& parent, Docksystem& docksystem)
 	{
-		Dockspace& self = parent.suba<Dockspace, Docksystem&>(docksystem);
+		Dockspace& self = parent.sub<Dockspace, Docksystem&>(id, docksystem);
 		self.init(dock_styles().dockspace);
 		self.m_mainline = &dockline(self, 0, Axis::Y);
 		return self;
 	}
 
-	Dockbar& dockbar(Widget& parent, Docksystem& docksystem)
+	Dockbar& dockbar(NodeKey id, Widget& parent, Docksystem& docksystem)
 	{
-		Dockbar& self = parent.suba<Dockbar, Docksystem&>(docksystem);
+		Dockbar& self = parent.sub<Dockbar, Docksystem&>(id, docksystem);
 		self.init(dock_styles().dockbar).layer();
 
-		self.m_togglebar = &widget(self, dock_styles().docktabs);
+		self.m_togglebar = &widget(key(), self, dock_styles().docktabs);
 
-		Widget& drag_handle = widget(self, styles().drag_handle);
+		Widget& drag_handle = widget(key(), self, styles().drag_handle);
 		if(MouseEvent event = drag_handle.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 			self.width -= event.m_delta.x;
 
-		self.m_dockzone = &widget(self, dock_styles().dockdiv);
+		self.m_dockzone = &widget(key(), self, dock_styles().dockdiv);
 		if(self.m_current_tab == SIZE_MAX)
 			self.m_dockzone->m_frame.m_size = vec2(0.f);
 		else
@@ -63,11 +63,11 @@ namespace ui
 		Dock*& dock = docksystem.m_item_docks[name];
 		if(dock)
 		{
-			return dock->m_docker->docksection(*dock, name);
+			return dock->m_docker->docksection(*dock, name, key(&dock));
 		}
 		else
 		{
-			Window& container = window(parent, name, WindowState(uint(WindowState::Dockable) | uint(WindowState::Default)), &dock);
+			Window& container = window(key(&dock), parent, name, WindowState(uint(WindowState::Dockable) | uint(WindowState::Default)));
 			return &container;
 		}
 	}

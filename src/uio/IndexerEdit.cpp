@@ -15,7 +15,7 @@ namespace two
 	{
 		Member& complex = cls(*indexer.m_type).member("complex");
 
-		Widget& self = ui::sheet(parent);
+		Widget& self = ui::sheet(key(), parent);
 		for(Ref component : indexer.m_objects)
 			if(component)
 			{
@@ -28,7 +28,7 @@ namespace two
 
 	void object_indexer(Widget& parent, Indexer& indexer, vector<Ref>* selection)
 	{
-		Widget& self = ui::sheet(parent);
+		Widget& self = ui::sheet(key(), parent);
 		for(Ref object : indexer.m_objects)
 			if(object)
 			{
@@ -41,7 +41,7 @@ namespace two
 	bool generic_object_selector(Widget& parent, Indexer& indexer, Ref& result)
 	{
 		bool changed = false;
-		Widget& self = ui::sheet(parent);
+		Widget& self = ui::sheet(key(), parent);
 		for(size_t id = 0; id < indexer.m_objects.size(); ++id)
 			if(indexer.m_objects[id].m_value)
 			{
@@ -64,13 +64,13 @@ namespace two
 
 	void object_indexer_modal(Widget& parent, Indexer& indexer)
 	{
-		Widget& self = ui::select_list(parent);
+		Widget& self = ui::select_list(key(), parent);
 		object_indexer(self, indexer);
 	}
 
 	bool object_selector(Widget& parent, Ref& result)
 	{
-		Widget& self = ui::sheet(parent);
+		Widget& self = ui::sheet(key(), parent);
 		return object_selector(self, indexer(type(result)), result);
 	}
 
@@ -79,14 +79,14 @@ namespace two
 		enum Modes { PICK = 1 << 0 };
 
 		bool changed = false;
-		if(ui::modal_button(screen, parent, ".", PICK))
+		if(ui::modal_button(key(), screen, parent, ".", PICK))
 		{
 			string title = "Select " + string(type(result).m_name);
-			Widget& modal = ui::auto_modal(parent, PICK, { 600, 400 });
+			Widget& modal = ui::auto_modal(key(), parent, PICK, { 600, 400 });
 			
-			Widget& self = *ui::scroll_sheet(*modal.m_body).m_body;
+			Widget& self = *ui::scroll_sheet(key(), *modal.m_body).m_body;
 			changed = object_selector(self, indexer(type(result)), result);
-			if(ui::button(*modal.m_body, "Done").activated())
+			if(ui::button(key(), *modal.m_body, "Done").activated())
 				screen.m_switch &= ~PICK;
 		}
 		return changed;

@@ -6,5 +6,7 @@ export module two.tree;
 
 export import two.infra;
 
+export import <source_location>;
+
 #include <tree/Api.h>
 

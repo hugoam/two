@@ -127,29 +127,29 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 #if NATIVE
 	Widget& ui = parent;
-	Widget& b = ui::board(ui);
-	Widget& d1 = ui::div(b);
+	Widget& b = ui::board(key(), ui);
+	Widget& d1 = ui::div(key(), b);
 		
-	Widget& r = ui::row(d1);
-	ui::button(r, "(arrow_right)");
-	ui::button(r, "(arrow_left)");
-	ui::button(r, "(arrow_down)");
-	ui::button(r, "(arrow_up)");
-	ui::button(r, "test button");
-	ui::multi_button(r, { "(folder_15)", "test" });
+	Widget& r = ui::row(key(), d1);
+	ui::button(key(), r, "(arrow_right)");
+	ui::button(key(), r, "(arrow_left)");
+	ui::button(key(), r, "(arrow_down)");
+	ui::button(key(), r, "(arrow_up)");
+	ui::button(key(), r, "test button");
+	ui::multi_button(key(), r, { "(folder_15)", "test" });
 		
 	Colour col = Colour::Pink;
-	ui::color_edit(d1, col);
+	ui::color_edit(key(), d1, col);
 		
-	Widget& d2 = ui::layout(b);
+	Widget& d2 = ui::layout(key(), b);
 		
 	vec2 viewer_size = vec2(200, 170);
 	vector<SceneViewer*> viewers = {};
 	vector<Colour> colours = {};
 		
-	Canvas& c = ui::canvas(d2);
+	Canvas& c = ui::canvas(key(), d2);
 		// @todo default values don"t work because we are using same call object under the hood (value from previous call is persisted)
-	SceneViewer& main_viewer = ui::scene_viewer(d2, vec2(0.f));
+	SceneViewer& main_viewer = ui::scene_viewer(key(), d2, vec2(0.f));
 	NodePlug* prev_output = nullptr;
 		
 	auto next_colour = [&]() {
@@ -164,19 +164,19 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 		colours.push_back(col);
 
 		Node& n = ui::node(c, ("Node " + to_string(i)).c_str(), vec2(200 + i * (viewer_size.x + 50), 100), 0);
-		NodePlug& input = ui::node_input(n, "Input", "(file_15)", col, 1, 0);
-		NodePlug& output = ui::node_output(n, "Output", "", col, 1, 0);
+		NodePlug& input = ui::node_input(key(), n, "Input", "(file_15)", col, 1, 0);
+		NodePlug& output = ui::node_output(key(), n, "Output", "", col, 1, 0);
 		    
 		// @todo comment these two fixes the main viewer wrong parent issue -> investigate
-		SceneViewer& viewer = ui::scene_viewer(n, viewer_size);
+		SceneViewer& viewer = ui::scene_viewer(key(), n, viewer_size);
 		viewers.push_back(&viewer);
 		    
 		if(prev_output)
-			ui::node_cable(c, *prev_output, input);
+			ui::node_cable(key(), c, *prev_output, input);
 		prev_output = &output;
 	}
 		
-	//SceneViewer& main_viewer = ui::scene_viewer(d2, vec2(0));
+	//SceneViewer& main_viewer = ui::scene_viewer(key(), d2, vec2(0));
 	next_colour();
 	colours.push_back(col);
 	viewers.push_back(&main_viewer);

@@ -18,7 +18,7 @@ vec4 abs_rect(const vec2& start, const vec2& size)
 void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
 
 	Gnode& scene = viewer.m_scene.begin();
@@ -57,7 +57,7 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 	}
 
 	if(select_rect != vec4(0.f))
-		ui::rectangle(viewer, select_rect);
+		ui::rectangle(key(), viewer, select_rect);
 
 	for(Item* selected_item : selected)
 		if(selected_item)

@@ -200,10 +200,10 @@ namespace ui
 {
 	export_ TWO_UI_EXPORT bool filter(const string& filter, const string& value);
 
-	export_ TWO_UI_EXPORT func_ TextEdit& text_box(Widget& parent, Style& style, string& text, bool editor = false, size_t lines = 1, const string& allowed_chars = "");
-	export_ TWO_UI_EXPORT func_ TextEdit& type_in(Widget& parent, string& text, size_t lines = 1, const string& allowed_chars = "");
-	export_ TWO_UI_EXPORT func_ TextEdit& text_edit(Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
-	export_ TWO_UI_EXPORT func_ TextEdit& code_edit(Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
+	export_ TWO_UI_EXPORT func_ TextEdit& text_box(NodeKey id, Widget& parent, Style& style, string& text, bool editor = false, size_t lines = 1, const string& allowed_chars = "");
+	export_ TWO_UI_EXPORT func_ TextEdit& type_in(NodeKey id, Widget& parent, string& text, size_t lines = 1, const string& allowed_chars = "");
+	export_ TWO_UI_EXPORT func_ TextEdit& text_edit(NodeKey id, Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
+	export_ TWO_UI_EXPORT func_ TextEdit& code_edit(NodeKey id, Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
 
 	export_ TWO_UI_EXPORT string auto_indent(TextEdit& edit);
 }

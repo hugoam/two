@@ -11,19 +11,19 @@ namespace two
 #if 0
 	TreeNode& prefab_node(Widget& parent, PrefabNode* parent_node, PrefabNode& node, PrefabNode*& selected)
 	{
-		TreeNode& self = ui::tree_node(parent, to_string(var(node.m_prefab_type)).c_str());
+		TreeNode& self = ui::tree_node(key(), parent, to_string(var(node.m_prefab_type)).c_str());
 
 		if(self.m_header->activated())
 			selected = &node;
 
 		self.m_header->set_state(ACTIVE, selected == &node);
 
-		if(ui::button(*self.m_header, "+").activated())
+		if(ui::button(key(), *self.m_header, "+").activated())
 		{
 			node.m_nodes.push_back({});
 			selected = &node.m_nodes.back();
 		}
-		if(ui::button(*self.m_header, "X").activated())
+		if(ui::button(key(), *self.m_header, "X").activated())
 		{
 			if(selected == &node)
 				selected = parent_node;
@@ -39,23 +39,23 @@ namespace two
 
 	void prefab_structure(Widget& parent, PrefabNode& node, PrefabNode*& selected)
 	{
-		Section& self = section(parent, "Prefab Graph");
+		Section& self = section(key(), parent, "Prefab Graph");
 		prefab_node(*self.m_body, nullptr, node, selected);
 	}
 
 	Widget& prefab_inspector(Widget& parent, PrefabNode& node)
 	{
-		Section& self = section(parent, "Prefab Inspector");
+		Section& self = section(key(), parent, "Prefab Inspector");
 
 		static cstring types[6] = { "None", "Item", "Model", "Shape", "Flare", "Light" };
 		static vector<Function*> functions = { nullptr, &function(gfx::item), &function(gfx::model), &function(gfx::shape), &function(&gfx::particles), &function(gfx::light) };
 
 		static cstring columns[2] = { "field", "value" };
-		Widget& table = ui::table(*self.m_body, { columns, 2 }, {});
+		Widget& table = ui::table(key(), *self.m_body, { columns, 2 }, {});
 
-		Widget& row = ui::row(table);
-		ui::label(row, "type");
-		if(ui::dropdown_input(row, { types, 6 }, (uint32_t&)node.m_prefab_type))
+		Widget& row = ui::row(key(), table);
+		ui::label(key(), row, "type");
+		if(ui::dropdown_input(key(), row, { types, 6 }, (uint32_t&)node.m_prefab_type))
 			node.m_call = { *functions[size_t(node.m_prefab_type)] };
 
 		object_edit(table, Ref(&node.m_transform), EditorHint::Rows);
@@ -68,7 +68,7 @@ namespace two
 	void prefab_edit(Widget& parent, GfxSystem& gfx, PrefabNode& node, PrefabNode*& selected)
 	{
 		UNUSED(gfx);
-		Widget& self = ui::sheet(parent);
+		Widget& self = ui::sheet(key(), parent);
 
 		prefab_structure(self, node, selected);
 

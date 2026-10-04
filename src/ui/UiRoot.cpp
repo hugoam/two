@@ -46,7 +46,7 @@ namespace two
 	{
 		if(!m_window.m_context.m_mouse_lock)
 		{
-			Widget& cursor = ui::cursor(*this, m_mouse.m_pos, m_cursor_style ? *m_cursor_style : ui::cursor_styles().cursor);
+			Widget& cursor = ui::cursor(key(), *this, m_mouse.m_pos, m_cursor_style ? *m_cursor_style : ui::cursor_styles().cursor);
 			cursor.m_frame.layer().setForceRedraw();
 		}
 

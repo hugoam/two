@@ -165,9 +165,9 @@ namespace two
 #if 0
 		edit_context(parent, context, true);
 #else
-		Widget& board = ui::board(parent);
-		context.m_screen = &ui::board(board);
-		context.m_dockbar = &ui::dockbar(board, context.m_docksystem);
+		Widget& board = ui::board(key(), parent);
+		context.m_screen = &ui::board(key(), board);
+		context.m_dockbar = &ui::dockbar(key(), board, context.m_docksystem);
 #endif
 	}
 }

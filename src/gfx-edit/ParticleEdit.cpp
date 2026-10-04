@@ -22,7 +22,7 @@ namespace two
 
 	void particle_editor_viewer(Widget& parent, Flow& particles)
 	{
-		SceneViewer& viewer = ui::scene_viewer(parent, vec2(500.f));
+		SceneViewer& viewer = ui::scene_viewer(key(), parent, vec2(500.f));
 		ui::orbit_controller(viewer);
 
 		//viewer.m_clear_colour = Colour::DarkGrey;
@@ -67,20 +67,20 @@ namespace two
 
 	void particle_edit(Widget& parent, GfxSystem& system, Flow& generator)
 	{
-		Section& self = section(parent, "Particle Editor");
+		Section& self = section(key(), parent, "Particle Editor");
 
 		object_edit(*self.m_body, Ref(&generator));
 		particle_editor_viewer(self, generator);
 
-		if(ui::modal_button(self, *self.m_toolbar, "Open", OPEN_PARTICLES))
+		if(ui::modal_button(key(), self, *self.m_toolbar, "Open", OPEN_PARTICLES))
 			open_particles(self, system, generator);
-		if(ui::modal_button(self, *self.m_toolbar, "Save", SAVE_PARTICLES))
+		if(ui::modal_button(key(), self, *self.m_toolbar, "Save", SAVE_PARTICLES))
 			save_particles(self, system, generator);
 	}
 
 	void particle_editor(Widget& parent, GfxSystem& system)
 	{
-		Widget& self = ui::sheet(parent);
+		Widget& self = ui::sheet(key(), parent);
 		ParticleEditorState& state = self.state<ParticleEditorState>();
 		particle_edit(self, system, state.m_particles);
 	}

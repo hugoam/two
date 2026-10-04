@@ -27,7 +27,7 @@ void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	//static VisualScript& script = create_visual_script(app);
 
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
 	//viewer.m_camera.set_isometric(IsometricAngle(SOUTH | WEST), vec3(0.f));
 

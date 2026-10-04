@@ -1052,9 +1052,9 @@ namespace two
 
 namespace ui
 {
-	Viewer& viewer(Widget& parent, Scene& scene)
+	Viewer& viewer(NodeKey id, Widget& parent, Scene& scene)
 	{
-		Viewer& viewer = parent.subi<Viewer, Scene&>(&type<Viewer>(), scene);
+		Viewer& viewer = parent.sub<Viewer, Scene&>(id, scene);
 		viewer.m_scene = viewer.m_viewport.m_scene = &scene;;
 		viewer.resize();
 		//if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
@@ -1071,15 +1071,15 @@ namespace ui
 	}
 #endif
 
-	SceneViewer& scene_viewer(Widget& parent, const vec2& size)
+	SceneViewer& scene_viewer(NodeKey id, Widget& parent, const vec2& size)
 	{
-		SceneViewer& self = parent.subi<SceneViewer>(&type<SceneViewer>());
+		SceneViewer& self = parent.sub<SceneViewer>(id);
 		self.resize();
 		if(self.once() && size != vec2(0.f))
 		{
 			self.m_frame.m_content = size;
 			self.m_frame.solver(viewer_styles().viewer_fixed);
-			//dummy(self, size);
+			//dummy(key(), self, size);
 		}
 		return self;
 	}
@@ -1106,9 +1106,9 @@ namespace ui
 		}
 	}
 
-	Viewer& scene_viewport(Widget& parent, Scene& scene, Camera& camera, vector<Ref>& selection)
+	Viewer& scene_viewport(NodeKey id, Widget& parent, Scene& scene, Camera& camera, vector<Ref>& selection)
 	{
-		Viewer& viewer = parent.suba<Viewer, Scene&>(scene);
+		Viewer& viewer = parent.sub<Viewer, Scene&>(id, scene);
 		if(viewer.once())
 		{
 			UNUSED(camera);

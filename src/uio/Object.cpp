@@ -24,7 +24,7 @@ namespace two
 
 	void object_context(Widget& parent, Ref object, uint32_t mode)
 	{
-		Widget& self = ui::popup(parent, ui::PopupFlags::AutoModal);
+		Widget& self = ui::popup(key(), parent, ui::PopupFlags::AutoModal);
 		if(!self.m_open)
 			parent.m_switch &= ~mode;
 
@@ -45,8 +45,8 @@ namespace two
 
 		enum Modes { Context = (1 << 0) };
 
-		Widget& self = ui::element(parent, object);
-		ui::multi_item(self, { object_icon(object).c_str(), object_name(object).c_str() });
+		Widget& self = ui::element(key(), parent, object);
+		ui::multi_item(key(), self, { object_icon(object).c_str(), object_name(object).c_str() });
 
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 			self.m_switch |= Context;

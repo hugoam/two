@@ -39,16 +39,16 @@ namespace ui
 
 	export_ TWO_UI_EXPORT CanvasStyles& canvas_styles();
 
-	export_ TWO_UI_EXPORT NodePlug& node_plug(Node& node, cstring name, cstring icon, const Colour& colour, bool input, bool active, bool connected);
+	export_ TWO_UI_EXPORT NodePlug& node_plug(NodeKey id, Node& node, cstring name, cstring icon, const Colour& colour, bool input, bool active, bool connected);
 	
-	export_ func_ inline NodePlug& node_input(Node& node, cstring name, cstring icon = "", const Colour& colour = Colour::NeonGreen, bool active = true, bool connected = false)
+	export_ func_ inline NodePlug& node_input(NodeKey id, Node& node, cstring name, cstring icon = "", const Colour& colour = Colour::NeonGreen, bool active = true, bool connected = false)
 	{
-		return node_plug(node, name, icon, colour, true, active, connected);
+		return node_plug(id, node, name, icon, colour, true, active, connected);
 	}
 
-	export_ func_ inline NodePlug& node_output(Node& node, cstring name, cstring icon = "", const Colour& colour = Colour::NeonGreen, bool active = true, bool connected = false)
+	export_ func_ inline NodePlug& node_output(NodeKey id, Node& node, cstring name, cstring icon = "", const Colour& colour = Colour::NeonGreen, bool active = true, bool connected = false)
 	{
-		return node_plug(node, name, icon, colour, false, active, connected);
+		return node_plug(id, node, name, icon, colour, false, active, connected);
 	}
 
 	export_ TWO_UI_EXPORT Node& node(Canvas& parent, span<cstring> title, int order = 0, Ref identity = {});
@@ -56,9 +56,9 @@ namespace ui
 	export_ TWO_UI_EXPORT Node& node(Canvas& parent, span<cstring> title, vec2& position, int order = 0, Ref identity = {});
 	export_ TWO_UI_EXPORT func_ Node& node(Canvas& parent, cstring title, vec2& position, int order = 0, Ref identity = {});
 
-	export_ TWO_UI_EXPORT func_ Widget& node_cable(Canvas& canvas, NodePlug& plug_out, NodePlug& plug_in);
+	export_ TWO_UI_EXPORT func_ Widget& node_cable(NodeKey id, Canvas& canvas, NodePlug& plug_out, NodePlug& plug_in);
 
-	export_ TWO_UI_EXPORT func_ Canvas& canvas(Widget& parent, size_t num_nodes = 0);
+	export_ TWO_UI_EXPORT func_ Canvas& canvas(NodeKey id, Widget& parent, size_t num_nodes = 0);
 	export_ TWO_UI_EXPORT NodeConnection canvas_connect(Canvas& canvas);
 	export_ TWO_UI_EXPORT void canvas_autolayout(Canvas& canvas);
 }

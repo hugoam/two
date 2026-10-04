@@ -9,7 +9,7 @@ EX(xx_billboards)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer.m_scene;
 	ControlNode& input = viewer;
 #else
@@ -67,7 +67,7 @@ EX(xx_billboards)
 		it.m_batch = batch;
 	}
 
-	//ui::slider_field(viewer, "sizeAttenuation", { material.sizeAttenuation, { 0.f, 1000.f, 1.f } })
+	//ui::slider_field(key(), viewer, "sizeAttenuation", { material.sizeAttenuation, { 0.f, 1000.f, 1.f } })
 
 	float time = app.m_gfx.m_time;
 

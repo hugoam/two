@@ -91,9 +91,9 @@ namespace two
 namespace ui
 {
 	export_ template <class T>
-	inline T& twidget(Widget& parent, Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 })
+	inline T& twidget(NodeKey id, Widget& parent, Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 })
 	{
-		T& self = parent.subi<T>(&style); self.init(style, open, length, index); return self;
+		T& self = parent.sub<T>(id); self.init(style, open, length, index); return self;
 	}
 }
 }

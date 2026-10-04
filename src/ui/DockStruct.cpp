@@ -146,7 +146,7 @@ namespace two
 		return static_cast<Dockable&>(*widget);
 	}
 
-	Widget* Dockspace::docksection(Dock& dock, cstring name)
+	Widget* Dockspace::docksection(Dock& dock, cstring name, NodeKey id)
 	{
 		vector<uint16_t> dockid = reverse(dock.m_dockid);
 		Widget* line = m_mainline;
@@ -162,11 +162,11 @@ namespace two
 		}
 
 		Tabber& section = ui::docksection(*line);
-		Widget* tab = ui::tab(section, name); // dock_styles().docktab, 
+		Widget* tab = ui::tab(id, section, name); // dock_styles().docktab, 
 
 		if(tab)
 		{
-			Window& container = ui::window(*tab, name, WindowState::Dockable, nullptr, &dock);
+			Window& container = ui::window(id, *tab, name, WindowState::Dockable, &dock);
 			return container.m_body;
 		}
 
@@ -204,16 +204,16 @@ namespace two
 		: Docker(parent, identity, docksystem)
 	{}
 
-	Widget* Dockbar::docksection(Dock& dock, cstring name)
+	Widget* Dockbar::docksection(Dock& dock, cstring name, NodeKey id)
 	{
 		string icon = "(" + to_lower(replace(name, " ", "")) + ")";
-		Widget& toggle = ui::button(*m_togglebar, ui::dock_styles().docktoggle, icon.c_str());
+		Widget& toggle = ui::button(id, *m_togglebar, ui::dock_styles().docktoggle, icon.c_str());
 		if(toggle.activated())
 			m_current_tab = m_current_tab == dock.m_dockid.back() ? SIZE_MAX : dock.m_dockid.back();
 		toggle.set_state(ACTIVE, m_current_tab == dock.m_dockid.back());
 
 		if(m_current_tab == dock.m_dockid.back())
-			return ui::window(*m_dockzone, name, static_cast<WindowState>(0), &dock, &dock).m_body; // dock_styles().dockbox
+			return ui::window(id, *m_dockzone, name, static_cast<WindowState>(0), &dock).m_body; // dock_styles().dockbox
 		else
 			return nullptr;
 	}

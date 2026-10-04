@@ -347,7 +347,7 @@ EX(xx_effect_godrays)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer.m_scene;
 	ControlNode& input = viewer;
 #else

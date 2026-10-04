@@ -18,6 +18,10 @@ namespace two
 		virtual ~NodeState() {}
 	};
 
+	// identifies the type of a node: a node is only ever reused as the type it was created as
+	export_ template <class T>
+	inline const void* node_type() { static const char tag = 0; return &tag; }
+
 	export_ template <class T>
 	class Graph
 	{
@@ -33,15 +37,28 @@ namespace two
 
 		T* m_parent = nullptr;
 		void* m_identity = nullptr;
+		uint64_t m_key = 0;
+		const void* m_node_type = nullptr;
 		size_t m_heartbeat = 0;
 		vector<unique<T>> m_nodes;
 		unique<NodeState> m_state;
 		uint16_t m_next = 0;
-		
+
+		template <class Child = T, class... Args>
+		inline unique<T> create(void* identity, Args... args)
+		{
+			unique<T> node = make_unique<Child>(&impl(), identity, args...);
+			node->m_node_type = node_type<Child>();
+			return node;
+		}
+
+		template <class Child = T>
+		inline bool is(T& node) { return node.m_node_type == node_type<Child>(); }
+
 		template <class Child = T, class... Args>
 		inline Child& append(Args... args, void* identity = nullptr)
 		{
-			m_nodes.push_back(construct<Child>(&impl(), identity, args...)); return static_cast<Child&>(*m_nodes.back());
+			m_nodes.push_back(create<Child, Args...>(identity, args...)); return static_cast<Child&>(*m_nodes.back());
 		}
 
 		void clear() { m_nodes.clear(); }
@@ -64,6 +81,40 @@ namespace two
 		{
 			while (m_nodes.size() <= index)
 				append<Child, Args...>(args..., nullptr);
+			if (!is<Child>(*m_nodes[index]))
+				m_nodes[index] = create<Child, Args...>(nullptr, args...);
+			// the next positional children come after this one
+			if (m_next <= index)
+				m_next = index + 1;
+			return static_cast<Child&>(update(*m_nodes[index]));
+		}
+
+		// a keyed child is looked up by its key from the current position, and moved there: it keeps its state when the children before it change
+		// a child without key is matched by its position
+		template <class Child = T, class... Args>
+		inline Child& sub(NodeKey key, Args... args)
+		{
+			uint16_t index = m_next++;
+
+			size_t found = index;
+			if (key.m_value)
+				while (found < m_nodes.size() && (m_nodes[found]->m_key != key.m_value || !is<Child>(*m_nodes[found]) || m_nodes[found]->m_heartbeat == m_heartbeat))
+					++found;
+			else if (found < m_nodes.size() && (m_nodes[found]->m_key || m_nodes[found]->m_identity || !is<Child>(*m_nodes[found])))
+				found = m_nodes.size();
+
+			if (found == m_nodes.size())
+			{
+				m_nodes.insert(m_nodes.begin() + index, create<Child, Args...>(nullptr, args...));
+				m_nodes[index]->m_key = key.m_value;
+			}
+			else if (found != index)
+			{
+				unique<T> node = move(m_nodes[found]);
+				m_nodes.erase(m_nodes.begin() + found);
+				m_nodes.insert(m_nodes.begin() + index, move(node));
+			}
+
 			return static_cast<Child&>(update(*m_nodes[index]));
 		}
 		
@@ -81,8 +132,8 @@ namespace two
 			if (m_nodes.size() <= index)
 				append<Child, Args...>(args..., identity);
 
-			if (m_nodes[index]->m_identity != identity)
-				m_nodes.insert(m_nodes.begin() + index, make_unique<Child>(&impl(), identity, args...));
+			if (m_nodes[index]->m_identity != identity || !is<Child>(*m_nodes[index]))
+				m_nodes.insert(m_nodes.begin() + index, create<Child, Args...>(identity, args...));
 
 			return static_cast<Child&>(update(*m_nodes[index]));
 		}

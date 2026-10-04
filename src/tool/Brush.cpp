@@ -20,7 +20,7 @@ namespace two
 	void Brush::process(Viewer& viewer, span<Ref> selection)
 	{
 		UNUSED(selection);
-		Widget& screen = ui::overlay(viewer);
+		Widget& screen = ui::overlay(key(), viewer);
 
 		if(MouseEvent event = screen.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{

@@ -130,7 +130,7 @@ namespace two
 
 	void TransformTool::process(Viewer& viewer, span<Ref> targets)
 	{
-		Widget& screen = viewer;//= ui::overlay(viewer);
+		Widget& screen = viewer;//= ui::overlay(key(), viewer);
 
 		this->refresh();
 

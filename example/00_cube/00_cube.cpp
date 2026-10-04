@@ -67,7 +67,7 @@ void velocity_controller(Widget& widget, vec3& speed, float velocity)
 void ex_00_cube(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(parent);
+	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
 	viewer.take_focus();
 

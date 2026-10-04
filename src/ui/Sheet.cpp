@@ -10,9 +10,9 @@ namespace two
 {
 namespace ui
 {
-	Widget& dummy(Widget& parent, const vec2& size)
+	Widget& dummy(NodeKey id, Widget& parent, const vec2& size)
 	{
-		Widget& self = widget(parent, styles().dummy);
+		Widget& self = widget(id, parent, styles().dummy);
 		//if(size != self.m_frame.m_content)
 		if(size != self.m_frame.m_size)
 		{
@@ -23,17 +23,17 @@ namespace ui
 		return self;
 	}
 
-	Widget& layout_span(Widget& parent, float span)
+	Widget& layout_span(NodeKey id, Widget& parent, float span)
 	{
-		Widget& self = ui::layout(parent);
+		Widget& self = ui::layout(id, parent);
 		self.m_frame.set_span(Axis::X, span);
 		self.m_frame.set_span(Axis::Y, span);
 		return self;
 	}
 
-	Widget& popup(Widget& parent, Style& style, PopupFlags flags)
+	Widget& popup(NodeKey id, Widget& parent, Style& style, PopupFlags flags)
 	{
-		Widget& self = widget(parent, style, true).layer();
+		Widget& self = widget(id, parent, style, true).layer();
 
 		if(!self.modal() && bit(flags, PopupFlags::Modal))
 			self.take_modal();
@@ -51,44 +51,44 @@ namespace ui
 		return self;
 	}
 
-	Widget& popup(Widget& parent, Style& style, const vec2& size, PopupFlags flags)
+	Widget& popup(NodeKey id, Widget& parent, Style& style, const vec2& size, PopupFlags flags)
 	{
-		Widget& self = popup(parent, style, flags);
-		self.m_body = &dummy(self, size);
+		Widget& self = popup(id, parent, style, flags);
+		self.m_body = &dummy(key(), self, size);
 		return self;
 	}
 
-	Widget& popup_at(Widget& parent, Style& style, const vec2& position, PopupFlags flags)
+	Widget& popup_at(NodeKey id, Widget& parent, Style& style, const vec2& position, PopupFlags flags)
 	{
-		Widget& self = popup(parent, style, flags);
+		Widget& self = popup(id, parent, style, flags);
 		self.m_frame.set_position(position);
 		return self;
 	}
 
-	Widget& auto_modal(Widget& parent, uint32_t mode)
+	Widget& auto_modal(NodeKey id, Widget& parent, uint32_t mode)
 	{
-		Widget& self = ui::modal(parent.parent_modal());
+		Widget& self = ui::modal(id, parent.parent_modal());
 		if(!self.m_open)
 			parent.m_switch &= ~mode;
 		return self;
 	}
 
-	Widget& auto_modal(Widget& parent, uint32_t mode, const vec2& size)
+	Widget& auto_modal(NodeKey id, Widget& parent, uint32_t mode, const vec2& size)
 	{
-		Widget& self = ui::modal(parent.parent_modal(), size);
+		Widget& self = ui::modal(id, parent.parent_modal(), size);
 		if(!self.m_open)
 			parent.m_switch &= ~mode;
 		return self;
 	}
 
-	Widget* context(Widget& parent, uint32_t mode, PopupFlags flags)
+	Widget* context(NodeKey id, Widget& parent, uint32_t mode, PopupFlags flags)
 	{
 		if(MouseEvent event = parent.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 			parent.m_switch |= mode;
 
 		if((parent.m_switch & mode) != 0)
 		{
-			Widget& self = popup(parent, flags);
+			Widget& self = popup(id, parent, flags);
 
 			if(self.once())
 			{
@@ -154,16 +154,16 @@ namespace ui
 		return grid_sheet_logic(self, dim, dragging);
 	}
 
-	Widget& grid_sheet(Widget& parent, Style& style, Axis dim)
+	Widget& grid_sheet(NodeKey id, Widget& parent, Style& style, Axis dim)
 	{
-		Widget& self = widget(parent, style, false, dim);
+		Widget& self = widget(id, parent, style, false, dim);
 		grid_sheet_logic(self, dim);
 		return self;
 	}
 
-	Widget& grid_sheet(Widget& parent, Style& style, Axis dim, span<float> spans)
+	Widget& grid_sheet(NodeKey id, Widget& parent, Style& style, Axis dim, span<float> spans)
 	{
-		Widget& self = widget(parent, style, false, dim);
+		Widget& self = widget(id, parent, style, false, dim);
 
 		bool dragging = false;
 		DragPoint drag_point = grid_sheet_logic(self, dim, dragging);

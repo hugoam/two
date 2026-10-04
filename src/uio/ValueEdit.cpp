@@ -9,13 +9,13 @@ module two.uio;
 namespace two
 {
 	template <class T>
-	bool range_edit(Widget& parent, Range<T>& value)
+	bool range_edit(NodeKey id, Widget& parent, Range<T>& value)
 	{
-		Widget& self = ui::row(parent);
+		Widget& self = ui::row(id, parent);
 		static const StatDef<T> def = { T(0), T(100), T(1) };
 		bool changed = false;
-		changed |= ui::slider_field<T>(self, "min", value.m_min, def);
-		changed |= ui::slider_field<T>(self, "max", value.m_max, def);
+		changed |= ui::slider_field<T>(key(), self, "min", value.m_min, def);
+		changed |= ui::slider_field<T>(key(), self, "max", value.m_max, def);
 		return changed;
 	}
 
@@ -23,14 +23,14 @@ namespace two
 	bool curve_edit(Widget& parent, vector<T>& keys)
 	{
 		bool changed = false;
-		for(T& key : keys)
-			changed |= ui::input<T>(parent, key);
-		if(ui::button(parent, "+").activated())
+		for(T& value : keys)
+			changed |= ui::input<T>(key(), parent, value);
+		if(ui::button(key(), parent, "+").activated())
 		{
 			changed = true;
 			keys.push_back(keys.back());
 		}
-		if(ui::button(parent, "-").activated() && keys.size() > 1)
+		if(ui::button(key(), parent, "-").activated() && keys.size() > 1)
 		{
 			changed = true;
 			pop(keys);
@@ -43,34 +43,34 @@ namespace two
 	{
 		enum Modes { EDIT_CURVE = 1 << 0 };
 
-		if(ui::modal_button(parent, parent, "+", EDIT_CURVE))
+		if(ui::modal_button(key(), parent, parent, "+", EDIT_CURVE))
 		{
-			Widget& widget = ui::auto_modal(parent, EDIT_CURVE, { 300.f, 120.f });
-			ui::label(*widget.m_body, "Curve Editor");
-			return ui::curve_edit(*widget.m_body, span<float>(keys));
+			Widget& widget = ui::auto_modal(key(), parent, EDIT_CURVE, { 300.f, 120.f });
+			ui::label(key(), *widget.m_body, "Curve Editor");
+			return ui::curve_edit(key(), *widget.m_body, span<float>(keys));
 		}
 
 		return false;
 	}
 
 	template <class T>
-	bool value_track_edit(Widget& parent, ValueTrack<T>& track)
+	bool value_track_edit(NodeKey id, Widget& parent, ValueTrack<T>& track)
 	{
-		Widget& self = ui::row(parent);
+		Widget& self = ui::row(id, parent);
 		static cstring modes[4] = { "Constant", "ConstantRandom", "Curve", "CurveRandom" };
 
 		bool changed = false;
 		TrackMode mode = track.m_mode;
-		changed |= ui::dropdown_input(self, { modes, 4 }, (uint32_t&)mode, true);
+		changed |= ui::dropdown_input(key(), self, { modes, 4 }, (uint32_t&)mode, true);
 		if(changed)
 			track.set_mode(mode);
 
 		if(track.m_mode == TrackMode::Constant)
-			changed |= ui::input<T>(self, track.m_value);
+			changed |= ui::input<T>(key(), self, track.m_value);
 		else if(track.m_mode == TrackMode::ConstantRandom)
 		{
-			changed |= ui::input<T>(self, track.m_min);
-			changed |= ui::input<T>(self, track.m_max);
+			changed |= ui::input<T>(key(), self, track.m_min);
+			changed |= ui::input<T>(key(), self, track.m_max);
 		}
 		else if(track.m_mode == TrackMode::Curve)
 		{
@@ -79,14 +79,14 @@ namespace two
 		return changed;
 	}
 
-	template <class T, bool(*Input)(Widget&, T&)>
-	bool value_input(T& value, Widget& parent) { return Input(parent, value); }
+	template <class T, bool(*Input)(NodeKey, Widget&, T&)>
+	bool value_input(T& value, Widget& parent) { return Input(key(&type<T>()), parent, value); }
 
-	template <class T, bool(*Input)(Widget&, T&, StatDef<T>)>
-	bool stat_value_input(T& value, Widget& parent) { return Input(parent, value, { limits<T>::min(), limits<T>::max(), T(1) }); }
+	template <class T, bool(*Input)(NodeKey, Widget&, T&, StatDef<T>)>
+	bool stat_value_input(T& value, Widget& parent) { return Input(key(&type<T>()), parent, value, { limits<T>::min(), limits<T>::max(), T(1) }); }
 
-	template <class T, bool(*Input)(Widget&, T&, StatDef<T>), int decimal>
-	bool stat_value_input(T& value, Widget& parent) { return Input(parent, value, { limits<T>::min(), limits<T>::max(), T(1) / T(decimal) }); }
+	template <class T, bool(*Input)(NodeKey, Widget&, T&, StatDef<T>), int decimal>
+	bool stat_value_input(T& value, Widget& parent) { return Input(key(&type<T>()), parent, value, { limits<T>::min(), limits<T>::max(), T(1) / T(decimal) }); }
 
 	DispatchInput::DispatchInput()
 	{
@@ -124,7 +124,7 @@ namespace two
 		for(size_t i = 0; i < types.size(); ++i)
 			type_names.push_back(types[i]->m_name);
 
-		return ui::dropdown_input(parent, type_names, type);
+		return ui::dropdown_input(key(), parent, type_names, type);
 	}
 
 	bool value_edit(Widget& parent, Ref& value)
@@ -138,7 +138,7 @@ namespace two
 	bool none_edit(Widget& parent, Ref& value)
 	{
 		UNUSED(value);
-		ui::label(parent, "None");
+		ui::label(key(), parent, "None");
 		return false;
 	}
 
@@ -146,8 +146,8 @@ namespace two
 	{
 		Enum& e = enu(value);
 		uint32_t index = e.index(value);
-		//ui::radio_switch(parent, e.m_names, index);
-		if(ui::dropdown_input(parent, e.m_names, index))
+		//ui::radio_switch(key(), parent, e.m_names, index);
+		if(ui::dropdown_input(key(), parent, e.m_names, index))
 		{
 			e.varn(index, value);
 			return true;
@@ -157,7 +157,7 @@ namespace two
 
 	bool object_link_edit(Widget& parent, Ref& value)
 	{
-		Widget& self = ui::row(parent);
+		Widget& self = ui::row(key(), parent);
 		object_button(self, value);
 		return object_selector_modal(self, self, value);
 	}
@@ -165,7 +165,7 @@ namespace two
 	bool sequence_element_edit(Widget& parent, Ref seq, Ref& value)
 	{
 		object_item(parent, value);
-		if(ui::button(parent, "remove").activated())
+		if(ui::button(key(), parent, "remove").activated())
 			sequence(seq).remove(seq, value);
 		return false;
 	}
@@ -174,11 +174,11 @@ namespace two
 	{
 		enum Modes { Add = 1 << 0 };
 
-		Widget& self = hint == EditorHint::Inline ? ui::row(parent)
-												  : ui::sheet(parent);
+		Widget& self = hint == EditorHint::Inline ? ui::row(key(), parent)
+												  : ui::sheet(key(), parent);
 		bool changed = false;
 		iter(value).iterate(value, [&](Ref element) { changed |= value_edit(self, element); });
-		if(ui::modal_button(self, self, "add", Add))
+		if(ui::modal_button(key(), self, self, "add", Add))
 		{
 			if(meta(*iter(value).m_element_type).m_empty_var)
 			{
@@ -227,16 +227,16 @@ namespace two
 
 	bool field_edit(Widget& parent, cstring name, Ref& value, bool nullable)
 	{
-		Widget& self = ui::row(parent);
-		ui::label(self, name);
+		Widget& self = ui::row(key(), parent);
+		ui::label(key(), self, name);
 		return any_edit(self, value, nullable);
 	}
 
 	bool modal_edit(Widget& parent, uint32_t mode, cstring name, Ref& value, bool nullable, bool confirm)
 	{
-		Widget& self = ui::modal(parent.parent_modal());
+		Widget& self = ui::modal(key(), parent.parent_modal());
 		bool changed = field_edit(self, name, value, nullable);
-		bool done = confirm ? ui::button(self, "Done").activated() || !self.m_open
+		bool done = confirm ? ui::button(key(), self, "Done").activated() || !self.m_open
 							: changed || !self.m_open;
 		if(done)
 			parent.m_switch &= ~mode;

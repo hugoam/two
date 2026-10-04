@@ -81,14 +81,14 @@ namespace ui
 		return changed;
 	}
 
-	bool slider(Widget& parent, Style& style, float& value, SliderMetrics metrics, Axis dim, bool relative, bool fill, Style* knob_style)
+	bool slider(NodeKey id, Widget& parent, Style& style, float& value, SliderMetrics metrics, Axis dim, bool relative, bool fill, Style* knob_style)
 	{
-		Widget& self = widget(parent, style, false, dim);
+		Widget& self = widget(id, parent, style, false, dim);
 
 		SliderState state = metrics.compute(value);
-		Widget& filler = spanner(self, fill ? styles().filler : styles().spacer, dim, state.m_pre_span);
-		Widget& button = spanner(self, knob_style ? *knob_style : styles().slider_knob, dim, state.m_knob_span);
-		spanner(self, styles().spacer, dim, state.m_post_span);
+		Widget& filler = spanner(key(), self, fill ? styles().filler : styles().spacer, dim, state.m_pre_span);
+		Widget& button = spanner(key(), self, knob_style ? *knob_style : styles().slider_knob, dim, state.m_knob_span);
+		spanner(key(), self, styles().spacer, dim, state.m_post_span);
 		
 		bool changed = false;
 		changed |= slider_logic(self, self.m_frame, filler.m_frame, button.m_frame, value, metrics, dim, false);
@@ -96,9 +96,9 @@ namespace ui
 		return changed;
 	}
 
-	bool slider(Widget& parent, float& value, SliderMetrics metrics, Axis dim, bool relative, bool fill, Style* knob_style)
+	bool slider(NodeKey id, Widget& parent, float& value, SliderMetrics metrics, Axis dim, bool relative, bool fill, Style* knob_style)
 	{
-		return slider(parent, styles().slider, value, metrics, dim, relative, fill, knob_style);
+		return slider(id, parent, styles().slider, value, metrics, dim, relative, fill, knob_style);
 	}
 }
 }
