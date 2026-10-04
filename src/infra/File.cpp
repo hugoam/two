@@ -193,6 +193,8 @@ namespace two
 	void visit_files(const string& path, FileVisitor visit)
 	{
 		DIR* dir = opendir(path.c_str());
+		if(!dir)
+			return;
 		dirent* ent;
 
 		while((ent = readdir(dir)) != NULL)
@@ -207,6 +209,8 @@ namespace two
 	void visit_folders(const string& path, FileVisitor visit, bool ignore_symbolic)
 	{
 		DIR* dir = opendir(path.c_str());
+		if(!dir)
+			return;
 		dirent* ent;
 
 		while((ent = readdir(dir)) != NULL)
