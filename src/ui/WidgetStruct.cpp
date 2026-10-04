@@ -68,6 +68,8 @@ namespace two
 	{
 		if(m_events)
 			m_events->m_control_node = nullptr;
+		if(m_control.m_modal)
+			this->set_modal(nullptr, 0);
 		if(this->modal())
 			this->yield_modal();
 		// the press goes back to the root, unless another widget took it over
@@ -152,17 +154,33 @@ namespace two
 		}
 	}
 
+	// a modal widget knows the widget it took its modality from, its parent in the control tree, and yields it back to it:
+	// its parents in the widget tree can change, e.g a top node detached from its parent
 	void Widget::set_modal(Widget* widget, uint32_t device_filter)
 	{
 		if(m_control.m_modal)
 		{
-			static_cast<Widget*>(m_control.m_modal)->set_modal(nullptr, 0);
-			static_cast<Widget*>(m_control.m_modal)->disable_state(FOCUSED);
-			m_control.m_modal->m_control = {};
+			Widget& modal = static_cast<Widget&>(*m_control.m_modal);
+			modal.set_modal(nullptr, 0);
+			modal.disable_state(FOCUSED);
+			modal.m_control.m_parent = nullptr;
 		}
 		if(widget)
+		{
 			widget->enable_state(FOCUSED);
-		m_control = { m_control.m_parent, widget, device_filter };
+			widget->m_control.m_parent = this;
+		}
+		m_control.m_modal = widget;
+		m_control.m_mask = device_filter;
+	}
+
+	void Widget::yield_modal()
+	{
+		Widget* parent = static_cast<Widget*>(m_control.m_parent);
+		if(parent && parent->m_control.m_modal == this)
+			parent->set_modal(nullptr, 0);
+		else
+			this->parent_modal().set_modal(nullptr, 0);
 	}
 
 	void Widget::toggle_state(WidgetState state)

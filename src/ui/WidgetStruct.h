@@ -53,7 +53,7 @@ namespace two
 		meth_ inline void yield_focus() { this->yield_modal(); }
 
 		meth_ inline void take_modal(uint32_t device_filter = uint32_t(DeviceMask::All)) { this->parent_modal().set_modal(this, device_filter); }
-		meth_ inline void yield_modal() { this->parent_modal().set_modal(nullptr, 0); }
+		meth_ void yield_modal();
 
 		void set_modal(Widget* widget, uint32_t device_filter);
 
