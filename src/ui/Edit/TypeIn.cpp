@@ -542,9 +542,23 @@ namespace two
 		if(this->focused())
 			draw_text_selection(vg, m_frame, padding, m_text_offset, m_text, m_selection, m_palette, m_editor);
 		if(m_editor)
-			draw_editor_text(vg, m_frame, padding, m_text_offset, m_text, m_palette);
+			draw_editor_text(vg, m_frame, padding, m_text_offset, m_text, m_palette, this->visible_range());
 		else
 			draw_text(vg, padding, m_text);
+	}
+
+	// the vertical range of the text inside the frame clipping it, e.g the scroll zone of an editor: the rows out of it are not drawn
+	vec2 TextEdit::visible_range()
+	{
+		Frame* clip = m_frame.d_parent;
+		while(clip && !(clip->d_layout && clip->d_layout->m_clipping == Clip::Clip))
+			clip = clip->d_parent;
+		if(!clip)
+			return { -FLT_MAX, FLT_MAX };
+
+		const float top = m_frame.integrate_position(vec2(0.f), *clip).y;
+		const float bottom = m_frame.integrate_position(clip->m_size, *clip).y;
+		return { top, bottom };
 	}
 
 	void TextEdit::undo()

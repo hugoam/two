@@ -286,7 +286,8 @@ namespace two
 			vg.draw_text(padding + row.m_rect.pos, row.m_start, row.m_end, text.m_text_paint);
 	}
 
-	void draw_editor_text(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette)
+	// only the rows between visible.x and visible.y, in the space of the frame, are drawn
+	void draw_editor_text(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette, const vec2& visible)
 	{
 		char line_number[16];
 
@@ -299,23 +300,34 @@ namespace two
 
 		for(const TextRow& row : text.m_text_rows)
 		{
-			if(row.m_start == row.m_end)
-				continue;
+			++line;
+
+			const float top = padding.y + offset.y + row.m_rect.y;
+			if(top > visible.y && imarker == text.m_markers.size())
+				break;
+			const bool shown = top + line_height >= visible.x;
 
 			while(isection < text.m_sections.size() && text.m_sections[isection].m_end < row.m_start_index)
 				isection++;
 
-			snprintf(line_number, 16, "%6d", int(++line));
-			vg.draw_text(padding + offset + row.m_rect.pos, line_number, nullptr, palette_text_paint(text, palette, Text::LineNumber));
+			if(shown)
+			{
+				snprintf(line_number, 16, "%6d", int(line));
+				vg.draw_text(padding + offset + row.m_rect.pos, line_number, nullptr, palette_text_paint(text, palette, Text::LineNumber));
+			}
 
-			while(isection < text.m_sections.size() && text.m_sections[isection].m_start < row.m_end_index)
+			// an empty row, a blank line, has no glyph to draw
+			while(row.m_start != row.m_end && isection < text.m_sections.size() && text.m_sections[isection].m_start < row.m_end_index)
 			{
 				const Text::ColorSection& section = text.m_sections[isection];
 
-				const size_t start = max(section.m_start, row.m_start_index);
-				const size_t end = min(section.m_end, row.m_end_index);
-				const vec2 position = offset + text_offset + row.m_glyphs[start - row.m_start_index].m_rect.pos;
-				vg.draw_text(floor(position) + vec2(0.f, 0.5f), &text.m_text.front() + start, &text.m_text.front() + end, palette_text_paint(text, palette, section.m_colour));
+				if(shown)
+				{
+					const size_t start = max(section.m_start, row.m_start_index);
+					const size_t end = min(section.m_end, row.m_end_index);
+					const vec2 position = offset + text_offset + row.m_glyphs[start - row.m_start_index].m_rect.pos;
+					vg.draw_text(floor(position) + vec2(0.f, 0.5f), &text.m_text.front() + start, &text.m_text.front() + end, palette_text_paint(text, palette, section.m_colour));
+				}
 
 				if(section.m_end <= row.m_end_index)
 					isection++;

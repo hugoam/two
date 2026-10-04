@@ -163,6 +163,6 @@ namespace two
 	TWO_UI_EXPORT TextPaint palette_text_paint(const Text& text, const ColourPalette& palette, PaletteIndex color_index);
 
 	TWO_UI_EXPORT void draw_text(Vg& vg, const vec2& padding, const Text& text);
-	TWO_UI_EXPORT void draw_editor_text(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette);
+	TWO_UI_EXPORT void draw_editor_text(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const ColourPalette& palette, const vec2& visible);
 	TWO_UI_EXPORT void draw_text_selection(Vg& vg, const Frame& frame, const vec2& padding, const vec2& text_offset, const Text& text, const TextSelection& selection, const ColourPalette& palette, bool current_line);
 }

@@ -81,6 +81,7 @@ namespace two
 		void update();
 		void update_scroll(Frame& frame, Frame& content);
 		void render(Vg& vg);
+		vec2 visible_range();
 
 		void set_text(const string& text);
 
