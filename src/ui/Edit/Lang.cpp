@@ -10,6 +10,7 @@ module two.ui;
 
 namespace two
 {
+	ColourPalette TextEdit::s_default_palette = TextEdit::OkaidaPalette();
 
 	vector<uint32_t>& TextEdit::OkaidaPalette()
 	{
@@ -80,6 +81,42 @@ namespace two
 		palette[size_t(CodePalette::Error)]				= 0xffffffff;
 		palette[size_t(CodePalette::ErrorMarker)]       = 0xa30100ff;
 		palette[size_t(CodePalette::Breakpoint)]        = 0xf0800040;
+
+		return palette;
+	}
+
+	// the colours of the Visual Studio 2026 dark editor
+	vector<uint32_t>& TextEdit::VisualStudioPalette()
+	{
+		static vector<uint32_t> palette = vector<uint32_t>(size_t(CodePalette::Count));
+
+		palette[Text::Default]                 = 0xdcdcdcff;
+		palette[Text::Background]              = 0x1e1e1eff;
+		palette[Text::Cursor]                  = 0xdcdcdcff;
+		palette[Text::Selection]               = 0x264f78ff;
+		palette[Text::LineNumber]              = 0x858585ff;
+		palette[Text::CurrentLineFill]         = 0x1e1e1eff;
+		palette[Text::CurrentLineFillInactive] = 0x1e1e1eff;
+		palette[Text::CurrentLineEdge]         = 0x464646ff;
+
+		palette[size_t(CodePalette::Word)]              = 0xdcdcdcff;
+		palette[size_t(CodePalette::Keyword)]           = 0x569cd6ff;
+		palette[size_t(CodePalette::Number)]            = 0xb5cea8ff;
+		palette[size_t(CodePalette::String)]            = 0xd69d85ff;
+		palette[size_t(CodePalette::CharLiteral)]       = 0xd69d85ff;
+		palette[size_t(CodePalette::Punctuation)]       = 0xb4b4b4ff;
+		palette[size_t(CodePalette::Operator)]          = 0xb4b4b4ff;
+		palette[size_t(CodePalette::Preprocessor)]      = 0x9b9b9bff;
+		palette[size_t(CodePalette::Variable)]          = 0x9cdcfeff;
+		palette[size_t(CodePalette::Identifier)]        = 0x4ec9b0ff;
+		palette[size_t(CodePalette::Function)]          = 0xdcdcaaff;
+		palette[size_t(CodePalette::Parameter)]         = 0x9a9a9aff;
+		palette[size_t(CodePalette::Field)]             = 0xdadadaff;
+		palette[size_t(CodePalette::PreprocIdentifier)] = 0xbeb7ffff;
+		palette[size_t(CodePalette::Comment)]           = 0x57a64aff;
+		palette[size_t(CodePalette::Error)]             = 0xffffffff;
+		palette[size_t(CodePalette::ErrorMarker)]       = 0xf14c4cff;
+		palette[size_t(CodePalette::Breakpoint)]        = 0xe5141440;
 
 		return palette;
 	}

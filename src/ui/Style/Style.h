@@ -64,6 +64,8 @@ namespace two
 	export_ TWO_UI_EXPORT func_ void style_vector(UiWindow& ui_window);
 
 	export_ TWO_UI_EXPORT func_ void style_blendish(UiWindow& ui_window);
+
+	export_ TWO_UI_EXPORT void style_vs_dark(UiWindow& ui_window);
 	export_ TWO_UI_EXPORT func_ void style_blendish_light(UiWindow& ui_window);
 	export_ TWO_UI_EXPORT func_ void style_blendish_dark(UiWindow& ui_window);
 

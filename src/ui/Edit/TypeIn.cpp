@@ -16,7 +16,7 @@ namespace two
 		, m_dirty(0, uint(m_string.size()))
 		, m_allowed_chars(allowed_chars)
 	{
-		m_palette = OkaidaPalette();
+		m_palette = s_default_palette;
 	}
 
 	TextEdit::~TextEdit()

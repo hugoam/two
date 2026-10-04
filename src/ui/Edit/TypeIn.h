@@ -182,6 +182,10 @@ namespace two
 
 		static vector<uint32_t>& DarkPalette();
 		static vector<uint32_t>& OkaidaPalette();
+		static vector<uint32_t>& VisualStudioPalette();
+
+		// the palette text edits are created with: a theme can set it, e.g style_vs_dark()
+		static ColourPalette s_default_palette;
 
 	public:
 		bool CanUndo() const { return m_undo_index > 0; }
