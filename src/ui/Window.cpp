@@ -97,12 +97,7 @@ namespace ui
 		if(!self.m_frame.d_style)
 			self.init(style);
 		else if(self.m_frame.d_style != &style)
-		{
-			// a window docked or undocked changes style: the solvers of its children follow its new solver
-			self.m_frame.solver(style);
-			for(Widget& child : self.children())
-				child.m_frame.m_solver->reparent(self.m_frame.m_solver.get());
-		}
+			self.m_frame.init(style); // a window docked or undocked changes style
 		self.layer();
 
 		if(self.once())

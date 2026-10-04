@@ -56,11 +56,6 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::UiWindow>();
     template <> TWO_UI_EXPORT Type& type<two::User>();
     template <> TWO_UI_EXPORT Type& type<two::Layer>();
-    template <> TWO_UI_EXPORT Type& type<two::FrameSolver>();
-    template <> TWO_UI_EXPORT Type& type<two::RowSolver>();
-    template <> TWO_UI_EXPORT Type& type<two::TableSolver>();
-    template <> TWO_UI_EXPORT Type& type<two::LineSolver>();
-    template <> TWO_UI_EXPORT Type& type<two::GridSolver>();
     template <> TWO_UI_EXPORT Type& type<two::ScrollSheet>();
     template <> TWO_UI_EXPORT Type& type<two::ui::Sequence>();
     template <> TWO_UI_EXPORT Type& type<two::Tabber>();

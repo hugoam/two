@@ -51,11 +51,6 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::UiWindow>() { static Type ty("UiWindow", sizeof(two::UiWindow)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::User>() { static Type ty("User", sizeof(two::User)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Layer>() { static Type ty("Layer", sizeof(two::Layer)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::FrameSolver>() { static Type ty("FrameSolver", type<two::UiRect>(), sizeof(two::FrameSolver)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::RowSolver>() { static Type ty("RowSolver", type<two::FrameSolver>(), sizeof(two::RowSolver)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::TableSolver>() { static Type ty("TableSolver", sizeof(two::TableSolver)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::LineSolver>() { static Type ty("LineSolver", type<two::RowSolver>(), sizeof(two::LineSolver)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::GridSolver>() { static Type ty("GridSolver", sizeof(two::GridSolver)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::ScrollSheet>() { static Type ty("ScrollSheet", type<two::Widget>(), sizeof(two::ScrollSheet)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::ui::Sequence>() { static Type ty("Sequence", type<two::Widget>(), sizeof(two::ui::Sequence)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Tabber>() { static Type ty("Tabber", type<two::Widget>(), sizeof(two::Tabber)); return ty; }

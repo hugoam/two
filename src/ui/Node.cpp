@@ -40,33 +40,24 @@ namespace ui
 		static Layout layout_column = [](Layout& l) { l.m_space = Preset::Unit; l.m_align = { Align::Left, Align::Center }; l.m_padding = vec4(20.f); l.m_spacing = vec2(20.f); };
 		static Layout layout_node = [](Layout& l) { l.m_space = Preset::Block; };
 
-		SolverVector solvers;
-		
-		RowSolver overlay(plan.m_solver.get(), &layout_overlay);
-		overlay.m_size = plan.m_size;
-		solvers.push_back(&overlay);
+		// the nodes are laid out in columns by order, the columns side by side in a line centered in the plan
+		LayoutTree tree;
+		const uint32_t root = tree.add_root(*plan.d_layout, plan.m_size);
+		const uint32_t overlay = tree.add(root, layout_overlay);
+		const uint32_t line = tree.add(overlay, layout_line);
 
-		RowSolver line(&overlay, &layout_line);
-		//RowSolver line(plan.m_solver.get(), &layout_line);
-		solvers.push_back(&line);
-
-		vector<RowSolver> columns; columns.reserve(canvas.m_nodes.size());
-		vector<FrameSolver> elements; elements.reserve(canvas.m_nodes.size());
-
+		vector<uint32_t> columns;
 		for(int i = 0; i < max_index + shift + 1; ++i)
-		{
-			columns.push_back({ &line, &layout_column });
-			solvers.push_back(&columns.back());
-		}
+			columns.push_back(tree.add(line, layout_column));
+
+		vector<uint32_t> elements;
+		for(Node* node : canvas.m_nodes)
+			elements.push_back(tree.add(columns[node->m_order + shift], layout_node, &node->m_frame));
+
+		tree.solve();
 
 		for(size_t i = 0; i < canvas.m_nodes.size(); ++i)
-		{
-			elements.push_back({ &columns[canvas.m_nodes[i]->m_order + shift], &layout_node, &canvas.m_nodes[i]->m_frame });
-			elements.back().sync();
-			solvers.push_back(&elements.back());
-		}
-
-		relayout(solvers);
+			canvas.m_nodes[i]->m_frame.set_position(tree.absolute(elements[i]));
 	}
 
 	void draw_node_cable(vec2 pos_out, vec2 pos_in, const Colour& colour_out, const Colour& colour_in, bool straight, Vg& vg)

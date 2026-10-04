@@ -1078,7 +1078,7 @@ namespace ui
 		if(self.once() && size != vec2(0.f))
 		{
 			self.m_frame.m_content = size;
-			self.m_frame.solver(viewer_styles().viewer_fixed);
+			self.m_frame.init(viewer_styles().viewer_fixed);
 			//dummy(key(), self, size);
 		}
 		return self;

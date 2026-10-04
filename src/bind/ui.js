@@ -1332,59 +1332,6 @@ Module['Layer'] = Layer;
 Layer.prototype["__destroy"] = Layer.prototype.__destroy = function() {
     _two_Layer__destroy(this.__ptr);
 };
-// FrameSolver
-function FrameSolver() { throw "cannot construct a FrameSolver, no constructor in IDL" }
-FrameSolver.prototype = Object.create(UiRect.prototype);
-FrameSolver.prototype.constructor = FrameSolver;
-FrameSolver.prototype.__class = FrameSolver;
-FrameSolver.__base = UiRect;
-FrameSolver.__cache = {};
-Module['FrameSolver'] = FrameSolver;
-FrameSolver.prototype["__destroy"] = FrameSolver.prototype.__destroy = function() {
-    _two_FrameSolver__destroy(this.__ptr);
-};
-// RowSolver
-function RowSolver() { throw "cannot construct a RowSolver, no constructor in IDL" }
-RowSolver.prototype = Object.create(FrameSolver.prototype);
-RowSolver.prototype.constructor = RowSolver;
-RowSolver.prototype.__class = RowSolver;
-RowSolver.__base = FrameSolver;
-RowSolver.__cache = {};
-Module['RowSolver'] = RowSolver;
-RowSolver.prototype["__destroy"] = RowSolver.prototype.__destroy = function() {
-    _two_RowSolver__destroy(this.__ptr);
-};
-// TableSolver
-function TableSolver() { throw "cannot construct a TableSolver, no constructor in IDL" }
-TableSolver.prototype = Object.create(WrapperObject.prototype);
-TableSolver.prototype.constructor = TableSolver;
-TableSolver.prototype.__class = TableSolver;
-TableSolver.__cache = {};
-Module['TableSolver'] = TableSolver;
-TableSolver.prototype["__destroy"] = TableSolver.prototype.__destroy = function() {
-    _two_TableSolver__destroy(this.__ptr);
-};
-// LineSolver
-function LineSolver() { throw "cannot construct a LineSolver, no constructor in IDL" }
-LineSolver.prototype = Object.create(RowSolver.prototype);
-LineSolver.prototype.constructor = LineSolver;
-LineSolver.prototype.__class = LineSolver;
-LineSolver.__base = RowSolver;
-LineSolver.__cache = {};
-Module['LineSolver'] = LineSolver;
-LineSolver.prototype["__destroy"] = LineSolver.prototype.__destroy = function() {
-    _two_LineSolver__destroy(this.__ptr);
-};
-// GridSolver
-function GridSolver() { throw "cannot construct a GridSolver, no constructor in IDL" }
-GridSolver.prototype = Object.create(WrapperObject.prototype);
-GridSolver.prototype.constructor = GridSolver;
-GridSolver.prototype.__class = GridSolver;
-GridSolver.__cache = {};
-Module['GridSolver'] = GridSolver;
-GridSolver.prototype["__destroy"] = GridSolver.prototype.__destroy = function() {
-    _two_GridSolver__destroy(this.__ptr);
-};
 // ScrollSheet
 function ScrollSheet() { throw "cannot construct a ScrollSheet, no constructor in IDL" }
 ScrollSheet.prototype = Object.create(Widget.prototype);
@@ -2298,11 +2245,6 @@ Module['ui']['file_tree'] = function(a0, a1, a2) {
         UiWindow.prototype.__type = _two_UiWindow__type();
         User.prototype.__type = _two_User__type();
         Layer.prototype.__type = _two_Layer__type();
-        FrameSolver.prototype.__type = _two_FrameSolver__type();
-        RowSolver.prototype.__type = _two_RowSolver__type();
-        TableSolver.prototype.__type = _two_TableSolver__type();
-        LineSolver.prototype.__type = _two_LineSolver__type();
-        GridSolver.prototype.__type = _two_GridSolver__type();
         ScrollSheet.prototype.__type = _two_ScrollSheet__type();
         Sequence.prototype.__type = _two_ui_Sequence__type();
         Tabber.prototype.__type = _two_Tabber__type();

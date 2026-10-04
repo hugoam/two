@@ -83,12 +83,6 @@ namespace two
     export_ struct LanguageDefinition;
     export_ class Layer;
     export_ struct Layout;
-    export_ class FrameSolver;
-    export_ class RowSolver;
-    export_ class CustomSolver;
-    export_ class TableSolver;
-    export_ class LineSolver;
-    export_ class GridSolver;
     export_ class ScrollSheet;
     export_ class Tabber;
     export_ class Expandbox;

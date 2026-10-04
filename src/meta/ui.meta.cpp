@@ -1247,82 +1247,6 @@ namespace two
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
-	// two::FrameSolver
-	{
-		Type& t = type<two::FrameSolver>();
-		static Meta meta = { t, &namspc({ "two" }), "FrameSolver", sizeof(two::FrameSolver), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<two::UiRect>() };
-		static size_t bases_offsets[] = { base_offset<two::FrameSolver, two::UiRect>() };
-		// defaults
-		// default constructor
-		// copy constructor
-		// constructors
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
-	}
-	// two::RowSolver
-	{
-		Type& t = type<two::RowSolver>();
-		static Meta meta = { t, &namspc({ "two" }), "RowSolver", sizeof(two::RowSolver), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<two::FrameSolver>() };
-		static size_t bases_offsets[] = { base_offset<two::RowSolver, two::FrameSolver>() };
-		// defaults
-		// default constructor
-		// copy constructor
-		// constructors
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
-	}
-	// two::TableSolver
-	{
-		Type& t = type<two::TableSolver>();
-		static Meta meta = { t, &namspc({ "two" }), "TableSolver", sizeof(two::TableSolver), TypeClass::Object };
-		// bases
-		// defaults
-		// default constructor
-		// copy constructor
-		// constructors
-		// members
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
-	}
-	// two::LineSolver
-	{
-		Type& t = type<two::LineSolver>();
-		static Meta meta = { t, &namspc({ "two" }), "LineSolver", sizeof(two::LineSolver), TypeClass::Object };
-		// bases
-		static Type* bases[] = { &type<two::RowSolver>() };
-		static size_t bases_offsets[] = { base_offset<two::LineSolver, two::RowSolver>() };
-		// defaults
-		// default constructor
-		// copy constructor
-		// constructors
-		// members
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
-	}
-	// two::GridSolver
-	{
-		Type& t = type<two::GridSolver>();
-		static Meta meta = { t, &namspc({ "two" }), "GridSolver", sizeof(two::GridSolver), TypeClass::Object };
-		// bases
-		// defaults
-		// default constructor
-		// copy constructor
-		// constructors
-		// members
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
-	}
 	// two::ScrollSheet
 	{
 		Type& t = type<two::ScrollSheet>();
@@ -1686,11 +1610,6 @@ namespace two
 		m.m_types.push_back(&type<two::UiWindow>());
 		m.m_types.push_back(&type<two::User>());
 		m.m_types.push_back(&type<two::Layer>());
-		m.m_types.push_back(&type<two::FrameSolver>());
-		m.m_types.push_back(&type<two::RowSolver>());
-		m.m_types.push_back(&type<two::TableSolver>());
-		m.m_types.push_back(&type<two::LineSolver>());
-		m.m_types.push_back(&type<two::GridSolver>());
 		m.m_types.push_back(&type<two::ScrollSheet>());
 		m.m_types.push_back(&type<two::ui::Sequence>());
 		m.m_types.push_back(&type<two::Tabber>());

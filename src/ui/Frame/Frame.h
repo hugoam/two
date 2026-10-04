@@ -41,7 +41,7 @@ namespace two
 		Frame& root();
 		Layer& layer();
 
-		FrameSolver& solver(Style& style, Axis length = Axis::None, v2<uint> index = { 0, 0 });
+		void init(Style& style, Axis length = Axis::None, v2<uint> index = { 0, 0 });
 
 		DirtyLayout clearDirty() { DirtyLayout dirty = d_dirty; d_dirty = CLEAN; return dirty; }
 		void set_dirty(DirtyLayout dirty) { if(dirty > d_dirty) d_dirty = dirty; }
@@ -86,9 +86,6 @@ namespace two
 
 		void relayout();
 
-		void sync_solver(FrameSolver& solver);
-		void read_solver(FrameSolver& solver);
-
 		void debug_print(bool commit);
 
 	public:
@@ -96,6 +93,8 @@ namespace two
 		Frame* d_parent;
 		DirtyLayout d_dirty = DIRTY_FORCE_LAYOUT;
 		v2<uint> d_index = { 0, 0 };
+		Axis d_length_override = Axis::None;	// the flow axis given explicitly, overriding the one of the style
+		Axis d_length = Axis::None;				// the flow axis, as resolved by the last layout
 
 		Opacity m_opacity = Opacity::Clear;
 
@@ -106,8 +105,6 @@ namespace two
 	public:
 		string d_caption = "";
 		Image* d_icon = nullptr;
-
-		unique<FrameSolver> m_solver;
 
 		unique<Layer> m_layer;
 		unique<Text> m_text;

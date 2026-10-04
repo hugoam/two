@@ -324,9 +324,9 @@ namespace two
 
 		const vec4& corners = parent.d_inkstyle->m_corner_radius;
 		if(parent.first(frame))
-			return parent.m_solver->d_length == Axis::X ? vec4(corners[0], 0.f, 0.f, corners[3]) : vec4(corners[0], corners[1], 0.f, 0.f);
+			return parent.d_length == Axis::X ? vec4(corners[0], 0.f, 0.f, corners[3]) : vec4(corners[0], corners[1], 0.f, 0.f);
 		else if(parent.last(frame))
-			return parent.m_solver->d_length == Axis::X ? vec4(0.f, corners[1], corners[2], 0.f) : vec4(0.f, 0.f, corners[2], corners[3]);
+			return parent.d_length == Axis::X ? vec4(0.f, corners[1], corners[2], 0.f) : vec4(0.f, 0.f, corners[2], corners[3]);
 		else
 			return vec4();
 	}

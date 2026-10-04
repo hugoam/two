@@ -979,41 +979,6 @@ extern "C" {
 	void DECL two_Layer__destroy(two::Layer* self) {
 		delete self;
 	}
-	// FrameSolver
-	two::Type* DECL two_FrameSolver__type() {
-		return &two::type<two::FrameSolver>();
-	}
-	void DECL two_FrameSolver__destroy(two::FrameSolver* self) {
-		delete self;
-	}
-	// RowSolver
-	two::Type* DECL two_RowSolver__type() {
-		return &two::type<two::RowSolver>();
-	}
-	void DECL two_RowSolver__destroy(two::RowSolver* self) {
-		delete self;
-	}
-	// TableSolver
-	two::Type* DECL two_TableSolver__type() {
-		return &two::type<two::TableSolver>();
-	}
-	void DECL two_TableSolver__destroy(two::TableSolver* self) {
-		delete self;
-	}
-	// LineSolver
-	two::Type* DECL two_LineSolver__type() {
-		return &two::type<two::LineSolver>();
-	}
-	void DECL two_LineSolver__destroy(two::LineSolver* self) {
-		delete self;
-	}
-	// GridSolver
-	two::Type* DECL two_GridSolver__type() {
-		return &two::type<two::GridSolver>();
-	}
-	void DECL two_GridSolver__destroy(two::GridSolver* self) {
-		delete self;
-	}
 	// ScrollSheet
 	two::Type* DECL two_ScrollSheet__type() {
 		return &two::type<two::ScrollSheet>();

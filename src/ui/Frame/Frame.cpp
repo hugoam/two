@@ -54,28 +54,14 @@ namespace two
 		return d_caption.c_str();
 	}
 
-	FrameSolver& Frame::solver(Style& style, Axis length, v2<uint> index)
+	void Frame::init(Style& style, Axis length, v2<uint> index)
 	{
 		d_style = &style;
 		d_layout = &style.m_layout;
 		d_index = index;
+		d_length_override = length;
 
 		this->update_style();
-
-		Solver type = d_layout->m_solver;
-		FrameSolver* solver = d_parent ? d_parent->m_solver.get() : nullptr;
-
-		if(type == Solver::Frame)
-			m_solver = construct<FrameSolver>(solver, d_layout, this);
-		else if(type == Solver::Row)
-			m_solver = construct<RowSolver>(solver, d_layout, this);
-		else if(type == Solver::Grid)
-			m_solver = construct<GridSolver>(solver, d_layout, this);
-		else if(type == Solver::Table)
-			m_solver = construct<TableSolver>(solver, d_layout, this);
-
-		m_solver->applySpace(length);
-		return *m_solver;
 	}
 
 	Frame& Frame::root()
@@ -260,52 +246,35 @@ namespace two
 		this->mark_dirty(DIRTY_FORCE_LAYOUT);
 	}
 
+	// the frames only marked for redraw are redrawn, down from the root through the dirty frames
+	static void redraw_dirty(Frame& frame)
+	{
+		if(!frame.d_dirty)
+			return;
+		frame.layer().setRedraw();
+		frame.layer().setForceRedraw(); // @ kludge for nodes in canvas when moving the canvas window
+		frame.clearDirty();
+		for(Widget& child : frame.d_widget.children())
+			redraw_dirty(child.m_frame);
+	}
+
 	void Frame::relayout()
 	{
 		const DirtyLayout dirty = this->clearDirty();
 		if(!dirty) return;
 
-		SolverVector solvers;
-		for(Widget& widget : d_widget.children())
-			collect_solvers(widget.m_frame, solvers, dirty);
-
-		m_solver->reset();
-		m_solver->m_size = m_size;
-
-		two::relayout(solvers);
-	}
-
-	void Frame::sync_solver(FrameSolver& solver)
-	{
-		const vec2 content = m_content + rect_sum(d_inkstyle->m_padding);
-		solver.setup(m_position, m_size, m_span, !empty() ? &content : nullptr);
-
-		if(d_dirty == DIRTY_PARENT)
+		if(dirty < DIRTY_PARENT)
 		{
-			// @bug this causes a bug in the relayout if we want to implement scarce behavior for wrap frames, since here the content is instead just the unpadded size
-			solver.d_content = m_size - rect_sum(solver.d_layout->m_padding);
+			for(Widget& child : d_widget.children())
+				redraw_dirty(child.m_frame);
+			return;
 		}
-	}
 
-	void fix_position(Frame& frame, Axis dim, FrameSolver* solver)
-	{
-		// @todo should be while but it causes a bug with nested tables
-		if(solver->m_solvers[dim] && solver->m_solvers[dim]->d_frame != frame.d_parent)
-		{
-			if(!solver->m_solvers[dim]->d_frame)
-				frame.m_position[dim] += solver->m_solvers[dim]->m_position[dim];
-			solver = solver->m_solvers[dim];
-		}
-	}
-
-	void Frame::read_solver(FrameSolver& solver)
-	{
-		this->set_position(solver.m_position);
-		this->set_size(solver.m_size);
-		m_span = solver.m_span;
-
-		fix_position(*this, Axis::X, &solver);
-		fix_position(*this, Axis::Y, &solver);
+		static LayoutTree tree;
+		tree.build(*this);
+		tree.solve();
+		tree.clear_dirty();
+		tree.apply();
 	}
 
 	void Frame::debug_print(bool commit)

@@ -103,8 +103,6 @@ namespace two
 		if(old)
 			old->m_frame.mark_dirty(DIRTY_FORCE_LAYOUT);
 		m_frame.d_parent = m_parent ? &m_parent->m_frame : nullptr;
-		if(m_frame.m_solver)
-			m_frame.m_solver->reparent(m_parent ? m_parent->m_frame.m_solver.get() : nullptr);
 		m_frame.mark_dirty(DIRTY_FORCE_LAYOUT);
 	}
 

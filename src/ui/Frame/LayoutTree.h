@@ -1,0 +1,92 @@
+//  Copyright (c) 2023 Hugo Amiard hugo.amiard@laposte.net
+//  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
+//  This notice and the license may not be removed or altered from any source distribution.
+
+#pragma once
+
+#include <ui/Frame/Frame.h>
+#include <ui/Style/Layout.h>
+
+namespace two
+{
+	// a node of the layout tree: either a frame, or a virtual node inserted after its frame, the lines of a grid or the columns of a table
+	// on each axis, a node is laid out by its container: its parent frame, or a virtual node of its parent frame or of its grand-parent frame
+	// the nodes are stored in depth-first order: the container of a node, on each axis, always comes before it
+	export_ struct LayoutNode
+	{
+		Frame* frame = nullptr;
+		uint32_t frame_parent = 0;			// the node of the parent frame, which the position of the frame is relative to
+		v2<uint32_t> container = { 0, 0 };	// the node laying out this node, on each axis
+		uint32_t virtuals = 0;				// the number of virtual nodes following this node
+
+		Solver solver = Solver::Row;
+		LayoutFlow flow = LayoutFlow::Flow;
+		v2<AutoLayout> autolayout = { AutoLayout::Layout, AutoLayout::Layout };
+		v2<Align> align = { Align::Left, Align::Left };
+		vec4 padding = vec4(0.f);
+		vec2 margin = vec2(0.f);
+		vec2 spacing = vec2(0.f);
+		bool no_grid = false;
+
+		Axis length = Axis::None;
+		v2<Sizing> sizing = { Sizing::Shrink, Sizing::Shrink };
+
+		vec2 content = vec2(0.f);
+		vec2 size = vec2(0.f);
+		vec2 position = vec2(0.f);
+		vec2 span = vec2(1.f);
+		v2<bool> positioned = { false, false };
+
+		inline float pad(Axis dim) const { return padding[uint(dim)] + padding[uint(dim) + 2]; }
+		inline float bounds(Axis dim) const { return content[dim] + pad(dim) + margin[dim] * 2.f; }
+		inline float extent(Axis dim) const { return size[dim] + margin[dim] * 2.f; }
+		inline float space(Axis dim) const { return size[dim] - pad(dim); }
+	};
+
+	// what a container gathers from its children, on one axis
+	export_ struct LayoutSums
+	{
+		float total_span = 0.f;		// the spans of the flowing children that grow
+		float fixed = 0.f;			// the bounds of the flowing children that don't grow
+		float spacings = 0.f;		// the margins and spacings between the measured flowing children
+		uint32_t count = 0;			// the number of measured flowing children
+		bool expand = false;		// whether a child grows along the length
+		uint32_t prev = 0;			// the previous child placed in sequence, 0 if none
+	};
+
+	// lays out a tree of frames in a few linear passes over flat arrays, per axis:
+	// measure the content of each container bottom-up, then size and position each node top-down
+	export_ class TWO_UI_EXPORT LayoutTree
+	{
+	public:
+		// a tree of frames, from its root
+		void build(Frame& root);
+
+		// a tree built by hand: a root lending its size, then nodes laid out by their parent, each optionally laying out a frame
+		uint32_t add_root(const Layout& layout, const vec2& size);
+		uint32_t add(uint32_t parent, const Layout& layout, Frame* frame = nullptr);
+
+		void solve();
+		void apply();
+		void clear_dirty();
+
+		// the position of a node, relative to the root
+		vec2 absolute(uint32_t index) const { return m_absolute[index]; }
+
+		vector<LayoutNode> m_nodes;
+		vector<v2<LayoutSums>> m_sums;
+		vector<vec2> m_absolute;
+
+	private:
+		LayoutNode node(const Layout& layout, Axis length, Axis parent_length) const;
+		void read_frame(LayoutNode& node, Frame& frame) const;
+		void add_frame(Frame& frame, uint32_t parent);
+		void add_virtuals(uint32_t index);
+		uint32_t container(uint32_t parent, Frame& frame, Axis dim) const;
+		vec2 local_position(uint32_t index) const;
+
+		void measure(Axis dim);
+		void arrange(Axis dim);
+		void accumulate();
+	};
+}

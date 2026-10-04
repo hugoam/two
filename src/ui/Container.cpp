@@ -29,9 +29,6 @@ namespace ui
 	{
 		Table& self = parent.sub<Table, span<float>>(id, weights);
 		self.init(styles().table);
-
-		as<TableSolver>(*self.m_frame.m_solver).update(self.m_weights);
-
 		return self;
 	}
 	
@@ -49,8 +46,6 @@ namespace ui
 		self.init(styles().table);
 
 		Widget& header = grid_sheet(key(), self, styles().table_head, Axis::X, self.m_weights); // [this](Frame& first, Frame& second) { this->resize(first, second); }
-
-		as<TableSolver>(*self.m_frame.m_solver).update(self.m_weights);
 
 		for(size_t i = 0; i < columns.size(); ++i)
 		{
