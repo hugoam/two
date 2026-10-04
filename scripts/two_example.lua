@@ -47,6 +47,7 @@ group "examples"
 
     two_example("00_ui",                { two.frame },                                     {})
     two_example("00_imgui",             { two.frame },                                     {})
+    two_example("00_ide",               { two.frame },                                     {})
     
 if not _OPTIONS["renderer-gl"] then
 --              name                    dependencies                                       examples deps
