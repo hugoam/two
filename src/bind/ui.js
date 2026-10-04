@@ -1644,544 +1644,545 @@ Module['style_imgui_classic'] = function(a0) {
     if (!checkClass(a0, UiWindow)) throw Error('style_imgui_classic(0:ui_window): expected UiWindow');
     _two_style_imgui_classic_1(/*ui_window*/a0.__ptr);
 };
-Module['ui']['widget'] = function(a0, a1, a2, a3, a4) {
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('widget(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('widget(1:style): expected Style'); }
-    else if (a3 === undefined) { if (!checkClass(a0, Widget)) throw Error('widget(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('widget(1:style): expected Style'); if (typeof a2 !== 'boolean') throw Error('widget(2:open): expected boolean'); }
-    else if (a4 === undefined) { if (!checkClass(a0, Widget)) throw Error('widget(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('widget(1:style): expected Style'); if (typeof a2 !== 'boolean') throw Error('widget(2:open): expected boolean'); if (typeof a3 !== 'number') throw Error('widget(3:length): expected integer'); }
-    else { if (!checkClass(a0, Widget)) throw Error('widget(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('widget(1:style): expected Style'); if (typeof a2 !== 'boolean') throw Error('widget(2:open): expected boolean'); if (typeof a3 !== 'number') throw Error('widget(3:length): expected integer'); if (!checkClass(a4, v2_uint)) throw Error('widget(4:index): expected v2<uint>'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_widget_2(/*parent*/a0.__ptr, /*style*/a1.__ptr), Widget); }
-    else if (a3 === undefined) { return wrapPointer(_two_ui_widget_3(/*parent*/a0.__ptr, /*style*/a1.__ptr, /*open*/a2), Widget); }
-    else if (a4 === undefined) { return wrapPointer(_two_ui_widget_4(/*parent*/a0.__ptr, /*style*/a1.__ptr, /*open*/a2, /*length*/a3), Widget); }
-    else { return wrapPointer(_two_ui_widget_5(/*parent*/a0.__ptr, /*style*/a1.__ptr, /*open*/a2, /*length*/a3, /*index*/a4.__ptr), Widget); }
+Module['ui']['widget'] = function(a0, a1, a2, a3, a4, a5) {
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('widget(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('widget(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('widget(2:style): expected Style'); }
+    else if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('widget(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('widget(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('widget(2:style): expected Style'); if (typeof a3 !== 'boolean') throw Error('widget(3:open): expected boolean'); }
+    else if (a5 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('widget(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('widget(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('widget(2:style): expected Style'); if (typeof a3 !== 'boolean') throw Error('widget(3:open): expected boolean'); if (typeof a4 !== 'number') throw Error('widget(4:length): expected integer'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('widget(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('widget(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('widget(2:style): expected Style'); if (typeof a3 !== 'boolean') throw Error('widget(3:open): expected boolean'); if (typeof a4 !== 'number') throw Error('widget(4:length): expected integer'); if (!checkClass(a5, v2_uint)) throw Error('widget(5:index): expected v2<uint>'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_widget_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr), Widget); }
+    else if (a4 === undefined) { return wrapPointer(_two_ui_widget_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr, /*open*/a3), Widget); }
+    else if (a5 === undefined) { return wrapPointer(_two_ui_widget_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr, /*open*/a3, /*length*/a4), Widget); }
+    else { return wrapPointer(_two_ui_widget_6(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr, /*open*/a3, /*length*/a4, /*index*/a5.__ptr), Widget); }
 };
-Module['ui']['item'] = function(a0, a1, a2) {
+Module['ui']['item'] = function(a0, a1, a2, a3) {
     ensureCache.prepare();
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('item(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('item(1:style): expected Style'); }
-    else { if (!checkClass(a0, Widget)) throw Error('item(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('item(1:style): expected Style'); if (typeof a2 !== 'string') throw Error('item(2:content): expected string'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_item_2(/*parent*/a0.__ptr, /*style*/a1.__ptr), Widget); }
-    else { return wrapPointer(_two_ui_item_3(/*parent*/a0.__ptr, /*style*/a1.__ptr, ensureString(/*content*/a2)), Widget); }
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('item(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('item(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('item(2:style): expected Style'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('item(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('item(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('item(2:style): expected Style'); if (typeof a3 !== 'string') throw Error('item(3:content): expected string'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_item_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr), Widget); }
+    else { return wrapPointer(_two_ui_item_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr, ensureString(/*content*/a3)), Widget); }
 };
-Module['ui']['multi_item'] = function(a0, a1, a2, a3) {
-    if (a3 === undefined) { if (!checkClass(a0, Widget)) throw Error('multi_item(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('multi_item(1:style): expected Style');  }
-    else { if (!checkClass(a0, Widget)) throw Error('multi_item(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('multi_item(1:style): expected Style');  if (!checkClass(a3, Style)) throw Error('multi_item(3:element_style): expected Style'); }
-    if (a3 === undefined) { return wrapPointer(_two_ui_multi_item_3(/*parent*/a0.__ptr, /*style*/a1.__ptr, ensureInt8(/*elements*/a2), /*elements*/a2.length), Widget); }
-    else { return wrapPointer(_two_ui_multi_item_4(/*parent*/a0.__ptr, /*style*/a1.__ptr, ensureInt8(/*elements*/a2), /*elements*/a2.length, /*element_style*/a3.__ptr), Widget); }
+Module['ui']['multi_item'] = function(a0, a1, a2, a3, a4) {
+    if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('multi_item(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('multi_item(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('multi_item(2:style): expected Style');  }
+    else { if (!checkClass(a0, NodeKey)) throw Error('multi_item(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('multi_item(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('multi_item(2:style): expected Style');  if (!checkClass(a4, Style)) throw Error('multi_item(4:element_style): expected Style'); }
+    if (a4 === undefined) { return wrapPointer(_two_ui_multi_item_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr, ensureInt8(/*elements*/a3), /*elements*/a3.length), Widget); }
+    else { return wrapPointer(_two_ui_multi_item_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr, ensureInt8(/*elements*/a3), /*elements*/a3.length, /*element_style*/a4.__ptr), Widget); }
 };
-Module['ui']['spanner'] = function(a0, a1, a2, a3) {
-    if (!checkClass(a0, Widget)) throw Error('spanner(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('spanner(1:style): expected Style'); if (typeof a2 !== 'number') throw Error('spanner(2:dim): expected integer'); if (typeof a3 !== 'number') throw Error('spanner(3:span): expected number');
-    return wrapPointer(_two_ui_spanner_4(/*parent*/a0.__ptr, /*style*/a1.__ptr, /*dim*/a2, /*span*/a3), Widget);
+Module['ui']['spanner'] = function(a0, a1, a2, a3, a4) {
+    if (!checkClass(a0, NodeKey)) throw Error('spanner(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('spanner(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('spanner(2:style): expected Style'); if (typeof a3 !== 'number') throw Error('spanner(3:dim): expected integer'); if (typeof a4 !== 'number') throw Error('spanner(4:span): expected number');
+    return wrapPointer(_two_ui_spanner_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr, /*dim*/a3, /*span*/a4), Widget);
 };
-Module['ui']['spacer'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('spacer(0:parent): expected Widget');
-    return wrapPointer(_two_ui_spacer_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['spacer'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('spacer(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('spacer(1:parent): expected Widget');
+    return wrapPointer(_two_ui_spacer_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['separator'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('separator(0:parent): expected Widget');
-    return wrapPointer(_two_ui_separator_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['separator'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('separator(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('separator(1:parent): expected Widget');
+    return wrapPointer(_two_ui_separator_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['icon'] = function(a0, a1) {
+Module['ui']['icon'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('icon(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('icon(1:image): expected string');
-    return wrapPointer(_two_ui_icon_2(/*parent*/a0.__ptr, ensureString(/*image*/a1)), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('icon(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('icon(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('icon(2:image): expected string');
+    return wrapPointer(_two_ui_icon_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*image*/a2)), Widget);
 };
-Module['ui']['label'] = function(a0, a1) {
+Module['ui']['label'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('label(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('label(1:label): expected string');
-    return wrapPointer(_two_ui_label_2(/*parent*/a0.__ptr, ensureString(/*label*/a1)), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('label(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('label(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('label(2:label): expected string');
+    return wrapPointer(_two_ui_label_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*label*/a2)), Widget);
 };
-Module['ui']['title'] = function(a0, a1) {
+Module['ui']['title'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('title(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('title(1:label): expected string');
-    return wrapPointer(_two_ui_title_2(/*parent*/a0.__ptr, ensureString(/*label*/a1)), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('title(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('title(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('title(2:label): expected string');
+    return wrapPointer(_two_ui_title_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*label*/a2)), Widget);
 };
-Module['ui']['message'] = function(a0, a1) {
+Module['ui']['message'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('message(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('message(1:label): expected string');
-    return wrapPointer(_two_ui_message_2(/*parent*/a0.__ptr, ensureString(/*label*/a1)), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('message(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('message(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('message(2:label): expected string');
+    return wrapPointer(_two_ui_message_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*label*/a2)), Widget);
 };
-Module['ui']['text'] = function(a0, a1) {
+Module['ui']['text'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('text(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('text(1:label): expected string');
-    return wrapPointer(_two_ui_text_2(/*parent*/a0.__ptr, ensureString(/*label*/a1)), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('text(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('text(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('text(2:label): expected string');
+    return wrapPointer(_two_ui_text_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*label*/a2)), Widget);
 };
-Module['ui']['bullet'] = function(a0, a1) {
+Module['ui']['bullet'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('bullet(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('bullet(1:label): expected string');
-    return wrapPointer(_two_ui_bullet_2(/*parent*/a0.__ptr, ensureString(/*label*/a1)), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('bullet(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('bullet(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('bullet(2:label): expected string');
+    return wrapPointer(_two_ui_bullet_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*label*/a2)), Widget);
 };
-Module['ui']['selectable'] = function(a0, a1, a2) {
+Module['ui']['selectable'] = function(a0, a1, a2, a3) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('selectable(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('selectable(1:label): expected string'); if (typeof a2 !== 'boolean') throw Error('selectable(2:selected): expected boolean');
-    return wrapPointer(_two_ui_selectable_3(/*parent*/a0.__ptr, ensureString(/*label*/a1), /*selected*/a2), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('selectable(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('selectable(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('selectable(2:label): expected string'); if (typeof a3 !== 'boolean') throw Error('selectable(3:selected): expected boolean');
+    return wrapPointer(_two_ui_selectable_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*label*/a2), /*selected*/a3), Widget);
 };
-Module['ui']['button'] = function(a0, a1) {
+Module['ui']['button'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (a1 === undefined) { if (!checkClass(a0, Widget)) throw Error('button(0:parent): expected Widget'); }
-    else { if (!checkClass(a0, Widget)) throw Error('button(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('button(1:content): expected string'); }
-    if (a1 === undefined) { return wrapPointer(_two_ui_button_1(/*parent*/a0.__ptr), Widget); }
-    else { return wrapPointer(_two_ui_button_2(/*parent*/a0.__ptr, ensureString(/*content*/a1)), Widget); }
+    if (a2 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('button(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('button(1:parent): expected Widget'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('button(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('button(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('button(2:content): expected string'); }
+    if (a2 === undefined) { return wrapPointer(_two_ui_button_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget); }
+    else { return wrapPointer(_two_ui_button_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*content*/a2)), Widget); }
 };
-Module['ui']['toggle'] = function(a0, a1, a2) {
+Module['ui']['toggle'] = function(a0, a1, a2, a3) {
     ensureCache.prepare();
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('toggle(0:parent): expected Widget'); if (typeof a1 !== 'boolean') throw Error('toggle(1:on): expected boolean'); }
-    else { if (!checkClass(a0, Widget)) throw Error('toggle(0:parent): expected Widget'); if (typeof a1 !== 'boolean') throw Error('toggle(1:on): expected boolean'); if (typeof a2 !== 'string') throw Error('toggle(2:content): expected string'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_toggle_2(/*parent*/a0.__ptr, /*on*/a1), Widget); }
-    else { return wrapPointer(_two_ui_toggle_3(/*parent*/a0.__ptr, /*on*/a1, ensureString(/*content*/a2)), Widget); }
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('toggle(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('toggle(1:parent): expected Widget'); if (typeof a2 !== 'boolean') throw Error('toggle(2:on): expected boolean'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('toggle(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('toggle(1:parent): expected Widget'); if (typeof a2 !== 'boolean') throw Error('toggle(2:on): expected boolean'); if (typeof a3 !== 'string') throw Error('toggle(3:content): expected string'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_toggle_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*on*/a2), Widget); }
+    else { return wrapPointer(_two_ui_toggle_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*on*/a2, ensureString(/*content*/a3)), Widget); }
 };
-Module['ui']['multi_button'] = function(a0, a1, a2) {
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('multi_button(0:parent): expected Widget');  }
-    else { if (!checkClass(a0, Widget)) throw Error('multi_button(0:parent): expected Widget');  if (!checkClass(a2, Style)) throw Error('multi_button(2:element_style): expected Style'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_multi_button_2(/*parent*/a0.__ptr, ensureInt8(/*elements*/a1), /*elements*/a1.length), Widget); }
-    else { return wrapPointer(_two_ui_multi_button_3(/*parent*/a0.__ptr, ensureInt8(/*elements*/a1), /*elements*/a1.length, /*element_style*/a2.__ptr), Widget); }
+Module['ui']['multi_button'] = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('multi_button(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('multi_button(1:parent): expected Widget');  }
+    else { if (!checkClass(a0, NodeKey)) throw Error('multi_button(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('multi_button(1:parent): expected Widget');  if (!checkClass(a3, Style)) throw Error('multi_button(3:element_style): expected Style'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_multi_button_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureInt8(/*elements*/a2), /*elements*/a2.length), Widget); }
+    else { return wrapPointer(_two_ui_multi_button_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureInt8(/*elements*/a2), /*elements*/a2.length, /*element_style*/a3.__ptr), Widget); }
 };
-Module['ui']['multi_toggle'] = function(a0, a1, a2, a3) {
-    if (a3 === undefined) { if (!checkClass(a0, Widget)) throw Error('multi_toggle(0:parent): expected Widget'); if (typeof a1 !== 'boolean') throw Error('multi_toggle(1:on): expected boolean');  }
-    else { if (!checkClass(a0, Widget)) throw Error('multi_toggle(0:parent): expected Widget'); if (typeof a1 !== 'boolean') throw Error('multi_toggle(1:on): expected boolean');  if (!checkClass(a3, Style)) throw Error('multi_toggle(3:element_style): expected Style'); }
-    if (a3 === undefined) { return wrapPointer(_two_ui_multi_toggle_3(/*parent*/a0.__ptr, /*on*/a1, ensureInt8(/*elements*/a2), /*elements*/a2.length), Widget); }
-    else { return wrapPointer(_two_ui_multi_toggle_4(/*parent*/a0.__ptr, /*on*/a1, ensureInt8(/*elements*/a2), /*elements*/a2.length, /*element_style*/a3.__ptr), Widget); }
+Module['ui']['multi_toggle'] = function(a0, a1, a2, a3, a4) {
+    if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('multi_toggle(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('multi_toggle(1:parent): expected Widget'); if (typeof a2 !== 'boolean') throw Error('multi_toggle(2:on): expected boolean');  }
+    else { if (!checkClass(a0, NodeKey)) throw Error('multi_toggle(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('multi_toggle(1:parent): expected Widget'); if (typeof a2 !== 'boolean') throw Error('multi_toggle(2:on): expected boolean');  if (!checkClass(a4, Style)) throw Error('multi_toggle(4:element_style): expected Style'); }
+    if (a4 === undefined) { return wrapPointer(_two_ui_multi_toggle_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*on*/a2, ensureInt8(/*elements*/a3), /*elements*/a3.length), Widget); }
+    else { return wrapPointer(_two_ui_multi_toggle_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*on*/a2, ensureInt8(/*elements*/a3), /*elements*/a3.length, /*element_style*/a4.__ptr), Widget); }
 };
-Module['ui']['modal_button'] = function(a0, a1, a2, a3) {
+Module['ui']['modal_button'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('modal_button(0:screen): expected Widget'); if (!checkClass(a1, Widget)) throw Error('modal_button(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('modal_button(2:content): expected string'); if (typeof a3 !== 'number') throw Error('modal_button(3:mode): expected integer');
-    return !!(_two_ui_modal_button_4(/*screen*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*content*/a2), /*mode*/a3));
+    if (!checkClass(a0, NodeKey)) throw Error('modal_button(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('modal_button(1:screen): expected Widget'); if (!checkClass(a2, Widget)) throw Error('modal_button(2:parent): expected Widget'); if (typeof a3 !== 'string') throw Error('modal_button(3:content): expected string'); if (typeof a4 !== 'number') throw Error('modal_button(4:mode): expected integer');
+    return !!(_two_ui_modal_button_5(/*id*/a0.__ptr, /*screen*/a1.__ptr, /*parent*/a2.__ptr, ensureString(/*content*/a3), /*mode*/a4));
 };
-Module['ui']['modal_multi_button'] = function(a0, a1, a2, a3) {
-    if (!checkClass(a0, Widget)) throw Error('modal_multi_button(0:screen): expected Widget'); if (!checkClass(a1, Widget)) throw Error('modal_multi_button(1:parent): expected Widget');  if (typeof a3 !== 'number') throw Error('modal_multi_button(3:mode): expected integer');
-    return !!(_two_ui_modal_multi_button_4(/*screen*/a0.__ptr, /*parent*/a1.__ptr, ensureInt8(/*elements*/a2), /*elements*/a2.length, /*mode*/a3));
+Module['ui']['modal_multi_button'] = function(a0, a1, a2, a3, a4) {
+    if (!checkClass(a0, NodeKey)) throw Error('modal_multi_button(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('modal_multi_button(1:screen): expected Widget'); if (!checkClass(a2, Widget)) throw Error('modal_multi_button(2:parent): expected Widget');  if (typeof a4 !== 'number') throw Error('modal_multi_button(4:mode): expected integer');
+    return !!(_two_ui_modal_multi_button_5(/*id*/a0.__ptr, /*screen*/a1.__ptr, /*parent*/a2.__ptr, ensureInt8(/*elements*/a3), /*elements*/a3.length, /*mode*/a4));
 };
-Module['ui']['checkbox'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('checkbox(0:parent): expected Widget'); if (typeof a1 !== 'boolean') throw Error('checkbox(1:on): expected boolean');
-    return wrapPointer(_two_ui_checkbox_2(/*parent*/a0.__ptr, /*on*/a1), Widget);
+Module['ui']['checkbox'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('checkbox(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('checkbox(1:parent): expected Widget'); if (typeof a2 !== 'boolean') throw Error('checkbox(2:on): expected boolean');
+    return wrapPointer(_two_ui_checkbox_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*on*/a2), Widget);
 };
-Module['ui']['fill_bar'] = function(a0, a1, a2) {
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('fill_bar(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('fill_bar(1:percentage): expected number'); }
-    else { if (!checkClass(a0, Widget)) throw Error('fill_bar(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('fill_bar(1:percentage): expected number'); if (typeof a2 !== 'number') throw Error('fill_bar(2:dim): expected integer'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_fill_bar_2(/*parent*/a0.__ptr, /*percentage*/a1), Widget); }
-    else { return wrapPointer(_two_ui_fill_bar_3(/*parent*/a0.__ptr, /*percentage*/a1, /*dim*/a2), Widget); }
+Module['ui']['fill_bar'] = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('fill_bar(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('fill_bar(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('fill_bar(2:percentage): expected number'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('fill_bar(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('fill_bar(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('fill_bar(2:percentage): expected number'); if (typeof a3 !== 'number') throw Error('fill_bar(3:dim): expected integer'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_fill_bar_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*percentage*/a2), Widget); }
+    else { return wrapPointer(_two_ui_fill_bar_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*percentage*/a2, /*dim*/a3), Widget); }
 };
-Module['ui']['image256'] = function(a0, a1, a2, a3) {
+Module['ui']['image256'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
-    if (a3 === undefined) { if (!checkClass(a0, Widget)) throw Error('image256(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('image256(1:name): expected string'); if (!checkClass(a2, Image256)) throw Error('image256(2:source): expected Image256'); }
-    else { if (!checkClass(a0, Widget)) throw Error('image256(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('image256(1:name): expected string'); if (!checkClass(a2, Image256)) throw Error('image256(2:source): expected Image256'); if (!checkClass(a3, v2_float)) throw Error('image256(3:size): expected v2<float>'); }
-    if (a3 === undefined) { return wrapPointer(_two_ui_image256_3(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*source*/a2.__ptr), Widget); }
-    else { return wrapPointer(_two_ui_image256_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*source*/a2.__ptr, /*size*/a3.__ptr), Widget); }
+    if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('image256(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('image256(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('image256(2:name): expected string'); if (!checkClass(a3, Image256)) throw Error('image256(3:source): expected Image256'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('image256(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('image256(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('image256(2:name): expected string'); if (!checkClass(a3, Image256)) throw Error('image256(3:source): expected Image256'); if (!checkClass(a4, v2_float)) throw Error('image256(4:size): expected v2<float>'); }
+    if (a4 === undefined) { return wrapPointer(_two_ui_image256_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*source*/a3.__ptr), Widget); }
+    else { return wrapPointer(_two_ui_image256_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*source*/a3.__ptr, /*size*/a4.__ptr), Widget); }
 };
-Module['ui']['radio_choice'] = function(a0, a1, a2) {
+Module['ui']['radio_choice'] = function(a0, a1, a2, a3) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('radio_choice(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('radio_choice(1:label): expected string'); if (typeof a2 !== 'boolean') throw Error('radio_choice(2:active): expected boolean');
-    return wrapPointer(_two_ui_radio_choice_3(/*parent*/a0.__ptr, ensureString(/*label*/a1), /*active*/a2), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('radio_choice(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('radio_choice(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('radio_choice(2:label): expected string'); if (typeof a3 !== 'boolean') throw Error('radio_choice(3:active): expected boolean');
+    return wrapPointer(_two_ui_radio_choice_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*label*/a2), /*active*/a3), Widget);
 };
-Module['ui']['radio_button'] = function(a0, a1, a2, a3) {
+Module['ui']['radio_button'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('radio_button(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('radio_button(1:label): expected string'); if (typeof a2 !== 'number') throw Error('radio_button(2:value): expected integer'); if (typeof a3 !== 'number') throw Error('radio_button(3:index): expected integer');
-    return wrapPointer(_two_ui_radio_button_4(/*parent*/a0.__ptr, ensureString(/*label*/a1), /*value*/a2, /*index*/a3), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('radio_button(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('radio_button(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('radio_button(2:label): expected string'); if (typeof a3 !== 'number') throw Error('radio_button(3:value): expected integer'); if (typeof a4 !== 'number') throw Error('radio_button(4:index): expected integer');
+    return wrapPointer(_two_ui_radio_button_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*label*/a2), /*value*/a3, /*index*/a4), Widget);
 };
-Module['ui']['radio_switch'] = function(a0, a1, a2, a3) {
-    if (a3 === undefined) { if (!checkClass(a0, Widget)) throw Error('radio_switch(0:parent): expected Widget');  if (typeof a2 !== 'number') throw Error('radio_switch(2:value): expected integer'); }
-    else { if (!checkClass(a0, Widget)) throw Error('radio_switch(0:parent): expected Widget');  if (typeof a2 !== 'number') throw Error('radio_switch(2:value): expected integer'); if (typeof a3 !== 'number') throw Error('radio_switch(3:dim): expected integer'); }
-    if (a3 === undefined) { return !!(_two_ui_radio_switch_3(/*parent*/a0.__ptr, ensureInt8(/*labels*/a1), /*labels*/a1.length, /*value*/a2)); }
-    else { return !!(_two_ui_radio_switch_4(/*parent*/a0.__ptr, ensureInt8(/*labels*/a1), /*labels*/a1.length, /*value*/a2, /*dim*/a3)); }
+Module['ui']['radio_switch'] = function(a0, a1, a2, a3, a4) {
+    if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('radio_switch(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('radio_switch(1:parent): expected Widget');  if (typeof a3 !== 'number') throw Error('radio_switch(3:value): expected integer'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('radio_switch(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('radio_switch(1:parent): expected Widget');  if (typeof a3 !== 'number') throw Error('radio_switch(3:value): expected integer'); if (typeof a4 !== 'number') throw Error('radio_switch(4:dim): expected integer'); }
+    if (a4 === undefined) { return !!(_two_ui_radio_switch_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureInt8(/*labels*/a2), /*labels*/a2.length, /*value*/a3)); }
+    else { return !!(_two_ui_radio_switch_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureInt8(/*labels*/a2), /*labels*/a2.length, /*value*/a3, /*dim*/a4)); }
 };
-Module['ui']['popdown'] = function(a0, a1, a2, a3, a4) {
-    if (!checkClass(a0, Widget)) throw Error('popdown(0:parent): expected Widget');  if (typeof a2 !== 'number') throw Error('popdown(2:value): expected integer'); if (!checkClass(a3, v2_float)) throw Error('popdown(3:position): expected v2<float>'); if (typeof a4 !== 'number') throw Error('popdown(4:flags): expected integer');
-    return !!(_two_ui_popdown_5(/*parent*/a0.__ptr, ensureInt8(/*choices*/a1), /*choices*/a1.length, /*value*/a2, /*position*/a3.__ptr, /*flags*/a4));
+Module['ui']['popdown'] = function(a0, a1, a2, a3, a4, a5) {
+    if (!checkClass(a0, NodeKey)) throw Error('popdown(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('popdown(1:parent): expected Widget');  if (typeof a3 !== 'number') throw Error('popdown(3:value): expected integer'); if (!checkClass(a4, v2_float)) throw Error('popdown(4:position): expected v2<float>'); if (typeof a5 !== 'number') throw Error('popdown(5:flags): expected integer');
+    return !!(_two_ui_popdown_6(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureInt8(/*choices*/a2), /*choices*/a2.length, /*value*/a3, /*position*/a4.__ptr, /*flags*/a5));
 };
-Module['ui']['dropdown'] = function(a0, a1, a2, a3, a4, a5) {
+Module['ui']['dropdown'] = function(a0, a1, a2, a3, a4, a5, a6) {
     ensureCache.prepare();
-    if (a4 === undefined) { if (!checkClass(a0, Widget)) throw Error('dropdown(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('dropdown(1:style): expected Style'); if (typeof a2 !== 'string') throw Error('dropdown(2:value): expected string'); if (typeof a3 !== 'number') throw Error('dropdown(3:flags): expected integer'); }
-    else if (a5 === undefined) { if (!checkClass(a0, Widget)) throw Error('dropdown(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('dropdown(1:style): expected Style'); if (typeof a2 !== 'string') throw Error('dropdown(2:value): expected string'); if (typeof a3 !== 'number') throw Error('dropdown(3:flags): expected integer'); if (typeof a4 !== 'boolean') throw Error('dropdown(4:no_toggle): expected boolean'); }
-    else { if (!checkClass(a0, Widget)) throw Error('dropdown(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('dropdown(1:style): expected Style'); if (typeof a2 !== 'string') throw Error('dropdown(2:value): expected string'); if (typeof a3 !== 'number') throw Error('dropdown(3:flags): expected integer'); if (typeof a4 !== 'boolean') throw Error('dropdown(4:no_toggle): expected boolean'); if (!checkClass(a5, Style)) throw Error('dropdown(5:list_style): expected Style'); }
-    if (a4 === undefined) { return wrapPointer(_two_ui_dropdown_4(/*parent*/a0.__ptr, /*style*/a1.__ptr, ensureString(/*value*/a2), /*flags*/a3), Widget); }
-    else if (a5 === undefined) { return wrapPointer(_two_ui_dropdown_5(/*parent*/a0.__ptr, /*style*/a1.__ptr, ensureString(/*value*/a2), /*flags*/a3, /*no_toggle*/a4), Widget); }
-    else { return wrapPointer(_two_ui_dropdown_6(/*parent*/a0.__ptr, /*style*/a1.__ptr, ensureString(/*value*/a2), /*flags*/a3, /*no_toggle*/a4, /*list_style*/a5.__ptr), Widget); }
+    if (a5 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('dropdown(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dropdown(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('dropdown(2:style): expected Style'); if (typeof a3 !== 'string') throw Error('dropdown(3:value): expected string'); if (typeof a4 !== 'number') throw Error('dropdown(4:flags): expected integer'); }
+    else if (a6 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('dropdown(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dropdown(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('dropdown(2:style): expected Style'); if (typeof a3 !== 'string') throw Error('dropdown(3:value): expected string'); if (typeof a4 !== 'number') throw Error('dropdown(4:flags): expected integer'); if (typeof a5 !== 'boolean') throw Error('dropdown(5:no_toggle): expected boolean'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('dropdown(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dropdown(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('dropdown(2:style): expected Style'); if (typeof a3 !== 'string') throw Error('dropdown(3:value): expected string'); if (typeof a4 !== 'number') throw Error('dropdown(4:flags): expected integer'); if (typeof a5 !== 'boolean') throw Error('dropdown(5:no_toggle): expected boolean'); if (!checkClass(a6, Style)) throw Error('dropdown(6:list_style): expected Style'); }
+    if (a5 === undefined) { return wrapPointer(_two_ui_dropdown_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr, ensureString(/*value*/a3), /*flags*/a4), Widget); }
+    else if (a6 === undefined) { return wrapPointer(_two_ui_dropdown_6(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr, ensureString(/*value*/a3), /*flags*/a4, /*no_toggle*/a5), Widget); }
+    else { return wrapPointer(_two_ui_dropdown_7(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr, ensureString(/*value*/a3), /*flags*/a4, /*no_toggle*/a5, /*list_style*/a6.__ptr), Widget); }
 };
-Module['ui']['dropdown_input'] = function(a0, a1, a2, a3) {
-    if (a3 === undefined) { if (!checkClass(a0, Widget)) throw Error('dropdown_input(0:parent): expected Widget');  if (typeof a2 !== 'number') throw Error('dropdown_input(2:value): expected integer'); }
-    else { if (!checkClass(a0, Widget)) throw Error('dropdown_input(0:parent): expected Widget');  if (typeof a2 !== 'number') throw Error('dropdown_input(2:value): expected integer'); if (typeof a3 !== 'boolean') throw Error('dropdown_input(3:compact): expected boolean'); }
-    if (a3 === undefined) { return !!(_two_ui_dropdown_input_3(/*parent*/a0.__ptr, ensureInt8(/*choices*/a1), /*choices*/a1.length, /*value*/a2)); }
-    else { return !!(_two_ui_dropdown_input_4(/*parent*/a0.__ptr, ensureInt8(/*choices*/a1), /*choices*/a1.length, /*value*/a2, /*compact*/a3)); }
+Module['ui']['dropdown_input'] = function(a0, a1, a2, a3, a4) {
+    if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('dropdown_input(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dropdown_input(1:parent): expected Widget');  if (typeof a3 !== 'number') throw Error('dropdown_input(3:value): expected integer'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('dropdown_input(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dropdown_input(1:parent): expected Widget');  if (typeof a3 !== 'number') throw Error('dropdown_input(3:value): expected integer'); if (typeof a4 !== 'boolean') throw Error('dropdown_input(4:compact): expected boolean'); }
+    if (a4 === undefined) { return !!(_two_ui_dropdown_input_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureInt8(/*choices*/a2), /*choices*/a2.length, /*value*/a3)); }
+    else { return !!(_two_ui_dropdown_input_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureInt8(/*choices*/a2), /*choices*/a2.length, /*value*/a3, /*compact*/a4)); }
 };
-Module['ui']['typedown_input'] = function(a0, a1, a2) {
-    if (!checkClass(a0, Widget)) throw Error('typedown_input(0:parent): expected Widget');  if (typeof a2 !== 'number') throw Error('typedown_input(2:value): expected integer');
-    return !!(_two_ui_typedown_input_3(/*parent*/a0.__ptr, ensureInt8(/*choices*/a1), /*choices*/a1.length, /*value*/a2));
+Module['ui']['typedown_input'] = function(a0, a1, a2, a3) {
+    if (!checkClass(a0, NodeKey)) throw Error('typedown_input(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('typedown_input(1:parent): expected Widget');  if (typeof a3 !== 'number') throw Error('typedown_input(3:value): expected integer');
+    return !!(_two_ui_typedown_input_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureInt8(/*choices*/a2), /*choices*/a2.length, /*value*/a3));
 };
-Module['ui']['menu_choice'] = function(a0, a1, a2) {
+Module['ui']['menu_choice'] = function(a0, a1, a2, a3) {
     ensureCache.prepare();
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('menu_choice(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('menu_choice(1:content): expected string'); }
-    else { if (!checkClass(a0, Widget)) throw Error('menu_choice(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('menu_choice(1:content): expected string'); if (typeof a2 !== 'string') throw Error('menu_choice(2:shortcut): expected string'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_menu_choice_2(/*parent*/a0.__ptr, ensureString(/*content*/a1)), Widget); }
-    else { return wrapPointer(_two_ui_menu_choice_3(/*parent*/a0.__ptr, ensureString(/*content*/a1), ensureString(/*shortcut*/a2)), Widget); }
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('menu_choice(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('menu_choice(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('menu_choice(2:content): expected string'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('menu_choice(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('menu_choice(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('menu_choice(2:content): expected string'); if (typeof a3 !== 'string') throw Error('menu_choice(3:shortcut): expected string'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_menu_choice_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*content*/a2)), Widget); }
+    else { return wrapPointer(_two_ui_menu_choice_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*content*/a2), ensureString(/*shortcut*/a3)), Widget); }
 };
-Module['ui']['menu_option'] = function(a0, a1, a2, a3) {
+Module['ui']['menu_option'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('menu_option(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('menu_option(1:content): expected string'); if (typeof a2 !== 'string') throw Error('menu_option(2:shortcut): expected string'); if (typeof a3 !== 'boolean') throw Error('menu_option(3:enabled): expected boolean');
-    return wrapPointer(_two_ui_menu_option_4(/*parent*/a0.__ptr, ensureString(/*content*/a1), ensureString(/*shortcut*/a2), /*enabled*/a3), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('menu_option(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('menu_option(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('menu_option(2:content): expected string'); if (typeof a3 !== 'string') throw Error('menu_option(3:shortcut): expected string'); if (typeof a4 !== 'boolean') throw Error('menu_option(4:enabled): expected boolean');
+    return wrapPointer(_two_ui_menu_option_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*content*/a2), ensureString(/*shortcut*/a3), /*enabled*/a4), Widget);
 };
-Module['ui']['menu'] = function(a0, a1, a2) {
+Module['ui']['menu'] = function(a0, a1, a2, a3) {
     ensureCache.prepare();
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('menu(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('menu(1:label): expected string'); }
-    else { if (!checkClass(a0, Widget)) throw Error('menu(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('menu(1:label): expected string'); if (typeof a2 !== 'boolean') throw Error('menu(2:submenu): expected boolean'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_menu_2(/*parent*/a0.__ptr, ensureString(/*label*/a1)), Widget); }
-    else { return wrapPointer(_two_ui_menu_3(/*parent*/a0.__ptr, ensureString(/*label*/a1), /*submenu*/a2), Widget); }
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('menu(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('menu(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('menu(2:label): expected string'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('menu(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('menu(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('menu(2:label): expected string'); if (typeof a3 !== 'boolean') throw Error('menu(3:submenu): expected boolean'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_menu_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*label*/a2)), Widget); }
+    else { return wrapPointer(_two_ui_menu_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*label*/a2), /*submenu*/a3), Widget); }
 };
-Module['ui']['menubar'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('menubar(0:parent): expected Widget');
-    return wrapPointer(_two_ui_menubar_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['menubar'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('menubar(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('menubar(1:parent): expected Widget');
+    return wrapPointer(_two_ui_menubar_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['toolbutton'] = function(a0, a1) {
+Module['ui']['toolbutton'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('toolbutton(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('toolbutton(1:icon): expected string');
-    return wrapPointer(_two_ui_toolbutton_2(/*parent*/a0.__ptr, ensureString(/*icon*/a1)), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('toolbutton(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('toolbutton(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('toolbutton(2:icon): expected string');
+    return wrapPointer(_two_ui_toolbutton_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*icon*/a2)), Widget);
 };
-Module['ui']['tooldock'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('tooldock(0:parent): expected Widget');
-    return wrapPointer(_two_ui_tooldock_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['tooldock'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('tooldock(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('tooldock(1:parent): expected Widget');
+    return wrapPointer(_two_ui_tooldock_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['toolbar'] = function(a0, a1) {
-    if (a1 === undefined) { if (!checkClass(a0, Widget)) throw Error('toolbar(0:parent): expected Widget'); }
-    else { if (!checkClass(a0, Widget)) throw Error('toolbar(0:parent): expected Widget'); if (typeof a1 !== 'boolean') throw Error('toolbar(1:wrap): expected boolean'); }
-    if (a1 === undefined) { return wrapPointer(_two_ui_toolbar_1(/*parent*/a0.__ptr), Widget); }
-    else { return wrapPointer(_two_ui_toolbar_2(/*parent*/a0.__ptr, /*wrap*/a1), Widget); }
+Module['ui']['toolbar'] = function(a0, a1, a2) {
+    if (a2 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('toolbar(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('toolbar(1:parent): expected Widget'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('toolbar(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('toolbar(1:parent): expected Widget'); if (typeof a2 !== 'boolean') throw Error('toolbar(2:wrap): expected boolean'); }
+    if (a2 === undefined) { return wrapPointer(_two_ui_toolbar_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget); }
+    else { return wrapPointer(_two_ui_toolbar_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*wrap*/a2), Widget); }
 };
-Module['ui']['select_list'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('select_list(0:parent): expected Widget');
-    return wrapPointer(_two_ui_select_list_1(/*parent*/a0.__ptr), ScrollSheet);
+Module['ui']['select_list'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('select_list(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('select_list(1:parent): expected Widget');
+    return wrapPointer(_two_ui_select_list_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), ScrollSheet);
 };
-Module['ui']['columns'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('columns(0:parent): expected Widget'); 
-    return wrapPointer(_two_ui_columns_2(/*parent*/a0.__ptr, ensureFloat32(/*weights*/a1), /*weights*/a1.length), Table);
+Module['ui']['columns'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('columns(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('columns(1:parent): expected Widget'); 
+    return wrapPointer(_two_ui_columns_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureFloat32(/*weights*/a2), /*weights*/a2.length), Table);
 };
-Module['ui']['table'] = function(a0, a1, a2) {
-    if (!checkClass(a0, Widget)) throw Error('table(0:parent): expected Widget');  
-    return wrapPointer(_two_ui_table_3(/*parent*/a0.__ptr, ensureInt8(/*columns*/a1), /*columns*/a1.length, ensureFloat32(/*weights*/a2), /*weights*/a2.length), Table);
+Module['ui']['table'] = function(a0, a1, a2, a3) {
+    if (!checkClass(a0, NodeKey)) throw Error('table(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('table(1:parent): expected Widget');  
+    return wrapPointer(_two_ui_table_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureInt8(/*columns*/a2), /*columns*/a2.length, ensureFloat32(/*weights*/a3), /*weights*/a3.length), Table);
 };
-Module['ui']['table_row'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('table_row(0:parent): expected Widget');
-    return wrapPointer(_two_ui_table_row_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['table_row'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('table_row(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('table_row(1:parent): expected Widget');
+    return wrapPointer(_two_ui_table_row_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['table_separator'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('table_separator(0:parent): expected Widget');
-    return wrapPointer(_two_ui_table_separator_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['table_separator'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('table_separator(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('table_separator(1:parent): expected Widget');
+    return wrapPointer(_two_ui_table_separator_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['expandbox'] = function(a0, a1, a2) {
+Module['ui']['expandbox'] = function(a0, a1, a2, a3) {
     ensureCache.prepare();
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('expandbox(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('expandbox(1:name): expected string'); }
-    else { if (!checkClass(a0, Widget)) throw Error('expandbox(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('expandbox(1:name): expected string'); if (typeof a2 !== 'boolean') throw Error('expandbox(2:open): expected boolean'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_expandbox_2(/*parent*/a0.__ptr, ensureString(/*name*/a1)), Expandbox); }
-    else { return wrapPointer(_two_ui_expandbox_3(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*open*/a2), Expandbox); }
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('expandbox(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('expandbox(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('expandbox(2:name): expected string'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('expandbox(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('expandbox(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('expandbox(2:name): expected string'); if (typeof a3 !== 'boolean') throw Error('expandbox(3:open): expected boolean'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_expandbox_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2)), Expandbox); }
+    else { return wrapPointer(_two_ui_expandbox_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*open*/a3), Expandbox); }
 };
-Module['ui']['tree_node'] = function(a0, a1, a2, a3) {
+Module['ui']['tree_node'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('tree_node(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('tree_node(1:name): expected string'); }
-    else if (a3 === undefined) { if (!checkClass(a0, Widget)) throw Error('tree_node(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('tree_node(1:name): expected string'); if (typeof a2 !== 'boolean') throw Error('tree_node(2:leaf): expected boolean'); }
-    else { if (!checkClass(a0, Widget)) throw Error('tree_node(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('tree_node(1:name): expected string'); if (typeof a2 !== 'boolean') throw Error('tree_node(2:leaf): expected boolean'); if (typeof a3 !== 'boolean') throw Error('tree_node(3:open): expected boolean'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_tree_node_2(/*parent*/a0.__ptr, ensureString(/*name*/a1)), TreeNode); }
-    else if (a3 === undefined) { return wrapPointer(_two_ui_tree_node_3(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*leaf*/a2), TreeNode); }
-    else { return wrapPointer(_two_ui_tree_node_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*leaf*/a2, /*open*/a3), TreeNode); }
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('tree_node(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('tree_node(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('tree_node(2:name): expected string'); }
+    else if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('tree_node(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('tree_node(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('tree_node(2:name): expected string'); if (typeof a3 !== 'boolean') throw Error('tree_node(3:leaf): expected boolean'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('tree_node(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('tree_node(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('tree_node(2:name): expected string'); if (typeof a3 !== 'boolean') throw Error('tree_node(3:leaf): expected boolean'); if (typeof a4 !== 'boolean') throw Error('tree_node(4:open): expected boolean'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_tree_node_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2)), TreeNode); }
+    else if (a4 === undefined) { return wrapPointer(_two_ui_tree_node_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*leaf*/a3), TreeNode); }
+    else { return wrapPointer(_two_ui_tree_node_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*leaf*/a3, /*open*/a4), TreeNode); }
 };
-Module['ui']['tree'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('tree(0:parent): expected Widget');
-    return wrapPointer(_two_ui_tree_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['tree'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('tree(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('tree(1:parent): expected Widget');
+    return wrapPointer(_two_ui_tree_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['tab'] = function(a0, a1) {
+Module['ui']['tab'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (!checkClass(a0, Tabber)) throw Error('tab(0:tabber): expected Tabber'); if (typeof a1 !== 'string') throw Error('tab(1:name): expected string');
-    return wrapPointer(_two_ui_tab_2(/*tabber*/a0.__ptr, ensureString(/*name*/a1)), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('tab(0:id): expected NodeKey'); if (!checkClass(a1, Tabber)) throw Error('tab(1:tabber): expected Tabber'); if (typeof a2 !== 'string') throw Error('tab(2:name): expected string');
+    return wrapPointer(_two_ui_tab_3(/*id*/a0.__ptr, /*tabber*/a1.__ptr, ensureString(/*name*/a2)), Widget);
 };
-Module['ui']['tabber'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('tabber(0:parent): expected Widget');
-    return wrapPointer(_two_ui_tabber_1(/*parent*/a0.__ptr), Tabber);
+Module['ui']['tabber'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('tabber(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('tabber(1:parent): expected Widget');
+    return wrapPointer(_two_ui_tabber_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Tabber);
 };
-Module['ui']['row'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('row(0:parent): expected Widget');
-    return wrapPointer(_two_ui_row_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['row'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('row(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('row(1:parent): expected Widget');
+    return wrapPointer(_two_ui_row_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['header'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('header(0:parent): expected Widget');
-    return wrapPointer(_two_ui_header_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['header'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('header(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('header(1:parent): expected Widget');
+    return wrapPointer(_two_ui_header_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['div'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('div(0:parent): expected Widget');
-    return wrapPointer(_two_ui_div_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['div'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('div(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('div(1:parent): expected Widget');
+    return wrapPointer(_two_ui_div_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['stack'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('stack(0:parent): expected Widget');
-    return wrapPointer(_two_ui_stack_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['stack'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('stack(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('stack(1:parent): expected Widget');
+    return wrapPointer(_two_ui_stack_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['sheet'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('sheet(0:parent): expected Widget');
-    return wrapPointer(_two_ui_sheet_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['sheet'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('sheet(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('sheet(1:parent): expected Widget');
+    return wrapPointer(_two_ui_sheet_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['board'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('board(0:parent): expected Widget');
-    return wrapPointer(_two_ui_board_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['board'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('board(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('board(1:parent): expected Widget');
+    return wrapPointer(_two_ui_board_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['layout'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('layout(0:parent): expected Widget');
-    return wrapPointer(_two_ui_layout_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['layout'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('layout(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('layout(1:parent): expected Widget');
+    return wrapPointer(_two_ui_layout_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['indent'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('indent(0:parent): expected Widget');
-    return wrapPointer(_two_ui_indent_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['indent'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('indent(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('indent(1:parent): expected Widget');
+    return wrapPointer(_two_ui_indent_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['screen'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('screen(0:parent): expected Widget');
-    return wrapPointer(_two_ui_screen_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['screen'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('screen(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('screen(1:parent): expected Widget');
+    return wrapPointer(_two_ui_screen_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['decal'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('decal(0:parent): expected Widget');
-    return wrapPointer(_two_ui_decal_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['decal'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('decal(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('decal(1:parent): expected Widget');
+    return wrapPointer(_two_ui_decal_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['overlay'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('overlay(0:parent): expected Widget');
-    return wrapPointer(_two_ui_overlay_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['overlay'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('overlay(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('overlay(1:parent): expected Widget');
+    return wrapPointer(_two_ui_overlay_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['title_header'] = function(a0, a1) {
+Module['ui']['title_header'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('title_header(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('title_header(1:title): expected string');
-    return wrapPointer(_two_ui_title_header_2(/*parent*/a0.__ptr, ensureString(/*title*/a1)), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('title_header(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('title_header(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('title_header(2:title): expected string');
+    return wrapPointer(_two_ui_title_header_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*title*/a2)), Widget);
 };
-Module['ui']['dummy'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('dummy(0:parent): expected Widget'); if (!checkClass(a1, v2_float)) throw Error('dummy(1:size): expected v2<float>');
-    return wrapPointer(_two_ui_dummy_2(/*parent*/a0.__ptr, /*size*/a1.__ptr), Widget);
+Module['ui']['dummy'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('dummy(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dummy(1:parent): expected Widget'); if (!checkClass(a2, v2_float)) throw Error('dummy(2:size): expected v2<float>');
+    return wrapPointer(_two_ui_dummy_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*size*/a2.__ptr), Widget);
 };
-Module['ui']['popup'] = function(a0, a1, a2) {
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('popup(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('popup(1:flags): expected integer'); }
-    else { if (!checkClass(a0, Widget)) throw Error('popup(0:parent): expected Widget'); if (!checkClass(a1, v2_float)) throw Error('popup(1:size): expected v2<float>'); if (typeof a2 !== 'number') throw Error('popup(2:flags): expected integer'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_popup_2(/*parent*/a0.__ptr, /*flags*/a1), Widget); }
-    else { return wrapPointer(_two_ui_popup_3(/*parent*/a0.__ptr, /*size*/a1.__ptr, /*flags*/a2), Widget); }
+Module['ui']['popup'] = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('popup(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('popup(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('popup(2:flags): expected integer'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('popup(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('popup(1:parent): expected Widget'); if (!checkClass(a2, v2_float)) throw Error('popup(2:size): expected v2<float>'); if (typeof a3 !== 'number') throw Error('popup(3:flags): expected integer'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_popup_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*flags*/a2), Widget); }
+    else { return wrapPointer(_two_ui_popup_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*size*/a2.__ptr, /*flags*/a3), Widget); }
 };
-Module['ui']['popup_at'] = function(a0, a1, a2) {
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('popup_at(0:parent): expected Widget'); if (!checkClass(a1, v2_float)) throw Error('popup_at(1:position): expected v2<float>'); }
-    else { if (!checkClass(a0, Widget)) throw Error('popup_at(0:parent): expected Widget'); if (!checkClass(a1, v2_float)) throw Error('popup_at(1:position): expected v2<float>'); if (typeof a2 !== 'number') throw Error('popup_at(2:flags): expected integer'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_popup_at_2(/*parent*/a0.__ptr, /*position*/a1.__ptr), Widget); }
-    else { return wrapPointer(_two_ui_popup_at_3(/*parent*/a0.__ptr, /*position*/a1.__ptr, /*flags*/a2), Widget); }
+Module['ui']['popup_at'] = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('popup_at(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('popup_at(1:parent): expected Widget'); if (!checkClass(a2, v2_float)) throw Error('popup_at(2:position): expected v2<float>'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('popup_at(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('popup_at(1:parent): expected Widget'); if (!checkClass(a2, v2_float)) throw Error('popup_at(2:position): expected v2<float>'); if (typeof a3 !== 'number') throw Error('popup_at(3:flags): expected integer'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_popup_at_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*position*/a2.__ptr), Widget); }
+    else { return wrapPointer(_two_ui_popup_at_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*position*/a2.__ptr, /*flags*/a3), Widget); }
 };
-Module['ui']['modal'] = function(a0, a1) {
-    if (a1 === undefined) { if (!checkClass(a0, Widget)) throw Error('modal(0:parent): expected Widget'); }
-    else { if (!checkClass(a0, Widget)) throw Error('modal(0:parent): expected Widget'); if (!checkClass(a1, v2_float)) throw Error('modal(1:size): expected v2<float>'); }
-    if (a1 === undefined) { return wrapPointer(_two_ui_modal_1(/*parent*/a0.__ptr), Widget); }
-    else { return wrapPointer(_two_ui_modal_2(/*parent*/a0.__ptr, /*size*/a1.__ptr), Widget); }
+Module['ui']['modal'] = function(a0, a1, a2) {
+    if (a2 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('modal(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('modal(1:parent): expected Widget'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('modal(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('modal(1:parent): expected Widget'); if (!checkClass(a2, v2_float)) throw Error('modal(2:size): expected v2<float>'); }
+    if (a2 === undefined) { return wrapPointer(_two_ui_modal_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget); }
+    else { return wrapPointer(_two_ui_modal_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*size*/a2.__ptr), Widget); }
 };
-Module['ui']['auto_modal'] = function(a0, a1, a2) {
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('auto_modal(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('auto_modal(1:mode): expected integer'); }
-    else { if (!checkClass(a0, Widget)) throw Error('auto_modal(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('auto_modal(1:mode): expected integer'); if (!checkClass(a2, v2_float)) throw Error('auto_modal(2:size): expected v2<float>'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_auto_modal_2(/*parent*/a0.__ptr, /*mode*/a1), Widget); }
-    else { return wrapPointer(_two_ui_auto_modal_3(/*parent*/a0.__ptr, /*mode*/a1, /*size*/a2.__ptr), Widget); }
+Module['ui']['auto_modal'] = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('auto_modal(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('auto_modal(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('auto_modal(2:mode): expected integer'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('auto_modal(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('auto_modal(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('auto_modal(2:mode): expected integer'); if (!checkClass(a3, v2_float)) throw Error('auto_modal(3:size): expected v2<float>'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_auto_modal_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*mode*/a2), Widget); }
+    else { return wrapPointer(_two_ui_auto_modal_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*mode*/a2, /*size*/a3.__ptr), Widget); }
 };
-Module['ui']['context'] = function(a0, a1, a2) {
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('context(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('context(1:mode): expected integer'); }
-    else { if (!checkClass(a0, Widget)) throw Error('context(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('context(1:mode): expected integer'); if (typeof a2 !== 'number') throw Error('context(2:flags): expected integer'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_context_2(/*parent*/a0.__ptr, /*mode*/a1), Widget); }
-    else { return wrapPointer(_two_ui_context_3(/*parent*/a0.__ptr, /*mode*/a1, /*flags*/a2), Widget); }
+Module['ui']['context'] = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('context(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('context(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('context(2:mode): expected integer'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('context(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('context(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('context(2:mode): expected integer'); if (typeof a3 !== 'number') throw Error('context(3:flags): expected integer'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_context_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*mode*/a2), Widget); }
+    else { return wrapPointer(_two_ui_context_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*mode*/a2, /*flags*/a3), Widget); }
 };
-Module['ui']['hoverbox'] = function(a0, a1) {
-    if (a1 === undefined) { if (!checkClass(a0, Widget)) throw Error('hoverbox(0:parent): expected Widget'); }
-    else { if (!checkClass(a0, Widget)) throw Error('hoverbox(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('hoverbox(1:delay): expected number'); }
-    if (a1 === undefined) { return wrapPointer(_two_ui_hoverbox_1(/*parent*/a0.__ptr), Widget); }
-    else { return wrapPointer(_two_ui_hoverbox_2(/*parent*/a0.__ptr, /*delay*/a1), Widget); }
+Module['ui']['hoverbox'] = function(a0, a1, a2) {
+    if (a2 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('hoverbox(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('hoverbox(1:parent): expected Widget'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('hoverbox(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('hoverbox(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('hoverbox(2:delay): expected number'); }
+    if (a2 === undefined) { return wrapPointer(_two_ui_hoverbox_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget); }
+    else { return wrapPointer(_two_ui_hoverbox_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*delay*/a2), Widget); }
 };
-Module['ui']['cursor'] = function(a0, a1, a2, a3) {
-    if (a3 === undefined) { if (!checkClass(a0, Widget)) throw Error('cursor(0:parent): expected Widget'); if (!checkClass(a1, v2_float)) throw Error('cursor(1:position): expected v2<float>'); if (!checkClass(a2, Widget)) throw Error('cursor(2:hovered): expected Widget'); }
-    else { if (!checkClass(a0, Widget)) throw Error('cursor(0:parent): expected Widget'); if (!checkClass(a1, v2_float)) throw Error('cursor(1:position): expected v2<float>'); if (!checkClass(a2, Widget)) throw Error('cursor(2:hovered): expected Widget'); if (typeof a3 !== 'boolean') throw Error('cursor(3:locked): expected boolean'); }
-    if (a3 === undefined) { return wrapPointer(_two_ui_cursor_3(/*parent*/a0.__ptr, /*position*/a1.__ptr, /*hovered*/a2.__ptr), Widget); }
-    else { return wrapPointer(_two_ui_cursor_4(/*parent*/a0.__ptr, /*position*/a1.__ptr, /*hovered*/a2.__ptr, /*locked*/a3), Widget); }
+Module['ui']['cursor'] = function(a0, a1, a2, a3, a4) {
+    if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('cursor(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('cursor(1:parent): expected Widget'); if (!checkClass(a2, v2_float)) throw Error('cursor(2:position): expected v2<float>'); if (!checkClass(a3, Widget)) throw Error('cursor(3:hovered): expected Widget'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('cursor(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('cursor(1:parent): expected Widget'); if (!checkClass(a2, v2_float)) throw Error('cursor(2:position): expected v2<float>'); if (!checkClass(a3, Widget)) throw Error('cursor(3:hovered): expected Widget'); if (typeof a4 !== 'boolean') throw Error('cursor(4:locked): expected boolean'); }
+    if (a4 === undefined) { return wrapPointer(_two_ui_cursor_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*position*/a2.__ptr, /*hovered*/a3.__ptr), Widget); }
+    else { return wrapPointer(_two_ui_cursor_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*position*/a2.__ptr, /*hovered*/a3.__ptr, /*locked*/a4), Widget); }
 };
-Module['ui']['rectangle'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('rectangle(0:parent): expected Widget'); if (!checkClass(a1, v4_float)) throw Error('rectangle(1:rect): expected v4<float>');
-    return wrapPointer(_two_ui_rectangle_2(/*parent*/a0.__ptr, /*rect*/a1.__ptr), Widget);
+Module['ui']['rectangle'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('rectangle(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('rectangle(1:parent): expected Widget'); if (!checkClass(a2, v4_float)) throw Error('rectangle(2:rect): expected v4<float>');
+    return wrapPointer(_two_ui_rectangle_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*rect*/a2.__ptr), Widget);
 };
-Module['ui']['viewport'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('viewport(0:parent): expected Widget'); if (!checkClass(a1, v4_float)) throw Error('viewport(1:rect): expected v4<float>');
-    return wrapPointer(_two_ui_viewport_2(/*parent*/a0.__ptr, /*rect*/a1.__ptr), Widget);
+Module['ui']['viewport'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('viewport(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('viewport(1:parent): expected Widget'); if (!checkClass(a2, v4_float)) throw Error('viewport(2:rect): expected v4<float>');
+    return wrapPointer(_two_ui_viewport_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*rect*/a2.__ptr), Widget);
 };
-Module['ui']['dockspace'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('dockspace(0:parent): expected Widget'); if (!checkClass(a1, Docksystem)) throw Error('dockspace(1:docksystem): expected Docksystem');
-    return wrapPointer(_two_ui_dockspace_2(/*parent*/a0.__ptr, /*docksystem*/a1.__ptr), Dockspace);
+Module['ui']['dockspace'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('dockspace(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dockspace(1:parent): expected Widget'); if (!checkClass(a2, Docksystem)) throw Error('dockspace(2:docksystem): expected Docksystem');
+    return wrapPointer(_two_ui_dockspace_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*docksystem*/a2.__ptr), Dockspace);
 };
-Module['ui']['dockbar'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('dockbar(0:parent): expected Widget'); if (!checkClass(a1, Docksystem)) throw Error('dockbar(1:docksystem): expected Docksystem');
-    return wrapPointer(_two_ui_dockbar_2(/*parent*/a0.__ptr, /*docksystem*/a1.__ptr), Dockbar);
+Module['ui']['dockbar'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('dockbar(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dockbar(1:parent): expected Widget'); if (!checkClass(a2, Docksystem)) throw Error('dockbar(2:docksystem): expected Docksystem');
+    return wrapPointer(_two_ui_dockbar_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*docksystem*/a2.__ptr), Dockbar);
 };
 Module['ui']['dockitem'] = function(a0, a1, a2) {
-    if (!checkClass(a0, Widget)) throw Error('dockitem(0:parent): expected Widget'); if (!checkClass(a1, Docksystem)) throw Error('dockitem(1:docksystem): expected Docksystem'); if (!checkClass(a2, Dock)) throw Error('dockitem(2:dock): expected Dock');
-    return wrapPointer(_two_ui_dockitem_3(/*parent*/a0.__ptr, /*docksystem*/a1.__ptr, /*dock*/a2.__ptr), Widget);
-};
-Module['ui']['drag_float'] = function(a0, a1, a2) {
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('drag_float(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('drag_float(1:value): expected number'); }
-    else { if (!checkClass(a0, Widget)) throw Error('drag_float(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('drag_float(1:value): expected number'); if (typeof a2 !== 'number') throw Error('drag_float(2:step): expected number'); }
-    if (a2 === undefined) { return !!(_two_ui_drag_float_2(/*parent*/a0.__ptr, /*value*/a1)); }
-    else { return !!(_two_ui_drag_float_3(/*parent*/a0.__ptr, /*value*/a1, /*step*/a2)); }
-};
-Module['ui']['float2_input'] = function(a0, a1, a2, a3) {
-    if (!checkClass(a0, Widget)) throw Error('float2_input(0:parent): expected Widget');   if (!checkClass(a3, StatDef_float)) throw Error('float2_input(3:def): expected StatDef<float>');
-    return !!(_two_ui_float2_input_4(/*parent*/a0.__ptr, ensureInt8(/*labels*/a1), /*labels*/a1.length, ensureFloat32(/*vals*/a2), /*vals*/a2.length, /*def*/a3.__ptr));
-};
-Module['ui']['float3_input'] = function(a0, a1, a2, a3) {
-    if (!checkClass(a0, Widget)) throw Error('float3_input(0:parent): expected Widget');   if (!checkClass(a3, StatDef_float)) throw Error('float3_input(3:def): expected StatDef<float>');
-    return !!(_two_ui_float3_input_4(/*parent*/a0.__ptr, ensureInt8(/*labels*/a1), /*labels*/a1.length, ensureFloat32(/*vals*/a2), /*vals*/a2.length, /*def*/a3.__ptr));
-};
-Module['ui']['float4_input'] = function(a0, a1, a2, a3) {
-    if (!checkClass(a0, Widget)) throw Error('float4_input(0:parent): expected Widget');   if (!checkClass(a3, StatDef_float)) throw Error('float4_input(3:def): expected StatDef<float>');
-    return !!(_two_ui_float4_input_4(/*parent*/a0.__ptr, ensureInt8(/*labels*/a1), /*labels*/a1.length, ensureFloat32(/*vals*/a2), /*vals*/a2.length, /*def*/a3.__ptr));
-};
-Module['ui']['float2_slider'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('float2_slider(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('float2_slider(1:label): expected string');   if (!checkClass(a4, StatDef_float)) throw Error('float2_slider(4:def): expected StatDef<float>');
-    return !!(_two_ui_float2_slider_5(/*parent*/a0.__ptr, ensureString(/*label*/a1), ensureInt8(/*labels*/a2), /*labels*/a2.length, ensureFloat32(/*vals*/a3), /*vals*/a3.length, /*def*/a4.__ptr));
+    if (!checkClass(a0, Widget)) throw Error('dockitem(0:parent): expected Widget'); if (!checkClass(a1, Docksystem)) throw Error('dockitem(1:docksystem): expected Docksystem'); if (typeof a2 !== 'string') throw Error('dockitem(2:name): expected string');
+    return wrapPointer(_two_ui_dockitem_3(/*parent*/a0.__ptr, /*docksystem*/a1.__ptr, ensureString(/*name*/a2)), Widget);
 };
-Module['ui']['float3_slider'] = function(a0, a1, a2, a3, a4) {
+Module['ui']['drag_float'] = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('drag_float(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('drag_float(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('drag_float(2:value): expected number'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('drag_float(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('drag_float(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('drag_float(2:value): expected number'); if (typeof a3 !== 'number') throw Error('drag_float(3:step): expected number'); }
+    if (a3 === undefined) { return !!(_two_ui_drag_float_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*value*/a2)); }
+    else { return !!(_two_ui_drag_float_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*value*/a2, /*step*/a3)); }
+};
+Module['ui']['float2_input'] = function(a0, a1, a2, a3, a4) {
+    if (!checkClass(a0, NodeKey)) throw Error('float2_input(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('float2_input(1:parent): expected Widget');   if (!checkClass(a4, StatDef_float)) throw Error('float2_input(4:def): expected StatDef<float>');
+    return !!(_two_ui_float2_input_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureInt8(/*labels*/a2), /*labels*/a2.length, ensureFloat32(/*vals*/a3), /*vals*/a3.length, /*def*/a4.__ptr));
+};
+Module['ui']['float3_input'] = function(a0, a1, a2, a3, a4) {
+    if (!checkClass(a0, NodeKey)) throw Error('float3_input(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('float3_input(1:parent): expected Widget');   if (!checkClass(a4, StatDef_float)) throw Error('float3_input(4:def): expected StatDef<float>');
+    return !!(_two_ui_float3_input_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureInt8(/*labels*/a2), /*labels*/a2.length, ensureFloat32(/*vals*/a3), /*vals*/a3.length, /*def*/a4.__ptr));
+};
+Module['ui']['float4_input'] = function(a0, a1, a2, a3, a4) {
+    if (!checkClass(a0, NodeKey)) throw Error('float4_input(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('float4_input(1:parent): expected Widget');   if (!checkClass(a4, StatDef_float)) throw Error('float4_input(4:def): expected StatDef<float>');
+    return !!(_two_ui_float4_input_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureInt8(/*labels*/a2), /*labels*/a2.length, ensureFloat32(/*vals*/a3), /*vals*/a3.length, /*def*/a4.__ptr));
+};
+Module['ui']['float2_slider'] = function(a0, a1, a2, a3, a4, a5) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('float3_slider(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('float3_slider(1:label): expected string');   if (!checkClass(a4, StatDef_float)) throw Error('float3_slider(4:def): expected StatDef<float>');
-    return !!(_two_ui_float3_slider_5(/*parent*/a0.__ptr, ensureString(/*label*/a1), ensureInt8(/*labels*/a2), /*labels*/a2.length, ensureFloat32(/*vals*/a3), /*vals*/a3.length, /*def*/a4.__ptr));
+    if (!checkClass(a0, NodeKey)) throw Error('float2_slider(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('float2_slider(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('float2_slider(2:label): expected string');   if (!checkClass(a5, StatDef_float)) throw Error('float2_slider(5:def): expected StatDef<float>');
+    return !!(_two_ui_float2_slider_6(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*label*/a2), ensureInt8(/*labels*/a3), /*labels*/a3.length, ensureFloat32(/*vals*/a4), /*vals*/a4.length, /*def*/a5.__ptr));
 };
-Module['ui']['float4_slider'] = function(a0, a1, a2, a3, a4) {
+Module['ui']['float3_slider'] = function(a0, a1, a2, a3, a4, a5) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('float4_slider(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('float4_slider(1:label): expected string');   if (!checkClass(a4, StatDef_float)) throw Error('float4_slider(4:def): expected StatDef<float>');
-    return !!(_two_ui_float4_slider_5(/*parent*/a0.__ptr, ensureString(/*label*/a1), ensureInt8(/*labels*/a2), /*labels*/a2.length, ensureFloat32(/*vals*/a3), /*vals*/a3.length, /*def*/a4.__ptr));
+    if (!checkClass(a0, NodeKey)) throw Error('float3_slider(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('float3_slider(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('float3_slider(2:label): expected string');   if (!checkClass(a5, StatDef_float)) throw Error('float3_slider(5:def): expected StatDef<float>');
+    return !!(_two_ui_float3_slider_6(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*label*/a2), ensureInt8(/*labels*/a3), /*labels*/a3.length, ensureFloat32(/*vals*/a4), /*vals*/a4.length, /*def*/a5.__ptr));
 };
-Module['ui']['vec2_edit'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('vec2_edit(0:parent): expected Widget'); if (!checkClass(a1, v2_float)) throw Error('vec2_edit(1:vec): expected v2<float>');
-    return !!(_two_ui_vec2_edit_2(/*parent*/a0.__ptr, /*vec*/a1.__ptr));
-};
-Module['ui']['vec3_edit'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('vec3_edit(0:parent): expected Widget'); if (!checkClass(a1, v3_float)) throw Error('vec3_edit(1:vec): expected v3<float>');
-    return !!(_two_ui_vec3_edit_2(/*parent*/a0.__ptr, /*vec*/a1.__ptr));
-};
-Module['ui']['quat_edit'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('quat_edit(0:parent): expected Widget'); if (!checkClass(a1, quat)) throw Error('quat_edit(1:quat): expected quat');
-    return !!(_two_ui_quat_edit_2(/*parent*/a0.__ptr, /*quat*/a1.__ptr));
-};
-Module['ui']['color_display'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('color_display(0:parent): expected Widget'); if (!checkClass(a1, Colour)) throw Error('color_display(1:value): expected Colour');
-    return wrapPointer(_two_ui_color_display_2(/*parent*/a0.__ptr, /*value*/a1.__ptr), Widget);
-};
-Module['ui']['color_edit'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('color_edit(0:parent): expected Widget'); if (!checkClass(a1, Colour)) throw Error('color_edit(1:value): expected Colour');
-    return !!(_two_ui_color_edit_2(/*parent*/a0.__ptr, /*value*/a1.__ptr));
-};
-Module['ui']['color_edit_simple'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('color_edit_simple(0:parent): expected Widget'); if (!checkClass(a1, Colour)) throw Error('color_edit_simple(1:value): expected Colour');
-    return !!(_two_ui_color_edit_simple_2(/*parent*/a0.__ptr, /*value*/a1.__ptr));
-};
-Module['ui']['color_toggle_edit'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('color_toggle_edit(0:parent): expected Widget'); if (!checkClass(a1, Colour)) throw Error('color_toggle_edit(1:value): expected Colour');
-    return !!(_two_ui_color_toggle_edit_2(/*parent*/a0.__ptr, /*value*/a1.__ptr));
-};
-Module['ui']['curve_graph'] = function(a0, a1, a2) {
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('curve_graph(0:parent): expected Widget');  }
-    else { if (!checkClass(a0, Widget)) throw Error('curve_graph(0:parent): expected Widget');   }
-    if (a2 === undefined) { return !!(_two_ui_curve_graph_2(/*parent*/a0.__ptr, ensureFloat32(/*values*/a1), /*values*/a1.length)); }
-    else { return !!(_two_ui_curve_graph_3(/*parent*/a0.__ptr, ensureFloat32(/*values*/a1), /*values*/a1.length, ensureFloat32(/*points*/a2), /*points*/a2.length)); }
-};
-Module['ui']['curve_edit'] = function(a0, a1, a2) {
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('curve_edit(0:parent): expected Widget');  }
-    else { if (!checkClass(a0, Widget)) throw Error('curve_edit(0:parent): expected Widget');   }
-    if (a2 === undefined) { return !!(_two_ui_curve_edit_2(/*parent*/a0.__ptr, ensureFloat32(/*values*/a1), /*values*/a1.length)); }
-    else { return !!(_two_ui_curve_edit_3(/*parent*/a0.__ptr, ensureFloat32(/*values*/a1), /*values*/a1.length, ensureFloat32(/*points*/a2), /*points*/a2.length)); }
-};
-Module['ui']['flag_field'] = function(a0, a1, a2, a3, a4) {
+Module['ui']['float4_slider'] = function(a0, a1, a2, a3, a4, a5) {
     ensureCache.prepare();
-    if (a4 === undefined) { if (!checkClass(a0, Widget)) throw Error('flag_field(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('flag_field(1:name): expected string'); if (typeof a2 !== 'number') throw Error('flag_field(2:value): expected integer'); if (typeof a3 !== 'number') throw Error('flag_field(3:shift): expected integer'); }
-    else { if (!checkClass(a0, Widget)) throw Error('flag_field(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('flag_field(1:name): expected string'); if (typeof a2 !== 'number') throw Error('flag_field(2:value): expected integer'); if (typeof a3 !== 'number') throw Error('flag_field(3:shift): expected integer'); if (typeof a4 !== 'boolean') throw Error('flag_field(4:reverse): expected boolean'); }
-    if (a4 === undefined) { return !!(_two_ui_flag_field_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2, /*shift*/a3)); }
-    else { return !!(_two_ui_flag_field_5(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2, /*shift*/a3, /*reverse*/a4)); }
+    if (!checkClass(a0, NodeKey)) throw Error('float4_slider(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('float4_slider(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('float4_slider(2:label): expected string');   if (!checkClass(a5, StatDef_float)) throw Error('float4_slider(5:def): expected StatDef<float>');
+    return !!(_two_ui_float4_slider_6(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*label*/a2), ensureInt8(/*labels*/a3), /*labels*/a3.length, ensureFloat32(/*vals*/a4), /*vals*/a4.length, /*def*/a5.__ptr));
 };
-Module['ui']['radio_field'] = function(a0, a1, a2, a3, a4, a5) {
+Module['ui']['vec2_edit'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('vec2_edit(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('vec2_edit(1:parent): expected Widget'); if (!checkClass(a2, v2_float)) throw Error('vec2_edit(2:vec): expected v2<float>');
+    return !!(_two_ui_vec2_edit_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*vec*/a2.__ptr));
+};
+Module['ui']['vec3_edit'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('vec3_edit(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('vec3_edit(1:parent): expected Widget'); if (!checkClass(a2, v3_float)) throw Error('vec3_edit(2:vec): expected v3<float>');
+    return !!(_two_ui_vec3_edit_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*vec*/a2.__ptr));
+};
+Module['ui']['quat_edit'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('quat_edit(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('quat_edit(1:parent): expected Widget'); if (!checkClass(a2, quat)) throw Error('quat_edit(2:quat): expected quat');
+    return !!(_two_ui_quat_edit_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*quat*/a2.__ptr));
+};
+Module['ui']['color_display'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('color_display(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('color_display(1:parent): expected Widget'); if (!checkClass(a2, Colour)) throw Error('color_display(2:value): expected Colour');
+    return wrapPointer(_two_ui_color_display_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*value*/a2.__ptr), Widget);
+};
+Module['ui']['color_edit'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('color_edit(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('color_edit(1:parent): expected Widget'); if (!checkClass(a2, Colour)) throw Error('color_edit(2:value): expected Colour');
+    return !!(_two_ui_color_edit_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*value*/a2.__ptr));
+};
+Module['ui']['color_edit_simple'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('color_edit_simple(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('color_edit_simple(1:parent): expected Widget'); if (!checkClass(a2, Colour)) throw Error('color_edit_simple(2:value): expected Colour');
+    return !!(_two_ui_color_edit_simple_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*value*/a2.__ptr));
+};
+Module['ui']['color_toggle_edit'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('color_toggle_edit(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('color_toggle_edit(1:parent): expected Widget'); if (!checkClass(a2, Colour)) throw Error('color_toggle_edit(2:value): expected Colour');
+    return !!(_two_ui_color_toggle_edit_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*value*/a2.__ptr));
+};
+Module['ui']['curve_graph'] = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('curve_graph(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('curve_graph(1:parent): expected Widget');  }
+    else { if (!checkClass(a0, NodeKey)) throw Error('curve_graph(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('curve_graph(1:parent): expected Widget');   }
+    if (a3 === undefined) { return !!(_two_ui_curve_graph_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureFloat32(/*values*/a2), /*values*/a2.length)); }
+    else { return !!(_two_ui_curve_graph_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureFloat32(/*values*/a2), /*values*/a2.length, ensureFloat32(/*points*/a3), /*points*/a3.length)); }
+};
+Module['ui']['curve_edit'] = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('curve_edit(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('curve_edit(1:parent): expected Widget');  }
+    else { if (!checkClass(a0, NodeKey)) throw Error('curve_edit(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('curve_edit(1:parent): expected Widget');   }
+    if (a3 === undefined) { return !!(_two_ui_curve_edit_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureFloat32(/*values*/a2), /*values*/a2.length)); }
+    else { return !!(_two_ui_curve_edit_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureFloat32(/*values*/a2), /*values*/a2.length, ensureFloat32(/*points*/a3), /*points*/a3.length)); }
+};
+Module['ui']['flag_field'] = function(a0, a1, a2, a3, a4, a5) {
     ensureCache.prepare();
-    if (a4 === undefined) { if (!checkClass(a0, Widget)) throw Error('radio_field(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('radio_field(1:name): expected string');  if (typeof a3 !== 'number') throw Error('radio_field(3:value): expected integer'); }
-    else if (a5 === undefined) { if (!checkClass(a0, Widget)) throw Error('radio_field(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('radio_field(1:name): expected string');  if (typeof a3 !== 'number') throw Error('radio_field(3:value): expected integer'); if (typeof a4 !== 'number') throw Error('radio_field(4:dim): expected integer'); }
-    else { if (!checkClass(a0, Widget)) throw Error('radio_field(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('radio_field(1:name): expected string');  if (typeof a3 !== 'number') throw Error('radio_field(3:value): expected integer'); if (typeof a4 !== 'number') throw Error('radio_field(4:dim): expected integer'); if (typeof a5 !== 'boolean') throw Error('radio_field(5:reverse): expected boolean'); }
-    if (a4 === undefined) { return !!(_two_ui_radio_field_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), ensureInt8(/*choices*/a2), /*choices*/a2.length, /*value*/a3)); }
-    else if (a5 === undefined) { return !!(_two_ui_radio_field_5(/*parent*/a0.__ptr, ensureString(/*name*/a1), ensureInt8(/*choices*/a2), /*choices*/a2.length, /*value*/a3, /*dim*/a4)); }
-    else { return !!(_two_ui_radio_field_6(/*parent*/a0.__ptr, ensureString(/*name*/a1), ensureInt8(/*choices*/a2), /*choices*/a2.length, /*value*/a3, /*dim*/a4, /*reverse*/a5)); }
+    if (a5 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('flag_field(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('flag_field(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('flag_field(2:name): expected string'); if (typeof a3 !== 'number') throw Error('flag_field(3:value): expected integer'); if (typeof a4 !== 'number') throw Error('flag_field(4:shift): expected integer'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('flag_field(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('flag_field(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('flag_field(2:name): expected string'); if (typeof a3 !== 'number') throw Error('flag_field(3:value): expected integer'); if (typeof a4 !== 'number') throw Error('flag_field(4:shift): expected integer'); if (typeof a5 !== 'boolean') throw Error('flag_field(5:reverse): expected boolean'); }
+    if (a5 === undefined) { return !!(_two_ui_flag_field_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*value*/a3, /*shift*/a4)); }
+    else { return !!(_two_ui_flag_field_6(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*value*/a3, /*shift*/a4, /*reverse*/a5)); }
 };
-Module['ui']['dropdown_field'] = function(a0, a1, a2, a3, a4) {
+Module['ui']['radio_field'] = function(a0, a1, a2, a3, a4, a5, a6) {
     ensureCache.prepare();
-    if (a4 === undefined) { if (!checkClass(a0, Widget)) throw Error('dropdown_field(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('dropdown_field(1:name): expected string');  if (typeof a3 !== 'number') throw Error('dropdown_field(3:value): expected integer'); }
-    else { if (!checkClass(a0, Widget)) throw Error('dropdown_field(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('dropdown_field(1:name): expected string');  if (typeof a3 !== 'number') throw Error('dropdown_field(3:value): expected integer'); if (typeof a4 !== 'boolean') throw Error('dropdown_field(4:reverse): expected boolean'); }
-    if (a4 === undefined) { return !!(_two_ui_dropdown_field_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), ensureInt8(/*choices*/a2), /*choices*/a2.length, /*value*/a3)); }
-    else { return !!(_two_ui_dropdown_field_5(/*parent*/a0.__ptr, ensureString(/*name*/a1), ensureInt8(/*choices*/a2), /*choices*/a2.length, /*value*/a3, /*reverse*/a4)); }
+    if (a5 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('radio_field(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('radio_field(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('radio_field(2:name): expected string');  if (typeof a4 !== 'number') throw Error('radio_field(4:value): expected integer'); }
+    else if (a6 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('radio_field(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('radio_field(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('radio_field(2:name): expected string');  if (typeof a4 !== 'number') throw Error('radio_field(4:value): expected integer'); if (typeof a5 !== 'number') throw Error('radio_field(5:dim): expected integer'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('radio_field(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('radio_field(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('radio_field(2:name): expected string');  if (typeof a4 !== 'number') throw Error('radio_field(4:value): expected integer'); if (typeof a5 !== 'number') throw Error('radio_field(5:dim): expected integer'); if (typeof a6 !== 'boolean') throw Error('radio_field(6:reverse): expected boolean'); }
+    if (a5 === undefined) { return !!(_two_ui_radio_field_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), ensureInt8(/*choices*/a3), /*choices*/a3.length, /*value*/a4)); }
+    else if (a6 === undefined) { return !!(_two_ui_radio_field_6(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), ensureInt8(/*choices*/a3), /*choices*/a3.length, /*value*/a4, /*dim*/a5)); }
+    else { return !!(_two_ui_radio_field_7(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), ensureInt8(/*choices*/a3), /*choices*/a3.length, /*value*/a4, /*dim*/a5, /*reverse*/a6)); }
 };
-Module['ui']['typedown_field'] = function(a0, a1, a2, a3, a4) {
+Module['ui']['dropdown_field'] = function(a0, a1, a2, a3, a4, a5) {
     ensureCache.prepare();
-    if (a4 === undefined) { if (!checkClass(a0, Widget)) throw Error('typedown_field(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('typedown_field(1:name): expected string');  if (typeof a3 !== 'number') throw Error('typedown_field(3:value): expected integer'); }
-    else { if (!checkClass(a0, Widget)) throw Error('typedown_field(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('typedown_field(1:name): expected string');  if (typeof a3 !== 'number') throw Error('typedown_field(3:value): expected integer'); if (typeof a4 !== 'boolean') throw Error('typedown_field(4:reverse): expected boolean'); }
-    if (a4 === undefined) { return !!(_two_ui_typedown_field_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), ensureInt8(/*choices*/a2), /*choices*/a2.length, /*value*/a3)); }
-    else { return !!(_two_ui_typedown_field_5(/*parent*/a0.__ptr, ensureString(/*name*/a1), ensureInt8(/*choices*/a2), /*choices*/a2.length, /*value*/a3, /*reverse*/a4)); }
+    if (a5 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('dropdown_field(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dropdown_field(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('dropdown_field(2:name): expected string');  if (typeof a4 !== 'number') throw Error('dropdown_field(4:value): expected integer'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('dropdown_field(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dropdown_field(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('dropdown_field(2:name): expected string');  if (typeof a4 !== 'number') throw Error('dropdown_field(4:value): expected integer'); if (typeof a5 !== 'boolean') throw Error('dropdown_field(5:reverse): expected boolean'); }
+    if (a5 === undefined) { return !!(_two_ui_dropdown_field_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), ensureInt8(/*choices*/a3), /*choices*/a3.length, /*value*/a4)); }
+    else { return !!(_two_ui_dropdown_field_6(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), ensureInt8(/*choices*/a3), /*choices*/a3.length, /*value*/a4, /*reverse*/a5)); }
 };
-Module['ui']['color_field'] = function(a0, a1, a2, a3) {
+Module['ui']['typedown_field'] = function(a0, a1, a2, a3, a4, a5) {
     ensureCache.prepare();
-    if (a3 === undefined) { if (!checkClass(a0, Widget)) throw Error('color_field(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('color_field(1:name): expected string'); if (!checkClass(a2, Colour)) throw Error('color_field(2:value): expected Colour'); }
-    else { if (!checkClass(a0, Widget)) throw Error('color_field(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('color_field(1:name): expected string'); if (!checkClass(a2, Colour)) throw Error('color_field(2:value): expected Colour'); if (typeof a3 !== 'boolean') throw Error('color_field(3:reverse): expected boolean'); }
-    if (a3 === undefined) { return !!(_two_ui_color_field_3(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2.__ptr)); }
-    else { return !!(_two_ui_color_field_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2.__ptr, /*reverse*/a3)); }
+    if (a5 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('typedown_field(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('typedown_field(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('typedown_field(2:name): expected string');  if (typeof a4 !== 'number') throw Error('typedown_field(4:value): expected integer'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('typedown_field(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('typedown_field(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('typedown_field(2:name): expected string');  if (typeof a4 !== 'number') throw Error('typedown_field(4:value): expected integer'); if (typeof a5 !== 'boolean') throw Error('typedown_field(5:reverse): expected boolean'); }
+    if (a5 === undefined) { return !!(_two_ui_typedown_field_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), ensureInt8(/*choices*/a3), /*choices*/a3.length, /*value*/a4)); }
+    else { return !!(_two_ui_typedown_field_6(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), ensureInt8(/*choices*/a3), /*choices*/a3.length, /*value*/a4, /*reverse*/a5)); }
 };
-Module['ui']['color_display_field'] = function(a0, a1, a2, a3) {
+Module['ui']['color_field'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
-    if (a3 === undefined) { if (!checkClass(a0, Widget)) throw Error('color_display_field(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('color_display_field(1:name): expected string'); if (!checkClass(a2, Colour)) throw Error('color_display_field(2:value): expected Colour'); }
-    else { if (!checkClass(a0, Widget)) throw Error('color_display_field(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('color_display_field(1:name): expected string'); if (!checkClass(a2, Colour)) throw Error('color_display_field(2:value): expected Colour'); if (typeof a3 !== 'boolean') throw Error('color_display_field(3:reverse): expected boolean'); }
-    if (a3 === undefined) { _two_ui_color_display_field_3(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2.__ptr); }
-    else { _two_ui_color_display_field_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2.__ptr, /*reverse*/a3); }
+    if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('color_field(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('color_field(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('color_field(2:name): expected string'); if (!checkClass(a3, Colour)) throw Error('color_field(3:value): expected Colour'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('color_field(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('color_field(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('color_field(2:name): expected string'); if (!checkClass(a3, Colour)) throw Error('color_field(3:value): expected Colour'); if (typeof a4 !== 'boolean') throw Error('color_field(4:reverse): expected boolean'); }
+    if (a4 === undefined) { return !!(_two_ui_color_field_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*value*/a3.__ptr)); }
+    else { return !!(_two_ui_color_field_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*value*/a3.__ptr, /*reverse*/a4)); }
 };
-Module['ui']['input_bool'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('input<bool>(0:parent): expected Widget'); if (typeof a1 !== 'boolean') throw Error('input<bool>(1:value): expected boolean');
-    return !!(_two_ui_input_bool_2(/*parent*/a0.__ptr, /*value*/a1));
-};
-Module['ui']['input_int'] = function(a0, a1, a2) {
-    if (!checkClass(a0, Widget)) throw Error('input<int>(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('input<int>(1:value): expected integer'); if (!checkClass(a2, StatDef_int)) throw Error('input<int>(2:def): expected StatDef<int>');
-    return !!(_two_ui_input_int_3(/*parent*/a0.__ptr, /*value*/a1, /*def*/a2.__ptr));
-};
-Module['ui']['input_float'] = function(a0, a1, a2) {
-    if (!checkClass(a0, Widget)) throw Error('input<float>(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('input<float>(1:value): expected number'); if (!checkClass(a2, StatDef_float)) throw Error('input<float>(2:def): expected StatDef<float>');
-    return !!(_two_ui_input_float_3(/*parent*/a0.__ptr, /*value*/a1, /*def*/a2.__ptr));
-};
-Module['ui']['field_bool'] = function(a0, a1, a2, a3) {
+Module['ui']['color_display_field'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
-    if (a3 === undefined) { if (!checkClass(a0, Widget)) throw Error('field<bool>(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('field<bool>(1:name): expected string'); if (typeof a2 !== 'boolean') throw Error('field<bool>(2:value): expected boolean'); }
-    else { if (!checkClass(a0, Widget)) throw Error('field<bool>(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('field<bool>(1:name): expected string'); if (typeof a2 !== 'boolean') throw Error('field<bool>(2:value): expected boolean'); if (typeof a3 !== 'boolean') throw Error('field<bool>(3:reverse): expected boolean'); }
-    if (a3 === undefined) { return !!(_two_ui_field_bool_3(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2)); }
-    else { return !!(_two_ui_field_bool_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2, /*reverse*/a3)); }
+    if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('color_display_field(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('color_display_field(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('color_display_field(2:name): expected string'); if (!checkClass(a3, Colour)) throw Error('color_display_field(3:value): expected Colour'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('color_display_field(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('color_display_field(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('color_display_field(2:name): expected string'); if (!checkClass(a3, Colour)) throw Error('color_display_field(3:value): expected Colour'); if (typeof a4 !== 'boolean') throw Error('color_display_field(4:reverse): expected boolean'); }
+    if (a4 === undefined) { _two_ui_color_display_field_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*value*/a3.__ptr); }
+    else { _two_ui_color_display_field_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*value*/a3.__ptr, /*reverse*/a4); }
 };
-Module['ui']['field_int'] = function(a0, a1, a2, a3, a4) {
-    ensureCache.prepare();
-    if (a4 === undefined) { if (!checkClass(a0, Widget)) throw Error('field<int>(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('field<int>(1:name): expected string'); if (typeof a2 !== 'number') throw Error('field<int>(2:value): expected integer'); if (!checkClass(a3, StatDef_int)) throw Error('field<int>(3:def): expected StatDef<int>'); }
-    else { if (!checkClass(a0, Widget)) throw Error('field<int>(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('field<int>(1:name): expected string'); if (typeof a2 !== 'number') throw Error('field<int>(2:value): expected integer'); if (!checkClass(a3, StatDef_int)) throw Error('field<int>(3:def): expected StatDef<int>'); if (typeof a4 !== 'boolean') throw Error('field<int>(4:reverse): expected boolean'); }
-    if (a4 === undefined) { return !!(_two_ui_field_int_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2, /*def*/a3.__ptr)); }
-    else { return !!(_two_ui_field_int_5(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2, /*def*/a3.__ptr, /*reverse*/a4)); }
+Module['ui']['input_bool'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('input<bool>(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('input<bool>(1:parent): expected Widget'); if (typeof a2 !== 'boolean') throw Error('input<bool>(2:value): expected boolean');
+    return !!(_two_ui_input_bool_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*value*/a2));
 };
-Module['ui']['field_float'] = function(a0, a1, a2, a3, a4) {
-    ensureCache.prepare();
-    if (a4 === undefined) { if (!checkClass(a0, Widget)) throw Error('field<float>(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('field<float>(1:name): expected string'); if (typeof a2 !== 'number') throw Error('field<float>(2:value): expected number'); if (!checkClass(a3, StatDef_float)) throw Error('field<float>(3:def): expected StatDef<float>'); }
-    else { if (!checkClass(a0, Widget)) throw Error('field<float>(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('field<float>(1:name): expected string'); if (typeof a2 !== 'number') throw Error('field<float>(2:value): expected number'); if (!checkClass(a3, StatDef_float)) throw Error('field<float>(3:def): expected StatDef<float>'); if (typeof a4 !== 'boolean') throw Error('field<float>(4:reverse): expected boolean'); }
-    if (a4 === undefined) { return !!(_two_ui_field_float_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2, /*def*/a3.__ptr)); }
-    else { return !!(_two_ui_field_float_5(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*value*/a2, /*def*/a3.__ptr, /*reverse*/a4)); }
+Module['ui']['input_int'] = function(a0, a1, a2, a3) {
+    if (!checkClass(a0, NodeKey)) throw Error('input<int>(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('input<int>(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('input<int>(2:value): expected integer'); if (!checkClass(a3, StatDef_int)) throw Error('input<int>(3:def): expected StatDef<int>');
+    return !!(_two_ui_input_int_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*value*/a2, /*def*/a3.__ptr));
 };
-Module['ui']['node_input'] = function(a0, a1, a2, a3, a4, a5) {
-    ensureCache.prepare();
-    if (a2 === undefined) { if (!checkClass(a0, Node)) throw Error('node_input(0:node): expected Node'); if (typeof a1 !== 'string') throw Error('node_input(1:name): expected string'); }
-    else if (a3 === undefined) { if (!checkClass(a0, Node)) throw Error('node_input(0:node): expected Node'); if (typeof a1 !== 'string') throw Error('node_input(1:name): expected string'); if (typeof a2 !== 'string') throw Error('node_input(2:icon): expected string'); }
-    else if (a4 === undefined) { if (!checkClass(a0, Node)) throw Error('node_input(0:node): expected Node'); if (typeof a1 !== 'string') throw Error('node_input(1:name): expected string'); if (typeof a2 !== 'string') throw Error('node_input(2:icon): expected string'); if (!checkClass(a3, Colour)) throw Error('node_input(3:colour): expected Colour'); }
-    else if (a5 === undefined) { if (!checkClass(a0, Node)) throw Error('node_input(0:node): expected Node'); if (typeof a1 !== 'string') throw Error('node_input(1:name): expected string'); if (typeof a2 !== 'string') throw Error('node_input(2:icon): expected string'); if (!checkClass(a3, Colour)) throw Error('node_input(3:colour): expected Colour'); if (typeof a4 !== 'boolean') throw Error('node_input(4:active): expected boolean'); }
-    else { if (!checkClass(a0, Node)) throw Error('node_input(0:node): expected Node'); if (typeof a1 !== 'string') throw Error('node_input(1:name): expected string'); if (typeof a2 !== 'string') throw Error('node_input(2:icon): expected string'); if (!checkClass(a3, Colour)) throw Error('node_input(3:colour): expected Colour'); if (typeof a4 !== 'boolean') throw Error('node_input(4:active): expected boolean'); if (typeof a5 !== 'boolean') throw Error('node_input(5:connected): expected boolean'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_node_input_2(/*node*/a0.__ptr, ensureString(/*name*/a1)), NodePlug); }
-    else if (a3 === undefined) { return wrapPointer(_two_ui_node_input_3(/*node*/a0.__ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2)), NodePlug); }
-    else if (a4 === undefined) { return wrapPointer(_two_ui_node_input_4(/*node*/a0.__ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2), /*colour*/a3.__ptr), NodePlug); }
-    else if (a5 === undefined) { return wrapPointer(_two_ui_node_input_5(/*node*/a0.__ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2), /*colour*/a3.__ptr, /*active*/a4), NodePlug); }
-    else { return wrapPointer(_two_ui_node_input_6(/*node*/a0.__ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2), /*colour*/a3.__ptr, /*active*/a4, /*connected*/a5), NodePlug); }
+Module['ui']['input_float'] = function(a0, a1, a2, a3) {
+    if (!checkClass(a0, NodeKey)) throw Error('input<float>(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('input<float>(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('input<float>(2:value): expected number'); if (!checkClass(a3, StatDef_float)) throw Error('input<float>(3:def): expected StatDef<float>');
+    return !!(_two_ui_input_float_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*value*/a2, /*def*/a3.__ptr));
 };
-Module['ui']['node_output'] = function(a0, a1, a2, a3, a4, a5) {
+Module['ui']['field_bool'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
-    if (a2 === undefined) { if (!checkClass(a0, Node)) throw Error('node_output(0:node): expected Node'); if (typeof a1 !== 'string') throw Error('node_output(1:name): expected string'); }
-    else if (a3 === undefined) { if (!checkClass(a0, Node)) throw Error('node_output(0:node): expected Node'); if (typeof a1 !== 'string') throw Error('node_output(1:name): expected string'); if (typeof a2 !== 'string') throw Error('node_output(2:icon): expected string'); }
-    else if (a4 === undefined) { if (!checkClass(a0, Node)) throw Error('node_output(0:node): expected Node'); if (typeof a1 !== 'string') throw Error('node_output(1:name): expected string'); if (typeof a2 !== 'string') throw Error('node_output(2:icon): expected string'); if (!checkClass(a3, Colour)) throw Error('node_output(3:colour): expected Colour'); }
-    else if (a5 === undefined) { if (!checkClass(a0, Node)) throw Error('node_output(0:node): expected Node'); if (typeof a1 !== 'string') throw Error('node_output(1:name): expected string'); if (typeof a2 !== 'string') throw Error('node_output(2:icon): expected string'); if (!checkClass(a3, Colour)) throw Error('node_output(3:colour): expected Colour'); if (typeof a4 !== 'boolean') throw Error('node_output(4:active): expected boolean'); }
-    else { if (!checkClass(a0, Node)) throw Error('node_output(0:node): expected Node'); if (typeof a1 !== 'string') throw Error('node_output(1:name): expected string'); if (typeof a2 !== 'string') throw Error('node_output(2:icon): expected string'); if (!checkClass(a3, Colour)) throw Error('node_output(3:colour): expected Colour'); if (typeof a4 !== 'boolean') throw Error('node_output(4:active): expected boolean'); if (typeof a5 !== 'boolean') throw Error('node_output(5:connected): expected boolean'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_node_output_2(/*node*/a0.__ptr, ensureString(/*name*/a1)), NodePlug); }
-    else if (a3 === undefined) { return wrapPointer(_two_ui_node_output_3(/*node*/a0.__ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2)), NodePlug); }
-    else if (a4 === undefined) { return wrapPointer(_two_ui_node_output_4(/*node*/a0.__ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2), /*colour*/a3.__ptr), NodePlug); }
-    else if (a5 === undefined) { return wrapPointer(_two_ui_node_output_5(/*node*/a0.__ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2), /*colour*/a3.__ptr, /*active*/a4), NodePlug); }
-    else { return wrapPointer(_two_ui_node_output_6(/*node*/a0.__ptr, ensureString(/*name*/a1), ensureString(/*icon*/a2), /*colour*/a3.__ptr, /*active*/a4, /*connected*/a5), NodePlug); }
+    if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('field<bool>(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('field<bool>(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('field<bool>(2:name): expected string'); if (typeof a3 !== 'boolean') throw Error('field<bool>(3:value): expected boolean'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('field<bool>(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('field<bool>(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('field<bool>(2:name): expected string'); if (typeof a3 !== 'boolean') throw Error('field<bool>(3:value): expected boolean'); if (typeof a4 !== 'boolean') throw Error('field<bool>(4:reverse): expected boolean'); }
+    if (a4 === undefined) { return !!(_two_ui_field_bool_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*value*/a3)); }
+    else { return !!(_two_ui_field_bool_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*value*/a3, /*reverse*/a4)); }
+};
+Module['ui']['field_int'] = function(a0, a1, a2, a3, a4, a5) {
+    ensureCache.prepare();
+    if (a5 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('field<int>(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('field<int>(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('field<int>(2:name): expected string'); if (typeof a3 !== 'number') throw Error('field<int>(3:value): expected integer'); if (!checkClass(a4, StatDef_int)) throw Error('field<int>(4:def): expected StatDef<int>'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('field<int>(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('field<int>(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('field<int>(2:name): expected string'); if (typeof a3 !== 'number') throw Error('field<int>(3:value): expected integer'); if (!checkClass(a4, StatDef_int)) throw Error('field<int>(4:def): expected StatDef<int>'); if (typeof a5 !== 'boolean') throw Error('field<int>(5:reverse): expected boolean'); }
+    if (a5 === undefined) { return !!(_two_ui_field_int_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*value*/a3, /*def*/a4.__ptr)); }
+    else { return !!(_two_ui_field_int_6(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*value*/a3, /*def*/a4.__ptr, /*reverse*/a5)); }
+};
+Module['ui']['field_float'] = function(a0, a1, a2, a3, a4, a5) {
+    ensureCache.prepare();
+    if (a5 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('field<float>(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('field<float>(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('field<float>(2:name): expected string'); if (typeof a3 !== 'number') throw Error('field<float>(3:value): expected number'); if (!checkClass(a4, StatDef_float)) throw Error('field<float>(4:def): expected StatDef<float>'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('field<float>(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('field<float>(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('field<float>(2:name): expected string'); if (typeof a3 !== 'number') throw Error('field<float>(3:value): expected number'); if (!checkClass(a4, StatDef_float)) throw Error('field<float>(4:def): expected StatDef<float>'); if (typeof a5 !== 'boolean') throw Error('field<float>(5:reverse): expected boolean'); }
+    if (a5 === undefined) { return !!(_two_ui_field_float_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*value*/a3, /*def*/a4.__ptr)); }
+    else { return !!(_two_ui_field_float_6(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*value*/a3, /*def*/a4.__ptr, /*reverse*/a5)); }
+};
+Module['ui']['node_input'] = function(a0, a1, a2, a3, a4, a5, a6) {
+    ensureCache.prepare();
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('node_input(0:id): expected NodeKey'); if (!checkClass(a1, Node)) throw Error('node_input(1:node): expected Node'); if (typeof a2 !== 'string') throw Error('node_input(2:name): expected string'); }
+    else if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('node_input(0:id): expected NodeKey'); if (!checkClass(a1, Node)) throw Error('node_input(1:node): expected Node'); if (typeof a2 !== 'string') throw Error('node_input(2:name): expected string'); if (typeof a3 !== 'string') throw Error('node_input(3:icon): expected string'); }
+    else if (a5 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('node_input(0:id): expected NodeKey'); if (!checkClass(a1, Node)) throw Error('node_input(1:node): expected Node'); if (typeof a2 !== 'string') throw Error('node_input(2:name): expected string'); if (typeof a3 !== 'string') throw Error('node_input(3:icon): expected string'); if (!checkClass(a4, Colour)) throw Error('node_input(4:colour): expected Colour'); }
+    else if (a6 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('node_input(0:id): expected NodeKey'); if (!checkClass(a1, Node)) throw Error('node_input(1:node): expected Node'); if (typeof a2 !== 'string') throw Error('node_input(2:name): expected string'); if (typeof a3 !== 'string') throw Error('node_input(3:icon): expected string'); if (!checkClass(a4, Colour)) throw Error('node_input(4:colour): expected Colour'); if (typeof a5 !== 'boolean') throw Error('node_input(5:active): expected boolean'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('node_input(0:id): expected NodeKey'); if (!checkClass(a1, Node)) throw Error('node_input(1:node): expected Node'); if (typeof a2 !== 'string') throw Error('node_input(2:name): expected string'); if (typeof a3 !== 'string') throw Error('node_input(3:icon): expected string'); if (!checkClass(a4, Colour)) throw Error('node_input(4:colour): expected Colour'); if (typeof a5 !== 'boolean') throw Error('node_input(5:active): expected boolean'); if (typeof a6 !== 'boolean') throw Error('node_input(6:connected): expected boolean'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_node_input_3(/*id*/a0.__ptr, /*node*/a1.__ptr, ensureString(/*name*/a2)), NodePlug); }
+    else if (a4 === undefined) { return wrapPointer(_two_ui_node_input_4(/*id*/a0.__ptr, /*node*/a1.__ptr, ensureString(/*name*/a2), ensureString(/*icon*/a3)), NodePlug); }
+    else if (a5 === undefined) { return wrapPointer(_two_ui_node_input_5(/*id*/a0.__ptr, /*node*/a1.__ptr, ensureString(/*name*/a2), ensureString(/*icon*/a3), /*colour*/a4.__ptr), NodePlug); }
+    else if (a6 === undefined) { return wrapPointer(_two_ui_node_input_6(/*id*/a0.__ptr, /*node*/a1.__ptr, ensureString(/*name*/a2), ensureString(/*icon*/a3), /*colour*/a4.__ptr, /*active*/a5), NodePlug); }
+    else { return wrapPointer(_two_ui_node_input_7(/*id*/a0.__ptr, /*node*/a1.__ptr, ensureString(/*name*/a2), ensureString(/*icon*/a3), /*colour*/a4.__ptr, /*active*/a5, /*connected*/a6), NodePlug); }
+};
+Module['ui']['node_output'] = function(a0, a1, a2, a3, a4, a5, a6) {
+    ensureCache.prepare();
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('node_output(0:id): expected NodeKey'); if (!checkClass(a1, Node)) throw Error('node_output(1:node): expected Node'); if (typeof a2 !== 'string') throw Error('node_output(2:name): expected string'); }
+    else if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('node_output(0:id): expected NodeKey'); if (!checkClass(a1, Node)) throw Error('node_output(1:node): expected Node'); if (typeof a2 !== 'string') throw Error('node_output(2:name): expected string'); if (typeof a3 !== 'string') throw Error('node_output(3:icon): expected string'); }
+    else if (a5 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('node_output(0:id): expected NodeKey'); if (!checkClass(a1, Node)) throw Error('node_output(1:node): expected Node'); if (typeof a2 !== 'string') throw Error('node_output(2:name): expected string'); if (typeof a3 !== 'string') throw Error('node_output(3:icon): expected string'); if (!checkClass(a4, Colour)) throw Error('node_output(4:colour): expected Colour'); }
+    else if (a6 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('node_output(0:id): expected NodeKey'); if (!checkClass(a1, Node)) throw Error('node_output(1:node): expected Node'); if (typeof a2 !== 'string') throw Error('node_output(2:name): expected string'); if (typeof a3 !== 'string') throw Error('node_output(3:icon): expected string'); if (!checkClass(a4, Colour)) throw Error('node_output(4:colour): expected Colour'); if (typeof a5 !== 'boolean') throw Error('node_output(5:active): expected boolean'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('node_output(0:id): expected NodeKey'); if (!checkClass(a1, Node)) throw Error('node_output(1:node): expected Node'); if (typeof a2 !== 'string') throw Error('node_output(2:name): expected string'); if (typeof a3 !== 'string') throw Error('node_output(3:icon): expected string'); if (!checkClass(a4, Colour)) throw Error('node_output(4:colour): expected Colour'); if (typeof a5 !== 'boolean') throw Error('node_output(5:active): expected boolean'); if (typeof a6 !== 'boolean') throw Error('node_output(6:connected): expected boolean'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_node_output_3(/*id*/a0.__ptr, /*node*/a1.__ptr, ensureString(/*name*/a2)), NodePlug); }
+    else if (a4 === undefined) { return wrapPointer(_two_ui_node_output_4(/*id*/a0.__ptr, /*node*/a1.__ptr, ensureString(/*name*/a2), ensureString(/*icon*/a3)), NodePlug); }
+    else if (a5 === undefined) { return wrapPointer(_two_ui_node_output_5(/*id*/a0.__ptr, /*node*/a1.__ptr, ensureString(/*name*/a2), ensureString(/*icon*/a3), /*colour*/a4.__ptr), NodePlug); }
+    else if (a6 === undefined) { return wrapPointer(_two_ui_node_output_6(/*id*/a0.__ptr, /*node*/a1.__ptr, ensureString(/*name*/a2), ensureString(/*icon*/a3), /*colour*/a4.__ptr, /*active*/a5), NodePlug); }
+    else { return wrapPointer(_two_ui_node_output_7(/*id*/a0.__ptr, /*node*/a1.__ptr, ensureString(/*name*/a2), ensureString(/*icon*/a3), /*colour*/a4.__ptr, /*active*/a5, /*connected*/a6), NodePlug); }
 };
 Module['ui']['node'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
@@ -2192,81 +2193,83 @@ Module['ui']['node'] = function(a0, a1, a2, a3, a4) {
     else if (a4 === undefined) { return wrapPointer(_two_ui_node_4(/*parent*/a0.__ptr, ensureString(/*title*/a1), /*position*/a2.__ptr, /*order*/a3), Node); }
     else { return wrapPointer(_two_ui_node_5(/*parent*/a0.__ptr, ensureString(/*title*/a1), /*position*/a2.__ptr, /*order*/a3, ensureRef(/*identity*/a4), ensureRefType(/*identity*/a4)), Node); }
 };
-Module['ui']['node_cable'] = function(a0, a1, a2) {
-    if (!checkClass(a0, Canvas)) throw Error('node_cable(0:canvas): expected Canvas'); if (!checkClass(a1, NodePlug)) throw Error('node_cable(1:plug_out): expected NodePlug'); if (!checkClass(a2, NodePlug)) throw Error('node_cable(2:plug_in): expected NodePlug');
-    return wrapPointer(_two_ui_node_cable_3(/*canvas*/a0.__ptr, /*plug_out*/a1.__ptr, /*plug_in*/a2.__ptr), Widget);
+Module['ui']['node_cable'] = function(a0, a1, a2, a3) {
+    if (!checkClass(a0, NodeKey)) throw Error('node_cable(0:id): expected NodeKey'); if (!checkClass(a1, Canvas)) throw Error('node_cable(1:canvas): expected Canvas'); if (!checkClass(a2, NodePlug)) throw Error('node_cable(2:plug_out): expected NodePlug'); if (!checkClass(a3, NodePlug)) throw Error('node_cable(3:plug_in): expected NodePlug');
+    return wrapPointer(_two_ui_node_cable_4(/*id*/a0.__ptr, /*canvas*/a1.__ptr, /*plug_out*/a2.__ptr, /*plug_in*/a3.__ptr), Widget);
 };
-Module['ui']['canvas'] = function(a0, a1) {
-    if (a1 === undefined) { if (!checkClass(a0, Widget)) throw Error('canvas(0:parent): expected Widget'); }
-    else { if (!checkClass(a0, Widget)) throw Error('canvas(0:parent): expected Widget'); if (typeof a1 !== 'number') throw Error('canvas(1:num_nodes): expected integer'); }
-    if (a1 === undefined) { return wrapPointer(_two_ui_canvas_1(/*parent*/a0.__ptr), Canvas); }
-    else { return wrapPointer(_two_ui_canvas_2(/*parent*/a0.__ptr, /*num_nodes*/a1), Canvas); }
+Module['ui']['canvas'] = function(a0, a1, a2) {
+    if (a2 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('canvas(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('canvas(1:parent): expected Widget'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('canvas(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('canvas(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('canvas(2:num_nodes): expected integer'); }
+    if (a2 === undefined) { return wrapPointer(_two_ui_canvas_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Canvas); }
+    else { return wrapPointer(_two_ui_canvas_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*num_nodes*/a2), Canvas); }
 };
-Module['ui']['scroll_sheet'] = function(a0, a1, a2) {
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('scroll_sheet(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('scroll_sheet(1:style): expected Style'); }
-    else { if (!checkClass(a0, Widget)) throw Error('scroll_sheet(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('scroll_sheet(1:style): expected Style'); if (!checkClass(a2, Style)) throw Error('scroll_sheet(2:surface_style): expected Style'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_scroll_sheet_2(/*parent*/a0.__ptr, /*style*/a1.__ptr), ScrollSheet); }
-    else { return wrapPointer(_two_ui_scroll_sheet_3(/*parent*/a0.__ptr, /*style*/a1.__ptr, /*surface_style*/a2.__ptr), ScrollSheet); }
+Module['ui']['scroll_sheet'] = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('scroll_sheet(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('scroll_sheet(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('scroll_sheet(2:style): expected Style'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('scroll_sheet(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('scroll_sheet(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('scroll_sheet(2:style): expected Style'); if (!checkClass(a3, Style)) throw Error('scroll_sheet(3:surface_style): expected Style'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_scroll_sheet_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr), ScrollSheet); }
+    else { return wrapPointer(_two_ui_scroll_sheet_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr, /*surface_style*/a3.__ptr), ScrollSheet); }
 };
-Module['ui']['scroll_plan'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('scroll_plan(0:parent): expected Widget'); if (!checkClass(a1, Style)) throw Error('scroll_plan(1:style): expected Style');
-    return wrapPointer(_two_ui_scroll_plan_2(/*parent*/a0.__ptr, /*style*/a1.__ptr), ScrollSheet);
+Module['ui']['scroll_plan'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('scroll_plan(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('scroll_plan(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('scroll_plan(2:style): expected Style');
+    return wrapPointer(_two_ui_scroll_plan_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr), ScrollSheet);
 };
-Module['ui']['scrollable'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('scrollable(0:parent): expected Widget');
-    return wrapPointer(_two_ui_scrollable_1(/*parent*/a0.__ptr), Widget);
+Module['ui']['scrollable'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('scrollable(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('scrollable(1:parent): expected Widget');
+    return wrapPointer(_two_ui_scrollable_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['sequence'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('sequence(0:parent): expected Widget');
-    return wrapPointer(_two_ui_sequence_1(/*parent*/a0.__ptr), Sequence);
+Module['ui']['sequence'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('sequence(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('sequence(1:parent): expected Widget');
+    return wrapPointer(_two_ui_sequence_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Sequence);
 };
-Module['ui']['scroll_sequence'] = function(a0) {
-    if (!checkClass(a0, Widget)) throw Error('scroll_sequence(0:parent): expected Widget');
-    return wrapPointer(_two_ui_scroll_sequence_1(/*parent*/a0.__ptr), Sequence);
+Module['ui']['scroll_sequence'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('scroll_sequence(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('scroll_sequence(1:parent): expected Widget');
+    return wrapPointer(_two_ui_scroll_sequence_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Sequence);
 };
 Module['ui']['select_logic'] = function(a0, a1, a2) {
     if (!checkClass(a0, Widget)) throw Error('select_logic(0:element): expected Widget'); if (!checkClass(a1, Ref)) throw Error('select_logic(1:object): expected Ref'); if (!checkClass(a2, Ref)) throw Error('select_logic(2:selection): expected Ref');
     return !!(_two_ui_select_logic_3(/*element*/a0.__ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1), ensureRef(/*selection*/a2), ensureRefType(/*selection*/a2)));
 };
-Module['ui']['element'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('element(0:parent): expected Widget'); if (!checkClass(a1, Ref)) throw Error('element(1:object): expected Ref');
-    return wrapPointer(_two_ui_element_2(/*parent*/a0.__ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)), Widget);
+Module['ui']['element'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('element(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('element(1:parent): expected Widget'); if (!checkClass(a2, Ref)) throw Error('element(2:object): expected Ref');
+    return wrapPointer(_two_ui_element_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureRef(/*object*/a2), ensureRefType(/*object*/a2)), Widget);
 };
 Module['ui']['sequence_element'] = function(a0, a1) {
     if (!checkClass(a0, Sequence)) throw Error('sequence_element(0:parent): expected Sequence'); if (!checkClass(a1, Ref)) throw Error('sequence_element(1:object): expected Ref');
     return wrapPointer(_two_ui_sequence_element_2(/*parent*/a0.__ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)), Widget);
 };
-Module['ui']['window'] = function(a0, a1, a2) {
+Module['ui']['window'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('window(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('window(1:title): expected string'); }
-    else { if (!checkClass(a0, Widget)) throw Error('window(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('window(1:title): expected string'); if (typeof a2 !== 'number') throw Error('window(2:state): expected integer'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_window_2(/*parent*/a0.__ptr, ensureString(/*title*/a1)), Window); }
-    else { return wrapPointer(_two_ui_window_3(/*parent*/a0.__ptr, ensureString(/*title*/a1), /*state*/a2), Window); }
+    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('window(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('window(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('window(2:title): expected string'); }
+    else if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('window(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('window(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('window(2:title): expected string'); if (typeof a3 !== 'number') throw Error('window(3:state): expected integer'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('window(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('window(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('window(2:title): expected string'); if (typeof a3 !== 'number') throw Error('window(3:state): expected integer'); if (!checkClass(a4, Dock)) throw Error('window(4:dock): expected Dock'); }
+    if (a3 === undefined) { return wrapPointer(_two_ui_window_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*title*/a2)), Window); }
+    else if (a4 === undefined) { return wrapPointer(_two_ui_window_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*title*/a2), /*state*/a3), Window); }
+    else { return wrapPointer(_two_ui_window_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*title*/a2), /*state*/a3, /*dock*/a4.__ptr), Window); }
 };
-Module['ui']['dir_item'] = function(a0, a1) {
+Module['ui']['dir_item'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('dir_item(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('dir_item(1:name): expected string');
-    return wrapPointer(_two_ui_dir_item_2(/*parent*/a0.__ptr, ensureString(/*name*/a1)), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('dir_item(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dir_item(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('dir_item(2:name): expected string');
+    return wrapPointer(_two_ui_dir_item_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2)), Widget);
 };
-Module['ui']['file_item'] = function(a0, a1) {
+Module['ui']['file_item'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('file_item(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('file_item(1:name): expected string');
-    return wrapPointer(_two_ui_file_item_2(/*parent*/a0.__ptr, ensureString(/*name*/a1)), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('file_item(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('file_item(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('file_item(2:name): expected string');
+    return wrapPointer(_two_ui_file_item_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2)), Widget);
 };
-Module['ui']['dir_node'] = function(a0, a1, a2, a3) {
+Module['ui']['dir_node'] = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('dir_node(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('dir_node(1:path): expected string'); if (typeof a2 !== 'string') throw Error('dir_node(2:name): expected string'); if (typeof a3 !== 'boolean') throw Error('dir_node(3:collapsed): expected boolean');
-    return wrapPointer(_two_ui_dir_node_4(/*parent*/a0.__ptr, ensureString(/*path*/a1), ensureString(/*name*/a2), /*collapsed*/a3), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('dir_node(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dir_node(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('dir_node(2:path): expected string'); if (typeof a3 !== 'string') throw Error('dir_node(3:name): expected string'); if (typeof a4 !== 'boolean') throw Error('dir_node(4:collapsed): expected boolean');
+    return wrapPointer(_two_ui_dir_node_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*path*/a2), ensureString(/*name*/a3), /*collapsed*/a4), Widget);
 };
-Module['ui']['file_node'] = function(a0, a1) {
+Module['ui']['file_node'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('file_node(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('file_node(1:name): expected string');
-    return wrapPointer(_two_ui_file_node_2(/*parent*/a0.__ptr, ensureString(/*name*/a1)), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('file_node(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('file_node(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('file_node(2:name): expected string');
+    return wrapPointer(_two_ui_file_node_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2)), Widget);
 };
-Module['ui']['file_tree'] = function(a0, a1) {
+Module['ui']['file_tree'] = function(a0, a1, a2) {
     ensureCache.prepare();
-    if (!checkClass(a0, Widget)) throw Error('file_tree(0:parent): expected Widget'); if (typeof a1 !== 'string') throw Error('file_tree(1:path): expected string');
-    return wrapPointer(_two_ui_file_tree_2(/*parent*/a0.__ptr, ensureString(/*path*/a1)), Widget);
+    if (!checkClass(a0, NodeKey)) throw Error('file_tree(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('file_tree(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('file_tree(2:path): expected string');
+    return wrapPointer(_two_ui_file_tree_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*path*/a2)), Widget);
 };
 
 (function() {

@@ -237,15 +237,15 @@ Module['FreeOrbitController'] = FreeOrbitController;
 FreeOrbitController.prototype["__destroy"] = FreeOrbitController.prototype.__destroy = function() {
     _two_FreeOrbitController__destroy(this.__ptr);
 };
-Module['ui']['viewer'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('viewer(0:parent): expected Widget'); if (!checkClass(a1, Scene)) throw Error('viewer(1:scene): expected Scene');
-    return wrapPointer(_two_ui_viewer_2(/*parent*/a0.__ptr, /*scene*/a1.__ptr), Viewer);
+Module['ui']['viewer'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('viewer(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('viewer(1:parent): expected Widget'); if (!checkClass(a2, Scene)) throw Error('viewer(2:scene): expected Scene');
+    return wrapPointer(_two_ui_viewer_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*scene*/a2.__ptr), Viewer);
 };
-Module['ui']['scene_viewer'] = function(a0, a1) {
-    if (a1 === undefined) { if (!checkClass(a0, Widget)) throw Error('scene_viewer(0:parent): expected Widget'); }
-    else { if (!checkClass(a0, Widget)) throw Error('scene_viewer(0:parent): expected Widget'); if (!checkClass(a1, v2_float)) throw Error('scene_viewer(1:size): expected v2<float>'); }
-    if (a1 === undefined) { return wrapPointer(_two_ui_scene_viewer_1(/*parent*/a0.__ptr), SceneViewer); }
-    else { return wrapPointer(_two_ui_scene_viewer_2(/*parent*/a0.__ptr, /*size*/a1.__ptr), SceneViewer); }
+Module['ui']['scene_viewer'] = function(a0, a1, a2) {
+    if (a2 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('scene_viewer(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('scene_viewer(1:parent): expected Widget'); }
+    else { if (!checkClass(a0, NodeKey)) throw Error('scene_viewer(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('scene_viewer(1:parent): expected Widget'); if (!checkClass(a2, v2_float)) throw Error('scene_viewer(2:size): expected v2<float>'); }
+    if (a2 === undefined) { return wrapPointer(_two_ui_scene_viewer_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), SceneViewer); }
+    else { return wrapPointer(_two_ui_scene_viewer_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*size*/a2.__ptr), SceneViewer); }
 };
 Module['ui']['trackball_controller'] = function(a0) {
     if (!checkClass(a0, Viewer)) throw Error('trackball_controller(0:viewer): expected Viewer');

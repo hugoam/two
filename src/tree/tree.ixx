@@ -5,6 +5,7 @@ module;
 export module two.tree;
 
 export import two.infra;
+export import two.type;
 
 export import <source_location>;
 

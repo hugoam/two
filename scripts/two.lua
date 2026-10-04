@@ -337,7 +337,7 @@ end
 -- core
 two.infra   = module("two", "infra",    TWO_SRC_DIR,    "infra",    two_infra,  uses_two,       true,       { })
 two.type    = module("two", "type",     TWO_SRC_DIR,    "type",     two_module, uses_two,       true,       { two.infra })
-two.tree    = module("two", "tree",     TWO_SRC_DIR,    "tree",     two_module, nil,            true,       { two.infra })
+two.tree    = module("two", "tree",     TWO_SRC_DIR,    "tree",     two_module, nil,            true,       { two.infra, two.type })
 two.jobs    = module("two", "jobs",     TWO_SRC_DIR,    "jobs",     two_jobs,   uses_two,       true,       { tracy, two.infra, two.type })
 two.pool    = module("two", "pool",     TWO_SRC_DIR,    "pool",     two_module, nil,            true,       { two.infra, two.type })
 -- refl

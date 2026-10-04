@@ -176,14 +176,14 @@ extern "C" {
 	void DECL two_FreeOrbitController__destroy(two::FreeOrbitController* self) {
 		delete self;
 	}
-	two::Viewer* DECL two_ui_viewer_2(two::Widget* parent, two::Scene* scene) {
-		return &two::ui::viewer(*parent, *scene);
+	two::Viewer* DECL two_ui_viewer_3(two::NodeKey* id, two::Widget* parent, two::Scene* scene) {
+		return &two::ui::viewer(*id, *parent, *scene);
 	}
-	two::SceneViewer* DECL two_ui_scene_viewer_1(two::Widget* parent) {
-		return &two::ui::scene_viewer(*parent);
+	two::SceneViewer* DECL two_ui_scene_viewer_2(two::NodeKey* id, two::Widget* parent) {
+		return &two::ui::scene_viewer(*id, *parent);
 	}
-	two::SceneViewer* DECL two_ui_scene_viewer_2(two::Widget* parent, const two::vec2* size) {
-		return &two::ui::scene_viewer(*parent, *size);
+	two::SceneViewer* DECL two_ui_scene_viewer_3(two::NodeKey* id, two::Widget* parent, const two::vec2* size) {
+		return &two::ui::scene_viewer(*id, *parent, *size);
 	}
 	two::TrackballController* DECL two_ui_trackball_controller_1(two::Viewer* viewer) {
 		return &two::ui::trackball_controller(*viewer);
