@@ -12,8 +12,8 @@ namespace ui
 {
 	Widget& dockline(Widget& parent, uint16_t index, Axis dim)
 	{
-		if(parent.m_nodes.size() > index && parent.m_nodes[index]->m_heartbeat == parent.m_heartbeat)
-			return *parent.m_nodes[index];
+		if(parent.child_count() > index && parent.child(index).m_heartbeat == parent.m_heartbeat)
+			return parent.child(index);
 		for(uint16_t i = 0; i < index; ++i)
 			parent.subx(i).init(dock_styles().dockline, false, dim);
 		Widget& self = parent.subx(index).init(dock_styles().dockline, false, dim);
@@ -23,8 +23,8 @@ namespace ui
 	
 	Tabber& docksection(Widget& parent)
 	{
-		if(parent.m_nodes.size() > 0 && parent.m_nodes[0]->m_heartbeat == parent.m_heartbeat)
-			return as<Tabber>(*parent.m_nodes[0]);
+		if(parent.child_count() > 0 && parent.child(0).m_heartbeat == parent.m_heartbeat)
+			return as<Tabber>(parent.child(0));
 		//Widget& section = ui::widget(id, parent, dock_styles().docksection); // dockid.back()
 		Tabber& tabber = ui::tabber(key(), parent); // dockspace_styles().docksection, 
 		return tabber;
@@ -65,13 +65,15 @@ namespace ui
 	Widget* dockitem(Widget& parent, Docksystem& docksystem, cstring name)
 	{
 		Dock*& dock = docksystem.m_item_docks[name];
+		// the window of an item is the same top node, docked or floating
+		NodeKey id = key(&dock);
 		if(dock)
 		{
-			return dock->m_docker->docksection(*dock, name, key(&dock));
+			return dock->m_docker->docksection(*dock, name, id);
 		}
 		else
 		{
-			Window& container = window(key(&dock), parent, name, WindowState(uint(WindowState::Dockable) | uint(WindowState::Default)));
+			Window& container = window(id, parent, name, WindowState(uint(WindowState::Dockable) | uint(WindowState::Default)));
 			container.m_docksystem = &docksystem;
 
 			if(docksystem.m_dragged == name)

@@ -113,21 +113,21 @@ namespace two
 	SceneViewer& material_viewer(Widget& parent, Material& material)
 	{
 		SceneViewer& viewer = asset_empty_viewer(parent, Ref(&material), vec3(0.f), 1.f);
-		gfx::shape(*viewer.m_scene.m_graph.m_nodes[0], Sphere(), Symbol(Colour::White), 0U, &material);
+		gfx::shape(viewer.m_scene.m_graph.child(0), Sphere(), Symbol(Colour::White), 0U, &material);
 		return viewer;
 	}
 
 	SceneViewer& model_viewer(Widget& parent, Model& model)
 	{
 		SceneViewer& viewer = asset_empty_viewer(parent, Ref(&model), -model.m_origin, model.m_radius);
-		gfx::item(*viewer.m_scene.m_graph.m_nodes[0], model);
+		gfx::item(viewer.m_scene.m_graph.child(0), model);
 		return viewer;
 	}
 
 	SceneViewer& particles_viewer(Widget& parent, Flow& particles)
 	{
 		SceneViewer& viewer = asset_empty_viewer(parent, Ref(&particles), vec3(0.f), 1.f); // particles.m_radius
-		gfx::flows(*viewer.m_scene.m_graph.m_nodes[0], particles);
+		gfx::flows(viewer.m_scene.m_graph.child(0), particles);
 		return viewer;
 	}
 

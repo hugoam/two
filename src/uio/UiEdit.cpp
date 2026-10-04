@@ -22,15 +22,15 @@ namespace two
 
 	void ui_debug_layout_node(Widget& parent, Widget& target, Widget*& selected)
 	{
-		for(auto& widget : target.m_nodes)
+		for(Widget& widget : target.children())
 		{
-			string size = "size : " + truncate_number(to_string(widget->m_frame.m_size.x)) + ", " + truncate_number(to_string(widget->m_frame.m_size.y));
-			TreeNode& node = ui::tree_node(key(), parent, { widget->m_frame.d_style->m_name.c_str(), size.c_str() });
-			node.m_header->set_state(SELECTED, selected == widget.get());
+			string size = "size : " + truncate_number(to_string(widget.m_frame.m_size.x)) + ", " + truncate_number(to_string(widget.m_frame.m_size.y));
+			TreeNode& node = ui::tree_node(key(), parent, { widget.m_frame.d_style->m_name.c_str(), size.c_str() });
+			node.m_header->set_state(SELECTED, selected == &widget);
 			if(node.m_header->activated())
-				selected = widget.get();
+				selected = &widget;
 			if(node.m_body)
-				ui_debug_layout_node(*node.m_body, *widget, selected);
+				ui_debug_layout_node(*node.m_body, widget, selected);
 		}
 	}
 

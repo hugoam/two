@@ -115,7 +115,7 @@ namespace two
 		if(canvas.m_connect.m_origin)
 		{
 			size_t connect_node = canvas.m_connect.m_origin->m_node->m_index;
-			size_t connect_plug = canvas.m_connect.m_origin->m_index;
+			size_t connect_plug = canvas.m_connect.m_origin->m_sibling;
 			Valve& connecting = node_valve(script, connect_node, connect_plug, canvas.m_connect.m_origin == canvas.m_connect.m_in);
 
 			bool convertible = can_convert(input ? *connecting.m_stream.m_type : *valve.m_stream.m_type,
@@ -207,15 +207,15 @@ namespace two
 		
 		Node& node = *canvas.m_nodes[valve.m_process.m_index];
 		if(valve.m_kind == INPUT_VALVE)
-			return as<NodePlug>(*node.m_inputs->m_nodes[valve.m_process.m_in_flow ? valve.m_index + 1 : valve.m_index]);
+			return as<NodePlug>(node.m_inputs->child(valve.m_process.m_in_flow ? valve.m_index + 1 : valve.m_index));
 		if(valve.m_kind == OUTPUT_VALVE)
-			return as<NodePlug>(*node.m_outputs->m_nodes[valve.m_process.m_out_flow ? valve.m_index + 1 : valve.m_index]);
+			return as<NodePlug>(node.m_outputs->child(valve.m_process.m_out_flow ? valve.m_index + 1 : valve.m_index));
 		else if(valve.m_kind == FLOW_VALVE_IN)
-			return as<NodePlug>(*node.m_inputs->m_nodes[0]);
+			return as<NodePlug>(node.m_inputs->child(0));
 		else if(valve.m_kind == FLOW_VALVE_OUT || true)
-			return as<NodePlug>(*node.m_outputs->m_nodes[0]);
+			return as<NodePlug>(node.m_outputs->child(0));
 
-		//Widget& plug = input ? *node.m_inputs->m_nodes[valve.m_index] : *node.m_outputs->m_nodes[valve.m_index];
+		//Widget& plug = input ? node.m_inputs->child(valve.m_index) : node.m_outputs->child(valve.m_index);
 		//return plug;
 	}
 

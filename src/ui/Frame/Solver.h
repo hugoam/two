@@ -67,6 +67,7 @@ namespace two
 		}
 
 		void applySpace(Axis length = Axis::None);
+		void reparent(FrameSolver* solver);
 
 		virtual void collect(SolverVector& solvers);
 

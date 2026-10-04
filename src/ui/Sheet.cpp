@@ -111,14 +111,14 @@ namespace ui
 		DragPoint drag_point;
 		vec2 local = !start_drag ? event.m_relative : self.m_frame.local_position(event.m_pressed);
 
-		for(auto& widget : self.m_nodes)
+		for(Widget& widget : self.children())
 		{
-			if(widget->m_frame.m_position[dim] >= local[dim])
+			if(widget.m_frame.m_position[dim] >= local[dim])
 			{
-				drag_point.next = &widget->m_frame;
+				drag_point.next = &widget.m_frame;
 				break;
 			}
-			drag_point.prev = &widget->m_frame;
+			drag_point.prev = &widget.m_frame;
 		}
 
 		return drag_point;
@@ -170,8 +170,8 @@ namespace ui
 		if(dragging)
 			if(drag_point.next && drag_point.prev)
 			{
-				spans[drag_point.prev->d_widget.m_index] = drag_point.prev->m_span[dim];
-				spans[drag_point.next->d_widget.m_index] = drag_point.next->m_span[dim];
+				spans[drag_point.prev->d_widget.m_sibling] = drag_point.prev->m_span[dim];
+				spans[drag_point.next->d_widget.m_sibling] = drag_point.next->m_span[dim];
 			}
 
 		return self;

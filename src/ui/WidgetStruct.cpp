@@ -26,10 +26,25 @@ namespace two
 					return target;
 			}
 
-		for (auto& widget : reverse_adapt(frame.d_widget.m_nodes))
+		// the last children are on top: the top nodes attached, then the descendants walked backward, keeping the children
+		span<Widget*> attached = frame.d_widget.attached();
+		for (size_t i = attached.size(); i-- > 0;)
 		{
-			vec2 local = widget->m_frame.integrate_position(pos, frame);
-			Frame* target = pinpoint(widget->m_frame, local, filter);
+			vec2 local = attached[i]->m_frame.integrate_position(pos, frame);
+			Frame* target = pinpoint(attached[i]->m_frame, local, filter);
+			if (target)
+				return target;
+		}
+
+		span<unique<Widget>> descendants = frame.d_widget.descendants();
+		for (size_t i = descendants.size(); i-- > 0;)
+		{
+			if (!descendants[i] || descendants[i]->m_parent != &frame.d_widget)
+				continue;
+			Widget& widget = *descendants[i];
+
+			vec2 local = widget.m_frame.integrate_position(pos, frame);
+			Frame* target = pinpoint(widget.m_frame, local, filter);
 			if (target)
 				return target;
 		}
@@ -47,9 +62,7 @@ namespace two
 	Widget::Widget(Widget* parent, void* identity)
 		: Graph(parent, identity)
 		, m_frame(&m_parent->m_frame, *this)
-	{
-		m_index = uint32_t(parent->m_nodes.size());
-	}
+	{}
 
 	Widget::~Widget()
 	{
@@ -62,7 +75,37 @@ namespace two
 			for(MouseButton& button : this->ui().m_mouse.m_buttons)
 				if(button.m_pressed == this)
 					button.m_pressed = &this->ui();
-		m_nodes.clear();
+		this->clear();
+	}
+
+	void Widget::reparent(Widget* old)
+	{
+		// the frame follows the widget in its new parent, so do the layers, its own, or else the ones of its descendants
+		Layer* old_layer = old ? &old->m_frame.layer() : nullptr;
+		Layer* new_layer = m_parent ? &m_parent->m_frame.layer() : nullptr;
+
+		auto relink = [&](Layer& layer)
+		{
+			if(layer.d_parentLayer)
+				layer.d_parentLayer->removeLayer(layer);
+			layer.d_parentLayer = new_layer;
+			if(new_layer)
+				new_layer->addLayer(layer);
+		};
+
+		if(m_frame.m_layer)
+			relink(*m_frame.m_layer);
+		else
+			for(unique<Widget>& widget : this->descendants())
+				if(widget && widget->m_frame.m_layer && widget->m_frame.m_layer->d_parentLayer == old_layer)
+					relink(*widget->m_frame.m_layer);
+
+		if(old)
+			old->m_frame.mark_dirty(DIRTY_FORCE_LAYOUT);
+		m_frame.d_parent = m_parent ? &m_parent->m_frame : nullptr;
+		if(m_frame.m_solver)
+			m_frame.m_solver->reparent(m_parent ? m_parent->m_frame.m_solver.get() : nullptr);
+		m_frame.mark_dirty(DIRTY_FORCE_LAYOUT);
 	}
 
 	Widget& Widget::layer()
@@ -92,7 +135,7 @@ namespace two
 
 	void Widget::clear()
 	{
-		m_nodes.clear();
+		Graph::clear();
 	}
 
 	void Widget::set_content(cstring content)

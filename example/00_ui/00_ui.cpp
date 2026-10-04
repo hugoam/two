@@ -326,8 +326,8 @@ void ex_nodes(Widget& parent)
 
 	for(NodeCable& cable : model.m_cables)
 	{
-		NodePlug& out = as<NodePlug>(*canvas.m_nodes[cable.m_out.m_node]->m_outputs->m_nodes[cable.m_out.m_index]);
-		NodePlug& in = as<NodePlug>(*canvas.m_nodes[cable.m_in.m_node]->m_inputs->m_nodes[cable.m_in.m_index]);
+		NodePlug& out = as<NodePlug>(canvas.m_nodes[cable.m_out.m_node]->m_outputs->child(cable.m_out.m_index));
+		NodePlug& in = as<NodePlug>(canvas.m_nodes[cable.m_in.m_node]->m_inputs->child(cable.m_in.m_index));
 		ui::node_cable(key(), canvas, out, in);
 	}
 }

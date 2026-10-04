@@ -36,8 +36,8 @@ namespace two
 			frame.layer().setForceRedraw(); // @ kludge for nodes in canvas when moving the canvas window
 		}
 
-		for(auto& widget : frame.d_widget.m_nodes)
-			collect_solvers(widget->m_frame, solvers, frame.d_dirty);
+		for(Widget& widget : frame.d_widget.children())
+			collect_solvers(widget.m_frame, solvers, frame.d_dirty);
 
 		frame.clearDirty();
 	}
@@ -87,6 +87,15 @@ namespace two
 		, d_grid(solver ? solver->grid() : nullptr)
 	{
 		if(d_layout)
+			this->applySpace();
+	}
+
+	void FrameSolver::reparent(FrameSolver* solver)
+	{
+		d_parent = solver;
+		m_solvers = { solver ? &solver->solver(*this, Axis::X) : nullptr, solver ? &solver->solver(*this, Axis::Y) : nullptr };
+		d_grid = solver ? solver->grid() : nullptr;
+		if(d_layout && solver)
 			this->applySpace();
 	}
 
@@ -345,7 +354,7 @@ namespace two
 		if(frame.d_frame && frame.d_parent != this && !frame.d_parent->d_layout->m_no_grid)
 		{
 			//size_t column0 = frame.d_frame->dindex(d_depth);
-			size_t column = frame.d_frame->d_widget.m_index;
+			size_t column = frame.d_frame->d_widget.m_sibling;
 			frame.d_frame->d_index[d_depth] = uint(column);
 			return 1 + column < m_solvers.size() ? *m_solvers[1 + column] : *this;
 		}

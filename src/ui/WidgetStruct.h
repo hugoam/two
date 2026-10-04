@@ -23,6 +23,8 @@ namespace two
 		Widget(Widget* parent, void* identity);
 		~Widget();
 
+		virtual void reparent(Widget* old) final;
+
 		meth_ inline bool focused() { return (m_state & FOCUSED) != 0; }
 		meth_ inline bool hovered() { return (m_state & HOVERED) != 0; }
 		meth_ inline bool pressed() { return (m_state & PRESSED) != 0; }

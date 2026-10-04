@@ -242,12 +242,12 @@ namespace two
 
 	bool Frame::first(const Frame& frame)
 	{
-		return frame.d_widget.m_index == 0;
+		return d_widget.is_first(frame.d_widget);
 	}
 
 	bool Frame::last(const Frame& frame)
 	{
-		return frame.d_widget.m_index == d_widget.m_nodes.size() - 1;
+		return d_widget.is_last(frame.d_widget);
 	}
 
 	void Frame::transfer_pixel_span(Frame& prev, Frame& next, Axis dim, float pixelSpan)
@@ -266,8 +266,8 @@ namespace two
 		if(!dirty) return;
 
 		SolverVector solvers;
-		for(auto& widget : d_widget.m_nodes)
-			collect_solvers(widget->m_frame, solvers, dirty);
+		for(Widget& widget : d_widget.children())
+			collect_solvers(widget.m_frame, solvers, dirty);
 
 		m_solver->reset();
 		m_solver->m_size = m_size;

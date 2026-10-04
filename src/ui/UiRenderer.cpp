@@ -257,9 +257,9 @@ namespace two
 
 		this->draw_frame(frame);
 
-		for(auto& widget : frame.d_widget.m_nodes)
-			if(!widget->m_frame.m_layer)
-				this->render_frame(widget->m_frame);
+		for(Widget& widget : frame.d_widget.children())
+			if(!widget.m_frame.m_layer)
+				this->render_frame(widget.m_frame);
 
 		this->end_frame(frame);
 	}

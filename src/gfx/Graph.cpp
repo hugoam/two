@@ -30,7 +30,7 @@ namespace two
 
 	void Gnode::clear()
 	{
-		m_nodes.clear();
+		Graph::clear();
 		
 		if(m_sound)
 		{
@@ -50,8 +50,9 @@ namespace two
 			print_depth(depth + 1);
 			printf("item %s\n", item->m_model->m_name.c_str());
 		}
-		for(size_t i = 0; i < node.m_nodes.size(); ++i)
-			debug_tree(*node.m_nodes[i], i, depth + 1);
+		size_t i = 0;
+		for(Gnode& child : node.children())
+			debug_tree(child, i++, depth + 1);
 	}
 
 namespace gfx

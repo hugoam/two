@@ -87,15 +87,27 @@ namespace ui
 
 	Window& window(NodeKey id, Widget& parent, cstring title, WindowState state, Dock* dock)
 	{
-		Window& self = parent.sub<Window>(id);
+		// a dockable window is a top node: it's the same window, with the same contents, wherever it's docked, or floating
+		Window& self = uint(state) & uint(WindowState::Dockable) ? parent.sub_top<Window>(id) : parent.sub<Window>(id);
 		self.m_dock = dock;
 		self.m_name = title;
-		self.init(dock ? window_styles().dock_window : window_styles().window).layer();
+		self.m_window_state = state;
+
+		Style& style = dock ? window_styles().dock_window : window_styles().window;
+		if(!self.m_frame.d_style)
+			self.init(style);
+		else if(self.m_frame.d_style != &style)
+		{
+			// a window docked or undocked changes style: the solvers of its children follow its new solver
+			self.m_frame.solver(style);
+			for(Widget& child : self.children())
+				child.m_frame.m_solver->reparent(self.m_frame.m_solver.get());
+		}
+		self.layer();
 
 		if(self.once())
 		{
 			self.m_open = true;
-			self.m_window_state = state;
 
 			if(!self.m_dock)
 				self.m_frame.set_size(vec2(480.f, 350.f));

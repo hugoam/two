@@ -208,7 +208,7 @@ namespace two
 		size_t index = section.m_index;
 		Widget* tab = ui::tab(id, section, name); // dock_styles().docktab, 
 
-		Widget& header = *section.m_head->m_nodes[index];
+		Widget& header = section.m_head->child(uint32_t(index));
 		if(header.mouse_event(DeviceType::MouseLeft, EventType::DragStarted))
 		{
 			this->undock(dock, name);
@@ -281,7 +281,7 @@ namespace two
 		toggle.set_state(ACTIVE, m_current_tab == dock.m_dockid.back());
 
 		if(m_current_tab == dock.m_dockid.back())
-			return ui::window(id, *m_dockzone, name, static_cast<WindowState>(0), &dock).m_body; // dock_styles().dockbox
+			return ui::window(id, *m_dockzone, name, WindowState::Dockable, &dock).m_body; // dock_styles().dockbox
 		else
 			return nullptr;
 	}
