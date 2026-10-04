@@ -503,7 +503,7 @@ namespace two
 		const Type& type = *static_cast<Type*>(lua_touserdata(state, lua_upvalueindex(1)));
 		const Class& c = cls(type);
 		size_t num_args = lua_gettop(state) - 1;
-		const Constructor* constructor = c.constructor(num_args);
+		const Callable* constructor = num_args == 0 ? (const Callable*)&c.m_default_constructors[0] : c.constructor(num_args);
 		if(constructor)
 		{
 			Call& construct = lua_cached_call(*constructor);

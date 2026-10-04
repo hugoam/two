@@ -153,7 +153,7 @@ namespace two
 			for(size_t d = 0; d < branch.m_depth; ++d)
 				printf("    ");
 			if(!branch.m_value)
-				printf("Branch %s value %s\n", "Var()");
+				printf("Branch %s value %s\n", to_string(branch.m_index).c_str(), "Var()");
 			else {
 				Convert* conv = g_convert[type(branch.m_value).m_id];
 				const string value = conv && conv->m_to_string

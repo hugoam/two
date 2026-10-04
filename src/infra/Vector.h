@@ -35,16 +35,13 @@ namespace two
 	{
 		return find(vec.begin(), vec.end(), value) != vec.end();
 	}
-	
+
 	export_ template <class T>
-	inline vector<T> slice(span<T> vec, size_t begin, size_t end)
+	inline span<T> slice(span<T> vec, size_t begin, size_t end)
 	{
-		vector<T> result;
-		for(size_t i = begin; i < end; ++i)
-			result.push_back(vec[i]);
-		return result;
+		return span<T>(vec, begin, end);
 	}
-	
+
 	export_ template <class T>
 	inline vector<T> prepend(span<T> vec, const T& value)
 	{

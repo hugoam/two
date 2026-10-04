@@ -50,7 +50,11 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar)
 	for(Viewer* viewer : viewers)
 	{
 		ui::orbit_controller(*viewer);
+	}
 
+
+	for(Viewer* viewer : multiple_scene ? viewers : slice(span<Viewer*>(viewers), 0, 1))
+	{
 		Gnode& scene = viewer->m_scene->begin();
 
 		for(size_t x = 0; x < 11; ++x)
