@@ -68,7 +68,7 @@ namespace
 			struct Open { cstring name; cstring path; };
 			const Open opened[] =
 			{
-				{ "ui.meta.cpp", "src/meta/ui.meta.cpp" }, { "vector", "src/infra/Vector.h" }, { "Solver.cpp", "src/ui/Frame/Solver.cpp" },
+				{ "ui.meta.cpp", "src/meta/ui.meta.cpp" }, { "vector", "src/infra/Vector.h" }, { "LayoutTree.cpp", "src/ui/Frame/LayoutTree.cpp" },
 				{ "Graph.h", "src/tree/Graph.h" }, { "DockStruct.cpp", "src/ui/DockStruct.cpp" }, { "Shell.cpp", "src/frame/Shell.cpp" },
 				{ "Key.h", "src/tree/Key.h" }, { "Dock.cpp", "src/ui/Dock.cpp" }, { "InputDevice.cpp", "src/ctx/InputDevice.cpp" },
 				{ "00_ui.cpp", "example/00_ui/00_ui.cpp" },
