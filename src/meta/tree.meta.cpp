@@ -53,7 +53,7 @@ namespace two
 namespace two
 {
 	two_tree::two_tree()
-		: Module("two::tree", { &two_infra::m() })
+		: Module("two::tree", { &two_infra::m(), &two_type::m() })
 	{
 		// setup reflection meta data
 		two_tree_meta(*this);
