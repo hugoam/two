@@ -5,9 +5,11 @@
 #ifdef USE_STL
 #ifndef TWO_STD_MODULES
 #include <algorithm>
+#include <iterator>
 #endif
 namespace stl
 {
+	export_ using std::size;
 	export_ using std::move;
 	export_ using std::swap;
 	export_ using std::find;
@@ -24,6 +26,12 @@ namespace stl
 #include <stl/swap.h>
 namespace stl
 {
+	export_ template <class T, size_t N>
+	constexpr size_t size(const T(&)[N]) { return N; }
+
+	export_ template <class T>
+	constexpr auto size(const T& container) -> decltype(container.size()) { return container.size(); }
+
 	export_ template <class It, class T>
 	inline It find_char(It first, const It last, const T& val)
 	{
@@ -395,6 +403,7 @@ namespace stl
 
 namespace two
 {
+	export_ using stl::size;
 	export_ using stl::move;
   //export_ using stl::swap;
 	export_ using stl::find;

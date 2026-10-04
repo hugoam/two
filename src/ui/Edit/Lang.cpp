@@ -10,8 +10,6 @@ module two.ui;
 
 namespace two
 {
-	template <class T, size_t N>
-	constexpr size_t size(T(&)[N]) { return N; }
 
 	vector<uint32_t>& TextEdit::OkaidaPalette()
 	{
