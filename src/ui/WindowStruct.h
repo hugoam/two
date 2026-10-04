@@ -28,5 +28,7 @@ namespace two
 		attr_ WindowState m_window_state;
 
 		attr_ Widget* m_menu = nullptr;
+
+		Widget* m_header = nullptr;
 	};
 }

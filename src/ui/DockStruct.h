@@ -29,6 +29,7 @@ namespace two
 
 		map<string, Dock*> m_item_docks;
 		vector<Docker*> m_dockers;
+		string m_dragged;
 	};
 
 	export_ class refl_ TWO_UI_EXPORT Dockable : public Widget
@@ -36,6 +37,7 @@ namespace two
 	public:
 		Dockable(Widget* parent, void* identity);
 		Dock* m_dock = nullptr;
+		Docksystem* m_docksystem = nullptr;
 		cstring m_name = nullptr;
 	};
 
@@ -47,7 +49,7 @@ namespace two
 
 		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) = 0;
 
-		virtual void dock(Dockable& widget, const vec2& pos) = 0;
+		virtual void dock(cstring name, const vec2& pos) = 0;
 
 		Dock& dock_split(Dock& target, bool after);
 		Dock& dock_insert(Dock& target, bool after);
@@ -55,7 +57,8 @@ namespace two
 		void dock_remove(Dock& dock, cstring name);
 
 		void dock_create(cstring name, span<uint16_t> dockid, float span);
-		void undock(Dockable& dockable);
+		void undock(Dock& dock, cstring name);
+		virtual void apply_pending();
 
 		Dock& add_dock(vector<uint16_t> dockid, float span = 0.f);
 
@@ -63,9 +66,16 @@ namespace two
 
 		void shift_add(const vector<uint16_t>& dockid);
 		void shift_remove(const vector<uint16_t>& dockid);
+		void collapse(const vector<uint16_t>& line);
 
 		Docksystem* m_docksystem;
 		vector<unique<Dock>> m_docks;
+
+		// the dock ids only change between frames, so that no index in the widget tree shifts during a frame
+		struct PendingUndock { Dock* dock; string name; };
+		struct PendingDock { string name; vec2 pos; };
+		vector<PendingUndock> m_pending_undocks;
+		vector<PendingDock> m_pending_docks;
 	};
 
 	export_ class refl_ TWO_UI_EXPORT Dockspace : public Docker
@@ -73,11 +83,11 @@ namespace two
 	public:
 		Dockspace(Widget* parent, void* identity, Docksystem& docksystem);
 
-		Dockable& pinpoint_dock(const vec2& pos);
+		Dockable* pinpoint_dock(const vec2& pos);
 
 		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) final;
 
-		virtual void dock(Dockable& widget, const vec2& pos) final;
+		virtual void dock(cstring name, const vec2& pos) final;
 
 		void dock(cstring name, Dock& target, Frame& frame, const vec2& pos);
 
@@ -94,7 +104,8 @@ namespace two
 
 		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) final;
 
-		virtual void dock(Dockable& widget, const vec2& pos) final;
+		virtual void dock(cstring name, const vec2& pos) final;
+		virtual void apply_pending() final;
 
 		float width = 300.f;
 		size_t m_current_tab = SIZE_MAX;

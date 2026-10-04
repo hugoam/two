@@ -219,8 +219,6 @@ void ex_dockspace(Widget& parent)
 	Docker& dockspace = ui::dockspace(key(), board, docksystem);
 	Docker& dockbar = ui::dockbar(key(), board, docksystem);
 
-	docksystem.m_dockers = { &dockspace, &dockbar };
-
 	if(Widget* dock = ui::dockitem(dockspace, "Dock 0", { 0U, 0U }))
 	{
 		Widget& body = *ui::scroll_sheet(key(), *dock).m_body;

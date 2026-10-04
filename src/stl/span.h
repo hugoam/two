@@ -37,6 +37,11 @@ namespace stl
 		T& operator[](size_t at) { return m_pointer[at]; } // assert(at < m_count);
 		const T& operator[](size_t at) const { return m_pointer[at]; } // assert(at < m_count); 
 
+		T& front() { return m_pointer[0]; }
+		const T& front() const { return m_pointer[0]; }
+		T& back() { return m_pointer[m_count - 1]; }
+		const T& back() const { return m_pointer[m_count - 1]; }
+
 		T* begin() { return m_pointer; }
 		T* end() { return m_pointer + m_count; }
 		const T* begin() const { return m_pointer; }

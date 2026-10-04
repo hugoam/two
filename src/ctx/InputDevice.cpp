@@ -149,8 +149,10 @@ namespace two
 
 	void Mouse::fix_press(ControlNode& node)
 	{
+		// only the buttons currently pressed are given to the node
 		for(MouseButton& button : m_buttons)
-			button.m_pressed = &node;
+			if(button.m_pressed)
+				button.m_pressed = &node;
 	}
 
 	MouseButton::MouseButton(Mouse& mouse, DeviceType deviceType)

@@ -21,9 +21,6 @@ namespace ui
 
 		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
-			if(window.m_dock)
-				window.m_dock->m_docker->undock(window);
-
 			window.m_frame.layer().moveToTop();
 			window.m_frame.layer().m_frame.m_opacity = Opacity::Hollow;
 
@@ -33,8 +30,8 @@ namespace ui
 
 		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
 		{
-			//if(window.dockable())
-			//	window.m_dock->m_docksystem->dock(window, mouse_event.m_pos);
+			if(window.dockable())
+				window.m_docksystem->dock(window, event.m_pos);
 
 			window.m_frame.layer().m_frame.m_opacity = Opacity::Opaque;
 		}
@@ -108,7 +105,7 @@ namespace ui
 		}
 
 		if(self.header())
-			window_header(key(), self, self, title);
+			self.m_header = &window_header(key(), self, self, title);
 
 		if(self.hasmenu())
 			self.m_menu = &menubar(key(), self);

@@ -31,6 +31,7 @@ namespace two
 		for(auto& dock : m_docks)
 			for(const string& item : dock->m_items)
 				m_docksystem->m_item_docks.erase(item);
+		remove(m_docksystem->m_dockers, this);
 	}
 
 	Dock& Docker::add_dock(vector<uint16_t> dockid, float span)
@@ -77,8 +78,41 @@ namespace two
 
 		if(dock.m_items.empty())
 		{
+			vector<uint16_t> line = dock.m_dockid;
+			line.pop_back();
 			this->shift_remove(dock.m_dockid);
 			remove_pt(m_docks, dock);
+			this->collapse(line);
+		}
+	}
+
+	void Docker::collapse(const vector<uint16_t>& line)
+	{
+		// a line with a single child is not split anymore: its child takes its place, except in the root line
+		span<unique<Dock>> docks = this->sub_docks(line);
+		size_t level = line.size();
+		if(line.empty() || docks.empty() || docks.front()->m_dockid[level] != docks.back()->m_dockid[level])
+			return;
+
+		if(docks.size() == 1 && docks[0]->m_dockid.size() == level + 1)
+		{
+			// the child is a dock: it takes the place of the line
+			docks[0]->m_dockid.pop_back();
+			return;
+		}
+
+		// the child is split: its children take the place of the line in the parent line, which lays them out along the same axis
+		span<uint16_t> parent(line, 0, level - 1);
+		uint16_t index = line.back();
+		uint16_t count = docks.back()->m_dockid[level + 1] + 1;
+		for(auto& dock : this->sub_docks(parent))
+			if(dock->m_dockid[level - 1] > index)
+				dock->m_dockid[level - 1] += count - 1;
+
+		for(auto& dock : docks)
+		{
+			dock->m_dockid[level + 1] += index;
+			dock->m_dockid.erase(dock->m_dockid.begin() + level - 1, dock->m_dockid.begin() + level + 1);
 		}
 	}
 
@@ -89,14 +123,23 @@ namespace two
 		dock_stack(dock, name);
 	}
 
-	void Docker::undock(Dockable& dockable)
+	void Docker::undock(Dock& dock, cstring name)
 	{
-		vec2 absolute = dockable.m_frame.absolute_position();
-		dockable.m_frame.set_position(absolute);
-		dockable.m_frame.m_layer->moveToTop();
+		// the drag continues on the floating window created for the item on the next frame
+		m_docksystem->m_dragged = name;
 
-		this->dock_remove(*dockable.m_dock, dockable.m_name);
-		dockable.m_dock = nullptr;
+		m_pending_undocks.push_back({ &dock, name });
+	}
+
+	void Docker::apply_pending()
+	{
+		for(PendingUndock& undock : m_pending_undocks)
+			this->dock_remove(*undock.dock, undock.name.c_str());
+		for(PendingDock& dock : m_pending_docks)
+			this->dock(dock.name.c_str(), dock.pos);
+
+		m_pending_undocks.clear();
+		m_pending_docks.clear();
 	}
 
 	void Docker::shift_add(const vector<uint16_t>& dockid)
@@ -131,7 +174,7 @@ namespace two
 		for(Docker* docker : m_dockers)
 			if(docker->m_frame.inside_abs(pos))
 			{
-				docker->dock(item, pos);
+				docker->m_pending_docks.push_back({ item.m_name, pos });
 				return;
 			}
 	}
@@ -140,10 +183,10 @@ namespace two
 		: Docker(parent, identity, docksystem)
 	{}
 
-	Dockable& Dockspace::pinpoint_dock(const vec2& pos)
+	Dockable* Dockspace::pinpoint_dock(const vec2& pos)
 	{
-		Widget* widget = this->pinpoint(pos, [](Frame& frame) { return frame.d_style == &ui::window_styles().dock_window; });
-		return static_cast<Dockable&>(*widget);
+		Widget* widget = this->pinpoint(m_frame.local_position(pos), [](Frame& frame) { return frame.d_style == &ui::window_styles().dock_window; });
+		return static_cast<Dockable*>(widget);
 	}
 
 	Widget* Dockspace::docksection(Dock& dock, cstring name, NodeKey id)
@@ -162,7 +205,15 @@ namespace two
 		}
 
 		Tabber& section = ui::docksection(*line);
+		size_t index = section.m_index;
 		Widget* tab = ui::tab(id, section, name); // dock_styles().docktab, 
+
+		Widget& header = *section.m_head->m_nodes[index];
+		if(header.mouse_event(DeviceType::MouseLeft, EventType::DragStarted))
+		{
+			this->undock(dock, name);
+			return nullptr;
+		}
 
 		if(tab)
 		{
@@ -173,23 +224,31 @@ namespace two
 		return tab;
 	}
 
-	void Dockspace::dock(Dockable& widget, const vec2& pos)
+	void Dockspace::dock(cstring name, const vec2& pos)
 	{
-		Dockable& target = pinpoint_dock(pos);
-		this->dock(widget.m_name, *target.m_dock, target.m_frame, pos);
+		Dockable* target = pinpoint_dock(pos);
+		if(target)
+			this->dock(name, *target->m_dock, target->m_frame, pos);
+		else if(m_docks.empty())
+		{
+			// an empty dockspace receives the item in a root dock
+			Dock& dock = this->add_dock({ 0U });
+			this->dock_stack(dock, name);
+		}
 	}
 
 	void Dockspace::dock(cstring name, Dock& target, Frame& frame, const vec2& pos)
 	{
 		vec2 local = frame.local_position(pos);
 
+		// the target and its siblings are laid out along dim: dropping on the edges along dim inserts beside the target, on the other edges splits it
 		Axis dim = Axis(target.m_dockid.size() % 2);
 		Axis ortho = flip(dim);
 
-		const bool first = local[dim] < frame.m_size[dim] * 0.25f;
-		const bool second = local[dim] > frame.m_size[dim] * 0.75f;
-		const bool before = local[ortho] < frame.m_size[ortho] * 0.25f;
-		const bool after = local[ortho] > frame.m_size[ortho] * 0.75f;
+		const bool before = local[dim] < frame.m_size[dim] * 0.25f;
+		const bool after = local[dim] > frame.m_size[dim] * 0.75f;
+		const bool first = local[ortho] < frame.m_size[ortho] * 0.25f;
+		const bool second = local[ortho] > frame.m_size[ortho] * 0.75f;
 
 		// docking on the target stacks the item to it, otherwise a new dock is split off
 		if(first || second)
@@ -208,6 +267,15 @@ namespace two
 	{
 		string icon = "(" + to_lower(replace(name, " ", "")) + ")";
 		Widget& toggle = ui::button(id, *m_togglebar, ui::dock_styles().docktoggle, icon.c_str());
+		if(toggle.mouse_event(DeviceType::MouseLeft, EventType::DragStarted))
+		{
+			if(m_current_tab == dock.m_dockid.back())
+				m_current_tab = SIZE_MAX;
+
+			this->undock(dock, name);
+			return nullptr;
+		}
+
 		if(toggle.activated())
 			m_current_tab = m_current_tab == dock.m_dockid.back() ? SIZE_MAX : dock.m_dockid.back();
 		toggle.set_state(ACTIVE, m_current_tab == dock.m_dockid.back());
@@ -218,19 +286,24 @@ namespace two
 			return nullptr;
 	}
 
-	void Dockbar::dock(Dockable& widget, const vec2& pos)
+	void Dockbar::dock(cstring name, const vec2& pos)
 	{
-		UNUSED(widget); UNUSED(pos);
-#if 0
-		Dock* target = m_docks[0];
-		for(Dock* dock : m_docks)
-			if(pos.y < dock->m_frame->absolute_position().y)
-			{
-				target = dock;
-				break;
-			}
+		UNUSED(pos);
+		// the dockbar is a single row of tabs: a docked item is stacked after the last one, and opened
+		uint16_t index = m_docks.empty() ? 0 : m_docks.back()->m_dockid.back() + 1;
 
-		this->dock_insert(*widget.m_dock, *target, false);
-#endif
+		Dock& dock = this->add_dock({ index });
+		this->dock_stack(dock, name);
+		m_current_tab = index;
+	}
+
+	void Dockbar::apply_pending()
+	{
+		// the open tab moves back if the dock of a tab before it is removed
+		for(PendingUndock& undock : m_pending_undocks)
+			if(m_current_tab != SIZE_MAX && m_current_tab > undock.dock->m_dockid.back() && undock.dock->m_items.size() == 1)
+				m_current_tab--;
+
+		Docker::apply_pending();
 	}
 }

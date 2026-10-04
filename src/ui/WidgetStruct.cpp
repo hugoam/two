@@ -57,8 +57,11 @@ namespace two
 			m_events->m_control_node = nullptr;
 		if(this->modal())
 			this->yield_modal();
+		// the press goes back to the root, unless another widget took it over
 		if(this->pressed())
-			this->ui().m_mouse.fix_press(this->ui());
+			for(MouseButton& button : this->ui().m_mouse.m_buttons)
+				if(button.m_pressed == this)
+					button.m_pressed = &this->ui();
 		m_nodes.clear();
 	}
 
