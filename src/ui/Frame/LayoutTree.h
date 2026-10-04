@@ -38,20 +38,8 @@ namespace two
 		v2<bool> positioned = { false, false };
 
 		inline float pad(Axis dim) const { return padding[uint(dim)] + padding[uint(dim) + 2]; }
-		inline float bounds(Axis dim) const { return content[dim] + pad(dim) + margin[dim] * 2.f; }
 		inline float extent(Axis dim) const { return size[dim] + margin[dim] * 2.f; }
 		inline float space(Axis dim) const { return size[dim] - pad(dim); }
-	};
-
-	// what a container gathers from its children, on one axis
-	export_ struct LayoutSums
-	{
-		float total_span = 0.f;		// the spans of the flowing children that grow
-		float fixed = 0.f;			// the bounds of the flowing children that don't grow
-		float spacings = 0.f;		// the margins and spacings between the measured flowing children
-		uint32_t count = 0;			// the number of measured flowing children
-		bool expand = false;		// whether a child grows along the length
-		uint32_t prev = 0;			// the previous child placed in sequence, 0 if none
 	};
 
 	// lays out a tree of frames in a few linear passes over flat arrays, per axis:
@@ -74,7 +62,9 @@ namespace two
 		vec2 absolute(uint32_t index) const { return m_absolute[index]; }
 
 		vector<LayoutNode> m_nodes;
-		vector<v2<LayoutSums>> m_sums;
+		vector<v2<uint32_t>> m_first;	// the first of the nodes laid out by a node, on each axis, 0 if none
+		vector<v2<uint32_t>> m_next;	// the next of the nodes laid out by the same container, on each axis, 0 if none
+		vector<uint8_t> m_frozen;		// whether a growing node keeps its minimum, its share being less
 		vector<vec2> m_absolute;
 
 	private:
@@ -86,6 +76,8 @@ namespace two
 		vec2 local_position(uint32_t index) const;
 
 		void measure(Axis dim);
+		void distribute(uint32_t container, Axis dim, float space);
+		void sequence(uint32_t container, Axis dim, float space);
 		void arrange(Axis dim);
 		void accumulate();
 	};

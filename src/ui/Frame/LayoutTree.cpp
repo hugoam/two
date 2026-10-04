@@ -206,7 +206,9 @@ namespace two
 
 	void LayoutTree::solve()
 	{
-		m_sums.resize(m_nodes.size());
+		m_first.assign(m_nodes.size(), v2<uint32_t>(0, 0));
+		m_next.assign(m_nodes.size(), v2<uint32_t>(0, 0));
+		m_frozen.assign(m_nodes.size(), false);
 
 		this->measure(Axis::X);
 		this->arrange(Axis::X);
@@ -215,113 +217,217 @@ namespace two
 		this->accumulate();
 	}
 
-	// bottom-up: each node adds its bounds to the content of its container, whose children all come after it
+	// along the flow, a node takes at least its minimum, and the nodes that grow share the space left by their span:
+	// a fixed node takes its size, a shrinking node its content, a wrapping node its content or more, an expanding node any size
+	static float minimum(const LayoutNode& n, Axis dim)
+	{
+		if(n.sizing[dim] == Sizing::Fixed)
+			return n.size[dim];
+		else if(n.sizing[dim] == Sizing::Expand)
+			return 0.f;
+		else
+			return n.content[dim] + n.pad(dim);
+	}
+
+	static bool grows(const LayoutNode& n, Axis dim)
+	{
+		return n.sizing[dim] >= Sizing::Wrap;
+	}
+
+	// across the flow, or out of it, a node is sized in the space of its container alone
+	static float fit(const LayoutNode& n, Axis dim, float space)
+	{
+		if(n.sizing[dim] == Sizing::Shrink)
+			return n.content[dim] + n.pad(dim);
+		else if(n.sizing[dim] == Sizing::Wrap)
+			return max(n.content[dim] + n.pad(dim), space);
+		else if(n.sizing[dim] == Sizing::Expand)
+			return space;
+		else
+			return n.size[dim];
+	}
+
+	// bottom-up: the children of a node all come after it, so when it's reached they are measured, and it can measure its content
+	// along the flow, the content is the minimums of the flowing children in sequence, across it the largest of them
 	void LayoutTree::measure(Axis dim)
 	{
-		for(v2<LayoutSums>& sums : m_sums)
-			sums[dim] = {};
-
-		for(uint32_t i = uint32_t(m_nodes.size()) - 1; i > 0; --i)
+		for(uint32_t i = uint32_t(m_nodes.size()); i-- > 0;)
 		{
-			const LayoutNode& n = m_nodes[i];
-			const uint32_t c = n.container[dim];
-			LayoutNode& p = m_nodes[c];
-			if(p.solver == Solver::Frame)
-				continue;
-
-			LayoutSums& sums = m_sums[c][dim];
-			const bool along = dim == p.length;
-			const bool flow = n.flow == LayoutFlow::Flow;
-			const Sizing sizing = n.sizing[dim];
-
-			if(along && flow && sizing >= Sizing::Wrap)
-				sums.total_span += n.span[dim];
-
-			if(n.flow > LayoutFlow::Overlay)
-				continue;
-
-			const float bounds = n.bounds(dim);
-			if(sizing <= Sizing::Wrap)
+			LayoutNode& p = m_nodes[i];
+			if(p.solver != Solver::Frame && p.sizing[dim] != Sizing::Fixed)
 			{
-				if(along && flow)
+				const bool along = dim == p.length;
+				float sequence = 0.f;
+				float largest = 0.f;
+				uint32_t count = 0;
+				for(uint32_t c = m_first[i][dim]; c; c = m_next[c][dim])
 				{
-					const float spacing = sums.count++ ? p.spacing[dim] : 0.f;
-					p.content[dim] += bounds + spacing;
-					sums.spacings += n.margin[dim] * 2.f + spacing;
+					const LayoutNode& n = m_nodes[c];
+					const float bounds = minimum(n, dim) + n.margin[dim] * 2.f;
+					if(n.flow > LayoutFlow::Overlay)
+						continue;
+					else if(along && n.flow == LayoutFlow::Flow)
+						sequence += bounds, ++count;
+					else if(n.sizing[dim] != Sizing::Expand)
+						largest = max(largest, bounds);
 				}
-				else
-					p.content[dim] = max(p.content[dim], bounds);
+				const float spacings = count > 1 ? float(count - 1) * p.spacing[dim] : 0.f;
+				p.content[dim] = max(sequence + spacings, largest);
 			}
 
-			if(along && flow && sizing <= Sizing::Shrink)
-				sums.fixed += bounds;
-
-			if(along && sizing >= Sizing::Wrap)
-				sums.expand = true;
+			// linked in front of the children of its container, which end up in order
+			if(i > 0)
+			{
+				const uint32_t container = p.container[dim];
+				m_next[i][dim] = m_first[container][dim];
+				m_first[container][dim] = i;
+			}
 		}
 	}
 
-	// top-down: each node is sized and positioned by its container, which is sized and positioned before it
-	void LayoutTree::arrange(Axis dim)
+	// the flowing children take their minimum, and their margins and the spacing between them,
+	// then the children that grow share the space left by their span: a wrapping child whose share is less than its content keeps its content,
+	// and the others share what remains, until every share holds: when the space is short, the wrapping children give way to each other
+	void LayoutTree::distribute(uint32_t container, Axis dim, float space)
 	{
-		for(uint32_t i = 1; i < uint32_t(m_nodes.size()); ++i)
-		{
-			LayoutNode& n = m_nodes[i];
-			n.positioned[dim] = false;
+		const LayoutNode& p = m_nodes[container];
 
-			const uint32_t c = n.container[dim];
-			const LayoutNode& p = m_nodes[c];
-			if(p.solver == Solver::Frame)
+		float left = space;
+		float spans = 0.f;
+		uint32_t count = 0;
+		for(uint32_t c = m_first[container][dim]; c; c = m_next[c][dim])
+		{
+			LayoutNode& n = m_nodes[c];
+			if(n.flow != LayoutFlow::Flow)
 				continue;
 
-			LayoutSums& sums = m_sums[c][dim];
-			const bool along = dim == p.length;
-			const bool flow = n.flow == LayoutFlow::Flow;
-			const Sizing sizing = n.sizing[dim];
+			++count;
+			left -= n.margin[dim] * 2.f;
+			if(grows(n, dim))
+			{
+				spans += n.span[dim];
+				m_frozen[c] = false;
+			}
+			else
+			{
+				n.size[dim] = minimum(n, dim);
+				left -= n.size[dim];
+			}
+		}
+		left -= count > 1 ? float(count - 1) * p.spacing[dim] : 0.f;
 
-			if(along && flow && sizing >= Sizing::Wrap && sums.total_span > 0.f)
-				n.span[dim] = n.span[dim] / sums.total_span;
+		bool freezing = true;
+		while(freezing && spans > 0.f)
+		{
+			freezing = false;
+			for(uint32_t c = m_first[container][dim]; c; c = m_next[c][dim])
+			{
+				LayoutNode& n = m_nodes[c];
+				if(n.flow != LayoutFlow::Flow || !grows(n, dim) || m_frozen[c])
+					continue;
+
+				const float least = minimum(n, dim);
+				if(left * n.span[dim] / spans < least)
+				{
+					n.size[dim] = least;
+					m_frozen[c] = true;
+					left -= least;
+					spans -= n.span[dim];
+					freezing = true;
+				}
+			}
+		}
+
+		for(uint32_t c = m_first[container][dim]; c; c = m_next[c][dim])
+		{
+			LayoutNode& n = m_nodes[c];
+			if(n.flow == LayoutFlow::Flow && grows(n, dim) && !m_frozen[c])
+				n.size[dim] = spans > 0.f ? left * n.span[dim] / spans : 0.f;
+		}
+	}
+
+	// the flowing children are placed one after the other: the space left after them shifts each one by the fraction of its alignment
+	void LayoutTree::sequence(uint32_t container, Axis dim, float space)
+	{
+		const LayoutNode& p = m_nodes[container];
+
+		float used = 0.f;
+		uint32_t count = 0;
+		for(uint32_t c = m_first[container][dim]; c; c = m_next[c][dim])
+		{
+			const LayoutNode& n = m_nodes[c];
+			if(n.flow == LayoutFlow::Flow)
+				used += n.extent(dim), ++count;
+		}
+		used += count > 1 ? float(count - 1) * p.spacing[dim] : 0.f;
+		const float leftover = max(0.f, space - used);
+
+		float cursor = p.padding[uint(dim)];
+		for(uint32_t c = m_first[container][dim]; c; c = m_next[c][dim])
+		{
+			LayoutNode& n = m_nodes[c];
+			if(n.flow != LayoutFlow::Flow)
+				continue;
+			n.position[dim] = cursor + n.margin[dim] + leftover * c_align_space[n.align[dim]];
+			n.positioned[dim] = true;
+			cursor += n.extent(dim) + p.spacing[dim];
+		}
+	}
+
+	// top-down: a container is sized and positioned before its children, which it then sizes and positions all together
+	void LayoutTree::arrange(Axis dim)
+	{
+		for(LayoutNode& n : m_nodes)
+			n.positioned[dim] = false;
+
+		for(uint32_t i = 0; i < uint32_t(m_nodes.size()); ++i)
+		{
+			const LayoutNode& p = m_nodes[i];
+			if(p.solver == Solver::Frame || !m_first[i][dim])
+				continue;
+
+			const bool along = dim == p.length;
+			const float space = p.space(dim);
+
+			// the spans of the growing children are normalized, so that they read as fractions of the space they share
+			if(along)
+			{
+				float spans = 0.f;
+				for(uint32_t c = m_first[i][dim]; c; c = m_next[c][dim])
+					if(m_nodes[c].flow == LayoutFlow::Flow && grows(m_nodes[c], dim))
+						spans += m_nodes[c].span[dim];
+				for(uint32_t c = m_first[i][dim]; c; c = m_next[c][dim])
+					if(m_nodes[c].flow == LayoutFlow::Flow && grows(m_nodes[c], dim) && spans > 0.f)
+						m_nodes[c].span[dim] /= spans;
+			}
 
 			if(p.autolayout[dim] >= AutoLayout::Size)
 			{
-				float space = p.space(dim);
-				if(along && flow)
-					space = (space - sums.fixed - sums.spacings) * n.span[dim];
-				else
-					space -= n.margin[dim] * 2.f;
-
-				const float content = n.content[dim] + n.pad(dim);
-				if(sizing == Sizing::Shrink)
-					n.size[dim] = content;
-				else if(sizing == Sizing::Wrap)
-					n.size[dim] = max(content, space);
-				else if(sizing == Sizing::Expand)
-					n.size[dim] = space;
+				if(along)
+					this->distribute(i, dim, space);
+				for(uint32_t c = m_first[i][dim]; c; c = m_next[c][dim])
+				{
+					LayoutNode& n = m_nodes[c];
+					if(!(along && n.flow == LayoutFlow::Flow))
+						n.size[dim] = fit(n, dim, space - n.margin[dim] * 2.f);
+				}
 			}
 
-			if(n.flow <= LayoutFlow::Align && p.autolayout[dim] >= AutoLayout::Layout)
+			if(p.autolayout[dim] >= AutoLayout::Layout)
 			{
-				const float space = p.space(dim);
-				if(along && flow)
+				if(along)
+					this->sequence(i, dim, space);
+				for(uint32_t c = m_first[i][dim]; c; c = m_next[c][dim])
 				{
-					const float leftover = sums.expand ? 0.f : space - p.content[dim];
-					auto offset = [&](const LayoutNode& node) { return leftover * c_align_space[node.align[dim]]; };
-					if(sums.prev)
-					{
-						const LayoutNode& prev = m_nodes[sums.prev];
-						n.position[dim] = prev.position[dim] + prev.size[dim] + prev.margin[dim] - offset(prev) + p.spacing[dim] + offset(n);
-					}
-					else
-						n.position[dim] = p.padding[uint(dim)] + n.margin[dim] + offset(n);
-					sums.prev = i;
-				}
-				else
-				{
+					LayoutNode& n = m_nodes[c];
+					if(n.flow > LayoutFlow::Align || (along && n.flow == LayoutFlow::Flow))
+						continue;
+					const bool flow = n.flow == LayoutFlow::Flow;
 					const Align align = n.align[dim];
 					const float offset = space * c_align_space[align] - n.extent(dim) * c_align_extent[align];
 					n.position[dim] = (flow ? p.padding[uint(dim)] + n.margin[dim] : 0.f) + offset;
+					n.positioned[dim] = true;
 				}
-				n.positioned[dim] = true;
 			}
 		}
 	}
