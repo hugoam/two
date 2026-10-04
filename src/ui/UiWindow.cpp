@@ -80,7 +80,7 @@ namespace two
 
 		auto visit_folder = [&](const string& folder)
 		{
-			load_folder_images(images, sprite_path + folder + "/", string(folder) + "/");
+			load_folder_images(images, sprite_path + "/" + folder, string(folder) + "/");
 		};
 
 		visit_folders(sprite_path.c_str(), visit_folder);
