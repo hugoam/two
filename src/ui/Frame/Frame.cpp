@@ -14,9 +14,10 @@ namespace two
 	template struct v2<Align>;
 	template struct v2<Pivot>;
 
-	template <> string to_string<DirtyLayout>(const DirtyLayout& dirty) { if(dirty == CLEAN) return "CLEAN"; else if(dirty == DIRTY_REDRAW) return "DIRTY_REDRAW"; else if(dirty == DIRTY_PARENT) return "DIRTY_PARENT"; else if(dirty == DIRTY_LAYOUT) return "DIRTY_LAYOUT"; else if(dirty == DIRTY_FORCE_LAYOUT) return "DIRTY_FORCE_LAYOUT"; else /*if(dirty == DIRTY_STRUCTURE)*/ return "DIRTY_STRUCTURE"; }
+	template <> string to_string<DirtyLayout>(const DirtyLayout& dirty) { if(dirty == CLEAN) return "CLEAN"; else if(dirty == DIRTY_REDRAW) return "DIRTY_REDRAW"; else return "DIRTY_LAYOUT"; }
 
 	Vg* Frame::s_vg = nullptr;
+	uint64_t Frame::s_epoch = 1;
 
 	Frame::Frame(Frame* parent, Widget& widget)
 		: UiRect()
@@ -25,7 +26,7 @@ namespace two
 	{
 		if(parent)
 		{
-			parent->mark_dirty(DIRTY_FORCE_LAYOUT);
+			parent->mark_dirty(DIRTY_LAYOUT);
 			//d_index[d_parent->d_length] = d_widget.d_index;
 		}
 	}
@@ -34,7 +35,7 @@ namespace two
 	{
 		if(d_parent)
 		{
-			d_parent->mark_dirty(DIRTY_FORCE_LAYOUT);
+			d_parent->mark_dirty(DIRTY_LAYOUT);
 			d_parent = nullptr;
 		}
 	}
@@ -66,7 +67,7 @@ namespace two
 
 	Frame& Frame::root()
 	{
-		return d_parent ? d_parent->root() : *this;
+		return d_widget.m_root ? d_widget.m_root->m_frame : *this;
 	}
 
 	Layer& Frame::layer()
@@ -74,16 +75,24 @@ namespace two
 		return m_layer ? *m_layer : d_parent->layer();
 	}
 
+	// a frame to lay out lays out the whole tree, from its root, and a frame to redraw redraws its layer
 	void Frame::mark_dirty(DirtyLayout dirty)
 	{
-		this->set_dirty(dirty);
-		if(dirty == DIRTY_FORCE_LAYOUT)
-			dirty = DIRTY_LAYOUT;
-		Frame* parent = this->d_parent;
-		while(parent)
+		if(dirty == DIRTY_LAYOUT)
 		{
-			parent->set_dirty(dirty);
-			parent = parent->d_parent;
+			this->set_dirty(DIRTY_LAYOUT);
+			this->root().set_dirty(DIRTY_LAYOUT);
+		}
+		else if(dirty == DIRTY_REDRAW)
+		{
+			Frame* frame = this;
+			while(frame && !frame->m_layer)
+				frame = frame->d_parent;
+			if(frame)
+			{
+				frame->m_layer->setRedraw();
+				frame->m_layer->setForceRedraw(); // @ kludge for nodes in canvas when moving the canvas window
+			}
 		}
 	}
 
@@ -97,7 +106,8 @@ namespace two
 		m_opacity = d_layout->m_opacity;
 		m_size = d_layout->m_size == vec2(0.f) ? m_size : d_layout->m_size;
 
-		reset ? this->mark_dirty(DIRTY_FORCE_LAYOUT) : this->mark_dirty(DIRTY_LAYOUT);
+		UNUSED(reset);
+		this->mark_dirty(DIRTY_LAYOUT);
 	}
 
 	void Frame::update_state(WidgetState state)
@@ -152,65 +162,62 @@ namespace two
 	{
 		if(m_size[dim] == size) return;
 		m_size[dim] = size;
-		this->mark_dirty(DIRTY_FORCE_LAYOUT);
+		this->mark_dirty(DIRTY_LAYOUT);
 	}
 
 	void Frame::set_span(Axis dim, float span)
 	{
 		if(m_span[dim] == span) return;
 		m_span[dim] = span;
-		this->mark_dirty(DIRTY_FORCE_LAYOUT);
+		this->mark_dirty(DIRTY_LAYOUT);
 	}
 
 	void Frame::set_position(Axis dim, float position)
 	{
 		if(m_position[dim] == position) return;
 		m_position[dim] = position;
+		++s_epoch;
 		this->mark_dirty(DIRTY_REDRAW);
 	}
 
-	void Frame::integrate_position(Frame& root, vec2& global)
+	void Frame::set_scale(float scale)
 	{
-		if(this == &root) return;
-		d_parent->integrate_position(root, global);
-		global = (global - m_position) / m_scale;
+		if(m_scale == scale) return;
+		m_scale = scale;
+		++s_epoch;
+		this->mark_dirty(DIRTY_REDRAW);
 	}
 
-	void Frame::derive_position(Frame& root, vec2& local)
+	// a frame resolves its parent first, which is cached in turn: a frame resolves once for the current positions
+	void Frame::resolve()
 	{
-		if(this == &root) return;
-		local = m_position + local * m_scale;
-		d_parent->derive_position(root, local);
-	}
-
-	float Frame::derive_scale(Frame& root)
-	{
-		if(this == &root)
-			return m_scale;
-		else 
-			return d_parent->derive_scale(root) * m_scale;
-	}
-
-	Frame* clip_parent(Frame& frame)
-	{
-		Frame* parent = frame.d_parent;
-		while(parent->d_layout->m_clipping != Clip::Clip)
-			parent = parent->d_parent;
-		return parent;
+		if(d_epoch == s_epoch)
+			return;
+		if(d_parent)
+		{
+			d_parent->resolve();
+			d_absolute = d_parent->d_absolute + m_position * d_parent->d_scale;
+			d_scale = d_parent->d_scale * m_scale;
+		}
+		else
+		{
+			d_absolute = vec2(0.f);
+			d_scale = 1.f;
+		}
+		d_epoch = s_epoch;
 	}
 
 	void Frame::clamp_to_parent()
 	{
-		//Frame* clip = clip_parent(*this);
-		Frame* clip = &this->root();
-		vec2 position = this->derive_position(vec2(0.f), *clip);
+		Frame& clip = this->root();
+		const vec2 position = this->derive_position(vec2(0.f), clip);
 
 		for(Axis dim : { Axis::X, Axis::Y })
 		{
-			m_size[dim] = min(clip->m_size[dim], m_size[dim]);
+			m_size[dim] = min(clip.m_size[dim], m_size[dim]);
 
-			float overflow = position[dim] + m_size[dim] - clip->m_size[dim];
-			m_position[dim] -= max(0.f, overflow);
+			const float overflow = position[dim] + m_size[dim] - clip.m_size[dim];
+			this->set_position(dim, m_position[dim] - max(0.f, overflow));
 		}
 	}
 
@@ -243,32 +250,13 @@ namespace two
 
 		prev.set_span(dim, max(0.01f, prev.m_span[dim] + offset));
 		next.set_span(dim, max(0.01f, next.m_span[dim] - offset));
-		this->mark_dirty(DIRTY_FORCE_LAYOUT);
-	}
-
-	// the frames only marked for redraw are redrawn, down from the root through the dirty frames
-	static void redraw_dirty(Frame& frame)
-	{
-		if(!frame.d_dirty)
-			return;
-		frame.layer().setRedraw();
-		frame.layer().setForceRedraw(); // @ kludge for nodes in canvas when moving the canvas window
-		frame.clearDirty();
-		for(Widget& child : frame.d_widget.children())
-			redraw_dirty(child.m_frame);
+		this->mark_dirty(DIRTY_LAYOUT);
 	}
 
 	void Frame::relayout()
 	{
-		const DirtyLayout dirty = this->clearDirty();
-		if(!dirty) return;
-
-		if(dirty < DIRTY_PARENT)
-		{
-			for(Widget& child : d_widget.children())
-				redraw_dirty(child.m_frame);
+		if(this->clearDirty() < DIRTY_LAYOUT)
 			return;
-		}
 
 		static LayoutTree tree;
 		tree.build(*this);

@@ -13,11 +13,9 @@ namespace two
 
 	enum DirtyLayout : unsigned int
 	{
-		CLEAN,				// Frame doesn't need update
-		DIRTY_REDRAW,		// The parent layout has changed
-		DIRTY_PARENT,		// The parent layout has changed
-		DIRTY_LAYOUT,		// The frame layout has changed
-		DIRTY_FORCE_LAYOUT	// The frame layout has changed
+		CLEAN,				// the frame doesn't need update
+		DIRTY_REDRAW,		// the frame needs to be redrawn: its layer is redrawn right away
+		DIRTY_LAYOUT		// the frame needs to be laid out: the whole tree is laid out from its root
 	};
 
 	export_ class refl_ TWO_UI_EXPORT Frame : public UiRect
@@ -54,22 +52,26 @@ namespace two
 		void set_size(Axis dim, float size);
 		void set_span(Axis dim, float span);
 		void set_position(Axis dim, float position);
+		void set_scale(float scale);
 
 		inline void set_position(const vec2& pos) { set_position(Axis::X, pos.x), set_position(Axis::Y, pos.y); }
 		inline void set_size(const vec2& size) { set_size(Axis::X, size.x); set_size(Axis::Y, size.y); }
 
-		// global to local
-		void integrate_position(Frame& root, vec2& global);
-		inline vec2 integrate_position(const vec2& pos, Frame& root) { vec2 local = pos; integrate_position(root, local); return local; }
-		inline vec2 local_position(const vec2& pos) { return integrate_position(pos, root()); }
+		// the position and the scale of the frame in the space of its root, inherited from its parents:
+		// they are cached until a frame moves or scales, and resolved for all the frames in one pass by the layout
+		void resolve();
 
-		// local to global
-		void derive_position(Frame& root, vec2& local);
-		inline vec2 derive_position(const vec2& pos, Frame& root) { vec2 local = pos; derive_position(root, local); return local; }
-		inline vec2 derive_position(const vec2& pos) { return derive_position(pos, root()); }
-		inline vec2 absolute_position() { return derive_position({ 0.f, 0.f }); }
+		// from the local space of the frame to the space of its root, or of an ancestor
+		inline vec2 absolute_position() { resolve(); return d_absolute; }
+		inline vec2 derive_position(const vec2& local) { resolve(); return d_absolute + local * d_scale; }
+		inline vec2 derive_position(const vec2& local, Frame& root) { resolve(); root.resolve(); return (d_absolute + local * d_scale - root.d_absolute) / root.d_scale; }
 
-		float derive_scale(Frame& root);
+		// from the space of its root, or of an ancestor, to the local space of the frame
+		inline vec2 local_position(const vec2& pos) { resolve(); return (pos - d_absolute) / d_scale; }
+		inline vec2 integrate_position(const vec2& pos, Frame& root) { resolve(); root.resolve(); return (root.d_absolute + pos * root.d_scale - d_absolute) / d_scale; }
+
+		// the scale of the frame and of its parents up to an ancestor, including it
+		inline float derive_scale(Frame& root) { resolve(); root.resolve(); return d_scale / root.d_scale * root.m_scale; }
 		inline float absolute_scale() { return this->derive_scale(root()); }
 
 		void clamp_to_parent();
@@ -91,7 +93,14 @@ namespace two
 	public:
 		Widget& d_widget;
 		Frame* d_parent;
-		DirtyLayout d_dirty = DIRTY_FORCE_LAYOUT;
+		DirtyLayout d_dirty = DIRTY_LAYOUT;
+
+		vec2 d_absolute = vec2(0.f);	// the position of the frame in the space of its root
+		float d_scale = 1.f;			// the scale of the frame and of its parents, below the root
+		uint64_t d_epoch = 0;			// the positions and scales the cache was resolved with: valid while it's the current one
+
+		// the current positions and scales: changes whenever a frame moves, scales, or changes parent
+		static uint64_t s_epoch;
 		v2<uint> d_index = { 0, 0 };
 		Axis d_length_override = Axis::None;	// the flow axis given explicitly, overriding the one of the style
 		Axis d_length = Axis::None;				// the flow axis, as resolved by the last layout

@@ -74,6 +74,7 @@ namespace two
 		vector<v2<uint32_t>> m_first;	// the first of the nodes laid out by a node, on each axis, 0 if none
 		vector<v2<uint32_t>> m_next;	// the next of the nodes laid out by the same container, on each axis, 0 if none
 		vector<uint8_t> m_frozen;		// whether a growing node keeps its minimum, its share being less
+		vector<Layer*> m_layers;		// the layer each frame is drawn in
 		vector<vec2> m_absolute;
 
 	private:

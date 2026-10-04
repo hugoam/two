@@ -447,6 +447,8 @@ namespace two
 		return m_absolute[index] - m_absolute[m_nodes[index].frame_parent];
 	}
 
+	// the frames take their layout, then their position and scale in the space of the root are resolved in one pass, parents first
+	// the layers are all redrawn already, so the frames are moved without redrawing them again
 	void LayoutTree::apply()
 	{
 		m_nodes[0].frame->d_length = m_nodes[0].length;
@@ -455,20 +457,42 @@ namespace two
 			const LayoutNode& n = m_nodes[i];
 			if(!n.frame) continue;
 			n.frame->d_length = n.length;
-			n.frame->set_position(this->local_position(i));
+			n.frame->m_position = this->local_position(i);
 			n.frame->set_size(n.size);
 			n.frame->m_span = n.span;
 		}
-	}
 
-	void LayoutTree::clear_dirty()
-	{
+		++Frame::s_epoch;
+		m_nodes[0].frame->resolve();
 		for(uint32_t i = 1; i < uint32_t(m_nodes.size()); ++i)
 		{
 			Frame* frame = m_nodes[i].frame;
 			if(!frame) continue;
-			frame->layer().setRedraw();
-			frame->layer().setForceRedraw(); // @ kludge for nodes in canvas when moving the canvas window
+			const Frame& parent = *m_nodes[m_nodes[i].frame_parent].frame;
+			frame->d_absolute = parent.d_absolute + frame->m_position * parent.d_scale;
+			frame->d_scale = parent.d_scale * frame->m_scale;
+			frame->d_epoch = Frame::s_epoch;
+		}
+	}
+
+	// the layer of each frame is its own or the one of its parent: each layer is redrawn once
+	void LayoutTree::clear_dirty()
+	{
+		m_layers.assign(m_nodes.size(), nullptr);
+		for(Frame* frame = m_nodes[0].frame; frame && !m_layers[0]; frame = frame->d_parent)
+			m_layers[0] = frame->m_layer.get();
+
+		for(uint32_t i = 0; i < uint32_t(m_nodes.size()); ++i)
+		{
+			Frame* frame = m_nodes[i].frame;
+			if(!frame) continue;
+			Layer* parent = i > 0 ? m_layers[m_nodes[i].frame_parent] : nullptr;
+			m_layers[i] = frame->m_layer ? frame->m_layer.get() : (i > 0 ? parent : m_layers[0]);
+			if(m_layers[i] && m_layers[i] != parent)
+			{
+				m_layers[i]->setRedraw();
+				m_layers[i]->setForceRedraw(); // @ kludge for nodes in canvas when moving the canvas window
+			}
 			frame->clearDirty();
 		}
 	}

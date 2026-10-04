@@ -86,7 +86,7 @@ namespace ui
 	{
 		UNUSED(locked);
 		Widget& self = widget(id, parent, style).layer();
-		self.m_frame.m_position = position;
+		self.m_frame.set_position(position);
 		return self;
 	}
 

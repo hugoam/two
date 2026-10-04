@@ -55,12 +55,12 @@ namespace ui
 	void scroll_plan_zoom(Frame& scroll_zone, Frame& scroll_plan, const MouseEvent& mouse_event, bool clamped)
 	{
 		const float delta_scale = mouse_event.m_deltaZ > 0.f ? 1.2f : 0.8333f;
-		scroll_plan.m_scale = scroll_plan.m_scale * delta_scale;
+		scroll_plan.set_scale(scroll_plan.m_scale * delta_scale);
 
 		if(clamped)
 		{
 			const vec2 min_scale = scroll_zone.m_size / scroll_plan.m_size;
-			scroll_plan.m_scale = max(scroll_plan.m_scale, max(min_scale.x, min_scale.y));
+			scroll_plan.set_scale(max(scroll_plan.m_scale, max(min_scale.x, min_scale.y)));
 		}
 
 		const vec2 relative = mouse_event.m_pos - scroll_plan.absolute_position();
@@ -136,9 +136,9 @@ namespace ui
 		offset = offset - remainder;
 
 		for(Widget* widget : elements)
-			widget->m_frame.m_position += offset;
+			widget->m_frame.set_position(widget->m_frame.m_position + offset);
 
-		scroll_plan.m_position += -offset * scroll_plan.m_scale;
+		scroll_plan.set_position(scroll_plan.m_position - offset * scroll_plan.m_scale);
 
 		const vec2 bounds = bounds_max + 2.f * margin - bounds_min;
 		scroll_plan.m_size = bounds;

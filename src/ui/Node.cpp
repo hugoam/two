@@ -82,7 +82,7 @@ namespace ui
 	Widget& canvas_cable(NodeKey id, Widget& parent, NodeKnob& out, NodeKnob& in, bool straight = false)
 	{
 		Widget& self = widget(id, parent, node_styles().cable);
-		self.m_frame.m_position = min(out.m_end, in.m_end);
+		self.m_frame.set_position(min(out.m_end, in.m_end));
 		self.m_frame.m_size = max(out.m_end, in.m_end) - self.m_frame.m_position;
 		self.m_custom_draw = [&, straight](const Frame& frame, const vec4& rect, Vg& vg)
 		{

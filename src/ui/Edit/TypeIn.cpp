@@ -516,8 +516,8 @@ namespace two
 		if(MouseEvent event = this->mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
 			float overflow = content.m_size.y - frame.m_size.y;
-			content.m_position.y += event.m_deltaZ * 22.f * 3.f;
-			content.m_position.y = min(0.f, max(content.m_position.y, -overflow));
+			const float scrolled = content.m_position.y + event.m_deltaZ * 22.f * 3.f;
+			content.set_position(Axis::Y, min(0.f, max(scrolled, -overflow)));
 		}
 
 		if(m_follow_cursor)

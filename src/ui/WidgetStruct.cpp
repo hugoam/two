@@ -101,9 +101,10 @@ namespace two
 					relink(*widget->m_frame.m_layer);
 
 		if(old)
-			old->m_frame.mark_dirty(DIRTY_FORCE_LAYOUT);
+			old->m_frame.mark_dirty(DIRTY_LAYOUT);
 		m_frame.d_parent = m_parent ? &m_parent->m_frame : nullptr;
-		m_frame.mark_dirty(DIRTY_FORCE_LAYOUT);
+		++Frame::s_epoch;
+		m_frame.mark_dirty(DIRTY_LAYOUT);
 	}
 
 	Widget& Widget::layer()
