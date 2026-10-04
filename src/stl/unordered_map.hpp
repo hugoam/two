@@ -129,6 +129,11 @@ namespace stl {
 	}
 
 	template <class Key, class Value, class Alloc>
+	inline bool unordered_map<Key, Value, Alloc>::contains(const Key& key) const {
+		return unordered_hash_find(key, m_buckets.m_first, (size_t)(m_buckets.m_last - m_buckets.m_first)) != nullptr;
+	}
+
+	template <class Key, class Value, class Alloc>
 	inline void unordered_map<Key, Value, Alloc>::rehash(size_t nbuckets) {
 		if(m_size + 1 > 4 * nbuckets) {
 			pointer root = *m_buckets.m_first;

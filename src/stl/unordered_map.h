@@ -44,6 +44,7 @@ namespace stl {
 
 		const_iterator find(const Key& key) const;
 		iterator find(const Key& key);
+		bool contains(const Key& key) const;
 		pair<iterator, bool> insert(const pair<Key, Value>& p);
 		pair<iterator, bool> insert(pair<Key, Value>&& p);
 		pair<iterator, bool> emplace(pair<Key, Value>&& p);
