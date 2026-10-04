@@ -208,25 +208,26 @@ namespace two
 
 	vec4 Text::cursor_rect(size_t index) const
 	{
-		const TextRow& row = text_row_at(index);
+		if(m_text_rows.empty())
+			return { vec2(0.f), vec2(1.f, line_height()) };
 
-		if(index != row.m_end_index)
-		{
-			size_t offset = row.m_start - m_text.c_str();
+		const TextRow& row = text_row_at(index);
+		const size_t offset = row.m_start - m_text.c_str();
+
+		// a cursor past the glyphs of its row, e.g at the end of the text, is drawn after the row
+		if(index != row.m_end_index && index >= offset && index - offset < row.m_glyphs.size())
 			return row.m_glyphs[index - offset].m_rect;
-		}
 		else
-		{
 			return { vec2(row.m_rect.x + row.m_rect.width, row.m_rect.y), vec2(1.f, line_height()) };
-		}
 	}
 
+	// the row of a character, or the last row for an index past the end of the text
 	size_t Text::text_row_index(size_t index) const
 	{
 		for(size_t i = 0; i < m_text_rows.size(); ++i)
 			if(index <= m_text_rows[i].m_end_index)
 				return i;
-		return 0;
+		return m_text_rows.empty() ? 0 : m_text_rows.size() - 1;
 	}
 
 	const TextRow& Text::text_row_at(size_t index) const
