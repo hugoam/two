@@ -141,7 +141,7 @@ namespace two
 	void Widget::set_content(cstring content)
 	{
 		string str = content;
-		if(str.front() == '(' && str.back() == ')')
+		if(!str.empty() && str.front() == '(' && str.back() == ')')
 		{
 			string name = to_lower(str.substr(1, str.size() - 2));
 			Image& icon = *this->ui_window().find_image(name.c_str());
