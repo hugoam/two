@@ -35,9 +35,9 @@ namespace ui
 
 		int shift = -min(0, min_index);
 		
-		static Layout layout_overlay = [](Layout& l) { l.m_space = Preset::Board; };
-		static Layout layout_line = [](Layout& l) { l.m_space = Preset::Item; l.m_align = { Align::Center, Align::Center }; l.m_padding = vec4(20.f); l.m_spacing = vec2(100.f); };
-		static Layout layout_column = [](Layout& l) { l.m_space = Preset::Unit; l.m_align = { Align::Left, Align::Center }; l.m_padding = vec4(20.f); l.m_spacing = vec2(20.f); };
+		static Layout layout_overlay = [](Layout& l) { l.m_solver = Solver::Row; l.m_space = Preset::Board; };
+		static Layout layout_line = [](Layout& l) { l.m_solver = Solver::Row; l.m_space = Preset::Item; l.m_align = { Align::Center, Align::Center }; l.m_padding = vec4(20.f); l.m_spacing = vec2(100.f); };
+		static Layout layout_column = [](Layout& l) { l.m_solver = Solver::Row; l.m_space = Preset::Unit; l.m_align = { Align::Left, Align::Center }; l.m_padding = vec4(20.f); l.m_spacing = vec2(20.f); };
 		static Layout layout_node = [](Layout& l) { l.m_space = Preset::Block; };
 
 		// the nodes are laid out in columns by order, the columns side by side in a line centered in the plan
