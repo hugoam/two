@@ -123,7 +123,7 @@ namespace two
 	export_ class TWO_GFX_EXPORT ParticleSystem
 	{
 	public:
-		ParticleSystem(GfxSystem& gfx, TPool<Flare>& emitters);
+		ParticleSystem(GfxSystem& gfx, ChunkedPool<Flare>& emitters);
 		~ParticleSystem();
 
 		GfxSystem& m_gfx;
@@ -134,7 +134,7 @@ namespace two
 		void update(float timestep);
 		void render(bgfx::Encoder& encoder, uint8_t pass, const mat4& view, const vec3& eye);
 		
-		TPool<Flare>& m_emitters;
+		ChunkedPool<Flare>& m_emitters;
 
 		bgfx::ProgramHandle m_program;
 

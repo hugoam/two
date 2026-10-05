@@ -37,11 +37,11 @@ namespace two
 
 	void Prefab::add(Scene& scene, Mime* mime)
 	{
-		span<Node3> nodes = gfx::nodes(scene).addvec(m_nodes);
+		vector<Node3*> nodes = gfx::nodes(scene).addvec(m_nodes);
 
 		for(Elem& elem : m_items)
 		{
-			Item& it = gfx::items(scene).add(Item(nodes[elem.node], *elem.item.m_model, elem.item.m_flags));
+			Item& it = gfx::items(scene).add(Item(*nodes[elem.node], *elem.item.m_model, elem.item.m_flags));
 			UNUSED(it);
 		}
 

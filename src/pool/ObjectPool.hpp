@@ -6,32 +6,32 @@
 
 #include <pool/Forward.h>
 #include <pool/ObjectPool.h>
-#include <pool/Pool.hpp>
+#include <pool/ChunkedPool.hpp>
 
 namespace two
 {
 	inline Pool& ObjectPool::pool(Type& type) { return *m_pools[type.m_id].get(); }
 
 	template <class T>
-	inline TPool<T>& ObjectPool::pool()
+	inline ChunkedPool<T>& ObjectPool::pool()
 	{
 		if(!m_pools[type<T>().m_id])
-			m_pools[type<T>().m_id] = make_unique<TPool<T>>();
-		return as<TPool<T>>(*m_pools[type<T>().m_id].get());
+			m_pools[type<T>().m_id] = make_unique<ChunkedPool<T>>();
+		return as<ChunkedPool<T>>(*m_pools[type<T>().m_id].get());
 	}
 
 	template <class T>
-	inline TPool<T>& ObjectPool::create_pool(size_t size)
+	inline ChunkedPool<T>& ObjectPool::create_pool(uint32_t chunk_size)
 	{
-		m_pools[type<T>().m_id] = make_unique<TPool<T>>(size);
+		m_pools[type<T>().m_id] = make_unique<ChunkedPool<T>>(chunk_size);
 		return pool<T>();
 	}
 
 	template <class T>
-	inline TPool<T>& global_pool()
+	inline ChunkedPool<T>& global_pool()
 	{
 		if(!g_pools[type<T>().m_id])
-			g_pools[type<T>().m_id] = make_unique<TPool<T>>();
-		return as<TPool<T>>(*g_pools[type<T>().m_id].get());
+			g_pools[type<T>().m_id] = make_unique<ChunkedPool<T>>();
+		return as<ChunkedPool<T>>(*g_pools[type<T>().m_id].get());
 	}
 }

@@ -62,7 +62,7 @@ namespace two
 		Rig m_rig;
 
 		vector<AnimNode> m_nodes;
-		span<Node3> m_targets;
+		vector<Node3*> m_targets;
 
 		span<Animation*> m_anims;
 
@@ -83,7 +83,7 @@ namespace two
 		meth_ void next_animation();
 		
 		meth_ void add_item(Item& item);
-		meth_ void add_nodes(span<Node3> nodes);
+		meth_ void add_nodes(span<Node3*> nodes);
 
 		meth_ string playing() { return m_playing.empty() ? "" : m_playing.back().m_animation->m_name; }
 	};

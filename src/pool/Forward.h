@@ -8,8 +8,7 @@
 
 namespace two
 {
-	export_ template <class T> class VecPool;
-	export_ template <class T> class TPool;
+	export_ template <class T> class ChunkedPool;
 
 	export_ template <class T> struct SparseHandle;
 	export_ template <class T> struct OwnedHandle;

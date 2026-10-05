@@ -96,9 +96,9 @@ namespace two
 		LocatedFile locate_file(const string& file);
 		LocatedFile locate_file(const string& file, span<string> extensions);
 
-		TPool<Mesh>& meshes();
-		TPool<Rig>& rigs();
-		TPool<Animation>& animations();
+		ChunkedPool<Mesh>& meshes();
+		ChunkedPool<Rig>& rigs();
+		ChunkedPool<Animation>& animations();
 
 		attr_ AssetStore<Texture>& textures();
 		attr_ AssetStore<Program>& programs();

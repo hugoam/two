@@ -572,6 +572,10 @@ Mime.prototype["add_item"] = Mime.prototype.add_item = function(a0) {
     if (!checkClass(a0, Item)) throw Error('add_item(0:item): expected Item');
     _two_Mime_add_item_1(this.__ptr, /*item*/a0.__ptr);
 };
+Mime.prototype["add_nodes"] = Mime.prototype.add_nodes = function(a0) {
+    if (!checkClass(a0, span_two_Node3_)) throw Error('add_nodes(0:nodes): expected span<two::Node3*>');
+    _two_Mime_add_nodes_1(this.__ptr, /*nodes*/a0.__ptr);
+};
 Mime.prototype["playing"] = Mime.prototype.playing = function() {
     return UTF8ToString(_two_Mime_playing_0(this.__ptr));
 };
@@ -4449,180 +4453,215 @@ Module['Gnode'] = Gnode;
 Gnode.prototype["__destroy"] = Gnode.prototype.__destroy = function() {
     _two_Gnode__destroy(this.__ptr);
 };
-// TPool<two::Node3>
-function TPool_two_Node3() { throw "cannot construct a TPool<two::Node3>, no constructor in IDL" }
-TPool_two_Node3.prototype = Object.create(WrapperObject.prototype);
-TPool_two_Node3.prototype.constructor = TPool_two_Node3;
-TPool_two_Node3.prototype.__class = TPool_two_Node3;
-TPool_two_Node3.__cache = {};
-Module['TPool_two_Node3'] = TPool_two_Node3;
-TPool_two_Node3.prototype["add"] = TPool_two_Node3.prototype.add = function(a0) {
-    if (!checkClass(a0, Node3)) throw Error('add(0:value): expected Node3');
-    return wrapPointer(_two_TPool_two_Node3_add_1(this.__ptr, /*value*/a0.__ptr), Node3);
+// ChunkedPool<two::Node3>
+function ChunkedPool_two_Node3() { throw "cannot construct a ChunkedPool<two::Node3>, no constructor in IDL" }
+ChunkedPool_two_Node3.prototype = Object.create(WrapperObject.prototype);
+ChunkedPool_two_Node3.prototype.constructor = ChunkedPool_two_Node3;
+ChunkedPool_two_Node3.prototype.__class = ChunkedPool_two_Node3;
+ChunkedPool_two_Node3.__cache = {};
+Module['ChunkedPool_two_Node3'] = ChunkedPool_two_Node3;
+ChunkedPool_two_Node3.prototype["add"] = ChunkedPool_two_Node3.prototype.add = function(a0, a1) {
+    if (a1 === undefined) { if (!checkClass(a0, Node3)) throw Error('add(0:value): expected Node3'); }
+    else { if (!checkClass(a0, Node3)) throw Error('add(0:value): expected Node3'); if (typeof a1 !== 'number') throw Error('add(1:colour): expected integer'); }
+    if (a1 === undefined) { return wrapPointer(_two_ChunkedPool_two_Node3_add_1(this.__ptr, /*value*/a0.__ptr), Node3); }
+    else { return wrapPointer(_two_ChunkedPool_two_Node3_add_2(this.__ptr, /*value*/a0.__ptr, /*colour*/a1), Node3); }
 };
-TPool_two_Node3.prototype["talloc"] = TPool_two_Node3.prototype.talloc = function() {
-    return wrapPointer(_two_TPool_two_Node3_talloc_0(this.__ptr), Node3);
+ChunkedPool_two_Node3.prototype["talloc"] = ChunkedPool_two_Node3.prototype.talloc = function(a0) {
+    if (a0 === undefined) {  }
+    else { if (typeof a0 !== 'number') throw Error('talloc(0:colour): expected integer'); }
+    if (a0 === undefined) { return wrapPointer(_two_ChunkedPool_two_Node3_talloc_0(this.__ptr), Node3); }
+    else { return wrapPointer(_two_ChunkedPool_two_Node3_talloc_1(this.__ptr, /*colour*/a0), Node3); }
 };
-TPool_two_Node3.prototype["tdestroy"] = TPool_two_Node3.prototype.tdestroy = function(a0) {
+ChunkedPool_two_Node3.prototype["tdestroy"] = ChunkedPool_two_Node3.prototype.tdestroy = function(a0) {
     if (!checkClass(a0, Node3)) throw Error('tdestroy(0:object): expected Node3');
-    _two_TPool_two_Node3_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
+    _two_ChunkedPool_two_Node3_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
 };
-TPool_two_Node3.prototype["tfree"] = TPool_two_Node3.prototype.tfree = function(a0) {
+ChunkedPool_two_Node3.prototype["tfree"] = ChunkedPool_two_Node3.prototype.tfree = function(a0) {
     if (!checkClass(a0, Node3)) throw Error('tfree(0:object): expected Node3');
-    _two_TPool_two_Node3_tfree_1(this.__ptr, /*object*/a0.__ptr);
+    _two_ChunkedPool_two_Node3_tfree_1(this.__ptr, /*object*/a0.__ptr);
 };
-TPool_two_Node3.prototype["__destroy"] = TPool_two_Node3.prototype.__destroy = function() {
-    _two_TPool_two_Node3__destroy(this.__ptr);
+ChunkedPool_two_Node3.prototype["__destroy"] = ChunkedPool_two_Node3.prototype.__destroy = function() {
+    _two_ChunkedPool_two_Node3__destroy(this.__ptr);
 };
-// TPool<two::Item>
-function TPool_two_Item() { throw "cannot construct a TPool<two::Item>, no constructor in IDL" }
-TPool_two_Item.prototype = Object.create(WrapperObject.prototype);
-TPool_two_Item.prototype.constructor = TPool_two_Item;
-TPool_two_Item.prototype.__class = TPool_two_Item;
-TPool_two_Item.__cache = {};
-Module['TPool_two_Item'] = TPool_two_Item;
-TPool_two_Item.prototype["add"] = TPool_two_Item.prototype.add = function(a0) {
-    if (!checkClass(a0, Item)) throw Error('add(0:value): expected Item');
-    return wrapPointer(_two_TPool_two_Item_add_1(this.__ptr, /*value*/a0.__ptr), Item);
+// ChunkedPool<two::Item>
+function ChunkedPool_two_Item() { throw "cannot construct a ChunkedPool<two::Item>, no constructor in IDL" }
+ChunkedPool_two_Item.prototype = Object.create(WrapperObject.prototype);
+ChunkedPool_two_Item.prototype.constructor = ChunkedPool_two_Item;
+ChunkedPool_two_Item.prototype.__class = ChunkedPool_two_Item;
+ChunkedPool_two_Item.__cache = {};
+Module['ChunkedPool_two_Item'] = ChunkedPool_two_Item;
+ChunkedPool_two_Item.prototype["add"] = ChunkedPool_two_Item.prototype.add = function(a0, a1) {
+    if (a1 === undefined) { if (!checkClass(a0, Item)) throw Error('add(0:value): expected Item'); }
+    else { if (!checkClass(a0, Item)) throw Error('add(0:value): expected Item'); if (typeof a1 !== 'number') throw Error('add(1:colour): expected integer'); }
+    if (a1 === undefined) { return wrapPointer(_two_ChunkedPool_two_Item_add_1(this.__ptr, /*value*/a0.__ptr), Item); }
+    else { return wrapPointer(_two_ChunkedPool_two_Item_add_2(this.__ptr, /*value*/a0.__ptr, /*colour*/a1), Item); }
 };
-TPool_two_Item.prototype["talloc"] = TPool_two_Item.prototype.talloc = function() {
-    return wrapPointer(_two_TPool_two_Item_talloc_0(this.__ptr), Item);
+ChunkedPool_two_Item.prototype["talloc"] = ChunkedPool_two_Item.prototype.talloc = function(a0) {
+    if (a0 === undefined) {  }
+    else { if (typeof a0 !== 'number') throw Error('talloc(0:colour): expected integer'); }
+    if (a0 === undefined) { return wrapPointer(_two_ChunkedPool_two_Item_talloc_0(this.__ptr), Item); }
+    else { return wrapPointer(_two_ChunkedPool_two_Item_talloc_1(this.__ptr, /*colour*/a0), Item); }
 };
-TPool_two_Item.prototype["tdestroy"] = TPool_two_Item.prototype.tdestroy = function(a0) {
+ChunkedPool_two_Item.prototype["tdestroy"] = ChunkedPool_two_Item.prototype.tdestroy = function(a0) {
     if (!checkClass(a0, Item)) throw Error('tdestroy(0:object): expected Item');
-    _two_TPool_two_Item_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
+    _two_ChunkedPool_two_Item_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
 };
-TPool_two_Item.prototype["tfree"] = TPool_two_Item.prototype.tfree = function(a0) {
+ChunkedPool_two_Item.prototype["tfree"] = ChunkedPool_two_Item.prototype.tfree = function(a0) {
     if (!checkClass(a0, Item)) throw Error('tfree(0:object): expected Item');
-    _two_TPool_two_Item_tfree_1(this.__ptr, /*object*/a0.__ptr);
+    _two_ChunkedPool_two_Item_tfree_1(this.__ptr, /*object*/a0.__ptr);
 };
-TPool_two_Item.prototype["__destroy"] = TPool_two_Item.prototype.__destroy = function() {
-    _two_TPool_two_Item__destroy(this.__ptr);
+ChunkedPool_two_Item.prototype["__destroy"] = ChunkedPool_two_Item.prototype.__destroy = function() {
+    _two_ChunkedPool_two_Item__destroy(this.__ptr);
 };
-// TPool<two::Batch>
-function TPool_two_Batch() { throw "cannot construct a TPool<two::Batch>, no constructor in IDL" }
-TPool_two_Batch.prototype = Object.create(WrapperObject.prototype);
-TPool_two_Batch.prototype.constructor = TPool_two_Batch;
-TPool_two_Batch.prototype.__class = TPool_two_Batch;
-TPool_two_Batch.__cache = {};
-Module['TPool_two_Batch'] = TPool_two_Batch;
-TPool_two_Batch.prototype["add"] = TPool_two_Batch.prototype.add = function(a0) {
-    if (!checkClass(a0, Batch)) throw Error('add(0:value): expected Batch');
-    return wrapPointer(_two_TPool_two_Batch_add_1(this.__ptr, /*value*/a0.__ptr), Batch);
+// ChunkedPool<two::Batch>
+function ChunkedPool_two_Batch() { throw "cannot construct a ChunkedPool<two::Batch>, no constructor in IDL" }
+ChunkedPool_two_Batch.prototype = Object.create(WrapperObject.prototype);
+ChunkedPool_two_Batch.prototype.constructor = ChunkedPool_two_Batch;
+ChunkedPool_two_Batch.prototype.__class = ChunkedPool_two_Batch;
+ChunkedPool_two_Batch.__cache = {};
+Module['ChunkedPool_two_Batch'] = ChunkedPool_two_Batch;
+ChunkedPool_two_Batch.prototype["add"] = ChunkedPool_two_Batch.prototype.add = function(a0, a1) {
+    if (a1 === undefined) { if (!checkClass(a0, Batch)) throw Error('add(0:value): expected Batch'); }
+    else { if (!checkClass(a0, Batch)) throw Error('add(0:value): expected Batch'); if (typeof a1 !== 'number') throw Error('add(1:colour): expected integer'); }
+    if (a1 === undefined) { return wrapPointer(_two_ChunkedPool_two_Batch_add_1(this.__ptr, /*value*/a0.__ptr), Batch); }
+    else { return wrapPointer(_two_ChunkedPool_two_Batch_add_2(this.__ptr, /*value*/a0.__ptr, /*colour*/a1), Batch); }
 };
-TPool_two_Batch.prototype["talloc"] = TPool_two_Batch.prototype.talloc = function() {
-    return wrapPointer(_two_TPool_two_Batch_talloc_0(this.__ptr), Batch);
+ChunkedPool_two_Batch.prototype["talloc"] = ChunkedPool_two_Batch.prototype.talloc = function(a0) {
+    if (a0 === undefined) {  }
+    else { if (typeof a0 !== 'number') throw Error('talloc(0:colour): expected integer'); }
+    if (a0 === undefined) { return wrapPointer(_two_ChunkedPool_two_Batch_talloc_0(this.__ptr), Batch); }
+    else { return wrapPointer(_two_ChunkedPool_two_Batch_talloc_1(this.__ptr, /*colour*/a0), Batch); }
 };
-TPool_two_Batch.prototype["tdestroy"] = TPool_two_Batch.prototype.tdestroy = function(a0) {
+ChunkedPool_two_Batch.prototype["tdestroy"] = ChunkedPool_two_Batch.prototype.tdestroy = function(a0) {
     if (!checkClass(a0, Batch)) throw Error('tdestroy(0:object): expected Batch');
-    _two_TPool_two_Batch_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
+    _two_ChunkedPool_two_Batch_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
 };
-TPool_two_Batch.prototype["tfree"] = TPool_two_Batch.prototype.tfree = function(a0) {
+ChunkedPool_two_Batch.prototype["tfree"] = ChunkedPool_two_Batch.prototype.tfree = function(a0) {
     if (!checkClass(a0, Batch)) throw Error('tfree(0:object): expected Batch');
-    _two_TPool_two_Batch_tfree_1(this.__ptr, /*object*/a0.__ptr);
+    _two_ChunkedPool_two_Batch_tfree_1(this.__ptr, /*object*/a0.__ptr);
 };
-TPool_two_Batch.prototype["__destroy"] = TPool_two_Batch.prototype.__destroy = function() {
-    _two_TPool_two_Batch__destroy(this.__ptr);
+ChunkedPool_two_Batch.prototype["__destroy"] = ChunkedPool_two_Batch.prototype.__destroy = function() {
+    _two_ChunkedPool_two_Batch__destroy(this.__ptr);
 };
-// TPool<two::Direct>
-function TPool_two_Direct() { throw "cannot construct a TPool<two::Direct>, no constructor in IDL" }
-TPool_two_Direct.prototype = Object.create(WrapperObject.prototype);
-TPool_two_Direct.prototype.constructor = TPool_two_Direct;
-TPool_two_Direct.prototype.__class = TPool_two_Direct;
-TPool_two_Direct.__cache = {};
-Module['TPool_two_Direct'] = TPool_two_Direct;
-TPool_two_Direct.prototype["add"] = TPool_two_Direct.prototype.add = function(a0) {
-    if (!checkClass(a0, Direct)) throw Error('add(0:value): expected Direct');
-    return wrapPointer(_two_TPool_two_Direct_add_1(this.__ptr, /*value*/a0.__ptr), Direct);
+// ChunkedPool<two::Direct>
+function ChunkedPool_two_Direct() { throw "cannot construct a ChunkedPool<two::Direct>, no constructor in IDL" }
+ChunkedPool_two_Direct.prototype = Object.create(WrapperObject.prototype);
+ChunkedPool_two_Direct.prototype.constructor = ChunkedPool_two_Direct;
+ChunkedPool_two_Direct.prototype.__class = ChunkedPool_two_Direct;
+ChunkedPool_two_Direct.__cache = {};
+Module['ChunkedPool_two_Direct'] = ChunkedPool_two_Direct;
+ChunkedPool_two_Direct.prototype["add"] = ChunkedPool_two_Direct.prototype.add = function(a0, a1) {
+    if (a1 === undefined) { if (!checkClass(a0, Direct)) throw Error('add(0:value): expected Direct'); }
+    else { if (!checkClass(a0, Direct)) throw Error('add(0:value): expected Direct'); if (typeof a1 !== 'number') throw Error('add(1:colour): expected integer'); }
+    if (a1 === undefined) { return wrapPointer(_two_ChunkedPool_two_Direct_add_1(this.__ptr, /*value*/a0.__ptr), Direct); }
+    else { return wrapPointer(_two_ChunkedPool_two_Direct_add_2(this.__ptr, /*value*/a0.__ptr, /*colour*/a1), Direct); }
 };
-TPool_two_Direct.prototype["talloc"] = TPool_two_Direct.prototype.talloc = function() {
-    return wrapPointer(_two_TPool_two_Direct_talloc_0(this.__ptr), Direct);
+ChunkedPool_two_Direct.prototype["talloc"] = ChunkedPool_two_Direct.prototype.talloc = function(a0) {
+    if (a0 === undefined) {  }
+    else { if (typeof a0 !== 'number') throw Error('talloc(0:colour): expected integer'); }
+    if (a0 === undefined) { return wrapPointer(_two_ChunkedPool_two_Direct_talloc_0(this.__ptr), Direct); }
+    else { return wrapPointer(_two_ChunkedPool_two_Direct_talloc_1(this.__ptr, /*colour*/a0), Direct); }
 };
-TPool_two_Direct.prototype["tdestroy"] = TPool_two_Direct.prototype.tdestroy = function(a0) {
+ChunkedPool_two_Direct.prototype["tdestroy"] = ChunkedPool_two_Direct.prototype.tdestroy = function(a0) {
     if (!checkClass(a0, Direct)) throw Error('tdestroy(0:object): expected Direct');
-    _two_TPool_two_Direct_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
+    _two_ChunkedPool_two_Direct_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
 };
-TPool_two_Direct.prototype["tfree"] = TPool_two_Direct.prototype.tfree = function(a0) {
+ChunkedPool_two_Direct.prototype["tfree"] = ChunkedPool_two_Direct.prototype.tfree = function(a0) {
     if (!checkClass(a0, Direct)) throw Error('tfree(0:object): expected Direct');
-    _two_TPool_two_Direct_tfree_1(this.__ptr, /*object*/a0.__ptr);
+    _two_ChunkedPool_two_Direct_tfree_1(this.__ptr, /*object*/a0.__ptr);
 };
-TPool_two_Direct.prototype["__destroy"] = TPool_two_Direct.prototype.__destroy = function() {
-    _two_TPool_two_Direct__destroy(this.__ptr);
+ChunkedPool_two_Direct.prototype["__destroy"] = ChunkedPool_two_Direct.prototype.__destroy = function() {
+    _two_ChunkedPool_two_Direct__destroy(this.__ptr);
 };
-// TPool<two::Mime>
-function TPool_two_Mime() { throw "cannot construct a TPool<two::Mime>, no constructor in IDL" }
-TPool_two_Mime.prototype = Object.create(WrapperObject.prototype);
-TPool_two_Mime.prototype.constructor = TPool_two_Mime;
-TPool_two_Mime.prototype.__class = TPool_two_Mime;
-TPool_two_Mime.__cache = {};
-Module['TPool_two_Mime'] = TPool_two_Mime;
-TPool_two_Mime.prototype["add"] = TPool_two_Mime.prototype.add = function(a0) {
-    if (!checkClass(a0, Mime)) throw Error('add(0:value): expected Mime');
-    return wrapPointer(_two_TPool_two_Mime_add_1(this.__ptr, /*value*/a0.__ptr), Mime);
+// ChunkedPool<two::Mime>
+function ChunkedPool_two_Mime() { throw "cannot construct a ChunkedPool<two::Mime>, no constructor in IDL" }
+ChunkedPool_two_Mime.prototype = Object.create(WrapperObject.prototype);
+ChunkedPool_two_Mime.prototype.constructor = ChunkedPool_two_Mime;
+ChunkedPool_two_Mime.prototype.__class = ChunkedPool_two_Mime;
+ChunkedPool_two_Mime.__cache = {};
+Module['ChunkedPool_two_Mime'] = ChunkedPool_two_Mime;
+ChunkedPool_two_Mime.prototype["add"] = ChunkedPool_two_Mime.prototype.add = function(a0, a1) {
+    if (a1 === undefined) { if (!checkClass(a0, Mime)) throw Error('add(0:value): expected Mime'); }
+    else { if (!checkClass(a0, Mime)) throw Error('add(0:value): expected Mime'); if (typeof a1 !== 'number') throw Error('add(1:colour): expected integer'); }
+    if (a1 === undefined) { return wrapPointer(_two_ChunkedPool_two_Mime_add_1(this.__ptr, /*value*/a0.__ptr), Mime); }
+    else { return wrapPointer(_two_ChunkedPool_two_Mime_add_2(this.__ptr, /*value*/a0.__ptr, /*colour*/a1), Mime); }
 };
-TPool_two_Mime.prototype["talloc"] = TPool_two_Mime.prototype.talloc = function() {
-    return wrapPointer(_two_TPool_two_Mime_talloc_0(this.__ptr), Mime);
+ChunkedPool_two_Mime.prototype["talloc"] = ChunkedPool_two_Mime.prototype.talloc = function(a0) {
+    if (a0 === undefined) {  }
+    else { if (typeof a0 !== 'number') throw Error('talloc(0:colour): expected integer'); }
+    if (a0 === undefined) { return wrapPointer(_two_ChunkedPool_two_Mime_talloc_0(this.__ptr), Mime); }
+    else { return wrapPointer(_two_ChunkedPool_two_Mime_talloc_1(this.__ptr, /*colour*/a0), Mime); }
 };
-TPool_two_Mime.prototype["tdestroy"] = TPool_two_Mime.prototype.tdestroy = function(a0) {
+ChunkedPool_two_Mime.prototype["tdestroy"] = ChunkedPool_two_Mime.prototype.tdestroy = function(a0) {
     if (!checkClass(a0, Mime)) throw Error('tdestroy(0:object): expected Mime');
-    _two_TPool_two_Mime_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
+    _two_ChunkedPool_two_Mime_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
 };
-TPool_two_Mime.prototype["tfree"] = TPool_two_Mime.prototype.tfree = function(a0) {
+ChunkedPool_two_Mime.prototype["tfree"] = ChunkedPool_two_Mime.prototype.tfree = function(a0) {
     if (!checkClass(a0, Mime)) throw Error('tfree(0:object): expected Mime');
-    _two_TPool_two_Mime_tfree_1(this.__ptr, /*object*/a0.__ptr);
+    _two_ChunkedPool_two_Mime_tfree_1(this.__ptr, /*object*/a0.__ptr);
 };
-TPool_two_Mime.prototype["__destroy"] = TPool_two_Mime.prototype.__destroy = function() {
-    _two_TPool_two_Mime__destroy(this.__ptr);
+ChunkedPool_two_Mime.prototype["__destroy"] = ChunkedPool_two_Mime.prototype.__destroy = function() {
+    _two_ChunkedPool_two_Mime__destroy(this.__ptr);
 };
-// TPool<two::Light>
-function TPool_two_Light() { throw "cannot construct a TPool<two::Light>, no constructor in IDL" }
-TPool_two_Light.prototype = Object.create(WrapperObject.prototype);
-TPool_two_Light.prototype.constructor = TPool_two_Light;
-TPool_two_Light.prototype.__class = TPool_two_Light;
-TPool_two_Light.__cache = {};
-Module['TPool_two_Light'] = TPool_two_Light;
-TPool_two_Light.prototype["add"] = TPool_two_Light.prototype.add = function(a0) {
-    if (!checkClass(a0, Light)) throw Error('add(0:value): expected Light');
-    return wrapPointer(_two_TPool_two_Light_add_1(this.__ptr, /*value*/a0.__ptr), Light);
+// ChunkedPool<two::Light>
+function ChunkedPool_two_Light() { throw "cannot construct a ChunkedPool<two::Light>, no constructor in IDL" }
+ChunkedPool_two_Light.prototype = Object.create(WrapperObject.prototype);
+ChunkedPool_two_Light.prototype.constructor = ChunkedPool_two_Light;
+ChunkedPool_two_Light.prototype.__class = ChunkedPool_two_Light;
+ChunkedPool_two_Light.__cache = {};
+Module['ChunkedPool_two_Light'] = ChunkedPool_two_Light;
+ChunkedPool_two_Light.prototype["add"] = ChunkedPool_two_Light.prototype.add = function(a0, a1) {
+    if (a1 === undefined) { if (!checkClass(a0, Light)) throw Error('add(0:value): expected Light'); }
+    else { if (!checkClass(a0, Light)) throw Error('add(0:value): expected Light'); if (typeof a1 !== 'number') throw Error('add(1:colour): expected integer'); }
+    if (a1 === undefined) { return wrapPointer(_two_ChunkedPool_two_Light_add_1(this.__ptr, /*value*/a0.__ptr), Light); }
+    else { return wrapPointer(_two_ChunkedPool_two_Light_add_2(this.__ptr, /*value*/a0.__ptr, /*colour*/a1), Light); }
 };
-TPool_two_Light.prototype["talloc"] = TPool_two_Light.prototype.talloc = function() {
-    return wrapPointer(_two_TPool_two_Light_talloc_0(this.__ptr), Light);
+ChunkedPool_two_Light.prototype["talloc"] = ChunkedPool_two_Light.prototype.talloc = function(a0) {
+    if (a0 === undefined) {  }
+    else { if (typeof a0 !== 'number') throw Error('talloc(0:colour): expected integer'); }
+    if (a0 === undefined) { return wrapPointer(_two_ChunkedPool_two_Light_talloc_0(this.__ptr), Light); }
+    else { return wrapPointer(_two_ChunkedPool_two_Light_talloc_1(this.__ptr, /*colour*/a0), Light); }
 };
-TPool_two_Light.prototype["tdestroy"] = TPool_two_Light.prototype.tdestroy = function(a0) {
+ChunkedPool_two_Light.prototype["tdestroy"] = ChunkedPool_two_Light.prototype.tdestroy = function(a0) {
     if (!checkClass(a0, Light)) throw Error('tdestroy(0:object): expected Light');
-    _two_TPool_two_Light_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
+    _two_ChunkedPool_two_Light_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
 };
-TPool_two_Light.prototype["tfree"] = TPool_two_Light.prototype.tfree = function(a0) {
+ChunkedPool_two_Light.prototype["tfree"] = ChunkedPool_two_Light.prototype.tfree = function(a0) {
     if (!checkClass(a0, Light)) throw Error('tfree(0:object): expected Light');
-    _two_TPool_two_Light_tfree_1(this.__ptr, /*object*/a0.__ptr);
+    _two_ChunkedPool_two_Light_tfree_1(this.__ptr, /*object*/a0.__ptr);
 };
-TPool_two_Light.prototype["__destroy"] = TPool_two_Light.prototype.__destroy = function() {
-    _two_TPool_two_Light__destroy(this.__ptr);
+ChunkedPool_two_Light.prototype["__destroy"] = ChunkedPool_two_Light.prototype.__destroy = function() {
+    _two_ChunkedPool_two_Light__destroy(this.__ptr);
 };
-// TPool<two::Flare>
-function TPool_two_Flare() { throw "cannot construct a TPool<two::Flare>, no constructor in IDL" }
-TPool_two_Flare.prototype = Object.create(WrapperObject.prototype);
-TPool_two_Flare.prototype.constructor = TPool_two_Flare;
-TPool_two_Flare.prototype.__class = TPool_two_Flare;
-TPool_two_Flare.__cache = {};
-Module['TPool_two_Flare'] = TPool_two_Flare;
-TPool_two_Flare.prototype["add"] = TPool_two_Flare.prototype.add = function(a0) {
-    if (!checkClass(a0, Flare)) throw Error('add(0:value): expected Flare');
-    return wrapPointer(_two_TPool_two_Flare_add_1(this.__ptr, /*value*/a0.__ptr), Flare);
+// ChunkedPool<two::Flare>
+function ChunkedPool_two_Flare() { throw "cannot construct a ChunkedPool<two::Flare>, no constructor in IDL" }
+ChunkedPool_two_Flare.prototype = Object.create(WrapperObject.prototype);
+ChunkedPool_two_Flare.prototype.constructor = ChunkedPool_two_Flare;
+ChunkedPool_two_Flare.prototype.__class = ChunkedPool_two_Flare;
+ChunkedPool_two_Flare.__cache = {};
+Module['ChunkedPool_two_Flare'] = ChunkedPool_two_Flare;
+ChunkedPool_two_Flare.prototype["add"] = ChunkedPool_two_Flare.prototype.add = function(a0, a1) {
+    if (a1 === undefined) { if (!checkClass(a0, Flare)) throw Error('add(0:value): expected Flare'); }
+    else { if (!checkClass(a0, Flare)) throw Error('add(0:value): expected Flare'); if (typeof a1 !== 'number') throw Error('add(1:colour): expected integer'); }
+    if (a1 === undefined) { return wrapPointer(_two_ChunkedPool_two_Flare_add_1(this.__ptr, /*value*/a0.__ptr), Flare); }
+    else { return wrapPointer(_two_ChunkedPool_two_Flare_add_2(this.__ptr, /*value*/a0.__ptr, /*colour*/a1), Flare); }
 };
-TPool_two_Flare.prototype["talloc"] = TPool_two_Flare.prototype.talloc = function() {
-    return wrapPointer(_two_TPool_two_Flare_talloc_0(this.__ptr), Flare);
+ChunkedPool_two_Flare.prototype["talloc"] = ChunkedPool_two_Flare.prototype.talloc = function(a0) {
+    if (a0 === undefined) {  }
+    else { if (typeof a0 !== 'number') throw Error('talloc(0:colour): expected integer'); }
+    if (a0 === undefined) { return wrapPointer(_two_ChunkedPool_two_Flare_talloc_0(this.__ptr), Flare); }
+    else { return wrapPointer(_two_ChunkedPool_two_Flare_talloc_1(this.__ptr, /*colour*/a0), Flare); }
 };
-TPool_two_Flare.prototype["tdestroy"] = TPool_two_Flare.prototype.tdestroy = function(a0) {
+ChunkedPool_two_Flare.prototype["tdestroy"] = ChunkedPool_two_Flare.prototype.tdestroy = function(a0) {
     if (!checkClass(a0, Flare)) throw Error('tdestroy(0:object): expected Flare');
-    _two_TPool_two_Flare_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
+    _two_ChunkedPool_two_Flare_tdestroy_1(this.__ptr, /*object*/a0.__ptr);
 };
-TPool_two_Flare.prototype["tfree"] = TPool_two_Flare.prototype.tfree = function(a0) {
+ChunkedPool_two_Flare.prototype["tfree"] = ChunkedPool_two_Flare.prototype.tfree = function(a0) {
     if (!checkClass(a0, Flare)) throw Error('tfree(0:object): expected Flare');
-    _two_TPool_two_Flare_tfree_1(this.__ptr, /*object*/a0.__ptr);
+    _two_ChunkedPool_two_Flare_tfree_1(this.__ptr, /*object*/a0.__ptr);
 };
-TPool_two_Flare.prototype["__destroy"] = TPool_two_Flare.prototype.__destroy = function() {
-    _two_TPool_two_Flare__destroy(this.__ptr);
+ChunkedPool_two_Flare.prototype["__destroy"] = ChunkedPool_two_Flare.prototype.__destroy = function() {
+    _two_ChunkedPool_two_Flare__destroy(this.__ptr);
 };
 // Culler
 function Culler() { throw "cannot construct a Culler, no constructor in IDL" }
@@ -5478,25 +5517,25 @@ Scene.prototype["update"] = Scene.prototype.update = function() {
     _two_Scene_update_0(this.__ptr);
 };
 Scene.prototype["nodes"] = Scene.prototype.nodes = function() {
-    return wrapPointer(_two_Scene_nodes_0(this.__ptr), TPool_two_Node3);
+    return wrapPointer(_two_Scene_nodes_0(this.__ptr), ChunkedPool_two_Node3);
 };
 Scene.prototype["items"] = Scene.prototype.items = function() {
-    return wrapPointer(_two_Scene_items_0(this.__ptr), TPool_two_Item);
+    return wrapPointer(_two_Scene_items_0(this.__ptr), ChunkedPool_two_Item);
 };
 Scene.prototype["batches"] = Scene.prototype.batches = function() {
-    return wrapPointer(_two_Scene_batches_0(this.__ptr), TPool_two_Batch);
+    return wrapPointer(_two_Scene_batches_0(this.__ptr), ChunkedPool_two_Batch);
 };
 Scene.prototype["directs"] = Scene.prototype.directs = function() {
-    return wrapPointer(_two_Scene_directs_0(this.__ptr), TPool_two_Direct);
+    return wrapPointer(_two_Scene_directs_0(this.__ptr), ChunkedPool_two_Direct);
 };
 Scene.prototype["mimes"] = Scene.prototype.mimes = function() {
-    return wrapPointer(_two_Scene_mimes_0(this.__ptr), TPool_two_Mime);
+    return wrapPointer(_two_Scene_mimes_0(this.__ptr), ChunkedPool_two_Mime);
 };
 Scene.prototype["lights"] = Scene.prototype.lights = function() {
-    return wrapPointer(_two_Scene_lights_0(this.__ptr), TPool_two_Light);
+    return wrapPointer(_two_Scene_lights_0(this.__ptr), ChunkedPool_two_Light);
 };
 Scene.prototype["flares"] = Scene.prototype.flares = function() {
-    return wrapPointer(_two_Scene_flares_0(this.__ptr), TPool_two_Flare);
+    return wrapPointer(_two_Scene_flares_0(this.__ptr), ChunkedPool_two_Flare);
 };
 Object.defineProperty(Scene.prototype, "index", {
     get: function() {

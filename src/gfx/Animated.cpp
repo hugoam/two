@@ -21,15 +21,19 @@ namespace two
 		m_rig = *item.m_model->m_rig;
 		item.m_rig = &m_rig;
 
-		m_targets = m_rig.m_skeleton.m_bones;
+		m_targets.clear();
+		for(Node3& bone : m_rig.m_skeleton.m_bones)
+			m_targets.push_back(&bone);
 		m_nodes.resize(m_rig.m_skeleton.m_bones.size());
 
 		m_anims = item.m_model->m_anims;
 	}
 
-	void Mime::add_nodes(span<Node3> nodes)
+	void Mime::add_nodes(span<Node3*> nodes)
 	{
-		m_targets = nodes;
+		m_targets.clear();
+		for(Node3* node : nodes)
+			m_targets.push_back(node);
 		m_nodes.resize(nodes.size());
 	}
 
@@ -90,9 +94,9 @@ namespace two
 
 		for(size_t i = 0; i < m_nodes.size(); ++i)
 		{
-			Node3& node = m_targets[i];
+			Node3& node = *m_targets[i];
 			node.m_transform = node.m_parent != UINT32_MAX
-				? m_targets[node.m_parent].m_transform * m_nodes[i].m_transform
+				? m_targets[node.m_parent]->m_transform * m_nodes[i].m_transform
 				: m_nodes[i].m_transform;
 		}
 

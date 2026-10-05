@@ -13,7 +13,7 @@ namespace two
 	template <class T, class... Args>
 	T* Gnode::instantiate(Scene& scene, Args&&... args)
 	{
-		m_graph->template store<T>(*scene.m_pool->template pool<T>().m_vec_pool);
+		m_graph->template store<T>(scene.m_pool->template pool<T>());
 		return &this->template state<T>(static_cast<Args&&>(args)...);
 	}
 

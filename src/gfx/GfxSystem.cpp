@@ -27,9 +27,9 @@ namespace two
 		bx::FileReader m_file_reader;
 		bx::FileWriter m_file_writer;
 
-		unique<TPool<Mesh>> m_meshes;
-		unique<TPool<Rig>> m_rigs;
-		unique<TPool<Animation>> m_animations;
+		unique<ChunkedPool<Mesh>> m_meshes;
+		unique<ChunkedPool<Rig>> m_rigs;
+		unique<ChunkedPool<Animation>> m_animations;
 
 		unique<AssetStore<Texture>> m_textures;
 		unique<AssetStore<Program>> m_programs;
@@ -97,9 +97,9 @@ namespace two
 	bx::FileReaderI& GfxSystem::file_reader() { return m_impl->m_file_reader; }
 	bx::FileWriterI& GfxSystem::file_writer() { return m_impl->m_file_writer; }
 
-	TPool<Mesh>& GfxSystem::meshes() { return *m_impl->m_meshes; }
-	TPool<Rig>& GfxSystem::rigs() { return *m_impl->m_rigs; }
-	TPool<Animation>& GfxSystem::animations() { return *m_impl->m_animations; }
+	ChunkedPool<Mesh>& GfxSystem::meshes() { return *m_impl->m_meshes; }
+	ChunkedPool<Rig>& GfxSystem::rigs() { return *m_impl->m_rigs; }
+	ChunkedPool<Animation>& GfxSystem::animations() { return *m_impl->m_animations; }
 
 	AssetStore<Texture>& GfxSystem::textures() { return *m_impl->m_textures; }
 	AssetStore<Program>& GfxSystem::programs() { return *m_impl->m_programs; }
@@ -124,9 +124,9 @@ namespace two
 
 		m_flip_y = bgfx::getCaps()->originBottomLeft;
 
-		m_impl->m_meshes = make_unique<TPool<Mesh>>();
-		m_impl->m_rigs = make_unique<TPool<Rig>>();
-		m_impl->m_animations = make_unique<TPool<Animation>>();
+		m_impl->m_meshes = make_unique<ChunkedPool<Mesh>>();
+		m_impl->m_rigs = make_unique<ChunkedPool<Rig>>();
+		m_impl->m_animations = make_unique<ChunkedPool<Animation>>();
 		
 		auto load_tex = [&](Texture& texture, const string& path, const NoConfig& config) { UNUSED(config); texture.load(*this, path); };
 

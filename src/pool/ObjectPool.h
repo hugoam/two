@@ -5,7 +5,7 @@
 #pragma once
 
 #include <pool/Forward.h>
-#include <pool/Pool.h>
+#include <pool/ChunkedPool.h>
 
 namespace two
 {
@@ -22,10 +22,10 @@ namespace two
 		inline Pool& pool(Type& type);
 
 		template <class T>
-		inline TPool<T>& pool();
+		inline ChunkedPool<T>& pool();
 
 		template <class T>
-		inline TPool<T>& create_pool(size_t size = 12);
+		inline ChunkedPool<T>& create_pool(uint32_t chunk_size = 64);
 
 		vector<unique<Pool>> m_pools;
 	};
@@ -34,5 +34,5 @@ namespace two
 	export_ extern TWO_POOL_EXPORT vector<unique<Pool>> g_pools;
 
 	export_ template <class T>
-	inline TPool<T>& global_pool();
+	inline ChunkedPool<T>& global_pool();
 }

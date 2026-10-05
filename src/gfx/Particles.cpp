@@ -188,7 +188,7 @@ namespace two
 		return lhs.dist > rhs.dist ? -1 : 1;
 	}
 
-	ParticleSystem::ParticleSystem(GfxSystem& gfx, TPool<Flare>& emitters)
+	ParticleSystem::ParticleSystem(GfxSystem& gfx, ChunkedPool<Flare>& emitters)
 		: m_gfx(gfx)
 		, m_block(*gfx.m_renderer.block<BlockParticles>())
 		, m_emitters(emitters)
@@ -206,11 +206,11 @@ namespace two
 	void ParticleSystem::update(float _dt)
 	{
 		uint32_t num_particles = 0;
-		for(Flare* emitter : m_emitters.m_vec_pool->m_objects)
+		m_emitters.iterate([&](Flare& emitter)
 		{
-			emitter->update(_dt);
-			num_particles += uint32_t(emitter->m_particles.size());
-		}
+			emitter.update(_dt);
+			num_particles += uint32_t(emitter.m_particles.size());
+		});
 		m_num = num_particles;
 	}
 
@@ -238,8 +238,10 @@ namespace two
 			uint32_t pos = 0;
 			ParticleVertex* vertices = (ParticleVertex*)vertex_buffer.data;
 
-			for(Flare* emitter : m_emitters.m_vec_pool->m_objects)
-				pos += emitter->render(*m_block.m_sprites, view, eye, pos, max, particleSort.data(), vertices);
+			m_emitters.iterate([&](Flare& emitter)
+			{
+				pos += emitter.render(*m_block.m_sprites, view, eye, pos, max, particleSort.data(), vertices);
+			});
 
 			qsort(particleSort.data(), max, sizeof(ParticleSort), particleSortFn);
 
@@ -254,7 +256,7 @@ namespace two
 			}
 
 			uint64_t bgfx_state = 0 | BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LESS; // | BGFX_STATE_CULL_CW;
-			blend_state(m_emitters.m_vec_pool->m_objects[0]->m_blend_mode, bgfx_state);
+			blend_state(m_emitters.find([](Flare&) { return true; })->m_blend_mode, bgfx_state);
 
 			encoder.setState(bgfx_state);
 			encoder.setVertexBuffer(0, &vertex_buffer);

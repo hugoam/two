@@ -23,41 +23,4 @@ namespace two
 		virtual void destroy(Ref object) = 0;
 		virtual void free(Ref object) = 0;
 	};
-
-	export_ template <class T>
-	class refl_ TPool : public Pool
-	{
-	public:
-		TPool(size_t size = 64);
-		~TPool();
-
-		//meth_ T& add(T&& value);
-		meth_ T& add(const T& value);
-		meth_ span<T> addvec(span<T> values);
-
-		meth_ T* talloc();
-		meth_ void tdestroy(T& object);
-		meth_ void tfree(T& object);
-
-		virtual void alloc(Ref& ref);
-		virtual Ref alloc();
-
-		virtual void destroy(Ref object);
-		virtual void free(Ref object);
-
-		void reset(size_t size);
-		virtual void reset();
-		virtual void clear();
-
-		template <class... Types>
-		T& construct(Types&&... args);
-
-		template <class T_Func>
-		void iterate(T_Func func) const;
-
-		template <class T_Test>
-		T* find(T_Test test) const;
-
-		unique<VecPool<T>> m_vec_pool;
-	};
 }

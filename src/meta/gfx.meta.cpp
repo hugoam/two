@@ -142,7 +142,7 @@ void two_Mime_stop(void* object, span<void*> args, void*& result) { UNUSED(resul
 void two_Mime_advance(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Mime*>(object)).advance(*static_cast<float*>(args[0])); }
 void two_Mime_next_animation(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::Mime*>(object)).next_animation(); }
 void two_Mime_add_item(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Mime*>(object)).add_item(*static_cast<two::Item*>(args[0])); }
-void two_Mime_add_nodes(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Mime*>(object)).add_nodes(*static_cast<stl::span<two::Node3>*>(args[0])); }
+void two_Mime_add_nodes(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Mime*>(object)).add_nodes(*static_cast<stl::span<two::Node3*>*>(args[0])); }
 void two_Mime_playing(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<stl::string*>(result)) = (*static_cast<two::Mime*>(object)).playing(); }
 void two_FrustumSlice__default_construct(void* ref) { new(stl::placeholder(), ref) two::FrustumSlice(); }
 void two_FrustumSlice__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::FrustumSlice((*static_cast<two::FrustumSlice*>(other))); }
@@ -351,41 +351,34 @@ void two_BlockCopy_debug_show_texturep(void* object, span<void*> args, void*& re
 void two_ClusteredFrustum__default_construct(void* ref) { new(stl::placeholder(), ref) two::ClusteredFrustum(); }
 void two_ClusteredFrustum__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::ClusteredFrustum((*static_cast<two::ClusteredFrustum*>(other))); }
 void two_Light__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Light( *static_cast<two::Node3*>(args[0]), *static_cast<two::LightType*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<two::Colour*>(args[3]), *static_cast<float*>(args[4]), *static_cast<float*>(args[5]) ); }
-void two_TPool_two_Node3_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::TPool<two::Node3>*>(object)).add(*static_cast<two::Node3*>(args[0])); }
-void two_TPool_two_Node3_addvec(void* object, span<void*> args, void*& result) { (*static_cast<stl::span<two::Node3>*>(result)) = (*static_cast<two::TPool<two::Node3>*>(object)).addvec(*static_cast<stl::span<two::Node3>*>(args[0])); }
-void two_TPool_two_Node3_talloc(void* object, span<void*> args, void*& result) { UNUSED(args); result = (*static_cast<two::TPool<two::Node3>*>(object)).talloc(); }
-void two_TPool_two_Node3_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::TPool<two::Node3>*>(object)).tdestroy(*static_cast<two::Node3*>(args[0])); }
-void two_TPool_two_Node3_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::TPool<two::Node3>*>(object)).tfree(*static_cast<two::Node3*>(args[0])); }
-void two_TPool_two_Item_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::TPool<two::Item>*>(object)).add(*static_cast<two::Item*>(args[0])); }
-void two_TPool_two_Item_addvec(void* object, span<void*> args, void*& result) { (*static_cast<stl::span<two::Item>*>(result)) = (*static_cast<two::TPool<two::Item>*>(object)).addvec(*static_cast<stl::span<two::Item>*>(args[0])); }
-void two_TPool_two_Item_talloc(void* object, span<void*> args, void*& result) { UNUSED(args); result = (*static_cast<two::TPool<two::Item>*>(object)).talloc(); }
-void two_TPool_two_Item_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::TPool<two::Item>*>(object)).tdestroy(*static_cast<two::Item*>(args[0])); }
-void two_TPool_two_Item_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::TPool<two::Item>*>(object)).tfree(*static_cast<two::Item*>(args[0])); }
-void two_TPool_two_Batch_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::TPool<two::Batch>*>(object)).add(*static_cast<two::Batch*>(args[0])); }
-void two_TPool_two_Batch_addvec(void* object, span<void*> args, void*& result) { (*static_cast<stl::span<two::Batch>*>(result)) = (*static_cast<two::TPool<two::Batch>*>(object)).addvec(*static_cast<stl::span<two::Batch>*>(args[0])); }
-void two_TPool_two_Batch_talloc(void* object, span<void*> args, void*& result) { UNUSED(args); result = (*static_cast<two::TPool<two::Batch>*>(object)).talloc(); }
-void two_TPool_two_Batch_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::TPool<two::Batch>*>(object)).tdestroy(*static_cast<two::Batch*>(args[0])); }
-void two_TPool_two_Batch_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::TPool<two::Batch>*>(object)).tfree(*static_cast<two::Batch*>(args[0])); }
-void two_TPool_two_Direct_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::TPool<two::Direct>*>(object)).add(*static_cast<two::Direct*>(args[0])); }
-void two_TPool_two_Direct_addvec(void* object, span<void*> args, void*& result) { (*static_cast<stl::span<two::Direct>*>(result)) = (*static_cast<two::TPool<two::Direct>*>(object)).addvec(*static_cast<stl::span<two::Direct>*>(args[0])); }
-void two_TPool_two_Direct_talloc(void* object, span<void*> args, void*& result) { UNUSED(args); result = (*static_cast<two::TPool<two::Direct>*>(object)).talloc(); }
-void two_TPool_two_Direct_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::TPool<two::Direct>*>(object)).tdestroy(*static_cast<two::Direct*>(args[0])); }
-void two_TPool_two_Direct_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::TPool<two::Direct>*>(object)).tfree(*static_cast<two::Direct*>(args[0])); }
-void two_TPool_two_Mime_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::TPool<two::Mime>*>(object)).add(*static_cast<two::Mime*>(args[0])); }
-void two_TPool_two_Mime_addvec(void* object, span<void*> args, void*& result) { (*static_cast<stl::span<two::Mime>*>(result)) = (*static_cast<two::TPool<two::Mime>*>(object)).addvec(*static_cast<stl::span<two::Mime>*>(args[0])); }
-void two_TPool_two_Mime_talloc(void* object, span<void*> args, void*& result) { UNUSED(args); result = (*static_cast<two::TPool<two::Mime>*>(object)).talloc(); }
-void two_TPool_two_Mime_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::TPool<two::Mime>*>(object)).tdestroy(*static_cast<two::Mime*>(args[0])); }
-void two_TPool_two_Mime_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::TPool<two::Mime>*>(object)).tfree(*static_cast<two::Mime*>(args[0])); }
-void two_TPool_two_Light_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::TPool<two::Light>*>(object)).add(*static_cast<two::Light*>(args[0])); }
-void two_TPool_two_Light_addvec(void* object, span<void*> args, void*& result) { (*static_cast<stl::span<two::Light>*>(result)) = (*static_cast<two::TPool<two::Light>*>(object)).addvec(*static_cast<stl::span<two::Light>*>(args[0])); }
-void two_TPool_two_Light_talloc(void* object, span<void*> args, void*& result) { UNUSED(args); result = (*static_cast<two::TPool<two::Light>*>(object)).talloc(); }
-void two_TPool_two_Light_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::TPool<two::Light>*>(object)).tdestroy(*static_cast<two::Light*>(args[0])); }
-void two_TPool_two_Light_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::TPool<two::Light>*>(object)).tfree(*static_cast<two::Light*>(args[0])); }
-void two_TPool_two_Flare_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::TPool<two::Flare>*>(object)).add(*static_cast<two::Flare*>(args[0])); }
-void two_TPool_two_Flare_addvec(void* object, span<void*> args, void*& result) { (*static_cast<stl::span<two::Flare>*>(result)) = (*static_cast<two::TPool<two::Flare>*>(object)).addvec(*static_cast<stl::span<two::Flare>*>(args[0])); }
-void two_TPool_two_Flare_talloc(void* object, span<void*> args, void*& result) { UNUSED(args); result = (*static_cast<two::TPool<two::Flare>*>(object)).talloc(); }
-void two_TPool_two_Flare_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::TPool<two::Flare>*>(object)).tdestroy(*static_cast<two::Flare*>(args[0])); }
-void two_TPool_two_Flare_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::TPool<two::Flare>*>(object)).tfree(*static_cast<two::Flare*>(args[0])); }
+void two_ChunkedPool_two_Node3_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::ChunkedPool<two::Node3>*>(object)).add(*static_cast<two::Node3*>(args[0]), *static_cast<uint32_t*>(args[1])); }
+void two_ChunkedPool_two_Node3_talloc(void* object, span<void*> args, void*& result) { result = (*static_cast<two::ChunkedPool<two::Node3>*>(object)).talloc(*static_cast<uint32_t*>(args[0])); }
+void two_ChunkedPool_two_Node3_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ChunkedPool<two::Node3>*>(object)).tdestroy(*static_cast<two::Node3*>(args[0])); }
+void two_ChunkedPool_two_Node3_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ChunkedPool<two::Node3>*>(object)).tfree(*static_cast<two::Node3*>(args[0])); }
+void two_ChunkedPool_two_Item_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::ChunkedPool<two::Item>*>(object)).add(*static_cast<two::Item*>(args[0]), *static_cast<uint32_t*>(args[1])); }
+void two_ChunkedPool_two_Item_talloc(void* object, span<void*> args, void*& result) { result = (*static_cast<two::ChunkedPool<two::Item>*>(object)).talloc(*static_cast<uint32_t*>(args[0])); }
+void two_ChunkedPool_two_Item_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ChunkedPool<two::Item>*>(object)).tdestroy(*static_cast<two::Item*>(args[0])); }
+void two_ChunkedPool_two_Item_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ChunkedPool<two::Item>*>(object)).tfree(*static_cast<two::Item*>(args[0])); }
+void two_ChunkedPool_two_Batch_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::ChunkedPool<two::Batch>*>(object)).add(*static_cast<two::Batch*>(args[0]), *static_cast<uint32_t*>(args[1])); }
+void two_ChunkedPool_two_Batch_talloc(void* object, span<void*> args, void*& result) { result = (*static_cast<two::ChunkedPool<two::Batch>*>(object)).talloc(*static_cast<uint32_t*>(args[0])); }
+void two_ChunkedPool_two_Batch_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ChunkedPool<two::Batch>*>(object)).tdestroy(*static_cast<two::Batch*>(args[0])); }
+void two_ChunkedPool_two_Batch_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ChunkedPool<two::Batch>*>(object)).tfree(*static_cast<two::Batch*>(args[0])); }
+void two_ChunkedPool_two_Direct_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::ChunkedPool<two::Direct>*>(object)).add(*static_cast<two::Direct*>(args[0]), *static_cast<uint32_t*>(args[1])); }
+void two_ChunkedPool_two_Direct_talloc(void* object, span<void*> args, void*& result) { result = (*static_cast<two::ChunkedPool<two::Direct>*>(object)).talloc(*static_cast<uint32_t*>(args[0])); }
+void two_ChunkedPool_two_Direct_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ChunkedPool<two::Direct>*>(object)).tdestroy(*static_cast<two::Direct*>(args[0])); }
+void two_ChunkedPool_two_Direct_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ChunkedPool<two::Direct>*>(object)).tfree(*static_cast<two::Direct*>(args[0])); }
+void two_ChunkedPool_two_Mime_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::ChunkedPool<two::Mime>*>(object)).add(*static_cast<two::Mime*>(args[0]), *static_cast<uint32_t*>(args[1])); }
+void two_ChunkedPool_two_Mime_talloc(void* object, span<void*> args, void*& result) { result = (*static_cast<two::ChunkedPool<two::Mime>*>(object)).talloc(*static_cast<uint32_t*>(args[0])); }
+void two_ChunkedPool_two_Mime_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ChunkedPool<two::Mime>*>(object)).tdestroy(*static_cast<two::Mime*>(args[0])); }
+void two_ChunkedPool_two_Mime_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ChunkedPool<two::Mime>*>(object)).tfree(*static_cast<two::Mime*>(args[0])); }
+void two_ChunkedPool_two_Light_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::ChunkedPool<two::Light>*>(object)).add(*static_cast<two::Light*>(args[0]), *static_cast<uint32_t*>(args[1])); }
+void two_ChunkedPool_two_Light_talloc(void* object, span<void*> args, void*& result) { result = (*static_cast<two::ChunkedPool<two::Light>*>(object)).talloc(*static_cast<uint32_t*>(args[0])); }
+void two_ChunkedPool_two_Light_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ChunkedPool<two::Light>*>(object)).tdestroy(*static_cast<two::Light*>(args[0])); }
+void two_ChunkedPool_two_Light_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ChunkedPool<two::Light>*>(object)).tfree(*static_cast<two::Light*>(args[0])); }
+void two_ChunkedPool_two_Flare_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::ChunkedPool<two::Flare>*>(object)).add(*static_cast<two::Flare*>(args[0]), *static_cast<uint32_t*>(args[1])); }
+void two_ChunkedPool_two_Flare_talloc(void* object, span<void*> args, void*& result) { result = (*static_cast<two::ChunkedPool<two::Flare>*>(object)).talloc(*static_cast<uint32_t*>(args[0])); }
+void two_ChunkedPool_two_Flare_tdestroy(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ChunkedPool<two::Flare>*>(object)).tdestroy(*static_cast<two::Flare*>(args[0])); }
+void two_ChunkedPool_two_Flare_tfree(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::ChunkedPool<two::Flare>*>(object)).tfree(*static_cast<two::Flare*>(args[0])); }
 void two_Viewport__default_construct(void* ref) { new(stl::placeholder(), ref) two::Viewport(); }
 void two_Viewport__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Viewport( *static_cast<two::Camera*>(args[0]), *static_cast<two::Scene*>(args[1]), *static_cast<two::vec4*>(args[2]), *static_cast<bool*>(args[3]) ); }
 void two_Viewport_cull(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Viewport*>(object)).cull(*static_cast<two::Render*>(args[0])); }
@@ -1341,7 +1334,7 @@ namespace two
 			{ t, "advance", Address(), two_Mime_advance, { { "time", type<float>(),  } }, g_qvoid },
 			{ t, "next_animation", Address(), two_Mime_next_animation, {}, g_qvoid },
 			{ t, "add_item", Address(), two_Mime_add_item, { { "item", type<two::Item>(), Param::Reference } }, g_qvoid },
-			{ t, "add_nodes", Address(), two_Mime_add_nodes, { { "nodes", type<stl::span<two::Node3>>(),  } }, g_qvoid },
+			{ t, "add_nodes", Address(), two_Mime_add_nodes, { { "nodes", type<stl::span<two::Node3*>>(),  } }, g_qvoid },
 			{ t, "playing", Address(), two_Mime_playing, {}, { &type<stl::string>(), QualType::None } }
 		};
 		// static members
@@ -3290,149 +3283,156 @@ namespace two
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
-	// two::TPool<two::Node3>
+	// two::ChunkedPool<two::Node3>
 	{
-		Type& t = type<two::TPool<two::Node3>>();
-		static Meta meta = { t, &namspc({ "two" }), "TPool<two::Node3>", sizeof(two::TPool<two::Node3>), TypeClass::Object };
+		Type& t = type<two::ChunkedPool<two::Node3>>();
+		static Meta meta = { t, &namspc({ "two" }), "ChunkedPool<two::Node3>", sizeof(two::ChunkedPool<two::Node3>), TypeClass::Object };
 		// bases
 		// defaults
+		static uint32_t add_0_colour_default = 0;
+		static uint32_t talloc_0_colour_default = 0;
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		// methods
 		static Method methods[] = {
-			{ t, "add", Address(), two_TPool_two_Node3_add, { { "value", type<two::Node3>(),  } }, { &type<two::Node3>(), QualType::None } },
-			{ t, "addvec", Address(), two_TPool_two_Node3_addvec, { { "values", type<stl::span<two::Node3>>(),  } }, { &type<stl::span<two::Node3>>(), QualType::None } },
-			{ t, "talloc", Address(), two_TPool_two_Node3_talloc, {}, { &type<two::Node3>(), QualType::None } },
-			{ t, "tdestroy", Address(), two_TPool_two_Node3_tdestroy, { { "object", type<two::Node3>(), Param::Reference } }, g_qvoid },
-			{ t, "tfree", Address(), two_TPool_two_Node3_tfree, { { "object", type<two::Node3>(), Param::Reference } }, g_qvoid }
+			{ t, "add", Address(), two_ChunkedPool_two_Node3_add, { { "value", type<two::Node3>(),  }, { "colour", type<uint32_t>(), Param::Default, &add_0_colour_default } }, { &type<two::Node3>(), QualType::None } },
+			{ t, "talloc", Address(), two_ChunkedPool_two_Node3_talloc, { { "colour", type<uint32_t>(), Param::Default, &talloc_0_colour_default } }, { &type<two::Node3>(), QualType::None } },
+			{ t, "tdestroy", Address(), two_ChunkedPool_two_Node3_tdestroy, { { "object", type<two::Node3>(), Param::Reference } }, g_qvoid },
+			{ t, "tfree", Address(), two_ChunkedPool_two_Node3_tfree, { { "object", type<two::Node3>(), Param::Reference } }, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, methods, {}, };
 	}
-	// two::TPool<two::Item>
+	// two::ChunkedPool<two::Item>
 	{
-		Type& t = type<two::TPool<two::Item>>();
-		static Meta meta = { t, &namspc({ "two" }), "TPool<two::Item>", sizeof(two::TPool<two::Item>), TypeClass::Object };
+		Type& t = type<two::ChunkedPool<two::Item>>();
+		static Meta meta = { t, &namspc({ "two" }), "ChunkedPool<two::Item>", sizeof(two::ChunkedPool<two::Item>), TypeClass::Object };
 		// bases
 		// defaults
+		static uint32_t add_0_colour_default = 0;
+		static uint32_t talloc_0_colour_default = 0;
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		// methods
 		static Method methods[] = {
-			{ t, "add", Address(), two_TPool_two_Item_add, { { "value", type<two::Item>(),  } }, { &type<two::Item>(), QualType::None } },
-			{ t, "addvec", Address(), two_TPool_two_Item_addvec, { { "values", type<stl::span<two::Item>>(),  } }, { &type<stl::span<two::Item>>(), QualType::None } },
-			{ t, "talloc", Address(), two_TPool_two_Item_talloc, {}, { &type<two::Item>(), QualType::None } },
-			{ t, "tdestroy", Address(), two_TPool_two_Item_tdestroy, { { "object", type<two::Item>(), Param::Reference } }, g_qvoid },
-			{ t, "tfree", Address(), two_TPool_two_Item_tfree, { { "object", type<two::Item>(), Param::Reference } }, g_qvoid }
+			{ t, "add", Address(), two_ChunkedPool_two_Item_add, { { "value", type<two::Item>(),  }, { "colour", type<uint32_t>(), Param::Default, &add_0_colour_default } }, { &type<two::Item>(), QualType::None } },
+			{ t, "talloc", Address(), two_ChunkedPool_two_Item_talloc, { { "colour", type<uint32_t>(), Param::Default, &talloc_0_colour_default } }, { &type<two::Item>(), QualType::None } },
+			{ t, "tdestroy", Address(), two_ChunkedPool_two_Item_tdestroy, { { "object", type<two::Item>(), Param::Reference } }, g_qvoid },
+			{ t, "tfree", Address(), two_ChunkedPool_two_Item_tfree, { { "object", type<two::Item>(), Param::Reference } }, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, methods, {}, };
 	}
-	// two::TPool<two::Batch>
+	// two::ChunkedPool<two::Batch>
 	{
-		Type& t = type<two::TPool<two::Batch>>();
-		static Meta meta = { t, &namspc({ "two" }), "TPool<two::Batch>", sizeof(two::TPool<two::Batch>), TypeClass::Object };
+		Type& t = type<two::ChunkedPool<two::Batch>>();
+		static Meta meta = { t, &namspc({ "two" }), "ChunkedPool<two::Batch>", sizeof(two::ChunkedPool<two::Batch>), TypeClass::Object };
 		// bases
 		// defaults
+		static uint32_t add_0_colour_default = 0;
+		static uint32_t talloc_0_colour_default = 0;
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		// methods
 		static Method methods[] = {
-			{ t, "add", Address(), two_TPool_two_Batch_add, { { "value", type<two::Batch>(),  } }, { &type<two::Batch>(), QualType::None } },
-			{ t, "addvec", Address(), two_TPool_two_Batch_addvec, { { "values", type<stl::span<two::Batch>>(),  } }, { &type<stl::span<two::Batch>>(), QualType::None } },
-			{ t, "talloc", Address(), two_TPool_two_Batch_talloc, {}, { &type<two::Batch>(), QualType::None } },
-			{ t, "tdestroy", Address(), two_TPool_two_Batch_tdestroy, { { "object", type<two::Batch>(), Param::Reference } }, g_qvoid },
-			{ t, "tfree", Address(), two_TPool_two_Batch_tfree, { { "object", type<two::Batch>(), Param::Reference } }, g_qvoid }
+			{ t, "add", Address(), two_ChunkedPool_two_Batch_add, { { "value", type<two::Batch>(),  }, { "colour", type<uint32_t>(), Param::Default, &add_0_colour_default } }, { &type<two::Batch>(), QualType::None } },
+			{ t, "talloc", Address(), two_ChunkedPool_two_Batch_talloc, { { "colour", type<uint32_t>(), Param::Default, &talloc_0_colour_default } }, { &type<two::Batch>(), QualType::None } },
+			{ t, "tdestroy", Address(), two_ChunkedPool_two_Batch_tdestroy, { { "object", type<two::Batch>(), Param::Reference } }, g_qvoid },
+			{ t, "tfree", Address(), two_ChunkedPool_two_Batch_tfree, { { "object", type<two::Batch>(), Param::Reference } }, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, methods, {}, };
 	}
-	// two::TPool<two::Direct>
+	// two::ChunkedPool<two::Direct>
 	{
-		Type& t = type<two::TPool<two::Direct>>();
-		static Meta meta = { t, &namspc({ "two" }), "TPool<two::Direct>", sizeof(two::TPool<two::Direct>), TypeClass::Object };
+		Type& t = type<two::ChunkedPool<two::Direct>>();
+		static Meta meta = { t, &namspc({ "two" }), "ChunkedPool<two::Direct>", sizeof(two::ChunkedPool<two::Direct>), TypeClass::Object };
 		// bases
 		// defaults
+		static uint32_t add_0_colour_default = 0;
+		static uint32_t talloc_0_colour_default = 0;
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		// methods
 		static Method methods[] = {
-			{ t, "add", Address(), two_TPool_two_Direct_add, { { "value", type<two::Direct>(),  } }, { &type<two::Direct>(), QualType::None } },
-			{ t, "addvec", Address(), two_TPool_two_Direct_addvec, { { "values", type<stl::span<two::Direct>>(),  } }, { &type<stl::span<two::Direct>>(), QualType::None } },
-			{ t, "talloc", Address(), two_TPool_two_Direct_talloc, {}, { &type<two::Direct>(), QualType::None } },
-			{ t, "tdestroy", Address(), two_TPool_two_Direct_tdestroy, { { "object", type<two::Direct>(), Param::Reference } }, g_qvoid },
-			{ t, "tfree", Address(), two_TPool_two_Direct_tfree, { { "object", type<two::Direct>(), Param::Reference } }, g_qvoid }
+			{ t, "add", Address(), two_ChunkedPool_two_Direct_add, { { "value", type<two::Direct>(),  }, { "colour", type<uint32_t>(), Param::Default, &add_0_colour_default } }, { &type<two::Direct>(), QualType::None } },
+			{ t, "talloc", Address(), two_ChunkedPool_two_Direct_talloc, { { "colour", type<uint32_t>(), Param::Default, &talloc_0_colour_default } }, { &type<two::Direct>(), QualType::None } },
+			{ t, "tdestroy", Address(), two_ChunkedPool_two_Direct_tdestroy, { { "object", type<two::Direct>(), Param::Reference } }, g_qvoid },
+			{ t, "tfree", Address(), two_ChunkedPool_two_Direct_tfree, { { "object", type<two::Direct>(), Param::Reference } }, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, methods, {}, };
 	}
-	// two::TPool<two::Mime>
+	// two::ChunkedPool<two::Mime>
 	{
-		Type& t = type<two::TPool<two::Mime>>();
-		static Meta meta = { t, &namspc({ "two" }), "TPool<two::Mime>", sizeof(two::TPool<two::Mime>), TypeClass::Object };
+		Type& t = type<two::ChunkedPool<two::Mime>>();
+		static Meta meta = { t, &namspc({ "two" }), "ChunkedPool<two::Mime>", sizeof(two::ChunkedPool<two::Mime>), TypeClass::Object };
 		// bases
 		// defaults
+		static uint32_t add_0_colour_default = 0;
+		static uint32_t talloc_0_colour_default = 0;
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		// methods
 		static Method methods[] = {
-			{ t, "add", Address(), two_TPool_two_Mime_add, { { "value", type<two::Mime>(),  } }, { &type<two::Mime>(), QualType::None } },
-			{ t, "addvec", Address(), two_TPool_two_Mime_addvec, { { "values", type<stl::span<two::Mime>>(),  } }, { &type<stl::span<two::Mime>>(), QualType::None } },
-			{ t, "talloc", Address(), two_TPool_two_Mime_talloc, {}, { &type<two::Mime>(), QualType::None } },
-			{ t, "tdestroy", Address(), two_TPool_two_Mime_tdestroy, { { "object", type<two::Mime>(), Param::Reference } }, g_qvoid },
-			{ t, "tfree", Address(), two_TPool_two_Mime_tfree, { { "object", type<two::Mime>(), Param::Reference } }, g_qvoid }
+			{ t, "add", Address(), two_ChunkedPool_two_Mime_add, { { "value", type<two::Mime>(),  }, { "colour", type<uint32_t>(), Param::Default, &add_0_colour_default } }, { &type<two::Mime>(), QualType::None } },
+			{ t, "talloc", Address(), two_ChunkedPool_two_Mime_talloc, { { "colour", type<uint32_t>(), Param::Default, &talloc_0_colour_default } }, { &type<two::Mime>(), QualType::None } },
+			{ t, "tdestroy", Address(), two_ChunkedPool_two_Mime_tdestroy, { { "object", type<two::Mime>(), Param::Reference } }, g_qvoid },
+			{ t, "tfree", Address(), two_ChunkedPool_two_Mime_tfree, { { "object", type<two::Mime>(), Param::Reference } }, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, methods, {}, };
 	}
-	// two::TPool<two::Light>
+	// two::ChunkedPool<two::Light>
 	{
-		Type& t = type<two::TPool<two::Light>>();
-		static Meta meta = { t, &namspc({ "two" }), "TPool<two::Light>", sizeof(two::TPool<two::Light>), TypeClass::Object };
+		Type& t = type<two::ChunkedPool<two::Light>>();
+		static Meta meta = { t, &namspc({ "two" }), "ChunkedPool<two::Light>", sizeof(two::ChunkedPool<two::Light>), TypeClass::Object };
 		// bases
 		// defaults
+		static uint32_t add_0_colour_default = 0;
+		static uint32_t talloc_0_colour_default = 0;
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		// methods
 		static Method methods[] = {
-			{ t, "add", Address(), two_TPool_two_Light_add, { { "value", type<two::Light>(),  } }, { &type<two::Light>(), QualType::None } },
-			{ t, "addvec", Address(), two_TPool_two_Light_addvec, { { "values", type<stl::span<two::Light>>(),  } }, { &type<stl::span<two::Light>>(), QualType::None } },
-			{ t, "talloc", Address(), two_TPool_two_Light_talloc, {}, { &type<two::Light>(), QualType::None } },
-			{ t, "tdestroy", Address(), two_TPool_two_Light_tdestroy, { { "object", type<two::Light>(), Param::Reference } }, g_qvoid },
-			{ t, "tfree", Address(), two_TPool_two_Light_tfree, { { "object", type<two::Light>(), Param::Reference } }, g_qvoid }
+			{ t, "add", Address(), two_ChunkedPool_two_Light_add, { { "value", type<two::Light>(),  }, { "colour", type<uint32_t>(), Param::Default, &add_0_colour_default } }, { &type<two::Light>(), QualType::None } },
+			{ t, "talloc", Address(), two_ChunkedPool_two_Light_talloc, { { "colour", type<uint32_t>(), Param::Default, &talloc_0_colour_default } }, { &type<two::Light>(), QualType::None } },
+			{ t, "tdestroy", Address(), two_ChunkedPool_two_Light_tdestroy, { { "object", type<two::Light>(), Param::Reference } }, g_qvoid },
+			{ t, "tfree", Address(), two_ChunkedPool_two_Light_tfree, { { "object", type<two::Light>(), Param::Reference } }, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, methods, {}, };
 	}
-	// two::TPool<two::Flare>
+	// two::ChunkedPool<two::Flare>
 	{
-		Type& t = type<two::TPool<two::Flare>>();
-		static Meta meta = { t, &namspc({ "two" }), "TPool<two::Flare>", sizeof(two::TPool<two::Flare>), TypeClass::Object };
+		Type& t = type<two::ChunkedPool<two::Flare>>();
+		static Meta meta = { t, &namspc({ "two" }), "ChunkedPool<two::Flare>", sizeof(two::ChunkedPool<two::Flare>), TypeClass::Object };
 		// bases
 		// defaults
+		static uint32_t add_0_colour_default = 0;
+		static uint32_t talloc_0_colour_default = 0;
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		// methods
 		static Method methods[] = {
-			{ t, "add", Address(), two_TPool_two_Flare_add, { { "value", type<two::Flare>(),  } }, { &type<two::Flare>(), QualType::None } },
-			{ t, "addvec", Address(), two_TPool_two_Flare_addvec, { { "values", type<stl::span<two::Flare>>(),  } }, { &type<stl::span<two::Flare>>(), QualType::None } },
-			{ t, "talloc", Address(), two_TPool_two_Flare_talloc, {}, { &type<two::Flare>(), QualType::None } },
-			{ t, "tdestroy", Address(), two_TPool_two_Flare_tdestroy, { { "object", type<two::Flare>(), Param::Reference } }, g_qvoid },
-			{ t, "tfree", Address(), two_TPool_two_Flare_tfree, { { "object", type<two::Flare>(), Param::Reference } }, g_qvoid }
+			{ t, "add", Address(), two_ChunkedPool_two_Flare_add, { { "value", type<two::Flare>(),  }, { "colour", type<uint32_t>(), Param::Default, &add_0_colour_default } }, { &type<two::Flare>(), QualType::None } },
+			{ t, "talloc", Address(), two_ChunkedPool_two_Flare_talloc, { { "colour", type<uint32_t>(), Param::Default, &talloc_0_colour_default } }, { &type<two::Flare>(), QualType::None } },
+			{ t, "tdestroy", Address(), two_ChunkedPool_two_Flare_tdestroy, { { "object", type<two::Flare>(), Param::Reference } }, g_qvoid },
+			{ t, "tfree", Address(), two_ChunkedPool_two_Flare_tfree, { { "object", type<two::Flare>(), Param::Reference } }, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, methods, {}, };
@@ -3914,13 +3914,13 @@ namespace two
 		static Method methods[] = {
 			{ t, "begin", Address(), two_Scene_begin, {}, { &type<two::Gnode>(), QualType::None } },
 			{ t, "update", Address(), two_Scene_update, {}, g_qvoid },
-			{ t, "nodes", Address(), two_Scene_nodes, {}, { &type<two::TPool<two::Node3>>(), QualType::None } },
-			{ t, "items", Address(), two_Scene_items, {}, { &type<two::TPool<two::Item>>(), QualType::None } },
-			{ t, "batches", Address(), two_Scene_batches, {}, { &type<two::TPool<two::Batch>>(), QualType::None } },
-			{ t, "directs", Address(), two_Scene_directs, {}, { &type<two::TPool<two::Direct>>(), QualType::None } },
-			{ t, "mimes", Address(), two_Scene_mimes, {}, { &type<two::TPool<two::Mime>>(), QualType::None } },
-			{ t, "lights", Address(), two_Scene_lights, {}, { &type<two::TPool<two::Light>>(), QualType::None } },
-			{ t, "flares", Address(), two_Scene_flares, {}, { &type<two::TPool<two::Flare>>(), QualType::None } }
+			{ t, "nodes", Address(), two_Scene_nodes, {}, { &type<two::ChunkedPool<two::Node3>>(), QualType::None } },
+			{ t, "items", Address(), two_Scene_items, {}, { &type<two::ChunkedPool<two::Item>>(), QualType::None } },
+			{ t, "batches", Address(), two_Scene_batches, {}, { &type<two::ChunkedPool<two::Batch>>(), QualType::None } },
+			{ t, "directs", Address(), two_Scene_directs, {}, { &type<two::ChunkedPool<two::Direct>>(), QualType::None } },
+			{ t, "mimes", Address(), two_Scene_mimes, {}, { &type<two::ChunkedPool<two::Mime>>(), QualType::None } },
+			{ t, "lights", Address(), two_Scene_lights, {}, { &type<two::ChunkedPool<two::Light>>(), QualType::None } },
+			{ t, "flares", Address(), two_Scene_flares, {}, { &type<two::ChunkedPool<two::Flare>>(), QualType::None } }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, constructors, members, methods, {}, };
@@ -4059,13 +4059,13 @@ namespace two
 		m.m_types.push_back(&type<two::ShadowFlags>());
 		m.m_types.push_back(&type<two::Light>());
 		m.m_types.push_back(&type<two::Gnode>());
-		m.m_types.push_back(&type<two::TPool<two::Node3>>());
-		m.m_types.push_back(&type<two::TPool<two::Item>>());
-		m.m_types.push_back(&type<two::TPool<two::Batch>>());
-		m.m_types.push_back(&type<two::TPool<two::Direct>>());
-		m.m_types.push_back(&type<two::TPool<two::Mime>>());
-		m.m_types.push_back(&type<two::TPool<two::Light>>());
-		m.m_types.push_back(&type<two::TPool<two::Flare>>());
+		m.m_types.push_back(&type<two::ChunkedPool<two::Node3>>());
+		m.m_types.push_back(&type<two::ChunkedPool<two::Item>>());
+		m.m_types.push_back(&type<two::ChunkedPool<two::Batch>>());
+		m.m_types.push_back(&type<two::ChunkedPool<two::Direct>>());
+		m.m_types.push_back(&type<two::ChunkedPool<two::Mime>>());
+		m.m_types.push_back(&type<two::ChunkedPool<two::Light>>());
+		m.m_types.push_back(&type<two::ChunkedPool<two::Flare>>());
 		m.m_types.push_back(&type<two::Culler>());
 		m.m_types.push_back(&type<two::MSAA>());
 		m.m_types.push_back(&type<two::Shading>());

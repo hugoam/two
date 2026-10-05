@@ -29,6 +29,7 @@ namespace two
 	inline uint32_t state_type() { static uint32_t id = next_state_type(); return id; }
 
 	// the states of one type, by node index: the states are stored in a pool, where they don't move, and found by the index of their node
+	// the states of the nodes of one tree are stored together, in the chunks of the colour of the tree
 	export_ class StateStore
 	{
 	public:
@@ -45,13 +46,13 @@ namespace two
 	class TStateStore : public StateStore
 	{
 	public:
-		TStateStore() : m_owned(make_unique<VecPool<T>>(64)), m_pool(m_owned.get()), m_owner(true) {}
-		TStateStore(VecPool<T>& pool) : m_pool(&pool), m_owner(false) {}
+		TStateStore(uint32_t chunk_size = 64) : m_owned(make_unique<ChunkedPool<T>>(chunk_size)), m_pool(m_owned.get()), m_owner(true) {}
+		TStateStore(ChunkedPool<T>& pool) : m_pool(&pool), m_owner(false) {}
 
 		template <class... Args>
-		inline T& create(uint32_t node, Args&&... args)
+		inline T& create(uint32_t node, uint32_t tree, Args&&... args)
 		{
-			T& state = m_pool->construct(static_cast<Args&&>(args)...);
+			T& state = m_pool->construct_in(tree, static_cast<Args&&>(args)...);
 			if(node >= m_handles.capacity())
 				m_handles.ensure(node + 1);
 			m_handles.add(node);
@@ -68,11 +69,15 @@ namespace two
 			uint32_t index = m_handles.remove(node);
 			swap_pop(m_states, index);
 			if(m_owner)
-				m_pool->destroy(state);
+				m_pool->tdestroy(*state);
 		}
 
-		unique<VecPool<T>> m_owned;
-		VecPool<T>* m_pool;
+		// visits the states of the nodes of a tree
+		template <class T_Func>
+		inline void iterate(uint32_t tree, T_Func func) const { m_pool->iterate(tree, func); }
+
+		unique<ChunkedPool<T>> m_owned;
+		ChunkedPool<T>* m_pool;
 		bool m_owner;
 	};
 
@@ -115,6 +120,7 @@ namespace two
 		vector<uint16_t> m_sibling;
 		vector<uint64_t> m_key;
 		vector<uint8_t> m_flags;
+		vector<uint32_t> m_tree;	// the top-level tree of the node: the index of its top node, or the root
 		vector<unique<vector<uint32_t>>> m_attached;
 
 		// the nodes in depth-first order, and for each slot left empty by a node destroyed with its descendants, the number of slots to jump over
@@ -171,7 +177,7 @@ namespace two
 			TStateStore<T_State>& store = this->template store<T_State>();
 			if(void* state = store.find(index))
 				return *static_cast<T_State*>(state);
-			return store.create(index, static_cast<Args&&>(args)...);
+			return store.create(index, m_tree[index], static_cast<Args&&>(args)...);
 		}
 
 		inline T& update(uint32_t parent, uint32_t index)
@@ -260,8 +266,7 @@ namespace two
 
 			if (index == none)
 			{
-				index = this->create_node(parent);
-				m_flags[index] |= Top;
+				index = this->create_node(parent, true);
 				m_key[index] = key.m_value;
 				this->insert_node(0, this->end_slot(0), index);
 				m_tops[key.m_value] = index;
@@ -333,6 +338,7 @@ namespace two
 			m_sibling.push_back(0);
 			m_key.push_back(0);
 			m_flags.push_back(0);
+			m_tree.push_back(0);
 			m_attached.emplace_back();
 			return uint32_t(m_nodes.size() - 1);
 		}
@@ -350,14 +356,18 @@ namespace two
 			m_sibling[index] = 0;
 			m_key[index] = 0;
 			m_flags[index] = 0;
+			m_tree[index] = 0;
 			m_attached[index] = nullptr;
 			m_free.push_back(index);
 		}
 
-		inline uint32_t create_node(uint32_t parent)
+		// a top node is its own tree, any other node is in the tree of its parent, for its whole life: keyed matching only moves a node among the children of its parent
+		inline uint32_t create_node(uint32_t parent, bool top = false)
 		{
 			uint32_t index = this->add_index();
 			m_parent[index] = parent;
+			m_flags[index] = top ? Top : 0;
+			m_tree[index] = top ? index : m_tree[parent];
 			m_nodes[index] = make_unique<T>(&this->node(parent));
 			m_nodes[index]->m_index = index;
 			return index;

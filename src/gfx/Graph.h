@@ -42,13 +42,13 @@ namespace two
 		SoundManager* m_sound_manager = nullptr;
 	};
 
-	extern template class refl_ TPool<Node3>;
-	extern template class refl_ TPool<Item>;
-	extern template class refl_ TPool<Batch>;
-	extern template class refl_ TPool<Direct>;
-	extern template class refl_ TPool<Mime>;
-	extern template class refl_ TPool<Light>;
-	extern template class refl_ TPool<Flare>;
+	extern template class refl_ ChunkedPool<Node3>;
+	extern template class refl_ ChunkedPool<Item>;
+	extern template class refl_ ChunkedPool<Batch>;
+	extern template class refl_ ChunkedPool<Direct>;
+	extern template class refl_ ChunkedPool<Mime>;
+	extern template class refl_ ChunkedPool<Light>;
+	extern template class refl_ ChunkedPool<Flare>;
 
 	export_ TWO_GFX_EXPORT void debug_tree(Gnode& node, size_t index = 0, size_t depth = 0);
 }
