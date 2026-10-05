@@ -79,6 +79,7 @@ void two_Subskin__default_construct(void* ref) { new(stl::placeholder(), ref) tw
 void two_Subskin__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Subskin((*static_cast<two::Subskin*>(other))); }
 void two_UiRect__default_construct(void* ref) { new(stl::placeholder(), ref) two::UiRect(); }
 void two_UiRect__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::UiRect((*static_cast<two::UiRect*>(other))); }
+void* two_Widget__get_frame(void* object) { return &(*static_cast<two::Widget*>(object)).frame(); }
 void two_Widget_focused(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<two::Widget*>(object)).focused(); }
 void two_Widget_hovered(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<two::Widget*>(object)).hovered(); }
 void two_Widget_pressed(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<two::Widget*>(object)).pressed(); }
@@ -969,7 +970,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Widget, m_frame), type<two::Frame>(), "frame", nullptr, Member::NonMutable, nullptr },
+			{ t, SIZE_MAX, type<two::Frame>(), "frame", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Widget__get_frame },
 			{ t, offsetof(two::Widget, m_state), type<two::WidgetState>(), "state", &state_default, Member::Value, nullptr },
 			{ t, offsetof(two::Widget, m_switch), type<uint32_t>(), "switch", &switch_default, Member::Value, nullptr }
 		};

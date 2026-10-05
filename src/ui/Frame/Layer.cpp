@@ -24,7 +24,7 @@ namespace two
 
 	size_t Layer::z() const
 	{
-		const Layout& layout = *m_widget.m_frame.d_layout;
+		const Layout& layout = *m_widget.frame().d_layout;
 		return layout.m_zorder ? layout.m_zorder : d_z;
 	}
 

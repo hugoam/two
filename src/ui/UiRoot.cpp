@@ -11,6 +11,7 @@ namespace two
 	Ui::Ui(UiWindow& window)
 		: Widget(static_cast<PooledGraph<Widget>&>(*this))
 		, EventDispatcher(this)
+		, m_frames(this->add_array<Frame>())
 		, m_window(window)
 		, m_keyboard(*this)
 		, m_mouse(*this, m_keyboard)

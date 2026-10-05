@@ -131,7 +131,7 @@ namespace ui
 
 	bool inside_color_wheel(Widget& self, const MouseEvent& event)
 	{
-		const vec2 center = self.m_frame.m_size * 0.5f;
+		const vec2 center = self.frame().m_size * 0.5f;
 		const float r1 = center.x - color_wheel_padding;
 		const float r0 = r1 - color_wheel_thickness;
 		const float dist = distance(center, event.m_relative);
@@ -140,8 +140,8 @@ namespace ui
 
 	void drag_color_wheel(Widget& self, ColourHSL& hsla, const MouseEvent& event)
 	{
-		const vec2 coord = { event.m_relative.x, self.m_frame.m_size.y - event.m_relative.y };
-		const vec2 center = self.m_frame.m_size * 0.5f;
+		const vec2 coord = { event.m_relative.x, self.frame().m_size.y - event.m_relative.y };
+		const vec2 center = self.frame().m_size * 0.5f;
 		const vec2 vec = normalize(coord - center);
 		const float angle = oriented_angle_2d(vec, vec2(1.f, 0.f));
 		hsla.h = angle / c_2pi;
@@ -153,7 +153,7 @@ namespace ui
 		self.m_custom_draw = [=](Widget& widget, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect);
-			draw_color_wheel(vg, widget.m_frame.m_size, hsla.h, hsla.s, hsla.l);
+			draw_color_wheel(vg, widget.frame().m_size, hsla.h, hsla.s, hsla.l);
 		};
 		bool changed = false;
 
@@ -226,7 +226,7 @@ namespace ui
 		self.m_custom_draw = [&](Widget& widget, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect);
-			vg.draw_rect({ vec2(0.f), widget.m_frame.m_size }, value, widget.m_frame.d_inkstyle->m_corner_radius);
+			vg.draw_rect({ vec2(0.f), widget.frame().m_size }, value, widget.frame().d_inkstyle->m_corner_radius);
 		};
 		return self;
 	}
@@ -314,7 +314,7 @@ namespace
 		const float highest = 1.f;
 
 		Widget& self = widget(id, parent, styles().curve_graph);
-		Curve curve = { self.m_frame.content_rect().size, lowest, highest, values, points };
+		Curve curve = { self.frame().content_rect().size, lowest, highest, values, points };
 		
 		static size_t hovered = SIZE_MAX;
 		static size_t dragged = SIZE_MAX;

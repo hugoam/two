@@ -62,9 +62,9 @@ namespace ui
 
 		dockbar.m_dockzone = &widget(key(), self, dock_styles().dockdiv);
 		if(dockbar.m_current_tab == SIZE_MAX)
-			dockbar.m_dockzone->m_frame.m_size = vec2(0.f);
+			dockbar.m_dockzone->frame().m_size = vec2(0.f);
 		else
-			dockbar.m_dockzone->m_frame.m_size = vec2(dockbar.width, 0.f);
+			dockbar.m_dockzone->frame().m_size = vec2(dockbar.width, 0.f);
 
 		return dockbar;
 	}

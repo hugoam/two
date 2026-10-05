@@ -95,7 +95,7 @@ namespace two
 
 	void Text::update_style()
 	{
-		m_text_paint = style_text_paint(*m_widget.m_frame.d_inkstyle);
+		m_text_paint = style_text_paint(*m_widget.frame().d_inkstyle);
 	}
 
 	void Text::set_lines(size_t lines)
@@ -138,15 +138,15 @@ namespace two
 
 	void Text::break_text_rows()
 	{
-		const vec2 padded_size = floor(m_widget.m_frame.m_size - rect_sum(m_widget.m_frame.d_inkstyle->m_padding));
+		const vec2 padded_size = floor(m_widget.frame().m_size - rect_sum(m_widget.frame().d_inkstyle->m_padding));
 
 		if(!m_text.empty())
 			s_vg->break_text(m_text.c_str(), m_text.size(), padded_size, m_text_paint, m_text_rows);
 		else
 			m_text_rows.clear();
 
-		//return offset +  + rect_sum(m_frame.d_inkstyle->m_padding);
-		m_widget.m_frame.m_content = this->compute_text_size();
+		//return offset +  + rect_sum(frame().d_inkstyle->m_padding);
+		m_widget.frame().m_content = this->compute_text_size();
 		m_widget.mark_dirty(DIRTY_LAYOUT);
 	}
 

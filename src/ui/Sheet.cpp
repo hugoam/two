@@ -13,11 +13,11 @@ namespace ui
 	Widget& dummy(NodeKey id, Widget& parent, const vec2& size)
 	{
 		Widget& self = widget(id, parent, styles().dummy);
-		//if(size != self.m_frame.m_content)
-		if(size != self.m_frame.m_size)
+		//if(size != self.frame().m_content)
+		if(size != self.frame().m_size)
 		{
 			self.set_size(size);
-			//self.m_frame.m_content = size;
+			//self.frame().m_content = size;
 			self.mark_dirty(DIRTY_LAYOUT);
 		}
 		return self;
@@ -113,7 +113,7 @@ namespace ui
 
 		for(Widget& widget : self.children())
 		{
-			if(widget.m_frame.m_position[dim] >= local[dim])
+			if(widget.frame().m_position[dim] >= local[dim])
 			{
 				drag_point.next = &widget;
 				break;
@@ -170,8 +170,8 @@ namespace ui
 		if(dragging)
 			if(drag_point.next && drag_point.prev)
 			{
-				spans[drag_point.prev->sibling()] = drag_point.prev->m_frame.m_span[dim];
-				spans[drag_point.next->sibling()] = drag_point.next->m_frame.m_span[dim];
+				spans[drag_point.prev->sibling()] = drag_point.prev->frame().m_span[dim];
+				spans[drag_point.next->sibling()] = drag_point.next->frame().m_span[dim];
 			}
 
 		return self;

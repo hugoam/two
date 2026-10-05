@@ -22,7 +22,7 @@ namespace ui
 	Widget& widget(NodeKey id, Widget& parent, Style& style, bool open, Axis length, v2<uint> index)
 	{
 		Widget& self = parent.sub(id).init(style, open, length, index);
-		assert(self.m_frame.d_style);
+		assert(self.frame().d_style);
 		widget_logic(self);
 		return self;
 	}

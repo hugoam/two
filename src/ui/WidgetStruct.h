@@ -78,7 +78,8 @@ namespace two
 		virtual void receive_event(InputEvent& event) override;
 		//virtual ControlNode* propagate_event(InputEvent& event) override;
 
-		attr_ Frame m_frame;
+		// the frame of the widget, its data by node index in the frames of the ui
+		attr_ inline Frame& frame();
 		attr_ WidgetState m_state = CREATED;
 		attr_ uint32_t m_switch = 0;
 
@@ -88,10 +89,10 @@ namespace two
 		Widget& layer();
 
 		inline bool once() { if((m_state & CREATED) != 0) { disable_state(CREATED); return true; } return false; }
-		inline Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 }) { if(!m_frame.d_style) { this->set_style(style, length, index); this->set_open(open); } return *this; }
+		inline Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 }) { if(!frame().d_style) { this->set_style(style, length, index); this->set_open(open); } return *this; }
 
 		// --- frame ---
-		// the frame of the widget: its layout and its drawing, on the data of m_frame, and of the frames of its parents (Frame.cpp)
+		// the frame of the widget: its layout and its drawing, on the data of frame(), and of the frames of its parents (Frame.cpp)
 
 		void set_style(Style& style, Axis length = Axis::None, v2<uint> index = { 0, 0 });
 
@@ -120,21 +121,21 @@ namespace two
 		void resolve();
 
 		// from the local space of the frame to the space of its root, or of an ancestor
-		inline vec2 absolute_position() { resolve(); return m_frame.d_absolute; }
-		inline vec2 derive_position(const vec2& local) { resolve(); return m_frame.d_absolute + local * m_frame.d_scale; }
-		inline vec2 derive_position(const vec2& local, Widget& root) { resolve(); root.resolve(); return (m_frame.d_absolute + local * m_frame.d_scale - root.m_frame.d_absolute) / root.m_frame.d_scale; }
+		inline vec2 absolute_position() { resolve(); return frame().d_absolute; }
+		inline vec2 derive_position(const vec2& local) { resolve(); return frame().d_absolute + local * frame().d_scale; }
+		inline vec2 derive_position(const vec2& local, Widget& root) { resolve(); root.resolve(); return (frame().d_absolute + local * frame().d_scale - root.frame().d_absolute) / root.frame().d_scale; }
 
 		// from the space of its root, or of an ancestor, to the local space of the frame
-		inline vec2 local_position(const vec2& pos) { resolve(); return (pos - m_frame.d_absolute) / m_frame.d_scale; }
-		inline vec2 integrate_position(const vec2& pos, Widget& root) { resolve(); root.resolve(); return (root.m_frame.d_absolute + pos * root.m_frame.d_scale - m_frame.d_absolute) / m_frame.d_scale; }
+		inline vec2 local_position(const vec2& pos) { resolve(); return (pos - frame().d_absolute) / frame().d_scale; }
+		inline vec2 integrate_position(const vec2& pos, Widget& root) { resolve(); root.resolve(); return (root.frame().d_absolute + pos * root.frame().d_scale - frame().d_absolute) / frame().d_scale; }
 
 		// the scale of the frame and of its parents up to an ancestor, including it
-		inline float derive_scale(Widget& root) { resolve(); root.resolve(); return m_frame.d_scale / root.m_frame.d_scale * root.m_frame.m_scale; }
+		inline float derive_scale(Widget& root) { resolve(); root.resolve(); return frame().d_scale / root.frame().d_scale * root.frame().m_scale; }
 		inline float absolute_scale() { return this->derive_scale(this->root()); }
 
 		void clamp_to_parent();
 
-		inline bool inside_abs(const vec2& pos) { return m_frame.inside(this->local_position(pos)); }
+		inline bool inside_abs(const vec2& pos) { return frame().inside(this->local_position(pos)); }
 
 		void transfer_pixel_span(Widget& prev, Widget& next, Axis dim, float pixelSpan);
 

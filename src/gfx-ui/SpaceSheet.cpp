@@ -30,7 +30,7 @@ namespace two
 		m_material.m_program = viewport.m_scene->m_gfx.programs().file("debug");
 		m_material.m_solid.m_colour = &m_texture;
 
-		//m_target = oconstruct<FrameBuffer>(*m_viewport.ui_window().m_renderer, as<Layer>(*m_frame), m_viewport.m_scene, m_viewport.m_camera, gfx, *m_texture);
+		//m_target = oconstruct<FrameBuffer>(*m_viewport.ui_window().m_renderer, as<Layer>(*frame()), m_viewport.m_scene, m_viewport.m_camera, gfx, *m_texture);
 
 		Symbol symbol = { Colour::White, Colour::None, true };
 		Quad quad = { vec2(size) * scale };
@@ -43,7 +43,7 @@ namespace two
 		, m_size_ratio(0.01f)
 	{
 		//m_propagate = parent.m_parent; // we skip the SpaceViewport
-		//m_frame = oconstruct<Layer>(parent.m_frame.get(), viewer_styles().space_sheet, *this, SPACE_LAYER);
+		//frame() = oconstruct<Layer>(parent.frame().get(), viewer_styles().space_sheet, *this, SPACE_LAYER);
 		//this->update_style();
 	}
 
@@ -67,10 +67,10 @@ namespace two
 
 	void SpaceSheet::updateSize()
 	{
-		if(m_size == m_frame.m_size)
+		if(m_size == frame().m_size)
 			return;
 
-		m_size = m_frame.m_size;
+		m_size = frame().m_size;
 
 		printf("SpaceSheet :: updateSize () %f, %f\n", m_size.x, m_size.y);
 
@@ -90,8 +90,8 @@ namespace two
 
 		vec3 rel = vec3(0.f); UNUSED(pos); //inverse(m_quad->m_node.m_rotation) * pos - m_quad->m_node.m_position;
 
-		event.m_pos.x = rel[0] / m_size_ratio + m_frame.m_size.x / 2.f;
-		event.m_pos.y = -rel[1] / m_size_ratio + m_frame.m_size.y / 2.f;
+		event.m_pos.x = rel[0] / m_size_ratio + frame().m_size.x / 2.f;
+		event.m_pos.y = -rel[1] / m_size_ratio + frame().m_size.y / 2.f;
 	}
 
 	void SpaceSheet::receive_event(InputEvent& inputEvent)

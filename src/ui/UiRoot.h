@@ -41,6 +41,9 @@ namespace two
 		meth_ void reset_styles();
 
 	public:
+		// the frames of the widgets, by node index: declared first, the root's frame is used from the constructor
+		TNodeArray<Frame>& m_frames;
+
 		UiWindow& m_window;
 		Keyboard m_keyboard;
 		Mouse m_mouse;
@@ -50,4 +53,6 @@ namespace two
 		DropAction m_drop = {};
 		Clock m_tooltip_clock;
 	};
+
+	inline Frame& Widget::frame() { return static_cast<Ui&>(*m_graph).m_frames[m_index]; }
 }

@@ -43,17 +43,19 @@ namespace two
 
 	void Widget::set_style(Style& style, Axis length, v2<uint> index)
 	{
-		m_frame.d_style = &style;
-		m_frame.d_layout = &style.m_layout;
-		m_frame.d_index = index;
-		m_frame.d_length_override = length;
+		Frame& frame = this->frame();
+		frame.d_style = &style;
+		frame.d_layout = &style.m_layout;
+		frame.d_index = index;
+		frame.d_length_override = length;
 
 		this->update_style();
 	}
 
 	Layer& Widget::draw_layer()
 	{
-		return m_frame.m_layer ? *m_frame.m_layer : this->parent()->draw_layer();
+		Frame& frame = this->frame();
+		return frame.m_layer ? *frame.m_layer : this->parent()->draw_layer();
 	}
 
 	// a frame to lay out lays out the whole tree, from its root, and a frame to redraw redraws its layer
@@ -61,31 +63,32 @@ namespace two
 	{
 		if(dirty == DIRTY_LAYOUT)
 		{
-			m_frame.set_dirty(DIRTY_LAYOUT);
-			this->root().m_frame.set_dirty(DIRTY_LAYOUT);
+			this->frame().set_dirty(DIRTY_LAYOUT);
+			this->root().frame().set_dirty(DIRTY_LAYOUT);
 		}
 		else if(dirty == DIRTY_REDRAW)
 		{
 			Widget* widget = this;
-			while(widget && !widget->m_frame.m_layer)
+			while(widget && !widget->frame().m_layer)
 				widget = widget->parent();
 			if(widget)
 			{
-				widget->m_frame.m_layer->setRedraw();
-				widget->m_frame.m_layer->setForceRedraw(); // @ kludge for nodes in canvas when moving the canvas window
+				widget->frame().m_layer->setRedraw();
+				widget->frame().m_layer->setForceRedraw(); // @ kludge for nodes in canvas when moving the canvas window
 			}
 		}
 	}
 
 	void Widget::update_style(bool reset)
 	{
-		m_frame.d_layout = &m_frame.d_style->m_layout;
+		Frame& frame = this->frame();
+		frame.d_layout = &frame.d_style->m_layout;
 
-		InkStyle& inkstyle = m_frame.d_style->state_skin(m_state);
+		InkStyle& inkstyle = frame.d_style->state_skin(m_state);
 		this->update_inkstyle(inkstyle, reset);
 
-		m_frame.m_opacity = m_frame.d_layout->m_opacity;
-		m_frame.m_size = m_frame.d_layout->m_size == vec2(0.f) ? m_frame.m_size : m_frame.d_layout->m_size;
+		frame.m_opacity = frame.d_layout->m_opacity;
+		frame.m_size = frame.d_layout->m_size == vec2(0.f) ? frame.m_size : frame.d_layout->m_size;
 
 		UNUSED(reset);
 		this->mark_dirty(DIRTY_LAYOUT);
@@ -93,19 +96,20 @@ namespace two
 
 	void Widget::update_state(WidgetState state)
 	{
-		InkStyle& inkstyle = m_frame.d_style->state_skin(state);
+		InkStyle& inkstyle = this->frame().d_style->state_skin(state);
 		this->update_inkstyle(inkstyle);
 	}
 
 	void Widget::update_inkstyle(InkStyle& inkstyle, bool reset)
 	{
-		if(m_frame.d_inkstyle == &inkstyle && !reset) return;
+		Frame& frame = this->frame();
+		if(frame.d_inkstyle == &inkstyle && !reset) return;
 		//printf("[debug] Update inkstyle %s\n", inkstyle.m_name.c_str());
-		m_frame.d_inkstyle = &inkstyle;
+		frame.d_inkstyle = &inkstyle;
 		this->mark_dirty(DIRTY_REDRAW);
-		this->set_icon(m_frame.d_inkstyle->m_image);
-		if(m_frame.d_caption != "")
-			m_frame.size_caption();
+		this->set_icon(frame.d_inkstyle->m_image);
+		if(frame.d_caption != "")
+			frame.size_caption();
 	}
 
 	void Frame::size_caption()
@@ -121,50 +125,56 @@ namespace two
 
 	void Widget::set_caption(cstring text)
 	{
-		if(m_frame.d_caption == text)
+		Frame& frame = this->frame();
+		if(frame.d_caption == text)
 			return;
-		m_frame.d_caption = text;
-		m_frame.m_size = vec2(0.f);
-		m_frame.size_caption();
+		frame.d_caption = text;
+		frame.m_size = vec2(0.f);
+		frame.size_caption();
 		this->mark_dirty(DIRTY_LAYOUT);
 	}
 
 	void Widget::set_icon(Image* image)
 	{
-		if(m_frame.d_icon == image)
+		Frame& frame = this->frame();
+		if(frame.d_icon == image)
 			return;
-		m_frame.d_icon = image;
-		m_frame.m_size = vec2(0.f);
-		m_frame.m_content = image ? vec2(image->d_size) : vec2(0.f);
+		frame.d_icon = image;
+		frame.m_size = vec2(0.f);
+		frame.m_content = image ? vec2(image->d_size) : vec2(0.f);
 		this->mark_dirty(DIRTY_LAYOUT);
 	}
 
 	void Widget::set_size(Axis dim, float size)
 	{
-		if(m_frame.m_size[dim] == size) return;
-		m_frame.m_size[dim] = size;
+		Frame& frame = this->frame();
+		if(frame.m_size[dim] == size) return;
+		frame.m_size[dim] = size;
 		this->mark_dirty(DIRTY_LAYOUT);
 	}
 
 	void Widget::set_span(Axis dim, float span)
 	{
-		if(m_frame.m_span[dim] == span) return;
-		m_frame.m_span[dim] = span;
+		Frame& frame = this->frame();
+		if(frame.m_span[dim] == span) return;
+		frame.m_span[dim] = span;
 		this->mark_dirty(DIRTY_LAYOUT);
 	}
 
 	void Widget::set_position(Axis dim, float position)
 	{
-		if(m_frame.m_position[dim] == position) return;
-		m_frame.m_position[dim] = position;
+		Frame& frame = this->frame();
+		if(frame.m_position[dim] == position) return;
+		frame.m_position[dim] = position;
 		++Frame::s_epoch;
 		this->mark_dirty(DIRTY_REDRAW);
 	}
 
 	void Widget::set_scale(float scale)
 	{
-		if(m_frame.m_scale == scale) return;
-		m_frame.m_scale = scale;
+		Frame& frame = this->frame();
+		if(frame.m_scale == scale) return;
+		frame.m_scale = scale;
 		++Frame::s_epoch;
 		this->mark_dirty(DIRTY_REDRAW);
 	}
@@ -172,20 +182,22 @@ namespace two
 	// a frame resolves its parent first, which is cached in turn: a frame resolves once for the current positions
 	void Widget::resolve()
 	{
-		if(m_frame.d_epoch == Frame::s_epoch)
+		Frame& frame = this->frame();
+		if(frame.d_epoch == Frame::s_epoch)
 			return;
 		if(Widget* parent = this->parent())
 		{
 			parent->resolve();
-			m_frame.d_absolute = parent->m_frame.d_absolute + m_frame.m_position * parent->m_frame.d_scale;
-			m_frame.d_scale = parent->m_frame.d_scale * m_frame.m_scale;
+			const Frame& parent_frame = parent->frame();
+			frame.d_absolute = parent_frame.d_absolute + frame.m_position * parent_frame.d_scale;
+			frame.d_scale = parent_frame.d_scale * frame.m_scale;
 		}
 		else
 		{
-			m_frame.d_absolute = vec2(0.f);
-			m_frame.d_scale = 1.f;
+			frame.d_absolute = vec2(0.f);
+			frame.d_scale = 1.f;
 		}
-		m_frame.d_epoch = Frame::s_epoch;
+		frame.d_epoch = Frame::s_epoch;
 	}
 
 	void Widget::clamp_to_parent()
@@ -193,12 +205,14 @@ namespace two
 		Widget& clip = this->root();
 		const vec2 position = this->derive_position(vec2(0.f), clip);
 
+		Frame& frame = this->frame();
+		const Frame& clip_frame = clip.frame();
 		for(Axis dim : { Axis::X, Axis::Y })
 		{
-			m_frame.m_size[dim] = min(clip.m_frame.m_size[dim], m_frame.m_size[dim]);
+			frame.m_size[dim] = min(clip_frame.m_size[dim], frame.m_size[dim]);
 
-			const float overflow = position[dim] + m_frame.m_size[dim] - clip.m_frame.m_size[dim];
-			this->set_position(dim, m_frame.m_position[dim] - max(0.f, overflow));
+			const float overflow = position[dim] + frame.m_size[dim] - clip_frame.m_size[dim];
+			this->set_position(dim, frame.m_position[dim] - max(0.f, overflow));
 		}
 	}
 
@@ -216,17 +230,17 @@ namespace two
 
 	void Widget::transfer_pixel_span(Widget& prev, Widget& next, Axis dim, float pixelSpan)
 	{
-		float pixspan = 1.f / m_frame.m_size[dim];
+		float pixspan = 1.f / this->frame().m_size[dim];
 		float offset = pixelSpan * pixspan;
 
-		prev.set_span(dim, max(0.01f, prev.m_frame.m_span[dim] + offset));
-		next.set_span(dim, max(0.01f, next.m_frame.m_span[dim] - offset));
+		prev.set_span(dim, max(0.01f, prev.frame().m_span[dim] + offset));
+		next.set_span(dim, max(0.01f, next.frame().m_span[dim] - offset));
 		this->mark_dirty(DIRTY_LAYOUT);
 	}
 
 	void Widget::relayout()
 	{
-		if(m_frame.clearDirty() < DIRTY_LAYOUT)
+		if(this->frame().clearDirty() < DIRTY_LAYOUT)
 			return;
 
 		static LayoutTree tree;
@@ -244,7 +258,7 @@ namespace two
 			printf("  ");
 			parent = parent->parent();
 		}
-		printf("FRAME: %s ", m_frame.d_style->m_name.c_str());
+		printf("FRAME: %s ", this->frame().d_style->m_name.c_str());
 		if(commit)
 			printf("\n");
 	}

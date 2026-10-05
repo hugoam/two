@@ -14,7 +14,7 @@ namespace two
 
 	Widget* pinpoint(Widget& self, vec2 pos, const FrameFilter& filter)
 	{
-		Frame& frame = self.m_frame;
+		Frame& frame = self.frame();
 		if (!frame.d_style || frame.hollow() || (clip(frame) && !frame.inside(pos)))
 			return nullptr;
 
@@ -102,15 +102,15 @@ namespace two
 				new_layer->addLayer(layer);
 		};
 
-		if(m_frame.m_layer)
-			relink(*m_frame.m_layer);
+		if(frame().m_layer)
+			relink(*frame().m_layer);
 		else
 			for(uint32_t index : this->descendants())
 				if(index != PooledGraph<Widget>::none)
 				{
 					Widget& widget = m_graph->node(index);
-					if(widget.m_frame.m_layer && widget.m_frame.m_layer->d_parentLayer == old_layer)
-						relink(*widget.m_frame.m_layer);
+					if(widget.frame().m_layer && widget.frame().m_layer->d_parentLayer == old_layer)
+						relink(*widget.frame().m_layer);
 				}
 
 		if(old)
@@ -121,8 +121,8 @@ namespace two
 
 	Widget& Widget::layer()
 	{
-		if(!m_frame.m_layer)
-			m_frame.m_layer = oconstruct<Layer>(*this);
+		if(!frame().m_layer)
+			frame().m_layer = oconstruct<Layer>(*this);
 		return *this;
 	}
 

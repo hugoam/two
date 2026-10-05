@@ -294,7 +294,7 @@ namespace two
 		uint16_t num_rows = 2;
 		uint16_t num_columns = uint16_t(state.m_items.size()) / num_rows;
 
-		float size = 90.f;//parent.m_frame.m_size.x / float(num_columns);
+		float size = 90.f;//parent.frame().m_size.x / float(num_columns);
 		SceneViewer& viewer = ui::scene_viewer(key(), self, { num_columns * size, num_rows * size });
 
 		vec3 array_size = { float(num_columns - 1), 1.f, float(num_rows - 1) };

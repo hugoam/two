@@ -85,6 +85,56 @@ namespace two
 		ChunkedPool<T> m_pool;
 	};
 
+	// data that every node has, by node index, created and destroyed with the node
+	export_ class NodeArray
+	{
+	public:
+		virtual ~NodeArray() {}
+		virtual void create(uint32_t index) = 0;
+		virtual void destroy(uint32_t index) = 0;
+	};
+
+	// the data of one type of every node, by node index: stored in chunks of a fixed size, where the data doesn't move
+	export_ template <class T>
+	class TNodeArray : public NodeArray
+	{
+	public:
+		static constexpr uint32_t shift = 10;
+		static constexpr uint32_t chunk_size = 1 << shift;
+		static constexpr uint32_t mask = chunk_size - 1;
+
+		// the memory of the data of a node, constructed and destroyed in place: the data never moves, it doesn't need to be movable
+		struct Slot { alignas(T) uint8_t m_bytes[sizeof(T)]; };
+
+		~TNodeArray()
+		{
+			for(uint32_t index = 0; index < uint32_t(m_live.size()); ++index)
+				if(m_live[index])
+					this->destroy(index);
+		}
+
+		inline T& operator[](uint32_t index) { return *reinterpret_cast<T*>(m_chunks[index >> shift][index & mask].m_bytes); }
+
+		virtual void create(uint32_t index) override
+		{
+			while((index >> shift) >= m_chunks.size())
+				m_chunks.emplace_back(chunk_size);
+			if(index >= m_live.size())
+				m_live.resize(index + 1, false);
+			new (stl::placeholder(), &(*this)[index]) T();
+			m_live[index] = true;
+		}
+
+		virtual void destroy(uint32_t index) override
+		{
+			(*this)[index].~T();
+			m_live[index] = false;
+		}
+
+		vector<vector<Slot>> m_chunks;	// each chunk is allocated once at its full size, it never grows
+		vector<bool> m_live;
+	};
+
 	// the single object holding all the nodes of a graph, and their structure
 	// each node has an index, stable for the life of the node, and reused once it's destroyed: the structure of the graph is stored in arrays, by node index
 	// the nodes are ordered depth-first: each node is followed by its descendants, the children of a node are found by jumping over the descendants of each child
@@ -110,6 +160,9 @@ namespace two
 
 		T* m_root = nullptr;
 
+		// the data every node has, by node index, an array for each type of data: declared before the nodes, which use their data until they're destroyed
+		vector<unique<NodeArray>> m_arrays;
+
 		// the nodes, by index: the root is owned outside of the graph
 		vector<unique<T>> m_nodes;
 		vector<uint32_t> m_free;
@@ -134,6 +187,20 @@ namespace two
 		unordered_map<uint64_t, uint32_t> m_tops;
 		// the states of the nodes, a store for each type of state: a node can have several, of different types
 		vector<unique<StateStore>> m_stores;
+
+		// adds an array of data every node has, created for the nodes already there
+		template <class T_Data>
+		inline TNodeArray<T_Data>& add_array()
+		{
+			unique<TNodeArray<T_Data>> array = make_unique<TNodeArray<T_Data>>();
+			array->create(0);
+			for(uint32_t index = 1; index < uint32_t(m_nodes.size()); ++index)
+				if(m_nodes[index])
+					array->create(index);
+			TNodeArray<T_Data>& result = *array;
+			m_arrays.push_back(move(array));
+			return result;
+		}
 
 		inline T& node(uint32_t index) { return index == 0 ? *m_root : *m_nodes[index]; }
 		inline T* node_or_null(uint32_t index) { return index == none ? nullptr : &this->node(index); }
@@ -357,6 +424,8 @@ namespace two
 		inline void free_index(uint32_t index)
 		{
 			m_nodes[index] = nullptr;
+			for(unique<NodeArray>& array : m_arrays)
+				array->destroy(index);
 			m_parent[index] = none;
 			m_slot[index] = none;
 			m_descendants[index] = 0;
@@ -378,6 +447,8 @@ namespace two
 			m_parent[index] = parent;
 			m_flags[index] = top ? Top : 0;
 			m_tree[index] = top ? index : m_tree[parent];
+			for(unique<NodeArray>& array : m_arrays)
+				array->create(index);
 			m_nodes[index] = make_unique<T>(&this->node(parent));
 			m_nodes[index]->m_index = index;
 			return index;

@@ -23,7 +23,7 @@ namespace ui
 
 	void canvas_autolayout(Canvas& canvas)
 	{
-		Frame& plan = canvas.m_plan->m_frame;
+		Frame& plan = canvas.m_plan->frame();
 
 		int min_index = 0;
 		int max_index = 0;
@@ -74,7 +74,7 @@ namespace ui
 		static Colour disabled_colour = Colour::DarkGrey;
 		self.m_custom_draw = [=](Widget& widget, const vec4& rect, Vg& vg)
 		{
-			UNUSED(rect); draw_knob(widget.m_frame, active ? colour : disabled_colour, connected, vg);
+			UNUSED(rect); draw_knob(widget.frame(), active ? colour : disabled_colour, connected, vg);
 		};
 		return self;
 	}
@@ -83,10 +83,10 @@ namespace ui
 	{
 		Widget& self = widget(id, parent, node_styles().cable);
 		self.set_position(min(out.m_end, in.m_end));
-		self.m_frame.m_size = max(out.m_end, in.m_end) - self.m_frame.m_position;
+		self.frame().m_size = max(out.m_end, in.m_end) - self.frame().m_position;
 		self.m_custom_draw = [&, straight](Widget& widget, const vec4& rect, Vg& vg)
 		{
-			UNUSED(rect); draw_node_cable(out.m_end - widget.m_frame.m_position, in.m_end - widget.m_frame.m_position, out.m_colour, in.m_colour, straight, vg);
+			UNUSED(rect); draw_node_cable(out.m_end - widget.frame().m_position, in.m_end - widget.frame().m_position, out.m_colour, in.m_colour, straight, vg);
 		};
 		return self;
 	}
@@ -94,13 +94,13 @@ namespace ui
 	vec2 plug_at_out(Canvas& canvas, NodePlug& plug)
 	{
 		Widget& knob = *plug.m_knob;
-		return knob.derive_position({ knob.m_frame.m_size.x, knob.m_frame.m_size.y / 2 }, *canvas.m_plan);
+		return knob.derive_position({ knob.frame().m_size.x, knob.frame().m_size.y / 2 }, *canvas.m_plan);
 	}
 
 	vec2 plug_at_in(Canvas& canvas, NodePlug& plug)
 	{
 		Widget& knob = *plug.m_knob;
-		return knob.derive_position({ 0.f, knob.m_frame.m_size.y / 2 }, *canvas.m_plan);
+		return knob.derive_position({ 0.f, knob.frame().m_size.y / 2 }, *canvas.m_plan);
 	}
 
 	Widget& node_cable(NodeKey id, Canvas& canvas, NodePlug& out, NodePlug& in)
@@ -136,7 +136,7 @@ namespace ui
 		{
 			Widget* target = static_cast<Widget*>(event.m_target);
 			NodePlug* target_plug = nullptr;
-			if(target && target->m_frame.d_style == &node_styles().plug && target != &self)
+			if(target && target->frame().d_style == &node_styles().plug && target != &self)
 				target_plug = &target->state<NodePlug>();
 
 			connect.m_origin = &plug;
@@ -218,7 +218,7 @@ namespace ui
 				canvas_select(parent, node);
 
 			for(Node* selected : parent.m_selection)
-				selected->m_self->set_position(selected->m_self->m_frame.m_position + event.m_delta / selected->m_self->absolute_scale());
+				selected->m_self->set_position(selected->m_self->frame().m_position + event.m_delta / selected->m_self->absolute_scale());
 		}
 
 		node.m_index = uint32_t(parent.m_nodes.size());
@@ -235,8 +235,8 @@ namespace ui
 			self.set_position({ position[0], position[1] });
 		else
 		{
-			position[0] = self.m_frame.m_position.x;
-			position[1] = self.m_frame.m_position.y;
+			position[0] = self.frame().m_position.x;
+			position[1] = self.frame().m_position.y;
 		}
 		return node;
 	}
@@ -272,7 +272,7 @@ namespace ui
 		if(MouseEvent event = self.m_scroll_plan->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			for(Node* node : self.m_selection)
-				node->m_self->set_position(node->m_self->m_frame.m_position + event.m_delta / node->m_self->absolute_scale());
+				node->m_self->set_position(node->m_self->frame().m_position + event.m_delta / node->m_self->absolute_scale());
 		}
 
 		if(MouseEvent event = self.m_scroll_plan->mouse_event(DeviceType::MouseLeft, EventType::Stroked))

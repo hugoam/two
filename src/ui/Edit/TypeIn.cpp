@@ -24,7 +24,7 @@ namespace two
 
 	size_t TextEdit::visible_lines() const
 	{
-		const Frame& scroll_frame = m_self->m_frame;
+		const Frame& scroll_frame = m_self->frame();
 		float height = scroll_frame.m_size.y - 20.0f;
 		return size_t(floor(height / m_text.line_height()));
 	}
@@ -35,7 +35,7 @@ namespace two
 		const int digits = count_digits(int(m_text.m_text_rows.size()));
 		const vec2 offset = { m_text.line_height() * float(digits) * 0.7f, 0.f };
 
-		return offset + m_text.compute_text_size() + rect_sum(m_self->m_frame.d_inkstyle->m_padding);
+		return offset + m_text.compute_text_size() + rect_sum(m_self->frame().d_inkstyle->m_padding);
 	}
 
 	void TextEdit::update_style()
@@ -51,7 +51,7 @@ namespace two
 		auto count_digits = [](int number) { int digits = 0; do { number /= 10; digits++; } while (number != 0); return digits; };
 		int digits = count_digits(int(m_text.m_text_rows.size()));
 
-		vec2 padding = floor(m_self->m_frame.d_inkstyle->m_padding.pos);
+		vec2 padding = floor(m_self->frame().d_inkstyle->m_padding.pos);
 		if(m_editor)
 			m_text_offset = padding + vec2(m_text.line_height() * float(digits) * 0.7f, 0.f);
 		else
@@ -515,8 +515,8 @@ namespace two
 	{
 		if(MouseEvent event = m_self->mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
-			float overflow = content.m_frame.m_size.y - frame.m_frame.m_size.y;
-			const float scrolled = content.m_frame.m_position.y + event.m_deltaZ * 22.f * 3.f;
+			float overflow = content.frame().m_size.y - frame.frame().m_size.y;
+			const float scrolled = content.frame().m_position.y + event.m_deltaZ * 22.f * 3.f;
 			content.set_position(Axis::Y, min(0.f, max(scrolled, -overflow)));
 		}
 
@@ -533,16 +533,16 @@ namespace two
 			recolorize();
 
 		if(m_editor)
-			vg.draw_rect(vec4(vec2(0.f), m_self->m_frame.m_size), palette_paint(m_palette, Text::Background));
+			vg.draw_rect(vec4(vec2(0.f), m_self->frame().m_size), palette_paint(m_palette, Text::Background));
 		//else
-		//	vg.draw_background(m_self->m_frame, { m_self->m_frame.m_position, m_self->m_frame.m_size }, {}, {});
+		//	vg.draw_background(m_self->frame(), { m_self->frame().m_position, m_self->frame().m_size }, {}, {});
 
-		const vec2 padding = floor(m_self->m_frame.d_inkstyle->m_padding.pos);
+		const vec2 padding = floor(m_self->frame().d_inkstyle->m_padding.pos);
 
 		if(m_self->focused())
-			draw_text_selection(vg, m_self->m_frame, padding, m_text_offset, m_text, m_selection, m_palette, m_editor);
+			draw_text_selection(vg, m_self->frame(), padding, m_text_offset, m_text, m_selection, m_palette, m_editor);
 		if(m_editor)
-			draw_editor_text(vg, m_self->m_frame, padding, m_text_offset, m_text, m_palette, this->visible_range());
+			draw_editor_text(vg, m_self->frame(), padding, m_text_offset, m_text, m_palette, this->visible_range());
 		else
 			draw_text(vg, padding, m_text);
 	}
@@ -551,13 +551,13 @@ namespace two
 	vec2 TextEdit::visible_range()
 	{
 		Widget* clip = m_self->parent();
-		while(clip && !(clip->m_frame.d_layout && clip->m_frame.d_layout->m_clipping == Clip::Clip))
+		while(clip && !(clip->frame().d_layout && clip->frame().d_layout->m_clipping == Clip::Clip))
 			clip = clip->parent();
 		if(!clip)
 			return { -FLT_MAX, FLT_MAX };
 
 		const float top = m_self->integrate_position(vec2(0.f), *clip).y;
-		const float bottom = m_self->integrate_position(clip->m_frame.m_size, *clip).y;
+		const float bottom = m_self->integrate_position(clip->frame().m_size, *clip).y;
 		return { top, bottom };
 	}
 
@@ -668,14 +668,14 @@ namespace two
 		const vec2 cursor_min = cursor_rect.pos - margin;
 		const vec2 cursor_max = cursor_min + cursor_rect.size + margin;
 
-		const vec2 frame_min = -content.m_frame.m_position;
-		const vec2 frame_max = -content.m_frame.m_position + frame.m_frame.m_size;
+		const vec2 frame_min = -content.frame().m_position;
+		const vec2 frame_max = -content.frame().m_position + frame.frame().m_size;
 
 		const vec2 delta_neg = max(vec2(0.f), frame_min - cursor_min);
 		const vec2 delta_pos = min(vec2(0.f), frame_max - cursor_max);
 
-		content.set_position(content.m_frame.m_position + delta_neg);
-		content.set_position(content.m_frame.m_position + delta_pos);
+		content.set_position(content.frame().m_position + delta_neg);
+		content.set_position(content.frame().m_position + delta_pos);
 	}
 
 	void TextEdit::Action::Undo(TextEdit * aEditor)

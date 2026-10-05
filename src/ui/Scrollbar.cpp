@@ -33,8 +33,8 @@ namespace ui
 	{
 		Widget& self = widget(id, parent, styles().row, false, dim, grid_index);
 
-		float visible_size = frame.m_frame.m_size[dim];
-		float content_size = content.m_frame.m_size[dim] * content.m_frame.m_scale;
+		float visible_size = frame.frame().m_size[dim];
+		float content_size = content.frame().m_size[dim] * content.frame().m_scale;
 		float overflow = content_size - visible_size;
 
 		if(overflow <= 0.f)
@@ -42,7 +42,7 @@ namespace ui
 
 		Widget& scrollbar = widget(key(), self, scrollbar_styles().scrollbar, false, dim);
 
-		float cursor = -content.m_frame.m_position[dim];
+		float cursor = -content.frame().m_position[dim];
 		if(cursor > 0.f && content_size - cursor < visible_size)
 			cursor = max(content_size - visible_size, 0.f);
 

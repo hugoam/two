@@ -77,13 +77,13 @@ namespace two
 	void VgNano::begin_frame(UiTarget& target)
 	{
 #ifdef TWO_RENDERER_BGFX
-		bgfx::setViewRect(250, 0, 0, uint16_t(target.m_layer.m_widget.m_frame.m_size.x), uint16_t(target.m_layer.m_widget.m_frame.m_size.y));
+		bgfx::setViewRect(250, 0, 0, uint16_t(target.m_layer.m_widget.frame().m_size.x), uint16_t(target.m_layer.m_widget.frame().m_size.y));
 		bgfx::setViewMode(250, bgfx::ViewMode::Sequential);
 		bgfx::setViewName(250, "ui");
 #endif
 
 		float pixelRatio = 1.f;
-		nvgBeginFrame(m_ctx, int(target.m_layer.m_widget.m_frame.m_size.x), int(target.m_layer.m_widget.m_frame.m_size.y), pixelRatio);
+		nvgBeginFrame(m_ctx, int(target.m_layer.m_widget.frame().m_size.x), int(target.m_layer.m_widget.frame().m_size.y), pixelRatio);
 	}
 
 	void VgNano::end_frame()

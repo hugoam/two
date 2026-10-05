@@ -45,7 +45,7 @@ namespace ui
 
 	bool slider_cursor(Widget& slider, Frame& knob, Axis dim, const MouseEvent& event, float& value, const SliderMetrics& metrics, bool relative)
 	{
-		const vec2 size = slider.m_frame.m_size;
+		const vec2 size = slider.frame().m_size;
 		if(relative)
 		{
 			float delta = event.m_delta[dim] / size[dim];
@@ -92,8 +92,8 @@ namespace ui
 		spanner(key(), self, styles().spacer, dim, state.m_post_span);
 		
 		bool changed = false;
-		changed |= slider_logic(self, self, filler.m_frame, button.m_frame, value, metrics, dim, false);
-		changed |= slider_logic(button, self, filler.m_frame, button.m_frame, value, metrics, dim, relative);
+		changed |= slider_logic(self, self, filler.frame(), button.frame(), value, metrics, dim, false);
+		changed |= slider_logic(button, self, filler.frame(), button.frame(), value, metrics, dim, relative);
 		return changed;
 	}
 

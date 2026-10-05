@@ -65,7 +65,7 @@ namespace two
 	// a fixed node has the size of its own content, or keeps its size if it has none
 	void LayoutTree::read_frame(LayoutNode& node, Widget& widget) const
 	{
-		const Frame& frame = widget.m_frame;
+		const Frame& frame = widget.frame();
 		node.widget = &widget;
 		node.position = frame.m_position;
 		node.span = frame.m_span;
@@ -87,7 +87,7 @@ namespace two
 		// the root is laid out by whoever owns it: it only lends its size to its children
 		LayoutNode& node = m_nodes[0];
 		node.content = vec2(0.f);
-		node.size = root.m_frame.m_size;
+		node.size = root.frame().m_size;
 	}
 
 	uint32_t LayoutTree::add_root(const Layout& layout, const vec2& size)
@@ -119,7 +119,7 @@ namespace two
 		const LayoutNode& p = m_nodes[parent];
 		if(p.tracks == LayoutTracks::Lines && p.length != Axis::None)
 		{
-			const uint line = widget.m_frame.d_index[p.length];
+			const uint line = widget.frame().d_index[p.length];
 			return line < p.virtuals ? parent + 1 + line : parent;
 		}
 
@@ -134,7 +134,7 @@ namespace two
 
 	void LayoutTree::add_frame(Widget& widget, uint32_t parent)
 	{
-		const Frame& frame = widget.m_frame;
+		const Frame& frame = widget.frame();
 		if(!frame.d_layout)
 			return;
 
@@ -156,7 +156,7 @@ namespace two
 
 	void LayoutTree::add_virtuals(uint32_t index)
 	{
-		const Frame& frame = m_nodes[index].widget->m_frame;
+		const Frame& frame = m_nodes[index].widget->frame();
 		Layout& layout = *frame.d_layout;
 
 		auto add = [&](uint32_t container, Axis length) -> LayoutNode&
@@ -453,12 +453,12 @@ namespace two
 	// the layers are all redrawn already, so the frames are moved without redrawing them again
 	void LayoutTree::apply()
 	{
-		m_nodes[0].widget->m_frame.d_length = m_nodes[0].length;
+		m_nodes[0].widget->frame().d_length = m_nodes[0].length;
 		for(uint32_t i = 1; i < uint32_t(m_nodes.size()); ++i)
 		{
 			const LayoutNode& n = m_nodes[i];
 			if(!n.widget) continue;
-			Frame& frame = n.widget->m_frame;
+			Frame& frame = n.widget->frame();
 			frame.d_length = n.length;
 			frame.m_position = this->local_position(i);
 			n.widget->set_size(n.size);
@@ -470,8 +470,8 @@ namespace two
 		for(uint32_t i = 1; i < uint32_t(m_nodes.size()); ++i)
 		{
 			if(!m_nodes[i].widget) continue;
-			Frame& frame = m_nodes[i].widget->m_frame;
-			const Frame& parent = m_nodes[m_nodes[i].frame_parent].widget->m_frame;
+			Frame& frame = m_nodes[i].widget->frame();
+			const Frame& parent = m_nodes[m_nodes[i].frame_parent].widget->frame();
 			frame.d_absolute = parent.d_absolute + frame.m_position * parent.d_scale;
 			frame.d_scale = parent.d_scale * frame.m_scale;
 			frame.d_epoch = Frame::s_epoch;
@@ -483,12 +483,12 @@ namespace two
 	{
 		m_layers.assign(m_nodes.size(), nullptr);
 		for(Widget* widget = m_nodes[0].widget; widget && !m_layers[0]; widget = widget->parent())
-			m_layers[0] = widget->m_frame.m_layer.get();
+			m_layers[0] = widget->frame().m_layer.get();
 
 		for(uint32_t i = 0; i < uint32_t(m_nodes.size()); ++i)
 		{
 			if(!m_nodes[i].widget) continue;
-			Frame* frame = &m_nodes[i].widget->m_frame;
+			Frame* frame = &m_nodes[i].widget->frame();
 			Layer* parent = i > 0 ? m_layers[m_nodes[i].frame_parent] : nullptr;
 			m_layers[i] = frame->m_layer ? frame->m_layer.get() : (i > 0 ? parent : m_layers[0]);
 			if(m_layers[i] && m_layers[i] != parent)

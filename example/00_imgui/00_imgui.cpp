@@ -745,7 +745,7 @@ namespace ui
 			self.set_position(parent.local_position(parent.ui().m_mouse.m_pos));
 		// clicking outside of the popup closes it
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
-			if(!self.m_frame.inside(event.m_relative))
+			if(!self.frame().inside(event.m_relative))
 				self.set_open(false);
 		open = self.open();
 		return open ? &self : nullptr;
@@ -789,7 +789,7 @@ namespace ui
 		if(!p_open)
 			state = WindowState(uint32_t(state) & ~uint32_t(WindowState::Closable));
 		Window self = window(id, parent, name, state);
-		if(size != vec2(0.f) && self.self.m_frame.m_size == vec2(480.f, 350.f))
+		if(size != vec2(0.f) && self.self.frame().m_size == vec2(480.f, 350.f))
 			self.self.set_size(size);
 		if(p_open && !self.self.open())
 			*p_open = false;
@@ -890,7 +890,7 @@ namespace ui
 	{
 		Widget& self = button(id, parent, label);
 		if(size.x > 0.f || size.y > 0.f)
-			self.set_size(max(size, self.m_frame.m_size));
+			self.set_size(max(size, self.frame().m_size));
 		return self;
 	}
 
@@ -898,7 +898,7 @@ namespace ui
 	{
 		Widget& self = button(id, parent, style, label);
 		if(size.x > 0.f || size.y > 0.f)
-			self.set_size(max(size, self.m_frame.m_size));
+			self.set_size(max(size, self.frame().m_size));
 		return self;
 	}
 
@@ -1042,8 +1042,8 @@ namespace ui
 	float get_text_line_height_with_spacing() { return get_font_size() + get_look().ItemSpacing.y; }
 	float get_frame_height_with_spacing() { return get_font_size() + get_look().FramePadding.y * 2.f + get_look().ItemSpacing.y; }
 	vec2 calc_text_size(cstring text) { return vec2(float(strlen(text)) * get_font_size() * 0.5f, get_font_size()); } // @todo: measure with the font
-	vec2 get_content_region_avail(Widget& parent) { return parent.m_frame.m_size; }
-	float get_window_width(Widget& parent) { return parent.m_frame.m_size.x; }
+	vec2 get_content_region_avail(Widget& parent) { return parent.frame().m_size; }
+	float get_window_width(Widget& parent) { return parent.frame().m_size.x; }
 	int get_frame_count() { static int frame = 0; return frame++; }
 
 	// IsItemXXX(), GetItemRectXXX(): in two.ui an item is queried through the widget declaring it
@@ -1054,12 +1054,12 @@ namespace ui
 	bool is_item_clicked(Widget& item) { return item.activated(); }
 	bool is_item_toggled_open(TreeNode& node) { return node.header.activated(); }
 	vec2 get_item_rect_min(Widget& item) { return item.absolute_position(); }
-	vec2 get_item_rect_max(Widget& item) { return item.absolute_position() + item.m_frame.m_size; }
-	vec2 get_item_rect_size(Widget& item) { return item.m_frame.m_size; }
+	vec2 get_item_rect_max(Widget& item) { return item.absolute_position() + item.frame().m_size; }
+	vec2 get_item_rect_size(Widget& item) { return item.frame().m_size; }
 
 	// IsWindowFocused(), IsWindowHovered(): in two.ui a window is queried through the widgets of the window
 
-	bool is_window(Widget& widget) { return widget.m_frame.d_style == &window_styles().window || widget.m_frame.d_style == &window_styles().dock_window; }
+	bool is_window(Widget& widget) { return widget.frame().d_style == &window_styles().window || widget.frame().d_style == &window_styles().dock_window; }
 
 	Widget& get_current_window(Widget& widget)
 	{
@@ -1117,16 +1117,16 @@ namespace ui
 
 	// Scrolling: GetScrollX/Y(), GetScrollMaxX/Y(), SetScrollX/Y(), SetScrollHereX/Y(), SetScrollFromPosX/Y()
 
-	float get_scroll_x(ScrollSheet& sheet) { return -sheet.body.m_frame.m_position.x; }
-	float get_scroll_y(ScrollSheet& sheet) { return -sheet.body.m_frame.m_position.y; }
-	float get_scroll_max_x(ScrollSheet& sheet) { return max(0.f, sheet.body.m_frame.m_size.x - sheet.scroll_zone.m_frame.m_size.x); }
-	float get_scroll_max_y(ScrollSheet& sheet) { return max(0.f, sheet.body.m_frame.m_size.y - sheet.scroll_zone.m_frame.m_size.y); }
+	float get_scroll_x(ScrollSheet& sheet) { return -sheet.body.frame().m_position.x; }
+	float get_scroll_y(ScrollSheet& sheet) { return -sheet.body.frame().m_position.y; }
+	float get_scroll_max_x(ScrollSheet& sheet) { return max(0.f, sheet.body.frame().m_size.x - sheet.scroll_zone.frame().m_size.x); }
+	float get_scroll_max_y(ScrollSheet& sheet) { return max(0.f, sheet.body.frame().m_size.y - sheet.scroll_zone.frame().m_size.y); }
 	void set_scroll_x(ScrollSheet& sheet, float scroll) { sheet.body.set_position(Axis::X, -clamp(scroll, 0.f, get_scroll_max_x(sheet))); }
 	void set_scroll_y(ScrollSheet& sheet, float scroll) { sheet.body.set_position(Axis::Y, -clamp(scroll, 0.f, get_scroll_max_y(sheet))); }
-	void set_scroll_from_pos_x(ScrollSheet& sheet, float pos, float ratio) { set_scroll_x(sheet, pos - sheet.scroll_zone.m_frame.m_size.x * ratio); }
-	void set_scroll_from_pos_y(ScrollSheet& sheet, float pos, float ratio) { set_scroll_y(sheet, pos - sheet.scroll_zone.m_frame.m_size.y * ratio); }
-	void set_scroll_here_x(ScrollSheet& sheet, Widget& item, float ratio) { set_scroll_from_pos_x(sheet, item.m_frame.m_position.x, ratio); }
-	void set_scroll_here_y(ScrollSheet& sheet, Widget& item, float ratio) { set_scroll_from_pos_y(sheet, item.m_frame.m_position.y, ratio); }
+	void set_scroll_from_pos_x(ScrollSheet& sheet, float pos, float ratio) { set_scroll_x(sheet, pos - sheet.scroll_zone.frame().m_size.x * ratio); }
+	void set_scroll_from_pos_y(ScrollSheet& sheet, float pos, float ratio) { set_scroll_y(sheet, pos - sheet.scroll_zone.frame().m_size.y * ratio); }
+	void set_scroll_here_x(ScrollSheet& sheet, Widget& item, float ratio) { set_scroll_from_pos_x(sheet, item.frame().m_position.x, ratio); }
+	void set_scroll_here_y(ScrollSheet& sheet, Widget& item, float ratio) { set_scroll_from_pos_y(sheet, item.frame().m_position.y, ratio); }
 
 	// BeginChild() returning the scroll sheet, to query and set its scrolling
 

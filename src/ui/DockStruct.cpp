@@ -199,7 +199,7 @@ namespace two
 			uint16_t index = pop(dockid);
 			dim = flip(dim);
 			line = &ui::dockline(*line, index, dim);
-			if(dockid.size() == 0 && dock.m_span > 0.f && line->m_frame.m_span[flip(dim)] == 1.f)
+			if(dockid.size() == 0 && dock.m_span > 0.f && line->frame().m_span[flip(dim)] == 1.f)
 				line->set_span(flip(dim), dock.m_span);
 		}
 
@@ -239,7 +239,7 @@ namespace two
 
 	void Dockspace::dock(cstring name, Dock& target, Widget& window, const vec2& pos)
 	{
-		const Frame& frame = window.m_frame;
+		const Frame& frame = window.frame();
 		vec2 local = window.local_position(pos);
 
 		// the target and its siblings are laid out along dim: dropping on the edges along dim inserts beside the target, on the other edges splits it

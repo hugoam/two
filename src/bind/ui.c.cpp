@@ -810,7 +810,7 @@ extern "C" {
 		self->yield_modal();
 	}
 	two::Frame* DECL two_Widget__get_frame(two::Widget* self) {
-		return &self->m_frame;
+		return &self->frame();
 	}
 	two::WidgetState DECL two_Widget__get_state(two::Widget* self) {
 		return self->m_state;

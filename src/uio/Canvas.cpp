@@ -44,7 +44,7 @@ namespace two
 		auto add_process = [&](object<Process> process)
 		{
 			script.m_processes.push_back(move(process));
-			vec2 position = canvas.m_plan->integrate_position(parent.m_frame.m_position, *canvas.m_scroll_plan);
+			vec2 position = canvas.m_plan->integrate_position(parent.frame().m_position, *canvas.m_scroll_plan);
 			script.m_processes.back()->m_position[0] = position.x;
 			script.m_processes.back()->m_position[1] = position.y;
 		};
@@ -127,7 +127,7 @@ namespace two
 
 		NodePlug& plug = ui::node_plug(key(), node, valve.m_name.c_str(), icon.c_str(), colour, input, enabled, !valve.m_pipes.empty());
 		
-		if(Widget* tooltip = ui::tooltip(key(), *plug.m_self, plug.m_self->m_frame))
+		if(Widget* tooltip = ui::tooltip(key(), *plug.m_self, plug.m_self->frame()))
 		{
 			string info = valve.error_info() + valve.param_info();
 			ui::label(key(), *tooltip, info.c_str());

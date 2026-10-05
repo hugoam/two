@@ -92,7 +92,7 @@ namespace ui
 
 	Widget& cursor(NodeKey id, Widget& parent, const vec2& position, Widget& hovered, bool locked)
 	{
-		Style* style = hovered.m_frame.d_style->m_skin.m_hover_cursor ? hovered.m_frame.d_style->m_skin.m_hover_cursor : &cursor_styles().cursor;
+		Style* style = hovered.frame().d_style->m_skin.m_hover_cursor ? hovered.frame().d_style->m_skin.m_hover_cursor : &cursor_styles().cursor;
 		return cursor(id, parent, position, *style, locked);
 	}
 }

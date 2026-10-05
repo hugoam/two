@@ -20,7 +20,7 @@ namespace ui
 	{
 		Widget& self = widget(id, parent, styles().table);
 		TableState& state = weights.size() > 0 ? self.state<TableState>(weights) : self.state<TableState>(columns);
-		self.m_frame.d_columns = state.m_weights;
+		self.frame().d_columns = state.m_weights;
 		return self;
 	}
 

@@ -22,10 +22,10 @@ namespace ui
 		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			window.draw_layer().moveToTop();
-			window.draw_layer().m_widget.m_frame.m_opacity = Opacity::Hollow;
+			window.draw_layer().m_widget.frame().m_opacity = Opacity::Hollow;
 
 			if(bit(state, WindowState::Movable))
-				window.set_position(window.m_frame.m_position + event.m_delta);
+				window.set_position(window.frame().m_position + event.m_delta);
 		}
 
 		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
@@ -33,7 +33,7 @@ namespace ui
 			if(bit(state, WindowState::Dockable) && docksystem)
 				docksystem->dock(name, event.m_pos);
 
-			window.draw_layer().m_widget.m_frame.m_opacity = Opacity::Opaque;
+			window.draw_layer().m_widget.frame().m_opacity = Opacity::Opaque;
 		}
 	}
 
@@ -44,11 +44,11 @@ namespace ui
 			window.draw_layer().moveToTop();
 
 			if(left)
-				window.set_position(Axis::X, window.m_frame.m_position.x + event.m_delta.x);
+				window.set_position(Axis::X, window.frame().m_position.x + event.m_delta.x);
 			if(left)
-				window.set_size(max(vec2(50.f), window.m_frame.m_size - event.m_delta));
+				window.set_size(max(vec2(50.f), window.frame().m_size - event.m_delta));
 			else
-				window.set_size(max(vec2(50.f), window.m_frame.m_size + event.m_delta));
+				window.set_size(max(vec2(50.f), window.frame().m_size + event.m_delta));
 		}
 	}
 
@@ -91,9 +91,9 @@ namespace ui
 		Widget& self = bit(state, WindowState::Dockable) ? parent.sub_top(id) : parent.sub(id);
 
 		Style& style = dock ? window_styles().dock_window : window_styles().window;
-		if(!self.m_frame.d_style)
+		if(!self.frame().d_style)
 			self.init(style);
-		else if(self.m_frame.d_style != &style)
+		else if(self.frame().d_style != &style)
 			self.set_style(style); // a window docked or undocked changes style
 		self.layer();
 
@@ -105,7 +105,7 @@ namespace ui
 				self.set_size(vec2(480.f, 350.f));
 
 			if(!dock)
-				self.set_position((self.parent()->m_frame.m_size - self.m_frame.m_size) / 2.f);
+				self.set_position((self.parent()->frame().m_size - self.frame().m_size) / 2.f);
 		}
 
 		Widget* header = bit(state, WindowState::Header) ? &window_header(key(), self, self, state, docksystem, title) : nullptr;

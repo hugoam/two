@@ -14,7 +14,7 @@ namespace two
 		Widget* current_target = &target.ui();
 		while(current_target && current_node)
 		{
-			string elements[2] = { current_target->m_frame.d_style->m_name, to_string(current_target->m_control.m_mask) };
+			string elements[2] = { current_target->frame().d_style->m_name, to_string(current_target->m_control.m_mask) };
 			current_node = ui::tree_node(key(), *current_node, { elements[0].c_str(), elements[1].c_str() }).body;
 			current_target = static_cast<Widget*>(current_target->m_control.m_modal);
 		}
@@ -24,8 +24,8 @@ namespace two
 	{
 		for(Widget& widget : target.children())
 		{
-			string size = "size : " + truncate_number(to_string(widget.m_frame.m_size.x)) + ", " + truncate_number(to_string(widget.m_frame.m_size.y));
-			TreeNode node = ui::tree_node(key(), parent, { widget.m_frame.d_style->m_name.c_str(), size.c_str() });
+			string size = "size : " + truncate_number(to_string(widget.frame().m_size.x)) + ", " + truncate_number(to_string(widget.frame().m_size.y));
+			TreeNode node = ui::tree_node(key(), parent, { widget.frame().d_style->m_name.c_str(), size.c_str() });
 			node.header.set_state(SELECTED, selected == &widget);
 			if(node.header.activated())
 				selected = &widget;
@@ -55,13 +55,13 @@ namespace two
 			ui_debug_layout(*tab, target, selected);
 
 		if(selected)
-			ui::rectangle(key(), parent.ui(), { selected->absolute_position(), selected->m_frame.m_size });
+			ui::rectangle(key(), parent.ui(), { selected->absolute_position(), selected->frame().m_size });
 
 		if(selecting)
 		{
 			Widget* highlighted = target.pinpoint(target.ui().m_mouse.m_pos);
 			if(highlighted)
-				ui::rectangle(key(), parent.ui(), { highlighted->absolute_position(), highlighted->m_frame.m_size });
+				ui::rectangle(key(), parent.ui(), { highlighted->absolute_position(), highlighted->frame().m_size });
 		}
 
 		if(selected)
@@ -70,9 +70,9 @@ namespace two
 				object_edit(*tab, Ref(selected));
 
 			if(Widget* tab = ui::tab(key(), tabber, "Style"))
-				object_edit(*tab, Ref(selected->m_frame.d_layout));
+				object_edit(*tab, Ref(selected->frame().d_layout));
 			if(Widget* tab = ui::tab(key(), tabber, "Skin"))
-				object_edit(*tab, Ref(&selected->m_frame.d_style->m_skin));
+				object_edit(*tab, Ref(&selected->frame().d_style->m_skin));
 		}
 	}
 }

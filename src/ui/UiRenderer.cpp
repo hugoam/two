@@ -159,7 +159,7 @@ namespace two
 		m_debug_batch = 0;
 		static size_t prevBatch = 0;
 
-		m_vg.begin_frame(view, vec4(vec2(0.f), target.m_widget.m_frame.m_size), pixel_ratio, colour);
+		m_vg.begin_frame(view, vec4(vec2(0.f), target.m_widget.frame().m_size), pixel_ratio, colour);
 
 #ifdef TWO_UI_DRAW_CACHE
 		target.visit([&](Layer& layer) {
@@ -241,12 +241,12 @@ namespace two
 		if(Widget* parent = widget.parent())
 			this->begin_layer(*parent);
 
-		this->begin_frame(widget.m_frame);
+		this->begin_frame(widget.frame());
 	}
 
 	void UiRenderer::end_layer(Widget& widget)
 	{
-		this->end_frame(widget.m_frame);
+		this->end_frame(widget.frame());
 
 		if(Widget* parent = widget.parent())
 			this->end_layer(*parent);
@@ -254,20 +254,20 @@ namespace two
 
 	void UiRenderer::render_frame(Widget& widget)
 	{
-		this->begin_frame(widget.m_frame);
+		this->begin_frame(widget.frame());
 
 		this->draw_frame(widget);
 
 		for(Widget& child : widget.children())
-			if(!child.m_frame.m_layer)
+			if(!child.frame().m_layer)
 				this->render_frame(child);
 
-		this->end_frame(widget.m_frame);
+		this->end_frame(widget.frame());
 	}
 
 	void UiRenderer::draw_frame(Widget& widget)
 	{
-		const Frame& frame = widget.m_frame;
+		const Frame& frame = widget.frame();
 		vec4 rect = frame.content_rect();
 
 		if(m_vg.clipped(rect))
@@ -289,7 +289,7 @@ namespace two
 
 	void draw_frame(Vg& vg, Widget& widget, const vec4& rect)
 	{
-		const Frame& frame = widget.m_frame;
+		const Frame& frame = widget.frame();
 		const vec2 padded_pos = floor(frame.d_inkstyle->m_padding.pos);
 		const vec2 padded_size = floor(frame.m_size - rect_sum(frame.d_inkstyle->m_padding));
 		const vec4 padded_rect = { padded_pos, padded_size };
@@ -324,7 +324,7 @@ namespace two
 	vec4 select_corners(Widget& widget)
 	{
 		Widget& parent = *widget.parent();
-		const Frame& frame = parent.m_frame;
+		const Frame& frame = parent.frame();
 
 		const vec4& corners = frame.d_inkstyle->m_corner_radius;
 		if(parent.is_first(widget))
@@ -339,7 +339,7 @@ namespace two
 	{
 		//m_debug_batch++;
 
-		const Frame& frame = widget.m_frame;
+		const Frame& frame = widget.frame();
 		InkStyle& inkstyle = *frame.d_inkstyle;
 
 		// Shadow

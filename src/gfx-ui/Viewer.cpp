@@ -80,7 +80,7 @@ namespace two
 	vec4 Viewer::query_rect()
 	{
 		m_position = m_self->absolute_position();
-		m_size = m_self->m_frame.m_size * m_self->absolute_scale();
+		m_size = m_self->frame().m_size * m_self->absolute_scale();
 		const vec4 absolute = vec4(m_position, m_size);
 		return absolute / vec2(m_context.m_size);
 	}
@@ -206,7 +206,7 @@ namespace two
 
 	void OrbitControls::update(Widget& widget, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat)
 	{
-		this->update(widget, widget.m_frame.m_size, fov, eye, target, up, mat);
+		this->update(widget, widget.frame().m_size, fov, eye, target, up, mat);
 	}
 
 	void OrbitControls::update(ControlNode& input, const vec2& size, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat)
@@ -828,7 +828,7 @@ namespace two
 
 	void TrackballController::update(Widget& widget, vec3& eye, vec3& target, vec3& up)
 	{
-		this->update(widget, widget.m_frame.m_size, eye, target, up);
+		this->update(widget, widget.frame().m_size, eye, target, up);
 	}
 
 	void TrackballController::update(ControlNode& input, const vec2& size, vec3& eye, vec3& target, vec3& up)
@@ -1077,7 +1077,7 @@ namespace ui
 		viewer.resize();
 		if(self.once() && size != vec2(0.f))
 		{
-			self.m_frame.m_content = size;
+			self.frame().m_content = size;
 			self.set_style(viewer_styles().viewer_fixed);
 			//dummy(key(), self, size);
 		}
