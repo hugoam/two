@@ -81,7 +81,6 @@ namespace two
 		T* m_parent = nullptr;
 		uint64_t m_key = 0;
 		uint64_t m_id = 0;
-		const void* m_node_type = nullptr;
 		size_t m_heartbeat = 0;
 		uint16_t m_next = 0;
 
@@ -136,17 +135,12 @@ namespace two
 			return !(++it != this->children().end());
 		}
 
-		template <class Child = T, class... Args>
-		inline unique<T> create_node(uint64_t id, Args... args)
+		inline unique<T> create_node(uint64_t id)
 		{
-			unique<T> node = make_unique<Child>(&impl(), args...);
-			node->m_node_type = node_type<Child>();
+			unique<T> node = make_unique<T>(&impl());
 			node->m_id = m_graph->add_id(*node, id);
 			return node;
 		}
-
-		template <class Child = T>
-		inline bool is_type(T& node) { return node.m_node_type == node_type<Child>(); }
 
 		void clear()
 		{
@@ -168,8 +162,7 @@ namespace two
 
 		inline T& update(T& node) { node.m_heartbeat = m_heartbeat; node.m_next = 0; node.m_cursor = 1; return node; }
 
-		template <class Child = T, class... Args>
-		inline Child& subx(uint16_t index, Args... args)
+		inline T& subx(uint16_t index)
 		{
 			PooledGraph<T>& graph = *m_graph;
 			uint32_t slot = this->first_slot();
@@ -178,15 +171,9 @@ namespace two
 				while (slot < this->end_slot() && !graph.m_nodes[slot])
 					slot += graph.m_holes[slot];
 				if (slot == this->end_slot())
-					this->insert_node(slot, create_node<Child, Args...>(key_mix(m_id, i), args...));
+					this->insert_node(slot, create_node(key_mix(m_id, i)));
 				if (i < index)
 					slot += graph.jump(slot);
-			}
-
-			if (!is_type<Child>(*graph.m_nodes[slot]))
-			{
-				this->remove_nodes(slot, graph.jump(slot));
-				this->insert_node(slot, create_node<Child, Args...>(key_mix(m_id, index), args...));
 			}
 
 			// the next positional children come after this one
@@ -195,51 +182,43 @@ namespace two
 			if (m_next <= index)
 				m_next = index + 1;
 			graph.m_nodes[slot]->m_sibling = index;
-			return static_cast<Child&>(update(*graph.m_nodes[slot]));
+			return update(*graph.m_nodes[slot]);
 		}
 
 		// a keyed child is looked up by its key from the current position, and moved there: it keeps its state when the children before it change
 		// a child without key is matched by its position
-		template <class Child = T, class... Args>
-		inline Child& sub(NodeKey key, Args... args)
+		inline T& sub(NodeKey key)
 		{
 			PooledGraph<T>& graph = *m_graph;
 			uint32_t slot = m_slot + m_cursor;
 
-			auto match = [&](T* node) { return node && node->m_key == key.m_value && is_type<Child>(*node) && node->m_heartbeat != m_heartbeat; };
+			auto match = [&](T* node) { return node && node->m_key == key.m_value && node->m_heartbeat != m_heartbeat; };
 			uint32_t found = slot;
 			if (key.m_value)
 				while (found < this->end_slot() && !match(graph.m_nodes[found].get()))
 					found += graph.jump(found);
-			else if (found < this->end_slot() && (!graph.m_nodes[found] || graph.m_nodes[found]->m_key || !is_type<Child>(*graph.m_nodes[found])))
+			else if (found < this->end_slot() && (!graph.m_nodes[found] || graph.m_nodes[found]->m_key))
 				found = this->end_slot();
 
 			if (found == this->end_slot())
-				this->insert_node(slot, create_node<Child, Args...>(key_mix(m_id, key.m_value ? key.m_value : m_next), args...)).m_key = key.m_value;
+				this->insert_node(slot, create_node(key_mix(m_id, key.m_value ? key.m_value : m_next))).m_key = key.m_value;
 			else if (found != slot)
 				this->move_node(found, slot);
 
-			return static_cast<Child&>(this->place_node(slot));
+			return this->place_node(slot);
 		}
 
 		// a top node is looked up by its key in the whole graph, and attached to this node, whatever node it was attached to before
-		template <class Child = T, class... Args>
-		inline Child& sub_top(NodeKey key, Args... args)
+		inline T& sub_top(NodeKey key)
 		{
 			PooledGraph<T>& graph = *m_graph;
 			T& root = this->root();
 			auto it = graph.m_tops.find(key.m_value);
 			T* node = it != graph.m_tops.end() ? it->second : nullptr;
 
-			if (node && !is_type<Child>(*node))
-			{
-				root.remove_nodes(node->m_slot, node->m_descendants + 1);
-				node = nullptr;
-			}
-
 			if (!node)
 			{
-				node = &root.insert_node(root.end_slot(), create_node<Child, Args...>(key_mix(root.m_id, key.m_value), args...));
+				node = &root.insert_node(root.end_slot(), create_node(key_mix(root.m_id, key.m_value)));
 				node->m_top = true;
 				node->m_key = key.m_value;
 				graph.m_tops[key.m_value] = node;
@@ -255,13 +234,12 @@ namespace two
 			}
 
 			node->m_sibling = m_next++;
-			return static_cast<Child&>(update(*node));
+			return update(*node);
 		}
 
-		template <class Child = T, class... Args>
-		inline Child& suba(Args... args)
+		inline T& suba()
 		{
-			return subx<Child, Args...>(m_next++, args...);
+			return subx(m_next++);
 		}
 
 		// the state of this node of the given type, created on first use, and destroyed with the node

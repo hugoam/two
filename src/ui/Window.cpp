@@ -88,7 +88,7 @@ namespace ui
 	Window window(NodeKey id, Widget& parent, cstring title, WindowState state, Dock* dock, Docksystem* docksystem)
 	{
 		// a dockable window is a top node: it's the same window, with the same contents, wherever it's docked, or floating
-		Widget& self = bit(state, WindowState::Dockable) ? parent.sub_top<Widget>(id) : parent.sub<Widget>(id);
+		Widget& self = bit(state, WindowState::Dockable) ? parent.sub_top(id) : parent.sub(id);
 
 		Style& style = dock ? window_styles().dock_window : window_styles().window;
 		if(!self.m_frame.d_style)

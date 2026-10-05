@@ -92,12 +92,4 @@ namespace two
 		inline Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 }) { if(!m_frame.d_style) { m_frame.init(style, length, index); this->set_open(open); } return *this; }
 	};
 
-namespace ui
-{
-	export_ template <class T>
-	inline T& twidget(NodeKey id, Widget& parent, Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 })
-	{
-		T& self = parent.sub<T>(id); self.init(style, open, length, index); return self;
-	}
-}
 }
