@@ -82,9 +82,8 @@ namespace two
 
 	Vg* Text::s_vg = nullptr;
 
-	Text::Text(Widget& widget)
-		: m_widget(widget)
-		, m_text()
+	Text::Text()
+		: m_text()
 		, m_num_lines(0)
 	{}
 
@@ -93,9 +92,9 @@ namespace two
 		return { inkstyle.m_text_font.c_str(), inkstyle.m_text_colour, inkstyle.m_text_size, inkstyle.m_align, inkstyle.m_text_break, inkstyle.m_text_wrap };
 	}
 
-	void Text::update_style()
+	void Text::update_style(Widget& widget)
 	{
-		m_text_paint = style_text_paint(*m_widget.frame().d_inkstyle);
+		m_text_paint = style_text_paint(*widget.frame().d_inkstyle);
 	}
 
 	void Text::set_lines(size_t lines)
@@ -104,11 +103,11 @@ namespace two
 		//d_frame.mark_dirty(DIRTY_LAYOUT);
 	}
 
-	void Text::set_text(const string& text)
+	void Text::set_text(Widget& widget, const string& text)
 	{
 		if(m_text == text) return;
 		m_text = text;
-		this->break_text_rows();
+		this->break_text_rows(widget);
 	}
 
 	float Text::line_height() const
@@ -136,9 +135,9 @@ namespace two
 		return result;
 	}
 
-	void Text::break_text_rows()
+	void Text::break_text_rows(Widget& widget)
 	{
-		const vec2 padded_size = floor(m_widget.frame().m_size - rect_sum(m_widget.frame().d_inkstyle->m_padding));
+		const vec2 padded_size = floor(widget.frame().m_size - rect_sum(widget.frame().d_inkstyle->m_padding));
 
 		if(!m_text.empty())
 			s_vg->break_text(m_text.c_str(), m_text.size(), padded_size, m_text_paint, m_text_rows);
@@ -146,8 +145,8 @@ namespace two
 			m_text_rows.clear();
 
 		//return offset +  + rect_sum(frame().d_inkstyle->m_padding);
-		m_widget.frame().m_content = this->compute_text_size();
-		m_widget.mark_dirty(DIRTY_LAYOUT);
+		widget.frame().m_content = this->compute_text_size();
+		widget.mark_dirty(DIRTY_LAYOUT);
 	}
 
 	size_t Text::char_at(const vec2& pos) const

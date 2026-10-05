@@ -90,19 +90,19 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT Text
 	{
 	public:
-		Text(Widget& widget);
+		Text();
 
-		void update_style();
+		void update_style(Widget& widget);
 
 		void set_lines(size_t lines);
-		void set_text(const string& text);
+		void set_text(Widget& widget, const string& text);
 
 		float line_height() const;
 		float compute_height() const;
 		float compute_width() const;
 		vec2 compute_text_size();
 
-		void break_text_rows();
+		void break_text_rows(Widget& widget);
 
 		vec4 interval_rect(const TextRow& row, size_t start, size_t end) const;
 		vec4 interval_rect(size_t start, size_t end) const;
@@ -135,7 +135,6 @@ namespace two
 		};
 
 	public:
-		Widget& m_widget;
 		string m_text;
 		size_t m_num_lines;
 

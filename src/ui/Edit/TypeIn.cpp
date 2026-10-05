@@ -11,7 +11,7 @@ namespace two
 	TextEdit::TextEdit(Widget& self, bool editor, string allowed_chars)
 		: m_self(&self)
 		, m_editor(editor)
-		, m_text(self)
+		, m_text()
 		, m_string(m_text.m_text)
 		, m_dirty(0, uint(m_string.size()))
 		, m_allowed_chars(allowed_chars)
@@ -40,7 +40,7 @@ namespace two
 
 	void TextEdit::update_style()
 	{
-		m_text.update_style();
+		m_text.update_style(*m_self);
 
 		if(m_editor)
 		{
@@ -62,7 +62,7 @@ namespace two
 	{
 		if(m_string == text) return;
 
-		m_text.set_text(text);
+		m_text.set_text(*m_self, text);
 
 		m_selection.m_cursor = m_text.to_cursor(min(size_t(m_selection.m_cursor), text.size()));
 		m_selection.m_start = min(size_t(m_selection.m_start), text.size());
@@ -83,7 +83,7 @@ namespace two
 	{
 		m_dirty[0] = min<uint>(m_dirty[0], uint(start));
 		m_dirty[1] = max<uint>(m_dirty[1], uint(end));
-		m_text.break_text_rows();
+		m_text.break_text_rows(*m_self);
 		this->changed();
 	}
 
@@ -761,7 +761,7 @@ namespace ui
 		if(edit.m_self->key_stroke(Key::Tab) || selected)
 		{
 			edit.insert(string(completions[current]).substr(current_word.size()));
-			edit.m_text.break_text_rows();
+			edit.m_text.break_text_rows(*edit.m_self);
 			edit.m_completing = false;
 			text = edit.m_string;
 		}
