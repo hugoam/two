@@ -592,7 +592,7 @@ namespace ui
 		const Colour colour = histogram ? Colour(0.90f, 0.70f, 0.00f, 1.00f) : Colour(0.61f, 0.61f, 0.61f, 1.00f);
 		const Colour background = Colour(0.16f, 0.29f, 0.48f, 0.54f);
 		const string text = overlay ? overlay : "";
-		graph.m_custom_draw = [=](Widget& widget, const vec4& rect, Vg& vg)
+		graph.custom_draw() = [=](Widget& widget, const vec4& rect, Vg& vg)
 		{
 			UNUSED(widget);
 			vg.draw_rect(rect, { background });
@@ -932,7 +932,7 @@ namespace ui
 		UNUSED(uv0); UNUSED(uv1);
 		Widget& self = dummy(id, parent, size);
 		if(image)
-			self.m_custom_draw = [=](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); draw_image(vg, *image, rect); };
+			self.custom_draw() = [=](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); draw_image(vg, *image, rect); };
 		return self;
 	}
 
@@ -1245,7 +1245,7 @@ namespace ui
 	void foreground_line(NodeKey id, Widget& parent, const vec2& a, const vec2& b, const Colour& colour, float thickness)
 	{
 		Widget& self = widget(id, parent.ui(), styles().overlay).layer();
-		self.m_custom_draw = [=](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); UNUSED(rect); vg.path_line(a, b); vg.stroke({ colour, thickness }); };
+		self.custom_draw() = [=](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); UNUSED(rect); vg.path_line(a, b); vg.stroke({ colour, thickness }); };
 		self.mark_dirty(DIRTY_REDRAW);
 	}
 
@@ -6312,7 +6312,7 @@ static void DemoWindowLayout(Widget& parent)
             const char* text_str = "Line 1 hello\nLine 2 clip me!";
             const vec2 text_pos = offset;
             // In two.ui, the custom rendering of a widget is done in its custom draw function, with the Vg API, in the space of the widget
-            canvas.m_custom_draw = [=](Widget& widget, const vec4& rect, Vg& vg)
+            canvas.custom_draw() = [=](Widget& widget, const vec4& rect, Vg& vg)
             {
                 UNUSED(widget);
                 switch (i)
@@ -9817,7 +9817,7 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
 
                     Widget& canvas = dummy(key(), group, vec2(canvas_width, RAD_MAX * 2));
                     const Colour text_colour = style.colours[ImGuiCol_Text];
-                    canvas.m_custom_draw = [=](Widget& widget, const vec4& rect, Vg& vg)
+                    canvas.custom_draw() = [=](Widget& widget, const vec4& rect, Vg& vg)
                     {
                         UNUSED(widget);
                         vg.path_circle(rect.pos + vec2(offset_x, offset_y), rad);
@@ -10673,7 +10673,7 @@ void example_ui(Widget& root_sheet)
 
     // The background, cleared to clear_color
     Widget& background = ui::board(key(), root_sheet);
-    background.m_custom_draw = [](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); vg.draw_rect(rect, { clear_color }); };
+    background.custom_draw() = [](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); vg.draw_rect(rect, { clear_color }); };
     background.mark_dirty(DIRTY_REDRAW);
 
     // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).

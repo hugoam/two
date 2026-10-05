@@ -28,7 +28,7 @@ namespace two
 	{
 		m_viewport.m_tasks.push_back([&](Render& render) { this->render(render); });
 
-		self.m_custom_draw = [this](Widget& widget, const vec4& rect, Vg& vg)
+		self.custom_draw() = [this](Widget& widget, const vec4& rect, Vg& vg)
 		{
 			UNUSED(widget); UNUSED(rect);
 			//renderer.draw_frame(frame, rect);

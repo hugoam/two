@@ -731,7 +731,7 @@ namespace ui
 		const vec2 size = edit.frame_size();
 		ui::dummy(key(), self, size);
 
-		self.m_custom_draw = [&edit](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); UNUSED(rect); edit.render(vg); };
+		self.custom_draw() = [](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(rect); widget.find_state<TextEdit>()->render(vg); };
 
 		return edit;
 	}

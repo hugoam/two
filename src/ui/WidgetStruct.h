@@ -13,6 +13,13 @@ namespace two
 {
 	using FrameFilter = bool(*)(Frame&);
 
+	// the custom drawing of a widget, in place of the drawing of its frame: a state of its node
+	export_ struct CustomRender
+	{
+		using Draw = function<void(Widget&, const vec4&, Vg&)>;
+		Draw m_draw;
+	};
+
 #ifndef _MSC_VER
 	extern template class PooledNode<Widget>;
 #endif
@@ -84,8 +91,8 @@ namespace two
 		attr_ WidgetState m_state = CREATED;
 		attr_ uint32_t m_switch = 0;
 
-		using CustomRender = function<void(Widget&, const vec4&, Vg&)>;
-		CustomRender m_custom_draw;
+		// the custom drawing of the widget, created on first use
+		inline CustomRender::Draw& custom_draw() { return this->state<CustomRender>().m_draw; }
 
 		inline bool once() { if((m_state & CREATED) != 0) { disable_state(CREATED); return true; } return false; }
 		inline Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 }) { if(!frame().d_style) { this->set_style(style, length, index); this->set_open(open); } return *this; }

@@ -150,7 +150,7 @@ namespace ui
 	bool color_wheel(NodeKey id, Widget& parent, ColourHSL& hsla)
 	{
 		Widget& self = widget(id, parent, styles().color_wheel);
-		self.m_custom_draw = [=](Widget& widget, const vec4& rect, Vg& vg)
+		self.custom_draw() = [=](Widget& widget, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect);
 			draw_color_wheel(vg, widget.frame().m_size, hsla.h, hsla.s, hsla.l);
@@ -223,7 +223,7 @@ namespace ui
 	Widget& color_slab(NodeKey id, Widget& parent, Style& style, const Colour& value)
 	{
 		Widget& self = button(id, parent, style);//styles().color_slab);
-		self.m_custom_draw = [&](Widget& widget, const vec4& rect, Vg& vg)
+		self.custom_draw() = [value](Widget& widget, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect);
 			vg.draw_rect({ vec2(0.f), widget.frame().m_size }, value, widget.frame().d_inkstyle->m_corner_radius);
@@ -335,7 +335,7 @@ namespace
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Released))
 			dragged = SIZE_MAX;
 
-		self.m_custom_draw = [&](Widget& widget, const vec4& rect, Vg& vg)
+		self.custom_draw() = [=](Widget& widget, const vec4& rect, Vg& vg)
 		{
 			UNUSED(widget); UNUSED(rect);
 			Curve curve = { rect.size, 0.f, 1.f, values, points };

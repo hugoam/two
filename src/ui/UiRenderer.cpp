@@ -279,8 +279,8 @@ namespace two
 		if(frame.d_inkstyle->m_empty)
 			return;
 
-		if(widget.m_custom_draw)
-			return widget.m_custom_draw(widget, rect, m_vg);
+		if(CustomRender* custom = widget.find_state<CustomRender>())
+			return custom->m_draw(widget, rect, m_vg);
 
 		if(frame.d_inkstyle->m_custom_draw)
 			return frame.d_inkstyle->m_custom_draw(widget, rect, m_vg);

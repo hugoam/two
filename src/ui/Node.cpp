@@ -72,7 +72,7 @@ namespace ui
 	{
 		Widget& self = widget(id, parent, style);
 		static Colour disabled_colour = Colour::DarkGrey;
-		self.m_custom_draw = [=](Widget& widget, const vec4& rect, Vg& vg)
+		self.custom_draw() = [=](Widget& widget, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect); draw_knob(widget.frame(), active ? colour : disabled_colour, connected, vg);
 		};
@@ -84,7 +84,7 @@ namespace ui
 		Widget& self = widget(id, parent, node_styles().cable);
 		self.set_position(min(out.m_end, in.m_end));
 		self.frame().m_size = max(out.m_end, in.m_end) - self.frame().m_position;
-		self.m_custom_draw = [&, straight](Widget& widget, const vec4& rect, Vg& vg)
+		self.custom_draw() = [=](Widget& widget, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect); draw_node_cable(out.m_end - widget.frame().m_position, in.m_end - widget.frame().m_position, out.m_colour, in.m_colour, straight, vg);
 		};
