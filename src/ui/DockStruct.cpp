@@ -17,9 +17,8 @@ namespace two
 		, m_span(span)
 	{}
 
-	Docker::Docker(Widget* parent, Docksystem& docksystem)
-		: Widget(parent)
-		, m_docksystem(&docksystem)
+	Docker::Docker(Docksystem& docksystem)
+		: m_docksystem(&docksystem)
 	{}
 
 	Docker::~Docker()
@@ -168,20 +167,20 @@ namespace two
 	void Docksystem::dock(cstring name, const vec2& pos)
 	{
 		for(Docker* docker : m_dockers)
-			if(docker->m_frame.inside_abs(pos))
+			if(docker->m_self->m_frame.inside_abs(pos))
 			{
 				docker->m_pending_docks.push_back({ name, pos });
 				return;
 			}
 	}
 
-	Dockspace::Dockspace(Widget* parent, Docksystem& docksystem)
-		: Docker(parent, docksystem)
+	Dockspace::Dockspace(Docksystem& docksystem)
+		: Docker(docksystem)
 	{}
 
 	Dockspace::DockedWindow* Dockspace::pinpoint_dock(const vec2& pos)
 	{
-		Widget* widget = this->pinpoint(m_frame.local_position(pos), [](Frame& frame) { return frame.d_style == &ui::window_styles().dock_window; });
+		Widget* widget = m_self->pinpoint(m_self->m_frame.local_position(pos), [](Frame& frame) { return frame.d_style == &ui::window_styles().dock_window; });
 		// the docks shown in the last frame might have been removed since
 		for(DockedWindow& docked : m_docked)
 			if(docked.window == widget && has_pred(m_docks, [&](auto& dock) { return dock.get() == docked.dock; }))
@@ -260,8 +259,8 @@ namespace two
 			this->dock_stack(target, name); // dock on
 	}
 
-	Dockbar::Dockbar(Widget* parent, Docksystem& docksystem)
-		: Docker(parent, docksystem)
+	Dockbar::Dockbar(Docksystem& docksystem)
+		: Docker(docksystem)
 	{}
 
 	Widget* Dockbar::docksection(Dock& dock, cstring name, NodeKey id)

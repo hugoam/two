@@ -52,7 +52,7 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::Layer>() { static Type ty("Layer", sizeof(two::Layer)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Dock>() { static Type ty("Dock", sizeof(two::Dock)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Docksystem>() { static Type ty("Docksystem", sizeof(two::Docksystem)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::Docker>() { static Type ty("Docker", type<two::Widget>(), sizeof(two::Docker)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Docker>() { static Type ty("Docker", sizeof(two::Docker)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Dockspace>() { static Type ty("Dockspace", type<two::Docker>(), sizeof(two::Dockspace)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Dockbar>() { static Type ty("Dockbar", type<two::Docker>(), sizeof(two::Dockbar)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::NodePlug>() { static Type ty("NodePlug", type<two::Widget>(), sizeof(two::NodePlug)); return ty; }

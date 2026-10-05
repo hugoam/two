@@ -1255,8 +1255,6 @@ namespace two
 		Type& t = type<two::Docker>();
 		static Meta meta = { t, &namspc({ "two" }), "Docker", sizeof(two::Docker), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<two::Widget>() };
-		static size_t bases_offsets[] = { base_offset<two::Docker, two::Widget>() };
 		// defaults
 		// default constructor
 		// copy constructor
@@ -1264,7 +1262,7 @@ namespace two
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Dockspace
 	{

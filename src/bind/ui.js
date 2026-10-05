@@ -1336,10 +1336,9 @@ Docksystem.prototype["__destroy"] = Docksystem.prototype.__destroy = function() 
 };
 // Docker
 function Docker() { throw "cannot construct a Docker, no constructor in IDL" }
-Docker.prototype = Object.create(Widget.prototype);
+Docker.prototype = Object.create(WrapperObject.prototype);
 Docker.prototype.constructor = Docker;
 Docker.prototype.__class = Docker;
-Docker.__base = Widget;
 Docker.__cache = {};
 Module['Docker'] = Docker;
 Docker.prototype["__destroy"] = Docker.prototype.__destroy = function() {

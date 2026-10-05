@@ -36,35 +36,37 @@ namespace ui
 
 	Dockspace& dockspace(NodeKey id, Widget& parent, Docksystem& docksystem)
 	{
-		Dockspace& self = parent.sub<Dockspace, Docksystem&>(id, docksystem);
-		self.init(dock_styles().dockspace);
-		add(docksystem.m_dockers, &self);
-		self.apply_pending();
-		self.m_docked.clear();
-		self.m_mainline = &dockline(self, 0, Axis::Y);
-		return self;
+		Widget& self = widget(id, parent, dock_styles().dockspace);
+		Dockspace& dockspace = self.state<Dockspace>(docksystem);
+		dockspace.m_self = &self;
+		add(docksystem.m_dockers, &dockspace);
+		dockspace.apply_pending();
+		dockspace.m_docked.clear();
+		dockspace.m_mainline = &dockline(self, 0, Axis::Y);
+		return dockspace;
 	}
 
 	Dockbar& dockbar(NodeKey id, Widget& parent, Docksystem& docksystem)
 	{
-		Dockbar& self = parent.sub<Dockbar, Docksystem&>(id, docksystem);
-		self.init(dock_styles().dockbar).layer();
-		add(docksystem.m_dockers, &self);
-		self.apply_pending();
+		Widget& self = widget(id, parent, dock_styles().dockbar).layer();
+		Dockbar& dockbar = self.state<Dockbar>(docksystem);
+		dockbar.m_self = &self;
+		add(docksystem.m_dockers, &dockbar);
+		dockbar.apply_pending();
 
-		self.m_togglebar = &widget(key(), self, dock_styles().docktabs);
+		dockbar.m_togglebar = &widget(key(), self, dock_styles().docktabs);
 
 		Widget& drag_handle = widget(key(), self, styles().drag_handle);
 		if(MouseEvent event = drag_handle.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
-			self.width -= event.m_delta.x;
+			dockbar.width -= event.m_delta.x;
 
-		self.m_dockzone = &widget(key(), self, dock_styles().dockdiv);
-		if(self.m_current_tab == SIZE_MAX)
-			self.m_dockzone->m_frame.m_size = vec2(0.f);
+		dockbar.m_dockzone = &widget(key(), self, dock_styles().dockdiv);
+		if(dockbar.m_current_tab == SIZE_MAX)
+			dockbar.m_dockzone->m_frame.m_size = vec2(0.f);
 		else
-			self.m_dockzone->m_frame.m_size = vec2(self.width, 0.f);
+			dockbar.m_dockzone->m_frame.m_size = vec2(dockbar.width, 0.f);
 
-		return self;
+		return dockbar;
 	}
 
 	Widget* dockitem(Widget& parent, Docksystem& docksystem, cstring name)
@@ -99,7 +101,7 @@ namespace ui
 		if(!dockid.empty() && !docker.m_docksystem->m_item_docks.contains(name))
 			docker.dock_create(name, dockid, span);
 
-		return dockitem(docker, *docker.m_docksystem, name);
+		return dockitem(*docker.m_self, *docker.m_docksystem, name);
 	}
 }
 }

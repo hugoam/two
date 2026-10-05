@@ -32,10 +32,11 @@ namespace two
 		string m_dragged;
 	};
 
-	export_ class refl_ TWO_UI_EXPORT Docker : public Widget
+	// the docks of a dockspace or a dockbar, kept in the state of its widget
+	export_ class refl_ TWO_UI_EXPORT Docker : public NodeState
 	{
 	public:
-		Docker(Widget* parent, Docksystem& docksystem);
+		Docker(Docksystem& docksystem);
 		~Docker();
 
 		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) = 0;
@@ -59,6 +60,7 @@ namespace two
 		void shift_remove(const vector<uint16_t>& dockid);
 		void collapse(const vector<uint16_t>& line);
 
+		Widget* m_self = nullptr;
 		Docksystem* m_docksystem;
 		vector<unique<Dock>> m_docks;
 
@@ -72,7 +74,7 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT Dockspace : public Docker
 	{
 	public:
-		Dockspace(Widget* parent, Docksystem& docksystem);
+		Dockspace(Docksystem& docksystem);
 
 		// the windows of the docks shown in this frame
 		struct DockedWindow { Widget* window; Dock* dock; };
@@ -92,7 +94,7 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT Dockbar : public Docker
 	{
 	public:
-		Dockbar(Widget* parent, Docksystem& docksystem);
+		Dockbar(Docksystem& docksystem);
 
 		Widget* m_togglebar = nullptr;
 		Widget* m_dockzone = nullptr;
