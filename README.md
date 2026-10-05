@@ -42,14 +42,18 @@ The build instructions for linux and gcc look like:
 - for osx (xcode): `bin/darwin/genie --xcode=osx xcode9`
 - for windows (visual studio): `../bx/tools/bin/windows/genie.exe vs2026`
 - for windows (clang + ninja), with the clang and ninja shipped with Visual Studio, from a shell where they are in the `PATH`:
-  - `genie --gcc=windows-clang ninja`
+  - `../GENie/bin/windows/genie.exe --gcc=windows-clang ninja`
   - `ninja -C build/projects/ninja-windows-clang/debug64 all`
 
-The ninja generator builds the C++20 modules, it needs the GENie of the [ninja-c++-modules](https://github.com/hugoam/GENie/tree/ninja-c++-modules) branch, and ninja 1.10 or later.
+The ninja generator builds the C++20 modules, which needs ninja 1.10 or later, and the GENie of the [ninja-c++-modules](https://github.com/hugoam/GENie/tree/ninja-c++-modules) branch, cloned next to two and built with Visual Studio:
+- `git clone -b ninja-c++-modules https://github.com/hugoam/GENie`
+- `cd GENie`
+- `../bx/tools/bin/windows/genie.exe --file=scripts/genie.lua --to=../build/vs2026 vs2026`
+- build the Release configuration of `build/vs2026/genie.slnx`, which outputs `bin/windows/genie.exe`
 
 ### language server
 The `windows-clang` ninja projects provide the compilation database for [clangd](https://clangd.llvm.org/), which `scripts/compdb.sh` generates in `build/projects/ninja-windows-clang/debug64/compile_commands.json`, where the `.clangd` file points clangd to:
-- `genie --gcc=windows-clang ninja`
+- `../GENie/bin/windows/genie.exe --gcc=windows-clang ninja`
 - `sh scripts/compdb.sh`
 
 The ninja build itself is not needed, but the database must be generated again when the structure of the build changes (new files, projects or flags). The third party sources are left out of it.  
