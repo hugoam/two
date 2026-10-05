@@ -53,6 +53,7 @@ namespace two
 		//PlaceBrush m_place_brush;
 
 		attr_ Viewer* m_viewer = nullptr;
+		Widget* m_viewer_widget = nullptr;	// the widget of the viewer, a handle
 		attr_ ViewportTool* m_tool = nullptr;
 		attr_ SpatialTool* m_spatial_tool = nullptr;
 		attr_ Brush* m_brush = nullptr;

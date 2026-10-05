@@ -32,28 +32,31 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar)
 	Widget& first_split = ui::board(key(), layout);
 	Widget* second_split = num_viewers > 2 ? &ui::board(key(), layout) : nullptr;
 
-	vector<Viewer*> viewers = {};
+	vector<ViewerBox> viewers = {};
 
 	if(!multiple_scene)
 	{
 		static Scene scene = { app.m_gfx };
 		for(size_t i = 0; i < num_viewers; ++i)
-			viewers.push_back(&ui::viewer(key(), i >= 2 ? *second_split : first_split, scene));
+			viewers.push_back(ui::viewer(key(), i >= 2 ? *second_split : first_split, scene));
 	}
 	else
 	{
 		for(size_t i = 0; i < num_viewers; ++i)
-			viewers.push_back(&ui::scene_viewer(key(), i >= 2 ? *second_split : first_split));
+		{
+			auto [self, viewer] = ui::scene_viewer(key(), i >= 2 ? *second_split : first_split);
+			viewers.push_back({ self, viewer });
+		}
 	}
 
 
-	for(Viewer* viewer : viewers)
+	for(auto [self, viewer] : viewers)
 	{
-		ui::orbit_controller(*viewer);
+		ui::orbit_controller(*self, *viewer);
 	}
 
 
-	for(Viewer* viewer : multiple_scene ? viewers : slice(span<Viewer*>(viewers), 0, 1))
+	for(auto [self, viewer] : multiple_scene ? viewers : slice(span<ViewerBox>(viewers), 0, 1))
 	{
 		Gnode& scene = viewer->m_scene->begin();
 

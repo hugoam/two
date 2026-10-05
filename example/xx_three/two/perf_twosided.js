@@ -116,8 +116,8 @@ var simple_fragment = `$input v_view, v_normal
     #include <fs_fog_simple.sh>
     }`
 
-var viewer = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+//two.ui.orbit_controller(self, viewer);
 
 var camera = viewer.camera;
 var scene = viewer.scene;
@@ -185,11 +185,11 @@ if (init) {
     }
 }
 
-var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
+var event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
 if(event.valid())
 {
-    this.mouse.x = (event.relative.x - viewer.frame.size.x / 2.0) * 10.0;
-    this.mouse.y = (event.relative.y - viewer.frame.size.y / 2.0) * 10.0;
+    this.mouse.x = (event.relative.x - self.frame.size.x / 2.0) * 10.0;
+    this.mouse.y = (event.relative.y - self.frame.size.y / 2.0) * 10.0;
 }
 
 var camera = viewer.camera;

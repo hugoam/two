@@ -268,8 +268,8 @@ function pass_godrays(gfx, render, godrays) {
     //gfx.copy.debug_show_texture(render, pong.tex, vec4(0.0));
 }
 
-var viewer = two.ui.scene_viewer(panel);
-//two.ui.orbit_controls(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+//two.ui.orbit_controls(self, viewer);
 viewer.viewport.autorender = false;
 
 var scene = viewer.scene;
@@ -338,11 +338,11 @@ if(init) {
     viewer.viewport.clear_colour = this.godrays.bg_colour;
 }
 
-var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
+var event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
 if(event.valid())
 {
-    this.mouse.x = event.relative.x - viewer.frame.size.x / 2.0;
-    this.mouse.y = event.relative.y - viewer.frame.size.y / 2.0;
+    this.mouse.x = event.relative.x - self.frame.size.x / 2.0;
+    this.mouse.y = event.relative.y - self.frame.size.y / 2.0;
 }
 
 var camera = viewer.camera;

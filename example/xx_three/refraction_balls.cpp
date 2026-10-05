@@ -9,9 +9,9 @@ EX(xx_refraction_balls)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
-	ControlNode& input = viewer;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
+	ControlNode& input = *self;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
@@ -23,7 +23,7 @@ EX(xx_refraction_balls)
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 100000.f;
 		camera.m_eye.z = 3200.f;
 
@@ -62,10 +62,10 @@ EX(xx_refraction_balls)
 	static vec2 mouse = vec2(0.f);
 	if(MouseEvent event = input.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
-		mouse = (event.m_relative - viewer.m_size / 2.f) * 10.f;
+		mouse = (event.m_relative - viewer->m_size / 2.f) * 10.f;
 	}
 
-	Camera& camera = viewer.m_camera;
+	Camera& camera = viewer->m_camera;
 	camera.m_eye.x += (mouse.x - camera.m_eye.x) * .05f;
 	camera.m_eye.y += (-mouse.y - camera.m_eye.y) * .05f;
 

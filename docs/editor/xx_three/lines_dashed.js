@@ -85,7 +85,7 @@ function cube_model(gfx, size) {
     return model;
 }
 
-var viewer = two.ui.scene_viewer(panel);
+var viewer = two.ui.scene_viewer(panel).viewer;
 
 var scene = viewer.scene;
 

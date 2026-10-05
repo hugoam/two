@@ -54,8 +54,8 @@ function hilbert3d(center, size, iterations, v0, v1, v2, v3, v4, v5, v6, v7) {
     return vec;
 }
 
-var viewer = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(self, viewer);
 //controls.minDistance = 10;
 //controls.maxDistance = 500;
 

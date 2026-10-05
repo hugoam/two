@@ -31,8 +31,8 @@ EX(xx_shadow_point)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
@@ -43,7 +43,7 @@ EX(xx_shadow_point)
 	constexpr float range = 20.0f;
 
 #if UI
-	TrackballController& control = ui::trackball_controller(viewer);
+	TrackballController& control = ui::trackball_controller(*self, *viewer);
 #endif
 
 	static Material* cubemat = nullptr;
@@ -55,7 +55,7 @@ EX(xx_shadow_point)
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_fov = 45.f; camera.m_near = 1.f; camera.m_far = 1000.f;
 		camera.m_eye = vec3(0.f, 10.f, 40.f);
 

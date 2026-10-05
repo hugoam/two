@@ -174,13 +174,13 @@ void roughness_spheres(Gnode& parent)
 void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	OrbitController& controller = ui::orbit_controller(viewer);
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	OrbitController& controller = ui::orbit_controller(*self, *viewer);
 	UNUSED(controller);
 
-	//viewer.m_viewport.m_to_gamma = true;
+	//viewer->m_viewport.m_to_gamma = true;
 
-	Gnode& scene = viewer.m_scene.begin();
+	Gnode& scene = viewer->m_scene.begin();
 
 	Gnode& ground_node = gfx::node(scene, -y3);
 	gfx::shape(ground_node, Rect(vec2(-50.f), vec2(100.f)), Symbol(), 0U, &milky_white(app.m_gfx));
@@ -199,7 +199,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 	//roughness_spheres(scene);
 	material_spheres(scene, materials);
 
-	if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+	if(MouseEvent event = self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
 		auto callback = [&](Item* item)
 		{
@@ -209,7 +209,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 			size_t index = edited->m_index - materials[0]->m_index;
 			controller.m_position = { -center + index * 4.f, 0.f, 0.f };
 		};
-		viewer.picker(0).pick_point(viewer.m_viewport, event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
+		viewer->picker(0).pick_point(viewer->m_viewport, event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
@@ -217,7 +217,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 		Widget& sheet = ui::columns(key(), *dock, { 0.3f, 0.7f });
 
 		ui::label(key(), sheet, "Zone :");
-		ui::color_field(key(), sheet, "Ambient", viewer.m_scene.m_env.m_radiance.m_ambient);
+		ui::color_field(key(), sheet, "Ambient", viewer->m_scene.m_env.m_radiance.m_ambient);
 
 		if(edited)
 			object_edit(*dock, Ref(edited)); // "Particle Editor" // identity = edited

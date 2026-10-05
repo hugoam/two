@@ -1,8 +1,8 @@
 // material_standard.js
 
-var viewer = two.ui.scene_viewer(panel);
-//two.ui.orbit_controls(viewer);
-two.ui.trackball_controller(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+//two.ui.orbit_controls(self, viewer);
+two.ui.trackball_controller(self, viewer);
 
 var scene = viewer.scene;
 

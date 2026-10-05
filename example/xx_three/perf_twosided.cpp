@@ -80,16 +80,16 @@ EX(xx_perf_twosided)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
-	ControlNode& input = viewer;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
+	ControlNode& input = *self;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
 	ControlNode& input = window;
 #endif
 
-	Camera& camera = viewer.m_camera;
+	Camera& camera = viewer->m_camera;
 
 	auto ungamma = [](const Colour& c) { return to_colour(pow(to_vec3(c), vec3(2.f))); };
 
@@ -101,9 +101,9 @@ EX(xx_perf_twosided)
 		camera.m_fov = 50.f; camera.m_near = 1.f; camera.m_far = 20000.f;
 		camera.m_eye.z = 3200.f;
 
-		viewer.m_viewport.m_to_gamma = true;
+		viewer->m_viewport.m_to_gamma = true;
 
-		viewer.m_viewport.m_clear_colour = ungamma(rgb(0x050505));
+		viewer->m_viewport.m_clear_colour = ungamma(rgb(0x050505));
 
 		Texture& reflection = *app.m_gfx.textures().file("cube/royal.jpg.cube");
 		reflection.reload(app.m_gfx, false, true);
@@ -163,7 +163,7 @@ EX(xx_perf_twosided)
 	static vec2 mouse = vec2(0.f);
 	if(MouseEvent event = input.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
-		mouse = (event.m_relative - viewer.m_size / 2.f) * 10.f;
+		mouse = (event.m_relative - viewer->m_size / 2.f) * 10.f;
 	}
 
 	camera.m_eye.x += (mouse.x - camera.m_eye.x) * .05f;

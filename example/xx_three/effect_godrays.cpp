@@ -347,9 +347,9 @@ EX(xx_effect_godrays)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
-	ControlNode& input = viewer;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
+	ControlNode& input = *self;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
@@ -366,7 +366,7 @@ EX(xx_effect_godrays)
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_fov = 70.f; camera.m_near = 1.f; camera.m_far = 3000.f;
 		camera.m_eye.z = 200.f;
 
@@ -388,7 +388,7 @@ EX(xx_effect_godrays)
 
 		static Program& solid = app.m_gfx.programs().fetch("solid");
 
-		viewer.m_viewport.m_clear_colour = godrays.m_bg_colour;
+		viewer->m_viewport.m_clear_colour = godrays.m_bg_colour;
 
 		Material& material = app.m_gfx.materials().create("godrays", [&](Material& m) {
 			m.m_program = &solid;
@@ -407,7 +407,7 @@ EX(xx_effect_godrays)
 		Item(nsphere, sphere, 0U, &material).add(scene.m_graph);
 		node = &nsphere;
 
-		viewer.m_viewport.m_clear_colour = godrays.m_bg_colour;
+		viewer->m_viewport.m_clear_colour = godrays.m_bg_colour;
 
 		auto render = [](GfxSystem& gfx, Render& render)
 		{
@@ -426,10 +426,10 @@ EX(xx_effect_godrays)
 	static vec2 mouse = vec2(0.f);
 	if(MouseEvent event = input.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
-		mouse = (event.m_relative - viewer.m_size / 2.f);
+		mouse = (event.m_relative - viewer->m_size / 2.f);
 	}
 
-	Camera& camera = viewer.m_camera;
+	Camera& camera = viewer->m_camera;
 	camera.m_eye.x += (mouse.x - camera.m_eye.x) * 0.036f;
 	camera.m_eye.y += (-(mouse.y) - camera.m_eye.y) * 0.036f;
 

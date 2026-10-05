@@ -192,8 +192,8 @@ function pass_unreal_bloom(gfx, render, bloom) {
     pass_merge(gfx, render, bloom, source);
 }
 
-var viewer = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(self, viewer);
 //controls.maxPolarAngle = c_pi * 0.5;
 //controls.minDistance = 1;
 //controls.maxDistance = 10;

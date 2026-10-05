@@ -99,7 +99,7 @@ namespace two
 		static float time = 0.f;
 		time += 0.01f;
 
-		SceneViewer& viewer = ui::scene_viewer(key(), parent, vec2(200.f));
+		SceneViewer& viewer = *ui::scene_viewer(key(), parent, vec2(200.f)).viewer;
 		viewer.m_camera.m_eye = radius * 2.5f * z3;
 
 		quat rotation = axis_angle(y3, fmod(time, c_2pi));

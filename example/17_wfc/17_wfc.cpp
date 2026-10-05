@@ -27,11 +27,11 @@ void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	//static VisualScript& script = create_visual_script(app);
 
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(viewer);
-	//viewer.m_camera.set_isometric(IsometricAngle(SOUTH | WEST), vec3(0.f));
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(*self, *viewer);
+	//viewer->m_camera.set_isometric(IsometricAngle(SOUTH | WEST), vec3(0.f));
 
-	Gnode& scene = viewer.m_scene.begin();
+	Gnode& scene = viewer->m_scene.begin();
 
 	static WaveTileset& tileset = create_tileset(app);
 	static WfcBlock block = { vec3(0.f), { 20, 4, 20 }, vec3(1.f), tileset };
@@ -59,7 +59,7 @@ void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 	block.next_frame(tick, 1);
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
-		tileblock_edit(*dock, viewer, block, highlighted, selected, focused);
+		tileblock_edit(*dock, *self, *viewer, block, highlighted, selected, focused);
 }
 
 #ifdef _17_WFC_EXE

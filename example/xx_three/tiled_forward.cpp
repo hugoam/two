@@ -221,8 +221,8 @@ EX(xx_tiled_forward)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
@@ -231,7 +231,7 @@ EX(xx_tiled_forward)
 	static ImporterOBJ obj_importer(app.m_gfx);
 
 #if UI
-	ui::orbit_controls(viewer);
+	ui::orbit_controls(*self, *viewer);
 	//controls.minDistance = 120;
 	//controls.maxDistance = 320;
 #endif
@@ -278,7 +278,7 @@ EX(xx_tiled_forward)
 
 		state.lights = { uvec2(32, 2), false, TextureFormat::RGBA32F };
 
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_fov = 40.f; camera.m_near = 1.f; camera.m_far = 2000.f;
 		camera.m_eye = vec3(0.f, 0.f, 240.f);
 
@@ -286,7 +286,7 @@ EX(xx_tiled_forward)
 		env.m_radiance.m_ambient = rgb(0xffffff) * 0.33f;
 
 		env.m_background.m_colour = rgb(0x111111);
-		viewer.m_viewport.m_clear_colour = rgb(0x111111);
+		viewer->m_viewport.m_clear_colour = rgb(0x111111);
 
 		Model& model = *app.m_gfx.models().file("WaltHead");
 		

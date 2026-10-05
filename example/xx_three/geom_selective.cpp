@@ -39,7 +39,7 @@ EX(xx_geom_selective)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
+	SceneViewer& viewer = *ui::scene_viewer(key(), parent).viewer;
 	Scene& scene = viewer.m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);

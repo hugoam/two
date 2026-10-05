@@ -9,9 +9,9 @@ EX(xx_hierarchy2)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
-	ControlNode& input = viewer;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
+	ControlNode& input = *self;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
@@ -25,12 +25,12 @@ EX(xx_hierarchy2)
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 15000.f;
 		camera.m_eye.z = 500.f;
 
 		scene.m_env.m_background.m_colour = rgb(0xffffff);
-		viewer.m_viewport.m_clear_colour = rgb(0xffffff);
+		viewer->m_viewport.m_clear_colour = rgb(0xffffff);
 
 		Material& material = app.m_gfx.materials().create("hierarchy2", [&](Material& m) {
 			m.m_program = &normal;
@@ -64,7 +64,7 @@ EX(xx_hierarchy2)
 	static vec2 mouse = vec2(0.f);
 	if(MouseEvent event = input.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
-		mouse = (event.m_relative - viewer.m_size / 2.f) * 10.f;
+		mouse = (event.m_relative - viewer->m_size / 2.f) * 10.f;
 	}
 
 
@@ -74,7 +74,7 @@ EX(xx_hierarchy2)
 	float ry = sin(time * 0.3f) * 0.1f;
 	float rz = sin(time * 0.2f) * 0.1f;
 
-	Camera& camera = viewer.m_camera;
+	Camera& camera = viewer->m_camera;
 	camera.m_eye.x += (mouse.x - camera.m_eye.x) * 0.05f;
 	camera.m_eye.y += (-mouse.y - camera.m_eye.y) * 0.05f;
 

@@ -148,14 +148,14 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 	UNUSED(app); UNUSED(dockbar);
 	Widget& umain = ui::board(key(), parent);
 
-	SceneViewer& viewer = ui::scene_viewer(key(), umain);
-	ui::orbit_controller(viewer);
+	auto [self, viewer] = ui::scene_viewer(key(), umain);
+	ui::orbit_controller(*self, *viewer);
 
 	edit_styles(umain);
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer->m_scene->begin();
 
-	Material& material = milky_white(viewer.m_gfx_system);
+	Material& material = milky_white(viewer->m_gfx_system);
 
 	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
@@ -165,17 +165,17 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 	static game::Character character = game::create_character();
 
 	static Item* selected = nullptr;
-	if(MouseEvent mouse_event = viewer.m_self->mouse_event(DeviceType::MouseRight, EventType::Stroked))
+	if(MouseEvent mouse_event = self->mouse_event(DeviceType::MouseRight, EventType::Stroked))
 	{
 		auto callback = [&](Item* item) { selected = item; umain.m_switch |= Context; };
-		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
+		viewer->picker(0).pick_point(viewer->m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
 	UNUSED(selected);
 
 	if((umain.m_switch & Context) != 0)
 	{
-		Widget& popup = ui::popup(key(), *viewer.m_self, ui::PopupFlags::Modal);
+		Widget& popup = ui::popup(key(), *self, ui::PopupFlags::Modal);
 		if(ui::button(key(), popup, "character").activated())
 			umain.m_switch |= Character;
 		if(ui::button(key(), popup, "inventory").activated())

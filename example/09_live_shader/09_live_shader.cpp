@@ -52,10 +52,10 @@ static string fragment =
 void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(viewer);
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(*self, *viewer);
 
-	Gnode& scene = viewer.m_scene.begin();
+	Gnode& scene = viewer->m_scene.begin();
 
 	static Program program = { "custom_program" };
 	program.set_source(ShaderType::Fragment, fragment);

@@ -3,7 +3,7 @@ function update(two, app, time) {
     //var button = two.ui.button(board, "Teeeeeeeeeeeeeeeeeest");
     var screen = two.ui.board(board);
 
-    var viewer = two.ui.scene_viewer(screen);
+    var viewer = two.ui.scene_viewer(screen).viewer;
     two.ui.orbit_controller();
     var scene = viewer.scene.begin();
     

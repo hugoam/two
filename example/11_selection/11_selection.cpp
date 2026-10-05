@@ -18,10 +18,10 @@ vec4 abs_rect(const vec2& start, const vec2& size)
 void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(viewer);
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(*self, *viewer);
 
-	Gnode& scene = viewer.m_scene.begin();
+	Gnode& scene = viewer->m_scene.begin();
 
 	Material& material = milky_white(app.m_gfx);
 
@@ -35,29 +35,29 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 	shape_grid(scene, { shape_items.data(), 10U, 10U }, &symbol, false, &material);
 
 	static vector<Item*> selected = {};
-	if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+	if(MouseEvent event = self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
 		auto pick = [&](Item* item) { selected = { item }; };
-		viewer.picker(0).pick_point(viewer.m_viewport, event.m_relative, pick, ItemFlag::Default | ItemFlag::Selectable);
+		viewer->picker(0).pick_point(viewer->m_viewport, event.m_relative, pick, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
 	static vec4 select_rect = vec4(0.f);
-	if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+	if(MouseEvent event = self->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 	{
-		vec2 start = viewer.m_self->local_position(event.m_pressed);
+		vec2 start = self->local_position(event.m_pressed);
 		vec2 end = event.m_relative;
 		select_rect = abs_rect(start, end - start);
 	}
 
-	if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
+	if(MouseEvent event = self->mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
 	{
 		auto select = [&](span<Item*> items) { selected = to_vector(items); };
-		viewer.picker(0).pick_rectangle(viewer.m_viewport, select_rect, select, ItemFlag::Default | ItemFlag::Selectable);
+		viewer->picker(0).pick_rectangle(viewer->m_viewport, select_rect, select, ItemFlag::Default | ItemFlag::Selectable);
 		select_rect = vec4(0.f);
 	}
 
 	if(select_rect != vec4(0.f))
-		ui::rectangle(key(), *viewer.m_self, select_rect);
+		ui::rectangle(key(), *self, select_rect);
 
 	for(Item* selected_item : selected)
 		if(selected_item)

@@ -17,9 +17,9 @@ function generateTexture(gfx, width, height, m) {
     return texture;
 }
 
-var viewer = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(viewer);
-var control = two.ui.trackball_controller(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+//two.ui.orbit_controller(self, viewer);
+var control = two.ui.trackball_controller(self, viewer);
 
 var scene = viewer.scene;
 

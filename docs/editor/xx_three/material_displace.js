@@ -1,7 +1,7 @@
 // material_displace.js
 
-var viewer = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(self, viewer);
 //controls.enableZoom = false;
 //controls.enableDamping = true;
 

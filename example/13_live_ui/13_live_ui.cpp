@@ -149,7 +149,7 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 		
 	Canvas& c = ui::canvas(key(), d2);
 		// @todo default values don"t work because we are using same call object under the hood (value from previous call is persisted)
-	SceneViewer& main_viewer = ui::scene_viewer(key(), d2, vec2(0.f));
+	SceneViewer& main_viewer = *ui::scene_viewer(key(), d2, vec2(0.f)).viewer;
 	NodePlug* prev_output = nullptr;
 		
 	auto next_colour = [&]() {
@@ -168,7 +168,7 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 		NodePlug& output = ui::node_output(key(), n, "Output", "", col, 1, 0);
 		    
 		// @todo comment these two fixes the main viewer wrong parent issue -> investigate
-		SceneViewer& viewer = ui::scene_viewer(key(), *n.m_body, viewer_size);
+		SceneViewer& viewer = *ui::scene_viewer(key(), *n.m_body, viewer_size).viewer;
 		viewers.push_back(&viewer);
 		    
 		if(prev_output)

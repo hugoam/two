@@ -23,10 +23,10 @@ void ex_07_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	static ImporterGltf gltf_importer(app.m_gfx);
 
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(viewer);
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(*self, *viewer);
 
-	Gnode& scene = viewer.m_scene.begin();
+	Gnode& scene = viewer->m_scene.begin();
 
 	gfx::direct_light_node(scene, sun_rotation(c_pi4, c_pi4));
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
@@ -38,7 +38,7 @@ void ex_07_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
 	//debug_normals(scene, *model.m_meshes[0], model.m_items[0].m_transform, 0.2f);
 	
 	//if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
-	//	edit_viewer_filters(*dock, viewer);
+	//	edit_viewer_filters(*dock, *viewer);
 }
 
 #ifdef _07_GLTF_EXE

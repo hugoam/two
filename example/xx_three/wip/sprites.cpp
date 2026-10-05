@@ -11,15 +11,15 @@ EX(xx_sprites)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
 #endif
 
 #if UI
-	ui::orbit_controls(viewer);
+	ui::orbit_controls(*self, *viewer);
 #endif
 
 	//SceneViewer& overlay = ui::scene_viewer(key(), parent);
@@ -41,7 +41,7 @@ EX(xx_sprites)
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 2100.f;
 		camera.m_eye.z = 1500.f;
 

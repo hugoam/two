@@ -48,8 +48,8 @@ function pass_todepth(gfx, render) {
 }
 
 
-var viewer = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(self, viewer);
 //controls.dampingFactor = 0.25;
 //controls.rotateSpeed = 0.35;
 

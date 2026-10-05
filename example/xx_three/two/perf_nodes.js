@@ -12,8 +12,8 @@ using namespace mud;
 
 void xx_performance_nodes(Shell app, var parent, Dockbar dockbar)
 {
-	var viewer = two.ui.scene_viewer(panel);
-	//two.ui.orbit_controller(viewer);
+	var { self, viewer } = two.ui.scene_viewer(panel);
+	//two.ui.orbit_controller(self, viewer);
 
 	var scene = viewer.scene;
 

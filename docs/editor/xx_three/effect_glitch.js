@@ -152,8 +152,8 @@ function pass_glitch(gfx, render, glitch, dt_size) {
     gfx.copy.quad(flip, render.fbo, target.post.last());
 }
 
-var viewer = two.ui.scene_viewer(panel);
-//two.ui.orbit_controls(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+//two.ui.orbit_controls(self, viewer);
 viewer.viewport.autorender = false;
 
 var scene = viewer.scene;

@@ -28,8 +28,8 @@ var fragment_shader = `$input v_position, v_color
 
 var triangles = 500;
 
-var viewer = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+//two.ui.orbit_controller(self, viewer);
 
 var scene = viewer.scene;
 

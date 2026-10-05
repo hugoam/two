@@ -449,15 +449,15 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	//app.m_gfx->m_renderer.block<BlockTonemap>()->m_enabled = false;
 
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	//viewer.m_viewport.m_lighting = Lighting::VoxelGI;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	//viewer->m_viewport.m_lighting = Lighting::VoxelGI;
 
-	ui::orbit_controller(viewer);
+	ui::orbit_controller(*self, *viewer);
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 		example_options(*dock, g_sky);
 
-	Gnode& scene = viewer.m_scene.begin();
+	Gnode& scene = viewer->m_scene.begin();
 
 	Material& material = milky_white(app.m_gfx);
 

@@ -1,7 +1,7 @@
 // cubemap_dynamic.js
 
-var viewer = two.ui.scene_viewer(panel);
-//two.ui.orbit_controls(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+//two.ui.orbit_controls(self, viewer);
 viewer.viewport.autorender = false;
 
 var scene = viewer.scene;
@@ -56,7 +56,7 @@ if(init) {
     this.pressY = 0.0;
 }
 
-var event = viewer.mouse_event(two.DeviceType.MouseLeft, two.EventType.Pressed);
+var event = self.mouse_event(two.DeviceType.MouseLeft, two.EventType.Pressed);
 if(event.valid())
 {
     this.pressX = event.relative.x; this.pressY = event.relative.y;
@@ -65,18 +65,18 @@ if(event.valid())
     this.pressed = true;
 }
 
-event = viewer.mouse_event(two.DeviceType.MouseLeft, two.EventType.Released);
+event = self.mouse_event(two.DeviceType.MouseLeft, two.EventType.Released);
 if(event.valid())
     this.pressed = false;
 
-event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
+event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
 if(event.valid() && this.pressed)
 {
     this.lon = (event.relative.x - this.pressX) * 0.1 + this.presslon;
     this.lat = (event.relative.y - this.pressY) * 0.1 + this.presslat;
 }
 
-event = viewer.mouse_event(two.DeviceType.MouseMiddle, two.EventType.Moved)
+event = self.mouse_event(two.DeviceType.MouseMiddle, two.EventType.Moved)
 if(event.valid())
 {
     viewer.camera.fov = Math.min(Math.max(viewer.camera.fov + event.deltaZ, 10.0), 75.0);

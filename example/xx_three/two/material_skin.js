@@ -304,8 +304,8 @@ function render_beckmann(gfx, size) {
     return fbo.tex;
 }
 
-var viewer = two.ui.scene_viewer(panel);
-//two.ui.orbit_controls(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+//two.ui.orbit_controls(self, viewer);
 viewer.viewport.autorender = false;
 
 var scene = viewer.scene;
@@ -410,11 +410,11 @@ if(init) {
     this.rotation = new two.vec3(0.0);
 }
 
-var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved)
+var event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved)
 if(event.valid())
 {
-    this.mouse.x = event.relative.x - viewer.frame.size.x / 2.0;
-    this.mouse.y = event.relative.y - viewer.frame.size.y / 2.0;
+    this.mouse.x = event.relative.x - self.frame.size.x / 2.0;
+    this.mouse.y = event.relative.y - self.frame.size.y / 2.0;
 }
 
 this.rotation.y += 0.05 * (this.mouse.x * 0.001 - this.rotation.y);

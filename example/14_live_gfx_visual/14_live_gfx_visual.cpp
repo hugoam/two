@@ -81,15 +81,15 @@ void ex_14_live_gfx_visual(Shell& app, Widget& parent, Dockbar& dockbar)
 	g_time += 0.01f;
 #endif
 
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(viewer);
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(*self, *viewer);
 
 	static VisualScript& script = create_visual_script();
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 		visual_script_edit(*dock, script);
 
-	Gnode& scene = viewer.m_scene.begin();
+	Gnode& scene = viewer->m_scene.begin();
 
 	static Call call = { script, vector<Var>{ Var(Ref(&scene)) } };
 	call();	

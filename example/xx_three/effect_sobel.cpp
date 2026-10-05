@@ -142,18 +142,18 @@ EX(xx_effect_sobel)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
 #endif
 
 #if UI
-	ui::orbit_controls(viewer);
+	ui::orbit_controls(*self, *viewer);
 #endif
 
-	Camera& camera = viewer.m_camera;
+	Camera& camera = viewer->m_camera;
 
 	static Node3* light = nullptr;
 

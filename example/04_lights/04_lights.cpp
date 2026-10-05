@@ -72,13 +72,13 @@ void ex_04_lights(Shell& app, Widget& parent)
 	g_time += 0.01f;
 #endif
 
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	ui::free_orbit_controller(viewer);
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	ui::free_orbit_controller(*self, *viewer);
 
-	//viewer.m_viewport.m_to_gamma = true;
-	//viewer.m_viewport.comp<Tonemap>().m_enabled = true;
+	//viewer->m_viewport.m_to_gamma = true;
+	//viewer->m_viewport.comp<Tonemap>().m_enabled = true;
 
-	Gnode& scene = viewer.m_scene.begin();
+	Gnode& scene = viewer->m_scene.begin();
 
 	Material& material = milky_white(app.m_gfx);
 
@@ -115,16 +115,16 @@ void ex_04_lights(Shell& app, Widget& parent)
 #endif
 
 #if CLUSTERED
-	Camera& camera = viewer.m_camera;
-	viewer.m_viewport.set_clustered(app.m_gfx);
+	Camera& camera = viewer->m_camera;
+	viewer->m_viewport.set_clustered(app.m_gfx);
 #endif
 
 #if DEBUG_CLUSTERED
 	if(debug)
 	{
-		Viewer& debug_viewer = ui::viewer(key(), parent, viewer.m_scene);
-		ui::free_orbit_controller(debug_viewer);
-		debug_draw_light_clusters(scene, viewer.m_camera);
+		auto [self, debug_viewer] = ui::viewer(key(), parent, viewer->m_scene);
+		ui::free_orbit_controller(*self, *debug_viewer);
+		debug_draw_light_clusters(scene, viewer->m_camera);
 	}
 #endif
 
@@ -140,7 +140,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 		Widget& sheet = ui::columns(key(), *dock, { 0.3f, 0.7f });
 
 		ui::label(key(), sheet, "Zone :");
-		ui::color_field(key(), sheet, "Ambient", viewer.m_scene.m_env.m_radiance.m_ambient);
+		ui::color_field(key(), sheet, "Ambient", viewer->m_scene.m_env.m_radiance.m_ambient);
 
 		ui::label(key(), sheet, "Lights :");
 

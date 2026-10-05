@@ -1,6 +1,6 @@
 
-var viewer = two.ui.scene_viewer(panel);
-two.ui.orbit_controller(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+two.ui.orbit_controller(self, viewer);
 
 var camera = viewer.camera;
 camera.near = 2.0; camera.far = 2000.0;
@@ -54,9 +54,9 @@ if (init) {
 var time = app.gfx.time;
 
 this.mouse = new two.vec2(0.0);
-if(var event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved))
+if(var event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved))
 {
-    mouse = (event.relative - viewer.frame.size / 2.0);
+    mouse = (event.relative - self.frame.size / 2.0);
 }
 
 viewer.camera.eye.x += (mouse.x - viewer.camera.eye.x) * 0.05;

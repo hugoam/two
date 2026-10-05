@@ -42,10 +42,10 @@ static VisualScript& create_script()
 void ex_16_visual_script(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(viewer);
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(*self, *viewer);
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer->m_scene->begin();
 
 	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);

@@ -1,6 +1,6 @@
-var viewer = two.ui.scene_viewer(panel);
+var { self, viewer } = two.ui.scene_viewer(panel);
 
-TrackballController controls = two.ui.trackball_controller(viewer);
+TrackballController controls = two.ui.trackball_controller(self, viewer);
 controls.staticMoving = true;
 controls.dynamicDampingFactor = 0.3;
 

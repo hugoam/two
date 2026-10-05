@@ -1,8 +1,8 @@
 //var mouse = new two.vec2(0.0); // , INTERSECTED;
 var radius = 100; var theta = 0;
 
-var viewer = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+//two.ui.orbit_controller(self, viewer);
 
 var scene = viewer.scene;
 var camera = viewer.camera;
@@ -59,7 +59,7 @@ Item* hovered = nullptr;
 function hover = [](var item) { item.material->pbr.emissive = two.rgba(0xff0000f); };
 function unhover = [](var item) { item.material->pbr.emissive = two.rgba(0x00000000); };
 
-if(var mouse_event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved))
+if(var mouse_event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved))
 {
     function pick = [](Item* item) { if(hovered) unhover(*hovered); hovered = item; if(hovered) hover(*hovered); };
     viewer.picker(0).pick_point(viewer.viewport, mouse_event.relative, pick, ItemFlag::Selectable);

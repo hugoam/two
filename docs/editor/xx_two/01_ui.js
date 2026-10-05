@@ -21,7 +21,7 @@ var colours = []
 
 var c = two.ui.canvas(d2);
 // @todo default values don"t work because we are using same call object under the hood (value from previous call is persisted)
-var main_viewer = two.ui.scene_viewer(d2, new two.vec2(0));
+var main_viewer = two.ui.scene_viewer(d2, new two.vec2(0)).viewer;
 var prev_output = null;
 
 function next_colour() {
@@ -39,7 +39,7 @@ for(var i = 0; i < 4; ++i) {
     var output = two.ui.node_output(n, "Output", "", col, 1, 0);
     
     // @todo comment these two fixes the main viewer wrong parent issue -> investigate
-    var viewer = two.ui.scene_viewer(n, viewer_size);
+    var viewer = two.ui.scene_viewer(n, viewer_size).viewer;
     viewers.push(viewer);
     
     if(prev_output !== null) {

@@ -22,6 +22,8 @@ namespace two
     export_ class ViewerController;
     export_ class Viewer;
     export_ class SceneViewer;
+    export_ struct ViewerBox;
+    export_ struct SceneViewerBox;
     export_ class OrbitController;
     export_ class TrackballController;
     export_ class FreeOrbitController;

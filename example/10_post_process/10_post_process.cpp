@@ -11,13 +11,13 @@ using namespace two;
 void ex_10_post_process(Shell& app, Widget& parent, Dockbar& dockbar)//, Dockbar& dockbar)
 {
 	UNUSED(app);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(viewer);
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(*self, *viewer);
 
 	//if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
-	//	edit_viewer_filters(*dock, viewer);
+	//	edit_viewer_filters(*dock, *viewer);
 
-	Gnode& scene = viewer.m_scene.begin();
+	Gnode& scene = viewer->m_scene.begin();
 
 	Material& material = milky_white(app.m_gfx);
 

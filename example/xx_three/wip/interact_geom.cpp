@@ -9,8 +9,8 @@ EX(xx_interact_geom)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
@@ -24,7 +24,7 @@ EX(xx_interact_geom)
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_fov = 27.f; camera.m_near = 1.f; camera.m_far = 3500.f;
 		camera.m_eye.z = 2750.f;
 		
@@ -38,7 +38,7 @@ EX(xx_interact_geom)
 		//	side: THREE.DoubleSide, vertexColors: THREE.VertexColors
 		//});
 
-		viewer.m_viewport.m_clear_colour = rgb(0x050505);
+		viewer->m_viewport.m_clear_colour = rgb(0x050505);
 		scene.m_env.m_fog = { true, 1.f, rgb(0x050505), true, 2000.f, 3500.f };
 
 		//scene.add(new THREE.AmbientLight(0x444444));
@@ -101,10 +101,10 @@ EX(xx_interact_geom)
 		auto unhover = [](Item& item) {};
 
 #if UI
-		if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::Mouse, EventType::Moved))
+		if(MouseEvent event = self->mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
 			//auto pick = [&](Item* item) { if(hovered) unhover(*hovered); hovered = item; if(hovered) hover(*hovered); };
-			//viewer.picker(0).pick_point(viewer.m_viewport, event.m_relative, pick, ItemFlag::Selectable);
+			//viewer->picker(0).pick_point(viewer->m_viewport, event.m_relative, pick, ItemFlag::Selectable);
 		}
 #endif
 	}

@@ -47,10 +47,10 @@ void shape_grid(Gnode& parent, span2d<ShapeInstance> shape_grid, const Symbol* s
 void ex_01_shapes(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(viewer);
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(*self, *viewer);
 
-	Gnode& scene = viewer.m_scene.begin();
+	Gnode& scene = viewer->m_scene.begin();
 
 	Gnode& node = gfx::node(scene, vec3(-5.f, 0.f, -5.f));
 	gfx::shape(node, Grid2({ 10.f, 10.f }), Symbol(Colour::AlphaGrey));

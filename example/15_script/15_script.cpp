@@ -59,12 +59,12 @@ static TextScript create_script()
 void ex_15_script(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(viewer);
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(*self, *viewer);
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer->m_scene->begin();
 
-	Material& material = milky_white(viewer.m_gfx_system);
+	Material& material = milky_white(viewer->m_gfx_system);
 
 	Gnode& ground_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
 	gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(), 0U, &material);
@@ -74,7 +74,7 @@ void ex_15_script(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	static std::vector<ShapeVar> shapes = { Cube(1.f), Sphere(), Cylinder() }; // @todo Circle() looks weird
 	static std::vector<ShapeInstance > shape_items = create_shape_grid(10U, 10U, shapes);
-	static std::vector<GameObject> objects = create_game_objects(viewer.m_gfx_system, shape_items);
+	static std::vector<GameObject> objects = create_game_objects(viewer->m_gfx_system, shape_items);
 
 	//shape_grid(scene, { shape_items.data(), 10U, 10U }, Symbol(), shapes, true, &material);
 

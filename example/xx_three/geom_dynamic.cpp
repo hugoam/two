@@ -13,8 +13,8 @@ EX(xx_geom_dynamic)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
@@ -31,7 +31,7 @@ EX(xx_geom_dynamic)
 	const float r2 = r / 2.f;
 
 #if UI
-	ui::orbit_controls(viewer);
+	ui::orbit_controls(*self, *viewer);
 #endif
 
 	struct EffectController
@@ -70,7 +70,7 @@ EX(xx_geom_dynamic)
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_near = 1.f; camera.m_far = 4000.f;
 		camera.m_eye.z = 1750.f;
 		

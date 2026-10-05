@@ -24,22 +24,22 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	static ImporterOBJ obj_importer(app.m_gfx);
 
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Tonemap& tonemap = viewer.m_viewport.comp<Tonemap>();
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Tonemap& tonemap = viewer->m_viewport.comp<Tonemap>();
 
 	tonemap.m_enabled = true;
 	tonemap.m_mode = TonemapMode::ACES;
 	tonemap.m_mode = TonemapMode::Filmic;
 	tonemap.m_mode = TonemapMode::Reinhardt;
 
-	viewer.m_viewport.m_lighting = Lighting::VoxelGI;
+	viewer->m_viewport.m_lighting = Lighting::VoxelGI;
 
-	viewer.m_viewport.m_to_gamma = true;
+	viewer->m_viewport.m_to_gamma = true;
 
-	viewer.m_scene.m_env.m_radiance.m_ambient = Colour(0.1f);
+	viewer->m_scene.m_env.m_radiance.m_ambient = Colour(0.1f);
 
-	OrbitController& controller = ui::free_orbit_controller(viewer);
-	viewer.m_self->take_focus();
+	OrbitController& controller = ui::free_orbit_controller(*self, *viewer);
+	self->take_focus();
 
 	if(app.m_gfx.m_frame == 1)
 	{
@@ -51,7 +51,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 		shadow.m_atlas = ShadowAtlas(4096U, 1U);
 	}
 
-	Gnode& scene = viewer.m_scene.begin();
+	Gnode& scene = viewer->m_scene.begin();
 
 	Material& material = milky_white(app.m_gfx);
 
@@ -114,7 +114,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 #endif
 
 #if CLUSTERED
-	viewer.m_viewport.set_clustered(app.m_gfx);
+	viewer->m_viewport.set_clustered(app.m_gfx);
 #endif
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
@@ -122,11 +122,11 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 		Widget& sheet = ui::columns(key(), *dock, { 0.3f, 0.7f });
 
 		ui::label(key(), sheet, "Zone :");
-		ui::color_field(key(), sheet, "Ambient", viewer.m_scene.m_env.m_radiance.m_ambient);
+		ui::color_field(key(), sheet, "Ambient", viewer->m_scene.m_env.m_radiance.m_ambient);
 
 #if POSTPROCESS
-		Tonemap& tonemap = viewer.m_viewport.comp<Tonemap>();
-		BCS& bcs = viewer.m_viewport.comp<BCS>();
+		Tonemap& tonemap = viewer->m_viewport.comp<Tonemap>();
+		BCS& bcs = viewer->m_viewport.comp<BCS>();
 
 		ui::label(key(), sheet, "Post process :");
 		ui::slider_field(key(), sheet, "Exposure",   tonemap.m_exposure,    { 0.f, 2.f, 0.01f });

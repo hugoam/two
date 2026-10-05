@@ -44,8 +44,8 @@ EX(xx_light_hemisphere)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
@@ -54,19 +54,19 @@ EX(xx_light_hemisphere)
 	static ImporterGltf importer_gltf = { app.m_gfx };
 
 #if UI
-	ui::orbit_controls(viewer);
+	ui::orbit_controls(*self, *viewer);
 #endif
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_fov = 30.f; camera.m_near = 1.f; camera.m_far = 5000.f;
 		camera.m_eye = vec3(0.f, 0.f, 250.f);
 
 		Colour colour = hsl(0.6f, 0.f, 1.f);
 
-		viewer.m_viewport.m_to_gamma = true;
-		viewer.m_viewport.m_clear_colour = colour;
+		viewer->m_viewport.m_to_gamma = true;
+		viewer->m_viewport.m_clear_colour = colour;
 
 		scene.m_env.m_background.m_colour = colour;
 

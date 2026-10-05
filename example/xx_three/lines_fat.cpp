@@ -12,15 +12,15 @@ EX(xx_lines_fat)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
 #endif
 
 #if UI
-	ui::orbit_controls(viewer);
+	ui::orbit_controls(*self, *viewer);
 	//controls.minDistance = 10;
 	//controls.maxDistance = 500;
 #endif
@@ -37,7 +37,7 @@ EX(xx_lines_fat)
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_fov = 40.f; camera.m_near = 1.f; camera.m_far = 1000.f;
 		camera.m_eye = vec3(-40.f, 0.f, 60.f);
 

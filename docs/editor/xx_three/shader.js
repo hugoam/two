@@ -49,8 +49,8 @@ var fragment_shader =`$input v_uv0
     
     }`;
 
-var viewer = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(self, viewer);
 
 if (init) {
     var program = app.gfx.programs.create('custom');

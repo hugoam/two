@@ -12,14 +12,14 @@ EX(xx_cubemap_dynamic)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
 #endif
 
-	viewer.m_viewport.m_autorender = false;
+	viewer->m_viewport.m_autorender = false;
 
 	static size_t count = 0;
 
@@ -40,7 +40,7 @@ EX(xx_cubemap_dynamic)
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_fov = 60.f; camera.m_near = 1.f; camera.m_far = 1000.f;
 		//camera.m_fov = 120.f;
 
@@ -78,7 +78,7 @@ EX(xx_cubemap_dynamic)
 	static float presslat = 0.f; static float presslon = 0.f;
 	static bool pressed = false;
 #if UI
-	if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseLeft, EventType::Pressed))
+	if(MouseEvent event = self->mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 	{
 		presscoord = event.m_relative;
 		presslon = lon;
@@ -86,10 +86,10 @@ EX(xx_cubemap_dynamic)
 		pressed = true;
 	}
 
-	if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseLeft, EventType::Released))
+	if(MouseEvent event = self->mouse_event(DeviceType::MouseLeft, EventType::Released))
 		pressed = false;
 
-	if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::Mouse, EventType::Moved))
+	if(MouseEvent event = self->mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
 		if(pressed)
 		{
@@ -98,9 +98,9 @@ EX(xx_cubemap_dynamic)
 		}
 	}
 
-	if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+	if(MouseEvent event = self->mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 	{
-		viewer.m_camera.m_fov = clamp(viewer.m_camera.m_fov + event.m_deltaZ * 0.5f, 10.f, 75.f);
+		viewer->m_camera.m_fov = clamp(viewer->m_camera.m_fov + event.m_deltaZ * 0.5f, 10.f, 75.f);
 	}
 #endif
 
@@ -125,7 +125,7 @@ EX(xx_cubemap_dynamic)
 	torusa += vec3(0.02f, 0.03f, 0.f);
 	torus->apply(torusp, quat(torusa));
 
-	Camera& camera = viewer.m_camera;
+	Camera& camera = viewer->m_camera;
 	camera.m_eye.x = 100.f * sin(phi) * cos(theta);
 	camera.m_eye.y = 100.f * cos(phi);
 	camera.m_eye.z = 100.f * sin(phi) * sin(theta);
@@ -143,7 +143,7 @@ EX(xx_cubemap_dynamic)
 	gfx::shape(root, Cylinder(z3 * 30.f, 1.f, 30.f, Axis::Z), Symbol::plain(Colour::Blue));
 #endif
 
-	Render render = { Shading::Shaded, viewer.m_viewport, app.m_gfx.main_target(), app.m_gfx.m_render_frame };
+	Render render = { Shading::Shaded, viewer->m_viewport, app.m_gfx.main_target(), app.m_gfx.m_render_frame };
 	app.m_gfx.m_renderer.gather(render);
 	app.m_gfx.m_renderer.begin(render);
 

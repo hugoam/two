@@ -36,12 +36,6 @@ extern "C" {
 	two::Type* DECL two_Viewer__type() {
 		return &two::type<two::Viewer>();
 	}
-	two::Widget* DECL two_Viewer__get_self(two::Viewer* self) {
-		return self->m_self;
-	}
-	void DECL two_Viewer__set_self(two::Viewer* self, two::Widget* value) {
-		self->m_self = value;
-	}
 	two::Scene* DECL two_Viewer__get_scene(two::Viewer* self) {
 		return self->m_scene;
 	}
@@ -182,53 +176,100 @@ extern "C" {
 	void DECL two_FreeOrbitController__destroy(two::FreeOrbitController* self) {
 		delete self;
 	}
-	two::Viewer* DECL two_ui_viewer_3(two::NodeKey* id, two::Widget* parent, two::Scene* scene) {
-		return &two::ui::viewer(*id, *parent, *scene);
+	// ViewerBox
+	two::Type* DECL two_ViewerBox__type() {
+		return &two::type<two::ViewerBox>();
 	}
-	two::SceneViewer* DECL two_ui_scene_viewer_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::scene_viewer(*id, *parent);
+	two::ViewerBox* DECL two_ViewerBox__construct_0() {
+		return new two::ViewerBox();
 	}
-	two::SceneViewer* DECL two_ui_scene_viewer_3(two::NodeKey* id, two::Widget* parent, const two::vec2* size) {
-		return &two::ui::scene_viewer(*id, *parent, *size);
+	two::Widget* DECL two_ViewerBox__get_self(two::ViewerBox* self) {
+		return self->self;
 	}
-	two::TrackballController* DECL two_ui_trackball_controller_1(two::Viewer* viewer) {
-		return &two::ui::trackball_controller(*viewer);
+	void DECL two_ViewerBox__set_self(two::ViewerBox* self, two::Widget* value) {
+		self->self = value;
 	}
-	two::OrbitControls* DECL two_ui_orbit_controls_1(two::Viewer* viewer) {
-		return &two::ui::orbit_controls(*viewer);
+	two::Viewer* DECL two_ViewerBox__get_viewer(two::ViewerBox* self) {
+		return self->viewer;
 	}
-	two::OrbitController* DECL two_ui_orbit_controller_1(two::Viewer* viewer) {
-		return &two::ui::orbit_controller(*viewer);
+	void DECL two_ViewerBox__set_viewer(two::ViewerBox* self, two::Viewer* value) {
+		self->viewer = value;
 	}
-	two::OrbitController* DECL two_ui_orbit_controller_2(two::Viewer* viewer, float yaw) {
-		return &two::ui::orbit_controller(*viewer, yaw);
+	void DECL two_ViewerBox__destroy(two::ViewerBox* self) {
+		delete self;
 	}
-	two::OrbitController* DECL two_ui_orbit_controller_3(two::Viewer* viewer, float yaw, float pitch) {
-		return &two::ui::orbit_controller(*viewer, yaw, pitch);
+	// SceneViewerBox
+	two::Type* DECL two_SceneViewerBox__type() {
+		return &two::type<two::SceneViewerBox>();
 	}
-	two::OrbitController* DECL two_ui_orbit_controller_4(two::Viewer* viewer, float yaw, float pitch, float distance) {
-		return &two::ui::orbit_controller(*viewer, yaw, pitch, distance);
+	two::SceneViewerBox* DECL two_SceneViewerBox__construct_0() {
+		return new two::SceneViewerBox();
 	}
-	two::FreeOrbitController* DECL two_ui_free_orbit_controller_1(two::Viewer* viewer) {
-		return &two::ui::free_orbit_controller(*viewer);
+	two::Widget* DECL two_SceneViewerBox__get_self(two::SceneViewerBox* self) {
+		return self->self;
 	}
-	two::OrbitController* DECL two_ui_isometric_controller_1(two::Viewer* viewer) {
-		return &two::ui::isometric_controller(*viewer);
+	void DECL two_SceneViewerBox__set_self(two::SceneViewerBox* self, two::Widget* value) {
+		self->self = value;
 	}
-	two::OrbitController* DECL two_ui_isometric_controller_2(two::Viewer* viewer, bool topdown) {
-		return &two::ui::isometric_controller(*viewer, topdown);
+	two::SceneViewer* DECL two_SceneViewerBox__get_viewer(two::SceneViewerBox* self) {
+		return self->viewer;
 	}
-	two::OrbitController* DECL two_ui_hybrid_controller_5(two::Viewer* viewer, two::ui::OrbitMode mode, two::Transform* entity, bool aiming, two::vec2* angles) {
-		return &two::ui::hybrid_controller(*viewer, mode, *entity, aiming, *angles);
+	void DECL two_SceneViewerBox__set_viewer(two::SceneViewerBox* self, two::SceneViewer* value) {
+		self->viewer = value;
 	}
-	two::OrbitController* DECL two_ui_hybrid_controller_6(two::Viewer* viewer, two::ui::OrbitMode mode, two::Transform* entity, bool aiming, two::vec2* angles, bool modal) {
-		return &two::ui::hybrid_controller(*viewer, mode, *entity, aiming, *angles, modal);
+	void DECL two_SceneViewerBox__destroy(two::SceneViewerBox* self) {
+		delete self;
 	}
-	void DECL two_ui_velocity_controller_3(two::Viewer* viewer, two::vec3* linear, two::vec3* angular) {
-		two::ui::velocity_controller(*viewer, *linear, *angular);
+	two::ViewerBox* DECL two_ui_viewer_3(two::NodeKey* id, two::Widget* parent, two::Scene* scene) {
+		static two::ViewerBox temp;
+		return (temp = two::ui::viewer(*id, *parent, *scene), &temp);
 	}
-	void DECL two_ui_velocity_controller_4(two::Viewer* viewer, two::vec3* linear, two::vec3* angular, float speed) {
-		two::ui::velocity_controller(*viewer, *linear, *angular, speed);
+	two::SceneViewerBox* DECL two_ui_scene_viewer_2(two::NodeKey* id, two::Widget* parent) {
+		static two::SceneViewerBox temp;
+		return (temp = two::ui::scene_viewer(*id, *parent), &temp);
+	}
+	two::SceneViewerBox* DECL two_ui_scene_viewer_3(two::NodeKey* id, two::Widget* parent, const two::vec2* size) {
+		static two::SceneViewerBox temp;
+		return (temp = two::ui::scene_viewer(*id, *parent, *size), &temp);
+	}
+	two::TrackballController* DECL two_ui_trackball_controller_2(two::Widget* self, two::Viewer* viewer) {
+		return &two::ui::trackball_controller(*self, *viewer);
+	}
+	two::OrbitControls* DECL two_ui_orbit_controls_2(two::Widget* self, two::Viewer* viewer) {
+		return &two::ui::orbit_controls(*self, *viewer);
+	}
+	two::OrbitController* DECL two_ui_orbit_controller_2(two::Widget* self, two::Viewer* viewer) {
+		return &two::ui::orbit_controller(*self, *viewer);
+	}
+	two::OrbitController* DECL two_ui_orbit_controller_3(two::Widget* self, two::Viewer* viewer, float yaw) {
+		return &two::ui::orbit_controller(*self, *viewer, yaw);
+	}
+	two::OrbitController* DECL two_ui_orbit_controller_4(two::Widget* self, two::Viewer* viewer, float yaw, float pitch) {
+		return &two::ui::orbit_controller(*self, *viewer, yaw, pitch);
+	}
+	two::OrbitController* DECL two_ui_orbit_controller_5(two::Widget* self, two::Viewer* viewer, float yaw, float pitch, float distance) {
+		return &two::ui::orbit_controller(*self, *viewer, yaw, pitch, distance);
+	}
+	two::FreeOrbitController* DECL two_ui_free_orbit_controller_2(two::Widget* self, two::Viewer* viewer) {
+		return &two::ui::free_orbit_controller(*self, *viewer);
+	}
+	two::OrbitController* DECL two_ui_isometric_controller_2(two::Widget* self, two::Viewer* viewer) {
+		return &two::ui::isometric_controller(*self, *viewer);
+	}
+	two::OrbitController* DECL two_ui_isometric_controller_3(two::Widget* self, two::Viewer* viewer, bool topdown) {
+		return &two::ui::isometric_controller(*self, *viewer, topdown);
+	}
+	two::OrbitController* DECL two_ui_hybrid_controller_6(two::Widget* self, two::Viewer* viewer, two::ui::OrbitMode mode, two::Transform* entity, bool aiming, two::vec2* angles) {
+		return &two::ui::hybrid_controller(*self, *viewer, mode, *entity, aiming, *angles);
+	}
+	two::OrbitController* DECL two_ui_hybrid_controller_7(two::Widget* self, two::Viewer* viewer, two::ui::OrbitMode mode, two::Transform* entity, bool aiming, two::vec2* angles, bool modal) {
+		return &two::ui::hybrid_controller(*self, *viewer, mode, *entity, aiming, *angles, modal);
+	}
+	void DECL two_ui_velocity_controller_4(two::Widget* self, two::Viewer* viewer, two::vec3* linear, two::vec3* angular) {
+		two::ui::velocity_controller(*self, *viewer, *linear, *angular);
+	}
+	void DECL two_ui_velocity_controller_5(two::Widget* self, two::Viewer* viewer, two::vec3* linear, two::vec3* angular, float speed) {
+		two::ui::velocity_controller(*self, *viewer, *linear, *angular, speed);
 	}
 	// OrbitMode
 	two::ui::OrbitMode DECL two_ui_OrbitMode_ThirdPerson() {

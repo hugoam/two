@@ -9,15 +9,15 @@ EX(xx_light_point)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
 #endif
 
 #if UI
-	TrackballController& controls = ui::trackball_controller(viewer);
+	TrackballController& controls = ui::trackball_controller(*self, *viewer);
 	controls.m_dynamicDampingFactor = 0.15f;
 #endif
 	
@@ -27,13 +27,13 @@ EX(xx_light_point)
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_fov = 50.f; camera.m_near = 1.f; camera.m_far = 300.f;
 		camera.m_eye = vec3(0.f, 15.f, 150.f);
 
 		const Colour bg = to_linear(rgb(0x040306));
-		viewer.m_viewport.m_to_gamma = true;
-		viewer.m_viewport.m_clear_colour = bg;
+		viewer->m_viewport.m_to_gamma = true;
+		viewer->m_viewport.m_clear_colour = bg;
 
 		Zone& env = scene.m_env;
 		env.m_fog = { true, 1.f, bg, true, 10.f, 300.f };

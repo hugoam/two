@@ -1,7 +1,7 @@
 // light_point.js
 
-var viewer = two.ui.scene_viewer(panel);
-var controls = two.ui.trackball_controller(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+var controls = two.ui.trackball_controller(self, viewer);
 //controls.dynamicDampingFactor = 0.15;
 //controls.keys = [ 65, 83, 68 ];
 

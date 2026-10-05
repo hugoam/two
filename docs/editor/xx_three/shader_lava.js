@@ -243,8 +243,8 @@ var lava_fragment = `$input v_position, v_uv0
         //gl_FragColor = mix(source, vec4(fog_color, source.w), fogFactor);
     }`;
 
-var viewer = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+//two.ui.orbit_controller(self, viewer);
 viewer.viewport.autorender = false;
 
 var scene = viewer.scene;

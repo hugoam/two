@@ -30,18 +30,18 @@ void bar(MyObject& object)
 void ex_00_tutorial_pump(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(viewer);
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(*self, *viewer);
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer->m_scene->begin();
 	Gnode& node = gfx::node(scene, {}, Zero3);
     gfx::shape(node, Cube(), Symbol(Colour::Red));
 
 	static std::vector<Var> objects = { var(MyObject(ShapeType::Sphere, Colour::Pink)) };
 	static size_t selected = SIZE_MAX;
 
-	ui::Popup modal = ui::popup(key(), *viewer.m_self, styles().modal, { 800, 600 }, ui::PopupFlags::None);
-	//ui::Popup modal = ui::modal(key(), *viewer.m_self, { 800, 600 });
+	ui::Popup modal = ui::popup(key(), *self, styles().modal, { 800, 600 }, ui::PopupFlags::None);
+	//ui::Popup modal = ui::modal(key(), *self, { 800, 600 });
 	Widget& board = ui::board(key(), modal.body);
 	multi_inspector(board, type<MyObject>(), objects, selected);
 	

@@ -9,8 +9,8 @@ EX(xx_material_cubemap)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
@@ -19,7 +19,7 @@ EX(xx_material_cubemap)
 	static ImporterOBJ obj_importer = { app.m_gfx };
 
 #if UI
-	OrbitControls& controls = ui::orbit_controls(viewer);
+	OrbitControls& controls = ui::orbit_controls(*self, *viewer);
 	controls.enableDamping = true;
 	controls.dampingFactor = 0.25f;
 	controls.rotateSpeed = 0.35f;
@@ -31,7 +31,7 @@ EX(xx_material_cubemap)
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_fov = 50.f; camera.m_near = 1.f; camera.m_far = 5000.f;
 		camera.m_eye.z = 2000.f;
 

@@ -9,14 +9,14 @@ using namespace two;
 void ex_20_meta(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(viewer);
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(*self, *viewer);
 
 	//meta_browser(parent);
 
-	Gnode& scene = viewer.m_scene->begin();
+	Gnode& scene = viewer->m_scene->begin();
 
-	Material& material = milky_white(viewer.m_gfx_system);
+	Material& material = milky_white(viewer->m_gfx_system);
 
 	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);

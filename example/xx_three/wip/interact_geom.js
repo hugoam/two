@@ -12,8 +12,8 @@ void xx_interact_geom(Shell app, var parent, Dockbar dockbar)
 {
 	var triangles = 5000;
 
-	var viewer = two.ui.scene_viewer(panel);
-	//two.ui.orbit_controller(viewer);
+	var { self, viewer } = two.ui.scene_viewer(panel);
+	//two.ui.orbit_controller(self, viewer);
 
 	var scene = viewer.scene;
 
@@ -101,7 +101,7 @@ void xx_interact_geom(Shell app, var parent, Dockbar dockbar)
 		function hover = [](var item) {};
 		function unhover = [](var item) {};
 
-		if(var mouse_event = viewer.mouse_event(two.DeviceType.Mouse, two.EventType.Moved))
+		if(var mouse_event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved))
 		{
 			//function pick = [](Item* item) { if(hovered) unhover(*hovered); hovered = item; if(hovered) hover(*hovered); };
 			//viewer.picker(0).pick_point(viewer.viewport, mouse_event.relative, pick, ItemFlag::Selectable);

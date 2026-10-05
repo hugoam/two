@@ -9,8 +9,8 @@ EX(xx_loader_gltf)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
@@ -19,17 +19,17 @@ EX(xx_loader_gltf)
 	static ImporterGltf importer_gltf = { app.m_gfx };
 
 #if UI
-	ui::orbit_controls(viewer);
+	ui::orbit_controls(*self, *viewer);
 #endif
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_fov = 45.f; camera.m_near = 0.25f; camera.m_far = 20.f;
 		camera.m_eye = vec3(-1.8f, 0.9f, 2.7f);
 		camera.m_target = vec3(0.f, -0.2f, -0.2f);
 		
-		viewer.m_viewport.m_to_gamma = true;
+		viewer->m_viewport.m_to_gamma = true;
 
 		Texture& texture = *app.m_gfx.textures().file("cube/bridge.jpg.cube");
 		scene.m_env.m_radiance.m_texture = &texture;

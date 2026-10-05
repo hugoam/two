@@ -9,8 +9,8 @@ EX(xx_interact_cubes)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
@@ -19,7 +19,7 @@ EX(xx_interact_cubes)
 	//vec2 mouse = vec2(0.f); // , INTERSECTED;
 	float radius = 100; float theta = 0;
 
-	Camera& camera = viewer.m_camera;
+	Camera& camera = viewer->m_camera;
 
 	if(init)
 	{
@@ -72,10 +72,10 @@ EX(xx_interact_cubes)
 	auto unhover = [](Item& item) { item.m_material->m_lit.m_emissive = rgba(0x00000000); };
 
 #if UI
-	if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::Mouse, EventType::Moved))
+	if(MouseEvent event = self->mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
 		auto pick = [&](Item* item) { if(hovered) unhover(*hovered); hovered = item; if(hovered) hover(*hovered); };
-		viewer.picker(0).pick_point(viewer.m_viewport, event.m_relative, pick, ItemFlag::Selectable);
+		viewer->picker(0).pick_point(viewer->m_viewport, event.m_relative, pick, ItemFlag::Selectable);
 	}
 #endif
 

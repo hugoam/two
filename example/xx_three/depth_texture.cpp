@@ -58,17 +58,17 @@ EX(xx_depth_texture)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
 #endif
-	viewer.m_viewport.m_autorender = false;
+	viewer->m_viewport.m_autorender = false;
 
 #if UI
-	OrbitControls& controls = ui::orbit_controls(viewer);
-	//TrackballController& controls = ui::trackball_controller(viewer);
+	OrbitControls& controls = ui::orbit_controls(*self, *viewer);
+	//TrackballController& controls = ui::trackball_controller(*self, *viewer);
 	//controls.m_dynamicDampingFactor = 0.05f;
 	controls.enableDamping = true;
 	controls.dampingFactor = 0.15f;
@@ -85,7 +85,7 @@ EX(xx_depth_texture)
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_fov = 70.f; camera.m_near = 0.01f; camera.m_far = 50.f;
 		camera.m_eye.z = 4.f;
 
@@ -124,7 +124,7 @@ EX(xx_depth_texture)
 		pass_to_depth(gfx, render);
 	};
 
-	Render render = { Shading::Shaded, viewer.m_viewport, app.m_gfx.main_target(), app.m_gfx.m_render_frame };
+	Render render = { Shading::Shaded, viewer->m_viewport, app.m_gfx.main_target(), app.m_gfx.m_render_frame };
 	app.m_gfx.m_renderer.gather(render);
 	app.m_gfx.m_renderer.begin(render);
 	renderer(app.m_gfx, render);

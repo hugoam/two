@@ -434,9 +434,9 @@ EX(xx_material_skin)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
-	ControlNode& input = viewer;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
+	ControlNode& input = *self;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
@@ -445,8 +445,8 @@ EX(xx_material_skin)
 
 	static ImporterGltf importer_gltf = { app.m_gfx };
 
-	//ui::orbit_controls(viewer);
-	viewer.m_viewport.m_autorender = false;
+	//ui::orbit_controls(*self, *viewer);
+	viewer->m_viewport.m_autorender = false;
 
 	static Node3* mesh = nullptr;
 	static Item* item = nullptr;
@@ -462,7 +462,7 @@ EX(xx_material_skin)
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_fov = 35.f; camera.m_near = 1.f; camera.m_far = 10000.f;
 		camera.m_eye.z = 900.f;
 
@@ -534,7 +534,7 @@ EX(xx_material_skin)
 	static vec2 mouse = vec2(0.f);
 	if(MouseEvent event = input.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
-		mouse = event.m_relative - viewer.m_size / 2.f;
+		mouse = event.m_relative - viewer->m_size / 2.f;
 	}
 
 	const vec2 target = mouse * 0.001f;
@@ -544,7 +544,7 @@ EX(xx_material_skin)
 
 	mesh->apply(vec3(0.f, -50.f, 0.f), quat(rotation), vec3(100.f));
 
-	Render render = { Shading::Shaded, viewer.m_viewport, app.m_gfx.main_target(), app.m_gfx.m_render_frame };
+	Render render = { Shading::Shaded, viewer->m_viewport, app.m_gfx.main_target(), app.m_gfx.m_render_frame };
 	app.m_gfx.m_renderer.gather(render);
 	app.m_gfx.m_renderer.begin(render);
 

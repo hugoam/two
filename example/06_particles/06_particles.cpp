@@ -64,10 +64,10 @@ Flow flow0()
 void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	OrbitController& controller = ui::orbit_controller(viewer);
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	OrbitController& controller = ui::orbit_controller(*self, *viewer);
 
-	Gnode& scene = viewer.m_scene.begin();
+	Gnode& scene = viewer->m_scene.begin();
 
 	//static vector<string> particles_names = { "particles_0" };//, "particles_1" }; //, "particles_2" };
 	//static vector<ParticleItem> particles_vector = create_particles(app.m_gfx, particles_names);
@@ -92,7 +92,7 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 		gfx::shape(node, Cube(), Symbol(Colour::Transparent), ItemFlag::Default | ItemFlag::Selectable);
 	}
 
-	if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+	if(MouseEvent event = self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
 		auto callback = [&controller, middle](Item* item)
 		{
@@ -100,13 +100,13 @@ void ex_06_particles(Shell& app, Widget& parent, Dockbar& dockbar)
 			//edited = &val<ParticleItem>(item->m_node->m_object);
 			controller.m_position = vec3(-middle + edited->m_index * 10.f, 0.f, 0.f);
 		};
-		viewer.picker(0).pick_point(viewer.m_viewport, event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
+		viewer->picker(0).pick_point(viewer->m_viewport, event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
 	if(edited)
 	{
 		//if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
-		//	particle_edit(*dock, viewer.m_gfx, edited->m_call); // "Particle Editor" // identity = edited
+		//	particle_edit(*dock, viewer->m_gfx, edited->m_call); // "Particle Editor" // identity = edited
 	}
 }
 

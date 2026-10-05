@@ -315,8 +315,8 @@ HalftoneBlend.Add = 3;
 HalftoneBlend.Lighter = 4;
 HalftoneBlend.Darker = 5;
 
-var viewer = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(self, viewer);
 viewer.viewport.autorender = false;
 
 var rotationSpeed = Math.PI / 64.0;

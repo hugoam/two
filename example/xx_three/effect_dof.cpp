@@ -135,16 +135,16 @@ EX(xx_effect_dof)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
-	ControlNode& input = viewer;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
+	ControlNode& input = *self;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
 	ControlNode& input = window;
 #endif
 
-	viewer.m_viewport.m_autorender = false;
+	viewer->m_viewport.m_autorender = false;
 
 	constexpr int xgrid = 14;
 	constexpr int ygrid = 9;
@@ -175,7 +175,7 @@ EX(xx_effect_dof)
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_fov = 70.f; camera.m_near = 1.f; camera.m_far = 3000.f;
 		camera.m_eye.z = 200.f;
 
@@ -221,12 +221,12 @@ EX(xx_effect_dof)
 	static vec2 mouse = vec2(0.f);
 	if(MouseEvent event = input.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
-		mouse.x = event.m_relative.x - viewer.m_size.x / 2.f;
-		mouse.y = event.m_relative.y - viewer.m_size.y / 2.f;
+		mouse.x = event.m_relative.x - viewer->m_size.x / 2.f;
+		mouse.y = event.m_relative.y - viewer->m_size.y / 2.f;
 	}
 
 	if(MouseEvent event = input.mouse_event(DeviceType::Touch, EventType::Pressed))
-	//or(MouseEvent event = viewer.m_self->mouse_event(DeviceType::Touch, EventType::Moved))
+	//or(MouseEvent event = self->mouse_event(DeviceType::Touch, EventType::Moved))
 	{
 		//if(event.touches.length == 1) {
 		//	event.preventDefault();
@@ -237,7 +237,7 @@ EX(xx_effect_dof)
 
 	const float time = app.m_gfx.m_time * 0.05f;
 
-	Camera& camera = viewer.m_camera;
+	Camera& camera = viewer->m_camera;
 	camera.m_eye.x += (mouse.x - camera.m_eye.x) * 0.036f;
 	camera.m_eye.y += (-(mouse.y) - camera.m_eye.y) * 0.036f;
 	//camera.m_target = scene.position;
@@ -262,7 +262,7 @@ EX(xx_effect_dof)
 #endif
 
 #if !RENDERER
-	Render render = { Shading::Shaded, viewer.m_viewport, app.m_gfx.main_target(), app.m_gfx.m_render_frame };
+	Render render = { Shading::Shaded, viewer->m_viewport, app.m_gfx.main_target(), app.m_gfx.m_render_frame };
 	app.m_gfx.m_renderer.gather(render);
 	app.m_gfx.m_renderer.begin(render);
 	renderer(app.m_gfx, render);

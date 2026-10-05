@@ -10,8 +10,8 @@ using namespace mud;
 
 void xx_interact_cubes_gpu(Shell app, var parent, Dockbar dockbar)
 {
-	var viewer = two.ui.scene_viewer(panel);
-	TrackballController controls = two.ui.trackball_controller(viewer);
+	var { self, viewer } = two.ui.scene_viewer(panel);
+	TrackballController controls = two.ui.trackball_controller(self, viewer);
 
 	controls.staticMoving = true;
 	controls.dynamicDampingFactor = 0.3;

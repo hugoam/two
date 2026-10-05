@@ -1,6 +1,6 @@
 // empty.js
 
-var viewer = two.ui.scene_viewer(panel);
+var viewer = two.ui.scene_viewer(panel).viewer;
 viewer.viewport.autorender = false;
 
 var scene = viewer.scene;

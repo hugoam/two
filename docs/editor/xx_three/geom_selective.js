@@ -29,8 +29,8 @@ var fragment_shader = `$input v_color
 var numLat = 100;
 var numLng = 200;
 
-var viewer = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+//two.ui.orbit_controller(self, viewer);
 
 var scene = viewer.scene;
 

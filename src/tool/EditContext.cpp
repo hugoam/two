@@ -145,7 +145,7 @@ namespace two
 			ui_debug(*dock, screen);
 
 		if(context.m_spatial_tool && context.m_viewer)
-			context.m_spatial_tool->process(*context.m_viewer, context.m_selection.objects);
+			context.m_spatial_tool->process(*context.m_viewer_widget, *context.m_viewer, context.m_selection.objects);
 	}
 
 	void edit_tools(Widget& screen, EditContext& context)

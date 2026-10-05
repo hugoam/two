@@ -17,10 +17,10 @@ namespace two
 		this->add_option(oconstruct<WorldSnapOption>(*this));
 	}
 
-	void Brush::process(Viewer& viewer, span<Ref> selection)
+	void Brush::process(Widget& self, Viewer& viewer, span<Ref> selection)
 	{
 		UNUSED(selection);
-		Widget& screen = ui::overlay(key(), *viewer.m_self);
+		Widget& screen = ui::overlay(key(), self);
 
 		if(MouseEvent event = screen.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
@@ -57,10 +57,7 @@ namespace two
 		}
 
 		// the controller of the viewer takes its input from the overlay covering the viewer
-		Widget* self = viewer.m_self;
-		viewer.m_self = &screen;
-		viewer.m_controller->process(viewer);
-		viewer.m_self = self;
+		viewer.m_controller->process(screen, viewer);
 
 		this->paint(viewer.m_scene->m_graph.sub(key(this)));
 	}

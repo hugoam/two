@@ -56,8 +56,8 @@ var translucent_fragment = `$input v_view, v_position, v_normal, v_tangent, v_co
 
 var translucent_vertex = `#include <geometry_vs.sc>`;
 
-var viewer = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(self, viewer);
 
 var scene = viewer.scene;
 

@@ -20,8 +20,7 @@ namespace two
 	ViewerStyles& viewer_styles() { static ViewerStyles styles; return styles; }
 
 	Viewer::Viewer(Widget& self, Scene& scene)
-		: m_self(&self)
-		, m_scene(&scene)
+		: m_scene(&scene)
 		, m_context(as<GfxWindow>(self.ui_window().m_context))
 		, m_camera()
 		, m_viewport(m_camera, scene)
@@ -77,17 +76,17 @@ namespace two
 		vg.end_target();
 	}
 
-	vec4 Viewer::query_rect()
+	vec4 Viewer::query_rect(Widget& self)
 	{
-		m_position = m_self->absolute_position();
-		m_size = m_self->frame().m_size * m_self->absolute_scale();
+		m_position = self.absolute_position();
+		m_size = self.frame().m_size * self.absolute_scale();
 		const vec4 absolute = vec4(m_position, m_size);
 		return absolute / vec2(m_context.m_size);
 	}
 
-    void Viewer::resize()
+    void Viewer::resize(Widget& self)
     {
-		m_viewport.m_rect = this->query_rect();
+		m_viewport.m_rect = this->query_rect(self);
     }
 
 	Ray Viewer::mouse_ray(const vec2& pos)
@@ -97,9 +96,9 @@ namespace two
 		return m_camera.ray(vec2(xNDC, yNDC));
 	}
 
-	Ray Viewer::mouse_ray()
+	Ray Viewer::mouse_ray(Widget& self)
 	{
-		vec2 pos = m_self->local_position(m_self->ui().m_mouse.m_pos);
+		vec2 pos = self.local_position(self.ui().m_mouse.m_pos);
 		//return m_viewport.ray(pos);
 		return this->mouse_ray(pos);
 	}
@@ -120,11 +119,11 @@ namespace two
 
 	OrbitController::OrbitController(Viewer& viewer, float yaw, float pitch, float distance) : m_viewer(viewer), m_camera(viewer.m_camera), m_yaw(yaw), m_pitch(pitch), m_distance(distance) {}
 
-	void OrbitController::process(Viewer& viewer)
+	void OrbitController::process(Widget& self, Viewer& viewer)
 	{
 		//EventDispatch::process(viewer);
 
-		if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
 			if(event.m_deltaZ > 0)
 				m_distance *= 0.75f;
@@ -132,7 +131,7 @@ namespace two
 				m_distance *= 1.3f;
 		}
 
-		if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseMiddle, EventType::Dragged))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseMiddle, EventType::Dragged))
 		{
 			m_yaw = fmod(m_yaw - 0.02f * event.m_delta.x, c_2pi);
 			m_pitch = fmod(m_pitch - 0.02f * event.m_delta.y, c_2pi);
@@ -198,10 +197,10 @@ namespace two
 		return vec3(x, y, z);
 	}
 
-	void OrbitControls::process(Viewer& viewer)
+	void OrbitControls::process(Widget& self, Viewer& viewer)
 	{
 		Camera& camera = viewer.m_camera;
-		this->update(*viewer.m_self, camera.m_fov, camera.m_eye, camera.m_target, camera.m_up, camera.m_view);
+		this->update(self, camera.m_fov, camera.m_eye, camera.m_target, camera.m_up, camera.m_view);
 	}
 
 	void OrbitControls::update(Widget& widget, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat)
@@ -820,10 +819,10 @@ namespace two
 		}
 	}
 
-	void TrackballController::process(Viewer& viewer)
+	void TrackballController::process(Widget& self, Viewer& viewer)
 	{
 		Camera& camera = viewer.m_camera;
-		this->update(*viewer.m_self, camera.m_eye, camera.m_target, camera.m_up); // , camera.m_up);
+		this->update(self, camera.m_eye, camera.m_target, camera.m_up); // , camera.m_up);
 	}
 
 	void TrackballController::update(Widget& widget, vec3& eye, vec3& target, vec3& up)
@@ -1050,15 +1049,15 @@ namespace two
 
 namespace ui
 {
-	Viewer& viewer(NodeKey id, Widget& parent, Scene& scene)
+	ViewerBox viewer(NodeKey id, Widget& parent, Scene& scene)
 	{
 		Widget& self = widget(id, parent, viewer_styles().viewer);
 		Viewer& viewer = self.state<Viewer>(self, scene);
 		viewer.m_scene = viewer.m_viewport.m_scene = &scene;;
-		viewer.resize();
-		//if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
-		//	viewer.m_self->take_focus();
-		return viewer;
+		viewer.resize(self);
+		//if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
+		//	self.take_focus();
+		return { &self, &viewer };
 	}
 
 #if 0
@@ -1070,18 +1069,18 @@ namespace ui
 	}
 #endif
 
-	SceneViewer& scene_viewer(NodeKey id, Widget& parent, const vec2& size)
+	SceneViewerBox scene_viewer(NodeKey id, Widget& parent, const vec2& size)
 	{
 		Widget& self = widget(id, parent, viewer_styles().viewer);
 		SceneViewer& viewer = self.state<SceneViewer>(self);
-		viewer.resize();
+		viewer.resize(self);
 		if(self.once() && size != vec2(0.f))
 		{
 			self.frame().m_content = size;
 			self.set_style(viewer_styles().viewer_fixed);
 			//dummy(key(), self, size);
 		}
-		return viewer;
+		return { &self, &viewer };
 	}
 
 	void viewport_picker(Viewer& viewer, Widget& widget, vector<Ref>& selection)
@@ -1117,53 +1116,53 @@ namespace ui
 			//viewer.m_controller = make_unique<RTSCameraController>(viewer, camera);
 		}
 
-		//viewer.m_controller->process(viewer);
+		//viewer.m_controller->process(self, viewer);
 		viewport_picker(viewer, self, selection);
 		return viewer;
 	}
 
-	OrbitController& orbit_controller(Viewer& viewer, float yaw, float pitch, float distance)
+	OrbitController& orbit_controller(Widget& self, Viewer& viewer, float yaw, float pitch, float distance)
 	{
 		if(!viewer.m_controller)
 			viewer.m_controller = make_unique<OrbitController>(viewer, yaw, pitch, distance);
-		viewer.m_controller->process(viewer);
+		viewer.m_controller->process(self, viewer);
 		return as<OrbitController>(*viewer.m_controller);
 	}
 
-	OrbitControls& orbit_controls(Viewer& viewer)
+	OrbitControls& orbit_controls(Widget& self, Viewer& viewer)
 	{
 		if(!viewer.m_controller)
 			viewer.m_controller = make_unique<OrbitControls>();
-		viewer.m_controller->process(viewer);
+		viewer.m_controller->process(self, viewer);
 		return as<OrbitControls>(*viewer.m_controller);
 	}
 
-	TrackballController& trackball_controller(Viewer& viewer)
+	TrackballController& trackball_controller(Widget& self, Viewer& viewer)
 	{
 		if(!viewer.m_controller)
 			viewer.m_controller = make_unique<TrackballController>(viewer);
-		viewer.m_controller->process(viewer);
+		viewer.m_controller->process(self, viewer);
 		return as<TrackballController>(*viewer.m_controller);
 	}
 
-	FreeOrbitController& free_orbit_controller(Viewer& viewer)
+	FreeOrbitController& free_orbit_controller(Widget& self, Viewer& viewer)
 	{
 		if(!viewer.m_controller)
 			viewer.m_controller = make_unique<FreeOrbitController>(viewer);
 
 		FreeOrbitController& controller = as<FreeOrbitController>(*viewer.m_controller);
-		controller.process(viewer);
+		controller.process(self, viewer);
 		
-		if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
-			viewer.m_self->take_focus();
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
+			self.take_focus();
 
 		struct KeyMove { Key key; vec3 velocity; };
 
-		auto move_key = [](Viewer& viewer, vec3& speed, const KeyMove& move)
+		auto move_key = [](Widget& self, vec3& speed, const KeyMove& move)
 		{
-			if(viewer.m_self->key_event(move.key, EventType::Pressed))
+			if(self.key_event(move.key, EventType::Pressed))
 				speed += move.velocity;
-			if(viewer.m_self->key_event(move.key, EventType::Released))
+			if(self.key_event(move.key, EventType::Released))
 				speed += -move.velocity;
 		};
 
@@ -1178,7 +1177,7 @@ namespace ui
 		};
 
 		for(const KeyMove& key_move : moves)
-			move_key(viewer, controller.m_speed, key_move);
+			move_key(self, controller.m_speed, key_move);
 
 		vec3 velocity = rotate(quat({ controller.m_pitch, controller.m_yaw, 0.f }), controller.m_speed);
 		controller.set_target(viewer.m_camera.m_target + velocity);
@@ -1186,9 +1185,9 @@ namespace ui
 		return controller;
 	}
 
-	OrbitController& isometric_controller(Viewer& viewer, bool topdown)
+	OrbitController& isometric_controller(Widget& self, Viewer& viewer, bool topdown)
 	{
-		OrbitController& orbit = orbit_controller(viewer);
+		OrbitController& orbit = orbit_controller(self, viewer);
 
 		if(topdown)
 		{
@@ -1205,30 +1204,30 @@ namespace ui
 		return orbit;
 	}
 
-	OrbitController& hybrid_controller(Viewer& viewer, OrbitMode mode, Transform& entity, bool& aiming, vec2& angles, bool modal)
+	OrbitController& hybrid_controller(Widget& self, Viewer& viewer, OrbitMode mode, Transform& entity, bool& aiming, vec2& angles, bool modal)
 	{
 		UNUSED(modal);
 		using Mode = OrbitMode;
-		OrbitController& orbit = mode == Mode::Isometric ? ui::isometric_controller(viewer)
-														 : ui::orbit_controller(viewer);
+		OrbitController& orbit = mode == Mode::Isometric ? ui::isometric_controller(self, viewer)
+														 : ui::orbit_controller(self, viewer);
 
 		orbit.set_target(entity.m_position + y3 * 2.f);
 
-		if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
+		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
 		{
-			if(!viewer.m_self->modal())
+			if(!self.modal())
 			{
-				viewer.m_self->take_modal();
+				self.take_modal();
 
 				if(mode == Mode::ThirdPerson || mode == Mode::PseudoIsometric)
 				{
-					if(!viewer.m_self->ui_window().m_context.m_mouse_lock)
-						viewer.m_self->ui_window().m_context.lock_mouse(true);
+					if(!self.ui_window().m_context.m_mouse_lock)
+						self.ui_window().m_context.lock_mouse(true);
 				}
 			}
 		}
 
-		if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::Mouse, EventType::Moved))
+		if(MouseEvent event = self.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
 			const float rotation_speed = 1.f;
 			vec2 angle = -event.m_delta / 250.f * rotation_speed;
@@ -1267,20 +1266,20 @@ namespace ui
 			orbit.update_eye();
 		}
 
-		if(viewer.m_self->key_event(Key::Escape, EventType::Stroked))
+		if(self.key_event(Key::Escape, EventType::Stroked))
 		{
-			viewer.m_self->yield_modal();
+			self.yield_modal();
 			if(mode == Mode::ThirdPerson || mode == Mode::PseudoIsometric)
 			{
-				if(viewer.m_self->ui_window().m_context.m_mouse_lock)
-					viewer.m_self->ui_window().m_context.lock_mouse(false);
+				if(self.ui_window().m_context.m_mouse_lock)
+					self.ui_window().m_context.lock_mouse(false);
 			}
 		}
 
 		return orbit;
 	}
 
-	void velocity_controller(Viewer& viewer, vec3& linear, vec3& angular, float speed)
+	void velocity_controller(Widget& self, Viewer& viewer, vec3& linear, vec3& angular, float speed)
 	{
 		struct KeyMove { Key key; vec3 velocity; };
 
@@ -1304,7 +1303,7 @@ namespace ui
 		};
 
 		for(const KeyMove& key_move : moves)
-			velocity_key(*viewer.m_self, linear, angular, key_move, speed);
+			velocity_key(self, linear, angular, key_move, speed);
 	}
 }
 }

@@ -6,9 +6,9 @@ render = function (app) {
     var board = ui.board(app.ui.begin());
     var screen = ui.board(board);
 
-    var viewer = ui.scene_viewer(screen);
-    ui.orbit_controller(viewer);
-    viewer.take_focus();
+    var { self, viewer } = ui.scene_viewer(screen);
+    ui.orbit_controller(self, viewer);
+    self.take_focus();
 
     var scene = viewer.scene.begin();
     var node = gfx.node(scene, null, new vec3(0));

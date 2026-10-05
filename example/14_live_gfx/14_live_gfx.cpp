@@ -94,10 +94,10 @@ WrenInterpreter& create_wren()
 void ex_14_live_gfx(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(viewer);
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(*self, *viewer);
 
-	Gnode& scene = viewer.m_scene.begin();
+	Gnode& scene = viewer->m_scene.begin();
 
 	static LuaInterpreter& lua = create_lua();
 	//static WrenInterpreter& wren = create_wren();

@@ -177,8 +177,8 @@ function pack_lights(gfx, render, state) {
     state.texture.load_float(state.texture.size, ld);
 }
 
-var viewer = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(self, viewer);
 viewer.viewport.autorender = false;
 
 var radius = 75.0;

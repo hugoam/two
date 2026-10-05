@@ -9,9 +9,9 @@ EX(xx_billboards)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	Scene& scene = viewer.m_scene;
-	ControlNode& input = viewer;
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	Scene& scene = viewer->m_scene;
+	ControlNode& input = *self;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
@@ -19,7 +19,7 @@ EX(xx_billboards)
 #endif
 
 #if UI
-	ui::orbit_controls(viewer);
+	ui::orbit_controls(*self, *viewer);
 #endif
 
 	//scene.fog = new THREE.FogExp2(0x000000, 0.001);
@@ -39,7 +39,7 @@ EX(xx_billboards)
 
 	if(init)
 	{
-		Camera& camera = viewer.m_camera;
+		Camera& camera = viewer->m_camera;
 		camera.m_near = 2.f; camera.m_far = 2000.f;
 		camera.m_eye.z = 1000.f;
 
@@ -67,20 +67,20 @@ EX(xx_billboards)
 		it.m_batch = batch;
 	}
 
-	//ui::slider_field(key(), *viewer.m_self, "sizeAttenuation", { material.sizeAttenuation, { 0.f, 1000.f, 1.f } })
+	//ui::slider_field(key(), *self, "sizeAttenuation", { material.sizeAttenuation, { 0.f, 1000.f, 1.f } })
 
 	float time = app.m_gfx.m_time;
 
 	static vec2 mouse = vec2(0.f);
 	if(MouseEvent event = input.mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
-		mouse = (event.m_relative - viewer.m_size / 2.f);
+		mouse = (event.m_relative - viewer->m_size / 2.f);
 	}
 
-	viewer.m_camera.m_eye.x += (mouse.x - viewer.m_camera.m_eye.x) * 0.05f;
-	viewer.m_camera.m_eye.y += (-mouse.y - viewer.m_camera.m_eye.y) * 0.05f;
+	viewer->m_camera.m_eye.x += (mouse.x - viewer->m_camera.m_eye.x) * 0.05f;
+	viewer->m_camera.m_eye.y += (-mouse.y - viewer->m_camera.m_eye.y) * 0.05f;
 
-	//viewer.m_camera.m_target = scene.position;
+	//viewer->m_camera.m_target = scene.position;
 
 	float h = fmod(360.f * (1.f + time), 360.f) / 360.f;
 	material->m_solid.m_colour = hsl(h, 0.5f, 0.5f);

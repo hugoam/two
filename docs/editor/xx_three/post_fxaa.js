@@ -429,8 +429,8 @@ function pass_fxaa(gfx, render) {
 	gfx.copy.quad(flip, render.fbo, render.target.post.last());
 }
 
-var viewer = two.ui.scene_viewer(panel);
-//two.ui.orbit_controls(viewer);
+var { self, viewer } = two.ui.scene_viewer(panel);
+//two.ui.orbit_controls(self, viewer);
 viewer.viewport.autorender = false;
 
 var scene = viewer.scene;

@@ -57,7 +57,7 @@ namespace two
 	public:
 		TranslateLinearGizmo(TransformTool& tool, Axis axis, float hue) : TransformGizmo(tool, axis, hue) {}
 
-		virtual vec3 grab_point(Viewer& viewer, const vec2& pos) { UNUSED(pos); return gizmo_grab_linear(viewer, m_tool.m_transform, m_axis); };
+		virtual vec3 grab_point(Widget& self, Viewer& viewer, const vec2& pos) { UNUSED(pos); return gizmo_grab_linear(self, viewer, m_tool.m_transform, m_axis); };
 
 		virtual Item* draw_handle(Gnode& parent) { return &translate_1d_gizmo(parent, m_axis, Colour::Invisible, 0.05f, ItemFlag::Ui); };
 		virtual void draw_gizmo(Gnode& parent, bool active) { translate_1d_gizmo(parent, m_axis, gizmo_colour(m_hue, active), 0.02f); };
@@ -68,7 +68,7 @@ namespace two
 	public:
 		TranslatePlanarGizmo(TransformTool& tool, Axis axis, float hue) : TransformGizmo(tool, axis, hue) {}
 
-		virtual vec3 grab_point(Viewer& viewer, const vec2& pos) { UNUSED(pos); return gizmo_grab_planar(viewer, m_tool.m_transform, m_axis); };
+		virtual vec3 grab_point(Widget& self, Viewer& viewer, const vec2& pos) { UNUSED(pos); return gizmo_grab_planar(self, viewer, m_tool.m_transform, m_axis); };
 
 		virtual Item* draw_handle(Gnode& parent) { return &translate_2d_gizmo(parent, m_axis, Colour::Invisible, ItemFlag::Ui); };
 		virtual void draw_gizmo(Gnode& parent, bool active) { translate_2d_gizmo(parent, m_axis, gizmo_colour(m_hue, active)); };;

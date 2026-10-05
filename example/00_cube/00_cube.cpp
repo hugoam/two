@@ -67,17 +67,17 @@ void velocity_controller(Widget& widget, vec3& speed, float velocity)
 void ex_00_cube(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(viewer);
-	viewer.m_self->take_focus();
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(*self, *viewer);
+	self->take_focus();
 
 	static vec3 position = vec3(0.f);
 	static vec3 speed = vec3(0.f);
 
-	velocity_controller(*viewer.m_self, speed, 0.01f);
+	velocity_controller(*self, speed, 0.01f);
 	position += speed;
 
-	Gnode& scene = viewer.m_scene.begin();
+	Gnode& scene = viewer->m_scene.begin();
     Gnode& node = gfx::node(scene, position);
 	gfx::shape(node, Cube(), Symbol::wire(Colour::Pink));
 }

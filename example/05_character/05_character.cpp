@@ -95,20 +95,20 @@ static void human_velocity_controller(Widget& widget, Human& human)
 		human_control_key(widget, human, human.m_angular_velocity, key_rotation);
 }
 
-void human_controller_3rdperson(Viewer& viewer, Human& human)
+void human_controller_3rdperson(Widget& self, Human& human)
 {
-	human_velocity_controller(*viewer.m_self, human);
+	human_velocity_controller(self, human);
 }
 
 void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 {
 	static ImporterGltf gltf_importer(app.m_gfx);
 
-	SceneViewer& viewer = ui::scene_viewer(key(), parent);
-	OrbitController& orbit = ui::orbit_controller(viewer);
-	viewer.m_self->take_focus();
+	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	OrbitController& orbit = ui::orbit_controller(*self, *viewer);
+	self->take_focus();
 
-	Gnode& scene = viewer.m_scene.begin();
+	Gnode& scene = viewer->m_scene.begin();
 
 	Material& material = milky_white(app.m_gfx);
 
@@ -156,7 +156,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 		}
 	}
 
-	human_controller_3rdperson(viewer, *selected);
+	human_controller_3rdperson(*self, *selected);
 	if(follow_character)
 		orbit.set_target(characters[0].m_position);
 
