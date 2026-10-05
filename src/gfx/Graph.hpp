@@ -9,22 +9,17 @@
 
 namespace two
 {
+	// the object of a node is a state of the node, stored in the pool of its type in the scene, which the scene goes through, e.g to render the items
 	template <class T, class... Args>
 	T* Gnode::instantiate(Scene& scene, Args&&... args)
 	{
-		m_object = (void*) &scene.m_pool->template pool<T>().construct(static_cast<Args&&>(args)...);
-		m_type = &type<T>();
-		m_deleter = [this]() {
-			m_scene->m_pool->template pool<T>().tdestroy(*((T*)m_object));
-			m_object = nullptr; };
-		return (T*)m_object;
+		m_graph->template store<T>(*scene.m_pool->template pool<T>().m_vec_pool);
+		return &this->template state<T>(static_cast<Args&&>(args)...);
 	}
 
 	template <class T>
 	T* Gnode::as()
 	{
-		if (m_type == &type<T>())
-			return (T*)m_object;
-		return nullptr;
+		return this->template find_state<T>();
 	}
 }

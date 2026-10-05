@@ -22,6 +22,60 @@ namespace two
 	export_ template <class T>
 	class PooledNode;
 
+	export_ TWO_TREE_EXPORT uint32_t next_state_type();
+
+	// a sequential id for each type of node state, to find the store of its states in an array
+	export_ template <class T>
+	inline uint32_t state_type() { static uint32_t id = next_state_type(); return id; }
+
+	// the states of one type, by node index: the states are stored in a pool, where they don't move, and found by the index of their node
+	export_ class StateStore
+	{
+	public:
+		virtual ~StateStore() {}
+		virtual void release(uint32_t node) = 0;
+
+		inline void* find(uint32_t node) { return m_handles.has(node) ? m_states[m_handles[node]] : nullptr; }
+
+		SparseHandles m_handles;	// the position of the state of each node
+		vector<void*> m_states;		// the states, by position
+	};
+
+	export_ template <class T>
+	class TStateStore : public StateStore
+	{
+	public:
+		TStateStore() : m_owned(make_unique<VecPool<T>>(64)), m_pool(m_owned.get()), m_owner(true) {}
+		TStateStore(VecPool<T>& pool) : m_pool(&pool), m_owner(false) {}
+
+		template <class... Args>
+		inline T& create(uint32_t node, Args&&... args)
+		{
+			T& state = m_pool->construct(static_cast<Args&&>(args)...);
+			if(node >= m_handles.capacity())
+				m_handles.ensure(node + 1);
+			m_handles.add(node);
+			m_states.push_back(&state);
+			return state;
+		}
+
+		// a state in a pool of its own goes away with its node, a state in a pool shared with others, e.g the objects of a scene, is left to its pool
+		virtual void release(uint32_t node) override
+		{
+			if(!m_handles.has(node))
+				return;
+			T* state = static_cast<T*>(m_states[m_handles[node]]);
+			uint32_t index = m_handles.remove(node);
+			swap_pop(m_states, index);
+			if(m_owner)
+				m_pool->destroy(state);
+		}
+
+		unique<VecPool<T>> m_owned;
+		VecPool<T>* m_pool;
+		bool m_owner;
+	};
+
 	// the single object holding all the nodes of a graph, and their structure
 	// each node has an index, stable for the life of the node, and reused once it's destroyed: the structure of the graph is stored in arrays, by node index
 	// the nodes are ordered depth-first: each node is followed by its descendants, the children of a node are found by jumping over the descendants of each child
@@ -38,13 +92,6 @@ namespace two
 		{
 			Top = 1 << 0,
 			Retain = 1 << 1
-		};
-
-		// the state of a node, by its type: a node can have several, of different types, they go away with the node
-		struct NodeStateSlot
-		{
-			const void* type;
-			unique<NodeState> state;
 		};
 
 		PooledGraph()
@@ -75,7 +122,8 @@ namespace two
 		vector<uint32_t> m_holes;
 
 		unordered_map<uint64_t, uint32_t> m_tops;
-		unordered_map<uint32_t, vector<NodeStateSlot>> m_states;
+		// the states of the nodes, a store for each type of state: a node can have several, of different types
+		vector<unique<StateStore>> m_stores;
 
 		inline T& node(uint32_t index) { return index == 0 ? *m_root : *m_nodes[index]; }
 		inline T* node_or_null(uint32_t index) { return index == none ? nullptr : &this->node(index); }
@@ -91,15 +139,39 @@ namespace two
 		// the node whose descendants a node is ordered in: its parent, or the root for a top node
 		inline uint32_t storage_parent(uint32_t index) const { return this->top(index) ? 0 : m_parent[index]; }
 
+		template <class T_State>
+		inline TStateStore<T_State>* find_store()
+		{
+			uint32_t id = state_type<T_State>();
+			return id < m_stores.size() ? static_cast<TStateStore<T_State>*>(m_stores[id].get()) : nullptr;
+		}
+
+		// the store of a type of state: its states are in a pool of its own, unless it's given one before its first state
+		template <class T_State, class... Args>
+		inline TStateStore<T_State>& store(Args&&... args)
+		{
+			uint32_t id = state_type<T_State>();
+			if(id >= m_stores.size())
+				m_stores.resize(id + 1);
+			if(!m_stores[id])
+				m_stores[id] = make_unique<TStateStore<T_State>>(static_cast<Args&&>(args)...);
+			return static_cast<TStateStore<T_State>&>(*m_stores[id]);
+		}
+
+		template <class T_State>
+		inline T_State* find_state(uint32_t index)
+		{
+			TStateStore<T_State>* store = this->template find_store<T_State>();
+			return store ? static_cast<T_State*>(store->find(index)) : nullptr;
+		}
+
 		template <class T_State, class... Args>
 		inline T_State& node_state(uint32_t index, Args&&... args)
 		{
-			vector<NodeStateSlot>& states = m_states[index];
-			for (NodeStateSlot& slot : states)
-				if (slot.type == node_type<T_State>())
-					return static_cast<T_State&>(*slot.state);
-			states.push_back({ node_type<T_State>(), make_unique<T_State>(static_cast<Args&&>(args)...) });
-			return static_cast<T_State&>(*states.back().state);
+			TStateStore<T_State>& store = this->template store<T_State>();
+			if(void* state = store.find(index))
+				return *static_cast<T_State*>(state);
+			return store.create(index, static_cast<Args&&>(args)...);
 		}
 
 		inline T& update(uint32_t parent, uint32_t index)
@@ -330,7 +402,9 @@ namespace two
 					m_parent[top] = none;
 					this->node(top).reparent(&this->node(index));
 				}
-			m_states.erase(index);
+			for(unique<StateStore>& store : m_stores)
+				if(store)
+					store->release(index);
 		}
 
 		// destroys the nodes in the slots from the deepest, once they all released what refers to them, and leaves the slots empty
@@ -534,6 +608,10 @@ namespace two
 		{
 			return m_graph->template node_state<T_State>(m_index, static_cast<Args&&>(args)...);
 		}
+
+		// the state of this node of the given type, if it has one
+		template <class T_State>
+		inline T_State* find_state() { return m_graph->template find_state<T_State>(m_index); }
 
 		// visits each node once, in the order they are stored
 		template <class Visitor>

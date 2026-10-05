@@ -8,5 +8,6 @@ import std;
 
 export import two.infra;
 export import two.type;
+export import two.pool;
 
 #include <tree/Api.h>

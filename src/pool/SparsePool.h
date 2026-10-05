@@ -89,6 +89,10 @@ namespace two
 		uint32_t size() const;
 		uint32_t count() const;
 
+		// the number of handles there is room for, and whether a handle is in the set
+		uint32_t capacity() const;
+		bool has(uint32_t handle) const;
+
 		uint32_t reverse(uint32_t index) const;
 		uint32_t handle(uint32_t index) const;
 

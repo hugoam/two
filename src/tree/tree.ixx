@@ -6,6 +6,7 @@ export module two.tree;
 
 export import two.infra;
 export import two.type;
+export import two.pool;
 
 export import <source_location>;
 

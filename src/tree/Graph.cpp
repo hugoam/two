@@ -8,6 +8,12 @@ module two.tree;
 
 namespace two
 {
+	uint32_t next_state_type()
+	{
+		static uint32_t count = 0;
+		return count++;
+	}
+
 	template <class T>
 	void number_to_key(T& number, NodeKey& key)
 	{

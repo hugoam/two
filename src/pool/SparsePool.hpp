@@ -118,6 +118,10 @@ namespace two
 
 	inline uint32_t SparseHandles::count() const { return uint32_t(m_handles.size()); }
 
+	inline uint32_t SparseHandles::capacity() const { return uint32_t(m_indices.size()); }
+
+	inline bool SparseHandles::has(uint32_t handle) const { return handle < m_indices.size() && m_indices[handle] != UINT32_MAX; }
+
 	inline uint32_t SparseHandles::reverse(uint32_t index) const { return m_handles[index]; }
 
 	inline uint32_t SparseHandles::handle(uint32_t index) const { return m_handles[index]; }

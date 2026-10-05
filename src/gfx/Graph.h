@@ -38,10 +38,6 @@ namespace two
 		Scene* m_scene = nullptr;
 		Node3* m_attach = nullptr;
 		
-		Type* m_type = nullptr;
-		void* m_object = nullptr;
-		function<void()> m_deleter;
-
 		Sound* m_sound = nullptr;
 		SoundManager* m_sound_manager = nullptr;
 	};
