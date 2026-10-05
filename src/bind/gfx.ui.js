@@ -22,12 +22,20 @@ ViewerController.prototype["__destroy"] = ViewerController.prototype.__destroy =
 };
 // Viewer
 function Viewer() { throw "cannot construct a Viewer, no constructor in IDL" }
-Viewer.prototype = Object.create(Widget.prototype);
+Viewer.prototype = Object.create(WrapperObject.prototype);
 Viewer.prototype.constructor = Viewer;
 Viewer.prototype.__class = Viewer;
-Viewer.__base = Widget;
 Viewer.__cache = {};
 Module['Viewer'] = Viewer;
+Object.defineProperty(Viewer.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_Viewer__get_self(this.__ptr), Widget);
+    },
+    set: function(value) {
+        if (!checkClass(value, Widget)) throw Error('Viewer.self: expected Widget');
+        _two_Viewer__set_self(this.__ptr, value.__ptr);
+    }
+});
 Object.defineProperty(Viewer.prototype, "scene", {
     get: function() {
         return wrapPointer(_two_Viewer__get_scene(this.__ptr), Scene);

@@ -226,7 +226,7 @@ EX(xx_effect_dof)
 	}
 
 	if(MouseEvent event = input.mouse_event(DeviceType::Touch, EventType::Pressed))
-	//or(MouseEvent event = viewer.mouse_event(DeviceType::Touch, EventType::Moved))
+	//or(MouseEvent event = viewer.m_self->mouse_event(DeviceType::Touch, EventType::Moved))
 	{
 		//if(event.touches.length == 1) {
 		//	event.preventDefault();

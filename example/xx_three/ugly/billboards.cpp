@@ -67,7 +67,7 @@ EX(xx_billboards)
 		it.m_batch = batch;
 	}
 
-	//ui::slider_field(key(), viewer, "sizeAttenuation", { material.sizeAttenuation, { 0.f, 1000.f, 1.f } })
+	//ui::slider_field(key(), *viewer.m_self, "sizeAttenuation", { material.sizeAttenuation, { 0.f, 1000.f, 1.f } })
 
 	float time = app.m_gfx.m_time;
 

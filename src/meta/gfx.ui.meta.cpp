@@ -77,14 +77,13 @@ namespace two
 		Type& t = type<two::Viewer>();
 		static Meta meta = { t, &namspc({ "two" }), "Viewer", sizeof(two::Viewer), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<two::Widget>() };
-		static size_t bases_offsets[] = { base_offset<two::Viewer, two::Widget>() };
 		// defaults
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
 		static Member members[] = {
+			{ t, offsetof(two::Viewer, m_self), type<two::Widget>(), "self", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::Viewer, m_scene), type<two::Scene>(), "scene", nullptr, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::Viewer, m_camera), type<two::Camera>(), "camera", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::Viewer, m_viewport), type<two::Viewport>(), "viewport", nullptr, Member::NonMutable, nullptr },
@@ -93,7 +92,7 @@ namespace two
 		};
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, members, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, members, {}, {}, };
 	}
 	// two::SceneViewer
 	{

@@ -457,20 +457,20 @@ namespace two
 
 		highlighted = tileblock_ray(tileblock, viewer.mouse_ray());
 
-		if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+		if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 			selected = tileblock_ray(tileblock, viewer.mouse_ray());
 
-		if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+		if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 			selected = tileblock_ray(tileblock, viewer.mouse_ray());
 
-		if(MouseEvent event = viewer.mouse_event(DeviceType::MouseRight, EventType::Pressed))
+		if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseRight, EventType::Pressed))
 			focused = tileblock_ray(tileblock, viewer.mouse_ray());
-		if(MouseEvent event = viewer.mouse_event(DeviceType::MouseRight, EventType::Released))
+		if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseRight, EventType::Released))
 			focused = uvec3(UINT32_MAX);
 
 		if(focused != uvec3(UINT32_MAX))
 		{
-			Widget& widget = ui::popup(key(), viewer, styles().modal, ui::PopupFlags::None);
+			Widget& widget = ui::popup(key(), *viewer.m_self, styles().modal, ui::PopupFlags::None);
 
 			size_t entropy = tileblock.m_entropy.at(focused.x, focused.y, focused.z);
 			if(entropy == 1)

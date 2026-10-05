@@ -8,18 +8,7 @@ module two.gfx.ui;
 
 namespace two
 {
-	SpaceViewport::SpaceViewport(Widget* parent, Scene& scene)
-		: Viewer(parent, scene)
+	SpaceViewport::SpaceViewport(Widget& self, Scene& scene)
+		: Viewer(self, scene)
 	{}
-
-	ControlNode* SpaceViewport::control_event(InputEvent& inputEvent)
-	{
-		if(inputEvent.m_deviceType < DeviceType::Mouse)
-			return this;
-
-		//MouseEvent& event = static_cast<MouseEvent&>(inputEvent);
-		//Item* item = this->pick_point(event.m_relative, ItemFlag::Ui);
-		//return item ? &val<SpaceSheet>(item->m_node->m_object) : m_parent;
-		return nullptr;
-	}
 }

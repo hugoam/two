@@ -24,11 +24,14 @@ namespace two
 		virtual void process(Viewer& viewer) = 0;
 	};
 
-	export_ class refl_ TWO_GFX_UI_EXPORT Viewer : public Widget
+	// a viewer of a scene, kept in the state of its widget
+	export_ class refl_ TWO_GFX_UI_EXPORT Viewer : public NodeState
 	{
 	public:
-		Viewer(Widget* parent, Scene& scene);
+		Viewer(Widget& self, Scene& scene);
 		~Viewer();
+
+		attr_ Widget* m_self;
 
 		attr_ Scene* m_scene;
 		GfxWindow& m_context;
@@ -61,7 +64,7 @@ namespace two
 	export_ class refl_ TWO_GFX_UI_EXPORT SceneViewer : public Viewer
 	{
 	public:
-		SceneViewer(Widget* parent);
+		SceneViewer(Widget& self);
 
 		Scene m_scene;
 	};

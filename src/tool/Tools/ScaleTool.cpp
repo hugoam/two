@@ -89,7 +89,7 @@ namespace two
 
 		virtual vec3 grab_point(Viewer& viewer, const vec2& pos)
 		{
-			vec2 delta = (pos - m_tool.m_drag_start) * 5.f / viewer.m_frame.m_size;
+			vec2 delta = (pos - m_tool.m_drag_start) * 5.f / viewer.m_self->m_frame.m_size;
 			return fabs(delta.x) > fabs(delta.y) ? vec3(delta.x) : vec3(delta.y);
 		};
 

@@ -10,7 +10,7 @@ namespace two
     
     template <> TWO_GFX_UI_EXPORT Type& type<two::SpaceSheet>() { static Type ty("SpaceSheet", type<two::Ui>(), sizeof(two::SpaceSheet)); return ty; }
     template <> TWO_GFX_UI_EXPORT Type& type<two::ViewerController>() { static Type ty("ViewerController", sizeof(two::ViewerController)); return ty; }
-    template <> TWO_GFX_UI_EXPORT Type& type<two::Viewer>() { static Type ty("Viewer", type<two::Widget>(), sizeof(two::Viewer)); return ty; }
+    template <> TWO_GFX_UI_EXPORT Type& type<two::Viewer>() { static Type ty("Viewer", sizeof(two::Viewer)); return ty; }
     template <> TWO_GFX_UI_EXPORT Type& type<two::SceneViewer>() { static Type ty("SceneViewer", type<two::Viewer>(), sizeof(two::SceneViewer)); return ty; }
     template <> TWO_GFX_UI_EXPORT Type& type<two::OrbitController>() { static Type ty("OrbitController", type<two::ViewerController>(), sizeof(two::OrbitController)); return ty; }
     template <> TWO_GFX_UI_EXPORT Type& type<two::TrackballController>() { static Type ty("TrackballController", type<two::ViewerController>(), sizeof(two::TrackballController)); return ty; }

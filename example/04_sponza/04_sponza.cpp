@@ -39,7 +39,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 	viewer.m_scene.m_env.m_radiance.m_ambient = Colour(0.1f);
 
 	OrbitController& controller = ui::free_orbit_controller(viewer);
-	viewer.take_focus();
+	viewer.m_self->take_focus();
 
 	if(app.m_gfx.m_frame == 1)
 	{

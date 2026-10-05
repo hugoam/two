@@ -36,6 +36,12 @@ extern "C" {
 	two::Type* DECL two_Viewer__type() {
 		return &two::type<two::Viewer>();
 	}
+	two::Widget* DECL two_Viewer__get_self(two::Viewer* self) {
+		return self->m_self;
+	}
+	void DECL two_Viewer__set_self(two::Viewer* self, two::Widget* value) {
+		self->m_self = value;
+	}
 	two::Scene* DECL two_Viewer__get_scene(two::Viewer* self) {
 		return self->m_scene;
 	}

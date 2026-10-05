@@ -165,7 +165,7 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 	static game::Character character = game::create_character();
 
 	static Item* selected = nullptr;
-	if(MouseEvent mouse_event = viewer.mouse_event(DeviceType::MouseRight, EventType::Stroked))
+	if(MouseEvent mouse_event = viewer.m_self->mouse_event(DeviceType::MouseRight, EventType::Stroked))
 	{
 		auto callback = [&](Item* item) { selected = item; umain.m_switch |= Context; };
 		viewer.picker(0).pick_point(viewer.m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
@@ -175,7 +175,7 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if((umain.m_switch & Context) != 0)
 	{
-		Widget& popup = ui::popup(key(), viewer, ui::PopupFlags::Modal);
+		Widget& popup = ui::popup(key(), *viewer.m_self, ui::PopupFlags::Modal);
 		if(ui::button(key(), popup, "character").activated())
 			umain.m_switch |= Character;
 		if(ui::button(key(), popup, "inventory").activated())

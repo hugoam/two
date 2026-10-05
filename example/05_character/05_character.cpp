@@ -97,7 +97,7 @@ static void human_velocity_controller(Widget& widget, Human& human)
 
 void human_controller_3rdperson(Viewer& viewer, Human& human)
 {
-	human_velocity_controller(viewer, human);
+	human_velocity_controller(*viewer.m_self, human);
 }
 
 void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
@@ -106,7 +106,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	OrbitController& orbit = ui::orbit_controller(viewer);
-	viewer.take_focus();
+	viewer.m_self->take_focus();
 
 	Gnode& scene = viewer.m_scene.begin();
 

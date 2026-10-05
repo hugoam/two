@@ -130,7 +130,7 @@ namespace two
 
 	void TransformTool::process(Viewer& viewer, span<Ref> targets)
 	{
-		Widget& screen = viewer;//= ui::overlay(key(), viewer);
+		Widget& screen = *viewer.m_self;//= ui::overlay(key(), *viewer.m_self);
 
 		this->refresh();
 
@@ -173,7 +173,7 @@ namespace two
 			event.consume(screen);
 		}
 
-		viewer.m_controller->process(static_cast<Viewer&>(screen)); // @HACK @UGLY it's not a viewer !!
+		viewer.m_controller->process(viewer);
 		//viewport_picker(viewer, screen, targets);
 
 		this->paint(viewer.m_scene->m_graph.subi(this));

@@ -199,7 +199,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 	//roughness_spheres(scene);
 	material_spheres(scene, materials);
 
-	if(MouseEvent event = viewer.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+	if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
 		auto callback = [&](Item* item)
 		{

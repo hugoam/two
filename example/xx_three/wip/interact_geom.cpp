@@ -101,7 +101,7 @@ EX(xx_interact_geom)
 		auto unhover = [](Item& item) {};
 
 #if UI
-		if(MouseEvent event = viewer.mouse_event(DeviceType::Mouse, EventType::Moved))
+		if(MouseEvent event = viewer.m_self->mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
 			//auto pick = [&](Item* item) { if(hovered) unhover(*hovered); hovered = item; if(hovered) hover(*hovered); };
 			//viewer.picker(0).pick_point(viewer.m_viewport, event.m_relative, pick, ItemFlag::Selectable);

@@ -69,12 +69,12 @@ void ex_00_cube(Shell& app, Widget& parent, Dockbar& dockbar)
 	UNUSED(app); UNUSED(dockbar);
 	SceneViewer& viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
-	viewer.take_focus();
+	viewer.m_self->take_focus();
 
 	static vec3 position = vec3(0.f);
 	static vec3 speed = vec3(0.f);
 
-	velocity_controller(viewer, speed, 0.01f);
+	velocity_controller(*viewer.m_self, speed, 0.01f);
 	position += speed;
 
 	Gnode& scene = viewer.m_scene.begin();
