@@ -67,7 +67,7 @@ namespace two
 
 	Frame& Frame::root()
 	{
-		return d_widget.m_root ? d_widget.m_root->m_frame : *this;
+		return d_widget.root().m_frame;
 	}
 
 	Layer& Frame::layer()

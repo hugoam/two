@@ -8,8 +8,8 @@ module two.ui;
 
 namespace two
 {
-	TextEdit::TextEdit(Widget* parent, void* identity, bool editor, string allowed_chars)
-		: Widget(parent, identity)
+	TextEdit::TextEdit(Widget* parent, bool editor, string allowed_chars)
+		: Widget(parent)
 		, m_editor(editor)
 		, m_text(m_frame)
 		, m_string(m_text.m_text)

@@ -12,7 +12,7 @@ namespace two
 	export_ class TWO_GFX_UI_EXPORT SpaceViewport : public Viewer
 	{
 	public:
-		SpaceViewport(Widget* parent, void* identity, Scene& scene);
+		SpaceViewport(Widget* parent, Scene& scene);
 
 		virtual ControlNode* control_event(InputEvent& inputEvent);
 	};

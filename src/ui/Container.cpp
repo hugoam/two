@@ -8,15 +8,15 @@ module two.ui;
 
 namespace two
 {
-	Table::Table(Widget* parent, void* identity, span<float> weights)
-		: Widget(parent, identity)
+	Table::Table(Widget* parent, span<float> weights)
+		: Widget(parent)
 		, m_weights(to_vector(weights))
 	{
 		m_frame.d_columns = m_weights;
 	}
 
-	Table::Table(Widget* parent, void* identity, size_t columns)
-		: Widget(parent, identity)
+	Table::Table(Widget* parent, size_t columns)
+		: Widget(parent)
 		, m_weights(columns, 1.f)
 	{
 		m_frame.d_columns = m_weights;

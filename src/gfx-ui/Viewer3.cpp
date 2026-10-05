@@ -8,8 +8,8 @@ module two.gfx.ui;
 
 namespace two
 {
-	SpaceViewport::SpaceViewport(Widget* parent, void* identity, Scene& scene)
-		: Viewer(parent, identity, scene)
+	SpaceViewport::SpaceViewport(Widget* parent, Scene& scene)
+		: Viewer(parent, scene)
 	{}
 
 	ControlNode* SpaceViewport::control_event(InputEvent& inputEvent)

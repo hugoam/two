@@ -13,17 +13,17 @@ namespace two
 	using FrameFilter = bool(*)(Frame&);
 
 #ifndef _MSC_VER
-	extern template class Graph<Widget>;
+	extern template class PooledNode<Widget>;
 #endif
 
-	export_ class refl_ TWO_UI_EXPORT Widget : public Graph<Widget>, public ControlNode
+	export_ class refl_ TWO_UI_EXPORT Widget : public PooledNode<Widget>, public ControlNode
 	{
 	public:
-		Widget();
-		Widget(Widget* parent, void* identity);
-		~Widget();
+		Widget(PooledGraph<Widget>& graph);
+		Widget(Widget* parent);
+		virtual ~Widget();
 
-		virtual void reparent(Widget* old) final;
+		void reparent(Widget* old);
 
 		meth_ inline bool focused() { return (m_state & FOCUSED) != 0; }
 		meth_ inline bool hovered() { return (m_state & HOVERED) != 0; }

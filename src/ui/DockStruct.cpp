@@ -17,12 +17,12 @@ namespace two
 		, m_span(span)
 	{}
 
-	Dockable::Dockable(Widget* parent, void* identity)
-		: Widget(parent, identity)
+	Dockable::Dockable(Widget* parent)
+		: Widget(parent)
 	{}
 
-	Docker::Docker(Widget* parent, void* identity, Docksystem& docksystem)
-		: Widget(parent, identity)
+	Docker::Docker(Widget* parent, Docksystem& docksystem)
+		: Widget(parent)
 		, m_docksystem(&docksystem)
 	{}
 
@@ -179,8 +179,8 @@ namespace two
 			}
 	}
 
-	Dockspace::Dockspace(Widget* parent, void* identity, Docksystem& docksystem)
-		: Docker(parent, identity, docksystem)
+	Dockspace::Dockspace(Widget* parent, Docksystem& docksystem)
+		: Docker(parent, docksystem)
 	{}
 
 	Dockable* Dockspace::pinpoint_dock(const vec2& pos)
@@ -259,8 +259,8 @@ namespace two
 			this->dock_stack(target, name); // dock on
 	}
 
-	Dockbar::Dockbar(Widget* parent, void* identity, Docksystem& docksystem)
-		: Docker(parent, identity, docksystem)
+	Dockbar::Dockbar(Widget* parent, Docksystem& docksystem)
+		: Docker(parent, docksystem)
 	{}
 
 	Widget* Dockbar::docksection(Dock& dock, cstring name, NodeKey id)

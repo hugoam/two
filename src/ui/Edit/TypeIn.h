@@ -64,7 +64,7 @@ namespace two
 		using Callback = string(*)(const string&);
 
 	public:
-		TextEdit(Widget* parent, void* identity, bool editor, string allowed_chars);
+		TextEdit(Widget* parent, bool editor, string allowed_chars);
 		~TextEdit();
 
 		bool m_editor;

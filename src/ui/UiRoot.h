@@ -25,7 +25,7 @@ namespace two
 		DropState m_state = DropState::None;
 	};
 
-	export_ class refl_ TWO_UI_EXPORT Ui : public Widget, public EventDispatcher
+	export_ class refl_ TWO_UI_EXPORT Ui : public PooledGraph<Widget>, public Widget, public EventDispatcher
 	{
 	public:
 		Ui(UiWindow& window);

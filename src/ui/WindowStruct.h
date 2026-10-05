@@ -14,8 +14,8 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT Window : public Dockable
 	{
 	public:
-		Window(Widget* parent, void* identity)
-			: Dockable(parent, identity)
+		Window(Widget* parent)
+			: Dockable(parent)
 		{}
 
 		bool header()   { return (uint(m_window_state) & uint(WindowState::Header)) != 0; }

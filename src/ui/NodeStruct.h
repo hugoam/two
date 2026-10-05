@@ -18,7 +18,7 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT NodePlug : public Widget, public NodeKnob
 	{
 	public:
-		NodePlug(Widget* parent, void* identity) : Widget(parent, identity) {}
+		NodePlug(Widget* parent) : Widget(parent) {}
 		Node* m_node;
 		Widget* m_knob;
 	};
@@ -26,7 +26,7 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT Node : public Widget
 	{
 	public:
-		Node(Widget* parent, void* identity) : Widget(parent, identity) {}
+		Node(Widget* parent) : Widget(parent) {}
 		Canvas* m_canvas;
 		Widget* m_header;
 		Widget* m_inputs;
@@ -47,7 +47,7 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT Canvas : public Widget
 	{
 	public:
-		Canvas(Widget* parent, void* identity) : Widget(parent, identity) {}
+		Canvas(Widget* parent) : Widget(parent) {}
 
 		ScrollSheet* m_scroll_plan;
 		Widget* m_plan;

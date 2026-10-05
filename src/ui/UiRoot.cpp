@@ -9,7 +9,7 @@ module two.ui;
 namespace two
 {
 	Ui::Ui(UiWindow& window)
-		: Widget()//{ params, &type<Ui>(), MASTER_LAYER })
+		: Widget(static_cast<PooledGraph<Widget>&>(*this))
 		, EventDispatcher(this)
 		, m_window(window)
 		, m_keyboard(*this)

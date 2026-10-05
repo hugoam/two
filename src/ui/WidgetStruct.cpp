@@ -8,7 +8,7 @@ module two.ui;
 
 namespace two
 {
-	template class Graph<Widget>;
+	template class PooledNode<Widget>;
 
 	inline bool clip(const Frame& frame) { return frame.d_layout->m_clipping == Clip::Clip; }
 
@@ -54,13 +54,15 @@ namespace two
 		return nullptr;
 	}
 
-	Widget::Widget()
-		: Graph()
+	Widget::Widget(PooledGraph<Widget>& graph)
+		: PooledNode(graph)
 		, m_frame(nullptr, *this)
-	{}
+	{
+		graph.m_root = this;
+	}
 
-	Widget::Widget(Widget* parent, void* identity)
-		: Graph(parent, identity)
+	Widget::Widget(Widget* parent)
+		: PooledNode(parent)
 		, m_frame(&m_parent->m_frame, *this)
 	{}
 
@@ -118,7 +120,7 @@ namespace two
 
 	Ui& Widget::ui()
 	{
-		return as<Ui>(this->root());
+		return static_cast<Ui&>(*m_graph);
 	}
 
 	Widget& Widget::parent_modal()
@@ -131,12 +133,12 @@ namespace two
 
 	UiWindow& Widget::ui_window()
 	{
-		return as<Ui>(this->root()).m_window;
+		return this->ui().m_window;
 	}
 
 	void Widget::clear()
 	{
-		Graph::clear();
+		PooledNode::clear();
 	}
 
 	void Widget::set_content(cstring content)

@@ -35,7 +35,7 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT Dockable : public Widget
 	{
 	public:
-		Dockable(Widget* parent, void* identity);
+		Dockable(Widget* parent);
 		Dock* m_dock = nullptr;
 		Docksystem* m_docksystem = nullptr;
 		cstring m_name = nullptr;
@@ -44,7 +44,7 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT Docker : public Widget
 	{
 	public:
-		Docker(Widget* parent, void* identity, Docksystem& docksystem);
+		Docker(Widget* parent, Docksystem& docksystem);
 		~Docker();
 
 		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) = 0;
@@ -81,7 +81,7 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT Dockspace : public Docker
 	{
 	public:
-		Dockspace(Widget* parent, void* identity, Docksystem& docksystem);
+		Dockspace(Widget* parent, Docksystem& docksystem);
 
 		Dockable* pinpoint_dock(const vec2& pos);
 
@@ -97,7 +97,7 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT Dockbar : public Docker
 	{
 	public:
-		Dockbar(Widget* parent, void* identity, Docksystem& docksystem);
+		Dockbar(Widget* parent, Docksystem& docksystem);
 
 		Widget* m_togglebar = nullptr;
 		Widget* m_dockzone = nullptr;

@@ -15,7 +15,7 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT ScrollSheet : public Widget
 	{
 	public:
-		ScrollSheet(Widget* parent, void* identity) : Widget(parent, identity) {}
+		ScrollSheet(Widget* parent) : Widget(parent) {}
 		Widget* m_scroll_zone;
 	};
 
@@ -24,7 +24,7 @@ namespace ui
 	export_ class refl_ TWO_UI_EXPORT Sequence : public Widget
 	{
 	public:
-		Sequence(Widget* parent, void* identity) : Widget(parent, identity) {}
+		Sequence(Widget* parent) : Widget(parent) {}
 #ifdef TWO_UI_SEQUENCE_REFS
 		vector<Ref>* m_selection = nullptr;
 #else
@@ -36,7 +36,7 @@ namespace ui
 	export_ class refl_ TWO_UI_EXPORT Tabber : public Widget
 	{
 	public:
-		Tabber(Widget* parent, void* identity) : Widget(parent, identity) {}
+		Tabber(Widget* parent) : Widget(parent) {}
 		Widget* m_head = nullptr;
 		size_t m_index = 0;
 		size_t m_active = 0;
@@ -45,22 +45,22 @@ namespace ui
 	export_ class refl_ TWO_UI_EXPORT Expandbox : public Widget
 	{
 	public:
-		Expandbox(Widget* parent, void* identity) : Widget(parent, identity) {}
+		Expandbox(Widget* parent) : Widget(parent) {}
 		Widget* m_header = nullptr;
 	};
 
 	export_ class refl_ TWO_UI_EXPORT TreeNode : public Widget
 	{
 	public:
-		TreeNode(Widget* parent, void* identity) : Widget(parent, identity) {}
+		TreeNode(Widget* parent) : Widget(parent) {}
 		Widget* m_header = nullptr;
 	};
 
 	export_ class refl_ TWO_UI_EXPORT Table : public Widget
 	{
 	public:
-		Table(Widget* parent, void* identity, span<float> weights);
-		Table(Widget* parent, void* identity, size_t columns);
+		Table(Widget* parent, span<float> weights);
+		Table(Widget* parent, size_t columns);
 		vector<float> m_weights;
 	};
 }

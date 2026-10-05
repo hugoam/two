@@ -19,8 +19,8 @@ namespace two
 
 	ViewerStyles& viewer_styles() { static ViewerStyles styles; return styles; }
 
-	Viewer::Viewer(Widget* parent, void* identity, Scene& scene)
-		: Widget(parent, identity)
+	Viewer::Viewer(Widget* parent, Scene& scene)
+		: Widget(parent)
 		, m_scene(&scene)
 		, m_context(as<GfxWindow>(parent->ui_window().m_context))
 		, m_camera()
@@ -115,8 +115,8 @@ namespace two
 		return *m_pickers[index];
 	}
 
-	SceneViewer::SceneViewer(Widget* parent, void* identity)
-		: Viewer(parent, identity, m_scene)
+	SceneViewer::SceneViewer(Widget* parent)
+		: Viewer(parent, m_scene)
 		, m_scene(as<GfxWindow>(parent->ui_window().m_context).m_gfx)
 	{}
 

@@ -27,7 +27,7 @@ namespace two
 	export_ class refl_ TWO_GFX_UI_EXPORT Viewer : public Widget
 	{
 	public:
-		Viewer(Widget* parent, void* identity, Scene& scene);
+		Viewer(Widget* parent, Scene& scene);
 		~Viewer();
 
 		attr_ Scene* m_scene;
@@ -61,7 +61,7 @@ namespace two
 	export_ class refl_ TWO_GFX_UI_EXPORT SceneViewer : public Viewer
 	{
 	public:
-		SceneViewer(Widget* parent, void* identity);
+		SceneViewer(Widget* parent);
 
 		Scene m_scene;
 	};

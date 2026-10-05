@@ -24,7 +24,7 @@ namespace two
 		attr_ uint64_t m_value = 0;
 	};
 
-	constexpr uint64_t key_mix(uint64_t hash, uint64_t value) { return (hash ^ value) * 1099511628211ull; }
+	export_ constexpr uint64_t key_mix(uint64_t hash, uint64_t value) { return (hash ^ value) * 1099511628211ull; }
 
 #ifdef TWO_KEY_HASH
 	// the key is a hash of the location, computed at compile time

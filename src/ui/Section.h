@@ -10,7 +10,7 @@ namespace two
 {
 	export_ struct TWO_UI_EXPORT Section : public Widget
 	{
-		Section(Widget* parent, void* identity) : Widget(parent, identity) {}
+		Section(Widget* parent) : Widget(parent) {}
 		Widget* m_toolbar = nullptr;
 	};
 
