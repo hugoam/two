@@ -7,4 +7,6 @@ module;
 module two.pool;
 
 namespace two
-{}
+{
+	vector<unique<Pool>> g_pools = vector<unique<Pool>>(c_max_types);
+}

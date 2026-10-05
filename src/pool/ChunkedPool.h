@@ -44,7 +44,6 @@ namespace two
 		ChunkedPool& operator=(const ChunkedPool& other) = delete;
 
 		meth_ T& add(const T& value, uint32_t colour = 0);
-		vector<T*> addvec(span<T> values, uint32_t colour = 0);
 
 		meth_ T* talloc(uint32_t colour = 0);
 		meth_ void tdestroy(T& object);
@@ -90,4 +89,7 @@ namespace two
 		template <class T_Func>
 		static void iterate_chunk(const Chunk& chunk, uint32_t words, T_Func func);
 	};
+
+	export_ template <class T>
+	inline ChunkedPool<T>& global_pool();
 }

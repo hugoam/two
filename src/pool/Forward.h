@@ -15,7 +15,6 @@ namespace two
 
 	export_ class HandlePool;
     export_ class Pool;
-    export_ class ObjectPool;
 }
 
 #ifdef TWO_META_GENERATOR

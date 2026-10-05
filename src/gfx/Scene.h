@@ -102,8 +102,6 @@ namespace two
 		object<ParticleSystem> m_particle_system;
 		object<PassJobs> m_pass_jobs;
 
-		unique<ObjectPool> m_pool;
-
 		attr_ uint32_t m_index;
 		// declared before the graph: the objects of the nodes refer to it, and are destroyed with the nodes
 		attr_ Node3 m_root_node;

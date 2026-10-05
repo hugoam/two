@@ -40,16 +40,6 @@ namespace two
 		return *at;
 	}
 
-	template <class T>
-	inline vector<T*> ChunkedPool<T>::addvec(span<T> values, uint32_t colour)
-	{
-		vector<T*> objects;
-		objects.reserve(values.size());
-		for(const T& value : values)
-			objects.push_back(&this->add(value, colour));
-		return objects;
-	}
-
 	// an object of a colour goes in a chunk of that colour with a free slot, or in a new chunk for that colour
 	template <class T>
 	inline T* ChunkedPool<T>::talloc(uint32_t colour)
@@ -237,5 +227,13 @@ namespace two
 				count = step;
 		}
 		return m_chunks[first - 1].get();
+	}
+
+	template <class T>
+	inline ChunkedPool<T>& global_pool()
+	{
+		if(!g_pools[type<T>().m_id])
+			g_pools[type<T>().m_id] = make_unique<ChunkedPool<T>>();
+		return as<ChunkedPool<T>>(*g_pools[type<T>().m_id].get());
 	}
 }

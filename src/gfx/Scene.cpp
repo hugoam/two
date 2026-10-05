@@ -16,8 +16,6 @@ namespace two
 		, m_pass_jobs(oconstruct<PassJobs>())
 		, m_graph(m_nodes, *this)
 	{
-		m_pool = oconstruct<ObjectPool>();
-
 		m_particle_system = oconstruct<ParticleSystem>(gfx, *this);
 	}
 

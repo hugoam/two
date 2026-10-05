@@ -23,4 +23,6 @@ namespace two
 		virtual void destroy(Ref object) = 0;
 		virtual void free(Ref object) = 0;
 	};
+
+	export_ extern TWO_POOL_EXPORT vector<unique<Pool>> g_pools;
 }

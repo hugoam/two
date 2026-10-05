@@ -16,12 +16,6 @@ namespace two
 
 namespace gfx
 {
-	template <class T, class... Args>
-	inline T& create(Scene& scene, Args&&... args)
-	{
-		return scene.m_pool->pool<T>().construct(static_cast<Args&&>(args)...);
-	}
-
 	GIProbe& gi_probe(Gnode& parent, uint16_t subdiv, const vec3& extents)
 	{
 		Gnode& self = parent.suba();
