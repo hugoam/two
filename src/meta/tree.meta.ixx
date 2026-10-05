@@ -10,6 +10,8 @@ import two.infra;
 import two.infra.meta;
 import two.type;
 import two.type.meta;
+import two.pool;
+import two.pool.meta;
 
 #include <meta/tree.meta.h>
 #include <meta/tree.conv.h>
