@@ -38,6 +38,7 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::Style>() { static Type ty("Style", sizeof(two::Style)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::UiRect>() { static Type ty("UiRect", sizeof(two::UiRect)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Frame>() { static Type ty("Frame", type<two::UiRect>(), sizeof(two::Frame)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::Layer>() { static Type ty("Layer", sizeof(two::Layer)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Widget>() { static Type ty("Widget", type<two::ControlNode>(), sizeof(two::Widget)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::TextCursor>() { static Type ty("TextCursor", sizeof(two::TextCursor)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::TextSelection>() { static Type ty("TextSelection", sizeof(two::TextSelection)); return ty; }
@@ -49,7 +50,6 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::Clipboard>() { static Type ty("Clipboard", sizeof(two::Clipboard)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::UiWindow>() { static Type ty("UiWindow", sizeof(two::UiWindow)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::User>() { static Type ty("User", sizeof(two::User)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::Layer>() { static Type ty("Layer", sizeof(two::Layer)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Dock>() { static Type ty("Dock", sizeof(two::Dock)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Docksystem>() { static Type ty("Docksystem", sizeof(two::Docksystem)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Docker>() { static Type ty("Docker", sizeof(two::Docker)); return ty; }

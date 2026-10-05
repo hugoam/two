@@ -82,7 +82,7 @@ namespace two
 		ui::text_box(key(), self, styles().type_in, output, true, 5);
 	}
 
-	void script_edit_hover(TextEdit& edit)
+	void script_edit_hover(Widget& self, TextEdit& edit)
 	{
 		if(edit.m_hovered_word != "")
 		{
@@ -96,7 +96,7 @@ namespace two
 
 			if(function || type || lowertype)
 			{
-				if(Widget* popup = ui::hoverbox(key(), *edit.m_self, hover_at))
+				if(Widget* popup = ui::hoverbox(key(), self, hover_at))
 				{
 					if(function)
 						meta_synopsis(*popup, *function);
@@ -105,7 +105,7 @@ namespace two
 				}
 			}
 		
-			if(MouseEvent event = edit.m_self->mouse_event(DeviceType::MouseRight, EventType::Stroked))
+			if(MouseEvent event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 			{
 			}
 		}
@@ -131,14 +131,14 @@ namespace two
 			reload();
 
 		vector<string> known_words = meta_words();
-		TextEdit& edit = ui::code_edit(key(), self.body, script.m_script, 0, &known_words);
+		auto [box, edit] = ui::code_edit(key(), self.body, script.m_script, 0, &known_words);
 		
 		if(script.m_language == Language::Lua)
 			edit.m_language = &LanguageLua();
 		else if(script.m_language == Language::Wren)
 			edit.m_language = &LanguageWren();
 		
-		if(edit.m_self->char_stroke(Key::S, InputMod::Ctrl))
+		if(box.char_stroke(Key::S, InputMod::Ctrl))
 			reload();
 
 		if(edit.m_entered)
@@ -157,7 +157,7 @@ namespace two
 			edit.m_text.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
 		}
 
-		script_edit_hover(edit);
+		script_edit_hover(box, edit);
 
 		return self;
 	}

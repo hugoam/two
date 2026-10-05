@@ -30,8 +30,8 @@ namespace ui
 	bool number_type_in(NodeKey id, Widget& parent, T& value)
 	{
 		string text = truncate_number(to_string(value));
-		TextEdit& self = type_in(id, parent, text, 0, is_float<T> ? "1234567890." : "1234567890");
-		if(self.m_changed)
+		auto [self, edit] = type_in(id, parent, text, 0, is_float<T> ? "1234567890." : "1234567890");
+		if(edit.m_changed)
 		{
 			value = to_value<T>(text);
 			return true;
@@ -83,7 +83,7 @@ namespace ui
 	inline bool input(NodeKey id, Widget& parent, string& value)
 	{
 		Widget& self = widget(id, parent, styles().input_string);
-		return text_box(key(), self, styles().type_in, value, false, 1).m_changed;
+		return text_box(key(), self, styles().type_in, value, false, 1).edit.m_changed;
 	}
 
 	template <>

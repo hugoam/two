@@ -43,6 +43,7 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::Style>();
     template <> TWO_UI_EXPORT Type& type<two::UiRect>();
     template <> TWO_UI_EXPORT Type& type<two::Frame>();
+    template <> TWO_UI_EXPORT Type& type<two::Layer>();
     template <> TWO_UI_EXPORT Type& type<two::Widget>();
     template <> TWO_UI_EXPORT Type& type<two::TextCursor>();
     template <> TWO_UI_EXPORT Type& type<two::TextSelection>();
@@ -54,7 +55,6 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::Clipboard>();
     template <> TWO_UI_EXPORT Type& type<two::UiWindow>();
     template <> TWO_UI_EXPORT Type& type<two::User>();
-    template <> TWO_UI_EXPORT Type& type<two::Layer>();
     template <> TWO_UI_EXPORT Type& type<two::Dock>();
     template <> TWO_UI_EXPORT Type& type<two::Docksystem>();
     template <> TWO_UI_EXPORT Type& type<two::Docker>();

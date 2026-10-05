@@ -736,6 +736,13 @@ extern "C" {
 	void DECL two_Frame__destroy(two::Frame* self) {
 		delete self;
 	}
+	// Layer
+	two::Type* DECL two_Layer__type() {
+		return &two::type<two::Layer>();
+	}
+	void DECL two_Layer__destroy(two::Layer* self) {
+		delete self;
+	}
 	// Widget
 	two::Type* DECL two_Widget__type() {
 		return &two::type<two::Widget>();
@@ -952,13 +959,6 @@ extern "C" {
 		return &two::type<two::User>();
 	}
 	void DECL two_User__destroy(two::User* self) {
-		delete self;
-	}
-	// Layer
-	two::Type* DECL two_Layer__type() {
-		return &two::type<two::Layer>();
-	}
-	void DECL two_Layer__destroy(two::Layer* self) {
 		delete self;
 	}
 	// Dock

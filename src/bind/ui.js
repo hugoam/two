@@ -1014,6 +1014,16 @@ Module['Frame'] = Frame;
 Frame.prototype["__destroy"] = Frame.prototype.__destroy = function() {
     _two_Frame__destroy(this.__ptr);
 };
+// Layer
+function Layer() { throw "cannot construct a Layer, no constructor in IDL" }
+Layer.prototype = Object.create(WrapperObject.prototype);
+Layer.prototype.constructor = Layer;
+Layer.prototype.__class = Layer;
+Layer.__cache = {};
+Module['Layer'] = Layer;
+Layer.prototype["__destroy"] = Layer.prototype.__destroy = function() {
+    _two_Layer__destroy(this.__ptr);
+};
 // Widget
 function Widget() { throw "cannot construct a Widget, no constructor in IDL" }
 Widget.prototype = Object.create(ControlNode.prototype);
@@ -1291,16 +1301,6 @@ User.__cache = {};
 Module['User'] = User;
 User.prototype["__destroy"] = User.prototype.__destroy = function() {
     _two_User__destroy(this.__ptr);
-};
-// Layer
-function Layer() { throw "cannot construct a Layer, no constructor in IDL" }
-Layer.prototype = Object.create(WrapperObject.prototype);
-Layer.prototype.constructor = Layer;
-Layer.prototype.__class = Layer;
-Layer.__cache = {};
-Module['Layer'] = Layer;
-Layer.prototype["__destroy"] = Layer.prototype.__destroy = function() {
-    _two_Layer__destroy(this.__ptr);
 };
 // Dock
 function Dock() {
@@ -2056,6 +2056,7 @@ Module['ui']['file_tree'] = function(a0, a1, a2) {
         Style.prototype.__type = _two_Style__type();
         UiRect.prototype.__type = _two_UiRect__type();
         Frame.prototype.__type = _two_Frame__type();
+        Layer.prototype.__type = _two_Layer__type();
         Widget.prototype.__type = _two_Widget__type();
         TextCursor.prototype.__type = _two_TextCursor__type();
         TextSelection.prototype.__type = _two_TextSelection__type();
@@ -2067,7 +2068,6 @@ Module['ui']['file_tree'] = function(a0, a1, a2) {
         Clipboard.prototype.__type = _two_Clipboard__type();
         UiWindow.prototype.__type = _two_UiWindow__type();
         User.prototype.__type = _two_User__type();
-        Layer.prototype.__type = _two_Layer__type();
         Dock.prototype.__type = _two_Dock__type();
         Docksystem.prototype.__type = _two_Docksystem__type();
         Docker.prototype.__type = _two_Docker__type();

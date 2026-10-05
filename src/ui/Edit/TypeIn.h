@@ -47,8 +47,8 @@ namespace two
 		class Action
 		{
 		public:
-			void Undo(TextEdit* aEditor);
-			void Redo(TextEdit* aEditor);
+			void Undo(TextEdit* aEditor, Widget& self);
+			void Redo(TextEdit* aEditor, Widget& self);
 
 			string mAdded;
 			size_t mAddedStart;
@@ -65,10 +65,9 @@ namespace two
 		using Callback = string(*)(const string&);
 
 	public:
-		TextEdit(Widget& self, bool editor, string allowed_chars);
+		TextEdit(bool editor, string allowed_chars);
 		~TextEdit();
 
-		Widget* m_self;
 		bool m_editor;
 		Text m_text;
 		TextSelection m_selection;
@@ -77,41 +76,41 @@ namespace two
 		bool m_changed = false;
 		bool m_entered = false;
 
-		void update_style();
-		vec2 frame_size();
+		void update_style(Widget& self);
+		vec2 frame_size(Widget& self);
 
-		void update();
-		void update_scroll(Widget& frame, Widget& content);
-		void render(Vg& vg);
-		vec2 visible_range();
+		void update(Widget& self);
+		void update_scroll(Widget& self, Widget& frame, Widget& content);
+		void render(Widget& self, Vg& vg);
+		vec2 visible_range(Widget& self);
 
-		void set_text(const string& text);
+		void set_text(Widget& self, const string& text);
 
-		void erase(size_t start, size_t end);
-		void erase(size_t start, size_t end, size_t cursor, Action& action);
+		void erase(Widget& self, size_t start, size_t end);
+		void erase(Widget& self, size_t start, size_t end, size_t cursor, Action& action);
 
-		void insert(size_t index, const string& text);
-		void insert(size_t index, const string& text, size_t cursor, Action& action);
+		void insert(Widget& self, size_t index, const string& text);
+		void insert(Widget& self, size_t index, const string& text, size_t cursor, Action& action);
 
-		void erase_selected(Action& action);
+		void erase_selected(Widget& self, Action& action);
 
-		void enter();
-		void escape();
-		void erase();
-		void backspace();
-		void insert(unsigned char c);
-		void insert(const string& text);
+		void enter(Widget& self);
+		void escape(Widget& self);
+		void erase(Widget& self);
+		void backspace(Widget& self);
+		void insert(Widget& self, unsigned char c);
+		void insert(Widget& self, const string& text);
 
-		void copy();
-		void cut();
-		void paste();
+		void copy(Widget& self);
+		void cut(Widget& self);
+		void paste(Widget& self);
 
-		void undo();
-		void redo();
+		void undo(Widget& self);
+		void redo(Widget& self);
 
 		void changed();
 
-		size_t visible_lines() const;
+		size_t visible_lines(Widget& self) const;
 
 		bool has_selection() const { return m_selection.m_end > m_selection.m_start; }
 
@@ -132,8 +131,8 @@ namespace two
 		void move_left(size_t count, bool select = false, bool word_mode = false);
 		void move_up(bool select = false);
 		void move_down(bool select = false);
-		void move_page_up(bool select = false);
-		void move_page_down(bool select = false);
+		void move_page_up(Widget& self, bool select = false);
+		void move_page_down(Widget& self, bool select = false);
 		void move_top(bool select = false);
 		void move_bottom(bool select = false);
 		void move_home(bool select = false);
@@ -146,7 +145,7 @@ namespace two
 
 		void recolorize();
 		void colorize(size_t start, size_t end);
-		void mark_dirty(size_t start, size_t end);
+		void mark_dirty(Widget& self, size_t start, size_t end);
 
 		uvec2 m_dirty;
 
@@ -207,10 +206,17 @@ namespace ui
 {
 	export_ TWO_UI_EXPORT bool filter(const string& filter, const string& value);
 
-	export_ TWO_UI_EXPORT func_ TextEdit& text_box(NodeKey id, Widget& parent, Style& style, string& text, bool editor = false, size_t lines = 1, const string& allowed_chars = "");
-	export_ TWO_UI_EXPORT func_ TextEdit& type_in(NodeKey id, Widget& parent, string& text, size_t lines = 1, const string& allowed_chars = "");
-	export_ TWO_UI_EXPORT func_ TextEdit& text_edit(NodeKey id, Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
-	export_ TWO_UI_EXPORT func_ TextEdit& code_edit(NodeKey id, Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
+	// a text box: the widget of the text, and the text edit in its state
+	export_ struct TextBox
+	{
+		Widget& self;
+		TextEdit& edit;
+	};
+
+	export_ TWO_UI_EXPORT TextBox text_box(NodeKey id, Widget& parent, Style& style, string& text, bool editor = false, size_t lines = 1, const string& allowed_chars = "");
+	export_ TWO_UI_EXPORT TextBox type_in(NodeKey id, Widget& parent, string& text, size_t lines = 1, const string& allowed_chars = "");
+	export_ TWO_UI_EXPORT TextBox text_edit(NodeKey id, Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
+	export_ TWO_UI_EXPORT TextBox code_edit(NodeKey id, Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
 
 	export_ TWO_UI_EXPORT string auto_indent(TextEdit& edit);
 }

@@ -358,7 +358,7 @@ namespace
 		ui::dropdown_input(key(), navigation, scopes, document.scope);
 		ui::dropdown_input(key(), navigation, symbols, document.symbol);
 
-		TextEdit& edit = ui::code_edit(key(), parent, document.text);
+		auto [box, edit] = ui::code_edit(key(), parent, document.text);
 		edit.m_language = &LanguageCpp();
 
 		Widget& status = ui::row(key(), parent);

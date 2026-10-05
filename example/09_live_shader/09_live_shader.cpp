@@ -74,7 +74,7 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 		if(section_action(edit, "Reload"))
 			program.reload();
 
-		TextEdit& text_edit = ui::code_edit(key(), edit.body, program.m_sources[ShaderType::Fragment], 0);
+		auto [box, text_edit] = ui::code_edit(key(), edit.body, program.m_sources[ShaderType::Fragment], 0);
 		if(text_edit.m_changed)
 			program.reload();
 		text_edit.m_changed = false;
