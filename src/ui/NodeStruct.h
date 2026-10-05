@@ -15,24 +15,27 @@ namespace two
 		Colour m_colour;
 	};
 
-	export_ class refl_ TWO_UI_EXPORT NodePlug : public Widget, public NodeKnob
+	// a plug of a node, kept in the state of its widget
+	export_ class refl_ TWO_UI_EXPORT NodePlug : public NodeState, public NodeKnob
 	{
 	public:
-		NodePlug(Widget* parent) : Widget(parent) {}
-		Node* m_node;
-		Widget* m_knob;
+		Widget* m_self = nullptr;
+		Node* m_node = nullptr;
+		Widget* m_knob = nullptr;
 	};
 
-	export_ class refl_ TWO_UI_EXPORT Node : public Widget
+	// a node of a canvas, kept in the state of its widget, with its parts in the frame: the content goes in the body
+	export_ class refl_ TWO_UI_EXPORT Node : public NodeState
 	{
 	public:
-		Node(Widget* parent) : Widget(parent) {}
-		Canvas* m_canvas;
-		Widget* m_header;
-		Widget* m_inputs;
-		Widget* m_outputs;
-		Widget* m_body = nullptr;
-		int m_order = 0;
+		Widget* m_self = nullptr;
+		Canvas* m_canvas = nullptr;
+		attr_ Widget* m_header = nullptr;
+		attr_ Widget* m_inputs = nullptr;
+		attr_ Widget* m_outputs = nullptr;
+		attr_ Widget* m_body = nullptr;
+		attr_ int m_order = 0;
+		uint32_t m_index = 0;
 	};
 
 	export_ struct refl_ TWO_UI_EXPORT CanvasConnect
@@ -45,13 +48,14 @@ namespace two
 		bool m_done = false;
 	};
 
-	export_ class refl_ TWO_UI_EXPORT Canvas : public Widget
+	// a canvas of nodes, kept in the state of its widget, with the nodes declared in the frame
+	export_ class refl_ TWO_UI_EXPORT Canvas : public NodeState
 	{
 	public:
-		Canvas(Widget* parent) : Widget(parent) {}
+		Widget* m_self = nullptr;
 
-		Widget* m_scroll_plan;
-		Widget* m_plan;
+		Widget* m_scroll_plan = nullptr;
+		Widget* m_plan = nullptr;
 		bool m_rounded_links = true;
 
 		CanvasConnect m_connect;

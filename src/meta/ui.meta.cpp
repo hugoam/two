@@ -1301,8 +1301,6 @@ namespace two
 		Type& t = type<two::NodePlug>();
 		static Meta meta = { t, &namspc({ "two" }), "NodePlug", sizeof(two::NodePlug), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<two::Widget>() };
-		static size_t bases_offsets[] = { base_offset<two::NodePlug, two::Widget>() };
 		// defaults
 		// default constructor
 		// copy constructor
@@ -1310,23 +1308,33 @@ namespace two
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Node
 	{
 		Type& t = type<two::Node>();
 		static Meta meta = { t, &namspc({ "two" }), "Node", sizeof(two::Node), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<two::Widget>() };
-		static size_t bases_offsets[] = { base_offset<two::Node, two::Widget>() };
 		// defaults
+		static two::Widget* header_default = nullptr;
+		static two::Widget* inputs_default = nullptr;
+		static two::Widget* outputs_default = nullptr;
+		static two::Widget* body_default = nullptr;
+		static int order_default = 0;
 		// default constructor
 		// copy constructor
 		// constructors
 		// members
+		static Member members[] = {
+			{ t, offsetof(two::Node, m_header), type<two::Widget>(), "header", header_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::Node, m_inputs), type<two::Widget>(), "inputs", inputs_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::Node, m_outputs), type<two::Widget>(), "outputs", outputs_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::Node, m_body), type<two::Widget>(), "body", body_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::Node, m_order), type<int>(), "order", &order_default, Member::Value, nullptr }
+		};
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, members, {}, {}, };
 	}
 	// two::CanvasConnect
 	{
@@ -1354,8 +1362,6 @@ namespace two
 		Type& t = type<two::Canvas>();
 		static Meta meta = { t, &namspc({ "two" }), "Canvas", sizeof(two::Canvas), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<two::Widget>() };
-		static size_t bases_offsets[] = { base_offset<two::Canvas, two::Widget>() };
 		// defaults
 		// default constructor
 		// copy constructor
@@ -1363,7 +1369,7 @@ namespace two
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::Ui
 	{

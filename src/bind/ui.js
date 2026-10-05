@@ -1368,10 +1368,9 @@ Dockbar.prototype["__destroy"] = Dockbar.prototype.__destroy = function() {
 };
 // NodePlug
 function NodePlug() { throw "cannot construct a NodePlug, no constructor in IDL" }
-NodePlug.prototype = Object.create(Widget.prototype);
+NodePlug.prototype = Object.create(WrapperObject.prototype);
 NodePlug.prototype.constructor = NodePlug;
 NodePlug.prototype.__class = NodePlug;
-NodePlug.__base = Widget;
 NodePlug.__cache = {};
 Module['NodePlug'] = NodePlug;
 NodePlug.prototype["__destroy"] = NodePlug.prototype.__destroy = function() {
@@ -1379,12 +1378,56 @@ NodePlug.prototype["__destroy"] = NodePlug.prototype.__destroy = function() {
 };
 // Node
 function Node() { throw "cannot construct a Node, no constructor in IDL" }
-Node.prototype = Object.create(Widget.prototype);
+Node.prototype = Object.create(WrapperObject.prototype);
 Node.prototype.constructor = Node;
 Node.prototype.__class = Node;
-Node.__base = Widget;
 Node.__cache = {};
 Module['Node'] = Node;
+Object.defineProperty(Node.prototype, "header", {
+    get: function() {
+        return wrapPointer(_two_Node__get_header(this.__ptr), Widget);
+    },
+    set: function(value) {
+        if (!checkClass(value, Widget)) throw Error('Node.header: expected Widget');
+        _two_Node__set_header(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Node.prototype, "inputs", {
+    get: function() {
+        return wrapPointer(_two_Node__get_inputs(this.__ptr), Widget);
+    },
+    set: function(value) {
+        if (!checkClass(value, Widget)) throw Error('Node.inputs: expected Widget');
+        _two_Node__set_inputs(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Node.prototype, "outputs", {
+    get: function() {
+        return wrapPointer(_two_Node__get_outputs(this.__ptr), Widget);
+    },
+    set: function(value) {
+        if (!checkClass(value, Widget)) throw Error('Node.outputs: expected Widget');
+        _two_Node__set_outputs(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Node.prototype, "body", {
+    get: function() {
+        return wrapPointer(_two_Node__get_body(this.__ptr), Widget);
+    },
+    set: function(value) {
+        if (!checkClass(value, Widget)) throw Error('Node.body: expected Widget');
+        _two_Node__set_body(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Node.prototype, "order", {
+    get: function() {
+        return _two_Node__get_order(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('Node.order: expected integer');
+        _two_Node__set_order(this.__ptr, value);
+    }
+});
 Node.prototype["__destroy"] = Node.prototype.__destroy = function() {
     _two_Node__destroy(this.__ptr);
 };
@@ -1402,10 +1445,9 @@ CanvasConnect.prototype["__destroy"] = CanvasConnect.prototype.__destroy = funct
 };
 // Canvas
 function Canvas() { throw "cannot construct a Canvas, no constructor in IDL" }
-Canvas.prototype = Object.create(Widget.prototype);
+Canvas.prototype = Object.create(WrapperObject.prototype);
 Canvas.prototype.constructor = Canvas;
 Canvas.prototype.__class = Canvas;
-Canvas.__base = Widget;
 Canvas.__cache = {};
 Module['Canvas'] = Canvas;
 Canvas.prototype["__destroy"] = Canvas.prototype.__destroy = function() {

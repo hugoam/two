@@ -1016,6 +1016,36 @@ extern "C" {
 	two::Type* DECL two_Node__type() {
 		return &two::type<two::Node>();
 	}
+	two::Widget* DECL two_Node__get_header(two::Node* self) {
+		return self->m_header;
+	}
+	void DECL two_Node__set_header(two::Node* self, two::Widget* value) {
+		self->m_header = value;
+	}
+	two::Widget* DECL two_Node__get_inputs(two::Node* self) {
+		return self->m_inputs;
+	}
+	void DECL two_Node__set_inputs(two::Node* self, two::Widget* value) {
+		self->m_inputs = value;
+	}
+	two::Widget* DECL two_Node__get_outputs(two::Node* self) {
+		return self->m_outputs;
+	}
+	void DECL two_Node__set_outputs(two::Node* self, two::Widget* value) {
+		self->m_outputs = value;
+	}
+	two::Widget* DECL two_Node__get_body(two::Node* self) {
+		return self->m_body;
+	}
+	void DECL two_Node__set_body(two::Node* self, two::Widget* value) {
+		self->m_body = value;
+	}
+	int DECL two_Node__get_order(two::Node* self) {
+		return self->m_order;
+	}
+	void DECL two_Node__set_order(two::Node* self, int value) {
+		self->m_order = value;
+	}
 	void DECL two_Node__destroy(two::Node* self) {
 		delete self;
 	}
