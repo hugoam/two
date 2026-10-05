@@ -26,7 +26,8 @@ namespace two
 		DISABLED = 1 << 6,		// disabled (on/off state)
 		DRAGGED = 1 << 7,		// dragged by input device
 		FOCUSED = 1 << 8,		// has exclusive focus in the widget hierarchy
-		CLOSED = 1 << 9			// widget has just been closed
+		CLOSED = 1 << 9,			// widget has just been closed
+		OPEN = 1 << 10			// widget is open (on/off state)
 	};
 
 namespace ui

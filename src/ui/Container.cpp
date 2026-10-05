@@ -83,8 +83,10 @@ namespace ui
 	Expandbox expandbox(NodeKey id, Widget& parent, span<cstring> elements, bool open)
 	{
 		Widget& self = widget(id, parent, expandbox_styles().expandbox, open);
-		Widget& header = toggle_header(key(), self, expandbox_styles().header, expandbox_styles().toggle, elements, self.m_open);
-		Widget* body = self.m_open ? &widget(key(), self, expandbox_styles().body) : nullptr;
+		bool is_open = self.open();
+		Widget& header = toggle_header(key(), self, expandbox_styles().header, expandbox_styles().toggle, elements, is_open);
+		self.set_open(is_open);
+		Widget* body = is_open ? &widget(key(), self, expandbox_styles().body) : nullptr;
 		return { self, header, body };
 	}
 
@@ -96,8 +98,10 @@ namespace ui
 	TreeNode tree_node(NodeKey id, Widget& parent, span<cstring> elements, bool leaf, bool open)
 	{
 		Widget& self = widget(id, parent, treenode_styles().treenode, open);
-		Widget& header = toggle_header(key(), self, treenode_styles().header, leaf ? treenode_styles().no_toggle : treenode_styles().toggle, elements, self.m_open);
-		Widget* body = !leaf && self.m_open ? &widget(key(), self, treenode_styles().body) : nullptr;
+		bool is_open = self.open();
+		Widget& header = toggle_header(key(), self, treenode_styles().header, leaf ? treenode_styles().no_toggle : treenode_styles().toggle, elements, is_open);
+		self.set_open(is_open);
+		Widget* body = !leaf && is_open ? &widget(key(), self, treenode_styles().body) : nullptr;
 		return { self, header, body };
 	}
 

@@ -764,6 +764,9 @@ extern "C" {
 	bool DECL two_Widget_closed_0(two::Widget* self) {
 		return self->closed();
 	}
+	bool DECL two_Widget_open_0(two::Widget* self) {
+		return self->open();
+	}
 	two::UiWindow* DECL two_Widget_ui_window_0(two::Widget* self) {
 		return &self->ui_window();
 	}
@@ -787,6 +790,9 @@ extern "C" {
 	}
 	void DECL two_Widget_enable_state_1(two::Widget* self, two::WidgetState state) {
 		self->enable_state(state);
+	}
+	void DECL two_Widget_set_open_1(two::Widget* self, bool open) {
+		self->set_open(open);
 	}
 	void DECL two_Widget_clear_focus_0(two::Widget* self) {
 		self->clear_focus();
@@ -823,12 +829,6 @@ extern "C" {
 	}
 	void DECL two_Widget__set_index(two::Widget* self, uint32_t value) {
 		self->m_index = value;
-	}
-	bool DECL two_Widget__get_open(two::Widget* self) {
-		return self->m_open;
-	}
-	void DECL two_Widget__set_open(two::Widget* self, bool value) {
-		self->m_open = value;
 	}
 	void DECL two_Widget__destroy(two::Widget* self) {
 		delete self;
@@ -1705,6 +1705,9 @@ extern "C" {
 	}
 	two::WidgetState DECL two_WidgetState_CLOSED() {
 		return two::CLOSED;
+	}
+	two::WidgetState DECL two_WidgetState_OPEN() {
+		return two::OPEN;
 	}
 	// PopupFlags
 	two::ui::PopupFlags DECL two_ui_PopupFlags_None() {

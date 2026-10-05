@@ -76,7 +76,7 @@ namespace game
 			ui::label(key(), row, to_string(trait.m_value).c_str());
 		}
 
-		//if(!modal.m_open)
+		//if(!modal.open())
 		//	parent.close();
 	}
 
@@ -102,7 +102,7 @@ namespace game
 			}
 		}
 
-		//if(!modal.m_open)
+		//if(!modal.open())
 		//	parent.close();
 	}
 
@@ -182,7 +182,7 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 			umain.m_switch |= Inventory;
 		if((umain.m_switch & Character) != 0
 			|| (umain.m_switch & Inventory) != 0
-			|| !popup.m_open)
+			|| !popup.open())
 			umain.m_switch &= ~(Context);
 	}
 

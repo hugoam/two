@@ -62,7 +62,7 @@ namespace two
 					if(ui::multi_button(key(), functions, ui::dropdown_styles().choice, { "(function)", function->m_name }).activated())
 					{
 						add_process(oconstruct<ProcessFunction>(script, *function));
-						parent.m_open = false;
+						parent.set_open(false);
 					}
 		}
 
@@ -78,7 +78,7 @@ namespace two
 						if(ui::multi_button(key(), values, ui::dropdown_styles().choice, { "(value)", type->m_name }).activated())
 						{
 							add_process(oconstruct<ProcessValue>(script, *type));
-							parent.m_open = false;
+							parent.set_open(false);
 						}
 		}
 
@@ -94,7 +94,7 @@ namespace two
 						if(ui::multi_button(key(), types, ui::dropdown_styles().choice, { "(class)", type->m_name }).activated())
 						{
 							add_process(oconstruct<ProcessCreate>(script, *type));
-							parent.m_open = false;
+							parent.set_open(false);
 						}
 		}
 	}

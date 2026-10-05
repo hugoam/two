@@ -45,7 +45,7 @@ namespace ui
 		{
 			// @todo change to Pressed, but causes a crash because InputDevice is holding to the pressed element
 			if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
-				self.m_open = false;
+				self.set_open(false);
 		}
 
 		return self;
@@ -68,7 +68,7 @@ namespace ui
 	Widget& auto_modal(NodeKey id, Widget& parent, uint32_t mode)
 	{
 		Widget& self = ui::modal(id, parent.parent_modal());
-		if(!self.m_open)
+		if(!self.open())
 			parent.m_switch &= ~mode;
 		return self;
 	}
@@ -76,7 +76,7 @@ namespace ui
 	Popup auto_modal(NodeKey id, Widget& parent, uint32_t mode, const vec2& size)
 	{
 		Popup self = ui::modal(id, parent.parent_modal(), size);
-		if(!self.self.m_open)
+		if(!self.self.open())
 			parent.m_switch &= ~mode;
 		return self;
 	}
@@ -97,7 +97,7 @@ namespace ui
 				self.m_frame.set_position(local);
 			}
 
-			parent.m_switch &= self.m_open ? mode : 0;
+			parent.m_switch &= self.open() ? mode : 0;
 			return &self;
 		}
 

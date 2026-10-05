@@ -1046,6 +1046,9 @@ Widget.prototype["modal"] = Widget.prototype.modal = function() {
 Widget.prototype["closed"] = Widget.prototype.closed = function() {
     return !!(_two_Widget_closed_0(this.__ptr));
 };
+Widget.prototype["open"] = Widget.prototype.open = function() {
+    return !!(_two_Widget_open_0(this.__ptr));
+};
 Widget.prototype["ui_window"] = Widget.prototype.ui_window = function() {
     return wrapPointer(_two_Widget_ui_window_0(this.__ptr), UiWindow);
 };
@@ -1073,6 +1076,10 @@ Widget.prototype["set_state"] = Widget.prototype.set_state = function(a0, a1) {
 Widget.prototype["enable_state"] = Widget.prototype.enable_state = function(a0) {
     if (typeof a0 !== 'number') throw Error('enable_state(0:state): expected integer');
     _two_Widget_enable_state_1(this.__ptr, /*state*/a0);
+};
+Widget.prototype["set_open"] = Widget.prototype.set_open = function(a0) {
+    if (typeof a0 !== 'boolean') throw Error('set_open(0:open): expected boolean');
+    _two_Widget_set_open_1(this.__ptr, /*open*/a0);
 };
 Widget.prototype["clear_focus"] = Widget.prototype.clear_focus = function() {
     _two_Widget_clear_focus_0(this.__ptr);
@@ -1119,15 +1126,6 @@ Object.defineProperty(Widget.prototype, "index", {
     set: function(value) {
         if (typeof value !== 'number') throw Error('Widget.index: expected integer');
         _two_Widget__set_index(this.__ptr, value);
-    }
-});
-Object.defineProperty(Widget.prototype, "open", {
-    get: function() {
-        return !!(_two_Widget__get_open(this.__ptr));
-    },
-    set: function(value) {
-        if (typeof value !== 'boolean') throw Error('Widget.open: expected boolean');
-        _two_Widget__set_open(this.__ptr, value);
     }
 });
 Widget.prototype["__destroy"] = Widget.prototype.__destroy = function() {
@@ -2153,6 +2151,7 @@ Module['ui']['file_tree'] = function(a0, a1, a2) {
         Module['DRAGGED'] = _two_WidgetState_DRAGGED();
         Module['FOCUSED'] = _two_WidgetState_FOCUSED();
         Module['CLOSED'] = _two_WidgetState_CLOSED();
+        Module['OPEN'] = _two_WidgetState_OPEN();
         // PopupFlags
         Module['ui']['PopupFlags'] = Module['ui']['PopupFlags'] || {};
         Module['ui']['PopupFlags']['None'] = _two_ui_PopupFlags_None();

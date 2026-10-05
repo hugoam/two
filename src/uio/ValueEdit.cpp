@@ -236,8 +236,8 @@ namespace two
 	{
 		Widget& self = ui::modal(key(), parent.parent_modal());
 		bool changed = field_edit(self, name, value, nullable);
-		bool done = confirm ? ui::button(key(), self, "Done").activated() || !self.m_open
-							: changed || !self.m_open;
+		bool done = confirm ? ui::button(key(), self, "Done").activated() || !self.open()
+							: changed || !self.open();
 		if(done)
 			parent.m_switch &= ~mode;
 		return done;

@@ -746,8 +746,8 @@ namespace ui
 		// clicking outside of the popup closes it
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 			if(!self.m_frame.inside(event.m_relative))
-				self.m_open = false;
-		open = self.m_open;
+				self.set_open(false);
+		open = self.open();
 		return open ? &self : nullptr;
 	}
 
@@ -791,7 +791,7 @@ namespace ui
 		Window self = window(id, parent, name, state);
 		if(size != vec2(0.f) && self.self.m_frame.m_size == vec2(480.f, 350.f))
 			self.self.m_frame.set_size(size);
-		if(p_open && !self.self.m_open)
+		if(p_open && !self.self.open())
 			*p_open = false;
 		if(!self.body)
 			return {};
@@ -1175,7 +1175,7 @@ namespace ui
 
 	void close_current_popup(Widget& popup)
 	{
-		popup.m_open = false;
+		popup.set_open(false);
 	}
 
 	Widget* begin_popup_modal(NodeKey id, Widget& parent, cstring name, bool& open)

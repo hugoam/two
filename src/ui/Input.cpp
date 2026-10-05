@@ -216,7 +216,7 @@ namespace ui
 	bool color_popup(NodeKey id, Widget& parent, Colour& value, bool& open)
 	{
 		Widget& self = popup(id, parent, styles().color_popup, PopupFlags(size_t(PopupFlags::Clamp) | size_t(PopupFlags::AutoModal)));
-		open &= self.m_open;
+		open &= self.open();
 		return color_edit(key(), self, value);
 	}
 
@@ -240,10 +240,13 @@ namespace ui
 	{
 		Widget& self = color_slab(id, parent, styles().color_toggle, value);
 		if(self.activated())
-			self.m_open = !self.m_open;
-		if(self.m_open)
-			return color_popup(key(), self, value, self.m_open);
-		return false;
+			self.set_open(!self.open());
+		if(!self.open())
+			return false;
+		bool open = true;
+		bool changed = color_popup(key(), self, value, open);
+		self.set_open(open);
+		return changed;
 	}
 
 namespace

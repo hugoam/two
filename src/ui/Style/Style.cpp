@@ -122,7 +122,7 @@ namespace two
 	InkStyle& Style::state_skin(WidgetState state)
 	{
 		// turn off non-skinnable state flags
-		state = static_cast<WidgetState>(state & ~(CREATED | ACTIVATED | CLOSED));
+		state = static_cast<WidgetState>(state & ~(CREATED | ACTIVATED | CLOSED | OPEN));
 		for(Subskin& subskin : reverse_adapt(m_skins))
 			if(state == subskin.state) // exact match
 				return subskin.skin;

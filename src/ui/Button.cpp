@@ -250,22 +250,24 @@ namespace ui
 	{
 		bool hovered = false;
 		Widget& self = widget(id, parent, style);
-		Widget& header = multi_toggle(key(), self, dropdown_styles().head, self.m_open, { value });
+		bool open = self.open();
+		Widget& header = multi_toggle(key(), self, dropdown_styles().head, open, { value });
 		hovered |= header.hovered();
 		if(!no_toggle)
 		{
-			Widget& button = toggle(key(), self, dropdown_styles().toggle, self.m_open);
+			Widget& button = toggle(key(), self, dropdown_styles().toggle, open);
 			hovered |= button.hovered();
 		}
 
 		self.set_state(HOVERED, hovered);
 		Widget* body = nullptr;
 
-		if(self.m_open)
+		if(open)
 		{
 			body = &popup(key(), self, list_style ? *list_style : dropdown_styles().list, popup_flags);
-			self.m_open &= body->m_open;
+			open &= body->open();
 		}
+		self.set_open(open);
 
 		return { self, body };
 	}
@@ -303,7 +305,7 @@ namespace ui
 			if(dropdown_choice(key(), *self.body, { choices[i] }, value == i).activated())
 			{
 				value = i;
-				self.self.m_open = false;
+				self.self.set_open(false);
 				return true;
 			}
 
@@ -322,7 +324,7 @@ namespace ui
 	{
 		Widget& self = multi_button(id, parent, menu_styles().choice, elements);
 		if(self.activated())
-			self.m_parent->m_parent->m_open = false;
+			self.m_parent->m_parent->set_open(false);
 		return self;
 	}
 

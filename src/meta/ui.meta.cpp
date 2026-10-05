@@ -87,6 +87,7 @@ void two_Widget_active(void* object, span<void*> args, void*& result) { UNUSED(a
 void two_Widget_selected(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<two::Widget*>(object)).selected(); }
 void two_Widget_modal(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<two::Widget*>(object)).modal(); }
 void two_Widget_closed(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<two::Widget*>(object)).closed(); }
+void two_Widget_open(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<two::Widget*>(object)).open(); }
 void two_Widget_ui_window(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<two::Widget*>(object)).ui_window(); }
 void two_Widget_ui(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<two::Widget*>(object)).ui(); }
 void two_Widget_parent_modal(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<two::Widget*>(object)).parent_modal(); }
@@ -95,6 +96,7 @@ void two_Widget_toggle_state(void* object, span<void*> args, void*& result) { UN
 void two_Widget_disable_state(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Widget*>(object)).disable_state(*static_cast<two::WidgetState*>(args[0])); }
 void two_Widget_set_state(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Widget*>(object)).set_state(*static_cast<two::WidgetState*>(args[0]), *static_cast<bool*>(args[1])); }
 void two_Widget_enable_state(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Widget*>(object)).enable_state(*static_cast<two::WidgetState*>(args[0])); }
+void two_Widget_set_open(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Widget*>(object)).set_open(*static_cast<bool*>(args[0])); }
 void two_Widget_clear_focus(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::Widget*>(object)).clear_focus(); }
 void two_Widget_take_focus(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::Widget*>(object)).take_focus(); }
 void two_Widget_yield_focus(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::Widget*>(object)).yield_focus(); }
@@ -372,10 +374,10 @@ namespace two
 	{
 		Type& t = type<two::WidgetState>();
 		static Meta meta = { t, &namspc({ "two" }), "WidgetState", sizeof(two::WidgetState), TypeClass::Enum };
-		static cstring ids[] = { "NOSTATE", "CREATED", "HOVERED", "PRESSED", "ACTIVATED", "ACTIVE", "SELECTED", "DISABLED", "DRAGGED", "FOCUSED", "CLOSED" };
-		static uint32_t values[] = { 0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512 };
-		static two::WidgetState vars[] = { two::NOSTATE, two::CREATED, two::HOVERED, two::PRESSED, two::ACTIVATED, two::ACTIVE, two::SELECTED, two::DISABLED, two::DRAGGED, two::FOCUSED, two::CLOSED};
-		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7], &vars[8], &vars[9], &vars[10]};
+		static cstring ids[] = { "NOSTATE", "CREATED", "HOVERED", "PRESSED", "ACTIVATED", "ACTIVE", "SELECTED", "DISABLED", "DRAGGED", "FOCUSED", "CLOSED", "OPEN" };
+		static uint32_t values[] = { 0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024 };
+		static two::WidgetState vars[] = { two::NOSTATE, two::CREATED, two::HOVERED, two::PRESSED, two::ACTIVATED, two::ACTIVE, two::SELECTED, two::DISABLED, two::DRAGGED, two::FOCUSED, two::CLOSED, two::OPEN};
+		static void* refs[] = { &vars[0], &vars[1], &vars[2], &vars[3], &vars[4], &vars[5], &vars[6], &vars[7], &vars[8], &vars[9], &vars[10], &vars[11]};
 		static Enum enu = { t, false, ids, values, refs };
 		static Convert convert = { two_WidgetState__to_string,
 		                           two_WidgetState__to_value };
@@ -965,7 +967,6 @@ namespace two
 		static two::WidgetState state_default = CREATED;
 		static uint32_t switch_default = 0;
 		static uint32_t index_default = 0;
-		static bool open_default = false;
 		// default constructor
 		// copy constructor
 		// constructors
@@ -974,8 +975,7 @@ namespace two
 			{ t, offsetof(two::Widget, m_frame), type<two::Frame>(), "frame", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::Widget, m_state), type<two::WidgetState>(), "state", &state_default, Member::Value, nullptr },
 			{ t, offsetof(two::Widget, m_switch), type<uint32_t>(), "switch", &switch_default, Member::Value, nullptr },
-			{ t, offsetof(two::Widget, m_index), type<uint32_t>(), "index", &index_default, Member::Value, nullptr },
-			{ t, offsetof(two::Widget, m_open), type<bool>(), "open", &open_default, Member::Value, nullptr }
+			{ t, offsetof(two::Widget, m_index), type<uint32_t>(), "index", &index_default, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
@@ -987,6 +987,7 @@ namespace two
 			{ t, "selected", Address(), two_Widget_selected, {}, { &type<bool>(), QualType::None } },
 			{ t, "modal", Address(), two_Widget_modal, {}, { &type<bool>(), QualType::None } },
 			{ t, "closed", Address(), two_Widget_closed, {}, { &type<bool>(), QualType::None } },
+			{ t, "open", Address(), two_Widget_open, {}, { &type<bool>(), QualType::None } },
 			{ t, "ui_window", Address(), two_Widget_ui_window, {}, { &type<two::UiWindow>(), QualType::None } },
 			{ t, "ui", Address(), two_Widget_ui, {}, { &type<two::Ui>(), QualType::None } },
 			{ t, "parent_modal", Address(), two_Widget_parent_modal, {}, { &type<two::Widget>(), QualType::None } },
@@ -995,6 +996,7 @@ namespace two
 			{ t, "disable_state", Address(), two_Widget_disable_state, { { "state", type<two::WidgetState>(),  } }, g_qvoid },
 			{ t, "set_state", Address(), two_Widget_set_state, { { "state", type<two::WidgetState>(),  }, { "enabled", type<bool>(),  } }, g_qvoid },
 			{ t, "enable_state", Address(), two_Widget_enable_state, { { "state", type<two::WidgetState>(),  } }, g_qvoid },
+			{ t, "set_open", Address(), two_Widget_set_open, { { "open", type<bool>(),  } }, g_qvoid },
 			{ t, "clear_focus", Address(), two_Widget_clear_focus, {}, g_qvoid },
 			{ t, "take_focus", Address(), two_Widget_take_focus, {}, g_qvoid },
 			{ t, "yield_focus", Address(), two_Widget_yield_focus, {}, g_qvoid },

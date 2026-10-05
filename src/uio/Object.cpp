@@ -25,7 +25,7 @@ namespace two
 	void object_context(Widget& parent, Ref object, uint32_t mode)
 	{
 		Widget& self = ui::popup(key(), parent, ui::PopupFlags::AutoModal);
-		if(!self.m_open)
+		if(!self.open())
 			parent.m_switch &= ~mode;
 
 		//if(meta(object).m_type_class == TypeClass::Object)

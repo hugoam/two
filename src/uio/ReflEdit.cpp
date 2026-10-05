@@ -244,7 +244,7 @@ namespace two
 		{
 			ui::Popup modal = ui::modal(key(), parent.parent_modal(), { 400, 800 });
 			bool done = type_browser(modal.body, state.m_type);
-			if(done || !modal.self.m_open)
+			if(done || !modal.self.open())
 				self.self.m_switch &= ~Browse;
 		}
 

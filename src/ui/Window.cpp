@@ -61,7 +61,7 @@ namespace ui
 		item(key(), self, styles().title, title);
 		if(bit(state, WindowState::Closable))
 			if(button(key(), self, window_styles().close_button).activated())
-				window.m_open = false;
+				window.set_open(false);
 
 		tooltip(key(), self, "Drag me");
 
@@ -99,7 +99,7 @@ namespace ui
 
 		if(self.once())
 		{
-			self.m_open = true;
+			self.set_open(true);
 
 			if(!dock)
 				self.m_frame.set_size(vec2(480.f, 350.f));
@@ -119,7 +119,7 @@ namespace ui
 		if(!dock && self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 			self.m_frame.layer().moveToTop();
 
-		return { self, header, menu, self.m_open ? &body : nullptr };
+		return { self, header, menu, self.open() ? &body : nullptr };
 	}
 }
 }
