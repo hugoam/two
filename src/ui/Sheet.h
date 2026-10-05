@@ -19,6 +19,14 @@ namespace ui
 		Frame* next = nullptr;
 	};
 
+	// a popup sized by the content of its body
+	export_ struct Popup
+	{
+		Widget& self;
+		Widget& body;
+		operator Widget&() const { return self; }
+	};
+
 	export_ func_ inline Widget& row(NodeKey id, Widget& parent) { return widget(id, parent, styles().row); }
 	export_ func_ inline Widget& header(NodeKey id, Widget& parent) { return widget(id, parent, styles().header); }
 	export_ func_ inline Widget& div(NodeKey id, Widget& parent) { return widget(id, parent, styles().div); }
@@ -43,18 +51,18 @@ namespace ui
 	export_ TWO_UI_EXPORT Widget& layout_span(NodeKey id, Widget& parent, float span);
 
 	export_ TWO_UI_EXPORT Widget& popup(NodeKey id, Widget& parent, Style& style, PopupFlags flags);
-	export_ TWO_UI_EXPORT Widget& popup(NodeKey id, Widget& parent, Style& style, const vec2& size, PopupFlags flags);
+	export_ TWO_UI_EXPORT Popup popup(NodeKey id, Widget& parent, Style& style, const vec2& size, PopupFlags flags);
 	export_ TWO_UI_EXPORT Widget& popup_at(NodeKey id, Widget& parent, Style& style, const vec2& position, PopupFlags flags);
 
 	export_ func_ inline Widget& popup(NodeKey id, Widget& parent, PopupFlags flags) { return popup(id, parent, styles().popup, flags); }
-	export_ func_ inline Widget& popup(NodeKey id, Widget& parent, const vec2& size, PopupFlags flags = ui::PopupFlags::None) { return popup(id, parent, styles().popup, size, flags); }
+	export_ inline Popup popup(NodeKey id, Widget& parent, const vec2& size, PopupFlags flags = ui::PopupFlags::None) { return popup(id, parent, styles().popup, size, flags); }
 	export_ func_ inline Widget& popup_at(NodeKey id, Widget& parent, const vec2& position, PopupFlags flags = ui::PopupFlags::None) { return popup_at(id, parent, styles().popup, position, flags); }
 
 	export_ func_ inline Widget& modal(NodeKey id, Widget& parent) { return popup(id, parent, styles().modal, PopupFlags::Modal); }
-	export_ func_ inline Widget& modal(NodeKey id, Widget& parent, const vec2& size) { return popup(id, parent, styles().modal, size, PopupFlags::Modal); }
+	export_ inline Popup modal(NodeKey id, Widget& parent, const vec2& size) { return popup(id, parent, styles().modal, size, PopupFlags::Modal); }
 
 	export_ func_ TWO_UI_EXPORT Widget& auto_modal(NodeKey id, Widget& parent, uint32_t mode);
-	export_ func_ TWO_UI_EXPORT Widget& auto_modal(NodeKey id, Widget& parent, uint32_t mode, const vec2& size);
+	export_ TWO_UI_EXPORT Popup auto_modal(NodeKey id, Widget& parent, uint32_t mode, const vec2& size);
 
 	export_ func_ TWO_UI_EXPORT Widget* context(NodeKey id, Widget& parent, uint32_t mode, PopupFlags flags = ui::PopupFlags::None);
 

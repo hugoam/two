@@ -1130,15 +1130,6 @@ Object.defineProperty(Widget.prototype, "open", {
         _two_Widget__set_open(this.__ptr, value);
     }
 });
-Object.defineProperty(Widget.prototype, "body", {
-    get: function() {
-        return wrapPointer(_two_Widget__get_body(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('Widget.body: expected Widget');
-        _two_Widget__set_body(this.__ptr, value.__ptr);
-    }
-});
 Widget.prototype["__destroy"] = Widget.prototype.__destroy = function() {
     _two_Widget__destroy(this.__ptr);
 };
@@ -1323,28 +1314,6 @@ Module['Layer'] = Layer;
 Layer.prototype["__destroy"] = Layer.prototype.__destroy = function() {
     _two_Layer__destroy(this.__ptr);
 };
-// ScrollSheet
-function ScrollSheet() { throw "cannot construct a ScrollSheet, no constructor in IDL" }
-ScrollSheet.prototype = Object.create(Widget.prototype);
-ScrollSheet.prototype.constructor = ScrollSheet;
-ScrollSheet.prototype.__class = ScrollSheet;
-ScrollSheet.__base = Widget;
-ScrollSheet.__cache = {};
-Module['ScrollSheet'] = ScrollSheet;
-ScrollSheet.prototype["__destroy"] = ScrollSheet.prototype.__destroy = function() {
-    _two_ScrollSheet__destroy(this.__ptr);
-};
-// Sequence
-function Sequence() { throw "cannot construct a Sequence, no constructor in IDL" }
-Sequence.prototype = Object.create(Widget.prototype);
-Sequence.prototype.constructor = Sequence;
-Sequence.prototype.__class = Sequence;
-Sequence.__base = Widget;
-Sequence.__cache = {};
-Module['ui']['Sequence'] = Sequence;
-Sequence.prototype["__destroy"] = Sequence.prototype.__destroy = function() {
-    _two_ui_Sequence__destroy(this.__ptr);
-};
 // Tabber
 function Tabber() { throw "cannot construct a Tabber, no constructor in IDL" }
 Tabber.prototype = Object.create(Widget.prototype);
@@ -1355,28 +1324,6 @@ Tabber.__cache = {};
 Module['Tabber'] = Tabber;
 Tabber.prototype["__destroy"] = Tabber.prototype.__destroy = function() {
     _two_Tabber__destroy(this.__ptr);
-};
-// Expandbox
-function Expandbox() { throw "cannot construct a Expandbox, no constructor in IDL" }
-Expandbox.prototype = Object.create(Widget.prototype);
-Expandbox.prototype.constructor = Expandbox;
-Expandbox.prototype.__class = Expandbox;
-Expandbox.__base = Widget;
-Expandbox.__cache = {};
-Module['Expandbox'] = Expandbox;
-Expandbox.prototype["__destroy"] = Expandbox.prototype.__destroy = function() {
-    _two_Expandbox__destroy(this.__ptr);
-};
-// TreeNode
-function TreeNode() { throw "cannot construct a TreeNode, no constructor in IDL" }
-TreeNode.prototype = Object.create(Widget.prototype);
-TreeNode.prototype.constructor = TreeNode;
-TreeNode.prototype.__class = TreeNode;
-TreeNode.__base = Widget;
-TreeNode.__cache = {};
-Module['TreeNode'] = TreeNode;
-TreeNode.prototype["__destroy"] = TreeNode.prototype.__destroy = function() {
-    _two_TreeNode__destroy(this.__ptr);
 };
 // Table
 function Table() { throw "cannot construct a Table, no constructor in IDL" }
@@ -1410,17 +1357,6 @@ Docksystem.__cache = {};
 Module['Docksystem'] = Docksystem;
 Docksystem.prototype["__destroy"] = Docksystem.prototype.__destroy = function() {
     _two_Docksystem__destroy(this.__ptr);
-};
-// Dockable
-function Dockable() { throw "cannot construct a Dockable, no constructor in IDL" }
-Dockable.prototype = Object.create(Widget.prototype);
-Dockable.prototype.constructor = Dockable;
-Dockable.prototype.__class = Dockable;
-Dockable.__base = Widget;
-Dockable.__cache = {};
-Module['Dockable'] = Dockable;
-Dockable.prototype["__destroy"] = Dockable.prototype.__destroy = function() {
-    _two_Dockable__destroy(this.__ptr);
 };
 // Docker
 function Docker() { throw "cannot construct a Docker, no constructor in IDL" }
@@ -1516,35 +1452,6 @@ Ui.prototype["reset_styles"] = Ui.prototype.reset_styles = function() {
 };
 Ui.prototype["__destroy"] = Ui.prototype.__destroy = function() {
     _two_Ui__destroy(this.__ptr);
-};
-// Window
-function Window() { throw "cannot construct a Window, no constructor in IDL" }
-Window.prototype = Object.create(Dockable.prototype);
-Window.prototype.constructor = Window;
-Window.prototype.__class = Window;
-Window.__base = Dockable;
-Window.__cache = {};
-Module['Window'] = Window;
-Object.defineProperty(Window.prototype, "window_state", {
-    get: function() {
-        return _two_Window__get_window_state(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('Window.window_state: expected integer');
-        _two_Window__set_window_state(this.__ptr, value);
-    }
-});
-Object.defineProperty(Window.prototype, "menu", {
-    get: function() {
-        return wrapPointer(_two_Window__get_menu(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('Window.menu: expected Widget');
-        _two_Window__set_menu(this.__ptr, value.__ptr);
-    }
-});
-Window.prototype["__destroy"] = Window.prototype.__destroy = function() {
-    _two_Window__destroy(this.__ptr);
 };
 Module['layout_minimal'] = function(a0) {
     if (!checkClass(a0, UiWindow)) throw Error('layout_minimal(0:ui_window): expected UiWindow');
@@ -1724,15 +1631,6 @@ Module['ui']['popdown'] = function(a0, a1, a2, a3, a4, a5) {
     if (!checkClass(a0, NodeKey)) throw Error('popdown(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('popdown(1:parent): expected Widget');  if (typeof a3 !== 'number') throw Error('popdown(3:value): expected integer'); if (!checkClass(a4, v2_float)) throw Error('popdown(4:position): expected v2<float>'); if (typeof a5 !== 'number') throw Error('popdown(5:flags): expected integer');
     return !!(_two_ui_popdown_6(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureInt8(/*choices*/a2), /*choices*/a2.length, /*value*/a3, /*position*/a4.__ptr, /*flags*/a5));
 };
-Module['ui']['dropdown'] = function(a0, a1, a2, a3, a4, a5, a6) {
-    ensureCache.prepare();
-    if (a5 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('dropdown(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dropdown(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('dropdown(2:style): expected Style'); if (typeof a3 !== 'string') throw Error('dropdown(3:value): expected string'); if (typeof a4 !== 'number') throw Error('dropdown(4:flags): expected integer'); }
-    else if (a6 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('dropdown(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dropdown(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('dropdown(2:style): expected Style'); if (typeof a3 !== 'string') throw Error('dropdown(3:value): expected string'); if (typeof a4 !== 'number') throw Error('dropdown(4:flags): expected integer'); if (typeof a5 !== 'boolean') throw Error('dropdown(5:no_toggle): expected boolean'); }
-    else { if (!checkClass(a0, NodeKey)) throw Error('dropdown(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dropdown(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('dropdown(2:style): expected Style'); if (typeof a3 !== 'string') throw Error('dropdown(3:value): expected string'); if (typeof a4 !== 'number') throw Error('dropdown(4:flags): expected integer'); if (typeof a5 !== 'boolean') throw Error('dropdown(5:no_toggle): expected boolean'); if (!checkClass(a6, Style)) throw Error('dropdown(6:list_style): expected Style'); }
-    if (a5 === undefined) { return wrapPointer(_two_ui_dropdown_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr, ensureString(/*value*/a3), /*flags*/a4), Widget); }
-    else if (a6 === undefined) { return wrapPointer(_two_ui_dropdown_6(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr, ensureString(/*value*/a3), /*flags*/a4, /*no_toggle*/a5), Widget); }
-    else { return wrapPointer(_two_ui_dropdown_7(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr, ensureString(/*value*/a3), /*flags*/a4, /*no_toggle*/a5, /*list_style*/a6.__ptr), Widget); }
-};
 Module['ui']['dropdown_input'] = function(a0, a1, a2, a3, a4) {
     if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('dropdown_input(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dropdown_input(1:parent): expected Widget');  if (typeof a3 !== 'number') throw Error('dropdown_input(3:value): expected integer'); }
     else { if (!checkClass(a0, NodeKey)) throw Error('dropdown_input(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dropdown_input(1:parent): expected Widget');  if (typeof a3 !== 'number') throw Error('dropdown_input(3:value): expected integer'); if (typeof a4 !== 'boolean') throw Error('dropdown_input(4:compact): expected boolean'); }
@@ -1755,13 +1653,6 @@ Module['ui']['menu_option'] = function(a0, a1, a2, a3, a4) {
     if (!checkClass(a0, NodeKey)) throw Error('menu_option(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('menu_option(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('menu_option(2:content): expected string'); if (typeof a3 !== 'string') throw Error('menu_option(3:shortcut): expected string'); if (typeof a4 !== 'boolean') throw Error('menu_option(4:enabled): expected boolean');
     return wrapPointer(_two_ui_menu_option_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*content*/a2), ensureString(/*shortcut*/a3), /*enabled*/a4), Widget);
 };
-Module['ui']['menu'] = function(a0, a1, a2, a3) {
-    ensureCache.prepare();
-    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('menu(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('menu(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('menu(2:label): expected string'); }
-    else { if (!checkClass(a0, NodeKey)) throw Error('menu(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('menu(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('menu(2:label): expected string'); if (typeof a3 !== 'boolean') throw Error('menu(3:submenu): expected boolean'); }
-    if (a3 === undefined) { return wrapPointer(_two_ui_menu_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*label*/a2)), Widget); }
-    else { return wrapPointer(_two_ui_menu_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*label*/a2), /*submenu*/a3), Widget); }
-};
 Module['ui']['menubar'] = function(a0, a1) {
     if (!checkClass(a0, NodeKey)) throw Error('menubar(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('menubar(1:parent): expected Widget');
     return wrapPointer(_two_ui_menubar_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
@@ -1781,10 +1672,6 @@ Module['ui']['toolbar'] = function(a0, a1, a2) {
     if (a2 === undefined) { return wrapPointer(_two_ui_toolbar_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget); }
     else { return wrapPointer(_two_ui_toolbar_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*wrap*/a2), Widget); }
 };
-Module['ui']['select_list'] = function(a0, a1) {
-    if (!checkClass(a0, NodeKey)) throw Error('select_list(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('select_list(1:parent): expected Widget');
-    return wrapPointer(_two_ui_select_list_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), ScrollSheet);
-};
 Module['ui']['columns'] = function(a0, a1, a2) {
     if (!checkClass(a0, NodeKey)) throw Error('columns(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('columns(1:parent): expected Widget'); 
     return wrapPointer(_two_ui_columns_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureFloat32(/*weights*/a2), /*weights*/a2.length), Table);
@@ -1800,22 +1687,6 @@ Module['ui']['table_row'] = function(a0, a1) {
 Module['ui']['table_separator'] = function(a0, a1) {
     if (!checkClass(a0, NodeKey)) throw Error('table_separator(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('table_separator(1:parent): expected Widget');
     return wrapPointer(_two_ui_table_separator_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
-};
-Module['ui']['expandbox'] = function(a0, a1, a2, a3) {
-    ensureCache.prepare();
-    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('expandbox(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('expandbox(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('expandbox(2:name): expected string'); }
-    else { if (!checkClass(a0, NodeKey)) throw Error('expandbox(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('expandbox(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('expandbox(2:name): expected string'); if (typeof a3 !== 'boolean') throw Error('expandbox(3:open): expected boolean'); }
-    if (a3 === undefined) { return wrapPointer(_two_ui_expandbox_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2)), Expandbox); }
-    else { return wrapPointer(_two_ui_expandbox_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*open*/a3), Expandbox); }
-};
-Module['ui']['tree_node'] = function(a0, a1, a2, a3, a4) {
-    ensureCache.prepare();
-    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('tree_node(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('tree_node(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('tree_node(2:name): expected string'); }
-    else if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('tree_node(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('tree_node(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('tree_node(2:name): expected string'); if (typeof a3 !== 'boolean') throw Error('tree_node(3:leaf): expected boolean'); }
-    else { if (!checkClass(a0, NodeKey)) throw Error('tree_node(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('tree_node(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('tree_node(2:name): expected string'); if (typeof a3 !== 'boolean') throw Error('tree_node(3:leaf): expected boolean'); if (typeof a4 !== 'boolean') throw Error('tree_node(4:open): expected boolean'); }
-    if (a3 === undefined) { return wrapPointer(_two_ui_tree_node_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2)), TreeNode); }
-    else if (a4 === undefined) { return wrapPointer(_two_ui_tree_node_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*leaf*/a3), TreeNode); }
-    else { return wrapPointer(_two_ui_tree_node_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*name*/a2), /*leaf*/a3, /*open*/a4), TreeNode); }
 };
 Module['ui']['tree'] = function(a0, a1) {
     if (!checkClass(a0, NodeKey)) throw Error('tree(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('tree(1:parent): expected Widget');
@@ -1883,11 +1754,9 @@ Module['ui']['dummy'] = function(a0, a1, a2) {
     if (!checkClass(a0, NodeKey)) throw Error('dummy(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('dummy(1:parent): expected Widget'); if (!checkClass(a2, v2_float)) throw Error('dummy(2:size): expected v2<float>');
     return wrapPointer(_two_ui_dummy_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*size*/a2.__ptr), Widget);
 };
-Module['ui']['popup'] = function(a0, a1, a2, a3) {
-    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('popup(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('popup(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('popup(2:flags): expected integer'); }
-    else { if (!checkClass(a0, NodeKey)) throw Error('popup(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('popup(1:parent): expected Widget'); if (!checkClass(a2, v2_float)) throw Error('popup(2:size): expected v2<float>'); if (typeof a3 !== 'number') throw Error('popup(3:flags): expected integer'); }
-    if (a3 === undefined) { return wrapPointer(_two_ui_popup_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*flags*/a2), Widget); }
-    else { return wrapPointer(_two_ui_popup_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*size*/a2.__ptr, /*flags*/a3), Widget); }
+Module['ui']['popup'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('popup(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('popup(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('popup(2:flags): expected integer');
+    return wrapPointer(_two_ui_popup_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*flags*/a2), Widget);
 };
 Module['ui']['popup_at'] = function(a0, a1, a2, a3) {
     if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('popup_at(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('popup_at(1:parent): expected Widget'); if (!checkClass(a2, v2_float)) throw Error('popup_at(2:position): expected v2<float>'); }
@@ -1895,17 +1764,13 @@ Module['ui']['popup_at'] = function(a0, a1, a2, a3) {
     if (a3 === undefined) { return wrapPointer(_two_ui_popup_at_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*position*/a2.__ptr), Widget); }
     else { return wrapPointer(_two_ui_popup_at_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*position*/a2.__ptr, /*flags*/a3), Widget); }
 };
-Module['ui']['modal'] = function(a0, a1, a2) {
-    if (a2 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('modal(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('modal(1:parent): expected Widget'); }
-    else { if (!checkClass(a0, NodeKey)) throw Error('modal(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('modal(1:parent): expected Widget'); if (!checkClass(a2, v2_float)) throw Error('modal(2:size): expected v2<float>'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_modal_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget); }
-    else { return wrapPointer(_two_ui_modal_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*size*/a2.__ptr), Widget); }
+Module['ui']['modal'] = function(a0, a1) {
+    if (!checkClass(a0, NodeKey)) throw Error('modal(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('modal(1:parent): expected Widget');
+    return wrapPointer(_two_ui_modal_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
 };
-Module['ui']['auto_modal'] = function(a0, a1, a2, a3) {
-    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('auto_modal(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('auto_modal(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('auto_modal(2:mode): expected integer'); }
-    else { if (!checkClass(a0, NodeKey)) throw Error('auto_modal(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('auto_modal(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('auto_modal(2:mode): expected integer'); if (!checkClass(a3, v2_float)) throw Error('auto_modal(3:size): expected v2<float>'); }
-    if (a3 === undefined) { return wrapPointer(_two_ui_auto_modal_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*mode*/a2), Widget); }
-    else { return wrapPointer(_two_ui_auto_modal_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*mode*/a2, /*size*/a3.__ptr), Widget); }
+Module['ui']['auto_modal'] = function(a0, a1, a2) {
+    if (!checkClass(a0, NodeKey)) throw Error('auto_modal(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('auto_modal(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('auto_modal(2:mode): expected integer');
+    return wrapPointer(_two_ui_auto_modal_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*mode*/a2), Widget);
 };
 Module['ui']['context'] = function(a0, a1, a2, a3) {
     if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('context(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('context(1:parent): expected Widget'); if (typeof a2 !== 'number') throw Error('context(2:mode): expected integer'); }
@@ -2141,27 +2006,9 @@ Module['ui']['canvas'] = function(a0, a1, a2) {
     if (a2 === undefined) { return wrapPointer(_two_ui_canvas_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Canvas); }
     else { return wrapPointer(_two_ui_canvas_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*num_nodes*/a2), Canvas); }
 };
-Module['ui']['scroll_sheet'] = function(a0, a1, a2, a3) {
-    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('scroll_sheet(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('scroll_sheet(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('scroll_sheet(2:style): expected Style'); }
-    else { if (!checkClass(a0, NodeKey)) throw Error('scroll_sheet(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('scroll_sheet(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('scroll_sheet(2:style): expected Style'); if (!checkClass(a3, Style)) throw Error('scroll_sheet(3:surface_style): expected Style'); }
-    if (a3 === undefined) { return wrapPointer(_two_ui_scroll_sheet_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr), ScrollSheet); }
-    else { return wrapPointer(_two_ui_scroll_sheet_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr, /*surface_style*/a3.__ptr), ScrollSheet); }
-};
-Module['ui']['scroll_plan'] = function(a0, a1, a2) {
-    if (!checkClass(a0, NodeKey)) throw Error('scroll_plan(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('scroll_plan(1:parent): expected Widget'); if (!checkClass(a2, Style)) throw Error('scroll_plan(2:style): expected Style');
-    return wrapPointer(_two_ui_scroll_plan_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*style*/a2.__ptr), ScrollSheet);
-};
 Module['ui']['scrollable'] = function(a0, a1) {
     if (!checkClass(a0, NodeKey)) throw Error('scrollable(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('scrollable(1:parent): expected Widget');
     return wrapPointer(_two_ui_scrollable_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
-};
-Module['ui']['sequence'] = function(a0, a1) {
-    if (!checkClass(a0, NodeKey)) throw Error('sequence(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('sequence(1:parent): expected Widget');
-    return wrapPointer(_two_ui_sequence_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Sequence);
-};
-Module['ui']['scroll_sequence'] = function(a0, a1) {
-    if (!checkClass(a0, NodeKey)) throw Error('scroll_sequence(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('scroll_sequence(1:parent): expected Widget');
-    return wrapPointer(_two_ui_scroll_sequence_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Sequence);
 };
 Module['ui']['select_logic'] = function(a0, a1, a2) {
     if (!checkClass(a0, Widget)) throw Error('select_logic(0:element): expected Widget'); if (!checkClass(a1, Ref)) throw Error('select_logic(1:object): expected Ref'); if (!checkClass(a2, Ref)) throw Error('select_logic(2:selection): expected Ref');
@@ -2170,19 +2017,6 @@ Module['ui']['select_logic'] = function(a0, a1, a2) {
 Module['ui']['element'] = function(a0, a1, a2) {
     if (!checkClass(a0, NodeKey)) throw Error('element(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('element(1:parent): expected Widget'); if (!checkClass(a2, Ref)) throw Error('element(2:object): expected Ref');
     return wrapPointer(_two_ui_element_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureRef(/*object*/a2), ensureRefType(/*object*/a2)), Widget);
-};
-Module['ui']['sequence_element'] = function(a0, a1) {
-    if (!checkClass(a0, Sequence)) throw Error('sequence_element(0:parent): expected Sequence'); if (!checkClass(a1, Ref)) throw Error('sequence_element(1:object): expected Ref');
-    return wrapPointer(_two_ui_sequence_element_2(/*parent*/a0.__ptr, ensureRef(/*object*/a1), ensureRefType(/*object*/a1)), Widget);
-};
-Module['ui']['window'] = function(a0, a1, a2, a3, a4) {
-    ensureCache.prepare();
-    if (a3 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('window(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('window(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('window(2:title): expected string'); }
-    else if (a4 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('window(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('window(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('window(2:title): expected string'); if (typeof a3 !== 'number') throw Error('window(3:state): expected integer'); }
-    else { if (!checkClass(a0, NodeKey)) throw Error('window(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('window(1:parent): expected Widget'); if (typeof a2 !== 'string') throw Error('window(2:title): expected string'); if (typeof a3 !== 'number') throw Error('window(3:state): expected integer'); if (!checkClass(a4, Dock)) throw Error('window(4:dock): expected Dock'); }
-    if (a3 === undefined) { return wrapPointer(_two_ui_window_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*title*/a2)), Window); }
-    else if (a4 === undefined) { return wrapPointer(_two_ui_window_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*title*/a2), /*state*/a3), Window); }
-    else { return wrapPointer(_two_ui_window_5(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureString(/*title*/a2), /*state*/a3, /*dock*/a4.__ptr), Window); }
 };
 Module['ui']['dir_item'] = function(a0, a1, a2) {
     ensureCache.prepare();
@@ -2236,15 +2070,10 @@ Module['ui']['file_tree'] = function(a0, a1, a2) {
         UiWindow.prototype.__type = _two_UiWindow__type();
         User.prototype.__type = _two_User__type();
         Layer.prototype.__type = _two_Layer__type();
-        ScrollSheet.prototype.__type = _two_ScrollSheet__type();
-        Sequence.prototype.__type = _two_ui_Sequence__type();
         Tabber.prototype.__type = _two_Tabber__type();
-        Expandbox.prototype.__type = _two_Expandbox__type();
-        TreeNode.prototype.__type = _two_TreeNode__type();
         Table.prototype.__type = _two_Table__type();
         Dock.prototype.__type = _two_Dock__type();
         Docksystem.prototype.__type = _two_Docksystem__type();
-        Dockable.prototype.__type = _two_Dockable__type();
         Docker.prototype.__type = _two_Docker__type();
         Dockspace.prototype.__type = _two_Dockspace__type();
         Dockbar.prototype.__type = _two_Dockbar__type();
@@ -2253,7 +2082,6 @@ Module['ui']['file_tree'] = function(a0, a1, a2) {
         CanvasConnect.prototype.__type = _two_CanvasConnect__type();
         Canvas.prototype.__type = _two_Canvas__type();
         Ui.prototype.__type = _two_Ui__type();
-        Window.prototype.__type = _two_Window__type();
         // FlowAxis
         Module['FlowAxis'] = Module['FlowAxis'] || {};
         Module['FlowAxis']['Reading'] = _two_FlowAxis_Reading();

@@ -426,8 +426,8 @@ namespace two
 
 	void tileblock_edit(Widget& parent, Viewer& viewer, WfcBlock& tileblock, uvec3& highlighted, uvec3& selected, uvec3& focused)
 	{
-		Section& self = section(key(), parent, "Edit WfcBlock");
-		Widget& body = *self.m_body;
+		Section self = section(key(), parent, "Edit WfcBlock");
+		Widget& body = self.body;
 
 		auto button = [&](cstring label) { Widget& row = ui::row(key(), body); return ui::button(key(), row, label).activated(); };
 

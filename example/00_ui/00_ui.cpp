@@ -73,12 +73,12 @@ void ex_custom_list(Widget& parent)
 {
 	static string criteria = "";
 
-	//ScrollSheet& list = ui::select_list(key(), parent);
-	ScrollSheet& list = ui::scroll_sheet(key(), parent);
+	//ScrollSheet list = ui::select_list(key(), parent);
+	ScrollSheet list = ui::scroll_sheet(key(), parent);
 
 	for(Person& person : persons)
 		if(ui::filter(criteria, person.m_name) && !person.m_removed)
-			custom_element(*list.m_body, person.m_name.c_str(), person.m_gender == MALE ? "Male" : "Female", person.m_selected, person.m_removed);
+			custom_element(list.body, person.m_name.c_str(), person.m_gender == MALE ? "Male" : "Female", person.m_selected, person.m_removed);
 
 	ui::type_in(key(), parent, criteria);
 }
@@ -87,11 +87,11 @@ void ex_filtered_list(Widget& parent)
 {
 	static string criteria = "";
 
-	ScrollSheet& list = ui::scroll_sheet(key(), parent);
+	ScrollSheet list = ui::scroll_sheet(key(), parent);
 
 	for(Person& person : persons)
 		if(ui::filter(criteria, person.m_name))
-			ui::label(key(), *list.m_body, person.m_name.c_str());
+			ui::label(key(), list.body, person.m_name.c_str());
 
 	ui::type_in(key(), parent, criteria);
 }
@@ -113,12 +113,12 @@ void ex_text_editor(Widget& parent)
 {
 	Widget& menubar = ui::menubar(key(), parent);
 
-	if(Widget* menu = ui::menu(key(), menubar, "Menu").m_body)
+	if(Widget* menu = ui::menu(key(), menubar, "Menu").body)
 	{
 		ui::menu_choice(key(), *menu, "Redo");
 		ui::menu_choice(key(), *menu, "Undo");
 
-		if(Widget* submenu = ui::menu(key(), *menu, "Change Font", true).m_body)
+		if(Widget* submenu = ui::menu(key(), *menu, "Change Font", true).body)
 		{
 			ui::menu_choice(key(), *submenu, "Arial");
 			ui::menu_choice(key(), *submenu, "Myriad");
@@ -138,12 +138,12 @@ void ex_application(Widget& parent)
 {
 	Widget& menubar = ui::menubar(key(), parent);
 
-	if(Widget* menu = ui::menu(key(), menubar, "File").m_body)
+	if(Widget* menu = ui::menu(key(), menubar, "File").body)
 	{
 		ui::menu_choice(key(), *menu, "Open");
 		ui::menu_choice(key(), *menu, "Save");
 
-		if(Widget* submenu = ui::menu(key(), *menu, "Save As", true).m_body)
+		if(Widget* submenu = ui::menu(key(), *menu, "Save As", true).body)
 		{
 			ui::menu_choice(key(), *submenu, "Save As JPEG");
 			ui::menu_choice(key(), *submenu, "Save As PNG");
@@ -153,13 +153,13 @@ void ex_application(Widget& parent)
 		ui::menu_choice(key(), *menu, "Close");
 	}
 
-	if(Widget* menu = ui::menu(key(), menubar, "Edit").m_body)
+	if(Widget* menu = ui::menu(key(), menubar, "Edit").body)
 	{
 		ui::menu_choice(key(), *menu, "Redo");
 		ui::menu_choice(key(), *menu, "Undo");
 	}
 
-	if(Widget* menu = ui::menu(key(), menubar, "Help").m_body)
+	if(Widget* menu = ui::menu(key(), menubar, "Help").body)
 	{
 		ui::menu_choice(key(), *menu, "About kiUi");
 	}
@@ -221,19 +221,19 @@ void ex_dockspace(Widget& parent)
 
 	if(Widget* dock = ui::dockitem(dockspace, "Dock 0", { 0U, 0U }))
 	{
-		Widget& body = *ui::scroll_sheet(key(), *dock).m_body;
+		Widget& body = ui::scroll_sheet(key(), *dock).body;
 		ex_controls(body);
 	}
 
 	if(Widget* dock = ui::dockitem(dockspace, "Dock 1", { 0U, 1U }))
 	{
-		Widget& body = *ui::scroll_sheet(key(), *dock).m_body;
+		Widget& body = ui::scroll_sheet(key(), *dock).body;
 		ex_inline_controls(body);
 	}
 
 	if(Widget* dock = ui::dockitem(dockspace, "Dock 2", { 0U, 2U }))
 	{
-		Widget& body = *ui::scroll_sheet(key(), *dock).m_body;
+		Widget& body = ui::scroll_sheet(key(), *dock).body;
 		ex_table(body);
 	}
 
@@ -381,7 +381,7 @@ void ex_table(Widget& parent)
 
 		for(const string& c : { "A", "B", "C" })
 		{
-			if(Widget* expandbox = ui::expandbox(key(), r2, (string("Category") + c).c_str()).m_body)
+			if(Widget* expandbox = ui::expandbox(key(), r2, (string("Category") + c).c_str()).body)
 				ui::label(key(), *expandbox, "Blah blah blah");
 		}
 	}
@@ -412,21 +412,21 @@ void ex_table(Widget& parent)
 void ex_tree(Widget& parent)
 {
 	Widget& tree = ui::tree(key(), parent);
-	Widget* root_node = ui::tree_node(key(), tree, "Tree").m_body;
+	Widget* root_node = ui::tree_node(key(), tree, "Tree").body;
 
 	if(!root_node) return;
 
 	for(size_t i = 0; i < 5; i++)
 	{
-		Widget* node = ui::tree_node(key(), *root_node, ("Child " + to_string(i)).c_str(), false, true).m_body;
+		Widget* node = ui::tree_node(key(), *root_node, ("Child " + to_string(i)).c_str(), false, true).body;
 		for(size_t j = 0; j < 5; j++)
 			if(node)
-				node = ui::tree_node(key(), *node, ("Child " + to_string(i) + " : " + to_string(j)).c_str(), j == 4, true).m_body;
+				node = ui::tree_node(key(), *node, ("Child " + to_string(i) + " : " + to_string(j)).c_str(), j == 4, true).body;
 	}
 
 	for(size_t i = 0; i < 5; i++)
 	{
-		if(Widget* node = ui::tree_node(key(), *root_node, ("Child " + to_string(5 + i)).c_str()).m_body)
+		if(Widget* node = ui::tree_node(key(), *root_node, ("Child " + to_string(5 + i)).c_str()).body)
 		{
 			Widget& row = ui::row(key(), *node);
 			ui::label(key(), row, "Blah blah");
@@ -442,7 +442,7 @@ void ex_table_tree(Widget& parent)
 	ui::tree_node(key(), tree, "Inside a tree...");
 	ui::tree_node(key(), tree, "Node 1 (with borders)");
 
-	if(Widget* node2 = ui::tree_node(key(), tree, "Table Node 0").m_body)
+	if(Widget* node2 = ui::tree_node(key(), tree, "Table Node 0").body)
 	{
 		ui::label(key(), *node2, "aaa");
 		ui::label(key(), *node2, "bbb");
@@ -450,7 +450,7 @@ void ex_table_tree(Widget& parent)
 		ui::label(key(), *node2, "ddd");
 	}
 
-	if(Widget* node3 = ui::tree_node(key(), tree, "Table Node 1").m_body)
+	if(Widget* node3 = ui::tree_node(key(), tree, "Table Node 1").body)
 	{
 		ui::label(key(), *node3, "eee");
 		ui::label(key(), *node3, "fff");
@@ -593,20 +593,21 @@ WindowState window_state = WindowState::Default;
 
 void ex_window(Widget& parent)
 {
-	Widget& window = ui::window(key(), parent, "Test Window", window_state);
-	ex_window_page(*window.m_body);
+	Window window = ui::window(key(), parent, "Test Window", window_state);
+	if(window.body)
+		ex_window_page(*window.body);
 }
 
 void ex_window_page(Widget& parent)
 {
 	ui::text(key(), parent, "kiui says hello.\n" "line breaks can happen in a label");
 
-	if(Widget* expandbox = ui::expandbox(key(), parent, "Help").m_body)
+	if(Widget* expandbox = ui::expandbox(key(), parent, "Help").body)
 	{
 		ui::text(key(), *expandbox, "This window is being created by the ex_window_page() function.\nPlease refer to the code for programming reference.\n\nUser Guide:");
 	}
 
-	if(Widget* expandbox = ui::expandbox(key(), parent, "Window options").m_body)
+	if(Widget* expandbox = ui::expandbox(key(), parent, "Window options").body)
 	{
 		ui::flag_field(key(), *expandbox, "titlebar", (uint32_t&)window_state, 1, true);
 		ui::flag_field(key(), *expandbox, "closable", (uint32_t&)window_state, 3, true);
@@ -617,12 +618,12 @@ void ex_window_page(Widget& parent)
 		ui::slider_field(key(), *expandbox, "fill alpha", alpha, { 0.f, 1.f, 0.1f }, true);
 	}
 
-	if(Widget* expandbox = ui::expandbox(key(), parent, "Widgets").m_body)
+	if(Widget* expandbox = ui::expandbox(key(), parent, "Widgets").body)
 	{
 		ex_controls(*expandbox);
 	}
 
-	if(Widget* expandbox = ui::expandbox(key(), parent, "Table").m_body)
+	if(Widget* expandbox = ui::expandbox(key(), parent, "Table").body)
 	{
 		ex_table(*expandbox);
 	}
@@ -779,11 +780,11 @@ void example_ui(Widget& ui)
 		if(sample != SampleId::Invalid)
 		{
 			cstring name = sample_names[size_t(sample)];
-			Widget& window = ui::window(key(size_t(sample)), windows, name, window_state);
-			if(window.m_body)
+			Window window = ui::window(key(size_t(sample)), windows, name, window_state);
+			if(window.body)
 			{
-				ScrollSheet& scrollsheet = ui::scroll_sheet(key(), *window.m_body);
-				samples[size_t(sample)](*scrollsheet.m_body);
+				ScrollSheet scrollsheet = ui::scroll_sheet(key(), *window.body);
+				samples[size_t(sample)](scrollsheet.body);
 			}
 			else
 			{

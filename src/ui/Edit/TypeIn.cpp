@@ -770,10 +770,10 @@ namespace ui
 	TextEdit& text_edit(NodeKey id, Widget& parent, string& text, size_t lines, vector<string>* vocabulary)
 	{
 		Widget& self = widget(id, parent, styles().text_edit);
-		ScrollSheet& scroll_sheet = ui::scroll_sheet(key(), self);
-		TextEdit& edit = text_box(key(), *scroll_sheet.m_body, styles().type_zone, text, true, lines);
+		ScrollSheet scroll_sheet = ui::scroll_sheet(key(), self);
+		TextEdit& edit = text_box(key(), scroll_sheet.body, styles().type_zone, text, true, lines);
 
-		edit.update_scroll(scroll_sheet.m_scroll_zone->m_frame, scroll_sheet.m_body->m_frame);
+		edit.update_scroll(scroll_sheet.scroll_zone.m_frame, scroll_sheet.body.m_frame);
 
 		if(vocabulary && edit.m_completing && !edit.has_selection())
 		{

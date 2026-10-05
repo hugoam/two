@@ -82,11 +82,11 @@ namespace two
 		if(ui::modal_button(key(), screen, parent, ".", PICK))
 		{
 			string title = "Select " + string(type(result).m_name);
-			Widget& modal = ui::auto_modal(key(), parent, PICK, { 600, 400 });
+			ui::Popup modal = ui::auto_modal(key(), parent, PICK, { 600, 400 });
 			
-			Widget& self = *ui::scroll_sheet(key(), *modal.m_body).m_body;
+			Widget& self = ui::scroll_sheet(key(), modal.body).body;
 			changed = object_selector(self, indexer(type(result)), result);
-			if(ui::button(key(), *modal.m_body, "Done").activated())
+			if(ui::button(key(), modal.body, "Done").activated())
 				screen.m_switch &= ~PICK;
 		}
 		return changed;

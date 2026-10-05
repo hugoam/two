@@ -21,6 +21,8 @@ namespace ui
     export_ struct TreeNodeStyles;
     export_ struct TabberStyles;
     export_ struct DragPoint;
+    export_ struct Popup;
+    export_ struct Dropdown;
     export_ struct CursorStyles;
     export_ struct DockStyles;
     export_ struct SliderState;
@@ -30,7 +32,7 @@ namespace ui
     export_ struct ScrollbarStyles;
     export_ struct WindowStyles;
     export_ struct FileStyles;
-    export_ class Sequence;
+    export_ struct Sequence;
 }
 }
 
@@ -82,15 +84,15 @@ namespace two
     export_ struct LanguageDefinition;
     export_ class Layer;
     export_ struct Layout;
-    export_ class ScrollSheet;
+    export_ struct ScrollSheet;
     export_ class Tabber;
-    export_ class Expandbox;
-    export_ class TreeNode;
+    export_ struct Expandbox;
+    export_ struct TreeNode;
     export_ class Table;
     export_ struct Dock;
+    export_ struct Section;
     export_ class Docksystem;
-    export_ class Dockable;
-    export_ class Docker;
+        export_ class Docker;
     export_ class Dockspace;
     export_ class Dockbar;
     export_ class NodePlug;
@@ -99,7 +101,7 @@ namespace two
     export_ class Canvas;
     export_ struct DropAction;
     export_ class Ui;
-    export_ class Window;
+    export_ struct Window;
     export_ struct ImageSkin;
     export_ struct InkStyle;
     export_ class Options;

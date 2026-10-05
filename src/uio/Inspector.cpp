@@ -74,7 +74,7 @@ namespace two
 	{
 		//Widget& row = ui::table_row(key(), parent);
 		Widget& row = ui::table_separator(key(), parent);
-		Widget* body = ui::tree_node(key(), row, member.m_name, false, true).m_body;
+		Widget* body = ui::tree_node(key(), row, member.m_name, false, true).body;
 		if(body)
 			return member_edit(*body, object, member, EditorHint::Rows);
 		return false;
@@ -179,7 +179,7 @@ namespace two
 
 	bool object_edit_expandbox(Widget& parent, Ref object)
 	{
-		Widget* body = ui::expandbox(key(), parent, object.m_type->m_name, true).m_body;
+		Widget* body = ui::expandbox(key(), parent, object.m_type->m_name, true).body;
 		if(body)
 			return object_edit_columns(*body, object);
 		return false;
@@ -209,7 +209,7 @@ namespace two
 		for(auto& buffer : stream.m_buffers)
 		{
 			Widget& row = ui::table_separator(key(), self);
-			Widget* body = ui::tree_node(key(), row, buffer->m_type->m_name, false, true).m_body;
+			Widget* body = ui::tree_node(key(), row, buffer->m_type->m_name, false, true).body;
 			if(body)
 				changed |= object_edit_columns(*body, buffer->get(index));
 		}
@@ -219,32 +219,32 @@ namespace two
 
 	bool inspector(Widget& parent, Entity entity)
 	{
-		Section& self = section(key(), parent, "Entity Inspector", true);
-		return entity_edit(*self.m_body, entity);
+		Section self = section(key(), parent, "Entity Inspector", true);
+		return entity_edit(self.body, entity);
 	}
 
 	bool inspector(Widget& parent, Ref object)
 	{
-		Section& self = section(key(), parent, "Inspector", true);
+		Section self = section(key(), parent, "Inspector", true);
 		if(object.m_type->is<EntityRef>())
 			return inspector(parent, { UINT8_MAX, UINT16_MAX, as_ent(object) });
 		else
-			return object_edit_columns(*self.m_body, object);
+			return object_edit_columns(self.body, object);
 	}
 
 	bool inspector(Widget& parent)
 	{
-		Section& self = section(key(), parent, "Inspector", true);
-		EditState& state = self.state<EditState>();
+		Section self = section(key(), parent, "Inspector", true);
+		EditState& state = self.self.state<EditState>();
 		if(state.object)
-			return object_edit_columns(*self.m_body, state.object);
+			return object_edit_columns(self.body, state.object);
 		return false;
 	}
 
 	void multi_object_edit(Widget& parent, Type& type, vector<Ref> objects)
 	{
-		ScrollSheet& scroll_sheet = ui::scroll_sheet(key(), parent);
-		Widget& table = ui::table(key(), *scroll_sheet.m_body, cls(type).m_field_names, {});
+		ScrollSheet scroll_sheet = ui::scroll_sheet(key(), parent);
+		Widget& table = ui::table(key(), scroll_sheet.body, cls(type).m_field_names, {});
 
 		for(Ref object : objects)
 			object_edit_inline(table, object);
@@ -254,28 +254,28 @@ namespace two
 	{
 		enum Modes { CREATE = 1 << 0, TYPE_INFO = 1 << 1 };
 
-		Section& self = section(key(), parent, (string(type.m_name) + " Library").c_str());
+		Section self = section(key(), parent, (string(type.m_name) + " Library").c_str());
 
-		if(ui::modal_button(key(), self, *self.m_toolbar, "Type Info", TYPE_INFO))
+		if(ui::modal_button(key(), self, *self.toolbar, "Type Info", TYPE_INFO))
 		{
-			Widget& modal = ui::auto_modal(key(), self, TYPE_INFO, { 600, 400 });
-			meta_edit(*modal.m_body, type);
+			ui::Popup modal = ui::auto_modal(key(), self, TYPE_INFO, { 600, 400 });
+			meta_edit(modal.body, type);
 		}
 
-		if(ui::button(key(), *self.m_toolbar, "Add").activated())
+		if(ui::button(key(), *self.toolbar, "Add").activated())
 			objects.push_back(meta(type).m_empty_var);
 
-		if(ui::modal_button(key(), self, *self.m_toolbar, "Create", CREATE))
+		if(ui::modal_button(key(), self, *self.toolbar, "Create", CREATE))
 		{
 			Widget& modal = ui::auto_modal(key(), self, CREATE);
 			bool done = object_creator(modal, type);
 			UNUSED(done);
 		}
 
-		Widget& board = ui::board(key(), *self.m_body);
+		Widget& board = ui::board(key(), self.body);
 
-		ScrollSheet& scroll_sheet = ui::scroll_sheet(key(), board);
-		Widget& table = ui::table(key(), *scroll_sheet.m_body, cls(type).m_field_names, {});
+		ScrollSheet scroll_sheet = ui::scroll_sheet(key(), board);
+		Widget& table = ui::table(key(), scroll_sheet.body, cls(type).m_field_names, {});
 
 		for(size_t i = 0; i < objects.size(); ++i)
 		{

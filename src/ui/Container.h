@@ -43,7 +43,7 @@ namespace ui
 
 	export_ TWO_UI_EXPORT TabberStyles& tabber_styles();
 
-	export_ TWO_UI_EXPORT func_ ScrollSheet& select_list(NodeKey id, Widget& parent);
+	export_ TWO_UI_EXPORT ScrollSheet select_list(NodeKey id, Widget& parent);
 
 	// @todo reflection for span<T>
 	export_ TWO_UI_EXPORT func_ Table& columns(NodeKey id, Widget& parent, span<float> weights);
@@ -51,11 +51,11 @@ namespace ui
 	export_ TWO_UI_EXPORT func_ Widget& table_row(NodeKey id, Widget& parent);
 	export_ TWO_UI_EXPORT func_ Widget& table_separator(NodeKey id, Widget& parent);
 
-	export_ TWO_UI_EXPORT Expandbox& expandbox(NodeKey id, Widget& parent, span<cstring> elements, bool open = true);
-	export_ TWO_UI_EXPORT func_ Expandbox& expandbox(NodeKey id, Widget& parent, cstring name, bool open = true);
+	export_ TWO_UI_EXPORT Expandbox expandbox(NodeKey id, Widget& parent, span<cstring> elements, bool open = true);
+	export_ TWO_UI_EXPORT Expandbox expandbox(NodeKey id, Widget& parent, cstring name, bool open = true);
 
-	export_ TWO_UI_EXPORT TreeNode& tree_node(NodeKey id, Widget& parent, span<cstring> elements, bool leaf = false, bool open = true);
-	export_ TWO_UI_EXPORT func_ TreeNode& tree_node(NodeKey id, Widget& parent, cstring name, bool leaf = false, bool open = true);
+	export_ TWO_UI_EXPORT TreeNode tree_node(NodeKey id, Widget& parent, span<cstring> elements, bool leaf = false, bool open = true);
+	export_ TWO_UI_EXPORT TreeNode tree_node(NodeKey id, Widget& parent, cstring name, bool leaf = false, bool open = true);
 	export_ TWO_UI_EXPORT func_ Widget& tree(NodeKey id, Widget& parent);
 
 	export_ TWO_UI_EXPORT func_ Widget* tab(NodeKey id, Tabber& tabber, cstring name);

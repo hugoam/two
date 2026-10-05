@@ -411,7 +411,7 @@ static void generator_script(VisualScript& script)
 
 void example_options(Widget& parent, PerezSky& sky)
 {
-	//Widget& body = *ui::window(key(), parent, "Procedural Sky").m_body;
+	//Widget& body = *ui::window(key(), parent, "Procedural Sky").body;
 	//Widget& body = ui::columns(key(), parent, {});
 	Widget& body = ui::table(key(), parent, { "field", "value" }, {});
 	ui::slider_field(key(), body, "Time scale", sky.m_time_scale,     { 0.0f, 1.0f, 0.01f });

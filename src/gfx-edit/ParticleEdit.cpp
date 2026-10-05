@@ -67,14 +67,14 @@ namespace two
 
 	void particle_edit(Widget& parent, GfxSystem& system, Flow& generator)
 	{
-		Section& self = section(key(), parent, "Particle Editor");
+		Section self = section(key(), parent, "Particle Editor");
 
-		object_edit(*self.m_body, Ref(&generator));
+		object_edit(self.body, Ref(&generator));
 		particle_editor_viewer(self, generator);
 
-		if(ui::modal_button(key(), self, *self.m_toolbar, "Open", OPEN_PARTICLES))
+		if(ui::modal_button(key(), self, *self.toolbar, "Open", OPEN_PARTICLES))
 			open_particles(self, system, generator);
-		if(ui::modal_button(key(), self, *self.m_toolbar, "Save", SAVE_PARTICLES))
+		if(ui::modal_button(key(), self, *self.toolbar, "Save", SAVE_PARTICLES))
 			save_particles(self, system, generator);
 	}
 

@@ -57,17 +57,17 @@ namespace ui
 	Widget& dir_node(NodeKey id, Widget& parent, const string& path, const string& name, bool open)
 	{
 		cstring elements[] = { "(folder_20)", name.c_str() };
-		Widget& self = tree_node(id, parent, elements, false, open);
-		if(!self.m_body) return self;
+		TreeNode self = tree_node(id, parent, elements, false, open);
+		if(!self.body) return self;
 
 		auto on_dir = [&](const string& dir)
 		{
-			dir_node(key(), *self.m_body, path + "/" + dir, dir, false);
+			dir_node(key(), *self.body, path + "/" + dir, dir, false);
 		};
 
 		auto on_file = [&](const string& file)
 		{
-			file_node(key(), *self.m_body, file.c_str());
+			file_node(key(), *self.body, file.c_str());
 		};
 
 		visit_folders(path, on_dir);

@@ -14,5 +14,5 @@ namespace two
 	export_ TWO_UIO_EXPORT void process_display(Widget& parent, ProcessDisplay& process);
 	export_ TWO_UIO_EXPORT void process_display_structure(Widget& parent, ProcessStructure& process);
 	export_ TWO_UIO_EXPORT void process_construct(Widget& parent, ProcessConstruct& process);
-	export_ TWO_UIO_EXPORT Section& visual_script_edit(Widget& parent, VisualScript& script);
+	export_ TWO_UIO_EXPORT Section visual_script_edit(Widget& parent, VisualScript& script);
 }

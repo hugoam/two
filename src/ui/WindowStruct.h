@@ -11,24 +11,13 @@
 
 namespace two
 {
-	export_ class refl_ TWO_UI_EXPORT Window : public Dockable
+	// a window, with its header and its menu if it has them: the content goes in the body, which is there when it's open
+	export_ struct Window
 	{
-	public:
-		Window(Widget* parent)
-			: Dockable(parent)
-		{}
-
-		bool header()   { return (uint(m_window_state) & uint(WindowState::Header)) != 0; }
-		bool closable() { return (uint(m_window_state) & uint(WindowState::Closable)) != 0; }
-		bool dockable() { return (uint(m_window_state) & uint(WindowState::Dockable)) != 0; }
-		bool movable()  { return (uint(m_window_state) & uint(WindowState::Movable)) != 0; }
-		bool sizable()  { return (uint(m_window_state) & uint(WindowState::Sizable)) != 0; }
-		bool hasmenu()  { return (uint(m_window_state) & uint(WindowState::Menu)) != 0; }
-
-		attr_ WindowState m_window_state;
-
-		attr_ Widget* m_menu = nullptr;
-
-		Widget* m_header = nullptr;
+		Widget& self;
+		Widget* header;
+		Widget* menu;
+		Widget* body;
+		operator Widget&() const { return self; }
 	};
 }

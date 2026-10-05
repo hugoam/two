@@ -36,6 +36,7 @@ namespace ui
 		self.init(dock_styles().dockspace);
 		add(docksystem.m_dockers, &self);
 		self.apply_pending();
+		self.m_docked.clear();
 		self.m_mainline = &dockline(self, 0, Axis::Y);
 		return self;
 	}
@@ -73,19 +74,18 @@ namespace ui
 		}
 		else
 		{
-			Window& container = window(id, parent, name, WindowState(uint(WindowState::Dockable) | uint(WindowState::Default)));
-			container.m_docksystem = &docksystem;
+			Window container = window(id, parent, name, WindowState(uint(WindowState::Dockable) | uint(WindowState::Default)), nullptr, &docksystem);
 
 			if(docksystem.m_dragged == name)
 			{
 				// the item was just undocked: the drag continues on its floating window, from under the cursor
-				Mouse& mouse = container.ui().m_mouse;
-				container.m_frame.set_position(mouse.m_pos - parent.m_frame.absolute_position() - vec2(10.f));
-				mouse.fix_press(*container.m_header);
+				Mouse& mouse = container.self.ui().m_mouse;
+				container.self.m_frame.set_position(mouse.m_pos - parent.m_frame.absolute_position() - vec2(10.f));
+				mouse.fix_press(*container.header);
 				docksystem.m_dragged.clear();
 			}
 
-			return &container;
+			return &container.self;
 		}
 	}
 

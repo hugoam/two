@@ -10,7 +10,7 @@ namespace two
 {
 namespace ui
 {
-	void window_drag_logic(Widget& widget, Window& window)
+	void window_drag_logic(Widget& widget, Widget& window, WindowState state, Docksystem* docksystem, cstring name)
 	{
 		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
@@ -24,20 +24,20 @@ namespace ui
 			window.m_frame.layer().moveToTop();
 			window.m_frame.layer().m_frame.m_opacity = Opacity::Hollow;
 
-			if(window.movable())
+			if(bit(state, WindowState::Movable))
 				window.m_frame.set_position(window.m_frame.m_position + event.m_delta);
 		}
 
 		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
 		{
-			if(window.dockable())
-				window.m_docksystem->dock(window, event.m_pos);
+			if(bit(state, WindowState::Dockable) && docksystem)
+				docksystem->dock(name, event.m_pos);
 
 			window.m_frame.layer().m_frame.m_opacity = Opacity::Opaque;
 		}
 	}
 
-	void window_resize_logic(Widget& widget, Window& window, bool left)
+	void window_resize_logic(Widget& widget, Widget& window, bool left)
 	{
 		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
@@ -52,32 +52,32 @@ namespace ui
 		}
 	}
 
-	Widget& window_header(NodeKey id, Widget& parent, Window& window, cstring title)
+	Widget& window_header(NodeKey id, Widget& parent, Widget& window, WindowState state, Docksystem* docksystem, cstring title)
 	{
-		Style* style = window.movable() ? &window_styles().header_movable : &window_styles().header;
+		Style* style = bit(state, WindowState::Movable) ? &window_styles().header_movable : &window_styles().header;
 		Widget& self = widget(id, parent, *style);
 		self.set_state(ACTIVE, window.active());
 
 		item(key(), self, styles().title, title);
-		if(window.closable())
+		if(bit(state, WindowState::Closable))
 			if(button(key(), self, window_styles().close_button).activated())
 				window.m_open = false;
 
 		tooltip(key(), self, "Drag me");
 
-		window_drag_logic(self, window);
+		window_drag_logic(self, window, state, docksystem, title);
 
 		return self;
 	}
 	
-	Widget& window_sizer(NodeKey id, Widget& parent, Style& style, Window& window, bool left)
+	Widget& window_sizer(NodeKey id, Widget& parent, Style& style, Widget& window, bool left)
 	{
 		Widget& self = widget(id, parent, style);
 		window_resize_logic(self, window, left);
 		return self;
 	}
 
-	Widget& window_footer(NodeKey id, Widget& parent, Window& window)
+	Widget& window_footer(NodeKey id, Widget& parent, Widget& window)
 	{
 		Widget& self = widget(id, parent, window_styles().footer);
 		window_sizer(key(), self, window_styles().sizer_left, window, true);
@@ -85,13 +85,10 @@ namespace ui
 		return self;
 	}
 
-	Window& window(NodeKey id, Widget& parent, cstring title, WindowState state, Dock* dock)
+	Window window(NodeKey id, Widget& parent, cstring title, WindowState state, Dock* dock, Docksystem* docksystem)
 	{
 		// a dockable window is a top node: it's the same window, with the same contents, wherever it's docked, or floating
-		Window& self = uint(state) & uint(WindowState::Dockable) ? parent.sub_top<Window>(id) : parent.sub<Window>(id);
-		self.m_dock = dock;
-		self.m_name = title;
-		self.m_window_state = state;
+		Widget& self = bit(state, WindowState::Dockable) ? parent.sub_top<Widget>(id) : parent.sub<Widget>(id);
 
 		Style& style = dock ? window_styles().dock_window : window_styles().window;
 		if(!self.m_frame.d_style)
@@ -104,30 +101,25 @@ namespace ui
 		{
 			self.m_open = true;
 
-			if(!self.m_dock)
+			if(!dock)
 				self.m_frame.set_size(vec2(480.f, 350.f));
 
-			if(!self.m_dock)
+			if(!dock)
 				self.m_frame.set_position((self.m_parent->m_frame.m_size - self.m_frame.m_size) / 2.f);
 		}
 
-		if(self.header())
-			self.m_header = &window_header(key(), self, self, title);
-
-		if(self.hasmenu())
-			self.m_menu = &menubar(key(), self);
+		Widget* header = bit(state, WindowState::Header) ? &window_header(key(), self, self, state, docksystem, title) : nullptr;
+		Widget* menu = bit(state, WindowState::Menu) ? &menubar(key(), self) : nullptr;
 
 		Widget& body = widget(key(), self, window_styles().body);
 
-		if(!self.m_dock && self.sizable())
+		if(!dock && bit(state, WindowState::Sizable))
 			window_footer(key(), self, self);
 
-		if(!self.m_dock && self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+		if(!dock && self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 			self.m_frame.layer().moveToTop();
 
-		self.m_body = self.m_open ? &body : nullptr;
-
-		return self;
+		return { self, header, menu, self.m_open ? &body : nullptr };
 	}
 }
 }

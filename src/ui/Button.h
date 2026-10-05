@@ -20,6 +20,14 @@ namespace ui
 
 	export_ TWO_UI_EXPORT DropdownStyles& dropdown_styles();
 
+	// a dropdown opened by its header: the list is in the body when it's open
+	export_ struct Dropdown
+	{
+		Widget& self;
+		Widget* body;
+		operator Widget&() const { return self; }
+	};
+
 	export_ struct MenuStyles
 	{
 		void reset();
@@ -105,14 +113,14 @@ namespace ui
 	//inline bool radio_switch_string(NodeKey id, Widget& parent, span<cstring> labels, string& value) { return radio_switch(id, parent, labels, value); }
 
 	export_ TWO_UI_EXPORT func_ bool popdown(NodeKey id, Widget& parent, span<cstring> choices, uint32_t& value, vec2 position, PopupFlags flags);
-	export_ TWO_UI_EXPORT func_ Widget& dropdown(NodeKey id, Widget& parent, Style& style, cstring value, PopupFlags flags, bool no_toggle = false, Style* list_style = nullptr);
+	export_ TWO_UI_EXPORT Dropdown dropdown(NodeKey id, Widget& parent, Style& style, cstring value, PopupFlags flags, bool no_toggle = false, Style* list_style = nullptr);
 	export_ TWO_UI_EXPORT func_ bool dropdown_input(NodeKey id, Widget& parent, span<cstring> choices, uint32_t& value, bool compact = false);
 	export_ TWO_UI_EXPORT func_ bool typedown_input(NodeKey id, Widget& parent, span<cstring> choices, uint32_t& value);
 
 	export_ TWO_UI_EXPORT Widget& menu_choice(NodeKey id, Widget& parent, span<cstring> elements);
 	export_ TWO_UI_EXPORT func_ Widget& menu_choice(NodeKey id, Widget& parent, cstring content, cstring shortcut = nullptr);
 	export_ TWO_UI_EXPORT func_ Widget& menu_option(NodeKey id, Widget& parent, cstring content, cstring shortcut, bool enabled);
-	export_ TWO_UI_EXPORT func_ Widget& menu(NodeKey id, Widget& parent, cstring label, bool submenu = false);
+	export_ TWO_UI_EXPORT Dropdown menu(NodeKey id, Widget& parent, cstring label, bool submenu = false);
 	export_ TWO_UI_EXPORT func_ Widget& menubar(NodeKey id, Widget& parent);
 
 	export_ TWO_UI_EXPORT func_ Widget& toolbutton(NodeKey id, Widget& parent, cstring icon);

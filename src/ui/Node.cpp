@@ -259,10 +259,11 @@ namespace ui
 		Canvas& self = twidget<Canvas>(id, parent, canvas_styles().canvas);
 		self.layer();
 
-		self.m_scroll_plan = &scroll_plan(key(), self);
-		self.m_plan = self.m_scroll_plan->m_body;
+		ScrollSheet scroll_sheet = scroll_plan(key(), self);
+		self.m_scroll_plan = &scroll_sheet.self;
+		self.m_plan = &scroll_sheet.body;
 
-		autofit_scroll_plan(*self.m_scroll_plan, to_array_cast<Widget*>(self.m_nodes));
+		autofit_scroll_plan(*self.m_plan, to_array_cast<Widget*>(self.m_nodes));
 
 		//if(mouse_click_right(self) && context_trigger)
 		//	context_trigger(self);

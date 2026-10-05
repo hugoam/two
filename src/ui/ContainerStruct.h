@@ -8,28 +8,26 @@
 #include <ui/WidgetStruct.h>
 #include <ui/Container.h>
 
-#define TWO_UI_SEQUENCE_REFS
-
 namespace two
 {
-	export_ class refl_ TWO_UI_EXPORT ScrollSheet : public Widget
+	// a sheet scrolled in its scroll zone, by its scrollbars: the content goes in the body
+	export_ struct ScrollSheet
 	{
-	public:
-		ScrollSheet(Widget* parent) : Widget(parent) {}
-		Widget* m_scroll_zone;
+		Widget& self;
+		Widget& scroll_zone;
+		Widget& body;
+		operator Widget&() const { return self; }
 	};
 
 namespace ui
 {
-	export_ class refl_ TWO_UI_EXPORT Sequence : public Widget
+	// a sequence of elements selected in the selection: the elements go in the body
+	export_ struct Sequence
 	{
-	public:
-		Sequence(Widget* parent) : Widget(parent) {}
-#ifdef TWO_UI_SEQUENCE_REFS
-		vector<Ref>* m_selection = nullptr;
-#else
-		vector<Widget*> m_selection;
-#endif
+		Widget& self;
+		Widget& body;
+		vector<Ref>* selection = nullptr;
+		operator Widget&() const { return self; }
 	};
 }
 
@@ -38,22 +36,27 @@ namespace ui
 	public:
 		Tabber(Widget* parent) : Widget(parent) {}
 		Widget* m_head = nullptr;
+		Widget* m_body = nullptr;
 		size_t m_index = 0;
 		size_t m_active = 0;
 	};
 
-	export_ class refl_ TWO_UI_EXPORT Expandbox : public Widget
+	// a box opened and closed by its header: the body is there when it's open
+	export_ struct Expandbox
 	{
-	public:
-		Expandbox(Widget* parent) : Widget(parent) {}
-		Widget* m_header = nullptr;
+		Widget& self;
+		Widget& header;
+		Widget* body;
+		operator Widget&() const { return self; }
 	};
 
-	export_ class refl_ TWO_UI_EXPORT TreeNode : public Widget
+	// a node of a tree opened and closed by its header: the body is there when it's open, the node has children
+	export_ struct TreeNode
 	{
-	public:
-		TreeNode(Widget* parent) : Widget(parent) {}
-		Widget* m_header = nullptr;
+		Widget& self;
+		Widget& header;
+		Widget* body;
+		operator Widget&() const { return self; }
 	};
 
 	export_ class refl_ TWO_UI_EXPORT Table : public Widget

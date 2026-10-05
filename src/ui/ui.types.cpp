@@ -50,15 +50,10 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::UiWindow>() { static Type ty("UiWindow", sizeof(two::UiWindow)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::User>() { static Type ty("User", sizeof(two::User)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Layer>() { static Type ty("Layer", sizeof(two::Layer)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::ScrollSheet>() { static Type ty("ScrollSheet", type<two::Widget>(), sizeof(two::ScrollSheet)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::ui::Sequence>() { static Type ty("Sequence", type<two::Widget>(), sizeof(two::ui::Sequence)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Tabber>() { static Type ty("Tabber", type<two::Widget>(), sizeof(two::Tabber)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::Expandbox>() { static Type ty("Expandbox", type<two::Widget>(), sizeof(two::Expandbox)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::TreeNode>() { static Type ty("TreeNode", type<two::Widget>(), sizeof(two::TreeNode)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Table>() { static Type ty("Table", type<two::Widget>(), sizeof(two::Table)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Dock>() { static Type ty("Dock", sizeof(two::Dock)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Docksystem>() { static Type ty("Docksystem", sizeof(two::Docksystem)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::Dockable>() { static Type ty("Dockable", type<two::Widget>(), sizeof(two::Dockable)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Docker>() { static Type ty("Docker", type<two::Widget>(), sizeof(two::Docker)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Dockspace>() { static Type ty("Dockspace", type<two::Docker>(), sizeof(two::Dockspace)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Dockbar>() { static Type ty("Dockbar", type<two::Docker>(), sizeof(two::Dockbar)); return ty; }
@@ -67,5 +62,4 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::CanvasConnect>() { static Type ty("CanvasConnect", sizeof(two::CanvasConnect)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Canvas>() { static Type ty("Canvas", type<two::Widget>(), sizeof(two::Canvas)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Ui>() { static Type ty("Ui", type<two::Widget>(), sizeof(two::Ui)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::Window>() { static Type ty("Window", type<two::Dockable>(), sizeof(two::Window)); return ty; }
 }

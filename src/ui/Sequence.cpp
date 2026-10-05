@@ -10,16 +10,16 @@ namespace two
 {
 namespace ui
 {
-	Sequence& sequence(NodeKey id, Widget& parent)
+	Sequence sequence(NodeKey id, Widget& parent)
 	{
-		return twidget<Sequence>(id, parent, styles().sequence);
+		Widget& self = widget(id, parent, styles().sequence);
+		return { self, self };
 	}
 
-	Sequence& scroll_sequence(NodeKey id, Widget& parent)
+	Sequence scroll_sequence(NodeKey id, Widget& parent)
 	{
-		Sequence& self = twidget<Sequence>(id, parent, styles().sequence);
-		self.m_body = scroll_sheet(key(), self).m_body;
-		return self;
+		Widget& self = widget(id, parent, styles().sequence);
+		return { self, scroll_sheet(key(), self).body };
 	}
 
 	bool multiselect_logic(Widget& element, Ref object, vector<Ref>& selection)
@@ -80,7 +80,7 @@ namespace ui
 
 	Widget& sequence_element(Sequence& sequence, Ref object)
 	{
-		return element(key(), sequence.m_body ? *sequence.m_body : sequence, object, *sequence.m_selection);
+		return element(key(), sequence.body, object, *sequence.selection);
 	}
 }
 }

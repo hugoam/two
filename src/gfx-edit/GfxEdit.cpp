@@ -160,14 +160,14 @@ namespace two
 
 	Widget& asset_element(ui::Sequence& sequence, const string& icon, const string& name, Ref asset)
 	{
-		Widget& self = asset_item(sequence.m_body ? *sequence.m_body : sequence, icon, name, asset);
-		ui::multiselect_logic(self, asset, *sequence.m_selection);
+		Widget& self = asset_item(sequence.body, icon, name, asset);
+		ui::multiselect_logic(self, asset, *sequence.selection);
 		return self;
 	}
 
 	void asset_browser(Widget& parent, GfxSystem& gfx, vector<Ref>& selection)
 	{
-		Section& self = section(key(), parent, "Assets");
+		Section self = section(key(), parent, "Assets");
 
 		static bool textures = true;
 		static bool programs = true;
@@ -176,15 +176,15 @@ namespace two
 		static bool particles = true;
 		static bool prefabs = true;
 
-		ui::toggle(key(), *self.m_toolbar, textures, "tex");
-		ui::toggle(key(), *self.m_toolbar, programs, "prg");
-		ui::toggle(key(), *self.m_toolbar, materials, "mat");
-		ui::toggle(key(), *self.m_toolbar, models, "mdl");
-		ui::toggle(key(), *self.m_toolbar, particles, "ptc");
-		ui::toggle(key(), *self.m_toolbar, prefabs, "pfb");
+		ui::toggle(key(), *self.toolbar, textures, "tex");
+		ui::toggle(key(), *self.toolbar, programs, "prg");
+		ui::toggle(key(), *self.toolbar, materials, "mat");
+		ui::toggle(key(), *self.toolbar, models, "mdl");
+		ui::toggle(key(), *self.toolbar, particles, "ptc");
+		ui::toggle(key(), *self.toolbar, prefabs, "pfb");
 
-		ui::Sequence& sequence = ui::sequence(key(), *self.m_body);
-		sequence.m_selection = &selection;
+		ui::Sequence sequence = ui::sequence(key(), self.body);
+		sequence.selection = &selection;
 
 		if(materials)
 			for(Material* material : gfx.materials().m_vector)
@@ -231,8 +231,8 @@ namespace two
 
 	void edit_viewer_filters(Widget& parent, Viewer& viewer)
 	{
-		ScrollSheet& scroll_sheet = ui::scroll_sheet(key(), parent);
-		Widget& self = ui::sheet(key(), *scroll_sheet.m_body);
+		ScrollSheet scroll_sheet = ui::scroll_sheet(key(), parent);
+		Widget& self = ui::sheet(key(), scroll_sheet.body);
 		UNUSED(self); UNUSED(viewer);
 
 		Entt& filters = viewer.m_viewport;
@@ -279,13 +279,13 @@ namespace two
 
 		static Ref asset = {};
 
-		Section& self = section(key(), parent, "Gfx Editor");
-		Widget& sheet = *self.m_body;
+		Section self = section(key(), parent, "Gfx Editor");
+		Widget& sheet = self.body;
 		ui::label(key(), sheet, "Editing : ");
 		if(ui::modal_button(key(), sheet, sheet, "Select", SELECT))
 		{
-			Widget& modal = ui::auto_modal(key(), sheet, SELECT, { 800.f, 600.f });
-			asset_browser(*modal.m_body, gfx, asset);
+			ui::Popup modal = ui::auto_modal(key(), sheet, SELECT, { 800.f, 600.f });
+			asset_browser(modal.body, gfx, asset);
 		}
 
 		if(asset)

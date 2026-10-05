@@ -203,7 +203,7 @@ namespace two
 
 	bool type_browser(Widget& parent, Type*& selected)
 	{
-		Widget& list = *ui::scroll_sheet(key(), parent).m_body;
+		Widget& list = ui::scroll_sheet(key(), parent).body;
 
 		for(Module* m : system().m_modules)
 			for(Type* type : m->m_types)
@@ -237,18 +237,18 @@ namespace two
 	{
 		enum Modes { Browse = 1 << 0 };
 
-		Section& self = section(key(), parent, ("Type Info : " + string(type.m_name)).c_str());
-		MetaEditState& state = self.state<MetaEditState>(type);
+		Section self = section(key(), parent, ("Type Info : " + string(type.m_name)).c_str());
+		MetaEditState& state = self.self.state<MetaEditState>(type);
 
-		if(ui::modal_button(key(), self, *self.m_toolbar, "Browse", Browse))
+		if(ui::modal_button(key(), self, *self.toolbar, "Browse", Browse))
 		{
-			Widget& modal = ui::modal(key(), parent.parent_modal(), { 400, 800 });
-			bool done = type_browser(*modal.m_body, state.m_type);
-			if(done || !modal.m_open)
-				self.m_switch &= ~Browse;
+			ui::Popup modal = ui::modal(key(), parent.parent_modal(), { 400, 800 });
+			bool done = type_browser(modal.body, state.m_type);
+			if(done || !modal.self.m_open)
+				self.self.m_switch &= ~Browse;
 		}
 
-		class_edit(*self.m_body, cls(*state.m_type));
+		class_edit(self.body, cls(*state.m_type));
 	}
 
 	void meta_browser(Widget& parent, Module& m)
@@ -277,19 +277,19 @@ namespace two
 
 		Widget& row = ui::row(key(), table);
 		ui::label(key(), row, "Modules");
-		Widget& drop = ui::dropdown(key(), row, ui::dropdown_styles().dropdown_input, "...", ui::PopupFlags::AutoModal);
-		if(drop.m_body)
+		ui::Dropdown drop = ui::dropdown(key(), row, ui::dropdown_styles().dropdown_input, "...", ui::PopupFlags::AutoModal);
+		if(drop.body)
 		{
 			for(Module* m : System::instance().m_modules)
 			{
-				Widget& droprow = ui::row(key(), *drop.m_body);
+				Widget& droprow = ui::row(key(), *drop.body);
 				ui::checkbox(key(), droprow, modules[m]);
 				ui::label(key(), droprow, m->m_name);
 			}
 		}
 
 		Widget& sheet = ui::widget(key(), left, styles().sheet, (void*) mode);
-		Widget& meta_list = *ui::scroll_sheet(key(), sheet).m_body;
+		Widget& meta_list = ui::scroll_sheet(key(), sheet).body;
 
 		auto choice = [](Widget& parent, Ref object, cstring name, Ref& selected) -> Widget&
 		{
@@ -335,7 +335,7 @@ namespace two
 		static Type* selected = nullptr;
 
 		Widget& self = ui::board(key(), parent);
-		Widget& list = *ui::scroll_sheet(key(), self).m_body;
+		Widget& list = ui::scroll_sheet(key(), self).body;
 
 		for(Module* m : system().m_modules)
 			for(Type* type : m->m_types)

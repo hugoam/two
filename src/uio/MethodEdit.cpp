@@ -62,7 +62,7 @@ namespace two
 		
 		if(ui::modal_button(key(), parent, parent, "Call", CALL))
 		{
-			Widget& modal = ui::auto_modal(key(), parent, CALL, { 600, 400 });
+			ui::Popup modal = ui::auto_modal(key(), parent, CALL, { 600, 400 });
 			method_edit(modal, object, method);
 		}
 	}

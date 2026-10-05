@@ -108,18 +108,18 @@ namespace two
 
 	void object_editor(Widget& parent, const Selection& selection)
 	{
-		Widget& self = section(key(), parent, "Inspector");
+		Section self = section(key(), parent, "Inspector");
 
 		if(!selection.objects.empty() && selection.objects[0])
 		{
 			Ref selected = selection.objects[0];
-			Widget& sheet = ui::widget(key(), *self.m_body, styles().sheet, (void*)selected.m_value);
+			Widget& sheet = ui::widget(key(selected.m_value), self.body, styles().sheet);
 			object_edit(sheet, selected);
 		}
 		else if(!selection.entities.empty() && selection.entities[0])
 		{
 			Entity selected = selection.entities[0];
-			Widget& sheet = ui::widget(key(), *self.m_body, styles().sheet, (void*)selected.m_handle);
+			Widget& sheet = ui::widget(key(selected.m_handle), self.body, styles().sheet);
 			entity_edit(sheet, selected);
 		}
 	}

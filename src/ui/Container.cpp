@@ -24,7 +24,7 @@ namespace two
 
 namespace ui
 {
-	ScrollSheet& select_list(NodeKey id, Widget& parent)
+	ScrollSheet select_list(NodeKey id, Widget& parent)
 	{
 		return scroll_sheet(id, parent, styles().list);
 	}
@@ -80,32 +80,28 @@ namespace ui
 		return self;
 	}
 
-	Expandbox& expandbox(NodeKey id, Widget& parent, span<cstring> elements, bool open)
+	Expandbox expandbox(NodeKey id, Widget& parent, span<cstring> elements, bool open)
 	{
-		Expandbox& self = twidget<Expandbox>(id, parent, expandbox_styles().expandbox, open);
-		self.m_header = &toggle_header(key(), self, expandbox_styles().header, expandbox_styles().toggle, elements, self.m_open);
-		self.m_body = nullptr;
-		if(self.m_open)
-			self.m_body = &widget(key(), self, expandbox_styles().body);
-		return self;
+		Widget& self = widget(id, parent, expandbox_styles().expandbox, open);
+		Widget& header = toggle_header(key(), self, expandbox_styles().header, expandbox_styles().toggle, elements, self.m_open);
+		Widget* body = self.m_open ? &widget(key(), self, expandbox_styles().body) : nullptr;
+		return { self, header, body };
 	}
 
-	Expandbox& expandbox(NodeKey id, Widget& parent, cstring name, bool open)
+	Expandbox expandbox(NodeKey id, Widget& parent, cstring name, bool open)
 	{
 		return expandbox(id, parent, { &name, 1 }, open);
 	}
 
-	TreeNode& tree_node(NodeKey id, Widget& parent, span<cstring> elements, bool leaf, bool open)
+	TreeNode tree_node(NodeKey id, Widget& parent, span<cstring> elements, bool leaf, bool open)
 	{
-		TreeNode& self = twidget<TreeNode>(id, parent, treenode_styles().treenode, open);
-		self.m_header = &toggle_header(key(), self, treenode_styles().header, leaf ? treenode_styles().no_toggle : treenode_styles().toggle, elements, self.m_open);
-		self.m_body = nullptr;
-		if(!leaf && self.m_open)
-			self.m_body = &widget(key(), self, treenode_styles().body);
-		return self;
+		Widget& self = widget(id, parent, treenode_styles().treenode, open);
+		Widget& header = toggle_header(key(), self, treenode_styles().header, leaf ? treenode_styles().no_toggle : treenode_styles().toggle, elements, self.m_open);
+		Widget* body = !leaf && self.m_open ? &widget(key(), self, treenode_styles().body) : nullptr;
+		return { self, header, body };
 	}
 
-	TreeNode& tree_node(NodeKey id, Widget& parent, cstring element, bool leaf, bool open)
+	TreeNode tree_node(NodeKey id, Widget& parent, cstring element, bool leaf, bool open)
 	{
 		return tree_node(id, parent, { &element, 1 }, leaf, open);
 	}

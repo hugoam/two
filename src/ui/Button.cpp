@@ -246,7 +246,7 @@ namespace ui
 		return changed;
 	}
 
-	Widget& dropdown(NodeKey id, Widget& parent, Style& style, cstring value, PopupFlags popup_flags, bool no_toggle, Style* list_style)
+	Dropdown dropdown(NodeKey id, Widget& parent, Style& style, cstring value, PopupFlags popup_flags, bool no_toggle, Style* list_style)
 	{
 		bool hovered = false;
 		Widget& self = widget(id, parent, style);
@@ -259,15 +259,15 @@ namespace ui
 		}
 
 		self.set_state(HOVERED, hovered);
-		self.m_body = nullptr;
+		Widget* body = nullptr;
 
 		if(self.m_open)
 		{
-			self.m_body = &popup(key(), self, list_style ? *list_style : dropdown_styles().list, popup_flags);
-			self.m_open &= self.m_body->m_open;
+			body = &popup(key(), self, list_style ? *list_style : dropdown_styles().list, popup_flags);
+			self.m_open &= body->m_open;
 		}
 
-		return self;
+		return { self, body };
 	}
 
 	Widget& dropdown_choice(NodeKey id, Widget& parent, span<cstring> elements, bool active)
@@ -280,10 +280,10 @@ namespace ui
 	bool popdown(NodeKey id, Widget& parent, span<cstring> choices, uint32_t& value, vec2 position, PopupFlags popup_flags)
 	{
 		Widget& self = popup_at(id, parent, dropdown_styles().popdown, position, popup_flags);
-		ScrollSheet& sheet = scroll_sheet(key(), self);
+		ScrollSheet sheet = scroll_sheet(key(), self);
 
 		for(uint32_t i = 0; i < uint32_t(choices.size()); ++i)
-			if(dropdown_choice(key(), *sheet.m_body, { choices[i] }, i == value).activated())
+			if(dropdown_choice(key(), sheet.body, { choices[i] }, i == value).activated())
 			{
 				value = i;
 				return true;
@@ -296,14 +296,14 @@ namespace ui
 		if(value >= choices.size())
 			value = uint32_t(choices.size()) - 1;
 		Style& style = compact ? dropdown_styles().dropdown_input_compact : dropdown_styles().dropdown_input;
-		Widget& self = dropdown(id, parent, style, value == UINT32_MAX ? "" : choices[value], PopupFlags::AutoModal);
-		if(!self.m_body) return false;
+		Dropdown self = dropdown(id, parent, style, value == UINT32_MAX ? "" : choices[value], PopupFlags::AutoModal);
+		if(!self.body) return false;
 
 		for(uint32_t i = 0; i < uint32_t(choices.size()); ++i)
-			if(dropdown_choice(key(), *self.m_body, { choices[i] }, value == i).activated())
+			if(dropdown_choice(key(), *self.body, { choices[i] }, value == i).activated())
 			{
 				value = i;
-				self.m_open = false;
+				self.self.m_open = false;
 				return true;
 			}
 
@@ -338,7 +338,7 @@ namespace ui
 		return menu_choice(id, parent, span<cstring>{ content });
 	}
 
-	Widget& menu(NodeKey id, Widget& parent, cstring label, bool submenu)
+	Dropdown menu(NodeKey id, Widget& parent, cstring label, bool submenu)
 	{
 		Style& list_style = submenu ? menu_styles().sublist : menu_styles().list;
 		return dropdown(id, parent, menu_styles().menu, label, submenu ? PopupFlags::None : PopupFlags::AutoModal, true, &list_style);

@@ -79,7 +79,6 @@ namespace two
 		attr_ uint32_t m_switch = 0;
 		attr_ uint32_t m_index = 0;
 		attr_ bool m_open = false;
-		attr_ Widget* m_body = nullptr;
 
 		using CustomRender = function<void(const Frame&, const vec4&, Vg&)>;
 		CustomRender m_custom_draw;

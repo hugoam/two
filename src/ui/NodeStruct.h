@@ -31,6 +31,7 @@ namespace two
 		Widget* m_header;
 		Widget* m_inputs;
 		Widget* m_outputs;
+		Widget* m_body = nullptr;
 		int m_order = 0;
 	};
 
@@ -49,7 +50,7 @@ namespace two
 	public:
 		Canvas(Widget* parent) : Widget(parent) {}
 
-		ScrollSheet* m_scroll_plan;
+		Widget* m_scroll_plan;
 		Widget* m_plan;
 		bool m_rounded_links = true;
 

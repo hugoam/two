@@ -25,20 +25,11 @@ namespace two
 	public:
 		Docksystem();
 
-		void dock(Dockable& widget, const vec2& pos);
+		void dock(cstring name, const vec2& pos);
 
 		map<string, Dock*> m_item_docks;
 		vector<Docker*> m_dockers;
 		string m_dragged;
-	};
-
-	export_ class refl_ TWO_UI_EXPORT Dockable : public Widget
-	{
-	public:
-		Dockable(Widget* parent);
-		Dock* m_dock = nullptr;
-		Docksystem* m_docksystem = nullptr;
-		cstring m_name = nullptr;
 	};
 
 	export_ class refl_ TWO_UI_EXPORT Docker : public Widget
@@ -83,7 +74,11 @@ namespace two
 	public:
 		Dockspace(Widget* parent, Docksystem& docksystem);
 
-		Dockable* pinpoint_dock(const vec2& pos);
+		// the windows of the docks shown in this frame
+		struct DockedWindow { Widget* window; Dock* dock; };
+		vector<DockedWindow> m_docked;
+
+		DockedWindow* pinpoint_dock(const vec2& pos);
 
 		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) final;
 

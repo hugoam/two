@@ -27,7 +27,7 @@ namespace two
 	};
 
 	export_ TWO_UIO_EXPORT void script_edit_output(Widget& parent, Interpreter& interpreter);
-	export_ TWO_UIO_EXPORT Section& script_edit_code(Widget& parent, TextScript& script);
-	export_ TWO_UIO_EXPORT Section& script_edit(Widget& parent, TextScript& script);
+	export_ TWO_UIO_EXPORT Section script_edit_code(Widget& parent, TextScript& script);
+	export_ TWO_UIO_EXPORT Section script_edit(Widget& parent, TextScript& script);
 	export_ TWO_UIO_EXPORT void script_editor(Widget& parent, ScriptEditor& editor);
 }

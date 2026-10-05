@@ -55,15 +55,10 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::UiWindow>();
     template <> TWO_UI_EXPORT Type& type<two::User>();
     template <> TWO_UI_EXPORT Type& type<two::Layer>();
-    template <> TWO_UI_EXPORT Type& type<two::ScrollSheet>();
-    template <> TWO_UI_EXPORT Type& type<two::ui::Sequence>();
     template <> TWO_UI_EXPORT Type& type<two::Tabber>();
-    template <> TWO_UI_EXPORT Type& type<two::Expandbox>();
-    template <> TWO_UI_EXPORT Type& type<two::TreeNode>();
     template <> TWO_UI_EXPORT Type& type<two::Table>();
     template <> TWO_UI_EXPORT Type& type<two::Dock>();
     template <> TWO_UI_EXPORT Type& type<two::Docksystem>();
-    template <> TWO_UI_EXPORT Type& type<two::Dockable>();
     template <> TWO_UI_EXPORT Type& type<two::Docker>();
     template <> TWO_UI_EXPORT Type& type<two::Dockspace>();
     template <> TWO_UI_EXPORT Type& type<two::Dockbar>();
@@ -72,5 +67,4 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::CanvasConnect>();
     template <> TWO_UI_EXPORT Type& type<two::Canvas>();
     template <> TWO_UI_EXPORT Type& type<two::Ui>();
-    template <> TWO_UI_EXPORT Type& type<two::Window>();
 }

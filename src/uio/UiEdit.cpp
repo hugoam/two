@@ -15,7 +15,7 @@ namespace two
 		while(current_target && current_node)
 		{
 			string elements[2] = { current_target->m_frame.d_style->m_name, to_string(current_target->m_control.m_mask) };
-			current_node = ui::tree_node(key(), *current_node, { elements[0].c_str(), elements[1].c_str() }).m_body;
+			current_node = ui::tree_node(key(), *current_node, { elements[0].c_str(), elements[1].c_str() }).body;
 			current_target = static_cast<Widget*>(current_target->m_control.m_modal);
 		}
 	}
@@ -25,19 +25,19 @@ namespace two
 		for(Widget& widget : target.children())
 		{
 			string size = "size : " + truncate_number(to_string(widget.m_frame.m_size.x)) + ", " + truncate_number(to_string(widget.m_frame.m_size.y));
-			TreeNode& node = ui::tree_node(key(), parent, { widget.m_frame.d_style->m_name.c_str(), size.c_str() });
-			node.m_header->set_state(SELECTED, selected == &widget);
-			if(node.m_header->activated())
+			TreeNode node = ui::tree_node(key(), parent, { widget.m_frame.d_style->m_name.c_str(), size.c_str() });
+			node.header.set_state(SELECTED, selected == &widget);
+			if(node.header.activated())
 				selected = &widget;
-			if(node.m_body)
-				ui_debug_layout_node(*node.m_body, widget, selected);
+			if(node.body)
+				ui_debug_layout_node(*node.body, widget, selected);
 		}
 	}
 
 	void ui_debug_layout(Widget& parent, Widget& target, Widget*& selected)
 	{
-		ScrollSheet& scroll_sheet = ui::scroll_sheet(key(), parent);
-		ui_debug_layout_node(*scroll_sheet.m_body, target, selected);
+		ScrollSheet scroll_sheet = ui::scroll_sheet(key(), parent);
+		ui_debug_layout_node(scroll_sheet.body, target, selected);
 	}
 
 	void ui_debug(Widget& parent, Widget& target)
@@ -45,10 +45,10 @@ namespace two
 		static Widget* selected = nullptr;
 		static bool selecting = false;
 
-		Section& self = section(key(), parent, "Ui Edit");
-		ui::toggle(key(), *self.m_toolbar, selecting, "Select Mode");
+		Section self = section(key(), parent, "Ui Edit");
+		ui::toggle(key(), *self.toolbar, selecting, "Select Mode");
 
-		Tabber& tabber = ui::tabber(key(), *self.m_body);
+		Tabber& tabber = ui::tabber(key(), self.body);
 		if(Widget* tab = ui::tab(key(), tabber, "Modal"))
 			ui_debug_modal(*tab, target);
 		if(Widget* tab = ui::tab(key(), tabber, "Layout"))

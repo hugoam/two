@@ -49,7 +49,7 @@ namespace ui
 
 	void scroll_plan_drag(ScrollSheet& scroll_sheet, const MouseEvent& mouse_event)
 	{
-		return scroll_plan_drag(scroll_sheet.m_scroll_zone->m_frame, scroll_sheet.m_body->m_frame, mouse_event);
+		return scroll_plan_drag(scroll_sheet.scroll_zone.m_frame, scroll_sheet.body.m_frame, mouse_event);
 	}
 
 	void scroll_plan_zoom(Frame& scroll_zone, Frame& scroll_plan, const MouseEvent& mouse_event, bool clamped)
@@ -75,50 +75,50 @@ namespace ui
 
 	void scroll_plan_zoom(ScrollSheet& scroll_sheet, const MouseEvent& mouse_event, bool clamped)
 	{
-		return scroll_plan_zoom(scroll_sheet.m_scroll_zone->m_frame, scroll_sheet.m_body->m_frame, mouse_event, clamped);
+		return scroll_plan_zoom(scroll_sheet.scroll_zone.m_frame, scroll_sheet.body.m_frame, mouse_event, clamped);
 	}
 
-	ScrollSheet& scroll_sheet(NodeKey id, Widget& parent, Style& style, Style* surface_style)
+	ScrollSheet scroll_sheet(NodeKey id, Widget& parent, Style& style, Style* surface_style)
 	{
-		ScrollSheet& self = twidget<ScrollSheet>(id, parent, style);
-		self.m_scroll_zone = &widget(key(), self, styles().scroll_zone, false, Axis::None, { 0, 0 });
-		self.m_body = &widget(key(), *self.m_scroll_zone, surface_style ? *surface_style : styles().scroll_surface);
+		Widget& self = widget(id, parent, style);
+		Widget& scroll_zone = widget(key(), self, styles().scroll_zone, false, Axis::None, { 0, 0 });
+		Widget& body = widget(key(), scroll_zone, surface_style ? *surface_style : styles().scroll_surface);
 
-		scrollbar(key(), self, self.m_scroll_zone->m_frame, self.m_body->m_frame, Axis::X, { 0, 1 });
-		scrollbar(key(), self, self.m_scroll_zone->m_frame, self.m_body->m_frame, Axis::Y, { 1, 0 });
+		scrollbar(key(), self, scroll_zone.m_frame, body.m_frame, Axis::X, { 0, 1 });
+		scrollbar(key(), self, scroll_zone.m_frame, body.m_frame, Axis::Y, { 1, 0 });
 
 #if 0
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
-			self.m_body->m_frame.set_position(Axis::X, self.m_body->m_frame.m_position[Axis::X] - event.m_delta.x);
-			self.m_body->m_frame.set_position(Axis::Y, self.m_body->m_frame.m_position[Axis::Y] - event.m_delta.y);
-			self.m_body->m_frame.set_position(Axis::Y, self.m_body->m_frame.m_position[Axis::Y] - 10.f * mouse_event.m_deltaZ);
+			body.m_frame.set_position(Axis::X, body.m_frame.m_position[Axis::X] - event.m_delta.x);
+			body.m_frame.set_position(Axis::Y, body.m_frame.m_position[Axis::Y] - event.m_delta.y);
+			body.m_frame.set_position(Axis::Y, body.m_frame.m_position[Axis::Y] - 10.f * mouse_event.m_deltaZ);
 		}
 #endif
 
-		return self;
+		return { self, scroll_zone, body };
 	}
 
-	ScrollSheet& scroll_plan(NodeKey id, Widget& parent, Style& style)
+	ScrollSheet scroll_plan(NodeKey id, Widget& parent, Style& style)
 	{
 		static const bool clamped = true;
 
-		ScrollSheet& self = scroll_sheet(id, parent, style, &styles().scroll_plan);
+		ScrollSheet self = scroll_sheet(id, parent, style, &styles().scroll_plan);
 
-		if(MouseEvent event = self.mouse_event(DeviceType::MouseMiddle, EventType::Dragged))
+		if(MouseEvent event = self.self.mouse_event(DeviceType::MouseMiddle, EventType::Dragged))
 			scroll_plan_drag(self, event);
-		if(MouseEvent event = self.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+		if(MouseEvent event = self.self.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 			scroll_plan_zoom(self, event, clamped);
 		
 		return self;
 	}
 
-	void autofit_scroll_plan(ScrollSheet& scroll_sheet, span<Widget*> elements)
+	void autofit_scroll_plan(Widget& plan, span<Widget*> elements)
 	{
 		if(elements.size() == 0)
 			return;
 
-		Frame& scroll_plan = scroll_sheet.m_body->m_frame;
+		Frame& scroll_plan = plan.m_frame;
 
 		const float margin = 1000.f;
 		vec2 bounds_min = vec2(FLT_MAX);
@@ -146,7 +146,7 @@ namespace ui
 
 	Widget& scrollable(NodeKey id, Widget& parent)
 	{
-		return *scroll_sheet(id, parent).m_body;
+		return scroll_sheet(id, parent).body;
 	}
 }
 }

@@ -51,11 +51,11 @@ namespace ui
 		return self;
 	}
 
-	Widget& popup(NodeKey id, Widget& parent, Style& style, const vec2& size, PopupFlags flags)
+	Popup popup(NodeKey id, Widget& parent, Style& style, const vec2& size, PopupFlags flags)
 	{
 		Widget& self = popup(id, parent, style, flags);
-		self.m_body = &dummy(key(), self, size);
-		return self;
+		Widget& body = dummy(key(), self, size);
+		return { self, body };
 	}
 
 	Widget& popup_at(NodeKey id, Widget& parent, Style& style, const vec2& position, PopupFlags flags)
@@ -73,10 +73,10 @@ namespace ui
 		return self;
 	}
 
-	Widget& auto_modal(NodeKey id, Widget& parent, uint32_t mode, const vec2& size)
+	Popup auto_modal(NodeKey id, Widget& parent, uint32_t mode, const vec2& size)
 	{
-		Widget& self = ui::modal(id, parent.parent_modal(), size);
-		if(!self.m_open)
+		Popup self = ui::modal(id, parent.parent_modal(), size);
+		if(!self.self.m_open)
 			parent.m_switch &= ~mode;
 		return self;
 	}

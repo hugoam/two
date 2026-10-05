@@ -10,11 +10,11 @@ namespace two
 {
 	void structure_node(Widget& parent, Ref object, vector<Ref>& selection)
 	{
-		TreeNode& self = ui::tree_node(key(), parent, { object_icon(object).c_str(), object_name(object).c_str() }, false, false);
+		TreeNode self = ui::tree_node(key(), parent, { object_icon(object).c_str(), object_name(object).c_str() }, false, false);
 		
-		self.set_state(SELECTED, has(selection, object));
+		self.self.set_state(SELECTED, has(selection, object));
 		
-		if(self.m_header->activated())
+		if(self.header.activated())
 			select(selection, object);
 		
 		//object_item(self, object);
@@ -31,8 +31,8 @@ namespace two
 
 	void structure_view(Widget& parent, Ref object, vector<Ref>& selection)
 	{
-		ScrollSheet& sheet = ui::scroll_sheet(key(), parent);
-		Widget& tree = ui::tree(key(), *sheet.m_body);
+		ScrollSheet sheet = ui::scroll_sheet(key(), parent);
+		Widget& tree = ui::tree(key(), sheet.body);
 		structure_node(tree, object, selection);
 	}
 }

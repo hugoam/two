@@ -10,8 +10,8 @@ namespace two
 {
 namespace ui
 {
-	export_ TWO_UI_EXPORT func_ Sequence& sequence(NodeKey id, Widget& parent);
-	export_ TWO_UI_EXPORT func_ Sequence& scroll_sequence(NodeKey id, Widget& parent);
+	export_ TWO_UI_EXPORT Sequence sequence(NodeKey id, Widget& parent);
+	export_ TWO_UI_EXPORT Sequence scroll_sequence(NodeKey id, Widget& parent);
 
 	export_ TWO_UI_EXPORT func_ bool multiselect_logic(Widget& element, Ref object, vector<Ref>& selection);
 	export_ TWO_UI_EXPORT func_ bool select_logic(Widget& element, Ref object, Ref& selection);
@@ -19,6 +19,6 @@ namespace ui
 	export_ TWO_UI_EXPORT func_ Widget& element(NodeKey id, Widget& parent, Ref object);
 	export_ TWO_UI_EXPORT Widget& element(NodeKey id, Widget& parent, Ref object, vector<Ref>& selection);
 
-	export_ TWO_UI_EXPORT func_ Widget& sequence_element(Sequence& parent, Ref object);
+	export_ TWO_UI_EXPORT Widget& sequence_element(Sequence& parent, Ref object);
 }
 }

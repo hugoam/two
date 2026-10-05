@@ -132,14 +132,14 @@ namespace
 
 		ui::icon(key(), menubar, "(vs/visual_studio)");
 
-		if(Widget* menu = ui::menu(key(), menubar, "File").m_body)
+		if(Widget* menu = ui::menu(key(), menubar, "File").body)
 		{
-			if(Widget* submenu = ui::menu(key(), *menu, "New", true).m_body)
+			if(Widget* submenu = ui::menu(key(), *menu, "New", true).body)
 			{
 				ui::menu_choice(key(), *submenu, "Project...", "Ctrl+Shift+N");
 				ui::menu_choice(key(), *submenu, "File...", "Ctrl+N");
 			}
-			if(Widget* submenu = ui::menu(key(), *menu, "Open", true).m_body)
+			if(Widget* submenu = ui::menu(key(), *menu, "Open", true).body)
 			{
 				ui::menu_choice(key(), *submenu, "Project/Solution...", "Ctrl+Shift+O");
 				ui::menu_choice(key(), *submenu, "Folder...", "Ctrl+Shift+Alt+O");
@@ -151,14 +151,14 @@ namespace
 			ui::menu_choice(key(), *menu, "Exit", "Alt+F4");
 		}
 
-		if(Widget* menu = ui::menu(key(), menubar, "Edit").m_body)
+		if(Widget* menu = ui::menu(key(), menubar, "Edit").body)
 		{
 			ui::menu_choice(key(), *menu, "Undo", "Ctrl+Z");
 			ui::menu_choice(key(), *menu, "Redo", "Ctrl+Y");
 			ui::menu_choice(key(), *menu, "Cut", "Ctrl+X");
 			ui::menu_choice(key(), *menu, "Copy", "Ctrl+C");
 			ui::menu_choice(key(), *menu, "Paste", "Ctrl+V");
-			if(Widget* submenu = ui::menu(key(), *menu, "Find and Replace", true).m_body)
+			if(Widget* submenu = ui::menu(key(), *menu, "Find and Replace", true).body)
 			{
 				ui::menu_choice(key(), *submenu, "Quick Find", "Ctrl+F");
 				ui::menu_choice(key(), *submenu, "Quick Replace", "Ctrl+H");
@@ -167,7 +167,7 @@ namespace
 			ui::menu_choice(key(), *menu, "Go To All", "Ctrl+T");
 		}
 
-		if(Widget* menu = ui::menu(key(), menubar, "View").m_body)
+		if(Widget* menu = ui::menu(key(), menubar, "View").body)
 		{
 			ui::menu_choice(key(), *menu, "Solution Explorer", "Ctrl+Alt+L");
 			ui::menu_choice(key(), *menu, "Git Changes", "Ctrl+0, Ctrl+G");
@@ -179,7 +179,7 @@ namespace
 		ui::menu(key(), menubar, "Git");
 		ui::menu(key(), menubar, "Project");
 
-		if(Widget* menu = ui::menu(key(), menubar, "Build").m_body)
+		if(Widget* menu = ui::menu(key(), menubar, "Build").body)
 		{
 			ui::menu_choice(key(), *menu, "Build Solution", "Ctrl+Shift+B");
 			ui::menu_choice(key(), *menu, "Rebuild Solution");
@@ -187,7 +187,7 @@ namespace
 			ui::menu_choice(key(), *menu, "Build two_ui", "Ctrl+B");
 		}
 
-		if(Widget* menu = ui::menu(key(), menubar, "Debug").m_body)
+		if(Widget* menu = ui::menu(key(), menubar, "Debug").body)
 		{
 			ui::menu_choice(key(), *menu, "Start Debugging", "F5");
 			ui::menu_choice(key(), *menu, "Start Without Debugging", "Ctrl+F5");
@@ -200,7 +200,7 @@ namespace
 		ui::menu(key(), menubar, "Extensions");
 		ui::menu(key(), menubar, "Window");
 
-		if(Widget* menu = ui::menu(key(), menubar, "Help").m_body)
+		if(Widget* menu = ui::menu(key(), menubar, "Help").body)
 			ui::menu_choice(key(), *menu, "About two");
 
 		ui::type_in(key(), menubar, ide.m_search);
@@ -255,17 +255,17 @@ namespace
 	void file_node(Widget& parent, Ide& ide, FileNode& node, bool open = false)
 	{
 		cstring elements[] = { node.image(), node.name.c_str() };
-		TreeNode& self = ui::tree_node(key(&node), parent, elements, !node.folder, open);
-		node.open = self.m_body != nullptr;
+		TreeNode self = ui::tree_node(key(&node), parent, elements, !node.folder, open);
+		node.open = self.body != nullptr;
 
-		if(!node.folder && self.m_header->mouse_event(DeviceType::MouseLeft, EventType::DoubleStroked))
+		if(!node.folder && self.header.mouse_event(DeviceType::MouseLeft, EventType::DoubleStroked))
 			ide.open(node.name, node.path);
 
-		if(self.m_body)
+		if(self.body)
 		{
 			node.scan();
 			for(FileNode& child : node.children)
-				file_node(*self.m_body, ide, child);
+				file_node(*self.body, ide, child);
 		}
 	}
 
@@ -283,7 +283,7 @@ namespace
 		ui::type_in(key(), search, ide.m_explorer_search);
 		ui::icon(key(), search, "(vs/search)");
 
-		Widget& sheet = *ui::scroll_sheet(key(), parent).m_body;
+		Widget& sheet = ui::scroll_sheet(key(), parent).body;
 		Widget& tree = ui::tree(key(), sheet);
 		file_node(tree, ide, ide.m_solution, true);
 	}
@@ -296,7 +296,7 @@ namespace
 		static uint32_t category = 0;
 		ui::dropdown_input(key(), parent, categories, category);
 
-		Widget& sheet = *ui::scroll_sheet(key(), parent).m_body;
+		Widget& sheet = ui::scroll_sheet(key(), parent).body;
 		Table& table = ui::table(key(), sheet, { "Property", "Value" }, { 0.4f, 0.6f });
 
 		static string name = document.name;
@@ -332,9 +332,9 @@ namespace
 		ui::toolbutton(key(), actions, "(vs/find_previous)");
 		ui::toolbutton(key(), actions, "(vs/sync)");
 
-		Widget& sheet = *ui::scroll_sheet(key(), parent).m_body;
+		Widget& sheet = ui::scroll_sheet(key(), parent).body;
 		Widget& tree = ui::tree(key(), sheet);
-		if(Widget* changes = ui::tree_node(key(), tree, "Changes (6)").m_body)
+		if(Widget* changes = ui::tree_node(key(), tree, "Changes (6)").body)
 		{
 			static cstring files[] = { "Frame.cpp  M", "Frame.h  M", "LayoutTree.cpp  A", "LayoutTree.h  A", "Solver.cpp  M", "WidgetStruct.cpp  M" };
 			for(size_t i = 0; i < size(files); ++i)
@@ -395,9 +395,9 @@ namespace
 	void find_symbol_results(Widget& parent)
 	{
 		ui::label(key(), parent, "Find all \"RowSolver\" - 6 matches");
-		Widget& sheet = *ui::scroll_sheet(key(), parent).m_body;
+		Widget& sheet = ui::scroll_sheet(key(), parent).body;
 		Widget& tree = ui::tree(key(), sheet);
-		if(Widget* definitions = ui::tree_node(key(), tree, "two::RowSolver").m_body)
+		if(Widget* definitions = ui::tree_node(key(), tree, "two::RowSolver").body)
 		{
 			static cstring results[] = {
 				"Solver.h(115): class RowSolver : public FrameSolver",
@@ -419,16 +419,16 @@ namespace
 	{
 		ui::label(key(), parent, "Diagnostics session: 0 seconds");
 
-		if(Widget* events = ui::expandbox(key(), parent, "Events").m_body)
+		if(Widget* events = ui::expandbox(key(), parent, "Events").body)
 			ui::label(key(), *events, "No events");
 
-		if(Widget* memory = ui::expandbox(key(), parent, "Process Memory (MB)").m_body)
+		if(Widget* memory = ui::expandbox(key(), parent, "Process Memory (MB)").body)
 		{
 			ui::fill_bar(key(), *memory, 0.35f);
 			ui::label(key(), *memory, "412 MB");
 		}
 
-		if(Widget* cpu = ui::expandbox(key(), parent, "CPU (% of all processors)").m_body)
+		if(Widget* cpu = ui::expandbox(key(), parent, "CPU (% of all processors)").body)
 		{
 			ui::fill_bar(key(), *cpu, 0.12f);
 			ui::label(key(), *cpu, "12 %");

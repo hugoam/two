@@ -125,8 +125,8 @@ void edit_styles(Widget& parent)
 	static std::vector<cstring> style_names = { "Character Sheet", "Inventory Sheet", "Inventory Slot" };
 
 	Widget& layout = ui::layout_span(key(), parent, 0.3f);
-	ScrollSheet& scroll_sheet = ui::scroll_sheet(key(), layout);
-	Widget& self = ui::sheet(key(), *scroll_sheet.m_body);
+	ScrollSheet scroll_sheet = ui::scroll_sheet(key(), layout);
+	Widget& self = ui::sheet(key(), scroll_sheet.body);
 
 	static uint32_t selected_style = 0;
 	ui::dropdown_input(key(), self, style_names, selected_style);

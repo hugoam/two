@@ -17,19 +17,18 @@ namespace two
 
 	bool section_action(Section& parent, const string& name)
 	{
-		return ui::button(key(), *parent.m_toolbar, name).activated();
+		return ui::button(key(), *parent.toolbar, name).activated();
 	}
 
-	Section& section(NodeKey id, Widget& parent, const string& name, bool no_toolbar)
+	Section section(NodeKey id, Widget& parent, const string& name, bool no_toolbar)
 	{
-		Section& self = ui::twidget<Section>(id, parent, section_style());
+		Widget& self = ui::widget(id, parent, section_style());
 		ui::title_header(key(), self, name.c_str());
 
-		if(!no_toolbar)
-			self.m_toolbar = &ui::toolbar(key(), self);
+		Widget* toolbar = !no_toolbar ? &ui::toolbar(key(), self) : nullptr;
 
-		ScrollSheet& scroll_sheet = ui::scroll_sheet(key(), self);
-		self.m_body = &ui::sheet(key(), *scroll_sheet.m_body);
-		return self;
+		ScrollSheet scroll_sheet = ui::scroll_sheet(key(), self);
+		Widget& body = ui::sheet(key(), scroll_sheet.body);
+		return { self, toolbar, body };
 	}
 }

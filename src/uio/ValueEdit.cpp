@@ -45,9 +45,9 @@ namespace two
 
 		if(ui::modal_button(key(), parent, parent, "+", EDIT_CURVE))
 		{
-			Widget& widget = ui::auto_modal(key(), parent, EDIT_CURVE, { 300.f, 120.f });
-			ui::label(key(), *widget.m_body, "Curve Editor");
-			return ui::curve_edit(key(), *widget.m_body, span<float>(keys));
+			ui::Popup widget = ui::auto_modal(key(), parent, EDIT_CURVE, { 300.f, 120.f });
+			ui::label(key(), widget.body, "Curve Editor");
+			return ui::curve_edit(key(), widget.body, span<float>(keys));
 		}
 
 		return false;

@@ -265,16 +265,16 @@ namespace two
 		return canvas;
 	}
 
-	Section& visual_script_edit(Widget& parent, VisualScript& script)
+	Section visual_script_edit(Widget& parent, VisualScript& script)
 	{
-		Section& self = section(key(), parent, script.m_name.c_str());
+		Section self = section(key(), parent, script.m_name.c_str());
 
-		Canvas& canvas = script_canvas(*self.m_body, script);
+		Canvas& canvas = script_canvas(self.body, script);
 
-		if(ui::button(key(), *self.m_toolbar, "Autolayout").activated())
+		if(ui::button(key(), *self.toolbar, "Autolayout").activated())
 			ui::canvas_autolayout(canvas);
 
-		ui::toggle(key(), *self.m_toolbar, canvas.m_rounded_links, "Rounded Links");
+		ui::toggle(key(), *self.toolbar, canvas.m_rounded_links, "Rounded Links");
 		return self;
 	}
 }

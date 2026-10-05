@@ -17,10 +17,6 @@ namespace two
 		, m_span(span)
 	{}
 
-	Dockable::Dockable(Widget* parent)
-		: Widget(parent)
-	{}
-
 	Docker::Docker(Widget* parent, Docksystem& docksystem)
 		: Widget(parent)
 		, m_docksystem(&docksystem)
@@ -169,12 +165,12 @@ namespace two
 	Docksystem::Docksystem()
 	{}
 
-	void Docksystem::dock(Dockable& item, const vec2& pos)
+	void Docksystem::dock(cstring name, const vec2& pos)
 	{
 		for(Docker* docker : m_dockers)
 			if(docker->m_frame.inside_abs(pos))
 			{
-				docker->m_pending_docks.push_back({ item.m_name, pos });
+				docker->m_pending_docks.push_back({ name, pos });
 				return;
 			}
 	}
@@ -183,10 +179,14 @@ namespace two
 		: Docker(parent, docksystem)
 	{}
 
-	Dockable* Dockspace::pinpoint_dock(const vec2& pos)
+	Dockspace::DockedWindow* Dockspace::pinpoint_dock(const vec2& pos)
 	{
 		Widget* widget = this->pinpoint(m_frame.local_position(pos), [](Frame& frame) { return frame.d_style == &ui::window_styles().dock_window; });
-		return static_cast<Dockable*>(widget);
+		// the docks shown in the last frame might have been removed since
+		for(DockedWindow& docked : m_docked)
+			if(docked.window == widget && has_pred(m_docks, [&](auto& dock) { return dock.get() == docked.dock; }))
+				return &docked;
+		return nullptr;
 	}
 
 	Widget* Dockspace::docksection(Dock& dock, cstring name, NodeKey id)
@@ -217,8 +217,9 @@ namespace two
 
 		if(tab)
 		{
-			Window& container = ui::window(id, *tab, name, WindowState::Dockable, &dock);
-			return container.m_body;
+			Window container = ui::window(id, *tab, name, WindowState::Dockable, &dock);
+			m_docked.push_back({ &container.self, &dock });
+			return container.body;
 		}
 
 		return tab;
@@ -226,9 +227,9 @@ namespace two
 
 	void Dockspace::dock(cstring name, const vec2& pos)
 	{
-		Dockable* target = pinpoint_dock(pos);
+		DockedWindow* target = pinpoint_dock(pos);
 		if(target)
-			this->dock(name, *target->m_dock, target->m_frame, pos);
+			this->dock(name, *target->dock, target->window->m_frame, pos);
 		else if(m_docks.empty())
 		{
 			// an empty dockspace receives the item in a root dock
@@ -281,7 +282,7 @@ namespace two
 		toggle.set_state(ACTIVE, m_current_tab == dock.m_dockid.back());
 
 		if(m_current_tab == dock.m_dockid.back())
-			return ui::window(id, *m_dockzone, name, WindowState::Dockable, &dock).m_body; // dock_styles().dockbox
+			return ui::window(id, *m_dockzone, name, WindowState::Dockable, &dock).body; // dock_styles().dockbox
 		else
 			return nullptr;
 	}
