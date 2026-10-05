@@ -8,11 +8,12 @@
 
 namespace two
 {
+	// the layer of a widget, a state of its node: the widget and its descendants are drawn in it, except the ones with their own layer
+	// the layers are ordered under the layer they are drawn in, its sublayers, which are referred to by the index of their node
 	export_ class refl_ TWO_UI_EXPORT Layer
 	{
 	public:
-		Layer(Widget& widget);
-		~Layer();
+		static constexpr uint32_t none = UINT32_MAX;
 
 		enum Redraw
 		{
@@ -21,9 +22,7 @@ namespace two
 			FORCE_REDRAW = 2
 		};
 
-		size_t z() const;
-
-		bool master() { return d_parentLayer == nullptr; }
+		bool master() const { return d_parent == none; }
 		bool redraw() const { return d_redraw >= REDRAW; }
 		bool forceRedraw() const { return d_redraw >= FORCE_REDRAW; }
 
@@ -32,31 +31,14 @@ namespace two
 
 		void endRedraw() { d_redraw = NO_REDRAW; }
 
-		void addLayer(Layer& layer);
-		void removeLayer(Layer& layer);
-
-		void moveToTop();
-
-		void reindex();
-		void reorder();
-
-		template <class Visitor>
-		void visit(const Visitor& visitor)
-		{
-			visitor(*this);
-			for(Layer* layer : d_sublayers)
-				layer->visit(visitor);
-		}
-
 	public:
-		Widget& m_widget;
-		Layer* d_parentLayer = nullptr;
+		uint32_t d_parent = none;		// the node of the layer this layer is drawn in, none for the master layer
 		size_t d_index = SIZE_MAX;
 		size_t d_z = 0;
 
 		Redraw d_redraw = REDRAW;
 		size_t d_handle = SIZE_MAX;
 
-		vector<Layer*> d_sublayers;
+		vector<uint32_t> d_sublayers;	// the nodes of the layers drawn in this layer, in their order
 	};
 }

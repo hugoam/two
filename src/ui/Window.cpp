@@ -16,13 +16,13 @@ namespace ui
 		{
 			window.enable_state(ACTIVE);
 			//if(!window.m_dock) // crashes for some reason
-			window.draw_layer().moveToTop();
+			window.layer_widget().move_layer_to_top();
 		}
 
 		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
-			window.draw_layer().moveToTop();
-			window.draw_layer().m_widget.frame().m_opacity = Opacity::Hollow;
+			window.layer_widget().move_layer_to_top();
+			window.layer_widget().frame().m_opacity = Opacity::Hollow;
 
 			if(bit(state, WindowState::Movable))
 				window.set_position(window.frame().m_position + event.m_delta);
@@ -33,7 +33,7 @@ namespace ui
 			if(bit(state, WindowState::Dockable) && docksystem)
 				docksystem->dock(name, event.m_pos);
 
-			window.draw_layer().m_widget.frame().m_opacity = Opacity::Opaque;
+			window.layer_widget().frame().m_opacity = Opacity::Opaque;
 		}
 	}
 
@@ -41,7 +41,7 @@ namespace ui
 	{
 		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
-			window.draw_layer().moveToTop();
+			window.layer_widget().move_layer_to_top();
 
 			if(left)
 				window.set_position(Axis::X, window.frame().m_position.x + event.m_delta.x);
@@ -117,7 +117,7 @@ namespace ui
 			window_footer(key(), self, self);
 
 		if(!dock && self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
-			self.draw_layer().moveToTop();
+			self.layer_widget().move_layer_to_top();
 
 		return { self, header, menu, self.open() ? &body : nullptr };
 	}

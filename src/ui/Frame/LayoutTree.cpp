@@ -483,20 +483,21 @@ namespace two
 	{
 		m_layers.assign(m_nodes.size(), nullptr);
 		for(Widget* widget = m_nodes[0].widget; widget && !m_layers[0]; widget = widget->parent())
-			m_layers[0] = widget->frame().m_layer.get();
+			m_layers[0] = widget->find_state<Layer>();
 
 		for(uint32_t i = 0; i < uint32_t(m_nodes.size()); ++i)
 		{
-			if(!m_nodes[i].widget) continue;
-			Frame* frame = &m_nodes[i].widget->frame();
+			Widget* widget = m_nodes[i].widget;
+			if(!widget) continue;
 			Layer* parent = i > 0 ? m_layers[m_nodes[i].frame_parent] : nullptr;
-			m_layers[i] = frame->m_layer ? frame->m_layer.get() : (i > 0 ? parent : m_layers[0]);
+			Layer* own = widget->find_state<Layer>();
+			m_layers[i] = own ? own : (i > 0 ? parent : m_layers[0]);
 			if(m_layers[i] && m_layers[i] != parent)
 			{
 				m_layers[i]->setRedraw();
 				m_layers[i]->setForceRedraw(); // @ kludge for nodes in canvas when moving the canvas window
 			}
-			frame->clearDirty();
+			widget->frame().clearDirty();
 		}
 	}
 }

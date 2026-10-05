@@ -52,12 +52,6 @@ namespace two
 		this->update_style();
 	}
 
-	Layer& Widget::draw_layer()
-	{
-		Frame& frame = this->frame();
-		return frame.m_layer ? *frame.m_layer : this->parent()->draw_layer();
-	}
-
 	// a frame to lay out lays out the whole tree, from its root, and a frame to redraw redraws its layer
 	void Widget::mark_dirty(DirtyLayout dirty)
 	{
@@ -69,12 +63,13 @@ namespace two
 		else if(dirty == DIRTY_REDRAW)
 		{
 			Widget* widget = this;
-			while(widget && !widget->frame().m_layer)
+			Layer* layer = nullptr;
+			while(widget && !(layer = widget->find_state<Layer>()))
 				widget = widget->parent();
-			if(widget)
+			if(layer)
 			{
-				widget->frame().m_layer->setRedraw();
-				widget->frame().m_layer->setForceRedraw(); // @ kludge for nodes in canvas when moving the canvas window
+				layer->setRedraw();
+				layer->setForceRedraw(); // @ kludge for nodes in canvas when moving the canvas window
 			}
 		}
 	}

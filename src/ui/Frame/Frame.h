@@ -67,7 +67,6 @@ namespace two
 		string d_caption = "";
 		Image* d_icon = nullptr;
 
-		unique<Layer> m_layer;
 		unique<Text> m_text;
 
 		static Vg* s_vg;

@@ -18,16 +18,17 @@ namespace two
 		if (!frame.d_style || frame.hollow() || (clip(frame) && !frame.inside(pos)))
 			return nullptr;
 
-		if (frame.m_layer)
-			for (Layer* layer : reverse_adapt(frame.m_layer->d_sublayers))
+		PooledGraph<Widget>& graph = *self.m_graph;
+		if (Layer* layer = self.find_state<Layer>())
+			for (uint32_t node : reverse_adapt(layer->d_sublayers))
 			{
-				vec2 local = layer->m_widget.integrate_position(pos, self);
-				if (Widget* target = pinpoint(layer->m_widget, local, filter))
+				Widget& widget = graph.node(node);
+				vec2 local = widget.integrate_position(pos, self);
+				if (Widget* target = pinpoint(widget, local, filter))
 					return target;
 			}
 
 		// the last children are on top: the top nodes attached, then the descendants walked backward, keeping the children
-		PooledGraph<Widget>& graph = *self.m_graph;
 		span<uint32_t> attached = self.attached();
 		for (size_t i = attached.size(); i-- > 0;)
 		{
@@ -89,41 +90,35 @@ namespace two
 	void Widget::reparent(Widget* old)
 	{
 		// the frame follows the widget in its new parent, so do the layers, its own, or else the ones of its descendants
-		Layer* old_layer = old ? &old->draw_layer() : nullptr;
+		Widget* old_layer = old ? &old->layer_widget() : nullptr;
 		Widget* parent = this->parent();
-		Layer* new_layer = parent ? &parent->draw_layer() : nullptr;
+		Widget* new_layer = parent ? &parent->layer_widget() : nullptr;
 
-		auto relink = [&](Layer& layer)
+		auto relink = [&](Widget& widget, Layer& layer)
 		{
-			if(layer.d_parentLayer)
-				layer.d_parentLayer->removeLayer(layer);
-			layer.d_parentLayer = new_layer;
+			if(!layer.master())
+				m_graph->node(layer.d_parent).remove_sublayer(widget);
+			layer.d_parent = new_layer ? new_layer->m_index : Layer::none;
 			if(new_layer)
-				new_layer->addLayer(layer);
+				new_layer->add_sublayer(widget);
 		};
 
-		if(frame().m_layer)
-			relink(*frame().m_layer);
+		if(Layer* layer = this->find_state<Layer>())
+			relink(*this, *layer);
 		else
 			for(uint32_t index : this->descendants())
 				if(index != PooledGraph<Widget>::none)
 				{
 					Widget& widget = m_graph->node(index);
-					if(widget.frame().m_layer && widget.frame().m_layer->d_parentLayer == old_layer)
-						relink(*widget.frame().m_layer);
+					Layer* layer = widget.find_state<Layer>();
+					if(layer && layer->d_parent == (old_layer ? old_layer->m_index : Layer::none))
+						relink(widget, *layer);
 				}
 
 		if(old)
 			old->mark_dirty(DIRTY_LAYOUT);
 		++Frame::s_epoch;
 		this->mark_dirty(DIRTY_LAYOUT);
-	}
-
-	Widget& Widget::layer()
-	{
-		if(!frame().m_layer)
-			frame().m_layer = oconstruct<Layer>(*this);
-		return *this;
 	}
 
 	Ui& Widget::ui()

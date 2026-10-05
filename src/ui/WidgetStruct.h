@@ -6,6 +6,7 @@
 
 #include <ui/Forward.h>
 #include <ui/Frame/Frame.h>
+#include <ui/Frame/Layer.h>
 #include <ui/Widget.h>
 
 namespace two
@@ -86,8 +87,6 @@ namespace two
 		using CustomRender = function<void(Widget&, const vec4&, Vg&)>;
 		CustomRender m_custom_draw;
 
-		Widget& layer();
-
 		inline bool once() { if((m_state & CREATED) != 0) { disable_state(CREATED); return true; } return false; }
 		inline Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 }) { if(!frame().d_style) { this->set_style(style, length, index); this->set_open(open); } return *this; }
 
@@ -96,8 +95,33 @@ namespace two
 
 		void set_style(Style& style, Axis length = Axis::None, v2<uint> index = { 0, 0 });
 
-		// the layer the frame is drawn in: its own, or the one of its parent
+		// the layers: a widget with a layer, a state of its node, is drawn in it with its descendants (Layer.cpp)
+
+		// gives the widget its own layer, drawn in the layer of its parent
+		Widget& layer();
+		// the widget whose layer the frame is drawn in: itself, or the one of its parent
+		Widget& layer_widget();
 		Layer& draw_layer();
+
+		size_t layer_z();
+		void add_sublayer(Widget& widget);
+		void remove_sublayer(Widget& widget);
+		void reindex_layers();
+		void reorder_layers();
+		void move_layer_to_top();
+
+		// visits the widgets with a layer, from this one, each before the layers drawn in its layer
+		template <class T_Visitor>
+		inline void visit_layers(const T_Visitor& visitor)
+		{
+			Layer& layer = *this->find_state<Layer>();
+			visitor(*this, layer);
+			for(uint32_t node : layer.d_sublayers)
+				m_graph->node(node).visit_layers(visitor);
+		}
+
+		// the node is going away: the layer of the widget leaves the layer it's drawn in
+		void release();
 
 		void mark_dirty(DirtyLayout dirty);
 

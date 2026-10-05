@@ -28,6 +28,8 @@ namespace two
 
 		// the gfx nodes have no top nodes, they never change parent
 		void reparent(Gnode* old) { UNUSED(old); }
+		// nothing refers to a gfx node through the graph
+		void release() {}
 
 		Scene* m_scene = nullptr;
 		Node3* m_attach = nullptr;

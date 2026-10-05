@@ -120,10 +120,10 @@ namespace two
 		UiRenderer(Vg& vg);
 		virtual ~UiRenderer();
 
-		void render(Layer& layer, uint16_t view, float pixel_ratio, const Colour& colour = Colour(0.f));// = 1.f);
+		void render(Widget& target, uint16_t view, float pixel_ratio, const Colour& colour = Colour(0.f));// = 1.f);
 
 		// drawing implementation
-		void render_layer(Layer& layer);
+		void render_layer(Widget& widget, Layer& layer);
 
 		void begin_layer(Widget& widget);
 		void begin_frame(Frame& frame);

@@ -480,6 +480,7 @@ namespace two
 		}
 
 		// a node going away releases its states, its key if it's a top node, and detaches the top nodes attached to it
+		// the nodes going away together are released in their order, parents first: what they refer to may be released already
 		inline void release(uint32_t index)
 		{
 			if (this->top(index))
@@ -493,6 +494,8 @@ namespace two
 					m_parent[top] = none;
 					this->node(top).reparent(&this->node(index));
 				}
+			// the node unlinks what refers to it, while its states are still there
+			this->node(index).release();
 			for(unique<StateStore>& store : m_stores)
 				if(store)
 					store->release(index);

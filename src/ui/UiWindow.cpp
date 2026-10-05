@@ -150,7 +150,7 @@ namespace two
 
 		if(m_context.m_render_system.m_manual_render)
 		{
-			m_renderer.render(*m_ui->frame().m_layer, view, m_context.m_pixel_ratio, m_colour);
+			m_renderer.render(*m_ui, view, m_context.m_pixel_ratio, m_colour);
 			// add sub layers
 		}
 
