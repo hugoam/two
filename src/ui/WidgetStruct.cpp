@@ -96,11 +96,11 @@ namespace two
 
 		auto relink = [&](Widget& widget, Layer& layer)
 		{
-			if(!layer.master())
-				m_graph->node(layer.d_parent).remove_sublayer(widget);
-			layer.d_parent = new_layer ? new_layer->m_index : Layer::none;
+			if(!layer.master() && m_graph->find_state<Layer>(layer.d_parent))
+				m_graph->node(layer.d_parent).remove_sublayer(widget, layer);
+			layer.d_parent = Layer::none;
 			if(new_layer)
-				new_layer->add_sublayer(widget);
+				new_layer->add_sublayer(widget, layer);
 		};
 
 		if(Layer* layer = this->find_state<Layer>())

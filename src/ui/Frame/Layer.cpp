@@ -13,9 +13,8 @@ namespace two
 		if(this->find_state<Layer>())
 			return *this;
 		Layer& layer = this->state<Layer>();
-		layer.d_parent = this->parent() ? this->parent()->layer_widget().m_index : Layer::none;
-		if(!layer.master())
-			m_graph->node(layer.d_parent).add_sublayer(*this);
+		if(Widget* parent = this->parent())
+			parent->layer_widget().add_sublayer(*this, layer);
 		return *this;
 	}
 
@@ -23,8 +22,9 @@ namespace two
 	void Widget::release()
 	{
 		Layer* layer = this->find_state<Layer>();
-		if(layer && !layer->master() && m_graph->find_state<Layer>(layer->d_parent))
-			m_graph->node(layer->d_parent).remove_sublayer(*this);
+		if(layer && !layer->master())
+			if(m_graph->find_state<Layer>(layer->d_parent))
+				m_graph->node(layer->d_parent).remove_sublayer(*this, *layer);
 	}
 
 	Widget& Widget::layer_widget()
@@ -37,12 +37,6 @@ namespace two
 		return *this->layer_widget().find_state<Layer>();
 	}
 
-	size_t Widget::layer_z()
-	{
-		const Layout& layout = *this->frame().d_layout;
-		return layout.m_zorder ? layout.m_zorder : this->find_state<Layer>()->d_z;
-	}
-
 	void Widget::reindex_layers()
 	{
 		Layer& layer = *this->find_state<Layer>();
@@ -52,41 +46,49 @@ namespace two
 
 	void Widget::reorder_layers()
 	{
-		PooledGraph<Widget>& graph = *m_graph;
+		auto z = [&](uint32_t node) -> size_t
+		{
+			Widget& widget = m_graph->node(node);
+			const Layout& layout = *widget.frame().d_layout;
+			return layout.m_zorder ? layout.m_zorder : widget.find_state<Layer>()->d_z;
+		};
+
 		auto lower = [&](uint32_t first, uint32_t second)
 		{
-			if(graph.node(first).layer_z() == graph.node(second).layer_z())
-				return graph.node(first).find_state<Layer>()->d_index < graph.node(second).find_state<Layer>()->d_index;
+			if(z(first) == z(second))
+				return m_graph->node(first).find_state<Layer>()->d_index < m_graph->node(second).find_state<Layer>()->d_index;
 			else
-				return graph.node(first).layer_z() < graph.node(second).layer_z();
+				return z(first) < z(second);
 		};
 
 		Layer& layer = *this->find_state<Layer>();
 		std::sort(layer.d_sublayers.begin(), layer.d_sublayers.end(), lower);
-		//quicksort<Layer*>(d_sublayers, lower);
 		this->reindex_layers();
 	}
 
-	void Widget::add_sublayer(Widget& widget)
+	void Widget::add_sublayer(Widget& widget, Layer& sublayer)
 	{
 		Layer& layer = *this->find_state<Layer>();
-		widget.find_state<Layer>()->d_index = layer.d_sublayers.size();
+		sublayer.d_parent = m_index;
+		sublayer.d_index = layer.d_sublayers.size();
 		layer.d_sublayers.push_back(widget.m_index);
 		this->reorder_layers();
 	}
 
-	void Widget::remove_sublayer(Widget& widget)
+	void Widget::remove_sublayer(Widget& widget, Layer& sublayer)
 	{
 		Layer& layer = *this->find_state<Layer>();
 		remove(layer.d_sublayers, widget.m_index);
+		sublayer.d_parent = Layer::none;
 		this->reindex_layers();
 		this->reorder_layers();
 	}
 
 	void Widget::move_layer_to_top()
 	{
-		Widget& parent = m_graph->node(this->find_state<Layer>()->d_parent);
-		parent.remove_sublayer(*this);
-		parent.add_sublayer(*this);
+		Layer& layer = *this->find_state<Layer>();
+		Widget& parent = m_graph->node(layer.d_parent);
+		parent.remove_sublayer(*this, layer);
+		parent.add_sublayer(*this, layer);
 	}
 }

@@ -103,9 +103,8 @@ namespace two
 		Widget& layer_widget();
 		Layer& draw_layer();
 
-		size_t layer_z();
-		void add_sublayer(Widget& widget);
-		void remove_sublayer(Widget& widget);
+		void add_sublayer(Widget& widget, Layer& sublayer);
+		void remove_sublayer(Widget& widget, Layer& sublayer);
 		void reindex_layers();
 		void reorder_layers();
 		void move_layer_to_top();
