@@ -16,7 +16,7 @@ if(!once)
 
     //scene.background = new THREE.Color(0xf000);
 
-    scene.lights().add(new two.Light(scene.root_node, two.LightType.Direct, false));
+    new two.Light(scene.root_node, two.LightType.Direct, false).add(scene.graph);
     //var light = new THREE.DirectionalLight(0xffffff, 1);
     //light.position.set(1, 1, 1).normalize();
     //scene.add(light);
@@ -34,8 +34,8 @@ if(!once)
         var angles = new two.vec3(Math.random(), Math.random(), Math.random()) * 2 * Math.PI;
         var scale = new two.vec3(Math.random(), Math.random(), Math.random()) + 0.5;
 
-        var n = scene.nodes().add(new two.Node3(pos, new two.quat(angles), scale));
-        var it = scene.items().add(new two.Item(n, model, ItemFlag::Default | ItemFlag::Selectable, material));
+        var n = new two.Node3(pos, new two.quat(angles), scale).add(scene.graph);
+        var it = new two.Item(n, model, ItemFlag::Default | ItemFlag::Selectable, material).add(scene.graph);
     }
 
     //raycaster = new THREE.Raycaster();

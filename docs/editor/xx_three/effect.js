@@ -140,7 +140,7 @@ if(init) {
     env.fog.depth_begin = 1.0;
     env.fog.depth_end = 1000.0;
 
-    var object = scene.nodes().add(new two.Node3());
+    var object = new two.Node3().add(scene.graph);
     this.node = object;
 
     var symbol = new two.Symbol(new two.Colour(1.0)); symbol.subdiv = new two.uvec2(4);
@@ -161,16 +161,16 @@ if(init) {
         var a = new two.vec3(Math.random() * 2.0, Math.random() * 2.0, Math.random() * 2.0);
         var s = new two.vec3(Math.random() * 50.0);
 
-        var n = scene.nodes().add(new two.Node3(p, new two.quat(a), s));
-        scene.items().add(new two.Item(n, geometry, 0, material));
+        var n = new two.Node3(p, new two.quat(a), s).add(scene.graph);
+        new two.Item(n, geometry, 0, material).add(scene.graph);
         this.nodes.push({ p: p, r: new two.quat(a), s: s, node: n });
     }
     
     //scene.add(new THREE.AmbientLight(0x222222));
 
     var dir = two.look_dir(new two.vec3(-1.0));
-    var ln = scene.nodes().add(new two.Node3(new two.vec3(0.0), dir));
-    var l = scene.lights().add(new two.Light(ln, two.LightType.Direct, false, two.rgb(0xffffff)));
+    var ln = new two.Node3(new two.vec3(0.0), dir).add(scene.graph);
+    var l = new two.Light(ln, two.LightType.Direct, false, two.rgb(0xffffff)).add(scene.graph);
 
     this.angles = new two.vec3(0.0);
 }

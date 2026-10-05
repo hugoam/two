@@ -43,11 +43,11 @@ EX(xx_interact_geom)
 
 		//scene.add(new THREE.AmbientLight(0x444444));
 
-		Node3& l1 = gfx::nodes(scene).add(Node3(vec3(0.f), facing(vec3(1.f, 1.f, 1.f))));
-		gfx::lights(scene).add(Light(l1, LightType::Direct, false, rgb(0xffffff), 0.5f));
+		Node3& l1 = Node3(vec3(0.f), facing(vec3(1.f, 1.f, 1.f))).add(scene.m_graph);
+		Light(l1, LightType::Direct, false, rgb(0xffffff), 0.5f).add(scene.m_graph);
 
-		Node3& l2 = gfx::nodes(scene).add(Node3(vec3(0.f), facing(vec3(0.f, -1.f, 0.f))));
-		gfx::lights(scene).add(Light(l2, LightType::Direct, false, rgb(0xffffff), 1.5f));
+		Node3& l2 = Node3(vec3(0.f), facing(vec3(0.f, -1.f, 0.f))).add(scene.m_graph);
+		Light(l2, LightType::Direct, false, rgb(0xffffff), 1.5f).add(scene.m_graph);
 		
 		MeshPacker geometry;
 
@@ -80,8 +80,8 @@ EX(xx_interact_geom)
 
 		Model& model = app.m_gfx.create_model_geo("geometry", geometry);
 
-		Node3& n = gfx::nodes(scene).add(Node3());
-		Item& it = gfx::items(scene).add(Item(n, model, 0U, &material));
+		Node3& n = Node3().add(scene.m_graph);
+		Item& it = Item(n, model, 0U, &material).add(scene.m_graph);
 		node = &n;
 		UNUSED(it);
 

@@ -69,8 +69,8 @@ EX(xx_perf_nodes)
 			const vec3 a = vec3(randf(), randf(), 0.f) * c_2pi;
 			const vec3 s = vec3(randf()) * 50.f + 100.f;
 
-			Node3& n = gfx::nodes(scene).add(Node3(p, quat(a), s));
-			gfx::items(scene).add(Item(n, geometry, 0U, &material));
+			Node3& n = Node3(p, quat(a), s).add(scene.m_graph);
+			Item(n, geometry, 0U, &material).add(scene.m_graph);
 			meshes.push_back(&n);
 		}
 

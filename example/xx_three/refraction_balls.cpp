@@ -52,8 +52,8 @@ EX(xx_refraction_balls)
 		{
 			vec3 p = vec3(randf(), randf(), randf()) * 10000.f - 5000.f;
 			vec3 s = vec3(randf()) * 3.f + 1.f;
-			Node3& n = gfx::nodes(scene).add(Node3(p, ZeroQuat, s));
-			gfx::items(scene).add(Item(n, sphere, 0U, &material));
+			Node3& n = Node3(p, ZeroQuat, s).add(scene.m_graph);
+			Item(n, sphere, 0U, &material).add(scene.m_graph);
 
 			spheres.push_back({ p, s, &n });
 		}

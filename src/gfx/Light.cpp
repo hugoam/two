@@ -10,6 +10,11 @@ namespace two
 {
 	//static uint32_t s_light_index = 0;
 
+	Light& Light::add(Gnode& parent)
+	{
+		return parent.suba().state<Light>(move(*this));
+	}
+
 	Light::Light(Node3& node, LightType type, bool shadows, Colour colour, float energy, float range)
 		: m_node(&node)
 		, m_type(type)

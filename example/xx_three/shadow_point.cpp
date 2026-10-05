@@ -96,20 +96,20 @@ EX(xx_shadow_point)
 			Model& sphere0 = app.m_gfx.shape(Sphere(0.3f));
 			Model& sphere1 = app.m_gfx.shape(Sphere(2.0f));
 
-			Node3& node = gfx::nodes(scene).add(Node3());
-			Item& inner = gfx::items(scene).add(Item(node, sphere0, 0, &app.m_gfx.symbol_material(Symbol(color * intensity))));
-			Item& outer = gfx::items(scene).add(Item(node, sphere1, 0, spheremat));
+			Node3& node = Node3().add(scene.m_graph);
+			Item& inner = Item(node, sphere0, 0, &app.m_gfx.symbol_material(Symbol(color * intensity))).add(scene.m_graph);
+			Item& outer = Item(node, sphere1, 0, spheremat).add(scene.m_graph);
 			UNUSED(inner); UNUSED(outer);
 
-			Light& light = gfx::lights(scene).add(Light(node, LightType::Point, true, color, intensity, range)); //, 0.6));// intensity);
+			Light& light = Light(node, LightType::Point, true, color, intensity, range).add(scene.m_graph); //, 0.6));// intensity);
 			//light.m_attenuation = 0.6f;
 			//light.shadow_bias = 0.005;
 
 			lights[i] = &node;
 		}
 
-		Node3& node = gfx::nodes(scene).add(Node3(vec3(0.f, 10.f, 0.f)));
-		gfx::items(scene).add(Item(node, app.m_gfx.shape(Cube(vec3(15.f))), 0, cubemat));
+		Node3& node = Node3(vec3(0.f, 10.f, 0.f)).add(scene.m_graph);
+		Item(node, app.m_gfx.shape(Cube(vec3(15.f))), 0, cubemat).add(scene.m_graph);
 #endif
 	}
 

@@ -94,10 +94,10 @@ EX(xx_clustered)
 			const vec3 position = vec3(sin(i * c_pi2) * radius, 0.f, cos(i * c_pi2) * radius);
 			const quat rotation = quat(vec3(0.f, i * c_pi2, 0.f));
 
-			Node3& n = gfx::nodes(scene).add(Node3(position, rotation));
+			Node3& n = Node3(position, rotation).add(scene.m_graph);
 
-			Node3& m = gfx::nodes(scene).add(Node3(n.m_transform * bxTRS(vec3(1.f), ZeroQuat, vec3(0.f, -37.f, 0.f))));
-			Item& it = gfx::items(scene).add(Item(m, model, 0U, material));
+			Node3& m = Node3(n.m_transform * bxTRS(vec3(1.f), ZeroQuat, vec3(0.f, -37.f, 0.f))).add(scene.m_graph);
+			Item& it = Item(m, model, 0U, material).add(scene.m_graph);
 			UNUSED(it);
 
 
@@ -113,13 +113,13 @@ EX(xx_clustered)
 					m.m_program = &solid; m.m_solid.m_colour = color; m.m_alpha.m_alpha = 0.033f;
 				});
 
-				Node3& l = gfx::nodes(scene).add(Node3());
-				Item& i0 = gfx::items(scene).add(Item(l, sphere, 0U, &ml)); // MaterialSolid(color)));
+				Node3& l = Node3().add(scene.m_graph);
+				Item& i0 = Item(l, sphere, 0U, &ml).add(scene.m_graph); // MaterialSolid(color)));
 			
-				//Item& i1 = gfx::items(scene).add(Item(l, big_sphere, 0U, &ma)); // MaterialSolid(color), MaterialAlpha(0.033f));
+				//Item& i1 = Item(l, big_sphere, 0U, &ma).add(scene.m_graph); // MaterialSolid(color), MaterialAlpha(0.033f));
 				//l.children[1].scale.set(6.66, 6.66, 6.66);
 
-				Light& light = gfx::lights(scene).add(Light(l, LightType::Point, false, color, 1.f, radius));
+				Light& light = Light(l, LightType::Point, false, color, 1.f, radius).add(scene.m_graph);
 				light.m_attenuation = 1.f;
 
 				lights.push_back({

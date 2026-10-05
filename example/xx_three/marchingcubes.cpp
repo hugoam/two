@@ -430,19 +430,19 @@ EX(xx_marching_cubes)
 
 		vec3 t = look_dir(-normalize(vec3(0.5f, 0.5f, 1.f))) * -z3;
 
-		Node3& l0 = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(-vec3(0.5f, 0.5f, 1.f))));
-		Light& l = gfx::lights(scene).add(Light(l0, LightType::Direct, false, rgb(0xffffff)));
+		Node3& l0 = Node3(vec3(0.f), look_dir(-vec3(0.5f, 0.5f, 1.f))).add(scene.m_graph);
+		Light& l = Light(l0, LightType::Direct, false, rgb(0xffffff)).add(scene.m_graph);
 		nlight = &l0;
 		light = &l;
 
-		Node3& l1 = gfx::nodes(scene).add(Node3(vec3(0.f, 0.f, 100.f)));
-		gfx::lights(scene).add(Light(l1, LightType::Point, false, rgb(0xff3300), 1.f, 0.f));
+		Node3& l1 = Node3(vec3(0.f, 0.f, 100.f)).add(scene.m_graph);
+		Light(l1, LightType::Point, false, rgb(0xff3300), 1.f, 0.f).add(scene.m_graph);
 
 		materials = gen_materials(app.m_gfx, "marching");
 		current = &materials[7];
 
-		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f), ZeroQuat, vec3(700.f)));
-		Item& it = gfx::items(scene).add(Item(n, model, 0U, current->material));
+		Node3& n = Node3(vec3(0.f), ZeroQuat, vec3(700.f)).add(scene.m_graph);
+		Item& it = Item(n, model, 0U, current->material).add(scene.m_graph);
 		item = &it;
 	}
 

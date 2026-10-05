@@ -62,16 +62,16 @@ EX(xx_cubemap_dynamic)
 		});
 
 #if SPHERE
-		Node3& sphere = gfx::nodes(scene).add(Node3());
-		//isphere = &gfx::items(scene).add(Item(sphere, app.m_gfx.shape(Icosaedr(20.f))));
-		isphere = &gfx::items(scene).add(Item(sphere, app.m_gfx.shape(Sphere(20.f)), 0U, &material));
+		Node3& sphere = Node3().add(scene.m_graph);
+		//isphere = &Item(sphere, app.m_gfx.shape(Icosaedr(20.f))).add(scene.m_graph);
+		isphere = &Item(sphere, app.m_gfx.shape(Sphere(20.f)), 0U, &material).add(scene.m_graph);
 #endif
 
-		cube = &gfx::nodes(scene).add(Node3());
-		gfx::items(scene).add(Item(*cube, app.m_gfx.shape(Cube(10.f)), 0U, &material));
+		cube = &Node3().add(scene.m_graph);
+		Item(*cube, app.m_gfx.shape(Cube(10.f)), 0U, &material).add(scene.m_graph);
 		
-		torus = &gfx::nodes(scene).add(Node3());
-		gfx::items(scene).add(Item(*torus, app.m_gfx.shape(TorusKnot(10.f, 5.f)), 0U, &material));
+		torus = &Node3().add(scene.m_graph);
+		Item(*torus, app.m_gfx.shape(TorusKnot(10.f, 5.f)), 0U, &material).add(scene.m_graph);
 	}
 
 	static vec2 presscoord = vec2(0.f);

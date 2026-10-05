@@ -76,20 +76,20 @@ if(init) {
     scene.env.radiance.ambient = two.rgb(0x888888);
 
     var dir = two.look_dir(new two.vec3(0.0, -0.5, -0.5));
-    var dn = scene.nodes().add(new two.Node3(new two.vec3(0.0), dir));
-    var dl = scene.lights().add(new two.Light(dn, two.LightType.Direct, false, two.rgb(0xffffff), 0.03));
+    var dn = new two.Node3(new two.vec3(0.0), dir).add(scene.graph);
+    var dl = new two.Light(dn, two.LightType.Direct, false, two.rgb(0xffffff), 0.03).add(scene.graph);
 
     var zeroq = new two.quat(new two.vec3(0.0));
     
     var sphere = app.gfx.shape(new two.Sphere(4.0));
     
-    var pn0 = scene.nodes().add(new two.Node3(new two.vec3(0.0, -50.0, 350.0), zeroq));
-    var pl0 = scene.lights().add(new two.Light(pn0, two.LightType.Point, false, two.rgb(0x888888), 7.0, 300.0));
-    scene.items().add(new two.Item(pn0, sphere, 0, two.gfx.solid_material(app.gfx, 'l0', two.rgb(0x888888))));
+    var pn0 = new two.Node3(new two.vec3(0.0, -50.0, 350.0), zeroq).add(scene.graph);
+    var pl0 = new two.Light(pn0, two.LightType.Point, false, two.rgb(0x888888), 7.0, 300.0).add(scene.graph);
+    new two.Item(pn0, sphere, 0, two.gfx.solid_material(app.gfx, 'l0', two.rgb(0x888888))).add(scene.graph);
 
-    var pn1 = scene.nodes().add(new two.Node3(new two.vec3(-100.0, 20.0, -260.0), zeroq));
-    var pl1 = scene.lights().add(new two.Light(pn1, two.LightType.Point, false, two.rgb(0x888800), 1.0, 500.0));
-    scene.items().add(new two.Item(pn1, sphere, 0, two.gfx.solid_material(app.gfx, 'l1', two.rgb(0x888800))));
+    var pn1 = new two.Node3(new two.vec3(-100.0, 20.0, -260.0), zeroq).add(scene.graph);
+    var pl1 = new two.Light(pn1, two.LightType.Point, false, two.rgb(0x888800), 1.0, 500.0).add(scene.graph);
+    new two.Item(pn1, sphere, 0, two.gfx.solid_material(app.gfx, 'l1', two.rgb(0x888800))).add(scene.graph);
 
     var white = app.gfx.textures.file('white.jpg');
     var texture = app.gfx.textures.file('bunny_thickness.jpg');
@@ -119,8 +119,8 @@ if(init) {
 
     var bunny = app.gfx.models.file('bunny');
 
-    var n = scene.nodes().add(new two.Node3(new two.vec3(0.0, 0.0, 10.0), zeroq));
-    var it = scene.items().add(new two.Item(n, bunny, 0, material));
+    var n = new two.Node3(new two.vec3(0.0, 0.0, 10.0), zeroq).add(scene.graph);
+    var it = new two.Item(n, bunny, 0, material).add(scene.graph);
     this.node = n;
 }
 

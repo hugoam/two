@@ -163,8 +163,8 @@ if (init) {
                 var x = 200 * (i - xgrid / 2);
                 var y = 200 * (j - ygrid / 2);
                 var z = 200 * (k - zgrid / 2);
-                var n = scene.nodes().add(new two.Node3(new two.vec3(x, y, z), new two.quat(new two.vec3(0.0)), new two.vec3(60.0)));
-                scene.items().add(new two.Item(n, geometry, 0, this.materials[count]));
+                var n = new two.Node3(new two.vec3(x, y, z), new two.quat(new two.vec3(0.0)), new two.vec3(60.0)).add(scene.graph);
+                new two.Item(n, geometry, 0, this.materials[count]).add(scene.graph);
                 count++;
             }
 

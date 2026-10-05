@@ -183,13 +183,13 @@ EX(xx_effect_sobel)
 			m.m_phong.m_diffuse = rgb(0xffff00);
 		});
 
-		Node3& n = gfx::nodes(scene).add(Node3());
-		gfx::items(scene).add(Item(n, geometry, 0U, &material));
+		Node3& n = Node3().add(scene.m_graph);
+		Item(n, geometry, 0U, &material).add(scene.m_graph);
 
 		scene.m_env.m_radiance.m_ambient = rgb(0xcccccc) * 0.4f;
 		
-		Node3& ln = gfx::nodes(scene).add(Node3());
-		gfx::lights(scene).add(Light(ln, LightType::Point, false, rgb(0xffffff), 0.8f, 0.f));
+		Node3& ln = Node3().add(scene.m_graph);
+		Light(ln, LightType::Point, false, rgb(0xffffff), 0.8f, 0.f).add(scene.m_graph);
 
 		light = &ln;
 

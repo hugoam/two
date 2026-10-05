@@ -181,7 +181,7 @@ if(init) {
 
     var phong = app.gfx.programs.fetch('pbr/phong');
 
-    var group = scene.nodes().add(new two.Node3());
+    var group = new two.Node3().add(scene.graph);
     this.object = group;
 
     this.nodes = [];
@@ -199,14 +199,14 @@ if(init) {
         var a = new two.vec3(Math.random() * 2.0, Math.random() * 2.0, Math.random() * 2.0);
         var s = new two.vec3(Math.random() * 50.0);
 
-        var n = scene.nodes().add(new two.Node3(p, quat(a), s));
-        scene.items().add(new two.Item(n, geometry, 0, material));
+        var n = new two.Node3(p, quat(a), s).add(scene.graph);
+        new two.Item(n, geometry, 0, material).add(scene.graph);
         this.nodes.push({ p: p, a: a, s: s, n: n });
     }
 
     var dir = two.look_dir(new two.vec3(-1.0));
-    var n = scene.nodes().add(new two.Node3(new two.vec3(0.0), dir));
-    var light = scene.lights().add(new two.Light(n, two.LightType.Direct, false));
+    var n = new two.Node3(new two.vec3(0.0), dir).add(scene.graph);
+    var light = new two.Light(n, two.LightType.Direct, false).add(scene.graph);
 
     this.glitch = { seed: Math.random(), randX: randInt(120, 240) * speed, gowild: false, bypass: 0, frame:0 };
 	//int randX = randi(120, 240) * speed;

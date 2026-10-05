@@ -200,7 +200,7 @@ EX(xx_effect_glitch)
 
 		Program& phong = app.m_gfx.programs().fetch("pbr/phong");
 
-		Node3& group = gfx::nodes(scene).add(Node3());
+		Node3& group = Node3().add(scene.m_graph);
 		object = &group;
 
 		for(size_t i = 0; i < 100; i++)
@@ -216,13 +216,13 @@ EX(xx_effect_glitch)
 			const vec3 a = vec3(randf(), randf(), randf()) * 2.f;
 			const vec3 s = vec3(randf() * 50.f);
 
-			Node3& n = gfx::nodes(scene).add(Node3(p, quat(a), s));
-			gfx::items(scene).add(Item(n, geometry, 0U, &material));
+			Node3& n = Node3(p, quat(a), s).add(scene.m_graph);
+			Item(n, geometry, 0U, &material).add(scene.m_graph);
 			nodes.push_back({ p, a, s, &n });
 		}
 
-		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f), facing(vec3(-1.f, -1.f, -1.f))));
-		Light& light = gfx::lights(scene).add(Light(n, LightType::Direct, false));
+		Node3& n = Node3(vec3(0.f), facing(vec3(-1.f, -1.f, -1.f))).add(scene.m_graph);
+		Light& light = Light(n, LightType::Direct, false).add(scene.m_graph);
 
 		static Glitch glitch = {};
 

@@ -39,7 +39,7 @@ EX(xx_hierarchy)
 
 		Model& geometry = app.m_gfx.shape(Cube(50.f));
 
-		Node3& node = gfx::nodes(scene).add(Node3());
+		Node3& node = Node3().add(scene.m_graph);
 		group = &node;
 
 		nodes.clear();
@@ -48,8 +48,8 @@ EX(xx_hierarchy)
 			vec3 p = vec3(randf(), randf(), randf()) * 2000.f - 1000.f;
 			vec3 a = vec3(randf(), randf(), 0.f) * c_2pi;
 
-			Node3& n = gfx::nodes(scene).add(Node3(p, quat(a)));
-			gfx::items(scene).add(Item(n, geometry, 0U, &material));
+			Node3& n = Node3(p, quat(a)).add(scene.m_graph);
+			Item(n, geometry, 0U, &material).add(scene.m_graph);
 			nodes.push_back({ p, a, &n });
 		}
 	}

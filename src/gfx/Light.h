@@ -30,6 +30,9 @@ namespace two
 	public:
 		constr_ Light(Node3& node, LightType type = LightType::Point, bool shadows = false, Colour colour = Colour::White, float energy = 1.f, float range = 1.f);
 
+		// adds this light, moved into the object of a new child of a node of a graph
+		meth_ Light& add(Gnode& parent);
+
 		attr_ Node3* m_node = nullptr;
 		attr_ LightType m_type = LightType::Point;
 		attr_ bool m_visible = true;

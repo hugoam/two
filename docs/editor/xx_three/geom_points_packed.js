@@ -43,8 +43,8 @@ if(init) {
 
     var model = app.gfx.create_model_gpu('points', gpu_mesh);
 
-    var n = scene.nodes().add(new two.Node3());
-    var it = scene.items().add(new two.Item(n, model, 0, material));
+    var n = new two.Node3().add(scene.graph);
+    var it = new two.Item(n, model, 0, material).add(scene.graph);
     this.node = n;
 }
 

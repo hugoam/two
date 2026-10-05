@@ -71,8 +71,8 @@ if(init) {
     //var dir = new two.vec3(1.0 * 30.0, -1.75 * 30.0, -1.0 * 30.0);
     var r = new two.quat(-0.458, -0.261, 0.0, 0.850);
 
-    var nl = scene.nodes().add(new two.Node3(new two.vec3(0.0), r)); //two.look_dir(dir)));
-    var l = scene.lights().add(new two.Light(nl, two.LightType.Direct, true, two.hsl(0.1, 1.0, 0.95), 1.0));
+    var nl = new two.Node3(new two.vec3(0.0), r).add(scene.graph); //two.look_dir(dir)));
+    var l = new two.Light(nl, two.LightType.Direct, true, two.hsl(0.1, 1.0, 0.95), 1.0).add(scene.graph);
 
     // shadow.camera.extent = 50;
     l.shadow_range = 3500.0;
@@ -91,8 +91,8 @@ if(init) {
     var zeroq = new two.quat(new two.vec3(0.0));
     
     var ground = app.gfx.shape(new two.Rect(new two.vec2(0.0), new two.vec2(10000.0)));
-    var nground = scene.nodes().add(new two.Node3(new two.vec3(0.0, -33.0, 0.0), zeroq));
-    scene.items().add(new two.Item(nground, ground, 0, groundmat));
+    var nground = new two.Node3(new two.vec3(0.0, -33.0, 0.0), zeroq).add(scene.graph);
+    new two.Item(nground, ground, 0, groundmat).add(scene.graph);
 
     // SKYDOME
 
@@ -121,17 +121,17 @@ if(init) {
         m.user.attr1 = new two.vec4(dome.bottom.r, dome.bottom.g, dome.bottom.b, 0.0);
         m.user.attr2 = new two.vec4(dome.offset, dome.exponent, 0.0, 0.0);
 
-    var nsky = scene.nodes().add(new two.Node3());
-    scene.items().add(new two.Item(nsky, skysphere, 0, skymat));
+    var nsky = new two.Node3().add(scene.graph);
+    new two.Item(nsky, skysphere, 0, skymat).add(scene.graph);
 
     // MODEL
 
     var model = app.gfx.models.file('Flamingo'); // .glb
     model.get_mesh(0).material.base.flat_shaded = true;
     
-    var n = scene.nodes().add(new two.Node3(new two.vec3(0.0, 15.0, 0.0), new two.quat(new two.vec3(0.0, -1.0, 0.0)), new two.vec3(0.35)));
-    var it = scene.items().add(new two.Item(n, model));
-    var mi = scene.mimes().add(new two.Mime(n));
+    var n = new two.Node3(new two.vec3(0.0, 15.0, 0.0), new two.quat(new two.vec3(0.0, -1.0, 0.0)), new two.vec3(0.35)).add(scene.graph);
+    var it = new two.Item(n, model).add(scene.graph);
+    var mi = new two.Mime(n).add(scene.graph);
     mi.add_item(it);
 
     mi.start('flamingo_flyA_', true, 0.0, 1.2);

@@ -28,6 +28,11 @@ namespace two
 		this->update_aabb();
 	}
 
+	Item& Item::add(Gnode& parent)
+	{
+		return parent.suba().state<Item>(move(*this));
+	}
+
 	void Item::update_aabb()
 	{
 		if(m_batch == nullptr)
@@ -75,6 +80,11 @@ namespace two
 		, m_stride(stride)
 		, m_buffer{}
 	{}
+
+	Batch& Batch::add(Gnode& parent)
+	{
+		return parent.suba().state<Batch>(move(*this));
+	}
 
 	void Batch::submit(bgfx::Encoder& encoder, const ModelElem& item) // const
 	{

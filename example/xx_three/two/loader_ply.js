@@ -31,8 +31,8 @@ if(init) {
 
     function add_light(scene, r, color, intensity, shadows) {
 
-        var n = scene.nodes().add(new two.Node3(new two.vec3(0.0), r));
-        var l = scene.lights().add(new two.Light(n, two.LightType.Direct, shadows, color, intensity));
+        var n = new two.Node3(new two.vec3(0.0), r).add(scene.graph);
+        var l = new two.Light(n, two.LightType.Direct, shadows, color, intensity).add(scene.graph);
         //l.shadow_range = 4.0;
         //l.shadow.bias = -0.001;
     }
@@ -49,8 +49,8 @@ if(init) {
         // Phong
 
     var ground = app.gfx.shape(new two.Rect(new two.vec2(0.0), new two.vec2(40.0)));
-    var n = scene.nodes().add(new two.Node3(new two.vec3(0.0, -0.5, 0.0), zeroq));
-    scene.items().add(new two.Item(n, ground, 0, groundmat));
+    var n = new two.Node3(new two.vec3(0.0, -0.5, 0.0), zeroq).add(scene.graph);
+    new two.Item(n, ground, 0, groundmat).add(scene.graph);
 
     var material = app.gfx.materials.create('ply'); m = material;
         m.program = three;
@@ -63,13 +63,13 @@ if(init) {
 
     var dolphin = app.gfx.models.file('dolphins'); // .ply
     
-    var ndolphin = scene.nodes().add(new two.Node3(new two.vec3(-0.2, 0.0, 0.3), new two.quat(new two.vec3(-Math.PI / 2, 0.0, 0.0)), new two.vec3(0.001)));
-    scene.items().add(new two.Item(ndolphin, dolphin, 0, material));
+    var ndolphin = new two.Node3(new two.vec3(-0.2, 0.0, 0.3), new two.quat(new two.vec3(-Math.PI / 2, 0.0, 0.0)), new two.vec3(0.001)).add(scene.graph);
+    new two.Item(ndolphin, dolphin, 0, material).add(scene.graph);
 
     var lucy = app.gfx.models.file('Lucy100k'); // .ply
 
-    var nlucy = scene.nodes().add(new two.Node3(new two.vec3(-0.2, -0.02, -0.2), zeroq, new two.vec3(0.0006)));
-    scene.items().add(new two.Item(nlucy, lucy, 0, material));
+    var nlucy = new two.Node3(new two.vec3(-0.2, -0.02, -0.2), zeroq, new two.vec3(0.0006)).add(scene.graph);
+    new two.Item(nlucy, lucy, 0, material).add(scene.graph);
 
     // Lights
 

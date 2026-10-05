@@ -38,8 +38,8 @@ EX(xx_hierarchy2)
 
 		Model& geometry = app.m_gfx.shape(Cube(50.f));
 
-		Node3& root = gfx::nodes(scene).add(Node3(vec3(1000.f, 0.f, 0.f)));
-		gfx::items(scene).add(Item(root, geometry, 0U, &material));
+		Node3& root = Node3(vec3(1000.f, 0.f, 0.f)).add(scene.m_graph);
+		Item(root, geometry, 0U, &material).add(scene.m_graph);
 
 		constexpr size_t amount = 200;
 
@@ -52,8 +52,8 @@ EX(xx_hierarchy2)
 
 			for(size_t i = 0; i < amount; i++)
 			{
-				Node3& object = gfx::nodes(scene).add(Node3(offset));
-				gfx::items(scene).add(Item(object, geometry, 0U, &material));
+				Node3& object = Node3(offset).add(scene.m_graph);
+				Item(object, geometry, 0U, &material).add(scene.m_graph);
 
 				nodes.push_back({ parent, &object, offset });
 				parent = &object;

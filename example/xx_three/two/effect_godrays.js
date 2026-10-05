@@ -327,12 +327,12 @@ if(init) {
     // @todo
     //model.items[0].material = material;
 
-    var ntree = scene.nodes().add(new two.Node3(new two.vec3(0.0, -150.0, -150.0), zeroq, new two.vec3(400.0)));
-    scene.items().add(new two.Item(ntree, model, 0, material));
+    var ntree = new two.Node3(new two.vec3(0.0, -150.0, -150.0), zeroq, new two.vec3(400.0)).add(scene.graph);
+    new two.Item(ntree, model, 0, material).add(scene.graph);
 
     var sphere = app.gfx.shape(new two.Sphere(1.0));
-    var nsphere = scene.nodes().add(new two.Node3(new two.vec3(0.0), zeroq, new two.vec3(20.0)));
-    scene.items().add(new two.Item(nsphere, sphere, 0, material));
+    var nsphere = new two.Node3(new two.vec3(0.0), zeroq, new two.vec3(20.0)).add(scene.graph);
+    new two.Item(nsphere, sphere, 0, material).add(scene.graph);
     this.node = nsphere;
 
     viewer.viewport.clear_colour = this.godrays.bg_colour;

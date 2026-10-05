@@ -42,10 +42,10 @@ if (init) {
         this.instances[i] = { d0: new two.vec4(pos, 0.0), d1: new two.vec4(scale, new two.vec2(0.0)) };
     }
 
-    var n = scene.nodes().add(new two.Node3());
-    var it = scene.items().add(new two.Item(n, model, 0, material));
+    var n = new two.Node3().add(scene.graph);
+    var it = new two.Item(n, model, 0, material).add(scene.graph);
 
-    this.batch = two.gfx.batches(scene).add(new two.Batch(it));
+    this.batch = new two.Batch(it).add(scene.graph);
     it.batch = this.batch;
 }
 

@@ -35,15 +35,14 @@ namespace two
 		: m_name(name)
 	{}
 
-	void Prefab::add(Scene& scene, Mime* mime)
+	void Prefab::add(Gnode& parent, Mime* mime)
 	{
-		vector<Node3*> nodes = gfx::nodes(scene).addvec(m_nodes);
+		vector<Node3*> nodes;
+		for(const Node3& node : m_nodes)
+			nodes.push_back(&Node3(node).add(parent));
 
 		for(Elem& elem : m_items)
-		{
-			Item& it = gfx::items(scene).add(Item(*nodes[elem.node], *elem.item.m_model, elem.item.m_flags));
-			UNUSED(it);
-		}
+			Item(*nodes[elem.node], *elem.item.m_model, elem.item.m_flags).add(parent);
 
 		if(mime)
 		{

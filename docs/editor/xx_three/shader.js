@@ -69,6 +69,6 @@ if (init) {
 
     var scene = viewer.scene;
 
-    var node = scene.nodes().add(new two.Node3());
-    var it = scene.items().add(new two.Item(node, model, 0, material));
+    var node = new two.Node3().add(scene.graph);
+    var it = new two.Item(node, model, 0, material).add(scene.graph);
 }

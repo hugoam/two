@@ -55,8 +55,8 @@ EX(xx_interact_drag)
 			vec3 s = vec3(randf(), randf(), randf()) * 2.f + 1.f;
 
 			Material& material = gfx::pbr_material(app.m_gfx, "drag" + to_string(i), rgb(randi<uint32_t>()));
-			Node3& n = gfx::nodes(scene).add(Node3(p, quat(a), s));
-			gfx::items(scene).add(Item(n, geometry, 0U, &material));
+			Node3& n = Node3(p, quat(a), s).add(scene.m_graph);
+			Item(n, geometry, 0U, &material).add(scene.m_graph);
 
 			objects.push_back(&n);
 		}

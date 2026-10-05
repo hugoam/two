@@ -45,8 +45,8 @@ EX(xx_perf)
 			vec3 angles = vec3(randf() * c_2pi, randf() * c_2pi, 0.f);
 			vec3 scale = vec3(randf() * 50 + 100);
 
-			Node3& n = gfx::nodes(scene).add(Node3(position, quat(angles), scale));
-			Item& it = gfx::items(scene).add(Item(n, suzanne, 0U, &material));
+			Node3& n = Node3(position, quat(angles), scale).add(scene.m_graph);
+			Item& it = Item(n, suzanne, 0U, &material).add(scene.m_graph);
 			UNUSED(it);
 
 			objects.push_back({ &n, position, angles, scale });

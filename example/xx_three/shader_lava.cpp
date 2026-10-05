@@ -224,8 +224,8 @@ EX(xx_shader_lava)
 
 		Model& model = app.m_gfx.shape(Torus(size, 0.3f));
 
-		node = &gfx::nodes(scene).add(Node3(vec3(0.f), quat(angles)));
-		Item& it = gfx::items(scene).add(Item(*node, model, 0U, &material));
+		node = &Node3(vec3(0.f), quat(angles)).add(scene.m_graph);
+		Item& it = Item(*node, model, 0U, &material).add(scene.m_graph);
 
 		film_program(app.m_gfx);
 	}

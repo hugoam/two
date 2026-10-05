@@ -83,8 +83,8 @@ if (init) {
     
         var p = new two.vec3(Math.cos(r) * distscale, Math.sin(r) * distscale, z * scale);
         var a = new two.vec3(Math.random(), Math.random(), Math.random());
-        var n = scene.nodes().add(new two.Node3(p, new two.quat(a)));
-        scene.items().add(new two.Item(n, geometry, 0, material));
+        var n = new two.Node3(p, new two.quat(a)).add(scene.graph);
+        new two.Item(n, geometry, 0, material).add(scene.graph);
     }
 }
 

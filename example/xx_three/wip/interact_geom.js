@@ -45,11 +45,11 @@ void xx_interact_geom(Shell app, var parent, Dockbar dockbar)
 
 		//scene.add(new THREE.AmbientLight(0x444444));
 
-		var l1 = scene.nodes().add(new two.Node3(new two.vec3(0.0), facing(new two.vec3(1.0, 1.0, 1.0))));
-		scene.lights().add(new two.Light(l1, two.LightType.Direct, false, two.rgba(0xffffff), 0.5));
+		var l1 = new two.Node3(new two.vec3(0.0), facing(new two.vec3(1.0, 1.0, 1.0))).add(scene.graph);
+		new two.Light(l1, two.LightType.Direct, false, two.rgba(0xffffff), 0.5).add(scene.graph);
 
-		var l2 = scene.nodes().add(new two.Node3(new two.vec3(0.0), facing(new two.vec3(0.0, -1.0, 0.0))));
-		scene.lights().add(new two.Light(l1, two.LightType.Direct, false, two.rgba(0xffffff), 1.5));
+		var l2 = new two.Node3(new two.vec3(0.0), facing(new two.vec3(0.0, -1.0, 0.0))).add(scene.graph);
+		new two.Light(l1, two.LightType.Direct, false, two.rgba(0xffffff), 1.5).add(scene.graph);
 
 		MeshPacker geometry;
 
@@ -82,8 +82,8 @@ void xx_interact_geom(Shell app, var parent, Dockbar dockbar)
 
 		var model = app.gfx.create_model('geometry', geometry);
 
-		var n = scene.nodes().add(new two.Node3());
-		var it = scene.items().add(new two.Item(n, model, 0, material));
+		var n = new two.Node3().add(scene.graph);
+		var it = new two.Item(n, model, 0, material).add(scene.graph);
 		node = n;
 
 		//raycaster = new THREE.Raycaster();

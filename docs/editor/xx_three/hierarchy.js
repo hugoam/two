@@ -28,7 +28,7 @@ if (init) {
 
     var geometry = app.gfx.shape(new two.Cube(new two.vec3(50.0)));
 
-    var node = scene.nodes().add(new two.Node3());
+    var node = new two.Node3().add(scene.graph);
     group = node;
 
     for(var i = 0; i < 1000; i++)
@@ -38,8 +38,8 @@ if (init) {
         //var p = new two.vec3(Math.random(), Math.random(), Math.random()) * 2000.0 - 1000.0;
         //var a = new two.vec3(Math.random(), Math.random(), 0.0) * 2 * Math.PI;
 
-        var n = scene.nodes().add(new two.Node3(p, new two.quat(a)));
-        scene.items().add(new two.Item(n, geometry, 0, material));
+        var n = new two.Node3(p, new two.quat(a)).add(scene.graph);
+        new two.Item(n, geometry, 0, material).add(scene.graph);
     }
 }
 

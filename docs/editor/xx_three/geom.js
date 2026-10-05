@@ -112,11 +112,11 @@ void xx_geom(Shell app, var parent, Dockbar dockbar)
 		points_mesh->range = { 0, nuparticles };
 #endif
 
-		var n = scene.nodes().add(new two.Node3());
-		var p = scene.items().add(new two.Item(n, points_model, 0, pointmat));
+		var n = new two.Node3().add(scene.graph);
+		var p = new two.Item(n, points_model, 0, pointmat).add(scene.graph);
 
 #if INSTANCING
-		points_batch = two.gfx.batches(scene).add(new two.Batch(p));
+		points_batch = new two.Batch(p).add(scene.graph);
 		p.batch = points_batch;
 #endif
 
@@ -130,8 +130,8 @@ void xx_geom(Shell app, var parent, Dockbar dockbar)
 
 		//geometry.computeBoundingnew two.Sphere();
 
-		var n1 = scene.nodes().add(new two.Node3());
-		var lines = scene.items().add(new two.Item(n1, lines_model, 0, linemat));
+		var n1 = new two.Node3().add(scene.graph);
+		var lines = new two.Item(n1, lines_model, 0, linemat).add(scene.graph);
 	}
 
 	uint32_t numConnected = 0;

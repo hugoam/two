@@ -49,13 +49,13 @@ EX(xx_material_variations)
 
 
 		Model& sphere = app.m_gfx.shape(Sphere(4.f));
-		Node3& l = gfx::nodes(scene).add(Node3());
-		//Item& il = gfx::items(scene).add(Item(l, sphere, 0U, &gfx::solid_material(app.m_gfx, "light", Colour(1.f))));
-		Light& ll = gfx::lights(scene).add(Light(l, LightType::Point, false, rgb(0xffffff), 2.f, 800.f));
+		Node3& l = Node3().add(scene.m_graph);
+		//Item& il = Item(l, sphere, 0U, &gfx::solid_material(app.m_gfx, "light", Colour(1.f))).add(scene.m_graph);
+		Light& ll = Light(l, LightType::Point, false, rgb(0xffffff), 2.f, 800.f).add(scene.m_graph);
 		light = &l;
 
-		Node3& dl = gfx::nodes(scene).add(Node3(vec3(0.f), facing(normalize(vec3(-1.f, -1.f, -1.f)))));
-		gfx::lights(scene).add(Light(dl, LightType::Direct, false, rgb(0xffffff)));
+		Node3& dl = Node3(vec3(0.f), facing(normalize(vec3(-1.f, -1.f, -1.f)))).add(scene.m_graph);
+		Light(dl, LightType::Direct, false, rgb(0xffffff)).add(scene.m_graph);
 
 		// Materials
 
@@ -95,8 +95,8 @@ EX(xx_material_variations)
 
 					vec3 p = vec3(alpha, beta, gamma) * 400.f - 200.f;
 
-					Node3& node = gfx::nodes(scene).add(Node3(p));
-					gfx::items(scene).add(Item(node, geometry, 0U, &material));
+					Node3& node = Node3(p).add(scene.m_graph);
+					Item(node, geometry, 0U, &material).add(scene.m_graph);
 				}
 
 		//var loader = new THREE.FontLoader();

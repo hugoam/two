@@ -62,19 +62,19 @@ if(init) {
 
                 var p = new two.vec3(alpha * 400.0 - 200.0, beta * 400.0 - 200.0, gamma * 400.0 - 200.0);
 
-                var node = scene.nodes().add(new two.Node3(p, zeroq));
-                scene.items().add(new two.Item(node, geometry, 0, material));
+                var node = new two.Node3(p, zeroq).add(scene.graph);
+                new two.Item(node, geometry, 0, material).add(scene.graph);
             }
 
     var sphere = app.gfx.shape(new two.Sphere(4.0));
-    var l = scene.nodes().add(new two.Node3());
-    //var il = scene.items().add(new two.Item(l, sphere, 0, two.gfx.solid_material(app.gfx, 'light', new two.Colour(1.0))));
-    var ll = scene.lights().add(new two.Light(l, two.LightType.Point, false, two.rgb(0xffffff), 2.0, 800.0));
+    var l = new two.Node3().add(scene.graph);
+    //var il = new two.Item(l, sphere, 0, two.gfx.solid_material(app.gfx, 'light', new two.Colour(1.0))).add(scene.graph);
+    var ll = new two.Light(l, two.LightType.Point, false, two.rgb(0xffffff), 2.0, 800.0).add(scene.graph);
     this.light = l;
     
     var dir = two.look_dir(new two.vec3(-1.0, -1.0, -1.0))
-    var dl = scene.nodes().add(new two.Node3(new two.vec3(0.0), dir));
-    scene.lights().add(new two.Light(dl, two.LightType.Direct, false, two.rgb(0xffffff)));
+    var dl = new two.Node3(new two.vec3(0.0), dir).add(scene.graph);
+    new two.Light(dl, two.LightType.Direct, false, two.rgb(0xffffff)).add(scene.graph);
 }
 
 var time = app.gfx.time * 0.1;

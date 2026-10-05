@@ -20,14 +20,6 @@ namespace gfx
 {
 	export_ TWO_GFX_EXPORT func_ void setup_pipeline_minimal(GfxSystem& gfx);
 
-	export_ TWO_GFX_EXPORT meth_ ChunkedPool<Node3>&  nodes(Scene& scene);
-	export_ TWO_GFX_EXPORT meth_ ChunkedPool<Item>&   items(Scene& scene);
-	export_ TWO_GFX_EXPORT meth_ ChunkedPool<Batch>&  batches(Scene& scene);
-	export_ TWO_GFX_EXPORT meth_ ChunkedPool<Direct>& directs(Scene& scene);
-	export_ TWO_GFX_EXPORT meth_ ChunkedPool<Mime>&   mimes(Scene& scene);
-	export_ TWO_GFX_EXPORT meth_ ChunkedPool<Light>&  lights(Scene& scene);
-	export_ TWO_GFX_EXPORT meth_ ChunkedPool<Flare>&	flares(Scene& scene);
-
 	export_ TWO_GFX_EXPORT func_ Gnode& node(Gnode& parent, const vec3& position = vec3(0.f), const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));
 	export_ TWO_GFX_EXPORT Gnode& node(Gnode& parent, const mat4& transform);
 	export_ TWO_GFX_EXPORT Gnode& node(Gnode& parent, const Transform& transform);

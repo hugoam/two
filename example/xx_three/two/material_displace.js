@@ -30,15 +30,15 @@ if(init) {
 
     var zeroq = new two.quat(new two.vec3(0.0));
     
-    var ln0 = scene.nodes().add(new two.Node3(new two.vec3(0.0, 0.0, 2500.0), zeroq));
-    scene.lights().add(new two.Light(ln0, two.LightType.Point, false, two.rgb(0xff0000), 0.5, 0.0));
+    var ln0 = new two.Node3(new two.vec3(0.0, 0.0, 2500.0), zeroq).add(scene.graph);
+    new two.Light(ln0, two.LightType.Point, false, two.rgb(0xff0000), 0.5, 0.0).add(scene.graph);
     this.light = ln0;
 
-    var ln1 = scene.nodes().add(new two.Node3(new two.vec3(0.0), zeroq));
-    scene.lights().add(new two.Light(ln1, two.LightType.Point, false, two.rgb(0xff6666), 1.0, 0.0));
+    var ln1 = new two.Node3(new two.vec3(0.0), zeroq).add(scene.graph);
+    new two.Light(ln1, two.LightType.Point, false, two.rgb(0xff6666), 1.0, 0.0).add(scene.graph);
 
-    var ln2 = scene.nodes().add(new two.Node3(new two.vec3(-1000.0, 0.0, 1000.0), zeroq));
-    scene.lights().add(new two.Light(ln2, two.LightType.Point, false, two.rgb(0x0000ff), 1.0, 0.0));
+    var ln2 = new two.Node3(new two.vec3(-1000.0, 0.0, 1000.0), zeroq).add(scene.graph);
+    new two.Light(ln2, two.LightType.Point, false, two.rgb(0x0000ff), 1.0, 0.0).add(scene.graph);
 
     var three = app.gfx.programs.file('pbr/three');
 
@@ -59,8 +59,8 @@ if(init) {
     var model = app.gfx.models.file('ninjaHead_Low'); // .obj');
     //geometry.center();
 
-    var n = scene.nodes().add(new two.Node3(new two.vec3(0.0, -175.0 * 25.0, 0.0), zeroq, new two.vec3(25.0)));
-    scene.items().add(new two.Item(n, model, 0, mat));
+    var n = new two.Node3(new two.vec3(0.0, -175.0 * 25.0, 0.0), zeroq, new two.vec3(25.0)).add(scene.graph);
+    new two.Item(n, model, 0, mat).add(scene.graph);
 }
 
 var time = app.gfx.time;

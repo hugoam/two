@@ -326,11 +326,11 @@ if(init) {
 
     //scene.background = new THREE.Color(0x050505);
 
-    var ln0 = scene.nodes().add(new two.Node3(new two.vec3(0.0), two.look_dir(new two.vec3(-1.0, -0.5, -1.0))));
-    var l0 = scene.lights().add(new two.Light(ln0, two.LightType.Direct, false, two.rgb(0xffeedd), 1.5));
+    var ln0 = new two.Node3(new two.vec3(0.0), two.look_dir(new two.vec3(-1.0, -0.5, -1.0))).add(scene.graph);
+    var l0 = new two.Light(ln0, two.LightType.Direct, false, two.rgb(0xffeedd), 1.5).add(scene.graph);
 
-    var ln1 = scene.nodes().add(new two.Node3(new two.vec3(0.0), two.look_dir(new two.vec3(1.0, -0.5, 1.0))));
-    var l1 = scene.lights().add(new two.Light(ln1, two.LightType.Direct, false, two.rgb(0xddddff), 0.5));
+    var ln1 = new two.Node3(new two.vec3(0.0), two.look_dir(new two.vec3(1.0, -0.5, 1.0))).add(scene.graph);
+    var l1 = new two.Light(ln1, two.LightType.Direct, false, two.rgb(0xddddff), 0.5).add(scene.graph);
 
     var blur_block = new two.ShaderBlock();
     blur_block.index = 0;
@@ -394,8 +394,8 @@ if(init) {
     var model = app.gfx.models.file('LeePerrySmith'); // .glb
 
     var zeroq = new two.quat(new two.vec3(0.0));
-    var n = scene.nodes().add(new two.Node3(new two.vec3(0.0, -50.0, 0.0), zeroq, new two.vec3(100.0)));
-    var it = scene.items().add(new two.Item(n, model, 0, this.material));
+    var n = new two.Node3(new two.vec3(0.0, -50.0, 0.0), zeroq, new two.vec3(100.0)).add(scene.graph);
+    var it = new two.Item(n, model, 0, this.material).add(scene.graph);
     this.mesh = n;
     this.item = it;
 

@@ -300,8 +300,8 @@ EX(xx_effect_bloom)
 		Zone& env = scene.m_env;
 		env.m_radiance.m_ambient = rgb(0x404040);
 
-		Node3& ln = gfx::nodes(scene).add(Node3());
-		gfx::lights(scene).add(Light(ln, LightType::Point, false, rgb(0xffffff), 1.f, 0.f));
+		Node3& ln = Node3().add(scene.m_graph);
+		Light(ln, LightType::Point, false, rgb(0xffffff), 1.f, 0.f).add(scene.m_graph);
 
 		auto render = [](GfxSystem& gfx, Render& render)
 		{
@@ -323,8 +323,8 @@ EX(xx_effect_bloom)
 #if PREFAB
 		Prefab& prefab = *app.m_gfx.prefabs().file("PrimaryIonDrive");
 
-		Mime& mi = gfx::mimes(scene).add(Mime());
-		prefab.add(scene, &mi);
+		Mime& mi = Mime().add(scene.m_graph);
+		prefab.add(scene.m_graph, &mi);
 
 		//Animation& anim = *prefab.m_anims[0];
 		//mi.play(anim, true, 0.f, 1.f);
@@ -332,8 +332,8 @@ EX(xx_effect_bloom)
 #else
 		Model& model = *app.m_gfx.models().file("PrimaryIonDrive"); // .glb
 
-		Node3& n = gfx::nodes(scene).add(Node3());
-		Item& it = gfx::items(scene).add(Item(n, model));
+		Node3& n = Node3().add(scene.m_graph);
+		Item& it = Item(n, model).add(scene.m_graph);
 #endif
 
 		// disable depth write for 'geo1_HoloFillDark_0'

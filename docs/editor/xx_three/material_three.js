@@ -56,6 +56,6 @@ if(init) {
 
     var position = new two.vec3(-0.45, 0.0, 0.0);
     var angles = new two.vec3(0.0, -Math.PI / 2, 0.0);
-    var n = scene.nodes().add(new two.Node3(position, new two.quat(angles)));
-    scene.items().add(new two.Item(n, model, 0, material));
+    var n = new two.Node3(position, new two.quat(angles)).add(scene.graph);
+    new two.Item(n, model, 0, material).add(scene.graph);
 }

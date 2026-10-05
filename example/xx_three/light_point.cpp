@@ -47,8 +47,8 @@ EX(xx_light_point)
 		// GROUND
 
 		Model& model = app.m_gfx.shape(Rect(vec2(0.f), vec2(800.f, 400.f)));
-		Node3& node = gfx::nodes(scene).add(Node3(vec3(0.f, -5.f, 0.f), quat(vec3(0.f))));
-		gfx::items(scene).add(Item(node, model, 0, &groundmat));
+		Node3& node = Node3(vec3(0.f, -5.f, 0.f), quat(vec3(0.f))).add(scene.m_graph);
+		Item(node, model, 0, &groundmat).add(scene.m_graph);
 
 		// OBJECTS
 
@@ -73,9 +73,9 @@ EX(xx_light_point)
 			float b = 3.14f * (0.5f - randf());
 
 			uint32_t flags = ItemFlag::Default;// | ItemFlag::NoCull;
-			//Node3& n = gfx::nodes(scene).add(Node3(vec3(x, y, z), quat(a, b, 0, 1)));
-			Node3& n = gfx::nodes(scene).add(Node3(vec3(x, y, z), quat(vec3(a, b, 0.f))));
-			Item& it = gfx::items(scene).add(Item(n, torus, flags, &material));
+			//Node3& n = Node3(vec3(x, y, z), quat(a, b, 0, 1)).add(scene.m_graph);
+			Node3& n = Node3(vec3(x, y, z), quat(vec3(a, b, 0.f))).add(scene.m_graph);
+			Item& it = Item(n, torus, flags, &material).add(scene.m_graph);
 			UNUSED(it);
 		}
 
@@ -95,17 +95,17 @@ EX(xx_light_point)
 		{
 			const Colour c = rgb(colours[i]);
 			Material& m = gfx::solid_material(app.m_gfx, ("light" + to_string(i)).c_str(), c);
-			Node3& n = gfx::nodes(scene).add(Node3());
-			Light& l = gfx::lights(scene).add(Light(n, LightType::Point, false, c, intensity, distance));
+			Node3& n = Node3().add(scene.m_graph);
+			Light& l = Light(n, LightType::Point, false, c, intensity, distance).add(scene.m_graph);
 			l.m_attenuation = decay;
-			Item& it = gfx::items(scene).add(Item(n, sphere_model, ItemFlag::Default, &m));
+			Item& it = Item(n, sphere_model, ItemFlag::Default, &m).add(scene.m_graph);
 			UNUSED(it);
 
 			lights.push_back(&n);
 		}
 
-		Node3& dn = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(-vec3(0.5f, 1.f, 0.f))));
-		gfx::lights(scene).add(Light(dn, LightType::Direct, false, rgb(0xffffff), 0.05f));
+		Node3& dn = Node3(vec3(0.f), look_dir(-vec3(0.5f, 1.f, 0.f))).add(scene.m_graph);
+		Light(dn, LightType::Direct, false, rgb(0xffffff), 0.05f).add(scene.m_graph);
 	}
 
 	constexpr float coef0[] = { 0.7f, 0.3f, 0.7f, 0.3f, 0.3f, 0.7f };

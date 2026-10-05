@@ -63,12 +63,12 @@ if (init) {
         var position = new two.vec3(Math.sin(i * Math.PI / 2) * radius, 0.0, Math.cos(i * Math.PI / 2) * radius);
         var rotation = new two.quat(new two.vec3(0.0, i * Math.PI / 2, 0.0));
 
-        var n = scene.nodes().add(new two.Node3(position, rotation));
+        var n = new two.Node3(position, rotation).add(scene.graph);
 
-        var m = scene.nodes().add(new two.Node3());
+        var m = new two.Node3().add(scene.graph);
         m.derive(n, new two.vec3(0.0, -37.0, 0.0));
         
-        var it = scene.items().add(new two.Item(m, model, 0, material));
+        var it = new two.Item(m, model, 0, material).add(scene.graph);
 
         for(var j = 0; j < 8; j++)
         {
@@ -80,13 +80,13 @@ if (init) {
             var mla = app.gfx.materials.create('lightalpha' + material.name + j.toString());
             mla.program = solid; mla.solid.colour.value = color; mla.alpha.alpha.value = 0.033;
 
-            var l = scene.nodes().add(new two.Node3());
-            var i0 = scene.items().add(new two.Item(l, sphere, 0, ml)); // MaterialSolid(color)));
+            var l = new two.Node3().add(scene.graph);
+            var i0 = new two.Item(l, sphere, 0, ml).add(scene.graph); // MaterialSolid(color)));
         
-            //var i1 = scene.items().add(new two.Item(l, big_sphere, 0, ma)); // MaterialSolid(color), MaterialAlpha(0.033));
+            //var i1 = new two.Item(l, big_sphere, 0, ma).add(scene.graph); // MaterialSolid(color), MaterialAlpha(0.033));
             //l.children[1].scale.set(6.66, 6.66, 6.66);
 
-            var light = scene.lights().add(new two.Light(l, two.LightType.Point, false, color, 1.0, radius));
+            var light = new two.Light(l, two.LightType.Point, false, color, 1.0, radius).add(scene.graph);
             
             var l = {
                 parent: n,

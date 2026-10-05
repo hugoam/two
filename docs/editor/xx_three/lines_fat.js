@@ -100,9 +100,9 @@ if (init) {
 
     var model = app.gfx.models.fetch('line');
     
-    var n = scene.nodes().add(new two.Node3());
-    var it = scene.items().add(new two.Item(n, model, 0, material));
-    this.batch = scene.batches().add(new two.Batch(it, 4 * 4 * 4));
+    var n = new two.Node3().add(scene.graph);
+    var it = new two.Item(n, model, 0, material).add(scene.graph);
+    this.batch = new two.Batch(it, 4 * 4 * 4).add(scene.graph);
     it.batch = this.batch;
     
     //this.lines.cache(this.batch);

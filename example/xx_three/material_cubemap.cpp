@@ -45,8 +45,8 @@ EX(xx_material_cubemap)
 
 		//lights
 
-		Node3& ln = gfx::nodes(scene).add(Node3());
-		Light& l = gfx::lights(scene).add(Light(ln, LightType::Point, false, rgb(0xffffff), 2.f, 0.f));
+		Node3& ln = Node3().add(scene.m_graph);
+		Light& l = Light(ln, LightType::Point, false, rgb(0xffffff), 2.f, 0.f).add(scene.m_graph);
 		//light = &ln;
 
 		Program& phong = *app.m_gfx.programs().file("pbr/phong");
@@ -75,13 +75,13 @@ EX(xx_material_cubemap)
 
 		Model& model = *app.m_gfx.models().file("WaltHead");
 
-		Node3& n0 = gfx::nodes(scene).add(Node3(vec3(0.f, -500.f, 0.f), ZeroQuat, vec3(15.f)));
-		gfx::items(scene).add(Item(n0, model, 0U, &material1));
+		Node3& n0 = Node3(vec3(0.f, -500.f, 0.f), ZeroQuat, vec3(15.f)).add(scene.m_graph);
+		Item(n0, model, 0U, &material1).add(scene.m_graph);
 
-		Node3& n1 = gfx::nodes(scene).add(Node3(vec3(-900.f, -500.f, 0.f), ZeroQuat, vec3(15.f)));
-		gfx::items(scene).add(Item(n1, model, 0U, &material2));
+		Node3& n1 = Node3(vec3(-900.f, -500.f, 0.f), ZeroQuat, vec3(15.f)).add(scene.m_graph);
+		Item(n1, model, 0U, &material2).add(scene.m_graph);
 
-		Node3& n2 = gfx::nodes(scene).add(Node3(vec3(900.f, -500.f, 0.f), ZeroQuat, vec3(15.f)));
-		gfx::items(scene).add(Item(n2, model, 0U, &material3));
+		Node3& n2 = Node3(vec3(900.f, -500.f, 0.f), ZeroQuat, vec3(15.f)).add(scene.m_graph);
+		Item(n2, model, 0U, &material3).add(scene.m_graph);
 	}
 }

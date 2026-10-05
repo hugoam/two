@@ -88,8 +88,8 @@ EX(xx_light_hemisphere)
 		const vec3 dir = vec3(-1.f, 1.75f, 1.f) * 30.f;
 		const quat q = look_dir(-normalize(dir));
 
-		Node3& nl = gfx::nodes(scene).add(Node3(vec3(0.f), q));
-		Light& l = gfx::lights(scene).add(Light(nl, LightType::Direct, shadows, hsl(0.1f, 1.f, 0.95f), 1.f));
+		Node3& nl = Node3(vec3(0.f), q).add(scene.m_graph);
+		Light& l = Light(nl, LightType::Direct, shadows, hsl(0.1f, 1.f, 0.95f), 1.f).add(scene.m_graph);
 
 		// shadow.camera.extent = 50;
 		l.m_shadow_range = 3500.f;
@@ -113,8 +113,8 @@ EX(xx_light_hemisphere)
 		});
 
 		Model& ground = app.m_gfx.shape(Rect(vec2(0.f), vec2(10000.f)));
-		Node3& nground = gfx::nodes(scene).add(Node3(vec3(0.f, -33.f, 0.f)));
-		gfx::items(scene).add(Item(nground, ground, 0, &groundmat));
+		Node3& nground = Node3(vec3(0.f, -33.f, 0.f)).add(scene.m_graph);
+		Item(nground, ground, 0, &groundmat).add(scene.m_graph);
 
 		// SKYDOME
 
@@ -146,8 +146,8 @@ EX(xx_light_hemisphere)
 			m.m_user.m_attr2 = { dome.offset, dome.exponent, 0.f, 0.f };
 		});
 
-		Node3& nsky = gfx::nodes(scene).add(Node3());
-		gfx::items(scene).add(Item(nsky, skysphere, ItemFlag::Render | ItemFlag::LodAll, &skymat));
+		Node3& nsky = Node3().add(scene.m_graph);
+		Item(nsky, skysphere, ItemFlag::Render | ItemFlag::LodAll, &skymat).add(scene.m_graph);
 
 		// MODEL
 
@@ -159,9 +159,9 @@ EX(xx_light_hemisphere)
 		model.get_mesh(0).m_material->m_base.m_flat_shaded = true;
 		model.get_mesh(0).m_material->m_program = &three;
 
-		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f, 15.f, 0.f), quat(vec3(0.f, -1.f, 0.f)), vec3(0.35f)));
-		Item& it = gfx::items(scene).add(Item(n, model));
-		Mime& mi = gfx::mimes(scene).add(Mime());
+		Node3& n = Node3(vec3(0.f, 15.f, 0.f), quat(vec3(0.f, -1.f, 0.f)), vec3(0.35f)).add(scene.m_graph);
+		Item& it = Item(n, model).add(scene.m_graph);
+		Mime& mi = Mime().add(scene.m_graph);
 		mi.add_item(it);
 
 		//Animation& anim = *mi.m_anims[0];

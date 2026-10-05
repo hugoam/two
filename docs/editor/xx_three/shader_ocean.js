@@ -112,8 +112,8 @@ Water.prototype = Object.assign(Object.create(Object.prototype), {
         
         this.material = material;
 
-        this.node = scene.nodes().add(new two.Node3());
-        this.item = scene.items().add(new two.Item(this.node, geometry, 0, material));
+        this.node = new two.Node3().add(scene.graph);
+        this.item = new two.Item(this.node, geometry, 0, material).add(scene.graph);
         //THREE.Mesh.call(this, geometry);
         
         this.eye = new two.vec3(0.0);
@@ -374,8 +374,8 @@ Sky.prototype = Object.assign(Object.create(Object.prototype), {
 
         var geometry = gfx.shape(new two.Cube(new two.vec3(0.5)));
 
-        this.node = scene.nodes().add(new two.Node3());
-        this.item = scene.items().add(new two.Item(this.node, geometry, 0, material));
+        this.node = new two.Node3().add(scene.graph);
+        this.item = new two.Item(this.node, geometry, 0, material).add(scene.graph);
 
         this.update(material);
     },
@@ -421,8 +421,8 @@ if(init) {
     // Sun
 
     var light = new two.vec3();
-    var ln = scene.nodes().add(new two.Node3());
-    var l = scene.lights().add(new two.Light(ln, two.LightType.Direct, false, two.rgb(0xffffff), 0.8));
+    var ln = new two.Node3().add(scene.graph);
+    var l = new two.Light(ln, two.LightType.Direct, false, two.rgb(0xffffff), 0.8).add(scene.graph);
     this.sun = ln;
 
 
@@ -482,8 +482,8 @@ if(init) {
         m.pbr.roughness = 0.0;
         //envMap: cubeCamera.renderTarget.texture,
 
-    var n = scene.nodes().add(new two.Node3());
-    var i = scene.items().add(new two.Item(n, ico, 0, material));
+    var n = new two.Node3().add(scene.graph);
+    var i = new two.Item(n, ico, 0, material).add(scene.graph);
     this.sphere = n;
 }
 

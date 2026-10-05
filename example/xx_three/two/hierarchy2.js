@@ -22,8 +22,8 @@ if (init) {
     var geometry = app.gfx.shape(new two.Cube(new two.vec3(50.0)));
     var zeroquat = new two.quat(new two.vec3(0.0));
             
-    var root = scene.nodes().add(new two.Node3(new two.vec3(1000.0, 0.0, 0.0), zeroquat));
-    scene.items().add(new two.Item(root, geometry, 0, material));
+    var root = new two.Node3(new two.vec3(1000.0, 0.0, 0.0), zeroquat).add(scene.graph);
+    new two.Item(root, geometry, 0, material).add(scene.graph);
 
     var amount = 200;
 
@@ -42,8 +42,8 @@ if (init) {
 
         for(var i = 0; i < amount; i++)
         {
-            var n = scene.nodes().add(new two.Node3(p, zeroquat));
-            scene.items().add(new two.Item(n, geometry, 0, material));
+            var n = new two.Node3(p, zeroquat).add(scene.graph);
+            new two.Item(n, geometry, 0, material).add(scene.graph);
 
             this.nodes.push({ parent: prev, node: n, position: p });
             prev = n;

@@ -128,15 +128,15 @@ if(init) {
     }
     
     var mat0 = dash_material('line0', two.rgb(0xffffff), 1.0, 0.5);
-    var n0 = scene.nodes().add(new two.Node3());
-    scene.items().add(new two.Item(n0, spline, 0, mat0));
+    var n0 = new two.Node3().add(scene.graph);
+    new two.Item(n0, spline, 0, mat0).add(scene.graph);
     this.node0 = n0;
     
     var cube = cube_model(app.gfx, 50.0);
     
     var mat1 = dash_material('line1', two.rgb(0xffaa00), 3.0, 1.0);
-    var n1 = scene.nodes().add(new two.Node3());
-    scene.items().add(new two.Item(n1, cube, 0, mat1));
+    var n1 = new two.Node3().add(scene.graph);
+    new two.Item(n1, cube, 0, mat1).add(scene.graph);
     this.node1 = n1;
 }
 

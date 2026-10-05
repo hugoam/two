@@ -144,16 +144,16 @@ EX(xx_material_translucent)
 
 		scene.m_env.m_radiance.m_ambient = rgb(0x888888);
 
-		Node3& dn = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(normalize(vec3(0.f, -0.5f, -0.5f)))));
-		Light& dl = gfx::lights(scene).add(Light(dn, LightType::Direct, false, rgb(0xffffff), 0.03f));
+		Node3& dn = Node3(vec3(0.f), look_dir(normalize(vec3(0.f, -0.5f, -0.5f)))).add(scene.m_graph);
+		Light& dl = Light(dn, LightType::Direct, false, rgb(0xffffff), 0.03f).add(scene.m_graph);
 
-		Node3& pn0 = gfx::nodes(scene).add(Node3(vec3(0.f, -50.f, 350.f)));
-		Light& pl0 = gfx::lights(scene).add(Light(pn0, LightType::Point, false, rgb(0x888888), 7.f, 300.f));
-		gfx::items(scene).add(Item(pn0, app.m_gfx.shape(Sphere(4.f)), 0U, &gfx::solid_material(app.m_gfx, "l0", rgb(0x888888))));
+		Node3& pn0 = Node3(vec3(0.f, -50.f, 350.f)).add(scene.m_graph);
+		Light& pl0 = Light(pn0, LightType::Point, false, rgb(0x888888), 7.f, 300.f).add(scene.m_graph);
+		Item(pn0, app.m_gfx.shape(Sphere(4.f)), 0U, &gfx::solid_material(app.m_gfx, "l0", rgb(0x888888))).add(scene.m_graph);
 
-		Node3& pn1 = gfx::nodes(scene).add(Node3(vec3(-100.f, 20.f, -260.f)));
-		Light& pl1 = gfx::lights(scene).add(Light(pn1, LightType::Point, false, rgb(0x888800), 1.f, 500.f));
-		gfx::items(scene).add(Item(pn1, app.m_gfx.shape(Sphere(4.f)), 0U, &gfx::solid_material(app.m_gfx, "l1", rgb(0x888800))));
+		Node3& pn1 = Node3(vec3(-100.f, 20.f, -260.f)).add(scene.m_graph);
+		Light& pl1 = Light(pn1, LightType::Point, false, rgb(0x888800), 1.f, 500.f).add(scene.m_graph);
+		Item(pn1, app.m_gfx.shape(Sphere(4.f)), 0U, &gfx::solid_material(app.m_gfx, "l1", rgb(0x888800))).add(scene.m_graph);
 
 		Texture& white = *app.m_gfx.textures().file("white.jpg");
 		Texture& texture = *app.m_gfx.textures().file("bunny_thickness.jpg");
@@ -190,8 +190,8 @@ EX(xx_material_translucent)
 		Model& bunny = *app.m_gfx.models().file("bunny");
 		//Model& bunny = *app.m_gfx.models().file("stanford-bunny.fbx");
 
-		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f, 0.f, 10.f), ZeroQuat, scale));
-		Item& it = gfx::items(scene).add(Item(n, bunny, 0U, &material));
+		Node3& n = Node3(vec3(0.f, 0.f, 10.f), ZeroQuat, scale).add(scene.m_graph);
+		Item& it = Item(n, bunny, 0U, &material).add(scene.m_graph);
 		node = &n;
 	}
 

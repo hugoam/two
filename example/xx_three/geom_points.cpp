@@ -55,11 +55,11 @@ EX(xx_geom_points)
 
 		Model& model = *app.m_gfx.models().get("point");
 
-		Node3& n = gfx::nodes(scene).add(Node3());
-		Item& it = gfx::items(scene).add(Item(n, model, 0U, &material));
+		Node3& n = Node3().add(scene.m_graph);
+		Item& it = Item(n, model, 0U, &material).add(scene.m_graph);
 		node = &n;
 
-		batch = &gfx::batches(scene).add(Batch(it, sizeof(Instance)));
+		batch = &Batch(it, sizeof(Instance)).add(scene.m_graph);
 		it.m_batch = batch;
 
 		batch->cache({ (float*)instances.data(), instances.size() * sizeof(Instance) / sizeof(float) });

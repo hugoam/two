@@ -100,8 +100,8 @@ EX(xx_geom_selective)
 
 			model = &app.m_gfx.create_model_geo("selective", geometry, false); // , dynamic = true);
 
-			Node3& n = gfx::nodes(scene).add(Node3());
-			Item& it = gfx::items(scene).add(Item(n, *model, 0U, &material));
+			Node3& n = Node3().add(scene.m_graph);
+			Item& it = Item(n, *model, 0U, &material).add(scene.m_graph);
 			UNUSED(it);
 			node = &n;
 

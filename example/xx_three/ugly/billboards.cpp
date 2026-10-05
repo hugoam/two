@@ -60,10 +60,10 @@ EX(xx_billboards)
 			instances[i] = { pos, 0.f, scale, 0.f, 0.f };
 		}
 
-		Node3& n = gfx::nodes(scene).add(Node3());
-		Item& it = gfx::items(scene).add(Item(n, model, 0U, &mat));
+		Node3& n = Node3().add(scene.m_graph);
+		Item& it = Item(n, model, 0U, &mat).add(scene.m_graph);
 
-		batch = &gfx::batches(scene).add(Batch(it, sizeof(Instance)));
+		batch = &Batch(it, sizeof(Instance)).add(scene.m_graph);
 		it.m_batch = batch;
 	}
 

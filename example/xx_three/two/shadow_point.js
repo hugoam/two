@@ -66,11 +66,11 @@ if (init) {
         var sphere0 = app.gfx.shape(new two.Sphere(0.3));
         var sphere1 = app.gfx.shape(new two.Sphere(2.0));
         
-        var node = scene.nodes().add(new two.Node3());
-        var inner = scene.items().add(new two.Item(node, sphere0, 0, app.gfx.symbol_material(new two.Symbol(color), two.PLAIN)));// * intensity));
-        var outer = scene.items().add(new two.Item(node, sphere1, 0, this.spheremat));
+        var node = new two.Node3().add(scene.graph);
+        var inner = new two.Item(node, sphere0, 0, app.gfx.symbol_material(new two.Symbol(color), two.PLAIN)).add(scene.graph);// * intensity));
+        var outer = new two.Item(node, sphere1, 0, this.spheremat).add(scene.graph);
         
-        var light = scene.lights().add(new two.Light(node, two.LightType.Point, true, color, intensity, range)); //, 0.6));// intensity);
+        var light = new two.Light(node, two.LightType.Point, true, color, intensity, range).add(scene.graph); //, 0.6));// intensity);
         //light.shadow_bias = 0.005;
         
         this.lights.push(node);
@@ -78,8 +78,8 @@ if (init) {
         
     var zeroq = new two.quat(new two.vec3(0.0));
     var cube = new two.Cube(new two.vec3(15.0));
-    var node = scene.nodes().add(new two.Node3(new two.vec3(0.0, 10.0, 0.0), zeroq));
-    scene.items().add(new two.Item(node, app.gfx.shape(cube), 0, this.cubemat));
+    var node = new two.Node3(new two.vec3(0.0, 10.0, 0.0), zeroq).add(scene.graph);
+    new two.Item(node, app.gfx.shape(cube), 0, this.cubemat).add(scene.graph);
 }
 
 function pos(time) {

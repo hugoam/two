@@ -32,8 +32,8 @@ if (init) {
     var zeroq = new two.quat(new two.vec3(0.0));
     
     var model = app.gfx.shape(new two.Rect(new two.vec2(0.0), new two.vec2(800.0, 400.0)));
-    var node = scene.nodes().add(new two.Node3(new two.vec3(0, -5, 0), zeroq));
-    scene.items().add(new two.Item(node, model, 0, groundmat));
+    var node = new two.Node3(new two.vec3(0, -5, 0), zeroq).add(scene.graph);
+    new two.Item(node, model, 0, groundmat).add(scene.graph);
 
     // OBJECTS
     
@@ -58,9 +58,9 @@ if (init) {
         var a = 3.14 * (0.5 - Math.random());
         var b = 3.14 * (0.5 - Math.random());
 
-        //var n = scene.nodes().add(new two.Node3(new two.vec3(x, y, z), new two.quat(a, b, 0, 1)));
-        var n = scene.nodes().add(new two.Node3(new two.vec3(x, y, z), new two.quat(new two.vec3(a, b, 0))));
-        var it = scene.items().add(new two.Item(n, torus, 0, material));
+        //var n = new two.Node3(new two.vec3(x, y, z), new two.quat(a, b, 0, 1)).add(scene.graph);
+        var n = new two.Node3(new two.vec3(x, y, z), new two.quat(new two.vec3(a, b, 0))).add(scene.graph);
+        var it = new two.Item(n, torus, 0, material).add(scene.graph);
     }
 
     // LIGHTS
@@ -79,16 +79,16 @@ if (init) {
     {
         var c = two.rgb(colours[i]);
         var m = two.gfx.solid_material(app.gfx, 'light' + i.toString(), c);
-        var n = scene.nodes().add(new two.Node3());
-        var l = scene.lights().add(new two.Light(n, two.LightType.Point, false, c, intensity, distance));
+        var n = new two.Node3().add(scene.graph);
+        var l = new two.Light(n, two.LightType.Point, false, c, intensity, distance).add(scene.graph);
         l.attenuation = decay;
-        var it = scene.items().add(new two.Item(n, sphere, 0, m));
+        var it = new two.Item(n, sphere, 0, m).add(scene.graph);
         
         this.lights.push(n);
     }
 
-    var dn = scene.nodes().add(new two.Node3(new two.vec3(0.0), two.look_dir(new two.vec3(-0.5, -1, 0))));
-    scene.lights().add(new two.Light(dn, two.LightType.Direct, false, two.rgb(0xffffff), 0.05));
+    var dn = new two.Node3(new two.vec3(0.0), two.look_dir(new two.vec3(-0.5, -1, 0))).add(scene.graph);
+    new two.Light(dn, two.LightType.Direct, false, two.rgb(0xffffff), 0.05).add(scene.graph);
 }
 
 var coef0 = [0.7, 0.3, 0.7, 0.3, 0.3, 0.7];

@@ -97,8 +97,8 @@ EX(xx_shader)
 
 		Model& model = app.m_gfx.shape(Quad(1.f));
 
-		Node3& node = gfx::nodes(scene).add(Node3());
-		Item& it = gfx::items(scene).add(Item(node, model, 0U, &material));
+		Node3& node = Node3().add(scene.m_graph);
+		Item& it = Item(node, model, 0U, &material).add(scene.m_graph);
 	}
 #else
 	Gnode& scene = viewer.m_scene.begin();

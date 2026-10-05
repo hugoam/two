@@ -13,6 +13,11 @@ namespace two
 	Mime::Mime()
 	{}
 
+	Mime& Mime::add(Gnode& parent)
+	{
+		return parent.suba().state<Mime>(move(*this));
+	}
+
 	Mime::~Mime()
 	{}
 

@@ -67,8 +67,8 @@ if (init) {
     this.mesh = model.get_mesh(0);
     this.mesh.is_direct = true;
 
-    var n = scene.nodes().add(new two.Node3(new two.vec3(0.0), new two.quat(new two.vec3(0.0)), new two.vec3(700.0)));
-    scene.items().add(new two.Item(n, model, 0, material));
+    var n = new two.Node3(new two.vec3(0.0), new two.quat(new two.vec3(0.0)), new two.vec3(700.0)).add(scene.graph);
+    new two.Item(n, model, 0, material).add(scene.graph);
     
     //scene.background = new THREE.Color(0x050505);
 

@@ -239,18 +239,18 @@ if(init) {
     merge.set_source(two.ShaderType.Vertex, filter_vertex);
     merge.set_source(two.ShaderType.Fragment, merge_fragment);
 
-    var ln = scene.nodes().add(new two.Node3());
-    scene.lights().add(new two.Light(ln, two.LightType.Point, false, two.rgb(0xffffff), 1.0));
+    var ln = new two.Node3().add(scene.graph);
+    new two.Light(ln, two.LightType.Point, false, two.rgb(0xffffff), 1.0).add(scene.graph);
 
     //var model = app.gfx.models.file('PrimaryIonDrive'); // .glb
     //
-    //var n = scene.nodes().add(new two.Node3());
-    //scene.items().add(new two.Item(n, model));
+    //var n = new two.Node3().add(scene.graph);
+    //new two.Item(n, model).add(scene.graph);
 
     var prefab = app.gfx.prefabs.file('PrimaryIonDrive');
 
-    var mi = scene.mimes().add(new two.Mime());
-    prefab.add(scene, mi);
+    var mi = new two.Mime().add(scene.graph);
+    prefab.add(scene.graph, mi);
 
     //var anim = prefab.anims[0];
     // @todo doesn't work when compiled with O3 somehow

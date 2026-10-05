@@ -58,8 +58,8 @@ EX(xx_interact_cubes_gpu)
 
 		//scene.add(new THREE.AmbientLight(0x555555));
 
-		Node3& l = gfx::nodes(scene).add(Node3(vec3(0.f, 500.f, 2000.f)));
-		Light& light = gfx::lights(scene).add(Light(l, LightType::Spot, false, rgb(0xffffff), 1.5f));
+		Node3& l = Node3(vec3(0.f, 500.f, 2000.f)).add(scene.m_graph);
+		Light& light = Light(l, LightType::Spot, false, rgb(0xffffff), 1.5f).add(scene.m_graph);
 
 		//var pickingMaterial = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors });
 

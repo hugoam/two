@@ -40,9 +40,9 @@ EX(xx_refraction_mesh)
 
 		Model& sphere = app.m_gfx.shape(Sphere(100.f * 0.05f));
 
-		Node3& ln = gfx::nodes(scene).add(Node3());
-		gfx::lights(scene).add(Light(ln, LightType::Point, false, rgb(0xffffff), 2.f, 0.f));
-		gfx::items(scene).add(Item(ln, sphere, 0U, &gfx::solid_material(app.m_gfx, "light", rgb(0xffffff))));
+		Node3& ln = Node3().add(scene.m_graph);
+		Light(ln, LightType::Point, false, rgb(0xffffff), 2.f, 0.f).add(scene.m_graph);
+		Item(ln, sphere, 0U, &gfx::solid_material(app.m_gfx, "light", rgb(0xffffff))).add(scene.m_graph);
 		light = &ln;
 
 		// material samples
@@ -68,14 +68,14 @@ EX(xx_refraction_mesh)
 
 		const float s = 1.5f;
 
-		Node3& n0 = gfx::nodes(scene).add(Node3(vec3(0.f, 0.f, 0.f), ZeroQuat, vec3(s)));
-		gfx::items(scene).add(Item(n0, model, 0U, &m1));
+		Node3& n0 = Node3(vec3(0.f, 0.f, 0.f), ZeroQuat, vec3(s)).add(scene.m_graph);
+		Item(n0, model, 0U, &m1).add(scene.m_graph);
 
-		Node3& n1 = gfx::nodes(scene).add(Node3(vec3(-1500.f, 0.f, 0.f), ZeroQuat, vec3(s)));
-		gfx::items(scene).add(Item(n1, model, 0U, &m2));
+		Node3& n1 = Node3(vec3(-1500.f, 0.f, 0.f), ZeroQuat, vec3(s)).add(scene.m_graph);
+		Item(n1, model, 0U, &m2).add(scene.m_graph);
 
-		Node3& n2 = gfx::nodes(scene).add(Node3(vec3(1500.f, 0.f, 0.f), ZeroQuat, vec3(s)));
-		gfx::items(scene).add(Item(n2, model, 0U, &m3));
+		Node3& n2 = Node3(vec3(1500.f, 0.f, 0.f), ZeroQuat, vec3(s)).add(scene.m_graph);
+		Item(n2, model, 0U, &m3).add(scene.m_graph);
 	}
 
 	static vec2 mouse = vec2(0.f);

@@ -135,8 +135,8 @@ public:
 		});
 		m_material = &material;
 
-		m_node = &gfx::nodes(scene).add(Node3());
-		m_item = &gfx::items(scene).add(Item(*m_node, geometry, 0U, &material));
+		m_node = &Node3().add(scene.m_graph);
+		m_item = &Item(*m_node, geometry, 0U, &material).add(scene.m_graph);
 		//THREE.Mesh.call(this, geometry);
 
 		m_fbo = { resolution, TextureFormat::RGBA8 };
@@ -397,8 +397,8 @@ public:
 
 		Model& geometry = gfx.shape(Cube(0.5f));
 
-		m_node = &gfx::nodes(scene).add(Node3());
-		m_item = &gfx::items(scene).add(Item(*m_node, geometry, 0U, &material));
+		m_node = &Node3().add(scene.m_graph);
+		m_item = &Item(*m_node, geometry, 0U, &material).add(scene.m_graph);
 
 		this->update(material);
 	}
@@ -466,8 +466,8 @@ EX(xx_shader_ocean)
 
 		// Sun
 
-		Node3& ln = gfx::nodes(scene).add(Node3());
-		Light& l = gfx::lights(scene).add(Light(ln, LightType::Direct, false, rgb(0xffffff), 0.8f));
+		Node3& ln = Node3().add(scene.m_graph);
+		Light& l = Light(ln, LightType::Direct, false, rgb(0xffffff), 0.8f).add(scene.m_graph);
 		sun = &ln;
 
 		// Probe
@@ -523,8 +523,8 @@ EX(xx_shader_ocean)
 			//envMap: cubeCamera.renderTarget.texture,
 		});
 
-		Node3& n = gfx::nodes(scene).add(Node3());
-		Item& i = gfx::items(scene).add(Item(n, ico, 0U, &material));
+		Node3& n = Node3().add(scene.m_graph);
+		Item& i = Item(n, ico, 0U, &material).add(scene.m_graph);
 		sphere = &n;
 		UNUSED(i);
 	}

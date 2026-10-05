@@ -59,21 +59,21 @@ if (init) {
 
     var geometry = app.gfx.shape(new two.TorusKnot(18.0, 8.0)); // new THREE.TorusKnotBufferGeometry(18, 8, 150, 20);
 
-    var n = scene.nodes().add(new two.Node3());
-    scene.items().add(new two.Item(n, geometry, 0, material));
+    var n = new two.Node3().add(scene.graph);
+    new two.Item(n, geometry, 0, material).add(scene.graph);
     mesh = n;
 
     var geomfloor = app.gfx.shape(new two.Cube(100.0));
 
-    var nfloor = scene.nodes().add(new two.Node3(new two.vec3(0.0, 50.0, 0.0), new two.quat(new two.vec3(-Math.PI2, 0.0, 0.0))));
-    scene.items().add(new two.Item(n, geomfloor, 0, matfloor));
+    var nfloor = new two.Node3(new two.vec3(0.0, 50.0, 0.0), new two.quat(new two.vec3(-Math.PI2, 0.0, 0.0))).add(scene.graph);
+    new two.Item(n, geomfloor, 0, matfloor).add(scene.graph);
 
     // Lights
 
     //scene.add(new THREE.HemisphereLight(0x111111, 0x000000));
 
-    var ln = scene.nodes().add(new two.Node3(new two.vec3(50.0, 100.0, 50.0)));
-    var spot = scene.lights().add(new two.Light(ln, two.LightType.Spot, true, two.rgb(0xffffff), 1.0, 300.0));
+    var ln = new two.Node3(new two.vec3(50.0, 100.0, 50.0)).add(scene.graph);
+    var spot = new two.Light(ln, two.LightType.Spot, true, two.rgb(0xffffff), 1.0, 300.0).add(scene.graph);
     spot.spot_angle = Math.PI / 7.0;
     spot.attenuation = 2.0;
     spot.spot_attenuation = 0.8;

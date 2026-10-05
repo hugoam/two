@@ -53,15 +53,15 @@ EX(xx_material_displace)
 
 		// lights
 
-		Node3& ln0 = gfx::nodes(scene).add(Node3(vec3(0.f, 0.f, 2500.f)));
-		gfx::lights(scene).add(Light(ln0, LightType::Point, false, rgb(0xff0000), 0.5f, 0.f));
+		Node3& ln0 = Node3(vec3(0.f, 0.f, 2500.f)).add(scene.m_graph);
+		Light(ln0, LightType::Point, false, rgb(0xff0000), 0.5f, 0.f).add(scene.m_graph);
 		light = &ln0;
 
-		Node3& ln1 = gfx::nodes(scene).add(Node3(vec3(0.f)));
-		gfx::lights(scene).add(Light(ln1, LightType::Point, false, rgb(0xff6666), 1.f, 0.f));
+		Node3& ln1 = Node3(vec3(0.f)).add(scene.m_graph);
+		Light(ln1, LightType::Point, false, rgb(0xff6666), 1.f, 0.f).add(scene.m_graph);
 
-		Node3& ln2 = gfx::nodes(scene).add(Node3(vec3(-1000.f, 0.f, 1000.f)));
-		gfx::lights(scene).add(Light(ln2, LightType::Point, false, rgb(0x0000ff), 1.f, 0.f));
+		Node3& ln2 = Node3(vec3(-1000.f, 0.f, 1000.f)).add(scene.m_graph);
+		Light(ln2, LightType::Point, false, rgb(0x0000ff), 1.f, 0.f).add(scene.m_graph);
 
 		Program& three = *app.m_gfx.programs().file("pbr/three");
 
@@ -87,8 +87,8 @@ EX(xx_material_displace)
 		//geometry.attributes.uv2 = geometry.attributes.uv;
 		//geometry.center();
 
-		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f, -175.f, 0.f) * 25.f, ZeroQuat, vec3(25.f)));
-		gfx::items(scene).add(Item(n, model, 0U, &mat));
+		Node3& n = Node3(vec3(0.f, -175.f, 0.f) * 25.f, ZeroQuat, vec3(25.f)).add(scene.m_graph);
+		Item(n, model, 0U, &mat).add(scene.m_graph);
 	}
 
 #if UI

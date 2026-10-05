@@ -348,16 +348,16 @@ if(init) {
     var quad = app.gfx.shape(new two.Cube(new two.vec3(100.0, 1.0, 100.0)));
     var cube = app.gfx.shape(new two.Cube(new two.vec3(1.0)));
 
-    var group = scene.nodes().add(new two.Node3());
+    var group = new two.Node3().add(scene.graph);
     this.node = group;
 
     var zeroq = new two.quat(new two.vec3(0.0));
     
-    var ln = scene.nodes().add(new two.Node3(new two.vec3(0.0, 2.0, 0.0), zeroq));
-    var l = scene.lights().add(new two.Light(ln, two.LightType.Point, false, two.rgb(0xffffff), 1.0, 50.0)); // 2
+    var ln = new two.Node3(new two.vec3(0.0, 2.0, 0.0), zeroq).add(scene.graph);
+    var l = new two.Light(ln, two.LightType.Point, false, two.rgb(0xffffff), 1.0, 50.0).add(scene.graph); // 2
 
-    var fn = scene.nodes().add(new two.Node3(new two.vec3(0.0, -10.0, 0.0), zeroq));
-    var g = scene.items().add(new two.Item(fn, quad)); // new THREE.MeshPhongMaterial({}));
+    var fn = new two.Node3(new two.vec3(0.0, -10.0, 0.0), zeroq).add(scene.graph);
+    var g = new two.Item(fn, quad).add(scene.graph); // new THREE.MeshPhongMaterial({}));
     
     var basic = app.gfx.programs.create('halftonebasic');
     basic.set_pass(two.PassType.Opaque);
@@ -374,8 +374,8 @@ if(init) {
         var p = new two.vec3(Math.random() * 16.0 - 8.0, Math.random() * 16.0 - 8.0, Math.random() * 16.0 - 8.0);
         var a = new two.vec3(Math.random() * 2 * Math.PI, Math.random() * 2 * Math.PI, Math.random() * 2 * Math.PI);
 
-        var n = scene.nodes().add(new two.Node3(p, new two.quat(a)));
-        var g = scene.items().add(new two.Item(n, cube, 0, mat));
+        var n = new two.Node3(p, new two.quat(a)).add(scene.graph);
+        var g = new two.Item(n, cube, 0, mat).add(scene.graph);
         this.nodes.push({ p: p, r: new two.quat(a), node: n });
     }
     

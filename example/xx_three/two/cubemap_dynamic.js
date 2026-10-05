@@ -37,15 +37,15 @@ if(init) {
         m.pbr.albedo.value = two.rgb(0xffffff);
         //m.pbr.metallic = 1.0;
 
-    var sphere = scene.nodes().add(new two.Node3());
-    //isphere = scene.items().add(new two.Item(sphere, app.gfx.shape(new two.Icosaedr(20.0))));
-    this.isphere = scene.items().add(new two.Item(sphere, app.gfx.shape(new two.Sphere(20.0)), 0, material));
+    var sphere = new two.Node3().add(scene.graph);
+    //isphere = new two.Item(sphere, app.gfx.shape(new two.Icosaedr(20.0))).add(scene.graph);
+    this.isphere = new two.Item(sphere, app.gfx.shape(new two.Sphere(20.0)), 0, material).add(scene.graph);
 
-    this.cube = scene.nodes().add(new two.Node3());
-    scene.items().add(new two.Item(this.cube, app.gfx.shape(new two.Cube(new two.vec3(10.0))), 0, material));
+    this.cube = new two.Node3().add(scene.graph);
+    new two.Item(this.cube, app.gfx.shape(new two.Cube(new two.vec3(10.0))), 0, material).add(scene.graph);
     
-    this.torus = scene.nodes().add(new two.Node3());
-    scene.items().add(new two.Item(this.torus, app.gfx.shape(new two.TorusKnot(10.0, 5.0)), 0, material));
+    this.torus = new two.Node3().add(scene.graph);
+    new two.Item(this.torus, app.gfx.shape(new two.TorusKnot(10.0, 5.0)), 0, material).add(scene.graph);
     
     this.cubea = new two.vec3(0.0);
     this.torusa = new two.vec3(0.0);

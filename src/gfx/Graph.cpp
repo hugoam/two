@@ -11,14 +11,6 @@ namespace two
 {
 	template class PooledNode<Gnode>;
 
-	template class ChunkedPool<Node3>;
-	template class ChunkedPool<Item>;
-	template class ChunkedPool<Batch>;
-	template class ChunkedPool<Direct>;
-	template class ChunkedPool<Mime>;
-	template class ChunkedPool<Light>;
-	template class ChunkedPool<Flare>;
-
 	Gnode::Gnode(PooledGraph<Gnode>& graph, Scene& scene, SoundManager* sound_manager) : PooledNode(graph), m_scene(&scene), m_attach(&scene.m_root_node), m_sound_manager(sound_manager) { graph.m_root = this; }
 	Gnode::Gnode(Gnode* parent) : PooledNode(parent), m_scene(parent->m_scene), m_attach(parent->m_attach), m_sound_manager(parent->m_sound_manager) {}
 
@@ -60,14 +52,6 @@ namespace gfx
 	{
 		gfx.init_pipeline(pipeline_minimal);
 	}
-
-	ChunkedPool<Node3>&  nodes(Scene& scene)   { return scene.m_pool->pool<Node3>(); }
-	ChunkedPool<Item>&   items(Scene& scene)   { return scene.m_pool->pool<Item>(); }
-	ChunkedPool<Batch>&  batches(Scene& scene) { return scene.m_pool->pool<Batch>(); }
-	ChunkedPool<Direct>& directs(Scene& scene) { return scene.m_pool->pool<Direct>(); }
-	ChunkedPool<Mime>&   mimes(Scene& scene)   { return scene.m_pool->pool<Mime>(); }
-	ChunkedPool<Light>&  lights(Scene& scene)  { return scene.m_pool->pool<Light>(); }
-	ChunkedPool<Flare>&  flares(Scene& scene)  { return scene.m_pool->pool<Flare>(); }
 
 	Gnode& node(Gnode& parent, const mat4& transform)
 	{

@@ -115,11 +115,11 @@ EX(xx_geom_dynamic)
 		points_mesh->m_range = { 0U, num_particles };
 #endif
 
-		Node3& n = gfx::nodes(scene).add(Node3());
-		Item& p = gfx::items(scene).add(Item(n, points_model, 0U, &pointmat));
+		Node3& n = Node3().add(scene.m_graph);
+		Item& p = Item(n, points_model, 0U, &pointmat).add(scene.m_graph);
 
 #if INSTANCING
-		points_batch = &gfx::batches(scene).add(Batch(p, sizeof(Point)));
+		points_batch = &Batch(p, sizeof(Point)).add(scene.m_graph);
 		p.m_batch = points_batch;
 #endif
 
@@ -138,8 +138,8 @@ EX(xx_geom_dynamic)
 		lines_mesh = &mesh;
 #endif
 
-		Node3& n1 = gfx::nodes(scene).add(Node3());
-		Item& lines = gfx::items(scene).add(Item(n1, lines_model, ItemFlag::Default | ItemFlag::NoCull, &linemat));
+		Node3& n1 = Node3().add(scene.m_graph);
+		Item& lines = Item(n1, lines_model, ItemFlag::Default | ItemFlag::NoCull, &linemat).add(scene.m_graph);
 		UNUSED(lines);
 	}
 

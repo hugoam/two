@@ -83,8 +83,8 @@ EX(xx_lines_dashed)
 		Material& mat0 = app.m_gfx.materials().create("line0");
 		dash_material(mat0, rgb(0xffffff), 1.f, 0.5f);
 
-		Node3& n0 = gfx::nodes(scene).add(Node3());
-		gfx::items(scene).add(Item(n0, spline, 0U, &mat0));
+		Node3& n0 = Node3().add(scene.m_graph);
+		Item(n0, spline, 0U, &mat0).add(scene.m_graph);
 		//line.computeLineDistances();
 		node0 = &n0;
 
@@ -93,8 +93,8 @@ EX(xx_lines_dashed)
 		Material& mat1 = app.m_gfx.materials().create("line1");
 		dash_material(mat1, rgb(0xffaa00), 3.f, 1.f);
 
-		Node3& n1 = gfx::nodes(scene).add(Node3());
-		gfx::items(scene).add(Item(n1, cube, 0U, &mat1));
+		Node3& n1 = Node3().add(scene.m_graph);
+		Item(n1, cube, 0U, &mat1).add(scene.m_graph);
 		//lineSegments.computeLineDistances();
 		node1 = &n1;
 	}

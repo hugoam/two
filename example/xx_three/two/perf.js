@@ -30,8 +30,8 @@ if (init) {
         var a = new two.vec3(Math.random() * 2 * Math.PI, Math.random() * 2 * Math.PI, 0.0);
         var s = new two.vec3(Math.random() * 50 + 100);
 
-        var n = scene.nodes().add(new two.Node3(p, new two.quat(a), s));
-        var it = scene.items().add(new two.Item(n, suzanne, 0, material));
+        var n = new two.Node3(p, new two.quat(a), s).add(scene.graph);
+        var it = new two.Item(n, suzanne, 0, material).add(scene.graph);
 
         objects.push({ node: n, position: p, angles: a, scale: s });
     }

@@ -142,14 +142,14 @@ if (init) {
 
     var zeroq = new two.quat(new two.vec3(0.0));
     
-    var l0 = scene.nodes().add(new two.Node3(new two.vec3(4000.0, 0.0, 0.0), zeroq));
-    scene.lights().add(new two.Light(l0, two.LightType.Point, false, two.rgb(0x0011ff), 1.0, 5500.0));
+    var l0 = new two.Node3(new two.vec3(4000.0, 0.0, 0.0), zeroq).add(scene.graph);
+    new two.Light(l0, two.LightType.Point, false, two.rgb(0x0011ff), 1.0, 5500.0).add(scene.graph);
 
-    var l1 = scene.nodes().add(new two.Node3(new two.vec3(-4000.0, 0.0, 0.0), zeroq));
-    scene.lights().add(new two.Light(l1, two.LightType.Point, false, two.rgb(0xff1100), 1.0, 5500.0));
+    var l1 = new two.Node3(new two.vec3(-4000.0, 0.0, 0.0), zeroq).add(scene.graph);
+    new two.Light(l1, two.LightType.Point, false, two.rgb(0xff1100), 1.0, 5500.0).add(scene.graph);
 
-    var l2 = scene.nodes().add(new two.Node3(new two.vec3(0.0), zeroq));
-    scene.lights().add(new two.Light(l2, two.LightType.Point, false, two.rgb(0xffaa00), 2.0, 3000.0));
+    var l2 = new two.Node3(new two.vec3(0.0), zeroq).add(scene.graph);
+    new two.Light(l2, two.LightType.Point, false, two.rgb(0xffaa00), 2.0, 3000.0).add(scene.graph);
 
     var phong = app.gfx.programs.file('pbr/phong');
 
@@ -179,9 +179,9 @@ if (init) {
         var a = new two.vec3(Math.random() * 2 * Math.PI, Math.random() * 2 * Math.PI, 0.0);
         var s = new two.vec3(Math.random() * 50.0 + 100.0);
 
-        var n = scene.nodes().add(new two.Node3(p, new two.quat(a), s));
-        //scene.items().add(new two.Item(n, geometry, 0, material));
-        scene.items().add(new two.Item(n, geometry, 7937, material));
+        var n = new two.Node3(p, new two.quat(a), s).add(scene.graph);
+        //new two.Item(n, geometry, 0, material).add(scene.graph);
+        new two.Item(n, geometry, 7937, material).add(scene.graph);
     }
 }
 

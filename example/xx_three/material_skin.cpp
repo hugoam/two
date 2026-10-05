@@ -468,11 +468,11 @@ EX(xx_material_skin)
 
 		//scene.background = new THREE.Color(0x050505);
 
-		Node3& ln0 = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(vec3(-1.f, -0.5f, -1.f))));
-		Light& l0 = gfx::lights(scene).add(Light(ln0, LightType::Direct, false, rgb(0xffeedd), 1.5f));
+		Node3& ln0 = Node3(vec3(0.f), look_dir(vec3(-1.f, -0.5f, -1.f))).add(scene.m_graph);
+		Light& l0 = Light(ln0, LightType::Direct, false, rgb(0xffeedd), 1.5f).add(scene.m_graph);
 
-		Node3& ln1 = gfx::nodes(scene).add(Node3(vec3(0.f), look_dir(vec3(1.f, -0.5f, 1.f))));
-		Light& l1 = gfx::lights(scene).add(Light(ln1, LightType::Direct, false, rgb(0xddddff), 0.5f));
+		Node3& ln1 = Node3(vec3(0.f), look_dir(vec3(1.f, -0.5f, 1.f))).add(scene.m_graph);
+		Light& l1 = Light(ln1, LightType::Direct, false, rgb(0xddddff), 0.5f).add(scene.m_graph);
 
 		// MATERIALS
 
@@ -517,8 +517,8 @@ EX(xx_material_skin)
 
 		Model& model = *app.m_gfx.models().file("LeePerrySmith"); // .glb
 
-		Node3& n = gfx::nodes(scene).add(Node3(vec3(0.f, -50.f, 0.f), ZeroQuat, vec3(100.f)));
-		Item& it = gfx::items(scene).add(Item(n, model, 0U, material));
+		Node3& n = Node3(vec3(0.f, -50.f, 0.f), ZeroQuat, vec3(100.f)).add(scene.m_graph);
+		Item& it = Item(n, model, 0U, material).add(scene.m_graph);
 		mesh = &n;
 		item = &it;
 

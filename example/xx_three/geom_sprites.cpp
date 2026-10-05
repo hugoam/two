@@ -104,11 +104,11 @@ EX(xx_geom_sprites)
 			instances[i] = { vec3(randf(), randf(), randf()) * 2.f - 1.f };
 		}
 
-		Node3& n = gfx::nodes(scene).add(Node3());
-		Item& it = gfx::items(scene).add(Item(n, circle, 0U, &material));
+		Node3& n = Node3().add(scene.m_graph);
+		Item& it = Item(n, circle, 0U, &material).add(scene.m_graph);
 		node = &n;
 
-		batch = &gfx::batches(scene).add(Batch(it, sizeof(Instance)));
+		batch = &Batch(it, sizeof(Instance)).add(scene.m_graph);
 		it.m_batch = batch;
 
 		span<float> data = { &instances[0].position.x, instances.size() * sizeof(Instance) / sizeof(float) };

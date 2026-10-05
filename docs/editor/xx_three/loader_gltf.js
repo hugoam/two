@@ -29,6 +29,6 @@ if(init) {
     mesh.material.program = three;
     mesh.material.pbr.albedo.texture.reload(app.gfx, true);
     
-    var n = scene.nodes().add(new two.Node3());
-    var i = scene.items().add(new two.Item(n, model));
+    var n = new two.Node3().add(scene.graph);
+    var i = new two.Item(n, model).add(scene.graph);
 }

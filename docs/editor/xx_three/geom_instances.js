@@ -100,12 +100,12 @@ if (init) {
 
     var model = app.gfx.create_model_geo('triangle', geometry);
 
-    var n = scene.nodes().add(new two.Node3());
-    //var it = scene.items().add(new two.Item(n, model, two.ItemFlag.Default | two.ItemFlag.NoCull, material));
-    var it = scene.items().add(new two.Item(n, model, 7683 | 256, material));
+    var n = new two.Node3().add(scene.graph);
+    //var it = new two.Item(n, model, two.ItemFlag.Default | two.ItemFlag.NoCull, material).add(scene.graph);
+    var it = new two.Item(n, model, 7683 | 256, material).add(scene.graph);
     this.node = n;
 
-    var batch = scene.batches().add(new two.Batch(it, 4 * 4 * 4));
+    var batch = new two.Batch(it, 4 * 4 * 4).add(scene.graph);
     it.batch = batch;
     
     batch.cache(instances);

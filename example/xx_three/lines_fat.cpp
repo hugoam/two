@@ -77,13 +77,13 @@ EX(xx_lines_fat)
 
 			const Model& model = app.m_gfx.models().fetch("line");
 
-			Node3& n = gfx::nodes(scene).add(Node3());
-			Item& it = gfx::items(scene).add(Item(n, model, 0U, material));
+			Node3& n = Node3().add(scene.m_graph);
+			Item& it = Item(n, model, 0U, material).add(scene.m_graph);
 #if !CACHE
-			batch = &gfx::batches(scene).add(Batch(it, sizeof(Lines::Segment)));
+			batch = &Batch(it, sizeof(Lines::Segment)).add(scene.m_graph);
 			it.m_batch = batch;
 #else
-			Batch& batch = gfx::batches(scene).add(Batch(it, sizeof(Lines::Segment)));
+			Batch& batch = Batch(it, sizeof(Lines::Segment)).add(scene.m_graph);
 			it.m_batch = &batch;
 #endif
 
@@ -100,8 +100,8 @@ EX(xx_lines_fat)
 			Model& model = app.m_gfx.create_model("lines");
 			lines.write(*model.m_items[0].m_mesh);
 
-			Node3& n = gfx::nodes(scene).add(Node3());
-			Item& it = gfx::items(scene).add(Item(n, model, 0U, material));
+			Node3& n = Node3().add(scene.m_graph);
+			Item& it = Item(n, model, 0U, material).add(scene.m_graph);
 #endif
 
 	}

@@ -29,8 +29,8 @@ if(init) {
 
     //lights
 
-    var ln = scene.nodes().add(new two.Node3());
-    var l = scene.lights().add(new two.Light(ln, two.LightType.Point, false, two.rgb(0xffffff), 2.0, 0.0));
+    var ln = new two.Node3().add(scene.graph);
+    var l = new two.Light(ln, two.LightType.Point, false, two.rgb(0xffffff), 2.0, 0.0).add(scene.graph);
     //light = &ln;
 
     var phong = app.gfx.programs.file('pbr/phong');
@@ -57,13 +57,13 @@ if(init) {
     var model = app.gfx.models.file('WaltHead');
 
     var zeroq = new two.quat(new two.vec3(0.0));
-    var n0 = scene.nodes().add(new two.Node3(new two.vec3(0.0, -500.0, 0.0), zeroq, new two.vec3(15.0)));
-    scene.items().add(new two.Item(n0, model, 0, material1));
+    var n0 = new two.Node3(new two.vec3(0.0, -500.0, 0.0), zeroq, new two.vec3(15.0)).add(scene.graph);
+    new two.Item(n0, model, 0, material1).add(scene.graph);
 
-    var n1 = scene.nodes().add(new two.Node3(new two.vec3(-900.0, -500.0, 0.0), zeroq, new two.vec3(15.0)));
-    scene.items().add(new two.Item(n1, model, 0, material2));
+    var n1 = new two.Node3(new two.vec3(-900.0, -500.0, 0.0), zeroq, new two.vec3(15.0)).add(scene.graph);
+    new two.Item(n1, model, 0, material2).add(scene.graph);
 
-    var n2 = scene.nodes().add(new two.Node3(new two.vec3(900.0, -500.0, 0.0), zeroq, new two.vec3(15.0)));
-    scene.items().add(new two.Item(n2, model, 0, material3));
+    var n2 = new two.Node3(new two.vec3(900.0, -500.0, 0.0), zeroq, new two.vec3(15.0)).add(scene.graph);
+    new two.Item(n2, model, 0, material3).add(scene.graph);
 }
 

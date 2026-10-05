@@ -37,8 +37,8 @@ if(init) {
         
         var p = new two.vec3(Math.random() * 10000.0 - 5000.0, Math.random() * 10000.0 - 5000.0, Math.random() * 10000.0 - 5000.0);
         var s = new two.vec3(Math.random() * 3.0 + 1.0);
-        var n = scene.nodes().add(new two.Node3(p, zeroq, s));
-        scene.items().add(new two.Item(n, sphere, 0, material));
+        var n = new two.Node3(p, zeroq, s).add(scene.graph);
+        new two.Item(n, sphere, 0, material).add(scene.graph);
 
         this.spheres.push({ p: p, s: s, node: n });
     }

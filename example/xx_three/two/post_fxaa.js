@@ -463,10 +463,10 @@ if(init)
     env.skylight.ground = two.rgb(0x444444);
 
     var dir = two.look_dir(new two.vec3(-3.0, 1.0, -1.0)); // -3000, 1000, -1000
-    var n = scene.nodes().add(new two.Node3(new two.vec3(0.0), dir));
-    var light = scene.lights().add(new two.Light(n, two.LightType.Direct, false, two.rgb(0xffffff), 0.8));
+    var n = new two.Node3(new two.vec3(0.0), dir).add(scene.graph);
+    var light = new two.Light(n, two.LightType.Direct, false, two.rgb(0xffffff), 0.8).add(scene.graph);
 
-    var group = scene.nodes().add(new two.Node3());
+    var group = new two.Node3().add(scene.graph);
     this.node = group;
 
     //var geometry = app.gfx.shape(new two.Sphere(10.0));
@@ -486,8 +486,8 @@ if(init)
         var a = new two.vec3(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
         var s = new two.vec3(Math.random() * 2.0 + 1.0);
 
-        var n = scene.nodes().add(new two.Node3(p, new two.quat(a), s));
-        scene.items().add(new two.Item(n, geometry, 0, material));
+        var n = new two.Node3(p, new two.quat(a), s).add(scene.graph);
+        new two.Item(n, geometry, 0, material).add(scene.graph);
         this.nodes.push({ p: p, a: a, s: s, node: n });
     }
 
