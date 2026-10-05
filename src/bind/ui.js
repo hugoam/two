@@ -1179,10 +1179,9 @@ Text.prototype["__destroy"] = Text.prototype.__destroy = function() {
 };
 // TextEdit
 function TextEdit() { throw "cannot construct a TextEdit, no constructor in IDL" }
-TextEdit.prototype = Object.create(Widget.prototype);
+TextEdit.prototype = Object.create(WrapperObject.prototype);
 TextEdit.prototype.constructor = TextEdit;
 TextEdit.prototype.__class = TextEdit;
-TextEdit.__base = Widget;
 TextEdit.__cache = {};
 Module['TextEdit'] = TextEdit;
 TextEdit.prototype["__destroy"] = TextEdit.prototype.__destroy = function() {

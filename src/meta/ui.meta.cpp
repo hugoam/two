@@ -1086,8 +1086,6 @@ namespace two
 		Type& t = type<two::TextEdit>();
 		static Meta meta = { t, &namspc({ "two" }), "TextEdit", sizeof(two::TextEdit), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<two::Widget>() };
-		static size_t bases_offsets[] = { base_offset<two::TextEdit, two::Widget>() };
 		// defaults
 		// default constructor
 		// copy constructor
@@ -1095,7 +1093,7 @@ namespace two
 		// members
 		// methods
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
 	// two::NodeConnection
 	{

@@ -8,10 +8,10 @@ module two.ui;
 
 namespace two
 {
-	TextEdit::TextEdit(Widget* parent, bool editor, string allowed_chars)
-		: Widget(parent)
+	TextEdit::TextEdit(Widget& self, bool editor, string allowed_chars)
+		: m_self(&self)
 		, m_editor(editor)
-		, m_text(m_frame)
+		, m_text(self.m_frame)
 		, m_string(m_text.m_text)
 		, m_dirty(0, uint(m_string.size()))
 		, m_allowed_chars(allowed_chars)
@@ -24,7 +24,7 @@ namespace two
 
 	size_t TextEdit::visible_lines() const
 	{
-		const Frame& scroll_frame = m_frame;
+		const Frame& scroll_frame = m_self->m_frame;
 		float height = scroll_frame.m_size.y - 20.0f;
 		return size_t(floor(height / m_text.line_height()));
 	}
@@ -35,7 +35,7 @@ namespace two
 		const int digits = count_digits(int(m_text.m_text_rows.size()));
 		const vec2 offset = { m_text.line_height() * float(digits) * 0.7f, 0.f };
 
-		return offset + m_text.compute_text_size() + rect_sum(m_frame.d_inkstyle->m_padding);
+		return offset + m_text.compute_text_size() + rect_sum(m_self->m_frame.d_inkstyle->m_padding);
 	}
 
 	void TextEdit::update_style()
@@ -51,7 +51,7 @@ namespace two
 		auto count_digits = [](int number) { int digits = 0; do { number /= 10; digits++; } while (number != 0); return digits; };
 		int digits = count_digits(int(m_text.m_text_rows.size()));
 
-		vec2 padding = floor(m_frame.d_inkstyle->m_padding.pos);
+		vec2 padding = floor(m_self->m_frame.d_inkstyle->m_padding.pos);
 		if(m_editor)
 			m_text_offset = padding + vec2(m_text.line_height() * float(digits) * 0.7f, 0.f);
 		else
@@ -155,7 +155,7 @@ namespace two
 		if(m_completing)
 			m_completing = false;
 		else
-			this->yield_focus();
+			m_self->yield_focus();
 	}
 
 	void TextEdit::erase_selected(Action& action)
@@ -228,7 +228,7 @@ namespace two
 
 	void TextEdit::copy()
 	{
-		Clipboard& clipboard = this->ui_window().m_clipboard;
+		Clipboard& clipboard = m_self->ui_window().m_clipboard;
 		if(has_selection())
 			clipboard = { selected_text(), false };
 		else
@@ -251,7 +251,7 @@ namespace two
 
 	void TextEdit::paste()
 	{
-		Clipboard& clipboard = this->ui_window().m_clipboard;
+		Clipboard& clipboard = m_self->ui_window().m_clipboard;
 		if(clipboard.m_text.empty()) return;
 
 		CommitAction([&](Action& action)
@@ -386,18 +386,18 @@ namespace two
 
 		EventType event_focus = m_focus_mode == TextFocusMode::Press ? EventType::Pressed
 																	 : EventType::Stroked;
-		if(!this->focused())
-			if(MouseEvent event = this->mouse_event(DeviceType::MouseLeft, event_focus, InputMod::None, false))
+		if(!m_self->focused())
+			if(MouseEvent event = m_self->mouse_event(DeviceType::MouseLeft, event_focus, InputMod::None, false))
 			{
-				take_focus();
+				m_self->take_focus();
 				this->cursor(0);
 			}
 
-		bool shift = this->ui().m_keyboard.m_shift;
-		bool ctrl = this->ui().m_keyboard.m_ctrl;
-		bool alt = this->ui().m_keyboard.m_alt;
+		bool shift = m_self->ui().m_keyboard.m_shift;
+		bool ctrl = m_self->ui().m_keyboard.m_ctrl;
+		bool alt = m_self->ui().m_keyboard.m_alt;
 		
-		if(MouseEvent event = this->mouse_event(DeviceType::Mouse, EventType::Heartbeat))
+		if(MouseEvent event = m_self->mouse_event(DeviceType::Mouse, EventType::Heartbeat))
 		{
 			size_t index = m_text.char_at(event.m_relative - m_text_offset);
 			m_hovered_word = word_at(m_string, index);
@@ -407,66 +407,66 @@ namespace two
 				m_hovered_word_rect = { m_hovered_word_rect.pos + m_text_offset, m_hovered_word_rect.size };
 			}
 
-			this->ui().m_cursor_style = &ui::cursor_styles().caret;
+			m_self->ui().m_cursor_style = &ui::cursor_styles().caret;
 		}
 		
-		if(!m_completing && !ctrl && !alt && this->key_stroke(Key::Up))
+		if(!m_completing && !ctrl && !alt && m_self->key_stroke(Key::Up))
 			move_up(shift);
-		else if(!m_completing && !ctrl && !alt && this->key_stroke(Key::Down))
+		else if(!m_completing && !ctrl && !alt && m_self->key_stroke(Key::Down))
 			move_down(shift);
-		else if(!alt && this->key_stroke(Key::Left))
+		else if(!alt && m_self->key_stroke(Key::Left))
 			move_left(1U, shift, ctrl);
-		else if(!alt && this->key_stroke(Key::Right))
+		else if(!alt && m_self->key_stroke(Key::Right))
 			move_right(1U, shift, ctrl);
-		else if(!alt && this->key_stroke(Key::PageUp))
+		else if(!alt && m_self->key_stroke(Key::PageUp))
 			move_page_up(shift);
-		else if(!alt && this->key_stroke(Key::PageDown))
+		else if(!alt && m_self->key_stroke(Key::PageDown))
 			move_page_down(shift);
-		else if(ctrl && !alt && this->key_stroke(Key::Home))
+		else if(ctrl && !alt && m_self->key_stroke(Key::Home))
 			move_top(shift);
-		else if(ctrl && !alt && this->key_stroke(Key::End))
+		else if(ctrl && !alt && m_self->key_stroke(Key::End))
 			move_bottom(shift);
-		else if(!ctrl && !alt && this->key_stroke(Key::Home))
+		else if(!ctrl && !alt && m_self->key_stroke(Key::Home))
 			move_home(shift);
-		else if(!ctrl && !alt && this->key_stroke(Key::End))
+		else if(!ctrl && !alt && m_self->key_stroke(Key::End))
 			move_end(shift);
-		else if(!m_read_only && this->key_stroke(Key::Delete))
+		else if(!m_read_only && m_self->key_stroke(Key::Delete))
 			erase();
-		else if(!m_read_only && this->key_stroke(Key::Back))
+		else if(!m_read_only && m_self->key_stroke(Key::Back))
 			backspace();
-		else if(this->key_stroke(Key::Insert, InputMod::None))
+		else if(m_self->key_stroke(Key::Insert, InputMod::None))
 			m_selection.m_insert_mode = !m_selection.m_insert_mode;
-		else if(this->key_stroke(Key::Insert, InputMod::Ctrl)
-			 || this->char_stroke(Key::C, InputMod::Ctrl))
+		else if(m_self->key_stroke(Key::Insert, InputMod::Ctrl)
+			 || m_self->char_stroke(Key::C, InputMod::Ctrl))
 			copy();
-		else if(!m_read_only && (this->key_stroke(Key::Insert, InputMod::Shift)
-							  || this->char_stroke(Key::V, InputMod::Ctrl)))
+		else if(!m_read_only && (m_self->key_stroke(Key::Insert, InputMod::Shift)
+							  || m_self->char_stroke(Key::V, InputMod::Ctrl)))
 			paste();
-		else if(this->char_stroke(Key::X, InputMod::Ctrl)
-			 || this->key_stroke(Key::Delete, InputMod::Shift))
+		else if(m_self->char_stroke(Key::X, InputMod::Ctrl)
+			 || m_self->key_stroke(Key::Delete, InputMod::Shift))
 			cut();
-		else if(this->char_stroke(Key::A, InputMod::Ctrl))
+		else if(m_self->char_stroke(Key::A, InputMod::Ctrl))
 			select_all();
-		else if(key_stroke(Key::Return))
+		else if(m_self->key_stroke(Key::Return))
 			enter();
-		else if(key_stroke(Key::Escape))
+		else if(m_self->key_stroke(Key::Escape))
 			escape();
-		else if(key_stroke(Key::Tab) && !m_completing)
+		else if(m_self->key_stroke(Key::Tab) && !m_completing)
 			insert(string(m_tab_size, ' '));
 		else if(!m_read_only && (!ctrl || alt))
 		{
-			KeyEvent stroke = key_stroke(Key::Unassigned);
+			KeyEvent stroke = m_self->key_stroke(Key::Unassigned);
 			if(stroke)
 				insert(stroke.m_char);
 		}
 		
-		if(!m_read_only && (this->char_stroke(Key::Z, InputMod::Ctrl)
-						 || this->key_stroke(Key::Back, InputMod::Alt)))
+		if(!m_read_only && (m_self->char_stroke(Key::Z, InputMod::Ctrl)
+						 || m_self->key_stroke(Key::Back, InputMod::Alt)))
 			undo();
-		if(!m_read_only && this->char_stroke(Key::Y, InputMod::Ctrl))
+		if(!m_read_only && m_self->char_stroke(Key::Y, InputMod::Ctrl))
 			redo();
 
-		Clipboard& clipboard = this->ui_window().m_clipboard;
+		Clipboard& clipboard = m_self->ui_window().m_clipboard;
 		if(clipboard.m_pasted.size() > 0)
 		{
 			clipboard.m_text = pop(clipboard.m_pasted);
@@ -474,30 +474,30 @@ namespace two
 			this->paste();
 		}
 
-		if(this->focused() && !shift && !alt)
+		if(m_self->focused() && !shift && !alt)
 		{
-			if(MouseEvent event = this->mouse_event(DeviceType::MouseLeft, EventType::Pressed))
+			if(MouseEvent event = m_self->mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 			{
 				m_select_from = m_text.cursor_at(event.m_relative - m_text_offset);
 				this->cursor(m_select_from, ctrl);
 			}
-			if(MouseEvent event = this->mouse_event(DeviceType::MouseLeft, EventType::Pressed, InputMod::Ctrl))
+			if(MouseEvent event = m_self->mouse_event(DeviceType::MouseLeft, EventType::Pressed, InputMod::Ctrl))
 			{
 				m_select_from = m_text.cursor_at(event.m_relative - m_text_offset);
 				m_word_selection_mode = true;
 				this->cursor(m_select_from, true);
 			}
-			if(MouseEvent event = this->mouse_event(DeviceType::MouseLeft, EventType::Released))
+			if(MouseEvent event = m_self->mouse_event(DeviceType::MouseLeft, EventType::Released))
 			{
-				if(!focused())
+				if(!m_self->focused())
 					this->select_all();
 			}
-			if(MouseEvent event = this->mouse_event(DeviceType::MouseLeft, EventType::DoubleStroked))
+			if(MouseEvent event = m_self->mouse_event(DeviceType::MouseLeft, EventType::DoubleStroked))
 			{
 				TextCursor cursor = m_text.cursor_at(event.m_relative - m_text_offset);
 				this->cursor(cursor, true);
 			}
-			if(MouseEvent event = this->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+			if(MouseEvent event = m_self->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 			{
 				TextCursor cursor = m_text.cursor_at(event.m_relative - m_text_offset);
 				this->select(m_select_from, cursor, m_word_selection_mode);
@@ -505,15 +505,15 @@ namespace two
 			}
 		}
 
-		if(!this->mouse_event(DeviceType::MouseLeft, EventType::Pressed))
+		if(!m_self->mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 			m_word_selection_mode = false;
 
-		m_frame.layer().setForceRedraw(); // TextEdit must redraw each frame
+		m_self->m_frame.layer().setForceRedraw(); // TextEdit must redraw each frame
 	}
 
 	void TextEdit::update_scroll(Frame& frame, Frame& content)
 	{
-		if(MouseEvent event = this->mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+		if(MouseEvent event = m_self->mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
 			float overflow = content.m_size.y - frame.m_size.y;
 			const float scrolled = content.m_position.y + event.m_deltaZ * 22.f * 3.f;
@@ -533,16 +533,16 @@ namespace two
 			recolorize();
 
 		if(m_editor)
-			vg.draw_rect(vec4(vec2(0.f), m_frame.m_size), palette_paint(m_palette, Text::Background));
+			vg.draw_rect(vec4(vec2(0.f), m_self->m_frame.m_size), palette_paint(m_palette, Text::Background));
 		//else
-		//	vg.draw_background(m_frame, { m_frame.m_position, m_frame.m_size }, {}, {});
+		//	vg.draw_background(m_self->m_frame, { m_self->m_frame.m_position, m_self->m_frame.m_size }, {}, {});
 
-		const vec2 padding = floor(m_frame.d_inkstyle->m_padding.pos);
+		const vec2 padding = floor(m_self->m_frame.d_inkstyle->m_padding.pos);
 
-		if(this->focused())
-			draw_text_selection(vg, m_frame, padding, m_text_offset, m_text, m_selection, m_palette, m_editor);
+		if(m_self->focused())
+			draw_text_selection(vg, m_self->m_frame, padding, m_text_offset, m_text, m_selection, m_palette, m_editor);
 		if(m_editor)
-			draw_editor_text(vg, m_frame, padding, m_text_offset, m_text, m_palette, this->visible_range());
+			draw_editor_text(vg, m_self->m_frame, padding, m_text_offset, m_text, m_palette, this->visible_range());
 		else
 			draw_text(vg, padding, m_text);
 	}
@@ -550,14 +550,14 @@ namespace two
 	// the vertical range of the text inside the frame clipping it, e.g the scroll zone of an editor: the rows out of it are not drawn
 	vec2 TextEdit::visible_range()
 	{
-		Frame* clip = m_frame.d_parent;
+		Frame* clip = m_self->m_frame.d_parent;
 		while(clip && !(clip->d_layout && clip->d_layout->m_clipping == Clip::Clip))
 			clip = clip->d_parent;
 		if(!clip)
 			return { -FLT_MAX, FLT_MAX };
 
-		const float top = m_frame.integrate_position(vec2(0.f), *clip).y;
-		const float bottom = m_frame.integrate_position(clip->m_size, *clip).y;
+		const float top = m_self->m_frame.integrate_position(vec2(0.f), *clip).y;
+		const float bottom = m_self->m_frame.integrate_position(clip->m_size, *clip).y;
 		return { top, bottom };
 	}
 
@@ -716,24 +716,24 @@ namespace ui
 
 	TextEdit& text_box(NodeKey id, Widget& parent, Style& style, string& text, bool editor, size_t lines, const string& allowed_chars)
 	{
-		TextEdit& self = parent.sub<TextEdit, bool, string>(id, editor, allowed_chars);
-		self.init(style);
+		Widget& self = widget(id, parent, style);
+		TextEdit& edit = self.state<TextEdit>(self, editor, allowed_chars);
 
 		if(lines > 0)
-			self.m_text.set_lines(lines);
+			edit.m_text.set_lines(lines);
 
-		self.update_style();
+		edit.update_style();
 
-		self.set_text(text);
-		self.update();
-		text = self.m_string;
+		edit.set_text(text);
+		edit.update();
+		text = edit.m_string;
 
-		const vec2 size = self.frame_size();
+		const vec2 size = edit.frame_size();
 		ui::dummy(key(), self, size);
 
-		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(frame); UNUSED(rect); self.render(vg); };
+		self.m_custom_draw = [&edit](const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(frame); UNUSED(rect); edit.render(vg); };
 
-		return self;
+		return edit;
 	}
 
 	TextEdit& type_in(NodeKey id, Widget& parent, string& text, size_t lines, const string& allowed_chars)
@@ -750,15 +750,15 @@ namespace ui
 
 		static uint32_t current = 0;
 
-		const bool selected = ui::popdown(key(), edit, completions, current, popup_position, PopupFlags::None); //auto_complete_style
+		const bool selected = ui::popdown(key(), *edit.m_self, completions, current, popup_position, PopupFlags::None); //auto_complete_style
 
-		if(edit.key_stroke(Key::Up))
+		if(edit.m_self->key_stroke(Key::Up))
 			current = max(current - 1, uint32_t(0));
 
-		if(edit.key_stroke(Key::Down))
+		if(edit.m_self->key_stroke(Key::Down))
 			current = min(current + 1, uint32_t(completions.size()) - 1);
 
-		if(edit.key_stroke(Key::Tab) || selected)
+		if(edit.m_self->key_stroke(Key::Tab) || selected)
 		{
 			edit.insert(string(completions[current]).substr(current_word.size()));
 			edit.m_text.break_text_rows();

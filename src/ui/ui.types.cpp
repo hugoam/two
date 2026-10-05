@@ -43,7 +43,7 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::TextSelection>() { static Type ty("TextSelection", sizeof(two::TextSelection)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::TextMarker>() { static Type ty("TextMarker", sizeof(two::TextMarker)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Text>() { static Type ty("Text", sizeof(two::Text)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::TextEdit>() { static Type ty("TextEdit", type<two::Widget>(), sizeof(two::TextEdit)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::TextEdit>() { static Type ty("TextEdit", sizeof(two::TextEdit)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::NodeConnection>() { static Type ty("NodeConnection", sizeof(two::NodeConnection)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Vg>() { static Type ty("Vg", sizeof(two::Vg)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Clipboard>() { static Type ty("Clipboard", sizeof(two::Clipboard)); return ty; }

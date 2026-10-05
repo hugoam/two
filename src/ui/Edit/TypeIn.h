@@ -40,7 +40,8 @@ namespace two
 		Click
 	};
 
-	export_ class refl_ TWO_UI_EXPORT TextEdit : public Widget
+	// the text being edited by a text box, kept in the state of its widget
+	export_ class refl_ TWO_UI_EXPORT TextEdit : public NodeState
 	{
 	public:
 		class Action
@@ -64,9 +65,10 @@ namespace two
 		using Callback = string(*)(const string&);
 
 	public:
-		TextEdit(Widget* parent, bool editor, string allowed_chars);
+		TextEdit(Widget& self, bool editor, string allowed_chars);
 		~TextEdit();
 
+		Widget* m_self;
 		bool m_editor;
 		Text m_text;
 		TextSelection m_selection;
