@@ -898,8 +898,10 @@ namespace two
 
 			for(auto& e : module.m_enums)
 				parse_enum(module, *e);
-			for(auto& c : module.m_classes)
-				parse_class(module, *c);
+			// parsing a class can instantiate a template type, which adds a class already parsed: iterate by index over the declared ones
+			const size_t num_classes = module.m_classes.size();
+			for(size_t i = 0; i < num_classes; ++i)
+				parse_class(module, *module.m_classes[i]);
 			for(auto& c : module.m_sequences)
 				parse_sequence(module, *c);
 			for(auto& f : module.m_functions)
