@@ -87,6 +87,7 @@ function toolchain(_buildDir, _libDir)
 			{ "tvos-simulator",  "tvOS - Simulator"           },
 			{ "mingw-gcc",       "MinGW"                      },
 			{ "mingw-clang",     "MinGW (clang compiler)"     },
+			{ "windows-clang",   "Windows (clang compiler, MSVC ABI)" },
 			{ "osx-x64",         "OSX - x64"                  },
 			{ "osx-arm64",       "OSX - ARM64"                },
 			{ "orbis",           "Orbis"                      },
@@ -379,6 +380,13 @@ function toolchain(_buildDir, _libDir)
 --			premake.gcc.ar   = "$(CLANG)/bin/llvm-ar"
 --			premake.gcc.llvm = true
 			location (path.join(_buildDir, "projects", _ACTION .. "-mingw-clang"))
+
+		elseif "windows-clang" == _OPTIONS["gcc"] then
+			-- the clang shipped with Visual Studio, building against the MSVC standard library and the Windows SDK
+			premake.gcc.cc   = "clang"
+			premake.gcc.cxx  = "clang++"
+			premake.gcc.ar   = "llvm-ar"
+			location (path.join(_buildDir, "projects", _ACTION .. "-windows-clang"))
 
 		elseif "osx-x64"   == _OPTIONS["gcc"]
 			or "osx-arm64" == _OPTIONS["gcc"] then
@@ -722,6 +730,59 @@ function toolchain(_buildDir, _libDir)
 			path.join(_libDir, "lib/win64_mingw-clang"),
 		}
 		buildoptions { "-m64" }
+
+	configuration { "windows-clang" }
+		includedirs { path.join(bxDir, "include/compat/msvc") }
+		defines {
+			"WIN32",
+			"_WIN32",
+			"_HAS_EXCEPTIONS=0",
+			"_SCL_SECURE=0",
+			"_SECURE_SCL=0",
+			"_SCL_SECURE_NO_WARNINGS",
+			"_CRT_SECURE_NO_WARNINGS",
+			"_CRT_SECURE_NO_DEPRECATE",
+		}
+		buildoptions {
+			"-gcodeview",
+		}
+		linkoptions {
+			"-fuse-ld=lld",
+		}
+		-- the libraries linked by default in the vs projects
+		links {
+			"kernel32",
+			"user32",
+			"gdi32",
+			"winspool",
+			"comdlg32",
+			"advapi32",
+			"shell32",
+			"ole32",
+			"oleaut32",
+			"uuid",
+		}
+		-- the archive and link commands of the big projects exceed the length limit of the command line
+		flags {
+			"UseObjectResponseFile",
+			"UseLDResponseFile",
+		}
+
+	-- the runtime of the vs projects, which have no StaticRuntime flag
+	configuration { "windows-clang", "Debug" }
+		buildoptions { "-fms-runtime-lib=dll_dbg" }
+		linkoptions { "-fms-runtime-lib=dll_dbg" }
+
+	configuration { "windows-clang", "Release" }
+		buildoptions { "-fms-runtime-lib=dll" }
+		linkoptions { "-fms-runtime-lib=dll" }
+
+	configuration { "windows-clang", "x64" }
+		defines { "_WIN64" }
+		flags { "EnableAVX" }
+		targetdir (path.join(_buildDir, "win64_clang/bin"))
+		objdir (path.join(_buildDir, "win64_clang/obj"))
+		libdirs { path.join(_libDir, "lib/win64_clang") }
 
 	configuration { "linux-*" }
 		includedirs { path.join(bxDir, "include/compat/linux") }

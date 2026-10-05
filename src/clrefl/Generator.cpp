@@ -3,7 +3,7 @@
 #include <cctype>
 #include <cstdio>
 
-#if defined _MSC_VER
+#if defined _MSC_VER && !defined __clang__
 import <string>;
 import <map>;
 #else

@@ -104,13 +104,13 @@ function two_binary_config()
             "-s USE_WEBGPU=1",
         }
 
-    configuration { "not osx", "not linux", "not wasm*" }
+    configuration { "not osx", "not linux", "not windows-clang", "not wasm*" }
         defines {
             "TWO_RESOURCE_PATH=\"" .. path.join(TWO_DIR, "data") .. "\"",
         }
 
-    -- the defines are passed through a shell
-    configuration { "osx or linux", "not wasm*" }
+    -- the defines are passed through a shell, or parsed by the C runtime on Windows
+    configuration { "osx or linux or windows-clang", "not wasm*" }
         defines {
             "TWO_RESOURCE_PATH=\\\"" .. path.join(TWO_DIR, "data") .. "\\\"",
         }

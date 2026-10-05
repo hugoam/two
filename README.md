@@ -41,6 +41,21 @@ The build instructions for linux and gcc look like:
 - for osx (make): `bin/darwin/genie --gcc=osx gmake`
 - for osx (xcode): `bin/darwin/genie --xcode=osx xcode9`
 - for windows (visual studio): `../bx/tools/bin/windows/genie.exe vs2026`
+- for windows (clang + ninja), with the clang and ninja shipped with Visual Studio, from a shell where they are in the `PATH`:
+  - `cd scripts`
+  - `genie --gcc=windows-clang ninja`
+  - `ninja -C ../build/projects/ninja-windows-clang/debug64 all`
+
+The ninja generator builds the C++20 modules, it needs the GENie of the [ninja-c++-modules](https://github.com/hugoam/GENie/tree/ninja-c++-modules) branch, and ninja 1.10 or later.
+
+### language server
+The `windows-clang` ninja projects provide the compilation database for [clangd](https://clangd.llvm.org/), which `scripts/compdb.sh` generates in `build/projects/ninja-windows-clang/debug64/compile_commands.json`, where the `.clangd` file points clangd to:
+- `cd scripts`
+- `genie --gcc=windows-clang ninja`
+- `sh compdb.sh`
+
+The ninja build itself is not needed, but the database must be generated again when the structure of the build changes (new files, projects or flags). The third party sources are left out of it.  
+clangd needs the `--experimental-modules-support` flag for the C++20 modules, which can be passed with the `CLANGD_FLAGS` environment variable.
 
 ### quickstart
 This is the minimal sample code you need to run a two application

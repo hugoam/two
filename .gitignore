@@ -3,3 +3,4 @@ data/shaders/
 !placeholder.txt
 bin/clrefl
 bin/clrefl.exe
+.claude/settings.local.json

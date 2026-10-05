@@ -3,7 +3,7 @@
 #include <noise/Forward.h>
 
 #ifndef TWO_META_GENERATOR
-#if defined _MSC_VER
+#if defined _MSC_VER && !defined __clang__
 export_ class TWO_NOISE_EXPORT FastNoise;
 #include <FastNoise.h>
 #else

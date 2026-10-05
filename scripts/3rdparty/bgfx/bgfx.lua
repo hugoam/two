@@ -47,6 +47,12 @@ project "bgfx"
             "BGFX_CONFIG_RENDERER_OPENGL=31",
         }
 
+    -- the bgfx script only sets up the DirectX headers for the vs and mingw toolchains
+    configuration { "windows-clang" }
+        includedirs {
+            path.join(BGFX_DIR, "3rdparty/directx-headers/include/directx"),
+        }
+
 if not _OPTIONS["webgpu"] then
     configuration { "wasm*" }
         defines {
