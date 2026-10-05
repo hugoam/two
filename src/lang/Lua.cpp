@@ -492,7 +492,9 @@ namespace two
 	{
 		const Member& member = val<Member>(userdata(state, -1));
 		Ref object = userdata(state, object_index);
-		Var value = Var(member.m_default_value);
+		Var value = Var(member.m_default_value
+			? member.m_default_value
+			: meta(*member.m_type).m_empty_var);
 		read_value(state, value_index, value);
 		member.cast_set(object, value);
 		return 0;
