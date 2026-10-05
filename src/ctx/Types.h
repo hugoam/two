@@ -19,10 +19,10 @@ namespace two
     
     template <> TWO_CTX_EXPORT Type& type<two::RenderSystem>();
     template <> TWO_CTX_EXPORT Type& type<two::Context>();
+    template <> TWO_CTX_EXPORT Type& type<two::ControlId>();
     template <> TWO_CTX_EXPORT Type& type<two::InputEvent>();
     template <> TWO_CTX_EXPORT Type& type<two::MouseEvent>();
     template <> TWO_CTX_EXPORT Type& type<two::KeyEvent>();
-    template <> TWO_CTX_EXPORT Type& type<two::ControlNode>();
     template <> TWO_CTX_EXPORT Type& type<two::Keyboard>();
     template <> TWO_CTX_EXPORT Type& type<two::Mouse>();
 }

@@ -104,7 +104,7 @@ namespace two
 		return m_events.back();
 	}
 
-	MouseEvent& Mouse::dispatch_secondary(MouseEvent input_event, ControlNode* pressed, vec2 pressed_pos, ControlNode* target)
+	MouseEvent& Mouse::dispatch_secondary(MouseEvent input_event, ControlId pressed, vec2 pressed_pos, ControlId target)
 	{
 		input_event.m_pressed = pressed_pos;
 		input_event.m_target = target;
@@ -147,12 +147,12 @@ namespace two
 		event.m_deltaZ = amount;
 	}
 
-	void Mouse::fix_press(ControlNode& node)
+	void Mouse::fix_press(ControlId node)
 	{
 		// only the buttons currently pressed are given to the node
 		for(MouseButton& button : m_buttons)
 			if(button.m_pressed)
-				button.m_pressed = &node;
+				button.m_pressed = node;
 	}
 
 	MouseButton::MouseButton(Mouse& mouse, DeviceType deviceType)
@@ -183,7 +183,7 @@ namespace two
 		else
 			this->click(event);
 
-		m_pressed = nullptr;
+		m_pressed = {};
 	}
 
 	void MouseButton::drag_start(MouseEvent& mouse_event)
@@ -217,7 +217,7 @@ namespace two
 	}
 
 	InputContext::InputContext()
-		: EventDispatcher(this)
+		: EventDispatcher()
 		, m_keyboard(*this)
 		, m_mouse(*this, m_keyboard)
 	{}
@@ -238,35 +238,14 @@ namespace two
 		EventDispatcher::update();
 	}
 
-	ControlNode* InputContext::control_event(InputEvent& event)
+	ControlId InputContext::route(InputEvent& event)
 	{
 		UNUSED(event);
-		return this;
+		return ControlId(0);
 	}
 
-	void InputContext::receive_event(InputEvent& inputEvent)
+	void InputContext::receive(InputEvent& event, ControlId receiver)
 	{
-		UNUSED(inputEvent);
-	}
-
-	KeyEvent ControlNode::key_event(Key code, EventType event_type, InputMod modifier)
-	{
-		if(!m_events) return KeyEvent();
-		KeyEvent* event = static_cast<KeyEvent*>(m_events->m_keyed_events[DeviceType::Keyboard][event_type][int(code)]);
-		return event && fits_modifier(event->m_modifiers, modifier) ? *event : KeyEvent();
-	}
-
-	MouseEvent ControlNode::mouse_event(DeviceType device, EventType event_type, InputMod modifier, bool consume)
-	{
-		if(!m_events) return MouseEvent();
-		MouseEvent* event = static_cast<MouseEvent*>(m_events->m_events[device][event_type]);
-		if(event && fits_modifier(event->m_modifiers, modifier))
-		{
-			MouseEvent result = *event;;
-			if(consume)
-				event->consume(*this);
-			return result;
-		}
-		return MouseEvent();
+		UNUSED(event); UNUSED(receiver);
 	}
 }

@@ -10,7 +10,7 @@ namespace two
 {
 	Ui::Ui(UiWindow& window)
 		: Widget(static_cast<PooledGraph<Widget>&>(*this))
-		, EventDispatcher(this)
+		, EventDispatcher()
 		, m_frames(this->add_array<Frame>())
 		, m_window(window)
 		, m_keyboard(*this)
@@ -23,8 +23,11 @@ namespace two
 			this->update_style(true);
 	}
 
+	// the widgets go before the dispatcher and the devices they refer to when they're released
 	Ui::~Ui()
-	{}
+	{
+		Widget::clear();
+	}
 
 	Widget& Ui::begin()
 	{
@@ -33,7 +36,7 @@ namespace two
 
 	void Ui::input_frame()
 	{
-		Widget* hovered = static_cast<Widget*>(m_mouse.heartbeat().m_receiver);
+		Widget* hovered = &this->control(m_mouse.heartbeat().m_receiver);
 		if(hovered != m_hovered)
 		{
 			m_tooltip_clock.step();
@@ -54,6 +57,42 @@ namespace two
 		m_cursor_style = &ui::cursor_styles().cursor;
 
 		this->relayout();
+	}
+
+	ControlId Ui::route(InputEvent& event)
+	{
+		static_assert(ControlId::none == PooledGraph<Widget>::none);
+
+		Widget* widget = this;
+		while(true)
+		{
+			widget->transform_event(event);
+
+			ModalControl* control = widget->find_state<ModalControl>();
+			if(control && control->m_modal && (control->m_mask & device_mask(event.m_deviceType)) != 0)
+			{
+				widget = &this->control(control->m_modal);
+				continue;
+			}
+
+			if(event.m_deviceType >= DeviceType::Mouse)
+			{
+				Widget* pinned = widget->pinpoint(static_cast<MouseEvent&>(event).m_relative);
+				if(pinned && pinned != widget)
+				{
+					widget = pinned;
+					continue;
+				}
+			}
+
+			return widget->control_id();
+		}
+	}
+
+	void Ui::receive(InputEvent& event, ControlId receiver)
+	{
+		if(event.m_consumer) return;
+		this->control(receiver).transform_event(event);
 	}
 
 	void Ui::clear_events()

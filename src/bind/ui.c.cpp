@@ -816,6 +816,42 @@ extern "C" {
 	void DECL two_Widget_yield_modal_0(two::Widget* self) {
 		self->yield_modal();
 	}
+	two::KeyEvent* DECL two_Widget_key_event_2(two::Widget* self, two::Key code, two::EventType event_type) {
+		static two::KeyEvent temp;
+		return (temp = self->key_event(code, event_type), &temp);
+	}
+	two::KeyEvent* DECL two_Widget_key_event_3(two::Widget* self, two::Key code, two::EventType event_type, two::InputMod modifier) {
+		static two::KeyEvent temp;
+		return (temp = self->key_event(code, event_type, modifier), &temp);
+	}
+	two::KeyEvent* DECL two_Widget_key_stroke_1(two::Widget* self, two::Key code) {
+		static two::KeyEvent temp;
+		return (temp = self->key_stroke(code), &temp);
+	}
+	two::KeyEvent* DECL two_Widget_key_stroke_2(two::Widget* self, two::Key code, two::InputMod modifier) {
+		static two::KeyEvent temp;
+		return (temp = self->key_stroke(code, modifier), &temp);
+	}
+	two::KeyEvent* DECL two_Widget_char_stroke_1(two::Widget* self, two::Key code) {
+		static two::KeyEvent temp;
+		return (temp = self->char_stroke(code), &temp);
+	}
+	two::KeyEvent* DECL two_Widget_char_stroke_2(two::Widget* self, two::Key code, two::InputMod modifier) {
+		static two::KeyEvent temp;
+		return (temp = self->char_stroke(code, modifier), &temp);
+	}
+	two::MouseEvent* DECL two_Widget_mouse_event_2(two::Widget* self, two::DeviceType device, two::EventType event_type) {
+		static two::MouseEvent temp;
+		return (temp = self->mouse_event(device, event_type), &temp);
+	}
+	two::MouseEvent* DECL two_Widget_mouse_event_3(two::Widget* self, two::DeviceType device, two::EventType event_type, two::InputMod modifier) {
+		static two::MouseEvent temp;
+		return (temp = self->mouse_event(device, event_type, modifier), &temp);
+	}
+	two::MouseEvent* DECL two_Widget_mouse_event_4(two::Widget* self, two::DeviceType device, two::EventType event_type, two::InputMod modifier, bool consume) {
+		static two::MouseEvent temp;
+		return (temp = self->mouse_event(device, event_type, modifier, consume), &temp);
+	}
 	two::Frame* DECL two_Widget__get_frame(two::Widget* self) {
 		return &self->frame();
 	}
@@ -898,6 +934,111 @@ extern "C" {
 		self->edit = value;
 	}
 	void DECL two_TextEditHandle__destroy(two::TextEditHandle* self) {
+		delete self;
+	}
+	// NodePlug
+	two::Type* DECL two_NodePlug__type() {
+		return &two::type<two::NodePlug>();
+	}
+	void DECL two_NodePlug__destroy(two::NodePlug* self) {
+		delete self;
+	}
+	// NodePlugHandle
+	two::Type* DECL two_NodePlugHandle__type() {
+		return &two::type<two::NodePlugHandle>();
+	}
+	two::NodePlugHandle* DECL two_NodePlugHandle__construct_0() {
+		return new two::NodePlugHandle();
+	}
+	two::Widget* DECL two_NodePlugHandle__get_self(two::NodePlugHandle* self) {
+		return self->self;
+	}
+	void DECL two_NodePlugHandle__set_self(two::NodePlugHandle* self, two::Widget* value) {
+		self->self = value;
+	}
+	two::NodePlug* DECL two_NodePlugHandle__get_plug(two::NodePlugHandle* self) {
+		return self->plug;
+	}
+	void DECL two_NodePlugHandle__set_plug(two::NodePlugHandle* self, two::NodePlug* value) {
+		self->plug = value;
+	}
+	void DECL two_NodePlugHandle__destroy(two::NodePlugHandle* self) {
+		delete self;
+	}
+	// Node
+	two::Type* DECL two_Node__type() {
+		return &two::type<two::Node>();
+	}
+	two::Widget* DECL two_Node__get_header(two::Node* self) {
+		return self->m_header;
+	}
+	void DECL two_Node__set_header(two::Node* self, two::Widget* value) {
+		self->m_header = value;
+	}
+	two::Widget* DECL two_Node__get_inputs(two::Node* self) {
+		return self->m_inputs;
+	}
+	void DECL two_Node__set_inputs(two::Node* self, two::Widget* value) {
+		self->m_inputs = value;
+	}
+	two::Widget* DECL two_Node__get_outputs(two::Node* self) {
+		return self->m_outputs;
+	}
+	void DECL two_Node__set_outputs(two::Node* self, two::Widget* value) {
+		self->m_outputs = value;
+	}
+	two::Widget* DECL two_Node__get_body(two::Node* self) {
+		return self->m_body;
+	}
+	void DECL two_Node__set_body(two::Node* self, two::Widget* value) {
+		self->m_body = value;
+	}
+	int DECL two_Node__get_order(two::Node* self) {
+		return self->m_order;
+	}
+	void DECL two_Node__set_order(two::Node* self, int value) {
+		self->m_order = value;
+	}
+	void DECL two_Node__destroy(two::Node* self) {
+		delete self;
+	}
+	// CanvasConnect
+	two::Type* DECL two_CanvasConnect__type() {
+		return &two::type<two::CanvasConnect>();
+	}
+	two::CanvasConnect* DECL two_CanvasConnect__construct_0() {
+		return new two::CanvasConnect();
+	}
+	void DECL two_CanvasConnect__destroy(two::CanvasConnect* self) {
+		delete self;
+	}
+	// Canvas
+	two::Type* DECL two_Canvas__type() {
+		return &two::type<two::Canvas>();
+	}
+	void DECL two_Canvas__destroy(two::Canvas* self) {
+		delete self;
+	}
+	// CanvasHandle
+	two::Type* DECL two_CanvasHandle__type() {
+		return &two::type<two::CanvasHandle>();
+	}
+	two::CanvasHandle* DECL two_CanvasHandle__construct_0() {
+		return new two::CanvasHandle();
+	}
+	two::Widget* DECL two_CanvasHandle__get_self(two::CanvasHandle* self) {
+		return self->self;
+	}
+	void DECL two_CanvasHandle__set_self(two::CanvasHandle* self, two::Widget* value) {
+		self->self = value;
+	}
+	two::Canvas* DECL two_CanvasHandle__get_canvas(two::CanvasHandle* self) {
+		return self->canvas;
+	}
+	void DECL two_CanvasHandle__set_canvas(two::CanvasHandle* self, two::Canvas* value) {
+		self->canvas = value;
+	}
+	void DECL two_CanvasHandle__destroy(two::CanvasHandle* self) {
 		delete self;
 	}
 	// NodeConnection
@@ -1061,111 +1202,6 @@ extern "C" {
 		return new two::DockbarHandle();
 	}
 	void DECL two_DockbarHandle__destroy(two::DockbarHandle* self) {
-		delete self;
-	}
-	// NodePlug
-	two::Type* DECL two_NodePlug__type() {
-		return &two::type<two::NodePlug>();
-	}
-	void DECL two_NodePlug__destroy(two::NodePlug* self) {
-		delete self;
-	}
-	// NodePlugHandle
-	two::Type* DECL two_NodePlugHandle__type() {
-		return &two::type<two::NodePlugHandle>();
-	}
-	two::NodePlugHandle* DECL two_NodePlugHandle__construct_0() {
-		return new two::NodePlugHandle();
-	}
-	two::Widget* DECL two_NodePlugHandle__get_self(two::NodePlugHandle* self) {
-		return self->self;
-	}
-	void DECL two_NodePlugHandle__set_self(two::NodePlugHandle* self, two::Widget* value) {
-		self->self = value;
-	}
-	two::NodePlug* DECL two_NodePlugHandle__get_plug(two::NodePlugHandle* self) {
-		return self->plug;
-	}
-	void DECL two_NodePlugHandle__set_plug(two::NodePlugHandle* self, two::NodePlug* value) {
-		self->plug = value;
-	}
-	void DECL two_NodePlugHandle__destroy(two::NodePlugHandle* self) {
-		delete self;
-	}
-	// Node
-	two::Type* DECL two_Node__type() {
-		return &two::type<two::Node>();
-	}
-	two::Widget* DECL two_Node__get_header(two::Node* self) {
-		return self->m_header;
-	}
-	void DECL two_Node__set_header(two::Node* self, two::Widget* value) {
-		self->m_header = value;
-	}
-	two::Widget* DECL two_Node__get_inputs(two::Node* self) {
-		return self->m_inputs;
-	}
-	void DECL two_Node__set_inputs(two::Node* self, two::Widget* value) {
-		self->m_inputs = value;
-	}
-	two::Widget* DECL two_Node__get_outputs(two::Node* self) {
-		return self->m_outputs;
-	}
-	void DECL two_Node__set_outputs(two::Node* self, two::Widget* value) {
-		self->m_outputs = value;
-	}
-	two::Widget* DECL two_Node__get_body(two::Node* self) {
-		return self->m_body;
-	}
-	void DECL two_Node__set_body(two::Node* self, two::Widget* value) {
-		self->m_body = value;
-	}
-	int DECL two_Node__get_order(two::Node* self) {
-		return self->m_order;
-	}
-	void DECL two_Node__set_order(two::Node* self, int value) {
-		self->m_order = value;
-	}
-	void DECL two_Node__destroy(two::Node* self) {
-		delete self;
-	}
-	// CanvasConnect
-	two::Type* DECL two_CanvasConnect__type() {
-		return &two::type<two::CanvasConnect>();
-	}
-	two::CanvasConnect* DECL two_CanvasConnect__construct_0() {
-		return new two::CanvasConnect();
-	}
-	void DECL two_CanvasConnect__destroy(two::CanvasConnect* self) {
-		delete self;
-	}
-	// Canvas
-	two::Type* DECL two_Canvas__type() {
-		return &two::type<two::Canvas>();
-	}
-	void DECL two_Canvas__destroy(two::Canvas* self) {
-		delete self;
-	}
-	// CanvasHandle
-	two::Type* DECL two_CanvasHandle__type() {
-		return &two::type<two::CanvasHandle>();
-	}
-	two::CanvasHandle* DECL two_CanvasHandle__construct_0() {
-		return new two::CanvasHandle();
-	}
-	two::Widget* DECL two_CanvasHandle__get_self(two::CanvasHandle* self) {
-		return self->self;
-	}
-	void DECL two_CanvasHandle__set_self(two::CanvasHandle* self, two::Widget* value) {
-		self->self = value;
-	}
-	two::Canvas* DECL two_CanvasHandle__get_canvas(two::CanvasHandle* self) {
-		return self->canvas;
-	}
-	void DECL two_CanvasHandle__set_canvas(two::CanvasHandle* self, two::Canvas* value) {
-		self->canvas = value;
-	}
-	void DECL two_CanvasHandle__destroy(two::CanvasHandle* self) {
 		delete self;
 	}
 	// Ui

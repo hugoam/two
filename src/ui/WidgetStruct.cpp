@@ -68,19 +68,26 @@ namespace two
 		parent->mark_dirty(DIRTY_LAYOUT);
 	}
 
-	Widget::~Widget()
+	// the widget forgets the events it received, gives its modal control up, and the presses it holds back to the root, unless another widget took them over
+	void Widget::release()
 	{
-		if(m_events)
-			m_events->m_control_node = nullptr;
-		if(m_control.m_modal)
+		this->release_layer();
+
+		Ui& ui = this->ui();
+		ui.forget(this->control_id());
+		ModalControl* control = this->find_state<ModalControl>();
+		if(control && control->m_modal)
 			this->set_modal(nullptr, 0);
 		if(this->modal())
 			this->yield_modal();
-		// the press goes back to the root, unless another widget took it over
 		if(this->pressed())
-			for(MouseButton& button : this->ui().m_mouse.m_buttons)
-				if(button.m_pressed == this)
-					button.m_pressed = &this->ui();
+			for(MouseButton& button : ui.m_mouse.m_buttons)
+				if(button.m_pressed == this->control_id())
+					button.m_pressed = ui.control_id();
+	}
+
+	Widget::~Widget()
+	{
 		this->clear();
 		// the nodes are destroyed before their index is freed: the parent is still known
 		if(Widget* parent = this->parent())
@@ -161,28 +168,38 @@ namespace two
 
 	// a modal widget knows the widget it took its modality from, its parent in the control tree, and yields it back to it:
 	// its parents in the widget tree can change, e.g a top node detached from its parent
+	// the modality is a state of the node, created when it's first set: a widget without one has no parent, no modal widget and no mask
+	// a released widget has no states anymore, its modality isn't created again
 	void Widget::set_modal(Widget* widget, uint32_t device_filter)
 	{
-		if(m_control.m_modal)
+		ModalControl* control = this->find_state<ModalControl>();
+		if(control && control->m_modal)
 		{
-			Widget& modal = static_cast<Widget&>(*m_control.m_modal);
+			Widget& modal = this->ui().control(control->m_modal);
 			modal.set_modal(nullptr, 0);
 			modal.disable_state(FOCUSED);
-			modal.m_control.m_parent = nullptr;
+			if(ModalControl* modal_control = modal.find_state<ModalControl>())
+				modal_control->m_parent = {};
 		}
 		if(widget)
 		{
 			widget->enable_state(FOCUSED);
-			widget->m_control.m_parent = this;
+			widget->state<ModalControl>().m_parent = this->control_id();
 		}
-		m_control.m_modal = widget;
-		m_control.m_mask = device_filter;
+		if(control || widget || device_filter != 0)
+		{
+			ModalControl& self = control ? *control : this->state<ModalControl>();
+			self.m_modal = widget ? widget->control_id() : ControlId();
+			self.m_mask = device_filter;
+		}
 	}
 
 	void Widget::yield_modal()
 	{
-		Widget* parent = static_cast<Widget*>(m_control.m_parent);
-		if(parent && parent->m_control.m_modal == this)
+		ModalControl* control = this->find_state<ModalControl>();
+		Widget* parent = control ? this->ui().find_control(control->m_parent) : nullptr;
+		ModalControl* parent_control = parent ? parent->find_state<ModalControl>() : nullptr;
+		if(parent_control && parent_control->m_modal == this->control_id())
 			parent->set_modal(nullptr, 0);
 		else
 			this->parent_modal().set_modal(nullptr, 0);
@@ -213,53 +230,22 @@ namespace two
 		}
 	}
 
-	ControlNode* Widget::control_event(InputEvent& event)
+	KeyEvent Widget::key_event(Key code, EventType event_type, InputMod modifier)
 	{
-		this->transform_event(event);
+		KeyEvent* event = static_cast<KeyEvent*>(this->ui().received(this->control_id(), DeviceType::Keyboard, event_type, int(code)));
+		return event && fits_modifier(event->m_modifiers, modifier) ? *event : KeyEvent();
+	}
 
-		if((m_control.m_mask & device_mask(event.m_deviceType)) != 0)
-			return m_control.m_modal->control_event(event);
-
-		if(event.m_deviceType >= DeviceType::Mouse)
+	MouseEvent Widget::mouse_event(DeviceType device, EventType event_type, InputMod modifier, bool consume)
+	{
+		MouseEvent* event = static_cast<MouseEvent*>(this->ui().received(this->control_id(), device, event_type));
+		if(event && fits_modifier(event->m_modifiers, modifier))
 		{
-			MouseEvent& mouse_event = static_cast<MouseEvent&>(event);
-			Widget* pinned = this->pinpoint(mouse_event.m_relative);
-			return (pinned && pinned != this) ? pinned->control_event(mouse_event) : this;
+			MouseEvent result = *event;
+			if(consume)
+				event->consume(this->control_id());
+			return result;
 		}
-
-		return this;
+		return MouseEvent();
 	}
-
-	void Widget::receive_event(InputEvent& event)
-	{
-		if(event.m_consumer) return;
-		this->transform_event(event);
-	}
-
-	//ControlNode* Widget::propagate_event(InputEvent& event)
-	//{
-	//	UNUSED(event);
-	//	return m_parent;
-	//}
-
-	//KeyEvent Widget::key_event(Key code, EventType event_type, InputMod modifier)
-	//{
-	//	if(!m_events) return KeyEvent();
-	//	KeyEvent* event = static_cast<KeyEvent*>(m_events->m_keyed_events[DeviceType::Keyboard][event_type][int(code)]);
-	//	return event && fits_modifier(event->m_modifiers, modifier) ? *event : KeyEvent();
-	//}
-	//
-	//MouseEvent Widget::mouse_event(DeviceType device, EventType event_type, InputMod modifier, bool consume)
-	//{
-	//	if(!m_events) return MouseEvent();
-	//	MouseEvent* event = static_cast<MouseEvent*>(m_events->m_events[device][event_type]);
-	//	if(event && fits_modifier(event->m_modifiers, modifier))
-	//	{
-	//		MouseEvent result = *event;;
-	//		if(consume)
-	//			event->consume(*this);
-	//		return result;
-	//	}
-	//	return MouseEvent();
-	//}
 }

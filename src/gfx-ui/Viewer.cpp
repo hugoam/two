@@ -208,7 +208,7 @@ namespace two
 		this->update(widget, widget.frame().m_size, fov, eye, target, up, mat);
 	}
 
-	void OrbitControls::update(ControlNode& input, const vec2& size, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat)
+	void OrbitControls::update(Widget& input, const vec2& size, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat)
 	{
 		auto getAutoRotationAngle = [&]() -> float { return 2.f * c_pi / 60.f / 60.f * autoRotateSpeed; };
 
@@ -830,7 +830,7 @@ namespace two
 		this->update(widget, widget.frame().m_size, eye, target, up);
 	}
 
-	void TrackballController::update(ControlNode& input, const vec2& size, vec3& eye, vec3& target, vec3& up)
+	void TrackballController::update(Widget& input, const vec2& size, vec3& eye, vec3& target, vec3& up)
 	{
 		m_to_eye = eye - m_target;
 

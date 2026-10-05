@@ -1,5 +1,4 @@
 #include <ctx/Context.h>
-#include <ctx/ControlNode.h>
 #include <ctx/Forward.h>
 #include <ctx/InputDevice.h>
 #include <ctx/InputDispatcher.h>

@@ -152,7 +152,7 @@ namespace two
 			m_drag_start = event.m_relative;
 			m_grab_start = m_current->grab_point(viewer, event.m_relative);
 			m_action = this->create_action(transforms);
-			event.consume(screen);
+			event.consume(screen.control_id());
 		}
 
 		if(MouseEvent event = screen.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
@@ -162,7 +162,7 @@ namespace two
 			m_action->undo();
 			m_action->update(m_grab_start, m_grab_end);
 			m_action->apply();
-			event.consume(screen);
+			event.consume(screen.control_id());
 		}
 
 		if(MouseEvent event = screen.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
@@ -170,7 +170,7 @@ namespace two
 			m_dragging = nullptr;
 			m_action->undo();
 			this->commit(move(m_action));
-			event.consume(screen);
+			event.consume(screen.control_id());
 		}
 
 		viewer->m_controller->process(viewer);

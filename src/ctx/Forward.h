@@ -23,9 +23,7 @@ namespace two
     export_ struct InputEvent;
     export_ struct MouseEvent;
     export_ struct KeyEvent;
-    export_ struct ModalControl;
-    export_ class ControlNode;
-    export_ struct EventBatch;
+    export_ struct ControlId;
     export_ class EventDispatcher;
     export_ class InputDevice;
     export_ class Keyboard;

@@ -103,6 +103,10 @@ void two_Widget_take_focus(void* object, span<void*> args, void*& result) { UNUS
 void two_Widget_yield_focus(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::Widget*>(object)).yield_focus(); }
 void two_Widget_take_modal(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Widget*>(object)).take_modal(*static_cast<uint32_t*>(args[0])); }
 void two_Widget_yield_modal(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::Widget*>(object)).yield_modal(); }
+void two_Widget_key_event(void* object, span<void*> args, void*& result) { (*static_cast<two::KeyEvent*>(result)) = (*static_cast<two::Widget*>(object)).key_event(*static_cast<two::Key*>(args[0]), *static_cast<two::EventType*>(args[1]), *static_cast<two::InputMod*>(args[2])); }
+void two_Widget_key_stroke(void* object, span<void*> args, void*& result) { (*static_cast<two::KeyEvent*>(result)) = (*static_cast<two::Widget*>(object)).key_stroke(*static_cast<two::Key*>(args[0]), *static_cast<two::InputMod*>(args[1])); }
+void two_Widget_char_stroke(void* object, span<void*> args, void*& result) { (*static_cast<two::KeyEvent*>(result)) = (*static_cast<two::Widget*>(object)).char_stroke(*static_cast<two::Key*>(args[0]), *static_cast<two::InputMod*>(args[1])); }
+void two_Widget_mouse_event(void* object, span<void*> args, void*& result) { (*static_cast<two::MouseEvent*>(result)) = (*static_cast<two::Widget*>(object)).mouse_event(*static_cast<two::DeviceType*>(args[0]), *static_cast<two::EventType*>(args[1]), *static_cast<two::InputMod*>(args[2]), *static_cast<bool*>(args[3])); }
 void two_TextCursor__default_construct(void* ref) { new(stl::placeholder(), ref) two::TextCursor(); }
 void two_TextCursor__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::TextCursor((*static_cast<two::TextCursor*>(other))); }
 void two_TextSelection__default_construct(void* ref) { new(stl::placeholder(), ref) two::TextSelection(); }
@@ -111,6 +115,12 @@ void two_TextMarker__default_construct(void* ref) { new(stl::placeholder(), ref)
 void two_TextMarker__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::TextMarker((*static_cast<two::TextMarker*>(other))); }
 void two_TextEditHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::TextEditHandle(); }
 void two_TextEditHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::TextEditHandle((*static_cast<two::TextEditHandle*>(other))); }
+void two_NodePlugHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::NodePlugHandle(); }
+void two_NodePlugHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::NodePlugHandle((*static_cast<two::NodePlugHandle*>(other))); }
+void two_CanvasConnect__default_construct(void* ref) { new(stl::placeholder(), ref) two::CanvasConnect(); }
+void two_CanvasConnect__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::CanvasConnect((*static_cast<two::CanvasConnect*>(other))); }
+void two_CanvasHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::CanvasHandle(); }
+void two_CanvasHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::CanvasHandle((*static_cast<two::CanvasHandle*>(other))); }
 void two_NodeConnection__default_construct(void* ref) { new(stl::placeholder(), ref) two::NodeConnection(); }
 void two_NodeConnection__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::NodeConnection((*static_cast<two::NodeConnection*>(other))); }
 void two_Clipboard__default_construct(void* ref) { new(stl::placeholder(), ref) two::Clipboard(); }
@@ -126,12 +136,6 @@ void two_DockspaceHandle__default_construct(void* ref) { new(stl::placeholder(),
 void two_DockspaceHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::DockspaceHandle((*static_cast<two::DockspaceHandle*>(other))); }
 void two_DockbarHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::DockbarHandle(); }
 void two_DockbarHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::DockbarHandle((*static_cast<two::DockbarHandle*>(other))); }
-void two_NodePlugHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::NodePlugHandle(); }
-void two_NodePlugHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::NodePlugHandle((*static_cast<two::NodePlugHandle*>(other))); }
-void two_CanvasConnect__default_construct(void* ref) { new(stl::placeholder(), ref) two::CanvasConnect(); }
-void two_CanvasConnect__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::CanvasConnect((*static_cast<two::CanvasConnect*>(other))); }
-void two_CanvasHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::CanvasHandle(); }
-void two_CanvasHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::CanvasHandle((*static_cast<two::CanvasHandle*>(other))); }
 void two_Ui_begin(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<two::Ui*>(object)).begin(); }
 void two_Ui_reset_styles(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::Ui*>(object)).reset_styles(); }
 void two_layout_minimal_0(span<void*> args, void*& result) { UNUSED(result);  two::layout_minimal(*static_cast<two::UiWindow*>(args[0])); }
@@ -986,11 +990,14 @@ namespace two
 		Type& t = type<two::Widget>();
 		static Meta meta = { t, &namspc({ "two" }), "Widget", sizeof(two::Widget), TypeClass::Object };
 		// bases
-		static Type* bases[] = { &type<two::ControlNode>() };
-		static size_t bases_offsets[] = { base_offset<two::Widget, two::ControlNode>() };
 		// defaults
 		static two::WidgetState state_default = CREATED;
 		static uint32_t switch_default = 0;
+		static two::InputMod key_event_0_modifier_default = InputMod::Any;
+		static two::InputMod key_stroke_0_modifier_default = InputMod::Any;
+		static two::InputMod char_stroke_0_modifier_default = InputMod::Any;
+		static two::InputMod mouse_event_0_modifier_default = InputMod::None;
+		static bool mouse_event_0_consume_default = true;
 		// default constructor
 		// copy constructor
 		// constructors
@@ -1024,10 +1031,14 @@ namespace two
 			{ t, "take_focus", Address(), two_Widget_take_focus, {}, g_qvoid },
 			{ t, "yield_focus", Address(), two_Widget_yield_focus, {}, g_qvoid },
 			{ t, "take_modal", Address(), two_Widget_take_modal, { { "device_filter", type<uint32_t>(),  } }, g_qvoid },
-			{ t, "yield_modal", Address(), two_Widget_yield_modal, {}, g_qvoid }
+			{ t, "yield_modal", Address(), two_Widget_yield_modal, {}, g_qvoid },
+			{ t, "key_event", Address(), two_Widget_key_event, { { "code", type<two::Key>(),  }, { "event_type", type<two::EventType>(),  }, { "modifier", type<two::InputMod>(), Param::Default, &key_event_0_modifier_default } }, { &type<two::KeyEvent>(), QualType::None } },
+			{ t, "key_stroke", Address(), two_Widget_key_stroke, { { "code", type<two::Key>(),  }, { "modifier", type<two::InputMod>(), Param::Default, &key_stroke_0_modifier_default } }, { &type<two::KeyEvent>(), QualType::None } },
+			{ t, "char_stroke", Address(), two_Widget_char_stroke, { { "code", type<two::Key>(),  }, { "modifier", type<two::InputMod>(), Param::Default, &char_stroke_0_modifier_default } }, { &type<two::KeyEvent>(), QualType::None } },
+			{ t, "mouse_event", Address(), two_Widget_mouse_event, { { "device", type<two::DeviceType>(),  }, { "event_type", type<two::EventType>(),  }, { "modifier", type<two::InputMod>(), Param::Default, &mouse_event_0_modifier_default }, { "consume", type<bool>(), Param::Default, &mouse_event_0_consume_default } }, { &type<two::MouseEvent>(), QualType::None } }
 		};
 		// static members
-		static Class cls = { t, bases, bases_offsets, {}, {}, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, {}, {}, {}, members, methods, {}, };
 	}
 	// two::TextCursor
 	{
@@ -1146,6 +1157,135 @@ namespace two
 		// static members
 		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
 		meta.m_empty_var = var(two::TextEditHandle());
+	}
+	// two::NodePlug
+	{
+		Type& t = type<two::NodePlug>();
+		static Meta meta = { t, &namspc({ "two" }), "NodePlug", sizeof(two::NodePlug), TypeClass::Object };
+		// bases
+		// defaults
+		// default constructor
+		// copy constructor
+		// constructors
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// two::NodePlugHandle
+	{
+		Type& t = type<two::NodePlugHandle>();
+		static Meta meta = { t, &namspc({ "two" }), "NodePlugHandle", sizeof(two::NodePlugHandle), TypeClass::Struct };
+		// bases
+		// defaults
+		static two::Widget* self_default = nullptr;
+		static two::NodePlug* plug_default = nullptr;
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_NodePlugHandle__default_construct }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, two_NodePlugHandle__copy_construct }
+		};
+		// constructors
+		// members
+		static Member members[] = {
+			{ t, offsetof(two::NodePlugHandle, self), type<two::Widget>(), "self", self_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::NodePlugHandle, plug), type<two::NodePlug>(), "plug", plug_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::NodePlugHandle());
+	}
+	// two::Node
+	{
+		Type& t = type<two::Node>();
+		static Meta meta = { t, &namspc({ "two" }), "Node", sizeof(two::Node), TypeClass::Object };
+		// bases
+		// defaults
+		static two::Widget* header_default = nullptr;
+		static two::Widget* inputs_default = nullptr;
+		static two::Widget* outputs_default = nullptr;
+		static two::Widget* body_default = nullptr;
+		static int order_default = 0;
+		// default constructor
+		// copy constructor
+		// constructors
+		// members
+		static Member members[] = {
+			{ t, offsetof(two::Node, m_header), type<two::Widget>(), "header", header_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::Node, m_inputs), type<two::Widget>(), "inputs", inputs_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::Node, m_outputs), type<two::Widget>(), "outputs", outputs_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::Node, m_body), type<two::Widget>(), "body", body_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::Node, m_order), type<int>(), "order", &order_default, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, members, {}, {}, };
+	}
+	// two::CanvasConnect
+	{
+		Type& t = type<two::CanvasConnect>();
+		static Meta meta = { t, &namspc({ "two" }), "CanvasConnect", sizeof(two::CanvasConnect), TypeClass::Struct };
+		// bases
+		// defaults
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_CanvasConnect__default_construct }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, two_CanvasConnect__copy_construct }
+		};
+		// constructors
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, {}, {}, {}, };
+		meta.m_empty_var = var(two::CanvasConnect());
+	}
+	// two::Canvas
+	{
+		Type& t = type<two::Canvas>();
+		static Meta meta = { t, &namspc({ "two" }), "Canvas", sizeof(two::Canvas), TypeClass::Object };
+		// bases
+		// defaults
+		// default constructor
+		// copy constructor
+		// constructors
+		// members
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
+	}
+	// two::CanvasHandle
+	{
+		Type& t = type<two::CanvasHandle>();
+		static Meta meta = { t, &namspc({ "two" }), "CanvasHandle", sizeof(two::CanvasHandle), TypeClass::Struct };
+		// bases
+		// defaults
+		static two::Widget* self_default = nullptr;
+		static two::Canvas* canvas_default = nullptr;
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_CanvasHandle__default_construct }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, two_CanvasHandle__copy_construct }
+		};
+		// constructors
+		// members
+		static Member members[] = {
+			{ t, offsetof(two::CanvasHandle, self), type<two::Widget>(), "self", self_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::CanvasHandle, canvas), type<two::Canvas>(), "canvas", canvas_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::CanvasHandle());
 	}
 	// two::NodeConnection
 	{
@@ -1405,135 +1545,6 @@ namespace two
 		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, {}, {}, {}, };
 		meta.m_empty_var = var(two::DockbarHandle());
 	}
-	// two::NodePlug
-	{
-		Type& t = type<two::NodePlug>();
-		static Meta meta = { t, &namspc({ "two" }), "NodePlug", sizeof(two::NodePlug), TypeClass::Object };
-		// bases
-		// defaults
-		// default constructor
-		// copy constructor
-		// constructors
-		// members
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
-	}
-	// two::NodePlugHandle
-	{
-		Type& t = type<two::NodePlugHandle>();
-		static Meta meta = { t, &namspc({ "two" }), "NodePlugHandle", sizeof(two::NodePlugHandle), TypeClass::Struct };
-		// bases
-		// defaults
-		static two::Widget* self_default = nullptr;
-		static two::NodePlug* plug_default = nullptr;
-		// default constructor
-		static DefaultConstructor default_constructor[] = {
-			{ t, two_NodePlugHandle__default_construct }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, two_NodePlugHandle__copy_construct }
-		};
-		// constructors
-		// members
-		static Member members[] = {
-			{ t, offsetof(two::NodePlugHandle, self), type<two::Widget>(), "self", self_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::NodePlugHandle, plug), type<two::NodePlug>(), "plug", plug_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
-		};
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
-		meta.m_empty_var = var(two::NodePlugHandle());
-	}
-	// two::Node
-	{
-		Type& t = type<two::Node>();
-		static Meta meta = { t, &namspc({ "two" }), "Node", sizeof(two::Node), TypeClass::Object };
-		// bases
-		// defaults
-		static two::Widget* header_default = nullptr;
-		static two::Widget* inputs_default = nullptr;
-		static two::Widget* outputs_default = nullptr;
-		static two::Widget* body_default = nullptr;
-		static int order_default = 0;
-		// default constructor
-		// copy constructor
-		// constructors
-		// members
-		static Member members[] = {
-			{ t, offsetof(two::Node, m_header), type<two::Widget>(), "header", header_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::Node, m_inputs), type<two::Widget>(), "inputs", inputs_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::Node, m_outputs), type<two::Widget>(), "outputs", outputs_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::Node, m_body), type<two::Widget>(), "body", body_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::Node, m_order), type<int>(), "order", &order_default, Member::Value, nullptr }
-		};
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, members, {}, {}, };
-	}
-	// two::CanvasConnect
-	{
-		Type& t = type<two::CanvasConnect>();
-		static Meta meta = { t, &namspc({ "two" }), "CanvasConnect", sizeof(two::CanvasConnect), TypeClass::Struct };
-		// bases
-		// defaults
-		// default constructor
-		static DefaultConstructor default_constructor[] = {
-			{ t, two_CanvasConnect__default_construct }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, two_CanvasConnect__copy_construct }
-		};
-		// constructors
-		// members
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, {}, {}, {}, };
-		meta.m_empty_var = var(two::CanvasConnect());
-	}
-	// two::Canvas
-	{
-		Type& t = type<two::Canvas>();
-		static Meta meta = { t, &namspc({ "two" }), "Canvas", sizeof(two::Canvas), TypeClass::Object };
-		// bases
-		// defaults
-		// default constructor
-		// copy constructor
-		// constructors
-		// members
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
-	}
-	// two::CanvasHandle
-	{
-		Type& t = type<two::CanvasHandle>();
-		static Meta meta = { t, &namspc({ "two" }), "CanvasHandle", sizeof(two::CanvasHandle), TypeClass::Struct };
-		// bases
-		// defaults
-		static two::Widget* self_default = nullptr;
-		static two::Canvas* canvas_default = nullptr;
-		// default constructor
-		static DefaultConstructor default_constructor[] = {
-			{ t, two_CanvasHandle__default_construct }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, two_CanvasHandle__copy_construct }
-		};
-		// constructors
-		// members
-		static Member members[] = {
-			{ t, offsetof(two::CanvasHandle, self), type<two::Widget>(), "self", self_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::CanvasHandle, canvas), type<two::Canvas>(), "canvas", canvas_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
-		};
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
-		meta.m_empty_var = var(two::CanvasHandle());
-	}
 	// two::Ui
 	{
 		Type& t = type<two::Ui>();
@@ -1606,6 +1617,12 @@ namespace two
 		m.m_types.push_back(&type<two::Text>());
 		m.m_types.push_back(&type<two::TextEdit>());
 		m.m_types.push_back(&type<two::TextEditHandle>());
+		m.m_types.push_back(&type<two::NodePlug>());
+		m.m_types.push_back(&type<two::NodePlugHandle>());
+		m.m_types.push_back(&type<two::Node>());
+		m.m_types.push_back(&type<two::CanvasConnect>());
+		m.m_types.push_back(&type<two::Canvas>());
+		m.m_types.push_back(&type<two::CanvasHandle>());
 		m.m_types.push_back(&type<two::NodeConnection>());
 		m.m_types.push_back(&type<two::WindowState>());
 		m.m_types.push_back(&type<two::Vg>());
@@ -1620,12 +1637,6 @@ namespace two
 		m.m_types.push_back(&type<two::Dockbar>());
 		m.m_types.push_back(&type<two::DockspaceHandle>());
 		m.m_types.push_back(&type<two::DockbarHandle>());
-		m.m_types.push_back(&type<two::NodePlug>());
-		m.m_types.push_back(&type<two::NodePlugHandle>());
-		m.m_types.push_back(&type<two::Node>());
-		m.m_types.push_back(&type<two::CanvasConnect>());
-		m.m_types.push_back(&type<two::Canvas>());
-		m.m_types.push_back(&type<two::CanvasHandle>());
 		m.m_types.push_back(&type<two::Ui>());
 		{
 			static Function f = { &namspc({ "two" }), "layout_minimal", funcptr<void(*)(two::UiWindow&)>(two::layout_minimal), two_layout_minimal_0, { { "ui_window", type<two::UiWindow>(), Param::Reference } }, g_qvoid };

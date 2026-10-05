@@ -40,6 +40,15 @@ namespace two
 
 		meth_ void reset_styles();
 
+		// the receiver of an event: from the root, each widget transforms the event, then gives it to the widget it's modal to for the device, or to
+		// the child pinpointed under the cursor, until a widget keeps it (see EventDispatcher)
+		virtual ControlId route(InputEvent& event) override;
+		// the receiver transforms the event, unless it's consumed already
+		virtual void receive(InputEvent& event, ControlId receiver) override;
+
+		Widget& control(ControlId id) { return PooledGraph<Widget>::node(id.m_index); }
+		Widget* find_control(ControlId id) { return id ? &this->control(id) : nullptr; }
+
 	public:
 		// the frames of the widgets, by node index: declared first, the root's frame is used from the constructor
 		TNodeArray<Frame>& m_frames;

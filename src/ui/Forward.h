@@ -61,6 +61,7 @@ namespace two
     export_ struct UiRect;
     export_ class Frame;
     export_ class Widget;
+    export_ struct ModalControl;
     export_ using WidgetHandle = Widget*;	// a handle to a widget kept from one frame to the next: for now its pointer, later its node index
     export_ struct TextGlyph;
     export_ struct TextRow;

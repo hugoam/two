@@ -19,7 +19,7 @@ namespace two
 	}
 
 	// the node is going away: its layer leaves the layer it's drawn in, unless that one is gone already, its node released first
-	void Widget::release()
+	void Widget::release_layer()
 	{
 		Layer* layer = this->find_state<Layer>();
 		if(layer && !layer->master())

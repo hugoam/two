@@ -1026,10 +1026,9 @@ Layer.prototype["__destroy"] = Layer.prototype.__destroy = function() {
 };
 // Widget
 function Widget() { throw "cannot construct a Widget, no constructor in IDL" }
-Widget.prototype = Object.create(ControlNode.prototype);
+Widget.prototype = Object.create(WrapperObject.prototype);
 Widget.prototype.constructor = Widget;
 Widget.prototype.__class = Widget;
-Widget.__base = ControlNode;
 Widget.__cache = {};
 Module['Widget'] = Widget;
 Widget.prototype["focused"] = Widget.prototype.focused = function() {
@@ -1106,6 +1105,32 @@ Widget.prototype["take_modal"] = Widget.prototype.take_modal = function(a0) {
 };
 Widget.prototype["yield_modal"] = Widget.prototype.yield_modal = function() {
     _two_Widget_yield_modal_0(this.__ptr);
+};
+Widget.prototype["key_event"] = Widget.prototype.key_event = function(a0, a1, a2) {
+    if (a2 === undefined) { if (typeof a0 !== 'number') throw Error('key_event(0:code): expected integer'); if (typeof a1 !== 'number') throw Error('key_event(1:event_type): expected integer'); }
+    else { if (typeof a0 !== 'number') throw Error('key_event(0:code): expected integer'); if (typeof a1 !== 'number') throw Error('key_event(1:event_type): expected integer'); if (typeof a2 !== 'number') throw Error('key_event(2:modifier): expected integer'); }
+    if (a2 === undefined) { return wrapPointer(_two_Widget_key_event_2(this.__ptr, /*code*/a0, /*event_type*/a1), KeyEvent); }
+    else { return wrapPointer(_two_Widget_key_event_3(this.__ptr, /*code*/a0, /*event_type*/a1, /*modifier*/a2), KeyEvent); }
+};
+Widget.prototype["key_stroke"] = Widget.prototype.key_stroke = function(a0, a1) {
+    if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('key_stroke(0:code): expected integer'); }
+    else { if (typeof a0 !== 'number') throw Error('key_stroke(0:code): expected integer'); if (typeof a1 !== 'number') throw Error('key_stroke(1:modifier): expected integer'); }
+    if (a1 === undefined) { return wrapPointer(_two_Widget_key_stroke_1(this.__ptr, /*code*/a0), KeyEvent); }
+    else { return wrapPointer(_two_Widget_key_stroke_2(this.__ptr, /*code*/a0, /*modifier*/a1), KeyEvent); }
+};
+Widget.prototype["char_stroke"] = Widget.prototype.char_stroke = function(a0, a1) {
+    if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('char_stroke(0:code): expected integer'); }
+    else { if (typeof a0 !== 'number') throw Error('char_stroke(0:code): expected integer'); if (typeof a1 !== 'number') throw Error('char_stroke(1:modifier): expected integer'); }
+    if (a1 === undefined) { return wrapPointer(_two_Widget_char_stroke_1(this.__ptr, /*code*/a0), KeyEvent); }
+    else { return wrapPointer(_two_Widget_char_stroke_2(this.__ptr, /*code*/a0, /*modifier*/a1), KeyEvent); }
+};
+Widget.prototype["mouse_event"] = Widget.prototype.mouse_event = function(a0, a1, a2, a3) {
+    if (a2 === undefined) { if (typeof a0 !== 'number') throw Error('mouse_event(0:device): expected integer'); if (typeof a1 !== 'number') throw Error('mouse_event(1:event_type): expected integer'); }
+    else if (a3 === undefined) { if (typeof a0 !== 'number') throw Error('mouse_event(0:device): expected integer'); if (typeof a1 !== 'number') throw Error('mouse_event(1:event_type): expected integer'); if (typeof a2 !== 'number') throw Error('mouse_event(2:modifier): expected integer'); }
+    else { if (typeof a0 !== 'number') throw Error('mouse_event(0:device): expected integer'); if (typeof a1 !== 'number') throw Error('mouse_event(1:event_type): expected integer'); if (typeof a2 !== 'number') throw Error('mouse_event(2:modifier): expected integer'); if (typeof a3 !== 'boolean') throw Error('mouse_event(3:consume): expected boolean'); }
+    if (a2 === undefined) { return wrapPointer(_two_Widget_mouse_event_2(this.__ptr, /*device*/a0, /*event_type*/a1), MouseEvent); }
+    else if (a3 === undefined) { return wrapPointer(_two_Widget_mouse_event_3(this.__ptr, /*device*/a0, /*event_type*/a1, /*modifier*/a2), MouseEvent); }
+    else { return wrapPointer(_two_Widget_mouse_event_4(this.__ptr, /*device*/a0, /*event_type*/a1, /*modifier*/a2, /*consume*/a3), MouseEvent); }
 };
 Object.defineProperty(Widget.prototype, "frame", {
     get: function() {
@@ -1217,6 +1242,153 @@ Object.defineProperty(TextEditHandle.prototype, "edit", {
 });
 TextEditHandle.prototype["__destroy"] = TextEditHandle.prototype.__destroy = function() {
     _two_TextEditHandle__destroy(this.__ptr);
+};
+// NodePlug
+function NodePlug() { throw "cannot construct a NodePlug, no constructor in IDL" }
+NodePlug.prototype = Object.create(WrapperObject.prototype);
+NodePlug.prototype.constructor = NodePlug;
+NodePlug.prototype.__class = NodePlug;
+NodePlug.__cache = {};
+Module['NodePlug'] = NodePlug;
+NodePlug.prototype["__destroy"] = NodePlug.prototype.__destroy = function() {
+    _two_NodePlug__destroy(this.__ptr);
+};
+// NodePlugHandle
+function NodePlugHandle() {
+    this.__ptr = _two_NodePlugHandle__construct_0(); getCache(NodePlugHandle)[this.__ptr] = this;
+};
+NodePlugHandle.prototype = Object.create(WrapperObject.prototype);
+NodePlugHandle.prototype.constructor = NodePlugHandle;
+NodePlugHandle.prototype.__class = NodePlugHandle;
+NodePlugHandle.__cache = {};
+Module['NodePlugHandle'] = NodePlugHandle;
+Object.defineProperty(NodePlugHandle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_NodePlugHandle__get_self(this.__ptr), Widget);
+    },
+    set: function(value) {
+        if (!checkClass(value, Widget)) throw Error('NodePlugHandle.self: expected Widget');
+        _two_NodePlugHandle__set_self(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(NodePlugHandle.prototype, "plug", {
+    get: function() {
+        return wrapPointer(_two_NodePlugHandle__get_plug(this.__ptr), NodePlug);
+    },
+    set: function(value) {
+        if (!checkClass(value, NodePlug)) throw Error('NodePlugHandle.plug: expected NodePlug');
+        _two_NodePlugHandle__set_plug(this.__ptr, value.__ptr);
+    }
+});
+NodePlugHandle.prototype["__destroy"] = NodePlugHandle.prototype.__destroy = function() {
+    _two_NodePlugHandle__destroy(this.__ptr);
+};
+// Node
+function Node() { throw "cannot construct a Node, no constructor in IDL" }
+Node.prototype = Object.create(WrapperObject.prototype);
+Node.prototype.constructor = Node;
+Node.prototype.__class = Node;
+Node.__cache = {};
+Module['Node'] = Node;
+Object.defineProperty(Node.prototype, "header", {
+    get: function() {
+        return wrapPointer(_two_Node__get_header(this.__ptr), Widget);
+    },
+    set: function(value) {
+        if (!checkClass(value, Widget)) throw Error('Node.header: expected Widget');
+        _two_Node__set_header(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Node.prototype, "inputs", {
+    get: function() {
+        return wrapPointer(_two_Node__get_inputs(this.__ptr), Widget);
+    },
+    set: function(value) {
+        if (!checkClass(value, Widget)) throw Error('Node.inputs: expected Widget');
+        _two_Node__set_inputs(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Node.prototype, "outputs", {
+    get: function() {
+        return wrapPointer(_two_Node__get_outputs(this.__ptr), Widget);
+    },
+    set: function(value) {
+        if (!checkClass(value, Widget)) throw Error('Node.outputs: expected Widget');
+        _two_Node__set_outputs(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Node.prototype, "body", {
+    get: function() {
+        return wrapPointer(_two_Node__get_body(this.__ptr), Widget);
+    },
+    set: function(value) {
+        if (!checkClass(value, Widget)) throw Error('Node.body: expected Widget');
+        _two_Node__set_body(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(Node.prototype, "order", {
+    get: function() {
+        return _two_Node__get_order(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('Node.order: expected integer');
+        _two_Node__set_order(this.__ptr, value);
+    }
+});
+Node.prototype["__destroy"] = Node.prototype.__destroy = function() {
+    _two_Node__destroy(this.__ptr);
+};
+// CanvasConnect
+function CanvasConnect() {
+    this.__ptr = _two_CanvasConnect__construct_0(); getCache(CanvasConnect)[this.__ptr] = this;
+};
+CanvasConnect.prototype = Object.create(WrapperObject.prototype);
+CanvasConnect.prototype.constructor = CanvasConnect;
+CanvasConnect.prototype.__class = CanvasConnect;
+CanvasConnect.__cache = {};
+Module['CanvasConnect'] = CanvasConnect;
+CanvasConnect.prototype["__destroy"] = CanvasConnect.prototype.__destroy = function() {
+    _two_CanvasConnect__destroy(this.__ptr);
+};
+// Canvas
+function Canvas() { throw "cannot construct a Canvas, no constructor in IDL" }
+Canvas.prototype = Object.create(WrapperObject.prototype);
+Canvas.prototype.constructor = Canvas;
+Canvas.prototype.__class = Canvas;
+Canvas.__cache = {};
+Module['Canvas'] = Canvas;
+Canvas.prototype["__destroy"] = Canvas.prototype.__destroy = function() {
+    _two_Canvas__destroy(this.__ptr);
+};
+// CanvasHandle
+function CanvasHandle() {
+    this.__ptr = _two_CanvasHandle__construct_0(); getCache(CanvasHandle)[this.__ptr] = this;
+};
+CanvasHandle.prototype = Object.create(WrapperObject.prototype);
+CanvasHandle.prototype.constructor = CanvasHandle;
+CanvasHandle.prototype.__class = CanvasHandle;
+CanvasHandle.__cache = {};
+Module['CanvasHandle'] = CanvasHandle;
+Object.defineProperty(CanvasHandle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_CanvasHandle__get_self(this.__ptr), Widget);
+    },
+    set: function(value) {
+        if (!checkClass(value, Widget)) throw Error('CanvasHandle.self: expected Widget');
+        _two_CanvasHandle__set_self(this.__ptr, value.__ptr);
+    }
+});
+Object.defineProperty(CanvasHandle.prototype, "canvas", {
+    get: function() {
+        return wrapPointer(_two_CanvasHandle__get_canvas(this.__ptr), Canvas);
+    },
+    set: function(value) {
+        if (!checkClass(value, Canvas)) throw Error('CanvasHandle.canvas: expected Canvas');
+        _two_CanvasHandle__set_canvas(this.__ptr, value.__ptr);
+    }
+});
+CanvasHandle.prototype["__destroy"] = CanvasHandle.prototype.__destroy = function() {
+    _two_CanvasHandle__destroy(this.__ptr);
 };
 // NodeConnection
 function NodeConnection() {
@@ -1441,153 +1613,6 @@ DockbarHandle.__cache = {};
 Module['DockbarHandle'] = DockbarHandle;
 DockbarHandle.prototype["__destroy"] = DockbarHandle.prototype.__destroy = function() {
     _two_DockbarHandle__destroy(this.__ptr);
-};
-// NodePlug
-function NodePlug() { throw "cannot construct a NodePlug, no constructor in IDL" }
-NodePlug.prototype = Object.create(WrapperObject.prototype);
-NodePlug.prototype.constructor = NodePlug;
-NodePlug.prototype.__class = NodePlug;
-NodePlug.__cache = {};
-Module['NodePlug'] = NodePlug;
-NodePlug.prototype["__destroy"] = NodePlug.prototype.__destroy = function() {
-    _two_NodePlug__destroy(this.__ptr);
-};
-// NodePlugHandle
-function NodePlugHandle() {
-    this.__ptr = _two_NodePlugHandle__construct_0(); getCache(NodePlugHandle)[this.__ptr] = this;
-};
-NodePlugHandle.prototype = Object.create(WrapperObject.prototype);
-NodePlugHandle.prototype.constructor = NodePlugHandle;
-NodePlugHandle.prototype.__class = NodePlugHandle;
-NodePlugHandle.__cache = {};
-Module['NodePlugHandle'] = NodePlugHandle;
-Object.defineProperty(NodePlugHandle.prototype, "self", {
-    get: function() {
-        return wrapPointer(_two_NodePlugHandle__get_self(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('NodePlugHandle.self: expected Widget');
-        _two_NodePlugHandle__set_self(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(NodePlugHandle.prototype, "plug", {
-    get: function() {
-        return wrapPointer(_two_NodePlugHandle__get_plug(this.__ptr), NodePlug);
-    },
-    set: function(value) {
-        if (!checkClass(value, NodePlug)) throw Error('NodePlugHandle.plug: expected NodePlug');
-        _two_NodePlugHandle__set_plug(this.__ptr, value.__ptr);
-    }
-});
-NodePlugHandle.prototype["__destroy"] = NodePlugHandle.prototype.__destroy = function() {
-    _two_NodePlugHandle__destroy(this.__ptr);
-};
-// Node
-function Node() { throw "cannot construct a Node, no constructor in IDL" }
-Node.prototype = Object.create(WrapperObject.prototype);
-Node.prototype.constructor = Node;
-Node.prototype.__class = Node;
-Node.__cache = {};
-Module['Node'] = Node;
-Object.defineProperty(Node.prototype, "header", {
-    get: function() {
-        return wrapPointer(_two_Node__get_header(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('Node.header: expected Widget');
-        _two_Node__set_header(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(Node.prototype, "inputs", {
-    get: function() {
-        return wrapPointer(_two_Node__get_inputs(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('Node.inputs: expected Widget');
-        _two_Node__set_inputs(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(Node.prototype, "outputs", {
-    get: function() {
-        return wrapPointer(_two_Node__get_outputs(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('Node.outputs: expected Widget');
-        _two_Node__set_outputs(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(Node.prototype, "body", {
-    get: function() {
-        return wrapPointer(_two_Node__get_body(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('Node.body: expected Widget');
-        _two_Node__set_body(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(Node.prototype, "order", {
-    get: function() {
-        return _two_Node__get_order(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('Node.order: expected integer');
-        _two_Node__set_order(this.__ptr, value);
-    }
-});
-Node.prototype["__destroy"] = Node.prototype.__destroy = function() {
-    _two_Node__destroy(this.__ptr);
-};
-// CanvasConnect
-function CanvasConnect() {
-    this.__ptr = _two_CanvasConnect__construct_0(); getCache(CanvasConnect)[this.__ptr] = this;
-};
-CanvasConnect.prototype = Object.create(WrapperObject.prototype);
-CanvasConnect.prototype.constructor = CanvasConnect;
-CanvasConnect.prototype.__class = CanvasConnect;
-CanvasConnect.__cache = {};
-Module['CanvasConnect'] = CanvasConnect;
-CanvasConnect.prototype["__destroy"] = CanvasConnect.prototype.__destroy = function() {
-    _two_CanvasConnect__destroy(this.__ptr);
-};
-// Canvas
-function Canvas() { throw "cannot construct a Canvas, no constructor in IDL" }
-Canvas.prototype = Object.create(WrapperObject.prototype);
-Canvas.prototype.constructor = Canvas;
-Canvas.prototype.__class = Canvas;
-Canvas.__cache = {};
-Module['Canvas'] = Canvas;
-Canvas.prototype["__destroy"] = Canvas.prototype.__destroy = function() {
-    _two_Canvas__destroy(this.__ptr);
-};
-// CanvasHandle
-function CanvasHandle() {
-    this.__ptr = _two_CanvasHandle__construct_0(); getCache(CanvasHandle)[this.__ptr] = this;
-};
-CanvasHandle.prototype = Object.create(WrapperObject.prototype);
-CanvasHandle.prototype.constructor = CanvasHandle;
-CanvasHandle.prototype.__class = CanvasHandle;
-CanvasHandle.__cache = {};
-Module['CanvasHandle'] = CanvasHandle;
-Object.defineProperty(CanvasHandle.prototype, "self", {
-    get: function() {
-        return wrapPointer(_two_CanvasHandle__get_self(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('CanvasHandle.self: expected Widget');
-        _two_CanvasHandle__set_self(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(CanvasHandle.prototype, "canvas", {
-    get: function() {
-        return wrapPointer(_two_CanvasHandle__get_canvas(this.__ptr), Canvas);
-    },
-    set: function(value) {
-        if (!checkClass(value, Canvas)) throw Error('CanvasHandle.canvas: expected Canvas');
-        _two_CanvasHandle__set_canvas(this.__ptr, value.__ptr);
-    }
-});
-CanvasHandle.prototype["__destroy"] = CanvasHandle.prototype.__destroy = function() {
-    _two_CanvasHandle__destroy(this.__ptr);
 };
 // Ui
 function Ui() { throw "cannot construct a Ui, no constructor in IDL" }
@@ -2210,6 +2235,12 @@ Module['ui']['file_tree'] = function(a0, a1, a2) {
         Text.prototype.__type = _two_Text__type();
         TextEdit.prototype.__type = _two_TextEdit__type();
         TextEditHandle.prototype.__type = _two_TextEditHandle__type();
+        NodePlug.prototype.__type = _two_NodePlug__type();
+        NodePlugHandle.prototype.__type = _two_NodePlugHandle__type();
+        Node.prototype.__type = _two_Node__type();
+        CanvasConnect.prototype.__type = _two_CanvasConnect__type();
+        Canvas.prototype.__type = _two_Canvas__type();
+        CanvasHandle.prototype.__type = _two_CanvasHandle__type();
         NodeConnection.prototype.__type = _two_NodeConnection__type();
         Vg.prototype.__type = _two_Vg__type();
         Clipboard.prototype.__type = _two_Clipboard__type();
@@ -2223,12 +2254,6 @@ Module['ui']['file_tree'] = function(a0, a1, a2) {
         Dockbar.prototype.__type = _two_Dockbar__type();
         DockspaceHandle.prototype.__type = _two_DockspaceHandle__type();
         DockbarHandle.prototype.__type = _two_DockbarHandle__type();
-        NodePlug.prototype.__type = _two_NodePlug__type();
-        NodePlugHandle.prototype.__type = _two_NodePlugHandle__type();
-        Node.prototype.__type = _two_Node__type();
-        CanvasConnect.prototype.__type = _two_CanvasConnect__type();
-        Canvas.prototype.__type = _two_Canvas__type();
-        CanvasHandle.prototype.__type = _two_CanvasHandle__type();
         Ui.prototype.__type = _two_Ui__type();
         // FlowAxis
         Module['FlowAxis'] = Module['FlowAxis'] || {};

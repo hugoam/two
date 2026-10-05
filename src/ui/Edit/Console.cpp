@@ -19,7 +19,7 @@ namespace ui
 		{
 			command = text;
 			text = "";
-			self.key_stroke(Key::Return).consume(self);
+			self.key_stroke(Key::Return).consume(self.control_id());
 		}
 
 		return self;

@@ -14,9 +14,10 @@ namespace two
 		Widget* current_target = &target.ui();
 		while(current_target && current_node)
 		{
-			string elements[2] = { current_target->frame().d_style->m_name, to_string(current_target->m_control.m_mask) };
+			ModalControl* control = current_target->find_state<ModalControl>();
+			string elements[2] = { current_target->frame().d_style->m_name, to_string(control ? control->m_mask : 0) };
 			current_node = ui::tree_node(key(), *current_node, { elements[0].c_str(), elements[1].c_str() }).body;
-			current_target = static_cast<Widget*>(current_target->m_control.m_modal);
+			current_target = control ? target.ui().find_control(control->m_modal) : nullptr;
 		}
 	}
 

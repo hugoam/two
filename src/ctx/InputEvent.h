@@ -55,12 +55,31 @@ namespace two
 		Count = 12
 	};
 
+	export_ inline bool fits_modifier(InputMod modifier, InputMod mask) { return mask == InputMod::Any || modifier == mask; }
+
+	// a node of the tree an event dispatcher routes the events in (the widgets of a ui), by its index in the tree: the receiver of an event, its consumer
+	// it is only built explicitly from an index, and never converts back to one: the index is read as m_index
+	export_ struct refl_ struct_ TWO_CTX_EXPORT ControlId
+	{
+		static constexpr uint32_t none = limits<uint32_t>::max();
+
+		ControlId() {}
+		explicit ControlId(uint32_t index) : m_index(index) {}
+
+		attr_ uint32_t m_index = limits<uint32_t>::max();
+
+		bool valid() const { return m_index != none; }
+		explicit operator bool() const { return m_index != none; }
+		bool operator==(const ControlId& other) const { return m_index == other.m_index; }
+		bool operator!=(const ControlId& other) const { return m_index != other.m_index; }
+	};
+
 	export_ struct refl_ TWO_CTX_EXPORT InputEvent
 	{
 		attr_ DeviceType m_deviceType = DeviceType::None;
 		attr_ EventType m_eventType = EventType::None;
-		attr_ ControlNode* m_receiver = nullptr;
-		attr_ ControlNode* m_consumer = nullptr;
+		attr_ ControlId m_receiver;
+		attr_ ControlId m_consumer;
 		attr_ bool m_abort = false;
 		attr_ InputMod m_modifiers = InputMod::None;
 		attr_ int m_key = -1;
@@ -68,8 +87,8 @@ namespace two
 		InputEvent() {}
 		InputEvent(DeviceType deviceType, EventType eventType, InputMod modifiers = InputMod::None) : m_deviceType(deviceType), m_eventType(eventType), m_modifiers(modifiers) {}
 		
-		meth_ inline InputEvent& consume(ControlNode& consumer) { m_consumer = &consumer; return *this; }
-		meth_ inline bool valid() { return m_deviceType != DeviceType::None && m_consumer == nullptr; }
+		meth_ inline InputEvent& consume(ControlId consumer) { m_consumer = consumer; return *this; }
+		meth_ inline bool valid() { return m_deviceType != DeviceType::None && !m_consumer.valid(); }
 		inline explicit operator bool() { return this->valid(); }
 
 		//bool operator==(const InputEvent& other) const { UNUSED(other); return false; }
@@ -82,7 +101,7 @@ namespace two
 		attr_ vec2 m_delta = { 0.f, 0.f };
 		attr_ float m_deltaZ = 0.f;
 		attr_ vec2 m_pressed = { 0.f, 0.f };
-		refl_ ControlNode* m_target = nullptr;
+		attr_ ControlId m_target;
 
 		attr_ MouseButtonCode m_button = NO_BUTTON;
 
@@ -104,7 +123,7 @@ namespace two
 			m_relative = source.m_relative; m_delta = source.m_delta; m_pressed = source.m_pressed;
 		}
 
-		MouseEvent& consume(ControlNode& consumer) { m_consumer = &consumer; return *this; }
+		MouseEvent& consume(ControlId consumer) { m_consumer = consumer; return *this; }
 
 		//bool operator==(const MouseEvent& other) const { UNUSED(other); return false; }
 	};

@@ -94,9 +94,10 @@ namespace two
 		event.m_pos.y = -rel[1] / m_size_ratio + frame().m_size.y / 2.f;
 	}
 
-	void SpaceSheet::receive_event(InputEvent& inputEvent)
+	void SpaceSheet::receive(InputEvent& event, ControlId receiver)
 	{
-		UNUSED(inputEvent);
+		if(receiver != this->control_id())
+			Ui::receive(event, receiver);
 		//inputEvent.dispatch(m_mouse, m_keyboard);
 	}
 }

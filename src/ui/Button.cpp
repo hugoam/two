@@ -98,7 +98,7 @@ namespace ui
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
 			self.enable_state(ACTIVATED);
-			event.consume(self);
+			event.consume(self.control_id());
 		}
 		else
 			self.disable_state(ACTIVATED);

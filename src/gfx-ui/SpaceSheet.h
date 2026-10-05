@@ -22,7 +22,8 @@ namespace two
 
 		void transformCoordinates(MouseEvent& mouse_event);
 
-		virtual void receive_event(InputEvent& inputEvent);
+		// the sheet doesn't transform the events it receives itself
+		virtual void receive(InputEvent& event, ControlId receiver) override;
 
 	private:
 		SpaceViewport& m_viewer;

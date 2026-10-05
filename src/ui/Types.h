@@ -51,6 +51,12 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::Text>();
     template <> TWO_UI_EXPORT Type& type<two::TextEdit>();
     template <> TWO_UI_EXPORT Type& type<two::TextEditHandle>();
+    template <> TWO_UI_EXPORT Type& type<two::NodePlug>();
+    template <> TWO_UI_EXPORT Type& type<two::NodePlugHandle>();
+    template <> TWO_UI_EXPORT Type& type<two::Node>();
+    template <> TWO_UI_EXPORT Type& type<two::CanvasConnect>();
+    template <> TWO_UI_EXPORT Type& type<two::Canvas>();
+    template <> TWO_UI_EXPORT Type& type<two::CanvasHandle>();
     template <> TWO_UI_EXPORT Type& type<two::NodeConnection>();
     template <> TWO_UI_EXPORT Type& type<two::Vg>();
     template <> TWO_UI_EXPORT Type& type<two::Clipboard>();
@@ -64,11 +70,5 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::Dockbar>();
     template <> TWO_UI_EXPORT Type& type<two::DockspaceHandle>();
     template <> TWO_UI_EXPORT Type& type<two::DockbarHandle>();
-    template <> TWO_UI_EXPORT Type& type<two::NodePlug>();
-    template <> TWO_UI_EXPORT Type& type<two::NodePlugHandle>();
-    template <> TWO_UI_EXPORT Type& type<two::Node>();
-    template <> TWO_UI_EXPORT Type& type<two::CanvasConnect>();
-    template <> TWO_UI_EXPORT Type& type<two::Canvas>();
-    template <> TWO_UI_EXPORT Type& type<two::CanvasHandle>();
     template <> TWO_UI_EXPORT Type& type<two::Ui>();
 }

@@ -108,6 +108,22 @@ extern "C" {
 	void DECL two_Context__destroy(two::Context* self) {
 		delete self;
 	}
+	// ControlId
+	two::Type* DECL two_ControlId__type() {
+		return &two::type<two::ControlId>();
+	}
+	two::ControlId* DECL two_ControlId__construct_0() {
+		return new two::ControlId();
+	}
+	uint32_t DECL two_ControlId__get_index(two::ControlId* self) {
+		return self->m_index;
+	}
+	void DECL two_ControlId__set_index(two::ControlId* self, uint32_t value) {
+		self->m_index = value;
+	}
+	void DECL two_ControlId__destroy(two::ControlId* self) {
+		delete self;
+	}
 	// InputEvent
 	two::Type* DECL two_InputEvent__type() {
 		return &two::type<two::InputEvent>();
@@ -115,7 +131,7 @@ extern "C" {
 	two::InputEvent* DECL two_InputEvent__construct_0() {
 		return new two::InputEvent();
 	}
-	two::InputEvent* DECL two_InputEvent_consume_1(two::InputEvent* self, two::ControlNode* consumer) {
+	two::InputEvent* DECL two_InputEvent_consume_1(two::InputEvent* self, two::ControlId* consumer) {
 		return &self->consume(*consumer);
 	}
 	bool DECL two_InputEvent_valid_0(two::InputEvent* self) {
@@ -133,17 +149,17 @@ extern "C" {
 	void DECL two_InputEvent__set_eventType(two::InputEvent* self, two::EventType value) {
 		self->m_eventType = value;
 	}
-	two::ControlNode* DECL two_InputEvent__get_receiver(two::InputEvent* self) {
-		return self->m_receiver;
+	two::ControlId* DECL two_InputEvent__get_receiver(two::InputEvent* self) {
+		return &self->m_receiver;
 	}
-	void DECL two_InputEvent__set_receiver(two::InputEvent* self, two::ControlNode* value) {
-		self->m_receiver = value;
+	void DECL two_InputEvent__set_receiver(two::InputEvent* self, two::ControlId* value) {
+		self->m_receiver = *value;
 	}
-	two::ControlNode* DECL two_InputEvent__get_consumer(two::InputEvent* self) {
-		return self->m_consumer;
+	two::ControlId* DECL two_InputEvent__get_consumer(two::InputEvent* self) {
+		return &self->m_consumer;
 	}
-	void DECL two_InputEvent__set_consumer(two::InputEvent* self, two::ControlNode* value) {
-		self->m_consumer = value;
+	void DECL two_InputEvent__set_consumer(two::InputEvent* self, two::ControlId* value) {
+		self->m_consumer = *value;
 	}
 	bool DECL two_InputEvent__get_abort(two::InputEvent* self) {
 		return self->m_abort;
@@ -203,6 +219,12 @@ extern "C" {
 	void DECL two_MouseEvent__set_pressed(two::MouseEvent* self, two::vec2* value) {
 		self->m_pressed = *value;
 	}
+	two::ControlId* DECL two_MouseEvent__get_target(two::MouseEvent* self) {
+		return &self->m_target;
+	}
+	void DECL two_MouseEvent__set_target(two::MouseEvent* self, two::ControlId* value) {
+		self->m_target = *value;
+	}
 	two::MouseButtonCode DECL two_MouseEvent__get_button(two::MouseEvent* self) {
 		return self->m_button;
 	}
@@ -232,49 +254,6 @@ extern "C" {
 		self->m_char = value;
 	}
 	void DECL two_KeyEvent__destroy(two::KeyEvent* self) {
-		delete self;
-	}
-	// ControlNode
-	two::Type* DECL two_ControlNode__type() {
-		return &two::type<two::ControlNode>();
-	}
-	two::KeyEvent* DECL two_ControlNode_key_event_2(two::ControlNode* self, two::Key code, two::EventType event_type) {
-		static two::KeyEvent temp;
-		return (temp = self->key_event(code, event_type), &temp);
-	}
-	two::KeyEvent* DECL two_ControlNode_key_event_3(two::ControlNode* self, two::Key code, two::EventType event_type, two::InputMod modifier) {
-		static two::KeyEvent temp;
-		return (temp = self->key_event(code, event_type, modifier), &temp);
-	}
-	two::KeyEvent* DECL two_ControlNode_key_stroke_1(two::ControlNode* self, two::Key code) {
-		static two::KeyEvent temp;
-		return (temp = self->key_stroke(code), &temp);
-	}
-	two::KeyEvent* DECL two_ControlNode_key_stroke_2(two::ControlNode* self, two::Key code, two::InputMod modifier) {
-		static two::KeyEvent temp;
-		return (temp = self->key_stroke(code, modifier), &temp);
-	}
-	two::KeyEvent* DECL two_ControlNode_char_stroke_1(two::ControlNode* self, two::Key code) {
-		static two::KeyEvent temp;
-		return (temp = self->char_stroke(code), &temp);
-	}
-	two::KeyEvent* DECL two_ControlNode_char_stroke_2(two::ControlNode* self, two::Key code, two::InputMod modifier) {
-		static two::KeyEvent temp;
-		return (temp = self->char_stroke(code, modifier), &temp);
-	}
-	two::MouseEvent* DECL two_ControlNode_mouse_event_2(two::ControlNode* self, two::DeviceType device, two::EventType event_type) {
-		static two::MouseEvent temp;
-		return (temp = self->mouse_event(device, event_type), &temp);
-	}
-	two::MouseEvent* DECL two_ControlNode_mouse_event_3(two::ControlNode* self, two::DeviceType device, two::EventType event_type, two::InputMod modifier) {
-		static two::MouseEvent temp;
-		return (temp = self->mouse_event(device, event_type, modifier), &temp);
-	}
-	two::MouseEvent* DECL two_ControlNode_mouse_event_4(two::ControlNode* self, two::DeviceType device, two::EventType event_type, two::InputMod modifier, bool consume) {
-		static two::MouseEvent temp;
-		return (temp = self->mouse_event(device, event_type, modifier, consume), &temp);
-	}
-	void DECL two_ControlNode__destroy(two::ControlNode* self) {
 		delete self;
 	}
 	// Keyboard

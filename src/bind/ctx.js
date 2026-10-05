@@ -133,6 +133,27 @@ Object.defineProperty(Context.prototype, "mouse_lock", {
 Context.prototype["__destroy"] = Context.prototype.__destroy = function() {
     _two_Context__destroy(this.__ptr);
 };
+// ControlId
+function ControlId() {
+    this.__ptr = _two_ControlId__construct_0(); getCache(ControlId)[this.__ptr] = this;
+};
+ControlId.prototype = Object.create(WrapperObject.prototype);
+ControlId.prototype.constructor = ControlId;
+ControlId.prototype.__class = ControlId;
+ControlId.__cache = {};
+Module['ControlId'] = ControlId;
+Object.defineProperty(ControlId.prototype, "index", {
+    get: function() {
+        return _two_ControlId__get_index(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('ControlId.index: expected integer');
+        _two_ControlId__set_index(this.__ptr, value);
+    }
+});
+ControlId.prototype["__destroy"] = ControlId.prototype.__destroy = function() {
+    _two_ControlId__destroy(this.__ptr);
+};
 // InputEvent
 function InputEvent() {
     this.__ptr = _two_InputEvent__construct_0(); getCache(InputEvent)[this.__ptr] = this;
@@ -143,7 +164,7 @@ InputEvent.prototype.__class = InputEvent;
 InputEvent.__cache = {};
 Module['InputEvent'] = InputEvent;
 InputEvent.prototype["consume"] = InputEvent.prototype.consume = function(a0) {
-    if (!checkClass(a0, ControlNode)) throw Error('consume(0:consumer): expected ControlNode');
+    if (!checkClass(a0, ControlId)) throw Error('consume(0:consumer): expected ControlId');
     return wrapPointer(_two_InputEvent_consume_1(this.__ptr, /*consumer*/a0.__ptr), InputEvent);
 };
 InputEvent.prototype["valid"] = InputEvent.prototype.valid = function() {
@@ -169,19 +190,19 @@ Object.defineProperty(InputEvent.prototype, "eventType", {
 });
 Object.defineProperty(InputEvent.prototype, "receiver", {
     get: function() {
-        return wrapPointer(_two_InputEvent__get_receiver(this.__ptr), ControlNode);
+        return wrapPointer(_two_InputEvent__get_receiver(this.__ptr), ControlId);
     },
     set: function(value) {
-        if (!checkClass(value, ControlNode)) throw Error('InputEvent.receiver: expected ControlNode');
+        if (!checkClass(value, ControlId)) throw Error('InputEvent.receiver: expected ControlId');
         _two_InputEvent__set_receiver(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(InputEvent.prototype, "consumer", {
     get: function() {
-        return wrapPointer(_two_InputEvent__get_consumer(this.__ptr), ControlNode);
+        return wrapPointer(_two_InputEvent__get_consumer(this.__ptr), ControlId);
     },
     set: function(value) {
-        if (!checkClass(value, ControlNode)) throw Error('InputEvent.consumer: expected ControlNode');
+        if (!checkClass(value, ControlId)) throw Error('InputEvent.consumer: expected ControlId');
         _two_InputEvent__set_consumer(this.__ptr, value.__ptr);
     }
 });
@@ -270,6 +291,15 @@ Object.defineProperty(MouseEvent.prototype, "pressed", {
         _two_MouseEvent__set_pressed(this.__ptr, value.__ptr);
     }
 });
+Object.defineProperty(MouseEvent.prototype, "target", {
+    get: function() {
+        return wrapPointer(_two_MouseEvent__get_target(this.__ptr), ControlId);
+    },
+    set: function(value) {
+        if (!checkClass(value, ControlId)) throw Error('MouseEvent.target: expected ControlId');
+        _two_MouseEvent__set_target(this.__ptr, value.__ptr);
+    }
+});
 Object.defineProperty(MouseEvent.prototype, "button", {
     get: function() {
         return _two_MouseEvent__get_button(this.__ptr);
@@ -313,42 +343,6 @@ Object.defineProperty(KeyEvent.prototype, "char", {
 KeyEvent.prototype["__destroy"] = KeyEvent.prototype.__destroy = function() {
     _two_KeyEvent__destroy(this.__ptr);
 };
-// ControlNode
-function ControlNode() { throw "cannot construct a ControlNode, no constructor in IDL" }
-ControlNode.prototype = Object.create(WrapperObject.prototype);
-ControlNode.prototype.constructor = ControlNode;
-ControlNode.prototype.__class = ControlNode;
-ControlNode.__cache = {};
-Module['ControlNode'] = ControlNode;
-ControlNode.prototype["key_event"] = ControlNode.prototype.key_event = function(a0, a1, a2) {
-    if (a2 === undefined) { if (typeof a0 !== 'number') throw Error('key_event(0:code): expected integer'); if (typeof a1 !== 'number') throw Error('key_event(1:event_type): expected integer'); }
-    else { if (typeof a0 !== 'number') throw Error('key_event(0:code): expected integer'); if (typeof a1 !== 'number') throw Error('key_event(1:event_type): expected integer'); if (typeof a2 !== 'number') throw Error('key_event(2:modifier): expected integer'); }
-    if (a2 === undefined) { return wrapPointer(_two_ControlNode_key_event_2(this.__ptr, /*code*/a0, /*event_type*/a1), KeyEvent); }
-    else { return wrapPointer(_two_ControlNode_key_event_3(this.__ptr, /*code*/a0, /*event_type*/a1, /*modifier*/a2), KeyEvent); }
-};
-ControlNode.prototype["key_stroke"] = ControlNode.prototype.key_stroke = function(a0, a1) {
-    if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('key_stroke(0:code): expected integer'); }
-    else { if (typeof a0 !== 'number') throw Error('key_stroke(0:code): expected integer'); if (typeof a1 !== 'number') throw Error('key_stroke(1:modifier): expected integer'); }
-    if (a1 === undefined) { return wrapPointer(_two_ControlNode_key_stroke_1(this.__ptr, /*code*/a0), KeyEvent); }
-    else { return wrapPointer(_two_ControlNode_key_stroke_2(this.__ptr, /*code*/a0, /*modifier*/a1), KeyEvent); }
-};
-ControlNode.prototype["char_stroke"] = ControlNode.prototype.char_stroke = function(a0, a1) {
-    if (a1 === undefined) { if (typeof a0 !== 'number') throw Error('char_stroke(0:code): expected integer'); }
-    else { if (typeof a0 !== 'number') throw Error('char_stroke(0:code): expected integer'); if (typeof a1 !== 'number') throw Error('char_stroke(1:modifier): expected integer'); }
-    if (a1 === undefined) { return wrapPointer(_two_ControlNode_char_stroke_1(this.__ptr, /*code*/a0), KeyEvent); }
-    else { return wrapPointer(_two_ControlNode_char_stroke_2(this.__ptr, /*code*/a0, /*modifier*/a1), KeyEvent); }
-};
-ControlNode.prototype["mouse_event"] = ControlNode.prototype.mouse_event = function(a0, a1, a2, a3) {
-    if (a2 === undefined) { if (typeof a0 !== 'number') throw Error('mouse_event(0:device): expected integer'); if (typeof a1 !== 'number') throw Error('mouse_event(1:event_type): expected integer'); }
-    else if (a3 === undefined) { if (typeof a0 !== 'number') throw Error('mouse_event(0:device): expected integer'); if (typeof a1 !== 'number') throw Error('mouse_event(1:event_type): expected integer'); if (typeof a2 !== 'number') throw Error('mouse_event(2:modifier): expected integer'); }
-    else { if (typeof a0 !== 'number') throw Error('mouse_event(0:device): expected integer'); if (typeof a1 !== 'number') throw Error('mouse_event(1:event_type): expected integer'); if (typeof a2 !== 'number') throw Error('mouse_event(2:modifier): expected integer'); if (typeof a3 !== 'boolean') throw Error('mouse_event(3:consume): expected boolean'); }
-    if (a2 === undefined) { return wrapPointer(_two_ControlNode_mouse_event_2(this.__ptr, /*device*/a0, /*event_type*/a1), MouseEvent); }
-    else if (a3 === undefined) { return wrapPointer(_two_ControlNode_mouse_event_3(this.__ptr, /*device*/a0, /*event_type*/a1, /*modifier*/a2), MouseEvent); }
-    else { return wrapPointer(_two_ControlNode_mouse_event_4(this.__ptr, /*device*/a0, /*event_type*/a1, /*modifier*/a2, /*consume*/a3), MouseEvent); }
-};
-ControlNode.prototype["__destroy"] = ControlNode.prototype.__destroy = function() {
-    _two_ControlNode__destroy(this.__ptr);
-};
 // Keyboard
 function Keyboard() { throw "cannot construct a Keyboard, no constructor in IDL" }
 Keyboard.prototype = Object.create(WrapperObject.prototype);
@@ -374,10 +368,10 @@ Mouse.prototype["__destroy"] = Mouse.prototype.__destroy = function() {
     function setup() {
         RenderSystem.prototype.__type = _two_RenderSystem__type();
         Context.prototype.__type = _two_Context__type();
+        ControlId.prototype.__type = _two_ControlId__type();
         InputEvent.prototype.__type = _two_InputEvent__type();
         MouseEvent.prototype.__type = _two_MouseEvent__type();
         KeyEvent.prototype.__type = _two_KeyEvent__type();
-        ControlNode.prototype.__type = _two_ControlNode__type();
         Keyboard.prototype.__type = _two_Keyboard__type();
         Mouse.prototype.__type = _two_Mouse__type();
         // Key

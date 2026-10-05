@@ -33,13 +33,13 @@ namespace two
 			this->begin(m_position);
 			this->update(m_position);
 			this->end();
-			event.consume(screen);
+			event.consume(screen.control_id());
 		}
 
 		if(MouseEvent event = screen.mouse_event(DeviceType::MouseLeft, EventType::DragStarted))
 		{
 			this->begin(m_position);
-			event.consume(screen);
+			event.consume(screen.control_id());
 		}
 
 		if(MouseEvent event = screen.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
@@ -47,13 +47,13 @@ namespace two
 			this->update(m_position);
 			// @todo this works, and not the next one
 			//static_cast<MouseEvent*>(screen.m_events->m_events[DeviceType::MouseLeft][EventType::Dragged])->consume(screen);
-			event.consume(screen);
+			event.consume(screen.control_id());
 		}
 
 		if(MouseEvent event = screen.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
 		{
 			this->end();
-			event.consume(screen);
+			event.consume(screen.control_id());
 		}
 
 		// the controller of the viewer takes its input from the overlay covering the viewer

@@ -135,7 +135,7 @@ namespace ui
 
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
-			Widget* target = static_cast<Widget*>(event.m_target);
+			Widget* target = self.ui().find_control(event.m_target);
 			NodePlugHandle target_plug = {};
 			if(target && target->frame().d_style == &node_styles().plug && target != &self)
 				target_plug = { target, &target->state<NodePlug>() };

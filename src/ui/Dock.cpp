@@ -85,7 +85,7 @@ namespace ui
 				// the item was just undocked: the drag continues on its floating window, from under the cursor
 				Mouse& mouse = container.self.ui().m_mouse;
 				container.self.set_position(mouse.m_pos - parent.absolute_position() - vec2(10.f));
-				mouse.fix_press(*container.header);
+				mouse.fix_press(container.header->control_id());
 				docksystem.m_dragged.clear();
 			}
 

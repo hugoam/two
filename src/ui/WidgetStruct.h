@@ -20,11 +20,19 @@ namespace two
 		Draw m_draw;
 	};
 
+	// the modality of a widget, a state of its node: the widget it took its modality from, and the widget it gave it to for the devices of the mask
+	export_ struct ModalControl
+	{
+		ControlId m_parent;
+		ControlId m_modal;
+		uint32_t m_mask = 0;
+	};
+
 #ifndef _MSC_VER
 	extern template class PooledNode<Widget>;
 #endif
 
-	export_ class refl_ TWO_UI_EXPORT Widget : public PooledNode<Widget>, public ControlNode
+	export_ class refl_ TWO_UI_EXPORT Widget : public PooledNode<Widget>
 	{
 	public:
 		Widget(PooledGraph<Widget>& graph);
@@ -72,19 +80,16 @@ namespace two
 		Widget* pinpoint(vec2 pos);
 		Widget* pinpoint(vec2 pos, const FrameFilter& filter);
 
-		//inline bool fits_modifier(InputMod modifier, InputMod mask) { return mask == InputMod::Any || modifier == mask; }
-		//
-		//meth_ KeyEvent key_event(Key code, EventType event_type, InputMod modifier = InputMod::Any);
-		//meth_ KeyEvent key_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(code, EventType::Stroked, modifier); }
-		//meth_ KeyEvent char_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(translate(code), EventType::Stroked, modifier); }
-		//
-		//meth_ MouseEvent mouse_event(DeviceType device, EventType event_type, InputMod modifier = InputMod::None, bool consume = true);
+		// the widget as a node of the tree the ui dispatches the events in
+		inline ControlId control_id() const { return ControlId(m_index); }
+
+		meth_ KeyEvent key_event(Key code, EventType event_type, InputMod modifier = InputMod::Any);
+		meth_ KeyEvent key_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(code, EventType::Stroked, modifier); }
+		meth_ KeyEvent char_stroke(Key code, InputMod modifier = InputMod::Any) { return key_event(translate(code), EventType::Stroked, modifier); }
+
+		meth_ MouseEvent mouse_event(DeviceType device, EventType event_type, InputMod modifier = InputMod::None, bool consume = true);
 		
 		void transform_event(InputEvent& event);
-
-		virtual ControlNode* control_event(InputEvent& event) override;
-		virtual void receive_event(InputEvent& event) override;
-		//virtual ControlNode* propagate_event(InputEvent& event) override;
 
 		// the frame of the widget, its data by node index in the frames of the ui
 		attr_ inline Frame& frame();
@@ -126,8 +131,10 @@ namespace two
 				m_graph->node(node).visit_layers(visitor);
 		}
 
-		// the node is going away: the layer of the widget leaves the layer it's drawn in
+		// the node is going away, its states are still there: it lets go of what refers to it
 		void release();
+		// the layer of the widget leaves the layer it's drawn in
+		void release_layer();
 
 		void mark_dirty(DirtyLayout dirty);
 

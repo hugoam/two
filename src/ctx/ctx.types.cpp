@@ -14,10 +14,10 @@ namespace two
     
     template <> TWO_CTX_EXPORT Type& type<two::RenderSystem>() { static Type ty("RenderSystem", sizeof(two::RenderSystem)); return ty; }
     template <> TWO_CTX_EXPORT Type& type<two::Context>() { static Type ty("Context", sizeof(two::Context)); return ty; }
+    template <> TWO_CTX_EXPORT Type& type<two::ControlId>() { static Type ty("ControlId", sizeof(two::ControlId)); return ty; }
     template <> TWO_CTX_EXPORT Type& type<two::InputEvent>() { static Type ty("InputEvent", sizeof(two::InputEvent)); return ty; }
     template <> TWO_CTX_EXPORT Type& type<two::MouseEvent>() { static Type ty("MouseEvent", type<two::InputEvent>(), sizeof(two::MouseEvent)); return ty; }
     template <> TWO_CTX_EXPORT Type& type<two::KeyEvent>() { static Type ty("KeyEvent", type<two::InputEvent>(), sizeof(two::KeyEvent)); return ty; }
-    template <> TWO_CTX_EXPORT Type& type<two::ControlNode>() { static Type ty("ControlNode", sizeof(two::ControlNode)); return ty; }
     template <> TWO_CTX_EXPORT Type& type<two::Keyboard>() { static Type ty("Keyboard", sizeof(two::Keyboard)); return ty; }
     template <> TWO_CTX_EXPORT Type& type<two::Mouse>() { static Type ty("Mouse", sizeof(two::Mouse)); return ty; }
 }

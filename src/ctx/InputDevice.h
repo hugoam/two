@@ -7,7 +7,6 @@
 #include <ctx/Forward.h>
 #include <ctx/KeyCode.h>
 #include <ctx/InputDispatcher.h>
-#include <ctx/ControlNode.h>
 
 namespace two
 {
@@ -61,7 +60,7 @@ namespace two
 		Mouse& m_mouse;
 		DeviceType m_deviceType;
 
-		ControlNode* m_pressed = nullptr;
+		ControlId m_pressed;
 		bool m_dragging = false;
 
 		MouseEvent m_pressed_event = {};
@@ -73,13 +72,13 @@ namespace two
 		Mouse(EventDispatcher& dispatcher, Keyboard& keyboard);
 
 		MouseEvent& dispatch_event(MouseEvent evt);
-		MouseEvent& dispatch_secondary(MouseEvent evt, ControlNode* pressed, vec2 pressed_pos, ControlNode* target = nullptr);
+		MouseEvent& dispatch_secondary(MouseEvent evt, ControlId pressed, vec2 pressed_pos, ControlId target = {});
 
 		MouseEvent& heartbeat();
 		void moved(vec2 pos, vec2* offset = nullptr);
 		void wheeled(vec2 pos, float amount);
 
-		void fix_press(ControlNode& node);
+		void fix_press(ControlId node);
 
 	public:
 		Keyboard& m_keyboard;
@@ -90,7 +89,7 @@ namespace two
 		vector<MouseEvent> m_events;
 	};
 
-	export_ class TWO_CTX_EXPORT InputContext : public ControlNode, public EventDispatcher
+	export_ class TWO_CTX_EXPORT InputContext : public EventDispatcher
 	{
 	public:
 		InputContext();
@@ -100,8 +99,8 @@ namespace two
 		void begin_frame();
 		void end_frame();
 
-		virtual ControlNode* control_event(InputEvent& event) override;
-		virtual void receive_event(InputEvent& inputEvent) override;
+		virtual ControlId route(InputEvent& event) override;
+		virtual void receive(InputEvent& event, ControlId receiver) override;
 
 		Keyboard m_keyboard;
 		Mouse m_mouse;
