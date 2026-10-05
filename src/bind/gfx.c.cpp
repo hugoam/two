@@ -4074,11 +4074,11 @@ extern "C" {
 	void DECL two_Scene__set_index(two::Scene* self, uint32_t value) {
 		self->m_index = value;
 	}
-	two::Gnode* DECL two_Scene__get_graph(two::Scene* self) {
-		return &self->m_graph;
-	}
 	two::Node3* DECL two_Scene__get_root_node(two::Scene* self) {
 		return &self->m_root_node;
+	}
+	two::Gnode* DECL two_Scene__get_graph(two::Scene* self) {
+		return &self->m_graph;
 	}
 	two::Zone* DECL two_Scene__get_env(two::Scene* self) {
 		return &self->m_env;

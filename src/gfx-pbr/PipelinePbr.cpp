@@ -224,7 +224,7 @@ namespace gfx
 	void gather_gi_probes(Scene& scene, vector<GIProbe*>& gi_probes)
 	{
 		//gi_probes.reserve(m_pool->pool<GIProbe>().size());
-		scene.m_pool->pool<GIProbe>().iterate([&](GIProbe& gi_probe)
+		scene.iterate<GIProbe>([&](GIProbe& gi_probe)
 		{
 			gi_probes.push_back(&gi_probe);
 		});
@@ -233,7 +233,7 @@ namespace gfx
 	void gather_lightmaps(Scene& scene, vector<LightmapAtlas*>& atlases)
 	{
 		//atlases.reserve(m_pool->pool<LightmapAtlas>().size());
-		scene.m_pool->pool<LightmapAtlas>().iterate([&](LightmapAtlas& atlas)
+		scene.iterate<LightmapAtlas>([&](LightmapAtlas& atlas)
 		{
 			atlases.push_back(&atlas);
 		});
@@ -241,7 +241,7 @@ namespace gfx
 
 	void gather_reflection_probes(Scene& scene, vector<ReflectionProbe*>& reflection_probes)
 	{
-		scene.m_pool->pool<ReflectionProbe>().iterate([&](ReflectionProbe& probe)
+		scene.iterate<ReflectionProbe>([&](ReflectionProbe& probe)
 		{
 			if(probe.m_visible)
 			{

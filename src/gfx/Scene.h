@@ -105,14 +105,22 @@ namespace two
 		unique<ObjectPool> m_pool;
 
 		attr_ uint32_t m_index;
+		// declared before the graph: the objects of the nodes refer to it, and are destroyed with the nodes
+		attr_ Node3 m_root_node;
 		PooledGraph<Gnode> m_nodes;
 		attr_ Gnode m_graph;
-		attr_ Node3 m_root_node;
 		attr_ Zone m_env;
 		attr_ Ref m_user;
 
+		// the top-level node of the graph whose objects the scene renders: the root of the graph
+		uint32_t m_tree = 0;
+
 		meth_ Gnode& begin();
 		meth_ void update();
+
+		// visits the objects of a type of the scene's tree
+		template <class T, class T_Func>
+		inline void iterate(T_Func func) { m_nodes.template store<T>().iterate(m_tree, func); }
 
 		void debug_items(Render& render);
 

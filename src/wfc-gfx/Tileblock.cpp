@@ -161,7 +161,7 @@ namespace two
 		VisuBlock& visu = parent.state<VisuBlock>();
 
 		Gnode& self = gfx::node(parent, tileblock.m_aabb.bmin());
-		self.as<Node3>()->m_object = object;
+		self.find_state<Node3>()->m_object = object;
 
 		bool dirty = visu.m_updated < tileblock.m_wave_updated;
 

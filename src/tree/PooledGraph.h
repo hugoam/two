@@ -28,6 +28,14 @@ namespace two
 	export_ template <class T>
 	inline uint32_t state_type() { static uint32_t id = next_state_type(); return id; }
 
+	// the state of a node, found or created, and whether it was just created
+	export_ template <class T>
+	struct FoundState
+	{
+		T& state;
+		bool created;
+	};
+
 	// the states of one type, by node index: the states are stored in a pool, where they don't move, and found by the index of their node
 	// the states of the nodes of one tree are stored together, in the chunks of the colour of the tree
 	export_ class StateStore
@@ -46,13 +54,12 @@ namespace two
 	class TStateStore : public StateStore
 	{
 	public:
-		TStateStore(uint32_t chunk_size = 64) : m_owned(make_unique<ChunkedPool<T>>(chunk_size)), m_pool(m_owned.get()), m_owner(true) {}
-		TStateStore(ChunkedPool<T>& pool) : m_pool(&pool), m_owner(false) {}
+		TStateStore(uint32_t chunk_size = 64) : m_pool(chunk_size) {}
 
 		template <class... Args>
 		inline T& create(uint32_t node, uint32_t tree, Args&&... args)
 		{
-			T& state = m_pool->construct_in(tree, static_cast<Args&&>(args)...);
+			T& state = m_pool.construct_in(tree, static_cast<Args&&>(args)...);
 			if(node >= m_handles.capacity())
 				m_handles.ensure(node + 1);
 			m_handles.add(node);
@@ -60,7 +67,7 @@ namespace two
 			return state;
 		}
 
-		// a state in a pool of its own goes away with its node, a state in a pool shared with others, e.g the objects of a scene, is left to its pool
+		// a state goes away with its node
 		virtual void release(uint32_t node) override
 		{
 			if(!m_handles.has(node))
@@ -68,17 +75,14 @@ namespace two
 			T* state = static_cast<T*>(m_states[m_handles[node]]);
 			uint32_t index = m_handles.remove(node);
 			swap_pop(m_states, index);
-			if(m_owner)
-				m_pool->tdestroy(*state);
+			m_pool.tdestroy(*state);
 		}
 
 		// visits the states of the nodes of a tree
 		template <class T_Func>
-		inline void iterate(uint32_t tree, T_Func func) const { m_pool->iterate(tree, func); }
+		inline void iterate(uint32_t tree, T_Func func) const { m_pool.iterate(tree, func); }
 
-		unique<ChunkedPool<T>> m_owned;
-		ChunkedPool<T>* m_pool;
-		bool m_owner;
+		ChunkedPool<T> m_pool;
 	};
 
 	// the single object holding all the nodes of a graph, and their structure
@@ -152,7 +156,7 @@ namespace two
 			return id < m_stores.size() ? static_cast<TStateStore<T_State>*>(m_stores[id].get()) : nullptr;
 		}
 
-		// the store of a type of state: its states are in a pool of its own, unless it's given one before its first state
+		// the store of a type of state, created with the given size of its chunks on first use
 		template <class T_State, class... Args>
 		inline TStateStore<T_State>& store(Args&&... args)
 		{
@@ -172,12 +176,18 @@ namespace two
 		}
 
 		template <class T_State, class... Args>
-		inline T_State& node_state(uint32_t index, Args&&... args)
+		inline FoundState<T_State> find_or_create_state(uint32_t index, Args&&... args)
 		{
 			TStateStore<T_State>& store = this->template store<T_State>();
 			if(void* state = store.find(index))
-				return *static_cast<T_State*>(state);
-			return store.create(index, m_tree[index], static_cast<Args&&>(args)...);
+				return { *static_cast<T_State*>(state), false };
+			return { store.create(index, m_tree[index], static_cast<Args&&>(args)...), true };
+		}
+
+		template <class T_State, class... Args>
+		inline T_State& node_state(uint32_t index, Args&&... args)
+		{
+			return this->template find_or_create_state<T_State>(index, static_cast<Args&&>(args)...).state;
 		}
 
 		inline T& update(uint32_t parent, uint32_t index)
@@ -617,6 +627,13 @@ namespace two
 		inline T_State& state(Args&&... args)
 		{
 			return m_graph->template node_state<T_State>(m_index, static_cast<Args&&>(args)...);
+		}
+
+		// the state of this node of the given type, and whether it was just created, to set it up once
+		template <class T_State, class... Args>
+		inline FoundState<T_State> find_or_create_state(Args&&... args)
+		{
+			return m_graph->template find_or_create_state<T_State>(m_index, static_cast<Args&&>(args)...);
 		}
 
 		// the state of this node of the given type, if it has one

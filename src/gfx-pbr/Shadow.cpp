@@ -55,7 +55,7 @@ namespace two
 	vector<Item*> filter_cull(Scene& scene, T_Filter filter, bool nofilter = false)
 	{
 		vector<Item*> culled;
-		scene.m_pool->pool<Item>().iterate([&](Item& item) {
+		scene.iterate<Item>([&](Item& item) {
 			if(nofilter || filter(item))
 			{
 				culled.push_back(&item);
@@ -68,7 +68,7 @@ namespace two
 	vector<Item*> frustum_cull(Scene& scene, const Plane6& frustum_planes, T_Filter filter, bool nofilter = false)
 	{
 		vector<Item*> culled;
-		scene.m_pool->pool<Item>().iterate([&](Item& item) {
+		scene.iterate<Item>([&](Item& item) {
 			if(nofilter || filter(item))
 			{
 				if(frustum_aabb_intersection(frustum_planes, item.m_aabb))

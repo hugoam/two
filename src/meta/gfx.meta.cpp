@@ -3905,8 +3905,8 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::Scene, m_index), type<uint32_t>(), "index", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::Scene, m_graph), type<two::Gnode>(), "graph", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::Scene, m_root_node), type<two::Node3>(), "root_node", nullptr, Member::NonMutable, nullptr },
+			{ t, offsetof(two::Scene, m_graph), type<two::Gnode>(), "graph", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::Scene, m_env), type<two::Zone>(), "env", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Scene, m_user), type<two::Ref>(), "user", nullptr, Member::Value, nullptr }
 		};

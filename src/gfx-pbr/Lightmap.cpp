@@ -390,7 +390,7 @@ namespace two
 		vector<Item*> items;
 		//Plane6 planes = frustum_planes(transform, vec2(extents.x, extents.y), -extents.z / 2.f, -extents.z / 2.f);
 		//scene.cull_items(planes, items);
-		scene.m_pool->pool<Item>().iterate([&](Item& item)
+		scene.iterate<Item>([&](Item& item)
 		{
 			if((item.m_flags & ItemFlag::Render) != 0
 			&& (item.m_flags & ItemFlag::Static) != 0)

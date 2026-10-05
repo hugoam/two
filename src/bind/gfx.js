@@ -5546,13 +5546,13 @@ Object.defineProperty(Scene.prototype, "index", {
         _two_Scene__set_index(this.__ptr, value);
     }
 });
-Object.defineProperty(Scene.prototype, "graph", {
-    get: function() {
-        return wrapPointer(_two_Scene__get_graph(this.__ptr), Gnode);
-    }});
 Object.defineProperty(Scene.prototype, "root_node", {
     get: function() {
         return wrapPointer(_two_Scene__get_root_node(this.__ptr), Node3);
+    }});
+Object.defineProperty(Scene.prototype, "graph", {
+    get: function() {
+        return wrapPointer(_two_Scene__get_graph(this.__ptr), Gnode);
     }});
 Object.defineProperty(Scene.prototype, "env", {
     get: function() {

@@ -17,9 +17,8 @@ namespace two
 		, m_graph(m_nodes, *this)
 	{
 		m_pool = oconstruct<ObjectPool>();
-		m_pool->create_pool<Flare>(1024);
 
-		m_particle_system = oconstruct<ParticleSystem>(gfx, m_pool->pool<Flare>());
+		m_particle_system = oconstruct<ParticleSystem>(gfx, *this);
 	}
 
 	Scene::~Scene()
@@ -30,7 +29,7 @@ namespace two
 		static Clock clock;
 		float timestep = float(clock.step());
 
-		m_pool->pool<Mime>().iterate([=](Mime& animated)
+		this->iterate<Mime>([=](Mime& animated)
 		{
 			animated.advance(timestep);
 		});
@@ -65,7 +64,7 @@ namespace two
 	void cull_items(Scene& scene, const Plane6& planes, vector<Item*>& items)
 	{
 		//items.reserve(m_pool->pool<Item>().size());
-		scene.m_pool->pool<Item>().iterate([&](Item& item)
+		scene.iterate<Item>([&](Item& item)
 		{
 			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0)
 				if((item.m_flags & ItemFlag::NoCull) != 0 || frustum_aabb_intersection(planes, item.m_aabb))
@@ -84,7 +83,7 @@ namespace two
 		const vec4 lod_levels = camera.m_far * vec4(0.02f, 0.3f, 0.6f, 0.8f);
 
 		//items.reserve(m_pool->pool<Item>().size());
-		scene.m_pool->pool<Item>().iterate([&](Item& item)
+		scene.iterate<Item>([&](Item& item)
 		{
 			if(item.m_visible && (item.m_flags & ItemFlag::Render) != 0)
 			{
@@ -113,7 +112,7 @@ namespace two
 		Plane6 planes = frustum_planes(camera.m_proj, camera.m_view);
 
 		//occluders.reserve(m_pool->pool<Item>().size());
-		scene.m_pool->pool<Item>().iterate([&](Item& item)
+		scene.iterate<Item>([&](Item& item)
 		{
 			if(item.m_visible && (item.m_flags & ItemFlag::Occluder) != 0
 			&& frustum_aabb_intersection(planes, item.m_aabb))
@@ -127,7 +126,7 @@ namespace two
 	{
 		uint32_t index = 0;
 		//lights.reserve(m_pool->pool<Light>().size());
-		scene.m_pool->pool<Light>().iterate([&](Light& light)
+		scene.iterate<Light>([&](Light& light)
 		{
 			if(light.m_visible)
 			{

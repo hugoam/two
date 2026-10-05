@@ -260,7 +260,7 @@ namespace two
 
 	void edit_gfx_items(Widget& parent, Scene& scene)
 	{
-		scene.m_pool->pool<Item>().iterate([&](Item& item) {
+		scene.iterate<Item>([&](Item& item) {
 			object_edit_inline(parent, Ref(&item));
 		});
 	}

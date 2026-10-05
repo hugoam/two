@@ -44,7 +44,7 @@ namespace two
 		auto print_depth = [](size_t depth) { for(size_t i = 0; i < depth; ++i) printf("    "); };
 		print_depth(depth);
 		printf("node %i\n", int(index));
-		if(Item* item = node.as<Item>())
+		if(Item* item = node.find_state<Item>())
 		{
 			print_depth(depth + 1);
 			printf("item %s\n", item->m_model->m_name.c_str());
@@ -73,13 +73,10 @@ namespace gfx
 	{
 		Gnode& self = parent.suba();
 		//Gnode& self = parent.subi((void*)object.as_uint());
-		Node3* node = self.as<Node3>();
-		if(node == nullptr)
-		{
-			node = self.instantiate<Node3>(*parent.m_scene);
-			self.m_attach = node;
-		}
-		node->m_transform = transform;
+		FoundState<Node3> node = self.find_or_create_state<Node3>();
+		if(node.created)
+			self.m_attach = &node.state;
+		node.state.m_transform = transform;
 		return self;
 	}
 
@@ -106,46 +103,35 @@ namespace gfx
 	Item& item(Gnode& parent, const Model& model, uint32_t flags, Material* material)
 	{
 		Gnode& self = parent.suba();
-		bool update = (flags & ItemFlag::NoUpdate) == 0;
-		Item* item = self.as<Item>();
-		if(item == nullptr)
-		{
-			item = self.instantiate<Item>(*self.m_scene, *self.m_attach, model, flags, material);
-			update = true;
-		}
-		item->m_model = const_cast<Model*>(&model);
-		item->m_material = material;
+		FoundState<Item> item = self.find_or_create_state<Item>(*self.m_attach, model, flags, material);
+		bool update = item.created || (flags & ItemFlag::NoUpdate) == 0;
+		item.state.m_model = const_cast<Model*>(&model);
+		item.state.m_material = material;
 		if(update)
 		{
-			item->update_aabb();
+			item.state.update_aabb();
 		}
-		return *item;
+		return item.state;
 	}
 
 	Batch& batch(Gnode& parent, Item& item, uint16_t stride)
 	{
 		Gnode& self = parent.suba();
-		Batch* batch = self.as<Batch>();
-		if (batch == nullptr)
-		{
-			batch = self.instantiate<Batch>(*self.m_scene, item, stride);
-			item.m_batch = batch;
-		}
-		return *batch;
+		FoundState<Batch> batch = self.find_or_create_state<Batch>(item, stride);
+		if(batch.created)
+			item.m_batch = &batch.state;
+		return batch.state;
 	}
 
 	Batch& instances(Gnode& parent, Item& item, span<mat4> transforms)
 	{
 		Gnode& self = parent.suba();
-		Batch* batch = self.as<Batch>();
-		if (batch == nullptr)
-		{
-			batch = self.instantiate<Batch>(*self.m_scene, item, uint16_t(sizeof(mat4)));
-			item.m_batch = batch;
-		}
-		batch->transforms(transforms);
-		batch->update_aabb(transforms);
-		return *batch;
+		FoundState<Batch> batch = self.find_or_create_state<Batch>(item, uint16_t(sizeof(mat4)));
+		if(batch.created)
+			item.m_batch = &batch.state;
+		batch.state.transforms(transforms);
+		batch.state.update_aabb(transforms);
+		return batch.state;
 	}
 
 	void prefab(Gnode& parent, const Prefab& prefab, bool transform, uint32_t flags, Material* material)
@@ -214,41 +200,32 @@ namespace gfx
 	Mime& animated(Gnode& parent, Item& item)
 	{
 		Gnode& self = parent.suba();
-		Mime* animated = self.as<Mime>();
-		if (animated == nullptr)
-		{
-			animated = self.instantiate<Mime>(*self.m_scene);
-			animated->add_item(item);
-		}
-		return *animated;
+		FoundState<Mime> animated = self.find_or_create_state<Mime>();
+		if(animated.created)
+			animated.state.add_item(item);
+		return animated.state;
 	}
 
 	Flare& flows(Gnode& parent, const Flow& emitter, uint32_t flags)
 	{
 		UNUSED(flags);
 		Gnode& self = parent.suba();
-		Flare* particles = self.as<Flare>();
-		if(particles == nullptr)
-			particles = self.instantiate<Flare>(*self.m_scene, self.m_attach, Sphere(1.f), 1024);
-		as<Flow>(*particles) = emitter;
-		particles->m_node = self.m_attach;
-		particles->m_sprite = &parent.m_scene->m_particle_system->m_block.m_sprites->find_sprite(emitter.m_sprite_name.c_str());
-		return *particles;
+		Flare& particles = self.state<Flare>(self.m_attach, Sphere(1.f), 1024);
+		as<Flow>(particles) = emitter;
+		particles.m_node = self.m_attach;
+		particles.m_sprite = &parent.m_scene->m_particle_system->m_block.m_sprites->find_sprite(emitter.m_sprite_name.c_str());
+		return particles;
 	}
 
 	Light& light(Gnode& parent, LightType light_type, bool shadows, Colour colour, float range, float attenuation)
 	{
 		Gnode& self = parent.suba();
-		Light* light = self.as<Light>();
-		if(light == nullptr)
-		{
-			light = self.instantiate<Light>(*self.m_scene, *self.m_attach, light_type, shadows);
-		}
-		light->m_type = light_type;
-		light->m_colour = colour;
-		light->m_range = range;
-		light->m_attenuation = attenuation;
-		return *light;
+		Light& light = self.state<Light>(*self.m_attach, light_type, shadows);
+		light.m_type = light_type;
+		light.m_colour = colour;
+		light.m_range = range;
+		light.m_attenuation = attenuation;
+		return light;
 	}
 
 	Light& direct_light_node(Gnode& parent, const quat& rotation)

@@ -29,12 +29,6 @@ namespace two
 		// the gfx nodes have no top nodes, they never change parent
 		void reparent(Gnode* old) { UNUSED(old); }
 
-		template <class T, class... Args>
-		T* instantiate(Scene& scene, Args&&... args);
-		
-		template <class T>
-		T* as();
-
 		Scene* m_scene = nullptr;
 		Node3* m_attach = nullptr;
 		
