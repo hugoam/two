@@ -13,7 +13,7 @@ namespace two
 	{
 		Widget& self = ui::sheet(key(), parent);
 
-		Table& table = ui::table(key(), self, { "Field", "Value" }, { 0.3f, 0.7f });
+		Widget& table = ui::table(key(), self, { "Field", "Value" }, { 0.3f, 0.7f });
 
 		static vector<cstring> animations;
 		animations.clear();
@@ -31,7 +31,7 @@ namespace two
 			ui::slider_field(key(), table, "timeline", play.m_cursor, { 0.f, play.m_animation->m_length, 0.01f });
 		}
 
-		Table& playing = ui::table(key(), self, { "Animation", "Time" }, { 0.6f, 0.4f });
+		Widget& playing = ui::table(key(), self, { "Animation", "Time" }, { 0.6f, 0.4f });
 		for(AnimPlay& play : animated.m_playing)
 		{
 			Widget& row = ui::table_row(key(), playing);
@@ -65,7 +65,7 @@ namespace two
 		const bgfx::Stats* stats = bgfx::getStats();
 
 		{
-			Table& columns = ui::columns(key(), self, { 0.4f, 0.6f });
+			Widget& columns = ui::columns(key(), self, { 0.4f, 0.6f });
 
 			double cpu_time = 1000.0f * stats->cpuTimeFrame / (double)stats->cpuTimerFreq;
 
@@ -78,7 +78,7 @@ namespace two
 		}
 
 		static cstring columns[3] = { "view", "gpu time", "cpu time" };
-		Table& table = ui::table(key(), self, { columns, 3 }, {});
+		Widget& table = ui::table(key(), self, { columns, 3 }, {});
 
 		for(int i = 0; i < stats->numViews; ++i)
 		{
@@ -297,7 +297,7 @@ namespace two
 
 	void edit_gfx(Widget& parent, GfxSystem& gfx)
 	{
-		Tabber& tabber = ui::tabber(key(), parent);
+		Tabber tabber = ui::tabber(key(), parent);
 
 		if(Widget* stats = ui::tab(key(), tabber, "Profiling"))
 			panel_gfx_stats(*stats);

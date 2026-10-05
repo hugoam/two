@@ -214,7 +214,7 @@ namespace two
 				self.self.m_switch &= ~Browse;
 		}
 
-		Tabber& tabber = ui::tabber(key(), self.body);
+		Tabber tabber = ui::tabber(key(), self.body);
 		for(Script* script : editor.m_scripts)
 			script_tab(tabber, editor, *script);
 	}

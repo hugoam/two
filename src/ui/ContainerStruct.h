@@ -31,14 +31,21 @@ namespace ui
 	};
 }
 
-	export_ class refl_ TWO_UI_EXPORT Tabber : public Widget
+	// the active tab of a tabber, and the index of the next tab declared in the frame
+	export_ struct TabberState : public NodeState
 	{
-	public:
-		Tabber(Widget* parent) : Widget(parent) {}
-		Widget* m_head = nullptr;
-		Widget* m_body = nullptr;
 		size_t m_index = 0;
 		size_t m_active = 0;
+	};
+
+	// a tabber, with the headers of its tabs in the head: the active tab goes in the body
+	export_ struct Tabber
+	{
+		Widget& self;
+		Widget& head;
+		Widget& body;
+		TabberState& state;
+		operator Widget&() const { return self; }
 	};
 
 	// a box opened and closed by its header: the body is there when it's open
@@ -59,11 +66,11 @@ namespace ui
 		operator Widget&() const { return self; }
 	};
 
-	export_ class refl_ TWO_UI_EXPORT Table : public Widget
+	// the weights of the columns of a table
+	export_ struct TableState : public NodeState
 	{
-	public:
-		Table(Widget* parent, span<float> weights);
-		Table(Widget* parent, size_t columns);
+		TableState(span<float> weights) : m_weights(to_vector(weights)) {}
+		TableState(size_t columns) : m_weights(columns, 1.f) {}
 		vector<float> m_weights;
 	};
 }

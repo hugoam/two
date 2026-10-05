@@ -50,8 +50,6 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::UiWindow>() { static Type ty("UiWindow", sizeof(two::UiWindow)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::User>() { static Type ty("User", sizeof(two::User)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Layer>() { static Type ty("Layer", sizeof(two::Layer)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::Tabber>() { static Type ty("Tabber", type<two::Widget>(), sizeof(two::Tabber)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::Table>() { static Type ty("Table", type<two::Widget>(), sizeof(two::Table)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Dock>() { static Type ty("Dock", sizeof(two::Dock)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Docksystem>() { static Type ty("Docksystem", sizeof(two::Docksystem)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Docker>() { static Type ty("Docker", type<two::Widget>(), sizeof(two::Docker)); return ty; }

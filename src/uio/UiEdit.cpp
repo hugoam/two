@@ -48,7 +48,7 @@ namespace two
 		Section self = section(key(), parent, "Ui Edit");
 		ui::toggle(key(), *self.toolbar, selecting, "Select Mode");
 
-		Tabber& tabber = ui::tabber(key(), self.body);
+		Tabber tabber = ui::tabber(key(), self.body);
 		if(Widget* tab = ui::tab(key(), tabber, "Modal"))
 			ui_debug_modal(*tab, target);
 		if(Widget* tab = ui::tab(key(), tabber, "Layout"))

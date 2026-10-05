@@ -967,20 +967,6 @@ extern "C" {
 	void DECL two_Layer__destroy(two::Layer* self) {
 		delete self;
 	}
-	// Tabber
-	two::Type* DECL two_Tabber__type() {
-		return &two::type<two::Tabber>();
-	}
-	void DECL two_Tabber__destroy(two::Tabber* self) {
-		delete self;
-	}
-	// Table
-	two::Type* DECL two_Table__type() {
-		return &two::type<two::Table>();
-	}
-	void DECL two_Table__destroy(two::Table* self) {
-		delete self;
-	}
 	// Dock
 	two::Type* DECL two_Dock__type() {
 		return &two::type<two::Dock>();
@@ -1237,10 +1223,10 @@ extern "C" {
 	two::Widget* DECL two_ui_toolbar_3(two::NodeKey* id, two::Widget* parent, bool wrap) {
 		return &two::ui::toolbar(*id, *parent, wrap);
 	}
-	two::Table* DECL two_ui_columns_3(two::NodeKey* id, two::Widget* parent, float* weights, int weights_size) {
+	two::Widget* DECL two_ui_columns_3(two::NodeKey* id, two::Widget* parent, float* weights, int weights_size) {
 		return &two::ui::columns(*id, *parent, { (float*)weights, weights_size / (sizeof(float) / sizeof(float)) });
 	}
-	two::Table* DECL two_ui_table_4(two::NodeKey* id, two::Widget* parent, const char** columns, int columns_size, float* weights, int weights_size) {
+	two::Widget* DECL two_ui_table_4(two::NodeKey* id, two::Widget* parent, const char** columns, int columns_size, float* weights, int weights_size) {
 		return &two::ui::table(*id, *parent, { (const char**)columns, columns_size / (sizeof(const char*) / sizeof(const char*)) }, { (float*)weights, weights_size / (sizeof(float) / sizeof(float)) });
 	}
 	two::Widget* DECL two_ui_table_row_2(two::NodeKey* id, two::Widget* parent) {
@@ -1251,12 +1237,6 @@ extern "C" {
 	}
 	two::Widget* DECL two_ui_tree_2(two::NodeKey* id, two::Widget* parent) {
 		return &two::ui::tree(*id, *parent);
-	}
-	two::Widget* DECL two_ui_tab_3(two::NodeKey* id, two::Tabber* tabber, const char* name) {
-		return two::ui::tab(*id, *tabber, name);
-	}
-	two::Tabber* DECL two_ui_tabber_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::tabber(*id, *parent);
 	}
 	two::Widget* DECL two_ui_row_2(two::NodeKey* id, two::Widget* parent) {
 		return &two::ui::row(*id, *parent);

@@ -25,7 +25,7 @@ namespace two
 	{
 		Widget& self = ui::widget(key(), parent, styles().sheet, &injector);
 		
-		Table& fields = ui::columns(key(), self, { 0.4f, 0.6f });
+		Widget& fields = ui::columns(key(), self, { 0.4f, 0.6f });
 		call_edit(fields, injector);
 
 		if(ui::button(key(), self, "Create").activated())
@@ -59,7 +59,7 @@ namespace two
 
 		ui::title(key(), self, creator.m_prototype ? creator.m_prototype->m_name : creator.m_type.m_name);
 
-		Table& fields = ui::table(key(), self, { "field", "value" }, { 0.3f, 0.7f });
+		Widget& fields = ui::table(key(), self, { "field", "value" }, { 0.3f, 0.7f });
 		call_edit(fields, creator.injector());
 
 		if(ui::button(key(), self, "Create").activated())

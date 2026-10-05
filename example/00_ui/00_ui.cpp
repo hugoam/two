@@ -334,7 +334,7 @@ void ex_nodes(Widget& parent)
 
 void ex_tabs(Widget& parent)
 {
-	Tabber& tabber = ui::tabber(key(), parent);
+	Tabber tabber = ui::tabber(key(), parent);
 
 	if(Widget* tab0 = ui::tab(key(), tabber, "Tab 0"))
 		ex_table(*tab0);

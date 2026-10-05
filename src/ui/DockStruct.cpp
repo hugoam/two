@@ -204,11 +204,11 @@ namespace two
 				line->m_frame.set_span(flip(dim), dock.m_span);
 		}
 
-		Tabber& section = ui::docksection(*line);
-		size_t index = section.m_index;
+		Tabber section = ui::docksection(*line);
+		size_t index = section.state.m_index;
 		Widget* tab = ui::tab(id, section, name); // dock_styles().docktab, 
 
-		Widget& header = section.m_head->child(uint32_t(index));
+		Widget& header = section.head.child(uint32_t(index));
 		if(header.mouse_event(DeviceType::MouseLeft, EventType::DragStarted))
 		{
 			this->undock(dock, name);

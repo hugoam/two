@@ -8,20 +8,6 @@ module two.ui;
 
 namespace two
 {
-	Table::Table(Widget* parent, span<float> weights)
-		: Widget(parent)
-		, m_weights(to_vector(weights))
-	{
-		m_frame.d_columns = m_weights;
-	}
-
-	Table::Table(Widget* parent, size_t columns)
-		: Widget(parent)
-		, m_weights(columns, 1.f)
-	{
-		m_frame.d_columns = m_weights;
-	}
-
 namespace ui
 {
 	ScrollSheet select_list(NodeKey id, Widget& parent)
@@ -29,31 +15,30 @@ namespace ui
 		return scroll_sheet(id, parent, styles().list);
 	}
 
-	Table& columns(NodeKey id, Widget& parent, span<float> weights)
+	// a table takes its weights, or its number of columns, when it's created
+	Widget& table(NodeKey id, Widget& parent, size_t columns, span<float> weights)
 	{
-		Table& self = parent.sub<Table, span<float>>(id, weights);
-		self.init(styles().table);
+		Widget& self = widget(id, parent, styles().table);
+		TableState& state = weights.size() > 0 ? self.state<TableState>(weights) : self.state<TableState>(columns);
+		self.m_frame.d_columns = state.m_weights;
 		return self;
 	}
-	
-	Table& table(NodeKey id, Widget& parent, size_t columns, span<float> weights)
+
+	Widget& columns(NodeKey id, Widget& parent, span<float> weights)
 	{
-		if(weights.size() > 0)
-			return parent.sub<Table, span<float>>(id, weights);
-		else
-			return parent.sub<Table, size_t>(id, columns);
+		return table(id, parent, weights.size(), weights);
 	}
 
-	Table& table(NodeKey id, Widget& parent, span<cstring> columns, span<float> weights)
+	Widget& table(NodeKey id, Widget& parent, span<cstring> columns, span<float> weights)
 	{
-		Table& self = table(id, parent, columns.size(), weights);
-		self.init(styles().table);
+		Widget& self = table(id, parent, columns.size(), weights);
+		TableState& state = self.state<TableState>(columns.size());
 
-		Widget& header = grid_sheet(key(), self, styles().table_head, Axis::X, self.m_weights); // [this](Frame& first, Frame& second) { this->resize(first, second); }
+		Widget& header = grid_sheet(key(), self, styles().table_head, Axis::X, state.m_weights); // [this](Frame& first, Frame& second) { this->resize(first, second); }
 
 		for(size_t i = 0; i < columns.size(); ++i)
 		{
-			Widget& column = spanner(key(), header, styles().column_header, Axis::X, self.m_weights[i]);
+			Widget& column = spanner(key(), header, styles().column_header, Axis::X, state.m_weights[i]);
 			label(key(), column, columns[i]);
 		}
 
@@ -127,25 +112,26 @@ namespace ui
 
 	Widget* tab(NodeKey id, Tabber& tabber, cstring name)
 	{
-		size_t index = tabber.m_index++;
-		Widget& header = tab_header(id, *tabber.m_head, name);
+		size_t index = tabber.state.m_index++;
+		Widget& header = tab_header(id, tabber.head, name);
 		if(header.activated())
-			tabber.m_active = index;
-		header.set_state(ACTIVE, tabber.m_active == index);
-		if(index == tabber.m_active)
-			return &tab_body(id, *tabber.m_body);
+			tabber.state.m_active = index;
+		header.set_state(ACTIVE, tabber.state.m_active == index);
+		if(index == tabber.state.m_active)
+			return &tab_body(id, tabber.body);
 		return nullptr;
 	}
 
-	Tabber& tabber(NodeKey id, Widget& parent)
+	Tabber tabber(NodeKey id, Widget& parent)
 	{
-		Tabber& self = twidget<Tabber>(id, parent, tabber_styles().tabber);
-		self.m_head = &widget(key(), self, tabber_styles().head);
+		Widget& self = widget(id, parent, tabber_styles().tabber);
+		Widget& head = widget(key(), self, tabber_styles().head);
 		widget(key(), self, tabber_styles().edge);
 		//separator(key(), self);
-		self.m_body = &widget(key(), self, tabber_styles().body);
-		self.m_index = 0;
-		return self;
+		Widget& body = widget(key(), self, tabber_styles().body);
+		TabberState& state = self.state<TabberState>();
+		state.m_index = 0;
+		return { self, head, body, state };
 	}
 }
 }

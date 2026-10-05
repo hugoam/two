@@ -21,12 +21,16 @@ namespace ui
 		return self;
 	}
 	
-	Tabber& docksection(Widget& parent)
+	Tabber docksection(Widget& parent)
 	{
+		// the docks stacked in a section share its tabber, declared by the first of them in the frame
 		if(parent.child_count() > 0 && parent.child(0).m_heartbeat == parent.m_heartbeat)
-			return as<Tabber>(parent.child(0));
+		{
+			Widget& self = parent.child(0);
+			return { self, self.child(0), self.child(2), self.state<TabberState>() };
+		}
 		//Widget& section = ui::widget(id, parent, dock_styles().docksection); // dockid.back()
-		Tabber& tabber = ui::tabber(key(), parent); // dockspace_styles().docksection, 
+		Tabber tabber = ui::tabber(key(), parent); // dockspace_styles().docksection, 
 		return tabber;
 	}
 

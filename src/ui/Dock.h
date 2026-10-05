@@ -21,7 +21,7 @@ namespace ui
 	export_ TWO_UI_EXPORT DockStyles& dock_styles();
 
 	export_ TWO_UI_EXPORT Widget& dockline(Widget& parent, uint16_t index, Axis dim);
-	export_ TWO_UI_EXPORT Tabber& docksection(Widget& parent);
+	export_ TWO_UI_EXPORT Tabber docksection(Widget& parent);
 
 	export_ TWO_UI_EXPORT func_ Dockspace& dockspace(NodeKey id, Widget& parent, Docksystem& docksystem);
 	export_ TWO_UI_EXPORT func_ Dockbar& dockbar(NodeKey id, Widget& parent, Docksystem& docksystem);

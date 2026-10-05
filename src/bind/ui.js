@@ -1312,28 +1312,6 @@ Module['Layer'] = Layer;
 Layer.prototype["__destroy"] = Layer.prototype.__destroy = function() {
     _two_Layer__destroy(this.__ptr);
 };
-// Tabber
-function Tabber() { throw "cannot construct a Tabber, no constructor in IDL" }
-Tabber.prototype = Object.create(Widget.prototype);
-Tabber.prototype.constructor = Tabber;
-Tabber.prototype.__class = Tabber;
-Tabber.__base = Widget;
-Tabber.__cache = {};
-Module['Tabber'] = Tabber;
-Tabber.prototype["__destroy"] = Tabber.prototype.__destroy = function() {
-    _two_Tabber__destroy(this.__ptr);
-};
-// Table
-function Table() { throw "cannot construct a Table, no constructor in IDL" }
-Table.prototype = Object.create(Widget.prototype);
-Table.prototype.constructor = Table;
-Table.prototype.__class = Table;
-Table.__base = Widget;
-Table.__cache = {};
-Module['Table'] = Table;
-Table.prototype["__destroy"] = Table.prototype.__destroy = function() {
-    _two_Table__destroy(this.__ptr);
-};
 // Dock
 function Dock() {
     this.__ptr = _two_Dock__construct_0(); getCache(Dock)[this.__ptr] = this;
@@ -1672,11 +1650,11 @@ Module['ui']['toolbar'] = function(a0, a1, a2) {
 };
 Module['ui']['columns'] = function(a0, a1, a2) {
     if (!checkClass(a0, NodeKey)) throw Error('columns(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('columns(1:parent): expected Widget'); 
-    return wrapPointer(_two_ui_columns_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureFloat32(/*weights*/a2), /*weights*/a2.length), Table);
+    return wrapPointer(_two_ui_columns_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureFloat32(/*weights*/a2), /*weights*/a2.length), Widget);
 };
 Module['ui']['table'] = function(a0, a1, a2, a3) {
     if (!checkClass(a0, NodeKey)) throw Error('table(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('table(1:parent): expected Widget');  
-    return wrapPointer(_two_ui_table_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureInt8(/*columns*/a2), /*columns*/a2.length, ensureFloat32(/*weights*/a3), /*weights*/a3.length), Table);
+    return wrapPointer(_two_ui_table_4(/*id*/a0.__ptr, /*parent*/a1.__ptr, ensureInt8(/*columns*/a2), /*columns*/a2.length, ensureFloat32(/*weights*/a3), /*weights*/a3.length), Widget);
 };
 Module['ui']['table_row'] = function(a0, a1) {
     if (!checkClass(a0, NodeKey)) throw Error('table_row(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('table_row(1:parent): expected Widget');
@@ -1689,15 +1667,6 @@ Module['ui']['table_separator'] = function(a0, a1) {
 Module['ui']['tree'] = function(a0, a1) {
     if (!checkClass(a0, NodeKey)) throw Error('tree(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('tree(1:parent): expected Widget');
     return wrapPointer(_two_ui_tree_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Widget);
-};
-Module['ui']['tab'] = function(a0, a1, a2) {
-    ensureCache.prepare();
-    if (!checkClass(a0, NodeKey)) throw Error('tab(0:id): expected NodeKey'); if (!checkClass(a1, Tabber)) throw Error('tab(1:tabber): expected Tabber'); if (typeof a2 !== 'string') throw Error('tab(2:name): expected string');
-    return wrapPointer(_two_ui_tab_3(/*id*/a0.__ptr, /*tabber*/a1.__ptr, ensureString(/*name*/a2)), Widget);
-};
-Module['ui']['tabber'] = function(a0, a1) {
-    if (!checkClass(a0, NodeKey)) throw Error('tabber(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('tabber(1:parent): expected Widget');
-    return wrapPointer(_two_ui_tabber_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), Tabber);
 };
 Module['ui']['row'] = function(a0, a1) {
     if (!checkClass(a0, NodeKey)) throw Error('row(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('row(1:parent): expected Widget');
@@ -2068,8 +2037,6 @@ Module['ui']['file_tree'] = function(a0, a1, a2) {
         UiWindow.prototype.__type = _two_UiWindow__type();
         User.prototype.__type = _two_User__type();
         Layer.prototype.__type = _two_Layer__type();
-        Tabber.prototype.__type = _two_Tabber__type();
-        Table.prototype.__type = _two_Table__type();
         Dock.prototype.__type = _two_Dock__type();
         Docksystem.prototype.__type = _two_Docksystem__type();
         Docker.prototype.__type = _two_Docker__type();

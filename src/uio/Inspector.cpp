@@ -91,7 +91,7 @@ namespace two
 		return g_edit_specs[member.m_type->m_id].m_nest_mode[mode];
 	}
 
-	bool object_edit_rows(Widget& parent, Table& table, Ref object)
+	bool object_edit_rows(Widget& parent, Widget& table, Ref object)
 	{
 		UNUSED(parent);
 		bool changed = false;
@@ -120,7 +120,7 @@ namespace two
 
 	bool object_edit_rows(Widget& parent, Ref object)
 	{
-		return object_edit_rows(parent, as<Table>(parent), object);
+		return object_edit_rows(parent, parent, object);
 	}
 
 	bool object_edit_inrow(Widget& row, Ref object)
@@ -165,7 +165,7 @@ namespace two
 	bool object_edit_columns(Widget& parent, Ref object)
 	{
 		static float columns[2] = { 0.33f, 0.67f };
-		Table& self = ui::columns(key(), parent, { columns, 2 });
+		Widget& self = ui::columns(key(), parent, { columns, 2 });
 		return object_edit_rows(parent, self, object);
 	}
 
@@ -173,7 +173,7 @@ namespace two
 	{
 		static cstring columns[2] = { "field", "value" };
 		static float spans[2] = { 0.4f, 0.6f };
-		Table& self = ui::table(key(), parent, { columns, 2 }, { spans, 2 });
+		Widget& self = ui::table(key(), parent, { columns, 2 }, { spans, 2 });
 		return object_edit_rows(parent, self, object);
 	}
 
@@ -202,7 +202,7 @@ namespace two
 
 		static cstring columns[2] = { "field", "value" };
 		static float spans[2] = { 0.4f, 0.6f };
-		Table& self = ui::table(key(), parent, { columns, 2 }, { spans, 2 });
+		Widget& self = ui::table(key(), parent, { columns, 2 }, { spans, 2 });
 
 		EntityStream& stream = s_ecs[entity.m_ecs]->stream(entity.m_stream);
 		uint32_t index = stream.m_handles[entity.m_handle];

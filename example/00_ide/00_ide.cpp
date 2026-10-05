@@ -297,7 +297,7 @@ namespace
 		ui::dropdown_input(key(), parent, categories, category);
 
 		Widget& sheet = ui::scroll_sheet(key(), parent).body;
-		Table& table = ui::table(key(), sheet, { "Property", "Value" }, { 0.4f, 0.6f });
+		Widget& table = ui::table(key(), sheet, { "Property", "Value" }, { 0.4f, 0.6f });
 
 		static string name = document.name;
 		static string path = document.path;

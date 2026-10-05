@@ -55,8 +55,6 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::UiWindow>();
     template <> TWO_UI_EXPORT Type& type<two::User>();
     template <> TWO_UI_EXPORT Type& type<two::Layer>();
-    template <> TWO_UI_EXPORT Type& type<two::Tabber>();
-    template <> TWO_UI_EXPORT Type& type<two::Table>();
     template <> TWO_UI_EXPORT Type& type<two::Dock>();
     template <> TWO_UI_EXPORT Type& type<two::Docksystem>();
     template <> TWO_UI_EXPORT Type& type<two::Docker>();

@@ -755,7 +755,7 @@ namespace ui
 
 	struct TableLayout
 	{
-		Table& table;
+		Widget& table;
 		int columns;
 		int column = 0;
 		Widget* line = nullptr;
@@ -1152,7 +1152,7 @@ namespace ui
 
 	Widget& tab_item_button(NodeKey id, Tabber& tabber, cstring name)
 	{
-		return button(id, *tabber.m_head, tabber_styles().tab_button, name);
+		return button(id, tabber.head, tabber_styles().tab_button, name);
 	}
 
 	// BeginPopupContextItem(), BeginPopupContextWindow(), OpenPopupOnItemClick(), CloseCurrentPopup(), BeginPopupModal(), BeginMainMenuBar()
@@ -4605,7 +4605,7 @@ static void DemoWindowWidgetsTabs(Widget& parent)
         {
             IMGUI_DEMO_MARKER("Widgets/Tabs/Basic");
             //ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
-            Tabber& tab_bar = ui::tabber(key(), *n0); // ImGui::BeginTabBar("MyTabBar", tab_bar_flags)
+            Tabber tab_bar = ui::tabber(key(), *n0); // ImGui::BeginTabBar("MyTabBar", tab_bar_flags)
             {
                 if (Widget* tab = ui::tab(key(), tab_bar, "Avocado"))
                 {
@@ -4649,7 +4649,7 @@ static void DemoWindowWidgetsTabs(Widget& parent)
 
             // Passing a bool* to BeginTabItem() is similar to passing one to Begin():
             // the underlying bool will be set to false when the tab is closed.
-            Tabber& tab_bar = ui::tabber(key(), *n0); // ImGui::BeginTabBar("MyTabBar", tab_bar_flags)
+            Tabber tab_bar = ui::tabber(key(), *n0); // ImGui::BeginTabBar("MyTabBar", tab_bar_flags)
             {
                 for (int i = 0; i < IM_COUNTOF(opened); i++)
                     if (opened[i])
@@ -4686,7 +4686,7 @@ static void DemoWindowWidgetsTabs(Widget& parent)
             static ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_AutoSelectNewTabs | ImGuiTabBarFlags_Reorderable | ImGuiTabBarFlags_FittingPolicyMixed;
             EditTabBarFittingPolicyFlags(*n0, &tab_bar_flags);
 
-            Tabber& tab_bar = ui::tabber(key(), *n0); // ImGui::BeginTabBar("MyTabBar", tab_bar_flags)
+            Tabber tab_bar = ui::tabber(key(), *n0); // ImGui::BeginTabBar("MyTabBar", tab_bar_flags)
             {
                 // Demo a Leading TabItemButton(): click the "?" button to open a menu
                 static bool help_menu = false;
@@ -6258,7 +6258,7 @@ static void DemoWindowLayout(Widget& parent)
                 }
                 if (show_tab_bar)
                 {
-                    Tabber& tab_bar = ui::tabber(key(), w); // ImGui::BeginTabBar("Hello")
+                    Tabber tab_bar = ui::tabber(key(), w); // ImGui::BeginTabBar("Hello")
                     ui::tab(key(), tab_bar, "OneOneOne");
                     ui::tab(key(), tab_bar, "TwoTwoTwo");
                     ui::tab(key(), tab_bar, "ThreeThreeThree");
@@ -9570,7 +9570,7 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
         "Use \"Export\" below to save them somewhere.");
 
     separator_text(key(), parent, "Details");
-    Tabber& tab_bar = tabber(key(), parent); // BeginTabBar("##tabs", ImGuiTabBarFlags_None)
+    Tabber tab_bar = tabber(key(), parent); // BeginTabBar("##tabs", ImGuiTabBarFlags_None)
     {
         if (Widget* tab_sizes = tab(key(), tab_bar, "Sizes"))
         {
@@ -10612,7 +10612,7 @@ static void ShowExampleAppLayout(Widget& parent, bool* p_open)
             Widget& item_view = *ui::begin_child(key(), group, vec2(0, -ui::get_frame_height_with_spacing())); // Leave room for 1 line below us
             ui::textf(key(), item_view, "MyObject: %d", selected);
             ui::separator(key(), item_view);
-            Tabber& tab_bar = ui::tabber(key(), item_view); // ImGui::BeginTabBar("##Tabs", ImGuiTabBarFlags_None)
+            Tabber tab_bar = ui::tabber(key(), item_view); // ImGui::BeginTabBar("##Tabs", ImGuiTabBarFlags_None)
             {
                 if (Widget* tab = ui::tab(key(), tab_bar, "Description"))
                 {

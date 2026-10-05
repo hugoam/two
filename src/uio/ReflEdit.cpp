@@ -67,7 +67,7 @@ namespace two
 	void meta_description(Widget& parent, Meta& meta)
 	{
 		static float columns[2] = { 0.2f, 0.8f };
-		Table& self = ui::columns(key(), parent, { columns, 2 });
+		Widget& self = ui::columns(key(), parent, { columns, 2 });
 		ui::field_label(key(), self, "name", meta.m_name);
 		ui::field_label(key(), self, "namespace", meta.m_namespace->m_name);
 		ui::enum_field<TypeClass>(key(), self, "type class", meta.m_type_class);

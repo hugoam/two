@@ -85,10 +85,11 @@ namespace two
     export_ class Layer;
     export_ struct Layout;
     export_ struct ScrollSheet;
-    export_ class Tabber;
+    export_ struct Tabber;
+    export_ struct TabberState;
     export_ struct Expandbox;
     export_ struct TreeNode;
-    export_ class Table;
+    export_ struct TableState;
     export_ struct Dock;
     export_ struct Section;
     export_ class Docksystem;
