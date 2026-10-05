@@ -1005,6 +1005,7 @@ namespace ui
 	void style_colors_dark(Widget& parent) { get_theme().colours = imgui_colours_dark(); apply_imgui_style(parent.ui_window()); }
 	void style_colors_light(Widget& parent) { get_theme().colours = imgui_colours_light(); apply_imgui_style(parent.ui_window()); }
 	void style_colors_classic(Widget& parent) { get_theme().colours = imgui_colours_classic(); apply_imgui_style(parent.ui_window()); }
+	void style_wonderland(Widget& parent) { get_theme() = { imgui_look_wonderland(), imgui_colours_wonderland() }; apply_imgui_style(parent.ui_window()); }
 
 	// sets one of the two.ui styles
 	void set_style(Widget& parent, void(*style)(UiWindow&))
@@ -9440,7 +9441,7 @@ bool ShowStyleSelector(Widget& parent, const char* label)
     // So we keep track of last active one among our limited selection.
     static int style_idx = -1;
     // The two.ui styles are listed after the dear imgui ones, and the dear imgui v1.70 ones, kept for reference
-    const char* style_names[] = { "Dark", "Light", "Classic", "Dark (v1.70)", "Light (v1.70)", "Classic (v1.70)", "Minimal", "Vector", "Blendish (Light)", "Blendish (Dark)" };
+    const char* style_names[] = { "Dark", "Light", "Classic", "Dark (v1.70)", "Light (v1.70)", "Classic (v1.70)", "Minimal", "Vector", "Blendish (Light)", "Blendish (Dark)", "Wonderland" };
     bool ret = false;
     if (Widget* combo = ui::begin_combo(key(), parent, label, (style_idx >= 0 && style_idx < IM_COUNTOF(style_names)) ? style_names[style_idx] : ""))
     {
@@ -9462,6 +9463,7 @@ bool ShowStyleSelector(Widget& parent, const char* label)
                 case 7: ui::set_style(parent, style_vector); break;
                 case 8: ui::set_style(parent, style_blendish_light); break;
                 case 9: ui::set_style(parent, style_blendish_dark); break;
+                case 10: ui::style_wonderland(parent); break;
                 }
             }
             //else if (style_idx == n)

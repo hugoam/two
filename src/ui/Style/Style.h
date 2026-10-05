@@ -250,6 +250,11 @@ namespace two
 
 	export_ TWO_UI_EXPORT void style_imgui(UiWindow& ui_window, ImguiStyle style = ImguiStyle::Dark);
 
+	// the style of the Wonderland editor, on top of the dear imgui dark style
+	export_ TWO_UI_EXPORT ImguiLook imgui_look_wonderland();
+	export_ TWO_UI_EXPORT ImguiColours imgui_colours_wonderland();
+	export_ TWO_UI_EXPORT void style_imgui_wonderland(UiWindow& ui_window);
+
 	// the dear imgui v1.70 styles, kept for reference
 	export_ TWO_UI_EXPORT void style_imgui_legacy_dark(UiWindow& ui_window);
 	export_ TWO_UI_EXPORT void style_imgui_legacy_light(UiWindow& ui_window);

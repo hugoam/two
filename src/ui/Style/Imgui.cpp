@@ -840,6 +840,96 @@ namespace two
 		return colors;
 	}
 
+	// the style of the Wonderland editor (WonderlandEditorApplication.cpp), on top of the dear imgui dark style
+
+	ImguiLook imgui_look_wonderland()
+	{
+		ImguiLook style;
+		style.FramePadding = vec2(12, 5);
+		style.WindowPadding = vec2(3, 3);
+		style.ItemSpacing = vec2(8, 5);
+		style.ItemInnerSpacing = vec2(2, 10);
+		style.IndentSpacing = 15;
+		style.ScrollbarSize = 15;
+		style.GrabMinSize = 10;
+
+		style.WindowBorderSize = 0.0f;
+		style.ChildBorderSize = 0.0f;
+		style.PopupBorderSize = 0.0f;
+		style.FrameBorderSize = 0.0f;
+		style.TabBorderSize = 0.0f;
+
+		const float r = 8.0f;
+		style.WindowRounding = r;
+		style.ChildRounding = r;
+		style.PopupRounding = r;
+		style.ScrollbarRounding = r;
+		style.GrabRounding = r;
+		style.TabRounding = r;
+		/* Buttons and inputs have full rounding */
+		style.FrameRounding = 6.0f;
+		style.TabBarOverlineSize = 0.0f;
+		return style;
+	}
+
+	ImguiColours imgui_colours_wonderland()
+	{
+		const Colour SurfacePrimary = to_colour(0x31, 0x31, 0x31);
+		const Colour SurfaceSecondary = to_colour(0x1e, 0x1e, 0x1e);
+		const Colour SurfaceTertiary = to_colour(0x11, 0x11, 0x11);
+		const Colour TableRowAlt = to_colour(0x22, 0x22, 0x22);
+		const Colour TextPrimary = to_colour(0xd9, 0xd9, 0xd9);
+
+		const Colour pinkDim = Colour(0.31f, 0.0f, 0.21f, 1.0f);
+		const Colour pink = Colour(0.9f, 0.0f, 0.53f, 1.0f);
+
+		ImguiColours colors = imgui_colours_dark();
+		/* Viewport background is handled by clear color */
+		colors.Text                   = TextPrimary;
+		colors.WindowBg               = SurfaceTertiary;
+		colors.ChildBg                = SurfaceSecondary;
+		colors.Border                 = Colour(0.05f, 0.05f, 0.05f, 1.00f);
+		colors.FrameBg                = SurfaceTertiary;
+		colors.FrameBgHovered         = Colour(0.16f, 0.16f, 0.16f, 1.00f);
+		colors.FrameBgActive          = Colour(0.58f, 0.58f, 0.58f, 1.0f);
+		colors.TitleBg                = SurfaceTertiary;
+		colors.TitleBgCollapsed       = SurfaceTertiary;
+		colors.TitleBgActive          = SurfaceTertiary;
+		colors.MenuBarBg              = SurfaceTertiary;
+		colors.PopupBg                = SurfaceTertiary;
+		colors.ScrollbarGrabActive    = Colour(0.25f, 0.46f, 0.70f, 1.00f);
+		colors.CheckMark              = Colour(0.33f, 0.63f, 1.00f, 1.00f);
+		colors.Button                 = Colour(0.f, 0.f, 0.f, 0.f); // ImColor()
+		colors.ButtonHovered          = Colour(0.37f, 0.38f, 0.38f, 1.00);
+		colors.ButtonActive           = pink;
+		colors.Header                 = SurfacePrimary;
+		colors.HeaderHovered          = Colour(0.37f, 0.38f, 0.38f, 1.00f);
+		colors.HeaderActive           = Colour(0.25f, 0.46f, 0.70f, 1.00f);
+		colors.Separator              = SurfaceTertiary;
+		colors.SeparatorHovered       = pinkDim;
+		colors.SeparatorActive        = pink;
+		colors.ResizeGrip             = Colour(0.58f, 0.58f, 0.59f, 0.25f);
+		colors.ResizeGripHovered      = pinkDim;
+		colors.ResizeGripActive       = pink;
+		colors.Tab                    = Colour(0.25f, 0.25f, 0.25f, 0.00f);
+		colors.TabHovered             = pink;
+		colors.TabSelected            = pink;
+		colors.TabDimmed              = Colour(0.11f, 0.11f, 0.11f, 0.00f);
+		colors.TabDimmedSelected      = pinkDim;
+		colors.TextSelectedBg         = Colour(0.5f, 0.5f, 0.5f, 0.5f);
+		colors.ModalWindowDimBg       = Colour(0.13f, 0.13f, 0.13f, 0.35f);
+		colors.ScrollbarBg            = Colour(0.02f, 0.02f, 0.02f, 0.87f);
+		colors.TableHeaderBg          = SurfacePrimary;
+		colors.TableRowBg             = Colour(0.f, 0.f, 0.f, 0.f);
+		colors.TableRowBgAlt          = TableRowAlt;
+		return colors;
+	}
+
+	void style_imgui_wonderland(UiWindow& ui_window)
+	{
+		style_imgui(ui_window, imgui_look_wonderland(), imgui_colours_wonderland());
+	}
+
 	void style_imgui_dark(UiWindow& ui_window)
 	{
 		style_imgui(ui_window, ImguiLook(), imgui_colours_dark());
