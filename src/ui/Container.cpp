@@ -47,7 +47,7 @@ namespace ui
 
 	Widget& table_row(NodeKey id, Widget& parent)
 	{
-		bool odd = parent.m_next % 2 == 1;
+		bool odd = parent.next() % 2 == 1;
 		return button(id, parent, odd ? table_styles().row_odd : table_styles().row_even);
 	}
 

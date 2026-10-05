@@ -105,7 +105,7 @@ namespace ui
 				self.m_frame.set_size(vec2(480.f, 350.f));
 
 			if(!dock)
-				self.m_frame.set_position((self.m_parent->m_frame.m_size - self.m_frame.m_size) / 2.f);
+				self.m_frame.set_position((self.parent()->m_frame.m_size - self.m_frame.m_size) / 2.f);
 		}
 
 		Widget* header = bit(state, WindowState::Header) ? &window_header(key(), self, self, state, docksystem, title) : nullptr;

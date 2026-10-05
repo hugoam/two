@@ -824,12 +824,6 @@ extern "C" {
 	void DECL two_Widget__set_switch(two::Widget* self, uint32_t value) {
 		self->m_switch = value;
 	}
-	uint32_t DECL two_Widget__get_index(two::Widget* self) {
-		return self->m_index;
-	}
-	void DECL two_Widget__set_index(two::Widget* self, uint32_t value) {
-		self->m_index = value;
-	}
 	void DECL two_Widget__destroy(two::Widget* self) {
 		delete self;
 	}

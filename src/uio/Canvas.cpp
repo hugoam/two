@@ -115,7 +115,7 @@ namespace two
 		if(canvas.m_connect.m_origin)
 		{
 			size_t connect_node = canvas.m_connect.m_origin->m_node->m_index;
-			size_t connect_plug = canvas.m_connect.m_origin->m_self->m_sibling;
+			size_t connect_plug = canvas.m_connect.m_origin->m_self->sibling();
 			Valve& connecting = node_valve(script, connect_node, connect_plug, canvas.m_connect.m_origin == canvas.m_connect.m_in);
 
 			bool convertible = can_convert(input ? *connecting.m_stream.m_type : *valve.m_stream.m_type,

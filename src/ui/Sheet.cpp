@@ -170,8 +170,8 @@ namespace ui
 		if(dragging)
 			if(drag_point.next && drag_point.prev)
 			{
-				spans[drag_point.prev->d_widget.m_sibling] = drag_point.prev->m_span[dim];
-				spans[drag_point.next->d_widget.m_sibling] = drag_point.next->m_span[dim];
+				spans[drag_point.prev->d_widget.sibling()] = drag_point.prev->m_span[dim];
+				spans[drag_point.next->d_widget.sibling()] = drag_point.next->m_span[dim];
 			}
 
 		return self;

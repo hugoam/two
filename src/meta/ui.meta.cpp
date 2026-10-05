@@ -964,7 +964,6 @@ namespace two
 		// defaults
 		static two::WidgetState state_default = CREATED;
 		static uint32_t switch_default = 0;
-		static uint32_t index_default = 0;
 		// default constructor
 		// copy constructor
 		// constructors
@@ -972,8 +971,7 @@ namespace two
 		static Member members[] = {
 			{ t, offsetof(two::Widget, m_frame), type<two::Frame>(), "frame", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::Widget, m_state), type<two::WidgetState>(), "state", &state_default, Member::Value, nullptr },
-			{ t, offsetof(two::Widget, m_switch), type<uint32_t>(), "switch", &switch_default, Member::Value, nullptr },
-			{ t, offsetof(two::Widget, m_index), type<uint32_t>(), "index", &index_default, Member::Value, nullptr }
+			{ t, offsetof(two::Widget, m_switch), type<uint32_t>(), "switch", &switch_default, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {

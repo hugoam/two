@@ -12,7 +12,7 @@ namespace ui
 {
 	Widget& dockline(Widget& parent, uint16_t index, Axis dim)
 	{
-		if(parent.child_count() > index && parent.child(index).m_heartbeat == parent.m_heartbeat)
+		if(parent.child_count() > index && parent.child(index).heartbeat() == parent.heartbeat())
 			return parent.child(index);
 		for(uint16_t i = 0; i < index; ++i)
 			parent.subx(i).init(dock_styles().dockline, false, dim);
@@ -24,7 +24,7 @@ namespace ui
 	Tabber docksection(Widget& parent)
 	{
 		// the docks stacked in a section share its tabber, declared by the first of them in the frame
-		if(parent.child_count() > 0 && parent.child(0).m_heartbeat == parent.m_heartbeat)
+		if(parent.child_count() > 0 && parent.child(0).heartbeat() == parent.heartbeat())
 		{
 			Widget& self = parent.child(0);
 			return { self, self.child(0), self.child(2), self.state<TabberState>() };

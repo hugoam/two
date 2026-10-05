@@ -81,7 +81,6 @@ namespace two
 		attr_ Frame m_frame;
 		attr_ WidgetState m_state = CREATED;
 		attr_ uint32_t m_switch = 0;
-		attr_ uint32_t m_index = 0;
 
 		using CustomRender = function<void(const Frame&, const vec4&, Vg&)>;
 		CustomRender m_custom_draw;

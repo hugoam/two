@@ -324,7 +324,7 @@ namespace ui
 	{
 		Widget& self = multi_button(id, parent, menu_styles().choice, elements);
 		if(self.activated())
-			self.m_parent->m_parent->set_open(false);
+			self.parent()->parent()->set_open(false);
 		return self;
 	}
 

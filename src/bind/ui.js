@@ -1119,15 +1119,6 @@ Object.defineProperty(Widget.prototype, "switch", {
         _two_Widget__set_switch(this.__ptr, value);
     }
 });
-Object.defineProperty(Widget.prototype, "index", {
-    get: function() {
-        return _two_Widget__get_index(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('Widget.index: expected integer');
-        _two_Widget__set_index(this.__ptr, value);
-    }
-});
 Widget.prototype["__destroy"] = Widget.prototype.__destroy = function() {
     _two_Widget__destroy(this.__ptr);
 };

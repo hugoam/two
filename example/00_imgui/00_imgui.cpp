@@ -1064,8 +1064,8 @@ namespace ui
 	Widget& get_current_window(Widget& widget)
 	{
 		Widget* parent = &widget;
-		while(parent->m_parent && !is_window(*parent))
-			parent = parent->m_parent;
+		while(parent->parent() && !is_window(*parent))
+			parent = parent->parent();
 		return *parent;
 	}
 

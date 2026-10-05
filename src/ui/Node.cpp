@@ -299,8 +299,8 @@ namespace ui
 			if(connect.m_done)
 			{
 				if(connect.m_out && connect.m_in)
-					connection = { connect.m_out->m_node->m_index, connect.m_out->m_self->m_sibling,
-								   connect.m_in->m_node->m_index,  connect.m_in->m_self->m_sibling };
+					connection = { connect.m_out->m_node->m_index, connect.m_out->m_self->sibling(),
+								   connect.m_in->m_node->m_index,  connect.m_in->m_self->sibling() };
 
 				connect = {};
 			}

@@ -65,7 +65,7 @@ namespace two
 
 	void Ui::reset_styles()
 	{
-		visit([](Widget& widget, bool& visit)
+		Widget::visit([](Widget& widget, bool& visit)
 		{
 			UNUSED(visit);
 			widget.m_frame.update_style(true);

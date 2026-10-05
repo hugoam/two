@@ -124,7 +124,7 @@ namespace two
 
 		if(p.row_of && dim == p.length)
 		{
-			const uint column = frame.d_widget.m_sibling;
+			const uint column = frame.d_widget.sibling();
 			return column < m_nodes[p.row_of].virtuals ? p.row_of + 1 + column : p.row_of;
 		}
 
