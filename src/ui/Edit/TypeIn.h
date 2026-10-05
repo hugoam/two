@@ -202,21 +202,24 @@ namespace two
 		LanguageDefinition* m_language = nullptr;
 	};
 
+	// a handle to a text edit: for now the widget of the text box and the text edit in its state, the edit's members reached through ->
+	export_ struct refl_ struct_ TextEditHandle
+	{
+		attr_ Widget* self = nullptr;	// a WidgetHandle
+		attr_ TextEdit* edit = nullptr;
+
+		TextEdit* operator->() const { return edit; }
+		TextEdit& operator*() const { return *edit; }
+	};
+
 namespace ui
 {
 	export_ TWO_UI_EXPORT bool filter(const string& filter, const string& value);
 
-	// a text box: the widget of the text, and the text edit in its state
-	export_ struct TextBox
-	{
-		Widget& self;
-		TextEdit& edit;
-	};
-
-	export_ TWO_UI_EXPORT TextBox text_box(NodeKey id, Widget& parent, Style& style, string& text, bool editor = false, size_t lines = 1, const string& allowed_chars = "");
-	export_ TWO_UI_EXPORT TextBox type_in(NodeKey id, Widget& parent, string& text, size_t lines = 1, const string& allowed_chars = "");
-	export_ TWO_UI_EXPORT TextBox text_edit(NodeKey id, Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
-	export_ TWO_UI_EXPORT TextBox code_edit(NodeKey id, Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
+	export_ TWO_UI_EXPORT func_ TextEditHandle text_box(NodeKey id, Widget& parent, Style& style, string& text, bool editor = false, size_t lines = 1, const string& allowed_chars = "");
+	export_ TWO_UI_EXPORT func_ TextEditHandle type_in(NodeKey id, Widget& parent, string& text, size_t lines = 1, const string& allowed_chars = "");
+	export_ TWO_UI_EXPORT func_ TextEditHandle text_edit(NodeKey id, Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
+	export_ TWO_UI_EXPORT func_ TextEditHandle code_edit(NodeKey id, Widget& parent, string& text, size_t lines = 1, vector<string>* vocabulary = nullptr);
 
 	export_ TWO_UI_EXPORT string auto_indent(TextEdit& edit);
 }

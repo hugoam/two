@@ -1,8 +1,8 @@
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controller(viewer);
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 struct Params {
     var opacity = 1.0;
@@ -53,7 +53,7 @@ this.hdrenv = app.gfx.textures.file('pisaHDR.hdr.cube');
 this.mesh = nullptr;
 
 if (init) {
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 40.0; camera.near = 1.0; camera.far = 2000.0;
     camera.eye = new two.vec3(0.0, 40.0, 40.0 * 3.5);
 

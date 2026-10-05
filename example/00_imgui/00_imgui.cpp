@@ -364,20 +364,20 @@ namespace ui
 		return "";
 	}
 
-	TextBox input_text_edit(NodeKey id, Widget& parent, cstring label, string& text, ImGuiInputTextFlags flags = 0, InputTextCallback callback = nullptr, void* user_data = nullptr)
+	TextEditHandle input_text_edit(NodeKey id, Widget& parent, cstring label, string& text, ImGuiInputTextFlags flags = 0, InputTextCallback callback = nullptr, void* user_data = nullptr)
 	{
 		UNUSED(callback); UNUSED(user_data);
 		Widget& self = row(id, parent);
-		auto [box, edit] = text_box(key(), self, styles().type_in, text, false, 1, allowed_chars(flags));
-		edit.m_read_only = (flags & ImGuiInputTextFlags_ReadOnly) != 0;
+		TextEditHandle edit = text_box(key(), self, styles().type_in, text, false, 1, allowed_chars(flags));
+		edit->m_read_only = (flags & ImGuiInputTextFlags_ReadOnly) != 0;
 		if(label && label[0] != '#')
 			ui::label(key(), self, label);
-		return { box, edit };
+		return edit;
 	}
 
 	bool input_text(NodeKey id, Widget& parent, cstring label, string& text, ImGuiInputTextFlags flags = 0, InputTextCallback callback = nullptr, void* user_data = nullptr)
 	{
-		auto [box, edit] = input_text_edit(id, parent, label, text, flags, callback, user_data);
+		TextEdit& edit = *input_text_edit(id, parent, label, text, flags, callback, user_data);
 		return (flags & ImGuiInputTextFlags_EnterReturnsTrue) ? edit.m_entered : edit.m_changed;
 	}
 
@@ -390,7 +390,7 @@ namespace ui
 	bool input_text_multiline(NodeKey id, Widget& parent, cstring label, string& text, size_t lines = 16, ImGuiInputTextFlags flags = 0)
 	{
 		UNUSED(label);
-		auto [box, edit] = text_edit(id, parent, text, lines);
+		TextEdit& edit = *text_edit(id, parent, text, lines);
 		edit.m_read_only = (flags & ImGuiInputTextFlags_ReadOnly) != 0;
 		return edit.m_changed;
 	}
@@ -9219,19 +9219,19 @@ static void DemoWindowInputs(Widget& parent)
             int has_focus = 0;
             static string buf = "click on a button to set focus";
 
-            auto [input1, input1_edit] = ui::input_text_edit(key(), *n, "1", buf);
-            if (focus_1) ui::set_keyboard_focus_here(input1);
-            if (ui::is_item_active(input1)) has_focus = 1;
+            TextEditHandle input1 = ui::input_text_edit(key(), *n, "1", buf);
+            if (focus_1) ui::set_keyboard_focus_here(*input1.self);
+            if (ui::is_item_active(*input1.self)) has_focus = 1;
 
-            auto [input2, input2_edit] = ui::input_text_edit(key(), *n, "2", buf);
-            if (focus_2) ui::set_keyboard_focus_here(input2);
-            if (ui::is_item_active(input2)) has_focus = 2;
+            TextEditHandle input2 = ui::input_text_edit(key(), *n, "2", buf);
+            if (focus_2) ui::set_keyboard_focus_here(*input2.self);
+            if (ui::is_item_active(*input2.self)) has_focus = 2;
 
             ui::push_item_flag(ImGuiItemFlags_NoTabStop, true);
             Widget& line3 = ui::row(key(), *n);
-            auto [input3, input3_edit] = ui::input_text_edit(key(), line3, "3 (tab skip)", buf);
-            if (focus_3) ui::set_keyboard_focus_here(input3);
-            if (ui::is_item_active(input3)) has_focus = 3;
+            TextEditHandle input3 = ui::input_text_edit(key(), line3, "3 (tab skip)", buf);
+            if (focus_3) ui::set_keyboard_focus_here(*input3.self);
+            if (ui::is_item_active(*input3.self)) has_focus = 3;
             HelpMarker(line3, "Item won't be cycled through when using TAB or Shift+Tab.");
             ui::pop_item_flag();
 
@@ -10213,8 +10213,8 @@ struct ExampleAppConsole
         // Command-line
         bool reclaim_focus = false;
         ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_EscapeClearsAll | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
-        auto [input, input_edit] = ui::input_text_edit(key(), body, "Input", InputBuf, input_text_flags, &TextEditCallbackStub, (void*)this);
-        if (input_edit.m_entered)
+        TextEditHandle input = ui::input_text_edit(key(), body, "Input", InputBuf, input_text_flags, &TextEditCallbackStub, (void*)this);
+        if (input->m_entered)
         {
             string& s = InputBuf;
             Strtrimblanks(s);
@@ -10227,7 +10227,7 @@ struct ExampleAppConsole
         // Auto-focus on window apparition
         //ImGui::SetItemDefaultFocus();
         if (reclaim_focus)
-            ui::set_keyboard_focus_here(input); // Auto focus previous widget
+            ui::set_keyboard_focus_here(*input.self); // Auto focus previous widget
     }
 
     void    ExecCommand(const char* command_line)

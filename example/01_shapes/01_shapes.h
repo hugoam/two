@@ -12,4 +12,4 @@ vector<ShapeInstance> create_shape_grid(size_t size_x, size_t size_y, span<Shape
 
 void shape_grid(Gnode& parent, span2d<ShapeInstance> shape_grid, const Symbol* symbol = nullptr, bool rotate = true, Material* material = nullptr);
 
-void ex_01_shapes(Shell& app, Widget& parent, Dockbar& dockbar);
+void ex_01_shapes(Shell& app, Widget& parent, DockbarHandle dockbar);

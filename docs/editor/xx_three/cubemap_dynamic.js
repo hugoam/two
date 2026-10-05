@@ -1,10 +1,10 @@
 // cubemap_dynamic.js
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controls(self, viewer);
-viewer.viewport.autorender = false;
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controls(viewer);
+viewer.viewer.viewport.autorender = false;
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if(init) {
     this.count = 0;
@@ -12,7 +12,7 @@ if(init) {
     this.lon = 0.0; this.lat = 0.0;
     this.phi = 0.0; this.theta = 0.0;
 
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 60.0; camera.near = 1.0; camera.far = 1000.0;
     //camera.fov = 120.0;
 
@@ -56,7 +56,7 @@ if(init) {
     this.pressY = 0.0;
 }
 
-var event = self.mouse_event(two.DeviceType.MouseLeft, two.EventType.Pressed);
+var event = viewer.self.mouse_event(two.DeviceType.MouseLeft, two.EventType.Pressed);
 if(event.valid())
 {
     this.pressX = event.relative.x; this.pressY = event.relative.y;
@@ -65,21 +65,21 @@ if(event.valid())
     this.pressed = true;
 }
 
-event = self.mouse_event(two.DeviceType.MouseLeft, two.EventType.Released);
+event = viewer.self.mouse_event(two.DeviceType.MouseLeft, two.EventType.Released);
 if(event.valid())
     this.pressed = false;
 
-event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
+event = viewer.self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
 if(event.valid() && this.pressed)
 {
     this.lon = (event.relative.x - this.pressX) * 0.1 + this.presslon;
     this.lat = (event.relative.y - this.pressY) * 0.1 + this.presslat;
 }
 
-event = self.mouse_event(two.DeviceType.MouseMiddle, two.EventType.Moved)
+event = viewer.self.mouse_event(two.DeviceType.MouseMiddle, two.EventType.Moved)
 if(event.valid())
 {
-    viewer.camera.fov = Math.min(Math.max(viewer.camera.fov + event.deltaZ, 10.0), 75.0);
+    viewer.viewer.camera.fov = Math.min(Math.max(viewer.viewer.camera.fov + event.deltaZ, 10.0), 75.0);
 }
 
 function toRadians(degrees) {
@@ -102,7 +102,7 @@ var torusp = trigo3(time + 10.0, 30.0);
 this.torusa.x += 0.02; this.cubea.y += 0.03;
 this.torus.apply(torusp, new two.quat(this.torusa));
 
-var camera = viewer.camera;
+var camera = viewer.viewer.camera;
 camera.eye.x = 100.0 * Math.sin(this.phi) * Math.cos(this.theta);
 camera.eye.y = 100.0 * Math.cos(this.phi);
 camera.eye.z = 100.0 * Math.sin(this.phi) * Math.sin(this.theta);
@@ -110,7 +110,7 @@ camera.eye.z = 100.0 * Math.sin(this.phi) * Math.sin(this.theta);
 scene.env.radiance.texture = this.envmap;
 scene.env.background.texture = this.envmap;
 
-var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
+var render = new two.Render(two.Shading.Shaded, viewer.viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
 app.gfx.renderer.gather(render);
 app.gfx.renderer.begin(render);
 

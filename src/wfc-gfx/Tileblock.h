@@ -61,7 +61,7 @@ namespace two
 	export_ TWO_WFC_GFX_EXPORT void tileset_view(Widget& parent, WfcBlock& tileblock, Tileset& tileset);
 	export_ TWO_WFC_GFX_EXPORT void tile_states_view(Widget& parent, WfcBlock& tileblock, uvec3& coord);
 
-	export_ TWO_WFC_GFX_EXPORT void tileblock_edit(Widget& parent, Widget& screen, Viewer& viewer, WfcBlock& tileblock, uvec3& highlighted, uvec3& selected, uvec3& focused);
+	export_ TWO_WFC_GFX_EXPORT void tileblock_edit(Widget& parent, ViewerHandle viewer, WfcBlock& tileblock, uvec3& highlighted, uvec3& selected, uvec3& focused);
 
-	export_ TWO_WFC_GFX_EXPORT void tileblock_editor(Widget& parent, Widget& screen, Viewer& viewer, WfcBlock& tileblock);
+	export_ TWO_WFC_GFX_EXPORT void tileblock_editor(Widget& parent, ViewerHandle viewer, WfcBlock& tileblock);
 }

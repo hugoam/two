@@ -10,10 +10,10 @@ using namespace mud;
 
 void xx_terrain(Shell app, var parent, Dockbar dockbar)
 {
-	var { self, viewer } = two.ui.scene_viewer(panel);
-	//two.ui.orbit_controller(self, viewer);
+	var viewer = two.ui.scene_viewer(panel);
+	//two.ui.orbit_controller(viewer);
 
-	var scene = viewer.scene;
+	var scene = viewer.viewer.scene;
 
 #if 0
 	var worldWidth = 256, worldDepth = 256,

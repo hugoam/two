@@ -17,14 +17,14 @@ namespace two
 		this->add_option(oconstruct<WorldSnapOption>(*this));
 	}
 
-	void Brush::process(Widget& self, Viewer& viewer, span<Ref> selection)
+	void Brush::process(ViewerHandle viewer, span<Ref> selection)
 	{
 		UNUSED(selection);
-		Widget& screen = ui::overlay(key(), self);
+		Widget& screen = ui::overlay(key(), *viewer.self);
 
 		if(MouseEvent event = screen.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
-			m_position = this->raycast_target(viewer, event);
+			m_position = this->raycast_target(*viewer, event);
 			m_symbol_position = m_position;
 		}
 
@@ -57,9 +57,9 @@ namespace two
 		}
 
 		// the controller of the viewer takes its input from the overlay covering the viewer
-		viewer.m_controller->process(screen, viewer);
+		viewer->m_controller->process({ &screen, viewer.viewer });
 
-		this->paint(viewer.m_scene->m_graph.sub(key(this)));
+		this->paint(viewer->m_scene->m_graph.sub(key(this)));
 	}
 
 	vec3 Brush::raycast_target(Viewer& viewer, MouseEvent& event)

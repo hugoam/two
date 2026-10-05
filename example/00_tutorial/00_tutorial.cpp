@@ -27,11 +27,11 @@ void bar(MyObject& object)
 	printf("bar() called !\n");
 }
 
-void ex_00_tutorial_pump(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_00_tutorial_pump(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(*self, *viewer);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(viewer);
 
 	Gnode& scene = viewer->m_scene->begin();
 	Gnode& node = gfx::node(scene, {}, Zero3);
@@ -40,8 +40,8 @@ void ex_00_tutorial_pump(Shell& app, Widget& parent, Dockbar& dockbar)
 	static std::vector<Var> objects = { var(MyObject(ShapeType::Sphere, Colour::Pink)) };
 	static size_t selected = SIZE_MAX;
 
-	ui::Popup modal = ui::popup(key(), *self, styles().modal, { 800, 600 }, ui::PopupFlags::None);
-	//ui::Popup modal = ui::modal(key(), *self, { 800, 600 });
+	ui::Popup modal = ui::popup(key(), *viewer.self, styles().modal, { 800, 600 }, ui::PopupFlags::None);
+	//ui::Popup modal = ui::modal(key(), *viewer.self, { 800, 600 });
 	Widget& board = ui::board(key(), modal.body);
 	multi_inspector(board, type<MyObject>(), objects, selected);
 	
@@ -56,7 +56,7 @@ void ex_00_tutorial_pump(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app)
 {
 	shell_context(app.m_ui->begin(), app.m_editor);
-	ex_00_tutorial_pump(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_00_tutorial_pump(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

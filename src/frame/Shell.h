@@ -10,7 +10,7 @@ namespace two
 	{
 		Docksystem m_docksystem;
 		attr_ Widget* m_screen = nullptr;
-		attr_ Dockbar* m_dockbar = nullptr;
+		attr_ DockbarHandle m_dockbar;
 	};
 	
 	using ShellUpdate = void(*)(Shell&, ShellWindow&);

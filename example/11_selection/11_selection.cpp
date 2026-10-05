@@ -15,11 +15,11 @@ vec4 abs_rect(const vec2& start, const vec2& size)
 	return{ position, abs(size) };
 }
 
-void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_11_selection(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(*self, *viewer);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(viewer);
 
 	Gnode& scene = viewer->m_scene.begin();
 
@@ -35,21 +35,21 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 	shape_grid(scene, { shape_items.data(), 10U, 10U }, &symbol, false, &material);
 
 	static vector<Item*> selected = {};
-	if(MouseEvent event = self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+	if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
 		auto pick = [&](Item* item) { selected = { item }; };
 		viewer->picker(0).pick_point(viewer->m_viewport, event.m_relative, pick, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
 	static vec4 select_rect = vec4(0.f);
-	if(MouseEvent event = self->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+	if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 	{
-		vec2 start = self->local_position(event.m_pressed);
+		vec2 start = viewer.self->local_position(event.m_pressed);
 		vec2 end = event.m_relative;
 		select_rect = abs_rect(start, end - start);
 	}
 
-	if(MouseEvent event = self->mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
+	if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
 	{
 		auto select = [&](span<Item*> items) { selected = to_vector(items); };
 		viewer->picker(0).pick_rectangle(viewer->m_viewport, select_rect, select, ItemFlag::Default | ItemFlag::Selectable);
@@ -57,7 +57,7 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 	}
 
 	if(select_rect != vec4(0.f))
-		ui::rectangle(key(), *self, select_rect);
+		ui::rectangle(key(), *viewer.self, select_rect);
 
 	for(Item* selected_item : selected)
 		if(selected_item)
@@ -68,7 +68,7 @@ void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app, ShellWindow& window)
 {
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_11_selection(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_11_selection(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

@@ -56,11 +56,11 @@ static TextScript create_script()
 	return script;
 }
 
-void ex_15_script(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_15_script(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	UNUSED(app);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(*self, *viewer);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(viewer);
 
 	Gnode& scene = viewer->m_scene->begin();
 
@@ -110,7 +110,7 @@ void ex_15_script(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app)
 {
 	shell_context(app.m_ui->begin(), app.m_editor);
-	ex_15_script(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_15_script(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

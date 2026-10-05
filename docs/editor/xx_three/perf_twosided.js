@@ -63,11 +63,11 @@ var simple_fragment = `$input v_view, v_normal
     #include <fs_fog_simple.sh>
     }`
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controller(viewer);
 
-var camera = viewer.camera;
-var scene = viewer.scene;
+var camera = viewer.viewer.camera;
+var scene = viewer.viewer.scene;
 
 if (init) {
     this.mouse = new two.vec2(0.0);
@@ -75,9 +75,9 @@ if (init) {
     camera.fov = 50.0; camera.near = 1.0; camera.far = 20000.0;
     camera.eye.z = 3200.0;
 
-    viewer.viewport.to_gamma = true;
+    viewer.viewer.viewport.to_gamma = true;
 
-    viewer.viewport.clear_colour = two.to_linear(two.rgb(0x050505));
+    viewer.viewer.viewport.clear_colour = two.to_linear(two.rgb(0x050505));
 
     var reflection = app.gfx.textures.file('cube/royal.jpg.cube');
     reflection.reload(app.gfx, false, true);
@@ -132,13 +132,13 @@ if (init) {
     }
 }
 
-var event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
+var event = viewer.self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
 if(event.valid())
 {
-    this.mouse.x = (event.relative.x - self.frame.size.x / 2.0) * 10.0;
-    this.mouse.y = (event.relative.y - self.frame.size.y / 2.0) * 10.0;
+    this.mouse.x = (event.relative.x - viewer.self.frame.size.x / 2.0) * 10.0;
+    this.mouse.y = (event.relative.y - viewer.self.frame.size.y / 2.0) * 10.0;
 }
 
-var camera = viewer.camera;
+var camera = viewer.viewer.camera;
 camera.eye.x += (this.mouse.x - camera.eye.x) * .05;
 camera.eye.y += (-this.mouse.y - camera.eye.y) * .05;

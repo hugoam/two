@@ -26,7 +26,7 @@ namespace two
 		for(auto& dock : m_docks)
 			for(const string& item : dock->m_items)
 				m_docksystem->m_item_docks.erase(item);
-		remove(m_docksystem->m_dockers, this);
+		remove(m_docksystem->m_dockers, DockerHandle{ nullptr, this });
 	}
 
 	Dock& Docker::add_dock(vector<uint16_t> dockid, float span)
@@ -126,12 +126,12 @@ namespace two
 		m_pending_undocks.push_back({ &dock, name });
 	}
 
-	void Docker::apply_pending()
+	void Docker::apply_pending(Widget& self)
 	{
 		for(PendingUndock& undock : m_pending_undocks)
 			this->dock_remove(*undock.dock, undock.name.c_str());
 		for(PendingDock& dock : m_pending_docks)
-			this->dock(dock.name.c_str(), dock.pos);
+			this->dock(self, dock.name.c_str(), dock.pos);
 
 		m_pending_undocks.clear();
 		m_pending_docks.clear();
@@ -166,8 +166,8 @@ namespace two
 
 	void Docksystem::dock(cstring name, const vec2& pos)
 	{
-		for(Docker* docker : m_dockers)
-			if(docker->m_self->inside_abs(pos))
+		for(DockerHandle docker : m_dockers)
+			if(docker.self->inside_abs(pos))
 			{
 				docker->m_pending_docks.push_back({ name, pos });
 				return;
@@ -178,9 +178,9 @@ namespace two
 		: Docker(docksystem)
 	{}
 
-	Dockspace::DockedWindow* Dockspace::pinpoint_dock(const vec2& pos)
+	Dockspace::DockedWindow* Dockspace::pinpoint_dock(Widget& self, const vec2& pos)
 	{
-		Widget* widget = m_self->pinpoint(m_self->local_position(pos), [](Frame& frame) { return frame.d_style == &ui::window_styles().dock_window; });
+		Widget* widget = self.pinpoint(self.local_position(pos), [](Frame& frame) { return frame.d_style == &ui::window_styles().dock_window; });
 		// the docks shown in the last frame might have been removed since
 		for(DockedWindow& docked : m_docked)
 			if(docked.window == widget && has_pred(m_docks, [&](auto& dock) { return dock.get() == docked.dock; }))
@@ -224,9 +224,9 @@ namespace two
 		return tab;
 	}
 
-	void Dockspace::dock(cstring name, const vec2& pos)
+	void Dockspace::dock(Widget& self, cstring name, const vec2& pos)
 	{
-		DockedWindow* target = pinpoint_dock(pos);
+		DockedWindow* target = pinpoint_dock(self, pos);
 		if(target)
 			this->dock(name, *target->dock, *target->window, pos);
 		else if(m_docks.empty())
@@ -287,9 +287,9 @@ namespace two
 			return nullptr;
 	}
 
-	void Dockbar::dock(cstring name, const vec2& pos)
+	void Dockbar::dock(Widget& self, cstring name, const vec2& pos)
 	{
-		UNUSED(pos);
+		UNUSED(self); UNUSED(pos);
 		// the dockbar is a single row of tabs: a docked item is stacked after the last one, and opened
 		uint16_t index = m_docks.empty() ? 0 : m_docks.back()->m_dockid.back() + 1;
 
@@ -298,13 +298,13 @@ namespace two
 		m_current_tab = index;
 	}
 
-	void Dockbar::apply_pending()
+	void Dockbar::apply_pending(Widget& self)
 	{
 		// the open tab moves back if the dock of a tab before it is removed
 		for(PendingUndock& undock : m_pending_undocks)
 			if(m_current_tab != SIZE_MAX && m_current_tab > undock.dock->m_dockid.back() && undock.dock->m_items.size() == 1)
 				m_current_tab--;
 
-		Docker::apply_pending();
+		Docker::apply_pending(self);
 	}
 }

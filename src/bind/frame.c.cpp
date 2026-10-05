@@ -25,11 +25,11 @@ extern "C" {
 	void DECL two_ShellContext__set_screen(two::ShellContext* self, two::Widget* value) {
 		self->m_screen = value;
 	}
-	two::Dockbar* DECL two_ShellContext__get_dockbar(two::ShellContext* self) {
-		return self->m_dockbar;
+	two::DockbarHandle* DECL two_ShellContext__get_dockbar(two::ShellContext* self) {
+		return &self->m_dockbar;
 	}
-	void DECL two_ShellContext__set_dockbar(two::ShellContext* self, two::Dockbar* value) {
-		self->m_dockbar = value;
+	void DECL two_ShellContext__set_dockbar(two::ShellContext* self, two::DockbarHandle* value) {
+		self->m_dockbar = *value;
 	}
 	void DECL two_ShellContext__destroy(two::ShellContext* self) {
 		delete self;

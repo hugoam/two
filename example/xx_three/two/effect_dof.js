@@ -108,11 +108,11 @@ function pass_bokeh(gfx, render, bokeh) {
     gfx.copy.quad(flip, render.fbo, render.target.post.last());
 }
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(self, viewer);
-viewer.viewport.autorender = false;
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controller(viewer);
+viewer.viewer.viewport.autorender = false;
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 
 if (init) {
@@ -125,7 +125,7 @@ if (init) {
         maxblur: 1.0
     };
     
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 70.0; camera.near = 1.0; camera.far = 3000.0;
     camera.eye.z = 200.0;
 
@@ -173,16 +173,16 @@ if (init) {
     program.set_source(two.ShaderType.Fragment, bokeh_fragment);
 }
 
-var event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
+var event = viewer.self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
 if(event.valid())
 {
-    this.mouse.x = event.relative.x - self.frame.size.x / 2.0;
-    this.mouse.y = event.relative.y - self.frame.size.y / 2.0;
+    this.mouse.x = event.relative.x - viewer.self.frame.size.x / 2.0;
+    this.mouse.y = event.relative.y - viewer.self.frame.size.y / 2.0;
 }
 
 var time = app.gfx.time * 0.5;
 
-var camera = viewer.camera;
+var camera = viewer.viewer.camera;
 camera.eye.x += (this.mouse.x - camera.eye.x) * 0.036;
 camera.eye.y += (-(this.mouse.y) - camera.eye.y) * 0.036;
 //camera.target = scene.position;
@@ -215,7 +215,7 @@ function renderer(gfx, render, bokeh) {
     }
 }
 
-var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
+var render = new two.Render(two.Shading.Shaded, viewer.viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
 app.gfx.renderer.gather(render);
 app.gfx.renderer.begin(render);
 renderer(app.gfx, render, this.bokeh);

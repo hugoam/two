@@ -317,11 +317,11 @@ extern "C" {
 	two::ScaleTool* DECL two_EditContext__get_scale_tool(two::EditContext* self) {
 		return &self->m_scale_tool;
 	}
-	two::Viewer* DECL two_EditContext__get_viewer(two::EditContext* self) {
-		return self->m_viewer;
+	two::ViewerHandle* DECL two_EditContext__get_viewer(two::EditContext* self) {
+		return &self->m_viewer;
 	}
-	void DECL two_EditContext__set_viewer(two::EditContext* self, two::Viewer* value) {
-		self->m_viewer = value;
+	void DECL two_EditContext__set_viewer(two::EditContext* self, two::ViewerHandle* value) {
+		self->m_viewer = *value;
 	}
 	two::ViewportTool* DECL two_EditContext__get_tool(two::EditContext* self) {
 		return self->m_tool;

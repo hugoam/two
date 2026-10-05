@@ -11,15 +11,15 @@
 
 void xx_sprites(Shell app, var parent, Dockbar dockbar)
 {
-	var { self, viewer } = two.ui.scene_viewer(panel);
-	two.ui.orbit_controller(self, viewer);
+	var viewer = two.ui.scene_viewer(panel);
+	two.ui.orbit_controller(viewer);
 
 	//camera = new THREE.PerspectiveCamera(60, width / height, 1, 2100);
 	//camera.position.z = 1500;
 
 	//scene.fog = new THREE.Fog(0x000000, 1500, 2100);
 
-	var overlay = two.ui.scene_viewer(parent).viewer;
+	var overlay = two.ui.scene_viewer(parent);
 
 	//cameraOrtho = new THREE.OrthographicCamera(- width / 2, width / 2, height / 2, - height / 2, 1, 10);
 	//cameraOrtho.position.z = 10;

@@ -295,7 +295,7 @@ namespace two
 		uint16_t num_columns = uint16_t(state.m_items.size()) / num_rows;
 
 		float size = 90.f;//parent.frame().m_size.x / float(num_columns);
-		SceneViewer& viewer = *ui::scene_viewer(key(), self, { num_columns * size, num_rows * size }).viewer;
+		SceneViewer& viewer = *ui::scene_viewer(key(), self, { num_columns * size, num_rows * size });
 
 		vec3 array_size = { float(num_columns - 1), 1.f, float(num_rows - 1) };
 		vec3 center = array_size * 0.5f;
@@ -424,7 +424,7 @@ namespace two
 		}
 	}
 
-	void tileblock_edit(Widget& parent, Widget& screen, Viewer& viewer, WfcBlock& tileblock, uvec3& highlighted, uvec3& selected, uvec3& focused)
+	void tileblock_edit(Widget& parent, ViewerHandle viewer, WfcBlock& tileblock, uvec3& highlighted, uvec3& selected, uvec3& focused)
 	{
 		Section self = section(key(), parent, "Edit WfcBlock");
 		Widget& body = self.body;
@@ -455,38 +455,38 @@ namespace two
 		//if(highlighted != uvec3(UINT32_MAX))
 		//	tile_states_view(overlay, tileblock, highlighted);
 
-		highlighted = tileblock_ray(tileblock, viewer.mouse_ray(screen));
+		highlighted = tileblock_ray(tileblock, viewer->mouse_ray(*viewer.self));
 
-		if(MouseEvent event = screen.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
-			selected = tileblock_ray(tileblock, viewer.mouse_ray(screen));
+		if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+			selected = tileblock_ray(tileblock, viewer->mouse_ray(*viewer.self));
 
-		if(MouseEvent event = screen.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
-			selected = tileblock_ray(tileblock, viewer.mouse_ray(screen));
+		if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+			selected = tileblock_ray(tileblock, viewer->mouse_ray(*viewer.self));
 
-		if(MouseEvent event = screen.mouse_event(DeviceType::MouseRight, EventType::Pressed))
-			focused = tileblock_ray(tileblock, viewer.mouse_ray(screen));
-		if(MouseEvent event = screen.mouse_event(DeviceType::MouseRight, EventType::Released))
+		if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseRight, EventType::Pressed))
+			focused = tileblock_ray(tileblock, viewer->mouse_ray(*viewer.self));
+		if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseRight, EventType::Released))
 			focused = uvec3(UINT32_MAX);
 
 		if(focused != uvec3(UINT32_MAX))
 		{
-			Widget& widget = ui::popup(key(), screen, styles().modal, ui::PopupFlags::None);
+			Widget& widget = ui::popup(key(), *viewer.self, styles().modal, ui::PopupFlags::None);
 
 			size_t entropy = tileblock.m_entropy.at(focused.x, focused.y, focused.z);
 			if(entropy == 1)
 			{
-				paint_connections(viewer.m_scene->m_graph, tileblock, focused);
+				paint_connections(viewer->m_scene->m_graph, tileblock, focused);
 				ui::label(key(), widget, "Allowed Connections");
 			}
 			else
 			{
-				paint_states(viewer.m_scene->m_graph, tileblock, focused);
+				paint_states(viewer->m_scene->m_graph, tileblock, focused);
 				ui::label(key(), widget, "Possible States");
 			}
 		}
 	}
 
-	void tileblock_editor(Widget& parent, Widget& screen, Viewer& viewer, WfcBlock& tileblock)
+	void tileblock_editor(Widget& parent, ViewerHandle viewer, WfcBlock& tileblock)
 	{
 		Widget& self = ui::layout(key(), parent);
 
@@ -494,7 +494,7 @@ namespace two
 		static uvec3 selected = uvec3(UINT32_MAX);
 		static uvec3 focused = uvec3(UINT32_MAX);
 
-		tileblock_edit(self, screen, viewer, tileblock, highlighted, selected, focused);
+		tileblock_edit(self, viewer, tileblock, highlighted, selected, focused);
 	}
 
 }

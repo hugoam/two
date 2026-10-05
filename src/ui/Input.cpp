@@ -19,15 +19,15 @@ namespace ui
 	bool drag_float(NodeKey id, Widget& parent, float& value, float step)
 	{
 		string text = truncate_number(to_string(value));
-		auto [self, edit] = type_in(id, parent, text, 0, "1234567890.");
-		edit.m_focus_mode = TextFocusMode::Click;
-		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+		TextEditHandle edit = type_in(id, parent, text, 0, "1234567890.");
+		edit->m_focus_mode = TextFocusMode::Click;
+		if(MouseEvent event = edit.self->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
-			self.clear_focus();
+			edit.self->clear_focus();
 			value += event.m_delta.x * step;
 			return true;
 		}
-		else if(edit.m_changed)
+		else if(edit->m_changed)
 		{
 			value = to_value<float>(text);
 			return true;

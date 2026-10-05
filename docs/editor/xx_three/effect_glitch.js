@@ -152,14 +152,14 @@ function pass_glitch(gfx, render, glitch, dt_size) {
     gfx.copy.quad(flip, render.fbo, target.post.last());
 }
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controls(self, viewer);
-viewer.viewport.autorender = false;
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controls(viewer);
+viewer.viewer.viewport.autorender = false;
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if(init) {
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 70.0; camera.near = 1.0; camera.far = 1000.0;
     camera.eye.z = 400.0;
 
@@ -235,7 +235,7 @@ function renderer(gfx, render, glitch) {
     pass_glitch(gfx, render, glitch);
 }
 
-var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
+var render = new two.Render(two.Shading.Shaded, viewer.viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
 app.gfx.renderer.gather(render);
 
 app.gfx.renderer.begin(render);

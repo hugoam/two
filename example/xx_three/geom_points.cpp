@@ -11,7 +11,7 @@ EX(xx_geom_points)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = *ui::scene_viewer(key(), parent).viewer;
+	SceneViewer& viewer = *ui::scene_viewer(key(), parent);
 	Scene& scene = viewer.m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);

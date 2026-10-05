@@ -16,6 +16,6 @@ namespace two
     template <> TWO_GFX_UI_EXPORT Type& type<two::TrackballController>() { static Type ty("TrackballController", type<two::ViewerController>(), sizeof(two::TrackballController)); return ty; }
     template <> TWO_GFX_UI_EXPORT Type& type<two::OrbitControls>() { static Type ty("OrbitControls", type<two::ViewerController>(), sizeof(two::OrbitControls)); return ty; }
     template <> TWO_GFX_UI_EXPORT Type& type<two::FreeOrbitController>() { static Type ty("FreeOrbitController", type<two::OrbitController>(), sizeof(two::FreeOrbitController)); return ty; }
-    template <> TWO_GFX_UI_EXPORT Type& type<two::ViewerBox>() { static Type ty("ViewerBox", sizeof(two::ViewerBox)); return ty; }
-    template <> TWO_GFX_UI_EXPORT Type& type<two::SceneViewerBox>() { static Type ty("SceneViewerBox", sizeof(two::SceneViewerBox)); return ty; }
+    template <> TWO_GFX_UI_EXPORT Type& type<two::ViewerHandle>() { static Type ty("ViewerHandle", sizeof(two::ViewerHandle)); return ty; }
+    template <> TWO_GFX_UI_EXPORT Type& type<two::SceneViewerHandle>() { static Type ty("SceneViewerHandle", type<two::ViewerHandle>(), sizeof(two::SceneViewerHandle)); return ty; }
 }

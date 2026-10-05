@@ -136,7 +136,7 @@ void edit_styles(Widget& parent)
 	object_edit(parent, Ref(&edited_style->skin()));
 }
 
-void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_12_ui(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	enum Modes
 	{
@@ -148,8 +148,8 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 	UNUSED(app); UNUSED(dockbar);
 	Widget& umain = ui::board(key(), parent);
 
-	auto [self, viewer] = ui::scene_viewer(key(), umain);
-	ui::orbit_controller(*self, *viewer);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), umain);
+	ui::orbit_controller(viewer);
 
 	edit_styles(umain);
 
@@ -165,7 +165,7 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 	static game::Character character = game::create_character();
 
 	static Item* selected = nullptr;
-	if(MouseEvent mouse_event = self->mouse_event(DeviceType::MouseRight, EventType::Stroked))
+	if(MouseEvent mouse_event = viewer.self->mouse_event(DeviceType::MouseRight, EventType::Stroked))
 	{
 		auto callback = [&](Item* item) { selected = item; umain.m_switch |= Context; };
 		viewer->picker(0).pick_point(viewer->m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
@@ -175,7 +175,7 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	if((umain.m_switch & Context) != 0)
 	{
-		Widget& popup = ui::popup(key(), *self, ui::PopupFlags::Modal);
+		Widget& popup = ui::popup(key(), *viewer.self, ui::PopupFlags::Modal);
 		if(ui::button(key(), popup, "character").activated())
 			umain.m_switch |= Character;
 		if(ui::button(key(), popup, "inventory").activated())
@@ -197,7 +197,7 @@ void ex_12_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app)
 {
 	shell_context(app.m_ui->begin(), app.m_editor);
-	ex_12_ui(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_12_ui(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

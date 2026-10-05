@@ -1,8 +1,8 @@
 
-var { self, viewer } = two.ui.scene_viewer(app.ui.begin());
-two.ui.orbit_controller(self, viewer);
+var viewer = two.ui.scene_viewer(app.ui.begin());
+two.ui.orbit_controller(viewer);
 
-var scene = viewer.scene.begin();
+var scene = viewer.viewer.scene.begin();
 
 time += 0.01;
 

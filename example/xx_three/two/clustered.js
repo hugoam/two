@@ -1,11 +1,11 @@
 // clustered.js
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(viewer);
 
 var radius = 75.0;
 
-var viewport = viewer.viewport;
+var viewport = viewer.viewer.viewport;
 
 if (!viewport.clustered) {
     // @todo fix clustered
@@ -15,11 +15,11 @@ if (!viewport.clustered) {
 if (init) {
     this.importerOBJ = new two.ImporterOBJ(app.gfx);
 
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 40.0; camera.near = 1.0; camera.far = 2000.0;
     camera.eye = new two.vec3(0.0, 0.0, 240.0);
     
-    var scene = viewer.scene;
+    var scene = viewer.viewer.scene;
 
     var env = scene.env;
     env.radiance.ambient = new two.Colour(0.33);

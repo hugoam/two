@@ -216,8 +216,8 @@ void ex_dockspace(Widget& parent)
 
 	static Docksystem docksystem;
 
-	Docker& dockspace = ui::dockspace(key(), board, docksystem);
-	Docker& dockbar = ui::dockbar(key(), board, docksystem);
+	DockspaceHandle dockspace = ui::dockspace(key(), board, docksystem);
+	DockbarHandle dockbar = ui::dockbar(key(), board, docksystem);
 
 	if(Widget* dock = ui::dockitem(dockspace, "Dock 0", { 0U, 0U }))
 	{
@@ -282,7 +282,7 @@ void ex_nodes(Widget& parent)
 
 	static CanvasExample model;
 
-	Canvas& canvas = ui::canvas(key(), parent, 4);
+	Canvas& canvas = *ui::canvas(key(), parent, 4);
 
 	if(ui::toolbutton(key(), tools, "autolayout").activated())
 		ui::canvas_autolayout(canvas);
@@ -633,7 +633,7 @@ void ex_debug_dock(Widget& parent)
 {
 	static Docksystem docksystem;
 
-	Dockbar& tooldock = ui::dockbar(key(), parent, docksystem);
+	DockbarHandle tooldock = ui::dockbar(key(), parent, docksystem);
 
 	if(Widget* options = ui::dockitem(tooldock, "Options", { 0U }))
 	{

@@ -6,11 +6,11 @@ import two.frame;
 
 using namespace two;
 
-void ex_20_meta(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_20_meta(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(*self, *viewer);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(viewer);
 
 	//meta_browser(parent);
 
@@ -28,7 +28,7 @@ void ex_20_meta(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app)
 {
 	shell_context(app.m_ui->begin(), app.m_editor);
-	ex_20_meta(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_20_meta(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

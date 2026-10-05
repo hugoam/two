@@ -45,19 +45,25 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::TextMarker>() { static Type ty("TextMarker", sizeof(two::TextMarker)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Text>() { static Type ty("Text", sizeof(two::Text)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::TextEdit>() { static Type ty("TextEdit", sizeof(two::TextEdit)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::TextEditHandle>() { static Type ty("TextEditHandle", sizeof(two::TextEditHandle)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::NodeConnection>() { static Type ty("NodeConnection", sizeof(two::NodeConnection)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Vg>() { static Type ty("Vg", sizeof(two::Vg)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Clipboard>() { static Type ty("Clipboard", sizeof(two::Clipboard)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::UiWindow>() { static Type ty("UiWindow", sizeof(two::UiWindow)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::User>() { static Type ty("User", sizeof(two::User)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Dock>() { static Type ty("Dock", sizeof(two::Dock)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::DockerHandle>() { static Type ty("DockerHandle", sizeof(two::DockerHandle)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Docksystem>() { static Type ty("Docksystem", sizeof(two::Docksystem)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Docker>() { static Type ty("Docker", sizeof(two::Docker)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Dockspace>() { static Type ty("Dockspace", type<two::Docker>(), sizeof(two::Dockspace)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Dockbar>() { static Type ty("Dockbar", type<two::Docker>(), sizeof(two::Dockbar)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::DockspaceHandle>() { static Type ty("DockspaceHandle", type<two::DockerHandle>(), sizeof(two::DockspaceHandle)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::DockbarHandle>() { static Type ty("DockbarHandle", type<two::DockerHandle>(), sizeof(two::DockbarHandle)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::NodePlug>() { static Type ty("NodePlug", sizeof(two::NodePlug)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::NodePlugHandle>() { static Type ty("NodePlugHandle", sizeof(two::NodePlugHandle)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Node>() { static Type ty("Node", sizeof(two::Node)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::CanvasConnect>() { static Type ty("CanvasConnect", sizeof(two::CanvasConnect)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Canvas>() { static Type ty("Canvas", sizeof(two::Canvas)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::CanvasHandle>() { static Type ty("CanvasHandle", sizeof(two::CanvasHandle)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Ui>() { static Type ty("Ui", type<two::Widget>(), sizeof(two::Ui)); return ty; }
 }

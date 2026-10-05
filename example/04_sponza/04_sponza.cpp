@@ -20,11 +20,11 @@ using namespace two;
 #define SHAPES 1
 #define POSTPROCESS 0
 
-void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_04_sponza(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	static ImporterOBJ obj_importer(app.m_gfx);
 
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	Tonemap& tonemap = viewer->m_viewport.comp<Tonemap>();
 
 	tonemap.m_enabled = true;
@@ -38,8 +38,8 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	viewer->m_scene.m_env.m_radiance.m_ambient = Colour(0.1f);
 
-	OrbitController& controller = ui::free_orbit_controller(*self, *viewer);
-	self->take_focus();
+	OrbitController& controller = ui::free_orbit_controller(viewer);
+	viewer.self->take_focus();
 
 	if(app.m_gfx.m_frame == 1)
 	{
@@ -164,7 +164,7 @@ void ex_04_sponza(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app, ShellWindow& window)
 {
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_04_sponza(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_04_sponza(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

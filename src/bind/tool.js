@@ -434,10 +434,10 @@ Object.defineProperty(EditContext.prototype, "scale_tool", {
     }});
 Object.defineProperty(EditContext.prototype, "viewer", {
     get: function() {
-        return wrapPointer(_two_EditContext__get_viewer(this.__ptr), Viewer);
+        return wrapPointer(_two_EditContext__get_viewer(this.__ptr), ViewerHandle);
     },
     set: function(value) {
-        if (!checkClass(value, Viewer)) throw Error('EditContext.viewer: expected Viewer');
+        if (!checkClass(value, ViewerHandle)) throw Error('EditContext.viewer: expected ViewerHandle');
         _two_EditContext__set_viewer(this.__ptr, value.__ptr);
     }
 });

@@ -20,6 +20,17 @@ namespace two
 		vector<string> m_items;
 	};
 
+	// a handle to a docker: for now the widget of the docker and the docker in its state, the docker's members reached through ->
+	export_ struct refl_ struct_ DockerHandle
+	{
+		attr_ Widget* self = nullptr;	// a WidgetHandle
+		attr_ Docker* docker = nullptr;
+
+		Docker* operator->() const { return docker; }
+		Docker& operator*() const { return *docker; }
+		bool operator==(const DockerHandle& other) const { return docker == other.docker; }
+	};
+
 	export_ class refl_ TWO_UI_EXPORT Docksystem
 	{
 	public:
@@ -28,7 +39,7 @@ namespace two
 		void dock(cstring name, const vec2& pos);
 
 		map<string, Dock*> m_item_docks;
-		vector<Docker*> m_dockers;
+		vector<DockerHandle> m_dockers;
 		string m_dragged;
 	};
 
@@ -41,7 +52,7 @@ namespace two
 
 		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) = 0;
 
-		virtual void dock(cstring name, const vec2& pos) = 0;
+		virtual void dock(Widget& self, cstring name, const vec2& pos) = 0;
 
 		Dock& dock_split(Dock& target, bool after);
 		Dock& dock_insert(Dock& target, bool after);
@@ -50,7 +61,7 @@ namespace two
 
 		void dock_create(cstring name, span<uint16_t> dockid, float span);
 		void undock(Dock& dock, cstring name);
-		virtual void apply_pending();
+		virtual void apply_pending(Widget& self);
 
 		Dock& add_dock(vector<uint16_t> dockid, float span = 0.f);
 
@@ -60,7 +71,6 @@ namespace two
 		void shift_remove(const vector<uint16_t>& dockid);
 		void collapse(const vector<uint16_t>& line);
 
-		Widget* m_self = nullptr;
 		Docksystem* m_docksystem;
 		vector<unique<Dock>> m_docks;
 
@@ -80,11 +90,11 @@ namespace two
 		struct DockedWindow { Widget* window; Dock* dock; };
 		vector<DockedWindow> m_docked;
 
-		DockedWindow* pinpoint_dock(const vec2& pos);
+		DockedWindow* pinpoint_dock(Widget& self, const vec2& pos);
 
 		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) final;
 
-		virtual void dock(cstring name, const vec2& pos) final;
+		virtual void dock(Widget& self, cstring name, const vec2& pos) final;
 
 		void dock(cstring name, Dock& target, Widget& window, const vec2& pos);
 
@@ -101,10 +111,22 @@ namespace two
 
 		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) final;
 
-		virtual void dock(cstring name, const vec2& pos) final;
-		virtual void apply_pending() final;
+		virtual void dock(Widget& self, cstring name, const vec2& pos) final;
+		virtual void apply_pending(Widget& self) final;
 
 		float width = 300.f;
 		size_t m_current_tab = SIZE_MAX;
+	};
+
+	export_ struct refl_ struct_ DockspaceHandle : public DockerHandle
+	{
+		Dockspace* operator->() const { return static_cast<Dockspace*>(docker); }
+		Dockspace& operator*() const { return static_cast<Dockspace&>(*docker); }
+	};
+
+	export_ struct refl_ struct_ DockbarHandle : public DockerHandle
+	{
+		Dockbar* operator->() const { return static_cast<Dockbar*>(docker); }
+		Dockbar& operator*() const { return static_cast<Dockbar&>(*docker); }
 	};
 }

@@ -1,9 +1,9 @@
 // performance_static.js
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controller(viewer);
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 //scene.background = new THREE.Color(0xffffff);
 
@@ -12,7 +12,7 @@ var objects = [];
 if (init) {
     this.mouse = new two.vec2(0.0);
     
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 60.0; camera.near = 1.0; camera.far = 10000.0;
     camera.eye.z = 3200.0;
 
@@ -34,13 +34,13 @@ if (init) {
     }
 }
 
-var event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
+var event = viewer.self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
 if(event.valid())
 {
-    this.mouse.x = (event.relative.x - self.frame.size.x / 2.0) * 10.0;
-    this.mouse.y = (event.relative.y - self.frame.size.y / 2.0) * 10.0;
+    this.mouse.x = (event.relative.x - viewer.self.frame.size.x / 2.0) * 10.0;
+    this.mouse.y = (event.relative.y - viewer.self.frame.size.y / 2.0) * 10.0;
 }
 
-var camera = viewer.camera;
+var camera = viewer.viewer.camera;
 camera.eye.x += (this.mouse.x - camera.eye.x) * .05;
 camera.eye.y += (-this.mouse.y - camera.eye.y) * .05;

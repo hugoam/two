@@ -8,11 +8,11 @@ import two.gfx.pbr;
 
 using namespace two;
 
-void ex_10_post_process(Shell& app, Widget& parent, Dockbar& dockbar)//, Dockbar& dockbar)
+void ex_10_post_process(Shell& app, Widget& parent, DockbarHandle dockbar)//, DockbarHandle dockbar)
 {
 	UNUSED(app);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(*self, *viewer);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(viewer);
 
 	//if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 	//	edit_viewer_filters(*dock, *viewer);
@@ -38,7 +38,7 @@ void ex_10_post_process(Shell& app, Widget& parent, Dockbar& dockbar)//, Dockbar
 void pump(Shell& app, ShellWindow& window)
 {
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_10_post_process(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_10_post_process(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

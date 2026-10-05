@@ -6,4 +6,4 @@
 
 using namespace two;
 
-void ex_07_gltf(Shell& app, Widget& parent, Dockbar& dockbar);
+void ex_07_gltf(Shell& app, Widget& parent, DockbarHandle dockbar);

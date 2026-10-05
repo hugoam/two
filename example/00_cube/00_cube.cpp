@@ -64,17 +64,17 @@ void velocity_controller(Widget& widget, vec3& speed, float velocity)
 		speed_key(widget, speed, key_move.key, key_move.dir * velocity);
 }
 
-void ex_00_cube(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_00_cube(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(*self, *viewer);
-	self->take_focus();
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(viewer);
+	viewer.self->take_focus();
 
 	static vec3 position = vec3(0.f);
 	static vec3 speed = vec3(0.f);
 
-	velocity_controller(*self, speed, 0.01f);
+	velocity_controller(*viewer.self, speed, 0.01f);
 	position += speed;
 
 	Gnode& scene = viewer->m_scene.begin();
@@ -86,7 +86,7 @@ void ex_00_cube(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app, ShellWindow& window)
 {
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_00_cube(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_00_cube(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

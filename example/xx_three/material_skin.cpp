@@ -434,9 +434,9 @@ EX(xx_material_skin)
 {
 #if UI
 	UNUSED(dockbar);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer->m_scene;
-	ControlNode& input = *self;
+	ControlNode& input = *viewer.self;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
@@ -445,7 +445,7 @@ EX(xx_material_skin)
 
 	static ImporterGltf importer_gltf = { app.m_gfx };
 
-	//ui::orbit_controls(*self, *viewer);
+	//ui::orbit_controls(viewer);
 	viewer->m_viewport.m_autorender = false;
 
 	static Node3* mesh = nullptr;

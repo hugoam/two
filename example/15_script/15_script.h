@@ -18,4 +18,4 @@ public:
 	Material* m_material;
 };
 
-void ex_15_script(Shell& app, Widget& parent, Dockbar& dockbar);
+void ex_15_script(Shell& app, Widget& parent, DockbarHandle dockbar);

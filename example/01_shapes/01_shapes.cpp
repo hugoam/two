@@ -44,11 +44,11 @@ void shape_grid(Gnode& parent, span2d<ShapeInstance> shape_grid, const Symbol* s
 		}
 }
 
-void ex_01_shapes(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_01_shapes(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(*self, *viewer);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(viewer);
 
 	Gnode& scene = viewer->m_scene.begin();
 
@@ -65,7 +65,7 @@ void ex_01_shapes(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app, ShellWindow& window)
 {
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_01_shapes(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_01_shapes(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

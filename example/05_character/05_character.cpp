@@ -95,18 +95,18 @@ static void human_velocity_controller(Widget& widget, Human& human)
 		human_control_key(widget, human, human.m_angular_velocity, key_rotation);
 }
 
-void human_controller_3rdperson(Widget& self, Human& human)
+void human_controller_3rdperson(ViewerHandle viewer, Human& human)
 {
-	human_velocity_controller(self, human);
+	human_velocity_controller(*viewer.self, human);
 }
 
-void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_05_character(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	static ImporterGltf gltf_importer(app.m_gfx);
 
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
-	OrbitController& orbit = ui::orbit_controller(*self, *viewer);
-	self->take_focus();
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
+	OrbitController& orbit = ui::orbit_controller(viewer);
+	viewer.self->take_focus();
 
 	Gnode& scene = viewer->m_scene.begin();
 
@@ -156,7 +156,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 		}
 	}
 
-	human_controller_3rdperson(*self, *selected);
+	human_controller_3rdperson(viewer, *selected);
 	if(follow_character)
 		orbit.set_target(characters[0].m_position);
 
@@ -188,7 +188,7 @@ void ex_05_character(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app, ShellWindow& window)
 {
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_05_character(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_05_character(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

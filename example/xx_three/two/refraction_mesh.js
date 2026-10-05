@@ -1,10 +1,10 @@
 // refraction_mesh.js
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controls(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controls(viewer);
 
-var camera = viewer.camera;
-var scene = viewer.scene;
+var camera = viewer.viewer.camera;
+var scene = viewer.viewer.scene;
 
 if(init) {
     this.importerPLY = new two.ImporterPLY(app.gfx);
@@ -65,16 +65,16 @@ if(init) {
     new two.Item(n2, model, 0, m3).add(scene.graph);
 }
 
-var event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
+var event = viewer.self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
 if(event.valid())
 {
-    this.mouse.x = (event.relative.x - self.frame.size.x / 2.0) * 4.0;
-    this.mouse.y = (event.relative.y - self.frame.size.y / 2.0) * 4.0;
+    this.mouse.x = (event.relative.x - viewer.self.frame.size.x / 2.0) * 4.0;
+    this.mouse.y = (event.relative.y - viewer.self.frame.size.y / 2.0) * 4.0;
 }
 
 var time = app.gfx.time * -0.02;
 
-var camera = viewer.camera;
+var camera = viewer.viewer.camera;
 camera.eye.x += (this.mouse.x - camera.eye.x) * .05;
 camera.eye.y += (-this.mouse.y - camera.eye.y) * .05;
 

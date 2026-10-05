@@ -304,11 +304,11 @@ function render_beckmann(gfx, size) {
     return fbo.tex;
 }
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controls(self, viewer);
-viewer.viewport.autorender = false;
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controls(viewer);
+viewer.viewer.viewport.autorender = false;
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if(init) {
     this.importerGltf = new two.ImporterGltf(app.gfx);
@@ -320,7 +320,7 @@ if(init) {
 
     this.mouse = new two.vec2(0.0);
     
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 35.0; camera.near = 1.0; camera.far = 10000.0;
     camera.eye.z = 900.0;
 
@@ -410,11 +410,11 @@ if(init) {
     this.rotation = new two.vec3(0.0);
 }
 
-var event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved)
+var event = viewer.self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved)
 if(event.valid())
 {
-    this.mouse.x = event.relative.x - self.frame.size.x / 2.0;
-    this.mouse.y = event.relative.y - self.frame.size.y / 2.0;
+    this.mouse.x = event.relative.x - viewer.self.frame.size.x / 2.0;
+    this.mouse.y = event.relative.y - viewer.self.frame.size.y / 2.0;
 }
 
 this.rotation.y += 0.05 * (this.mouse.x * 0.001 - this.rotation.y);
@@ -422,7 +422,7 @@ this.rotation.x += 0.05 * (this.mouse.y * 0.001 - this.rotation.x);
 
 this.mesh.apply(new two.vec3(0.0, -50.0, 0.0), new two.quat(this.rotation), new two.vec3(100.0));
 
-var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
+var render = new two.Render(two.Shading.Shaded, viewer.viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
 app.gfx.renderer.gather(render);
 app.gfx.renderer.begin(render);
 

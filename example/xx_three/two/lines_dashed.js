@@ -85,12 +85,12 @@ function cube_model(gfx, size) {
     return model;
 }
 
-var viewer = two.ui.scene_viewer(panel).viewer;
+var viewer = two.ui.scene_viewer(panel);
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if(init) {
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 60.0; camera.near = 1.0; camera.far = 200.0;
     camera.eye.z = 150.0;
 

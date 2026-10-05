@@ -6,4 +6,4 @@
 
 using namespace two;
 
-void ex_11_selection(Shell& app, Widget& parent, Dockbar& dockbar);
+void ex_11_selection(Shell& app, Widget& parent, DockbarHandle dockbar);

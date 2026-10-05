@@ -12,10 +12,10 @@ void xx_interact_geom(Shell app, var parent, Dockbar dockbar)
 {
 	var triangles = 5000;
 
-	var { self, viewer } = two.ui.scene_viewer(panel);
-	//two.ui.orbit_controller(self, viewer);
+	var viewer = two.ui.scene_viewer(panel);
+	//two.ui.orbit_controller(viewer);
 
-	var scene = viewer.scene;
+	var scene = viewer.viewer.scene;
 
 	this.pbr = app.gfx.programs.file('pbr/pbr');
 
@@ -36,7 +36,7 @@ void xx_interact_geom(Shell app, var parent, Dockbar dockbar)
 	{
 		once = true;
 
-		var camera = viewer.camera;
+		var camera = viewer.viewer.camera;
 		camera.fov = 27.0; camera.near = 1.0; camera.far = 3500.0;
 		camera.eye.z = 2750.0;
 
@@ -101,10 +101,10 @@ void xx_interact_geom(Shell app, var parent, Dockbar dockbar)
 		function hover = [](var item) {};
 		function unhover = [](var item) {};
 
-		if(var mouse_event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved))
+		if(var mouse_event = viewer.self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved))
 		{
 			//function pick = [](Item* item) { if(hovered) unhover(*hovered); hovered = item; if(hovered) hover(*hovered); };
-			//viewer.picker(0).pick_point(viewer.viewport, mouse_event.relative, pick, ItemFlag::Selectable);
+			//viewer.viewer.picker(0).pick_point(viewer.viewer.viewport, mouse_event.relative, pick, ItemFlag::Selectable);
 		}
 	}
 

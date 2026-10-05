@@ -171,11 +171,11 @@ void roughness_spheres(Gnode& parent)
 	}
 }
 
-void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_03_materials(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	UNUSED(app);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
-	OrbitController& controller = ui::orbit_controller(*self, *viewer);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
+	OrbitController& controller = ui::orbit_controller(viewer);
 	UNUSED(controller);
 
 	//viewer->m_viewport.m_to_gamma = true;
@@ -199,7 +199,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 	//roughness_spheres(scene);
 	material_spheres(scene, materials);
 
-	if(MouseEvent event = self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+	if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
 		auto callback = [&](Item* item)
 		{
@@ -228,7 +228,7 @@ void ex_03_materials(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app, ShellWindow& window)
 {
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_03_materials(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_03_materials(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

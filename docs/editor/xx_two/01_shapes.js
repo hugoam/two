@@ -1,8 +1,8 @@
 
-var { self, viewer } = two.ui.scene_viewer(app.ui.begin());
-two.ui.orbit_controller(self, viewer);
+var viewer = two.ui.scene_viewer(app.ui.begin());
+two.ui.orbit_controller(viewer);
 
-var scene = viewer.scene.begin();
+var scene = viewer.viewer.scene.begin();
 
 var empty = new two.Colour(0, 0, 0, 0);
 var zero3 = new two.vec3(0);

@@ -135,9 +135,9 @@ EX(xx_effect_dof)
 {
 #if UI
 	UNUSED(dockbar);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer->m_scene;
-	ControlNode& input = *self;
+	ControlNode& input = *viewer.self;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
@@ -226,7 +226,7 @@ EX(xx_effect_dof)
 	}
 
 	if(MouseEvent event = input.mouse_event(DeviceType::Touch, EventType::Pressed))
-	//or(MouseEvent event = self->mouse_event(DeviceType::Touch, EventType::Moved))
+	//or(MouseEvent event = viewer.self->mouse_event(DeviceType::Touch, EventType::Moved))
 	{
 		//if(event.touches.length == 1) {
 		//	event.preventDefault();

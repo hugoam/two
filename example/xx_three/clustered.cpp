@@ -11,7 +11,7 @@ EX(xx_clustered)
 {
 #if UI
 	UNUSED(dockbar);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
@@ -21,7 +21,7 @@ EX(xx_clustered)
 	static ImporterOBJ obj_importer(app.m_gfx);
 
 #if UI
-	ui::orbit_controls(*self, *viewer);
+	ui::orbit_controls(viewer);
 	//controls.minDistance = 120;
 	//controls.maxDistance = 320;
 #endif

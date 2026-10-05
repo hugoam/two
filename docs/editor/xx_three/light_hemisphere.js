@@ -31,22 +31,22 @@ var skydome_fragment = `$input v_world
 		gl_FragColor = vec4(pow(gl_FragColor.rgb, vec3_splat(2.0)), 1.0);
 	}`;
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(viewer);
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if(init) {
     this.importerGltf = new two.ImporterGltf(app.gfx);
     
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 30.0; camera.near = 1.0; camera.far = 5000.0;
     camera.eye = new two.vec3(0.0, 0.0, 250.0);
 
     var colour = two.hsl(0.6, 0.0, 1.0);
     
-    viewer.viewport.to_gamma = true;
-    viewer.viewport.clear_colour = colour;
+    viewer.viewer.viewport.to_gamma = true;
+    viewer.viewer.viewport.clear_colour = colour;
     
     var env = scene.env;
     env.background.colour = colour;

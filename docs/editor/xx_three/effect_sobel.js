@@ -126,12 +126,12 @@ function pass_sobel(gfx, render) {
     gfx.copy.quad(flip, render.fbo, render.target.post.last());
 }
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(self, viewer);
-viewer.viewport.autorender = false;
+var viewer = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(viewer);
+viewer.viewer.viewport.autorender = false;
 
-var scene = viewer.scene;
-var camera = viewer.camera;
+var scene = viewer.viewer.scene;
+var camera = viewer.viewer.camera;
 
 if(init) {
     camera.fov = 70.0; camera.near = 1.0; camera.far = 1000.0;
@@ -183,7 +183,7 @@ function renderer(gfx, render, enabled) {
     }
 }
 
-var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
+var render = new two.Render(two.Shading.Shaded, viewer.viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
 app.gfx.renderer.gather(render);
 app.gfx.renderer.begin(render);
 

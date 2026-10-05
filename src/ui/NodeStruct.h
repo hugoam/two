@@ -19,16 +19,26 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT NodePlug : public NodeState, public NodeKnob
 	{
 	public:
-		Widget* m_self = nullptr;
 		Node* m_node = nullptr;
 		Widget* m_knob = nullptr;
+	};
+
+	// a handle to a plug: for now the widget of the plug and the plug in its state, the plug's members reached through ->
+	export_ struct refl_ struct_ NodePlugHandle
+	{
+		attr_ Widget* self = nullptr;	// a WidgetHandle
+		attr_ NodePlug* plug = nullptr;
+
+		NodePlug* operator->() const { return plug; }
+		NodePlug& operator*() const { return *plug; }
+		explicit operator bool() const { return plug != nullptr; }
+		bool operator==(const NodePlugHandle& other) const { return plug == other.plug; }
 	};
 
 	// a node of a canvas, kept in the state of its widget, with its parts in the frame: the content goes in the body
 	export_ class refl_ TWO_UI_EXPORT Node : public NodeState
 	{
 	public:
-		Widget* m_self = nullptr;
 		Canvas* m_canvas = nullptr;
 		attr_ Widget* m_header = nullptr;
 		attr_ Widget* m_inputs = nullptr;
@@ -38,11 +48,22 @@ namespace two
 		uint32_t m_index = 0;
 	};
 
+	// a handle to a node: for now the widget of the node and the node in its state, the node's members reached through ->
+	export_ struct NodeHandle
+	{
+		Widget* self = nullptr;	// a WidgetHandle
+		Node* node = nullptr;
+
+		Node* operator->() const { return node; }
+		Node& operator*() const { return *node; }
+		bool operator==(const NodeHandle& other) const { return node == other.node; }
+	};
+
 	export_ struct refl_ TWO_UI_EXPORT CanvasConnect
 	{
-		NodePlug* m_origin = nullptr;
-		NodePlug* m_in = nullptr;
-		NodePlug* m_out = nullptr;
+		NodePlugHandle m_origin;
+		NodePlugHandle m_in;
+		NodePlugHandle m_out;
 		NodeKnob m_end;
 		vec2 m_position;
 		bool m_done = false;
@@ -52,15 +73,23 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT Canvas : public NodeState
 	{
 	public:
-		Widget* m_self = nullptr;
-
 		Widget* m_scroll_plan = nullptr;
 		Widget* m_plan = nullptr;
 		bool m_rounded_links = true;
 
 		CanvasConnect m_connect;
 
-		vector<Node*> m_nodes;
-		vector<Node*> m_selection;
+		vector<NodeHandle> m_nodes;
+		vector<NodeHandle> m_selection;
+	};
+
+	// a handle to a canvas: for now the widget of the canvas and the canvas in its state, the canvas' members reached through ->
+	export_ struct refl_ struct_ CanvasHandle
+	{
+		attr_ Widget* self = nullptr;	// a WidgetHandle
+		attr_ Canvas* canvas = nullptr;
+
+		Canvas* operator->() const { return canvas; }
+		Canvas& operator*() const { return *canvas; }
 	};
 }

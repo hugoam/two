@@ -1,19 +1,19 @@
 // material_cubemap.js
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-var controls = two.ui.orbit_controls(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+var controls = two.ui.orbit_controls(viewer);
 controls.dampingFactor = 0.25;
 //controls.enableZoom = false;
 //controls.enablePan = false;
 //controls.minPolarAngle = c_pi / 4;
 //controls.maxPolarAngle = c_pi / 1.5;
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if(init) {
     this.importerOBJ = new two.ImporterOBJ(app.gfx);
     
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 50.0; camera.near = 1.0; camera.far = 5000.0;
     camera.eye.z = 2000.0;
 

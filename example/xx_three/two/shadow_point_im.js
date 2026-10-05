@@ -17,12 +17,12 @@ function generateTexture(gfx, width, height, m) {
     return texture;
 }
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(self, viewer);
-two.ui.trackball_controller(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controller(viewer);
+two.ui.trackball_controller(viewer);
 
 if (init) {
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 45.0; camera.near = 1.0; camera.far = 1000.0;
     camera.eye = new two.vec3(0.0, 10.0, 40.0);
 
@@ -51,7 +51,7 @@ if (init) {
 
     this.spheremat = s;
 
-    viewer.scene.env.radiance.ambient = 0.2;
+    viewer.viewer.scene.env.radiance.ambient = 0.2;
 
     //orbit.eye = new two.vec3(0, 10, 40);
     //orbit.position = new two.vec3(0, 10, 0);
@@ -82,7 +82,7 @@ function rot(time) {
     return new two.quat(new two.vec3(time, 0.0, time));
 }
 
-var scene = viewer.scene.begin();
+var scene = viewer.viewer.scene.begin();
 
 two.gfx.radiance(scene, 'radiance/tiber_1_1k.hdr', two.BackgroundMode.Radiance);
 

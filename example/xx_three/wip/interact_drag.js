@@ -1,10 +1,10 @@
-var { self, viewer } = two.ui.scene_viewer(panel);
+var viewer = two.ui.scene_viewer(panel);
 
-TrackballController controls = two.ui.trackball_controller(self, viewer);
+TrackballController controls = two.ui.trackball_controller(viewer);
 controls.staticMoving = true;
 controls.dynamicDampingFactor = 0.3;
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 vector<Node3*> objects;
 
@@ -13,7 +13,7 @@ if(!once)
 {
     once = true;
 
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 70.0; camera.near = 1.0; camera.far = 5000.0;
     camera.eye.z = 1000.0;
 

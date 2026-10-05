@@ -18,10 +18,10 @@ Object.defineProperty(ShellContext.prototype, "screen", {
 });
 Object.defineProperty(ShellContext.prototype, "dockbar", {
     get: function() {
-        return wrapPointer(_two_ShellContext__get_dockbar(this.__ptr), Dockbar);
+        return wrapPointer(_two_ShellContext__get_dockbar(this.__ptr), DockbarHandle);
     },
     set: function(value) {
-        if (!checkClass(value, Dockbar)) throw Error('ShellContext.dockbar: expected Dockbar');
+        if (!checkClass(value, DockbarHandle)) throw Error('ShellContext.dockbar: expected DockbarHandle');
         _two_ShellContext__set_dockbar(this.__ptr, value.__ptr);
     }
 });

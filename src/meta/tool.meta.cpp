@@ -554,7 +554,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "EditContext", sizeof(two::EditContext), TypeClass::Object };
 		// bases
 		// defaults
-		static two::Viewer* viewer_default = nullptr;
 		static two::ViewportTool* tool_default = nullptr;
 		static two::SpatialTool* spatial_tool_default = nullptr;
 		static two::Brush* brush_default = nullptr;
@@ -569,7 +568,7 @@ namespace two
 			{ t, offsetof(two::EditContext, m_translate_tool), type<two::TranslateTool>(), "translate_tool", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::EditContext, m_rotate_tool), type<two::RotateTool>(), "rotate_tool", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::EditContext, m_scale_tool), type<two::ScaleTool>(), "scale_tool", nullptr, Member::NonMutable, nullptr },
-			{ t, offsetof(two::EditContext, m_viewer), type<two::Viewer>(), "viewer", viewer_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::EditContext, m_viewer), type<two::ViewerHandle>(), "viewer", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::EditContext, m_tool), type<two::ViewportTool>(), "tool", tool_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::EditContext, m_spatial_tool), type<two::SpatialTool>(), "spatial_tool", spatial_tool_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::EditContext, m_brush), type<two::Brush>(), "brush", brush_default, Member::Flags(Member::Pointer|Member::Link), nullptr }

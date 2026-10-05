@@ -20,15 +20,15 @@ WaveTileset& create_tileset(Shell& app)
 	return tileset;
 }
 
-void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_17_wfc(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	static ImporterOBJ obj_importer(app.m_gfx);
 	static ImporterGltf gtlf_importer(app.m_gfx);
 
 	//static VisualScript& script = create_visual_script(app);
 
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(*self, *viewer);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(viewer);
 	//viewer->m_camera.set_isometric(IsometricAngle(SOUTH | WEST), vec3(0.f));
 
 	Gnode& scene = viewer->m_scene.begin();
@@ -59,14 +59,14 @@ void ex_17_wfc(Shell& app, Widget& parent, Dockbar& dockbar)
 	block.next_frame(tick, 1);
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
-		tileblock_edit(*dock, *self, *viewer, block, highlighted, selected, focused);
+		tileblock_edit(*dock, viewer, block, highlighted, selected, focused);
 }
 
 #ifdef _17_WFC_EXE
 void pump(Shell& app, ShellWindow& window)
 {
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_17_wfc(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_17_wfc(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

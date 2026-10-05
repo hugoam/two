@@ -13,7 +13,7 @@ EX(xx_geom_dynamic)
 {
 #if UI
 	UNUSED(dockbar);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
@@ -31,7 +31,7 @@ EX(xx_geom_dynamic)
 	const float r2 = r / 2.f;
 
 #if UI
-	ui::orbit_controls(*self, *viewer);
+	ui::orbit_controls(viewer);
 #endif
 
 	struct EffectController

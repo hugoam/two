@@ -21,7 +21,7 @@ namespace two
 	public:
 		virtual ~ViewerController() {}
 
-		virtual void process(Widget& self, Viewer& viewer) = 0;
+		virtual void process(ViewerHandle viewer) = 0;
 	};
 
 	// a viewer of a scene, kept in the state of its widget
@@ -80,7 +80,7 @@ namespace two
 		attr_ float m_pitch = 0.f;
 		attr_ float m_distance = 1.f;
 
-		virtual void process(Widget& self, Viewer& viewer);
+		virtual void process(ViewerHandle viewer);
 
 		meth_ void set_eye(const quat& rotation);
 		meth_ void set_target(const vec3& position);
@@ -154,7 +154,7 @@ namespace two
 
 		void reset(vec3& eye, vec3& target, vec3& up);
 
-		virtual void process(Widget& self, Viewer& viewer) override;
+		virtual void process(ViewerHandle viewer) override;
 
 		void update(Widget& widget, vec3& eye, vec3& target, vec3& up);
 		void update(ControlNode& input, const vec2& size, vec3& eye, vec3& target, vec3& up);
@@ -230,7 +230,7 @@ namespace two
 		// Mouse buttons
 		//this.mouseButtons = { LEFT: THREE.MOUSE.LEFT, MIDDLE: THREE.MOUSE.MIDDLE, RIGHT: THREE.MOUSE.RIGHT };
 
-		virtual void process(Widget& self, Viewer& viewer) override;
+		virtual void process(ViewerHandle viewer) override;
 
 		void update(Widget& widget, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat);
 		void update(ControlNode& input, const vec2& size, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat);
@@ -271,23 +271,26 @@ namespace two
 		vec3 m_speed = vec3(0.f);
 	};
 
-	// a viewer: the widget of the viewer, and the viewer in its state
-	export_ struct refl_ struct_ ViewerBox
+	// a handle to a viewer: for now the widget of the viewer and the viewer in its state, the viewer's members reached through ->
+	export_ struct refl_ struct_ ViewerHandle
 	{
-		attr_ Widget* self = nullptr;
+		attr_ Widget* self = nullptr;	// a WidgetHandle
 		attr_ Viewer* viewer = nullptr;
+
+		Viewer* operator->() const { return viewer; }
+		Viewer& operator*() const { return *viewer; }
 	};
 
-	export_ struct refl_ struct_ SceneViewerBox
+	export_ struct refl_ struct_ SceneViewerHandle : public ViewerHandle
 	{
-		attr_ Widget* self = nullptr;
-		attr_ SceneViewer* viewer = nullptr;
+		SceneViewer* operator->() const { return static_cast<SceneViewer*>(viewer); }
+		SceneViewer& operator*() const { return static_cast<SceneViewer&>(*viewer); }
 	};
 
 namespace ui
 {
-	export_ TWO_GFX_UI_EXPORT func_ ViewerBox viewer(NodeKey id, Widget& parent, Scene& scene);
-	export_ TWO_GFX_UI_EXPORT func_ SceneViewerBox scene_viewer(NodeKey id, Widget& parent, const vec2& size = vec2(0.f));
+	export_ TWO_GFX_UI_EXPORT func_ ViewerHandle viewer(NodeKey id, Widget& parent, Scene& scene);
+	export_ TWO_GFX_UI_EXPORT func_ SceneViewerHandle scene_viewer(NodeKey id, Widget& parent, const vec2& size = vec2(0.f));
 
 	export_ TWO_GFX_UI_EXPORT void viewport_picker(Viewer& viewer, Widget& widget, vector<Ref>& selection);
 	export_ TWO_GFX_UI_EXPORT Viewer& scene_viewport(NodeKey id, Widget& parent, Scene& scene, Camera& camera, vector<Ref>& selection);
@@ -299,13 +302,13 @@ namespace ui
 		PseudoIsometric,
 	};
 
-	export_ TWO_GFX_UI_EXPORT func_ TrackballController& trackball_controller(Widget& self, Viewer& viewer);
-	export_ TWO_GFX_UI_EXPORT func_ OrbitControls& orbit_controls(Widget& self, Viewer& viewer);
-	export_ TWO_GFX_UI_EXPORT func_ OrbitController& orbit_controller(Widget& self, Viewer& viewer, float yaw = c_pi4, float pitch = -c_pi4, float distance = 10.f);
-	export_ TWO_GFX_UI_EXPORT func_ FreeOrbitController& free_orbit_controller(Widget& self, Viewer& viewer);
-	export_ TWO_GFX_UI_EXPORT func_ OrbitController& isometric_controller(Widget& self, Viewer& viewer, bool topdown = false);
-	export_ TWO_GFX_UI_EXPORT func_ OrbitController& hybrid_controller(Widget& self, Viewer& viewer, OrbitMode mode, Transform& entity, bool& aiming, vec2& angles, bool modal = false);
+	export_ TWO_GFX_UI_EXPORT func_ TrackballController& trackball_controller(ViewerHandle viewer);
+	export_ TWO_GFX_UI_EXPORT func_ OrbitControls& orbit_controls(ViewerHandle viewer);
+	export_ TWO_GFX_UI_EXPORT func_ OrbitController& orbit_controller(ViewerHandle viewer, float yaw = c_pi4, float pitch = -c_pi4, float distance = 10.f);
+	export_ TWO_GFX_UI_EXPORT func_ FreeOrbitController& free_orbit_controller(ViewerHandle viewer);
+	export_ TWO_GFX_UI_EXPORT func_ OrbitController& isometric_controller(ViewerHandle viewer, bool topdown = false);
+	export_ TWO_GFX_UI_EXPORT func_ OrbitController& hybrid_controller(ViewerHandle viewer, OrbitMode mode, Transform& entity, bool& aiming, vec2& angles, bool modal = false);
 
-	export_ TWO_GFX_UI_EXPORT func_ void velocity_controller(Widget& self, Viewer& viewer, vec3& linear, vec3& angular, float speed = 1.f);
+	export_ TWO_GFX_UI_EXPORT func_ void velocity_controller(ViewerHandle viewer, vec3& linear, vec3& angular, float speed = 1.f);
 }
 }

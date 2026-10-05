@@ -713,7 +713,7 @@ namespace ui
 		return true;
 	}
 
-	TextBox text_box(NodeKey id, Widget& parent, Style& style, string& text, bool editor, size_t lines, const string& allowed_chars)
+	TextEditHandle text_box(NodeKey id, Widget& parent, Style& style, string& text, bool editor, size_t lines, const string& allowed_chars)
 	{
 		Widget& self = widget(id, parent, style);
 		TextEdit& edit = self.state<TextEdit>(editor, allowed_chars);
@@ -732,54 +732,54 @@ namespace ui
 
 		self.custom_draw() = [](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(rect); widget.find_state<TextEdit>()->render(widget, vg); };
 
-		return { self, edit };
+		return { &self, &edit };
 	}
 
-	TextBox type_in(NodeKey id, Widget& parent, string& text, size_t lines, const string& allowed_chars)
+	TextEditHandle type_in(NodeKey id, Widget& parent, string& text, size_t lines, const string& allowed_chars)
 	{
 		Widget& self = widget(id, parent, styles().type_in);
-		TextBox box = text_box(key(), self, styles().type_in, text, false, lines, allowed_chars);
-		return box;
+		TextEditHandle edit = text_box(key(), self, styles().type_in, text, false, lines, allowed_chars);
+		return edit;
 	}
 
-	void autocomplete_popup(Widget& self, TextEdit& edit, string& text, const string& current_word, size_t cursor, size_t word_start, span<cstring> completions)
+	void autocomplete_popup(TextEditHandle edit, string& text, const string& current_word, size_t cursor, size_t word_start, span<cstring> completions)
 	{
-		const vec4 word_rect = edit.m_text.interval_rect(word_start, cursor - 1);
-		const vec2 popup_position = edit.m_text_offset + word_rect.pos + vec2(0.f, word_rect.height);
+		const vec4 word_rect = edit->m_text.interval_rect(word_start, cursor - 1);
+		const vec2 popup_position = edit->m_text_offset + word_rect.pos + vec2(0.f, word_rect.height);
 
 		static uint32_t current = 0;
 
-		const bool selected = ui::popdown(key(), self, completions, current, popup_position, PopupFlags::None); //auto_complete_style
+		const bool selected = ui::popdown(key(), *edit.self, completions, current, popup_position, PopupFlags::None); //auto_complete_style
 
-		if(self.key_stroke(Key::Up))
+		if(edit.self->key_stroke(Key::Up))
 			current = max(current - 1, uint32_t(0));
 
-		if(self.key_stroke(Key::Down))
+		if(edit.self->key_stroke(Key::Down))
 			current = min(current + 1, uint32_t(completions.size()) - 1);
 
-		if(self.key_stroke(Key::Tab) || selected)
+		if(edit.self->key_stroke(Key::Tab) || selected)
 		{
-			edit.insert(self, string(completions[current]).substr(current_word.size()));
-			edit.m_text.break_text_rows(self);
-			edit.m_completing = false;
-			text = edit.m_string;
+			edit->insert(*edit.self, string(completions[current]).substr(current_word.size()));
+			edit->m_text.break_text_rows(*edit.self);
+			edit->m_completing = false;
+			text = edit->m_string;
 		}
 	}
 
-	TextBox text_edit(NodeKey id, Widget& parent, string& text, size_t lines, vector<string>* vocabulary)
+	TextEditHandle text_edit(NodeKey id, Widget& parent, string& text, size_t lines, vector<string>* vocabulary)
 	{
 		Widget& self = widget(id, parent, styles().text_edit);
 		ScrollSheet scroll_sheet = ui::scroll_sheet(key(), self);
-		auto [box, edit] = text_box(key(), scroll_sheet.body, styles().type_zone, text, true, lines);
+		TextEditHandle edit = text_box(key(), scroll_sheet.body, styles().type_zone, text, true, lines);
 
-		edit.update_scroll(box, scroll_sheet.scroll_zone, scroll_sheet.body);
+		edit->update_scroll(*edit.self, scroll_sheet.scroll_zone, scroll_sheet.body);
 
-		if(vocabulary && edit.m_completing && !edit.has_selection())
+		if(vocabulary && edit->m_completing && !edit->has_selection())
 		{
-			const size_t cursor = edit.m_selection.m_cursor;
-			const size_t begin = word_begin(edit.m_string, cursor - 1);
+			const size_t cursor = edit->m_selection.m_cursor;
+			const size_t begin = word_begin(edit->m_string, cursor - 1);
 
-			const string current_word = begin == SIZE_MAX ? "" : edit.m_string.substr(begin, cursor - begin);
+			const string current_word = begin == SIZE_MAX ? "" : edit->m_string.substr(begin, cursor - begin);
 			if(current_word != "")
 			{
 				vector<cstring> completions;
@@ -794,14 +794,14 @@ namespace ui
 				}
 
 				if(!completions.empty())
-					autocomplete_popup(box, edit, text, current_word, cursor, begin, completions);
+					autocomplete_popup(edit, text, current_word, cursor, begin, completions);
 			}
 		}
 
-		return { box, edit };
+		return edit;
 	}
 
-	TextBox code_edit(NodeKey id, Widget& parent, string& text, size_t lines, vector<string>* vocabulary)
+	TextEditHandle code_edit(NodeKey id, Widget& parent, string& text, size_t lines, vector<string>* vocabulary)
 	{
 		return text_edit(id, parent, text, lines, vocabulary);
 	}

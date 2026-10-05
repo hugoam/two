@@ -358,7 +358,7 @@ namespace
 		ui::dropdown_input(key(), navigation, scopes, document.scope);
 		ui::dropdown_input(key(), navigation, symbols, document.symbol);
 
-		auto [box, edit] = ui::code_edit(key(), parent, document.text);
+		TextEdit& edit = *ui::code_edit(key(), parent, document.text);
 		edit.m_language = &LanguageCpp();
 
 		Widget& status = ui::row(key(), parent);
@@ -459,8 +459,8 @@ void example_ide(Widget& ui)
 
 	Widget& board = ui::board(key(), ui);
 
-	Docker& dockspace = ui::dockspace(key(), board, ide.m_docksystem);
-	Docker& dockbar = ui::dockbar(key(), board, ide.m_docksystem);
+	DockspaceHandle dockspace = ui::dockspace(key(), board, ide.m_docksystem);
+	DockbarHandle dockbar = ui::dockbar(key(), board, ide.m_docksystem);
 
 	// left column: the panels stacked as tabs
 	if(Widget* dock = ui::dockitem(dockspace, "Solution Explorer", { 0U, 0U }, 0.2f))

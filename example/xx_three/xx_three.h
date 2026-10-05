@@ -16,7 +16,7 @@ using WindowX = two::GfxContext;
 using namespace two;
 
 #if UI
-#define EX(name) void name(ShellX& app, Widget& parent, Dockbar& dockbar, bool init)
+#define EX(name) void name(ShellX& app, Widget& parent, DockbarHandle dockbar, bool init)
 #else
 #define EX(name) void name(ShellX& app, WindowX& window, bool init)
 #endif
@@ -72,4 +72,4 @@ EX(xx_refraction_balls);
 EX(xx_loader_gltf);
 EX(xx_loader_ply);
 
-//void ex_xx_three(ShellX& app, Widget& parent, Dockbar& dockbar, bool init);
+//void ex_xx_three(ShellX& app, Widget& parent, DockbarHandle dockbar, bool init);

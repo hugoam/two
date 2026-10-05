@@ -61,18 +61,18 @@ namespace two
 		return Colour::hsl(hue, active ? 0.9f : 0.6f, active ? 0.5f : 0.3f);
 	}
 
-	vec3 gizmo_grab_linear(Widget& self, Viewer& viewer, const Transform& space, Axis axis)
+	vec3 gizmo_grab_linear(ViewerHandle viewer, const Transform& space, Axis axis)
 	{
 		vec3 direction = space.m_rotation * to_vec3(axis);
 		vec3 normal = space.m_rotation * c_tangents[axis];
-		vec3 projected = plane_segment_intersection(Plane(space.m_position, space.m_position + direction, space.m_position + normal), to_segment(viewer.mouse_ray(self)));
+		vec3 projected = plane_segment_intersection(Plane(space.m_position, space.m_position + direction, space.m_position + normal), to_segment(viewer->mouse_ray(*viewer.self)));
 		return nearest_point_on_line(space.m_position, direction, projected);
 	}
 
-	vec3 gizmo_grab_planar(Widget& self, Viewer& viewer, const Transform& space, Axis normal)
+	vec3 gizmo_grab_planar(ViewerHandle viewer, const Transform& space, Axis normal)
 	{
 		Plane plane(space.m_position, space.m_rotation * to_vec3(normal));
-		return plane_segment_intersection(plane, to_segment(viewer.mouse_ray(self)));
+		return plane_segment_intersection(plane, to_segment(viewer->mouse_ray(*viewer.self)));
 	}
 
 	TransformAction::TransformAction(span<Transform*> targets)
@@ -128,9 +128,9 @@ namespace two
 	void TransformTool::refresh()
 	{}
 
-	void TransformTool::process(Widget& self, Viewer& viewer, span<Ref> targets)
+	void TransformTool::process(ViewerHandle viewer, span<Ref> targets)
 	{
-		Widget& screen = self;//= ui::overlay(key(), self);
+		Widget& screen = *viewer.self;//= ui::overlay(key(), *viewer.self);
 
 		this->refresh();
 
@@ -142,7 +142,7 @@ namespace two
 			if(!m_dragging)
 			{
 				auto callback = [&](Item* item) { m_current = &this->gizmo(*item); };
-				viewer.picker(1).pick_point(viewer.m_viewport, event.m_relative, callback, ItemFlag::Ui);
+				viewer->picker(1).pick_point(viewer->m_viewport, event.m_relative, callback, ItemFlag::Ui);
 			}
 		}
 
@@ -150,14 +150,14 @@ namespace two
 		{
 			m_dragging = m_current;
 			m_drag_start = event.m_relative;
-			m_grab_start = m_current->grab_point(self, viewer, event.m_relative);
+			m_grab_start = m_current->grab_point(viewer, event.m_relative);
 			m_action = this->create_action(transforms);
 			event.consume(screen);
 		}
 
 		if(MouseEvent event = screen.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
-			m_grab_end = m_current->grab_point(self, viewer, event.m_relative);
+			m_grab_end = m_current->grab_point(viewer, event.m_relative);
 
 			m_action->undo();
 			m_action->update(m_grab_start, m_grab_end);
@@ -173,10 +173,10 @@ namespace two
 			event.consume(screen);
 		}
 
-		viewer.m_controller->process(self, viewer);
+		viewer->m_controller->process(viewer);
 		//viewport_picker(viewer, screen, targets);
 
-		this->paint(viewer.m_scene->m_graph.sub(key(this)));
+		this->paint(viewer->m_scene->m_graph.sub(key(this)));
 	}
 
 	Gizmo& TransformTool::gizmo(Item& item)

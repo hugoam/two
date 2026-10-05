@@ -365,7 +365,7 @@ EX(xx_marching_cubes)
 {
 #if UI
 	UNUSED(dockbar);
-	SceneViewer& viewer = *ui::scene_viewer(key(), parent).viewer;
+	SceneViewer& viewer = *ui::scene_viewer(key(), parent);
 	Scene& scene = viewer.m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);

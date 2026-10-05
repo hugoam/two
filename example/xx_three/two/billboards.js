@@ -1,12 +1,12 @@
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-two.ui.orbit_controller(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+two.ui.orbit_controller(viewer);
 
-var camera = viewer.camera;
+var camera = viewer.viewer.camera;
 camera.near = 2.0; camera.far = 2000.0;
 camera.eye.z = 1000.0;
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 //scene.fog = new THREE.FogExp2(0x000000, 0.001);
 
 var num = 10000;
@@ -54,15 +54,15 @@ if (init) {
 var time = app.gfx.time;
 
 this.mouse = new two.vec2(0.0);
-if(var event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved))
+if(var event = viewer.self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved))
 {
-    mouse = (event.relative - self.frame.size / 2.0);
+    mouse = (event.relative - viewer.self.frame.size / 2.0);
 }
 
-viewer.camera.eye.x += (mouse.x - viewer.camera.eye.x) * 0.05;
-viewer.camera.eye.y += (-mouse.y - viewer.camera.eye.y) * 0.05;
+viewer.viewer.camera.eye.x += (mouse.x - viewer.viewer.camera.eye.x) * 0.05;
+viewer.viewer.camera.eye.y += (-mouse.y - viewer.viewer.camera.eye.y) * 0.05;
 
-//viewer.camera.target = scene.position;
+//viewer.viewer.camera.target = scene.position;
 
 var h = ((360.0 * (1.0 + time)) % 360.0) / 360.0;
 this.material.solid.colour = two.hsl(h, 0.5, 0.5);

@@ -1,17 +1,17 @@
 // hierarchy2.js
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.trackball_controller(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.trackball_controller(viewer);
 
 if (init) {
     this.mouse = new two.vec2(0.0);
 
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 60.0; camera.near = 1.0; camera.far = 15000.0;
     camera.eye.z = 500.0;
 
-    var scene = viewer.scene;
-    //viewer.viewport.clear_colour = two.rgb(0xffffff);
+    var scene = viewer.viewer.scene;
+    //viewer.viewer.viewport.clear_colour = two.rgb(0xffffff);
     //scene.env.background.colour = two.rgb(0xffffff);
 
     var normal = app.gfx.programs.fetch('normal');
@@ -51,11 +51,11 @@ if (init) {
     }
 }
 
-var event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
+var event = viewer.self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
 if(event.valid())
 {
-    this.mouse.x = (event.relative.x - self.frame.size.x / 2.0) * 10.0;
-    this.mouse.y = (event.relative.y - self.frame.size.y / 2.0) * 10.0;
+    this.mouse.x = (event.relative.x - viewer.self.frame.size.x / 2.0) * 10.0;
+    this.mouse.y = (event.relative.y - viewer.self.frame.size.y / 2.0) * 10.0;
 }
 
 var time = app.gfx.time;
@@ -64,7 +64,7 @@ var rx = Math.sin(time * 0.7) * 0.2;
 var ry = Math.sin(time * 0.3) * 0.1;
 var rz = Math.sin(time * 0.2) * 0.1;
 
-var camera = viewer.camera;
+var camera = viewer.viewer.camera;
 camera.eye.x += (this.mouse.x - camera.eye.x) * 0.05;
 camera.eye.y += (-this.mouse.y - camera.eye.y) * 0.05;
 

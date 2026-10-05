@@ -56,19 +56,19 @@ var translucent_fragment = `$input v_view, v_position, v_normal, v_tangent, v_co
 
 var translucent_vertex = `#include <geometry_vs.sc>`;
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(viewer);
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if(init) {
     this.importerOBJ = new two.ImporterOBJ(app.gfx);
 
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 40.0; camera.near = 1.0; camera.far = 5000.0;
     camera.eye = new two.vec3(0.0, 300.0 * 0.75, 400.0 * 4.0 * 0.75);
 
-    //Tonemap tonemap = viewer.viewport.comp<Tonemap>();
+    //Tonemap tonemap = viewer.viewer.viewport.comp<Tonemap>();
     //tonemap.enabled = true;
 
     // Lights

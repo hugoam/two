@@ -115,7 +115,7 @@ namespace two
 		if(canvas.m_connect.m_origin)
 		{
 			size_t connect_node = canvas.m_connect.m_origin->m_node->m_index;
-			size_t connect_plug = canvas.m_connect.m_origin->m_self->sibling();
+			size_t connect_plug = canvas.m_connect.m_origin.self->sibling();
 			Valve& connecting = node_valve(script, connect_node, connect_plug, canvas.m_connect.m_origin == canvas.m_connect.m_in);
 
 			bool convertible = can_convert(input ? *connecting.m_stream.m_type : *valve.m_stream.m_type,
@@ -125,9 +125,9 @@ namespace two
 				enabled = false;
 		}
 
-		NodePlug& plug = ui::node_plug(key(), node, valve.m_name.c_str(), icon.c_str(), colour, input, enabled, !valve.m_pipes.empty());
+		NodePlugHandle plug = ui::node_plug(key(), node, valve.m_name.c_str(), icon.c_str(), colour, input, enabled, !valve.m_pipes.empty());
 		
-		if(Widget* tooltip = ui::tooltip(key(), *plug.m_self, plug.m_self->frame()))
+		if(Widget* tooltip = ui::tooltip(key(), *plug.self, plug.self->frame()))
 		{
 			string info = valve.error_info() + valve.param_info();
 			ui::label(key(), *tooltip, info.c_str());
@@ -229,22 +229,22 @@ namespace two
 	{
 		enum Modes { Insert = 1 << 0 };
 
-		Canvas& canvas = ui::canvas(key(), parent, script.m_processes.size());
+		CanvasHandle canvas = ui::canvas(key(), parent, script.m_processes.size());
 
-		if(Widget* popup = ui::context(key(), *canvas.m_scroll_plan, Insert, ui::PopupFlags::Modal))
-			script_canvas_insert(canvas, *popup, script);
+		if(Widget* popup = ui::context(key(), *canvas->m_scroll_plan, Insert, ui::PopupFlags::Modal))
+			script_canvas_insert(*canvas, *popup, script);
 
 		Process* destroy = nullptr;
 		for(auto& process : script.m_processes)
 		{
-			if(!script_process(canvas, script, *process))
+			if(!script_process(*canvas, script, *process))
 				destroy = process.get();
 		}
 
 		for(auto& pipe : script.m_pipes)
-			script_pipe(canvas, *pipe);
+			script_pipe(*canvas, *pipe);
 
-		NodeConnection connection = ui::canvas_connect(canvas);
+		NodeConnection connection = ui::canvas_connect(*canvas);
 		if(connection.valid())
 		{
 			Valve& output = *script.m_processes[connection.m_out_node]->m_outputs[connection.m_out_plug];
@@ -253,16 +253,16 @@ namespace two
 				script.connect(output, input);
 		}
 
-		if(canvas.m_self->once())
+		if(canvas.self->once())
 		{
-			canvas.m_self->relayout();
-			ui::canvas_autolayout(canvas);
+			canvas.self->relayout();
+			ui::canvas_autolayout(*canvas);
 		}
 
 		if(destroy)
 			script.remove(*destroy);
 
-		return canvas;
+		return *canvas;
 	}
 
 	Section visual_script_edit(Widget& parent, VisualScript& script)

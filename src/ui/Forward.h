@@ -61,6 +61,7 @@ namespace two
     export_ struct UiRect;
     export_ class Frame;
     export_ class Widget;
+    export_ using WidgetHandle = Widget*;	// a handle to a widget kept from one frame to the next: for now its pointer, later its node index
     export_ struct TextGlyph;
     export_ struct TextRow;
     export_ struct Shadow;
@@ -72,6 +73,7 @@ namespace two
     export_ struct TextSelection;
     export_ class Text;
     export_ class TextEdit;
+    export_ struct TextEditHandle;
 	export_ struct Clipboard;
     export_ struct NodeConnection;
     export_ class Vg;
@@ -96,10 +98,16 @@ namespace two
         export_ class Docker;
     export_ class Dockspace;
     export_ class Dockbar;
+    export_ struct DockerHandle;
+    export_ struct DockspaceHandle;
+    export_ struct DockbarHandle;
     export_ class NodePlug;
+    export_ struct NodePlugHandle;
     export_ class Node;
+    export_ struct NodeHandle;
     export_ struct CanvasConnect;
     export_ class Canvas;
+    export_ struct CanvasHandle;
     export_ struct DropAction;
     export_ class Ui;
     export_ struct Window;

@@ -1,20 +1,20 @@
 // light_point.js
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-var controls = two.ui.trackball_controller(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+var controls = two.ui.trackball_controller(viewer);
 //controls.dynamicDampingFactor = 0.15;
 //controls.keys = [ 65, 83, 68 ];
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if (init) {
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 50.0; camera.near = 1.0; camera.far = 300.0;
     camera.eye = new two.vec3(0.0, 15.0, 150.0);
 
     var bg = two.to_linear(two.rgb(0x040306));
-    viewer.viewport.to_gamma = true;
-    viewer.viewport.clear_colour = bg;
+    viewer.viewer.viewport.to_gamma = true;
+    viewer.viewer.viewport.clear_colour = bg;
 
     var env = scene.env;
     env.fog.enabled = true;

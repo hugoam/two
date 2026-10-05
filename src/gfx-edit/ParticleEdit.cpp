@@ -22,8 +22,8 @@ namespace two
 
 	void particle_editor_viewer(Widget& parent, Flow& particles)
 	{
-		auto [self, viewer] = ui::scene_viewer(key(), parent, vec2(500.f));
-		ui::orbit_controller(*self, *viewer);
+		SceneViewerHandle viewer = ui::scene_viewer(key(), parent, vec2(500.f));
+		ui::orbit_controller(viewer);
 
 		//viewer->m_clear_colour = Colour::DarkGrey;
 		//viewer->m_camera.set_isometric(SOUTH, vec3(0.f));

@@ -1,10 +1,10 @@
 // refraction_balls.js
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controls(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controls(viewer);
 
-var camera = viewer.camera;
-var scene = viewer.scene;
+var camera = viewer.viewer.camera;
+var scene = viewer.viewer.scene;
 
 var zeroq = new two.quat(new two.vec3(0.0));
 
@@ -44,11 +44,11 @@ if(init) {
     }
 }
 
-var event = self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
+var event = viewer.self.mouse_event(two.DeviceType.Mouse, two.EventType.Moved);
 if(event.valid())
 {
-    this.mouse.x = (event.relative.x - self.frame.size.x / 2.0) * 10.0;
-    this.mouse.y = (event.relative.y - self.frame.size.y / 2.0) * 10.0;
+    this.mouse.x = (event.relative.x - viewer.self.frame.size.x / 2.0) * 10.0;
+    this.mouse.y = (event.relative.y - viewer.self.frame.size.y / 2.0) * 10.0;
 }
 
 var time = app.gfx.time * -0.01;
@@ -62,6 +62,6 @@ for(var i = 0; i < this.spheres.length; i++) {
     sphere.node.apply(p, zeroq, sphere.s);
 }
 
-var camera = viewer.camera;
+var camera = viewer.viewer.camera;
 camera.eye.x += (this.mouse.x - camera.eye.x) * .05;
 camera.eye.y += (-this.mouse.y - camera.eye.y) * .05;

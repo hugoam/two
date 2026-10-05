@@ -2,13 +2,13 @@
 
 var particles = 500000;
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controller(viewer);
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if (init) {
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 27.0; camera.near = 5.0; camera.far = 3500.0;
     camera.eye.z = 2750.0;
 
@@ -47,7 +47,7 @@ if (init) {
     //scene.add(points);
 }
 
-//var root = viewer.scene.begin();
+//var root = viewer.viewer.scene.begin();
 //two.gfx.radiance(root, 'radiance/tiber_1_1k.hdr', two.BackgroundMode.Radiance);
 
 var time = app.gfx.time;

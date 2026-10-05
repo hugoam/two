@@ -9,7 +9,7 @@ EX(xx_interact_cubes_gpu)
 {
 #if UI
 	UNUSED(dockbar);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
@@ -17,7 +17,7 @@ EX(xx_interact_cubes_gpu)
 #endif
 
 #if UI
-	TrackballController& controls = ui::trackball_controller(*self, *viewer);
+	TrackballController& controls = ui::trackball_controller(viewer);
 	controls.m_staticMoving = true;
 	controls.m_dynamicDampingFactor = 0.3f;
 #endif

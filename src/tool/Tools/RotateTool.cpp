@@ -50,7 +50,7 @@ namespace two
 	public:
 		RotationGizmo(TransformTool& tool, Axis axis, float hue) : TransformGizmo(tool, axis, hue) {}
 
-		virtual vec3 grab_point(Widget& self, Viewer& viewer, const vec2& pos) { UNUSED(pos); return gizmo_grab_planar(self, viewer, m_tool.m_transform, m_axis) - m_tool.m_transform.m_position; };
+		virtual vec3 grab_point(ViewerHandle viewer, const vec2& pos) { UNUSED(pos); return gizmo_grab_planar(viewer, m_tool.m_transform, m_axis) - m_tool.m_transform.m_position; };
 
 		virtual Item* draw_handle(Gnode& parent) { return &rotate_gizmo(parent, m_axis, Colour::Invisible, 0.05f, ItemFlag::Ui); };
 		virtual void draw_gizmo(Gnode& parent, bool active) { rotate_gizmo(parent, m_axis, gizmo_colour(m_hue, active), 0.01f); };

@@ -89,7 +89,7 @@ namespace two
 
 		virtual void paint(Gnode& parent) = 0;
 
-		virtual void process(Widget& self, Viewer& viewer, span<Ref> selection) = 0;
+		virtual void process(ViewerHandle viewer, span<Ref> selection) = 0;
 	};
 
 	export_ class refl_ TWO_TOOL_EXPORT Gizmo
@@ -98,15 +98,15 @@ namespace two
 		virtual ~Gizmo() {}
 		virtual Item* draw_handle(Gnode&) = 0;
 		virtual void draw_gizmo(Gnode&, bool) = 0;
-		virtual vec3 grab_point(Widget&, Viewer&, const vec2&) = 0;
+		virtual vec3 grab_point(ViewerHandle, const vec2&) = 0;
 
 		Item* m_handle = nullptr;
 		bool m_highlighted = false;
 	};
 
 	TWO_TOOL_EXPORT Colour gizmo_colour(float hue, bool active);
-	TWO_TOOL_EXPORT vec3 gizmo_grab_linear(Widget& self, Viewer& viewer, const Transform& space, Axis axis);
-	TWO_TOOL_EXPORT vec3 gizmo_grab_planar(Widget& self, Viewer& viewer, const Transform& space, Axis normal);
+	TWO_TOOL_EXPORT vec3 gizmo_grab_linear(ViewerHandle viewer, const Transform& space, Axis axis);
+	TWO_TOOL_EXPORT vec3 gizmo_grab_planar(ViewerHandle viewer, const Transform& space, Axis normal);
 
 	export_ class refl_ TWO_TOOL_EXPORT TransformAction : public EditorAction
 	{
@@ -137,7 +137,7 @@ namespace two
 
 		virtual void paint(Gnode& parent) override;
 
-		virtual void process(Widget& self, Viewer& viewer, span<Ref> selection) override;
+		virtual void process(ViewerHandle viewer, span<Ref> selection) override;
 
 		virtual bool enabled(span<Ref> selection) override;
 

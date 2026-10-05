@@ -236,115 +236,98 @@ Module['FreeOrbitController'] = FreeOrbitController;
 FreeOrbitController.prototype["__destroy"] = FreeOrbitController.prototype.__destroy = function() {
     _two_FreeOrbitController__destroy(this.__ptr);
 };
-// ViewerBox
-function ViewerBox() {
-    this.__ptr = _two_ViewerBox__construct_0(); getCache(ViewerBox)[this.__ptr] = this;
+// ViewerHandle
+function ViewerHandle() {
+    this.__ptr = _two_ViewerHandle__construct_0(); getCache(ViewerHandle)[this.__ptr] = this;
 };
-ViewerBox.prototype = Object.create(WrapperObject.prototype);
-ViewerBox.prototype.constructor = ViewerBox;
-ViewerBox.prototype.__class = ViewerBox;
-ViewerBox.__cache = {};
-Module['ViewerBox'] = ViewerBox;
-Object.defineProperty(ViewerBox.prototype, "self", {
+ViewerHandle.prototype = Object.create(WrapperObject.prototype);
+ViewerHandle.prototype.constructor = ViewerHandle;
+ViewerHandle.prototype.__class = ViewerHandle;
+ViewerHandle.__cache = {};
+Module['ViewerHandle'] = ViewerHandle;
+Object.defineProperty(ViewerHandle.prototype, "self", {
     get: function() {
-        return wrapPointer(_two_ViewerBox__get_self(this.__ptr), Widget);
+        return wrapPointer(_two_ViewerHandle__get_self(this.__ptr), Widget);
     },
     set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('ViewerBox.self: expected Widget');
-        _two_ViewerBox__set_self(this.__ptr, value.__ptr);
+        if (!checkClass(value, Widget)) throw Error('ViewerHandle.self: expected Widget');
+        _two_ViewerHandle__set_self(this.__ptr, value.__ptr);
     }
 });
-Object.defineProperty(ViewerBox.prototype, "viewer", {
+Object.defineProperty(ViewerHandle.prototype, "viewer", {
     get: function() {
-        return wrapPointer(_two_ViewerBox__get_viewer(this.__ptr), Viewer);
+        return wrapPointer(_two_ViewerHandle__get_viewer(this.__ptr), Viewer);
     },
     set: function(value) {
-        if (!checkClass(value, Viewer)) throw Error('ViewerBox.viewer: expected Viewer');
-        _two_ViewerBox__set_viewer(this.__ptr, value.__ptr);
+        if (!checkClass(value, Viewer)) throw Error('ViewerHandle.viewer: expected Viewer');
+        _two_ViewerHandle__set_viewer(this.__ptr, value.__ptr);
     }
 });
-ViewerBox.prototype["__destroy"] = ViewerBox.prototype.__destroy = function() {
-    _two_ViewerBox__destroy(this.__ptr);
+ViewerHandle.prototype["__destroy"] = ViewerHandle.prototype.__destroy = function() {
+    _two_ViewerHandle__destroy(this.__ptr);
 };
-// SceneViewerBox
-function SceneViewerBox() {
-    this.__ptr = _two_SceneViewerBox__construct_0(); getCache(SceneViewerBox)[this.__ptr] = this;
+// SceneViewerHandle
+function SceneViewerHandle() {
+    this.__ptr = _two_SceneViewerHandle__construct_0(); getCache(SceneViewerHandle)[this.__ptr] = this;
 };
-SceneViewerBox.prototype = Object.create(WrapperObject.prototype);
-SceneViewerBox.prototype.constructor = SceneViewerBox;
-SceneViewerBox.prototype.__class = SceneViewerBox;
-SceneViewerBox.__cache = {};
-Module['SceneViewerBox'] = SceneViewerBox;
-Object.defineProperty(SceneViewerBox.prototype, "self", {
-    get: function() {
-        return wrapPointer(_two_SceneViewerBox__get_self(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('SceneViewerBox.self: expected Widget');
-        _two_SceneViewerBox__set_self(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(SceneViewerBox.prototype, "viewer", {
-    get: function() {
-        return wrapPointer(_two_SceneViewerBox__get_viewer(this.__ptr), SceneViewer);
-    },
-    set: function(value) {
-        if (!checkClass(value, SceneViewer)) throw Error('SceneViewerBox.viewer: expected SceneViewer');
-        _two_SceneViewerBox__set_viewer(this.__ptr, value.__ptr);
-    }
-});
-SceneViewerBox.prototype["__destroy"] = SceneViewerBox.prototype.__destroy = function() {
-    _two_SceneViewerBox__destroy(this.__ptr);
+SceneViewerHandle.prototype = Object.create(ViewerHandle.prototype);
+SceneViewerHandle.prototype.constructor = SceneViewerHandle;
+SceneViewerHandle.prototype.__class = SceneViewerHandle;
+SceneViewerHandle.__base = ViewerHandle;
+SceneViewerHandle.__cache = {};
+Module['SceneViewerHandle'] = SceneViewerHandle;
+SceneViewerHandle.prototype["__destroy"] = SceneViewerHandle.prototype.__destroy = function() {
+    _two_SceneViewerHandle__destroy(this.__ptr);
 };
 Module['ui']['viewer'] = function(a0, a1, a2) {
     if (!checkClass(a0, NodeKey)) throw Error('viewer(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('viewer(1:parent): expected Widget'); if (!checkClass(a2, Scene)) throw Error('viewer(2:scene): expected Scene');
-    return wrapPointer(_two_ui_viewer_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*scene*/a2.__ptr), ViewerBox);
+    return wrapPointer(_two_ui_viewer_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*scene*/a2.__ptr), ViewerHandle);
 };
 Module['ui']['scene_viewer'] = function(a0, a1, a2) {
     if (a2 === undefined) { if (!checkClass(a0, NodeKey)) throw Error('scene_viewer(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('scene_viewer(1:parent): expected Widget'); }
     else { if (!checkClass(a0, NodeKey)) throw Error('scene_viewer(0:id): expected NodeKey'); if (!checkClass(a1, Widget)) throw Error('scene_viewer(1:parent): expected Widget'); if (!checkClass(a2, v2_float)) throw Error('scene_viewer(2:size): expected v2<float>'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_scene_viewer_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), SceneViewerBox); }
-    else { return wrapPointer(_two_ui_scene_viewer_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*size*/a2.__ptr), SceneViewerBox); }
+    if (a2 === undefined) { return wrapPointer(_two_ui_scene_viewer_2(/*id*/a0.__ptr, /*parent*/a1.__ptr), SceneViewerHandle); }
+    else { return wrapPointer(_two_ui_scene_viewer_3(/*id*/a0.__ptr, /*parent*/a1.__ptr, /*size*/a2.__ptr), SceneViewerHandle); }
 };
-Module['ui']['trackball_controller'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('trackball_controller(0:self): expected Widget'); if (!checkClass(a1, Viewer)) throw Error('trackball_controller(1:viewer): expected Viewer');
-    return wrapPointer(_two_ui_trackball_controller_2(/*self*/a0.__ptr, /*viewer*/a1.__ptr), TrackballController);
+Module['ui']['trackball_controller'] = function(a0) {
+    if (!checkClass(a0, ViewerHandle)) throw Error('trackball_controller(0:viewer): expected ViewerHandle');
+    return wrapPointer(_two_ui_trackball_controller_1(/*viewer*/a0.__ptr), TrackballController);
 };
-Module['ui']['orbit_controls'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('orbit_controls(0:self): expected Widget'); if (!checkClass(a1, Viewer)) throw Error('orbit_controls(1:viewer): expected Viewer');
-    return wrapPointer(_two_ui_orbit_controls_2(/*self*/a0.__ptr, /*viewer*/a1.__ptr), OrbitControls);
+Module['ui']['orbit_controls'] = function(a0) {
+    if (!checkClass(a0, ViewerHandle)) throw Error('orbit_controls(0:viewer): expected ViewerHandle');
+    return wrapPointer(_two_ui_orbit_controls_1(/*viewer*/a0.__ptr), OrbitControls);
 };
-Module['ui']['orbit_controller'] = function(a0, a1, a2, a3, a4) {
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('orbit_controller(0:self): expected Widget'); if (!checkClass(a1, Viewer)) throw Error('orbit_controller(1:viewer): expected Viewer'); }
-    else if (a3 === undefined) { if (!checkClass(a0, Widget)) throw Error('orbit_controller(0:self): expected Widget'); if (!checkClass(a1, Viewer)) throw Error('orbit_controller(1:viewer): expected Viewer'); if (typeof a2 !== 'number') throw Error('orbit_controller(2:yaw): expected number'); }
-    else if (a4 === undefined) { if (!checkClass(a0, Widget)) throw Error('orbit_controller(0:self): expected Widget'); if (!checkClass(a1, Viewer)) throw Error('orbit_controller(1:viewer): expected Viewer'); if (typeof a2 !== 'number') throw Error('orbit_controller(2:yaw): expected number'); if (typeof a3 !== 'number') throw Error('orbit_controller(3:pitch): expected number'); }
-    else { if (!checkClass(a0, Widget)) throw Error('orbit_controller(0:self): expected Widget'); if (!checkClass(a1, Viewer)) throw Error('orbit_controller(1:viewer): expected Viewer'); if (typeof a2 !== 'number') throw Error('orbit_controller(2:yaw): expected number'); if (typeof a3 !== 'number') throw Error('orbit_controller(3:pitch): expected number'); if (typeof a4 !== 'number') throw Error('orbit_controller(4:distance): expected number'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_orbit_controller_2(/*self*/a0.__ptr, /*viewer*/a1.__ptr), OrbitController); }
-    else if (a3 === undefined) { return wrapPointer(_two_ui_orbit_controller_3(/*self*/a0.__ptr, /*viewer*/a1.__ptr, /*yaw*/a2), OrbitController); }
-    else if (a4 === undefined) { return wrapPointer(_two_ui_orbit_controller_4(/*self*/a0.__ptr, /*viewer*/a1.__ptr, /*yaw*/a2, /*pitch*/a3), OrbitController); }
-    else { return wrapPointer(_two_ui_orbit_controller_5(/*self*/a0.__ptr, /*viewer*/a1.__ptr, /*yaw*/a2, /*pitch*/a3, /*distance*/a4), OrbitController); }
+Module['ui']['orbit_controller'] = function(a0, a1, a2, a3) {
+    if (a1 === undefined) { if (!checkClass(a0, ViewerHandle)) throw Error('orbit_controller(0:viewer): expected ViewerHandle'); }
+    else if (a2 === undefined) { if (!checkClass(a0, ViewerHandle)) throw Error('orbit_controller(0:viewer): expected ViewerHandle'); if (typeof a1 !== 'number') throw Error('orbit_controller(1:yaw): expected number'); }
+    else if (a3 === undefined) { if (!checkClass(a0, ViewerHandle)) throw Error('orbit_controller(0:viewer): expected ViewerHandle'); if (typeof a1 !== 'number') throw Error('orbit_controller(1:yaw): expected number'); if (typeof a2 !== 'number') throw Error('orbit_controller(2:pitch): expected number'); }
+    else { if (!checkClass(a0, ViewerHandle)) throw Error('orbit_controller(0:viewer): expected ViewerHandle'); if (typeof a1 !== 'number') throw Error('orbit_controller(1:yaw): expected number'); if (typeof a2 !== 'number') throw Error('orbit_controller(2:pitch): expected number'); if (typeof a3 !== 'number') throw Error('orbit_controller(3:distance): expected number'); }
+    if (a1 === undefined) { return wrapPointer(_two_ui_orbit_controller_1(/*viewer*/a0.__ptr), OrbitController); }
+    else if (a2 === undefined) { return wrapPointer(_two_ui_orbit_controller_2(/*viewer*/a0.__ptr, /*yaw*/a1), OrbitController); }
+    else if (a3 === undefined) { return wrapPointer(_two_ui_orbit_controller_3(/*viewer*/a0.__ptr, /*yaw*/a1, /*pitch*/a2), OrbitController); }
+    else { return wrapPointer(_two_ui_orbit_controller_4(/*viewer*/a0.__ptr, /*yaw*/a1, /*pitch*/a2, /*distance*/a3), OrbitController); }
 };
-Module['ui']['free_orbit_controller'] = function(a0, a1) {
-    if (!checkClass(a0, Widget)) throw Error('free_orbit_controller(0:self): expected Widget'); if (!checkClass(a1, Viewer)) throw Error('free_orbit_controller(1:viewer): expected Viewer');
-    return wrapPointer(_two_ui_free_orbit_controller_2(/*self*/a0.__ptr, /*viewer*/a1.__ptr), FreeOrbitController);
+Module['ui']['free_orbit_controller'] = function(a0) {
+    if (!checkClass(a0, ViewerHandle)) throw Error('free_orbit_controller(0:viewer): expected ViewerHandle');
+    return wrapPointer(_two_ui_free_orbit_controller_1(/*viewer*/a0.__ptr), FreeOrbitController);
 };
-Module['ui']['isometric_controller'] = function(a0, a1, a2) {
-    if (a2 === undefined) { if (!checkClass(a0, Widget)) throw Error('isometric_controller(0:self): expected Widget'); if (!checkClass(a1, Viewer)) throw Error('isometric_controller(1:viewer): expected Viewer'); }
-    else { if (!checkClass(a0, Widget)) throw Error('isometric_controller(0:self): expected Widget'); if (!checkClass(a1, Viewer)) throw Error('isometric_controller(1:viewer): expected Viewer'); if (typeof a2 !== 'boolean') throw Error('isometric_controller(2:topdown): expected boolean'); }
-    if (a2 === undefined) { return wrapPointer(_two_ui_isometric_controller_2(/*self*/a0.__ptr, /*viewer*/a1.__ptr), OrbitController); }
-    else { return wrapPointer(_two_ui_isometric_controller_3(/*self*/a0.__ptr, /*viewer*/a1.__ptr, /*topdown*/a2), OrbitController); }
+Module['ui']['isometric_controller'] = function(a0, a1) {
+    if (a1 === undefined) { if (!checkClass(a0, ViewerHandle)) throw Error('isometric_controller(0:viewer): expected ViewerHandle'); }
+    else { if (!checkClass(a0, ViewerHandle)) throw Error('isometric_controller(0:viewer): expected ViewerHandle'); if (typeof a1 !== 'boolean') throw Error('isometric_controller(1:topdown): expected boolean'); }
+    if (a1 === undefined) { return wrapPointer(_two_ui_isometric_controller_1(/*viewer*/a0.__ptr), OrbitController); }
+    else { return wrapPointer(_two_ui_isometric_controller_2(/*viewer*/a0.__ptr, /*topdown*/a1), OrbitController); }
 };
-Module['ui']['hybrid_controller'] = function(a0, a1, a2, a3, a4, a5, a6) {
-    if (a6 === undefined) { if (!checkClass(a0, Widget)) throw Error('hybrid_controller(0:self): expected Widget'); if (!checkClass(a1, Viewer)) throw Error('hybrid_controller(1:viewer): expected Viewer'); if (typeof a2 !== 'number') throw Error('hybrid_controller(2:mode): expected integer'); if (!checkClass(a3, Transform)) throw Error('hybrid_controller(3:entity): expected Transform'); if (typeof a4 !== 'boolean') throw Error('hybrid_controller(4:aiming): expected boolean'); if (!checkClass(a5, v2_float)) throw Error('hybrid_controller(5:angles): expected v2<float>'); }
-    else { if (!checkClass(a0, Widget)) throw Error('hybrid_controller(0:self): expected Widget'); if (!checkClass(a1, Viewer)) throw Error('hybrid_controller(1:viewer): expected Viewer'); if (typeof a2 !== 'number') throw Error('hybrid_controller(2:mode): expected integer'); if (!checkClass(a3, Transform)) throw Error('hybrid_controller(3:entity): expected Transform'); if (typeof a4 !== 'boolean') throw Error('hybrid_controller(4:aiming): expected boolean'); if (!checkClass(a5, v2_float)) throw Error('hybrid_controller(5:angles): expected v2<float>'); if (typeof a6 !== 'boolean') throw Error('hybrid_controller(6:modal): expected boolean'); }
-    if (a6 === undefined) { return wrapPointer(_two_ui_hybrid_controller_6(/*self*/a0.__ptr, /*viewer*/a1.__ptr, /*mode*/a2, /*entity*/a3.__ptr, /*aiming*/a4, /*angles*/a5.__ptr), OrbitController); }
-    else { return wrapPointer(_two_ui_hybrid_controller_7(/*self*/a0.__ptr, /*viewer*/a1.__ptr, /*mode*/a2, /*entity*/a3.__ptr, /*aiming*/a4, /*angles*/a5.__ptr, /*modal*/a6), OrbitController); }
+Module['ui']['hybrid_controller'] = function(a0, a1, a2, a3, a4, a5) {
+    if (a5 === undefined) { if (!checkClass(a0, ViewerHandle)) throw Error('hybrid_controller(0:viewer): expected ViewerHandle'); if (typeof a1 !== 'number') throw Error('hybrid_controller(1:mode): expected integer'); if (!checkClass(a2, Transform)) throw Error('hybrid_controller(2:entity): expected Transform'); if (typeof a3 !== 'boolean') throw Error('hybrid_controller(3:aiming): expected boolean'); if (!checkClass(a4, v2_float)) throw Error('hybrid_controller(4:angles): expected v2<float>'); }
+    else { if (!checkClass(a0, ViewerHandle)) throw Error('hybrid_controller(0:viewer): expected ViewerHandle'); if (typeof a1 !== 'number') throw Error('hybrid_controller(1:mode): expected integer'); if (!checkClass(a2, Transform)) throw Error('hybrid_controller(2:entity): expected Transform'); if (typeof a3 !== 'boolean') throw Error('hybrid_controller(3:aiming): expected boolean'); if (!checkClass(a4, v2_float)) throw Error('hybrid_controller(4:angles): expected v2<float>'); if (typeof a5 !== 'boolean') throw Error('hybrid_controller(5:modal): expected boolean'); }
+    if (a5 === undefined) { return wrapPointer(_two_ui_hybrid_controller_5(/*viewer*/a0.__ptr, /*mode*/a1, /*entity*/a2.__ptr, /*aiming*/a3, /*angles*/a4.__ptr), OrbitController); }
+    else { return wrapPointer(_two_ui_hybrid_controller_6(/*viewer*/a0.__ptr, /*mode*/a1, /*entity*/a2.__ptr, /*aiming*/a3, /*angles*/a4.__ptr, /*modal*/a5), OrbitController); }
 };
-Module['ui']['velocity_controller'] = function(a0, a1, a2, a3, a4) {
-    if (a4 === undefined) { if (!checkClass(a0, Widget)) throw Error('velocity_controller(0:self): expected Widget'); if (!checkClass(a1, Viewer)) throw Error('velocity_controller(1:viewer): expected Viewer'); if (!checkClass(a2, v3_float)) throw Error('velocity_controller(2:linear): expected v3<float>'); if (!checkClass(a3, v3_float)) throw Error('velocity_controller(3:angular): expected v3<float>'); }
-    else { if (!checkClass(a0, Widget)) throw Error('velocity_controller(0:self): expected Widget'); if (!checkClass(a1, Viewer)) throw Error('velocity_controller(1:viewer): expected Viewer'); if (!checkClass(a2, v3_float)) throw Error('velocity_controller(2:linear): expected v3<float>'); if (!checkClass(a3, v3_float)) throw Error('velocity_controller(3:angular): expected v3<float>'); if (typeof a4 !== 'number') throw Error('velocity_controller(4:speed): expected number'); }
-    if (a4 === undefined) { _two_ui_velocity_controller_4(/*self*/a0.__ptr, /*viewer*/a1.__ptr, /*linear*/a2.__ptr, /*angular*/a3.__ptr); }
-    else { _two_ui_velocity_controller_5(/*self*/a0.__ptr, /*viewer*/a1.__ptr, /*linear*/a2.__ptr, /*angular*/a3.__ptr, /*speed*/a4); }
+Module['ui']['velocity_controller'] = function(a0, a1, a2, a3) {
+    if (a3 === undefined) { if (!checkClass(a0, ViewerHandle)) throw Error('velocity_controller(0:viewer): expected ViewerHandle'); if (!checkClass(a1, v3_float)) throw Error('velocity_controller(1:linear): expected v3<float>'); if (!checkClass(a2, v3_float)) throw Error('velocity_controller(2:angular): expected v3<float>'); }
+    else { if (!checkClass(a0, ViewerHandle)) throw Error('velocity_controller(0:viewer): expected ViewerHandle'); if (!checkClass(a1, v3_float)) throw Error('velocity_controller(1:linear): expected v3<float>'); if (!checkClass(a2, v3_float)) throw Error('velocity_controller(2:angular): expected v3<float>'); if (typeof a3 !== 'number') throw Error('velocity_controller(3:speed): expected number'); }
+    if (a3 === undefined) { _two_ui_velocity_controller_3(/*viewer*/a0.__ptr, /*linear*/a1.__ptr, /*angular*/a2.__ptr); }
+    else { _two_ui_velocity_controller_4(/*viewer*/a0.__ptr, /*linear*/a1.__ptr, /*angular*/a2.__ptr, /*speed*/a3); }
 };
 
 (function() {
@@ -357,8 +340,8 @@ Module['ui']['velocity_controller'] = function(a0, a1, a2, a3, a4) {
         TrackballController.prototype.__type = _two_TrackballController__type();
         OrbitControls.prototype.__type = _two_OrbitControls__type();
         FreeOrbitController.prototype.__type = _two_FreeOrbitController__type();
-        ViewerBox.prototype.__type = _two_ViewerBox__type();
-        SceneViewerBox.prototype.__type = _two_SceneViewerBox__type();
+        ViewerHandle.prototype.__type = _two_ViewerHandle__type();
+        SceneViewerHandle.prototype.__type = _two_SceneViewerHandle__type();
         // OrbitMode
         Module['ui']['OrbitMode'] = Module['ui']['OrbitMode'] || {};
         Module['ui']['OrbitMode']['ThirdPerson'] = _two_ui_OrbitMode_ThirdPerson();

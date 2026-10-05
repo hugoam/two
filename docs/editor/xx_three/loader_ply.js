@@ -1,14 +1,14 @@
 // loader_ply.js
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controls(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controls(viewer);
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if(init) {
     this.importerPLY = new two.ImporterPLY(app.gfx);
     
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 35.0; camera.near = 1.0; camera.far = 15.0;
     camera.eye = new two.vec3(3.0, 0.15, 3.0);
     camera.target = new two.vec3(0.0, -0.1, 0.0);
@@ -16,8 +16,8 @@ if(init) {
     var bg = two.to_linear(two.rgb(0x72645b));
     bg = new two.Colour(bg.r, bg.g, bg.b);
     
-    viewer.viewport.to_gamma = true;
-    viewer.viewport.clear_colour = bg;
+    viewer.viewer.viewport.to_gamma = true;
+    viewer.viewer.viewport.clear_colour = bg;
     
     var env = scene.env;
     env.background.colour = bg;
@@ -89,6 +89,6 @@ if(init) {
 
 var time = app.gfx.time * 0.5;
 
-var camera = viewer.camera;
+var camera = viewer.viewer.camera;
 camera.eye.x = Math.sin(time) * 2.5;
 camera.eye.z = Math.cos(time) * 2.5;

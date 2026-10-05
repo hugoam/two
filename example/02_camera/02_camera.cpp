@@ -8,11 +8,11 @@ import two.uio;
 
 using namespace two;
 
-void ex_02_camera(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_02_camera(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(*self, *viewer);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(viewer);
 
 	Material& material = milky_white(app.m_gfx);
 
@@ -26,7 +26,7 @@ void ex_02_camera(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app, ShellWindow& window)
 {
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_02_camera(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_02_camera(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

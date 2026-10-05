@@ -8,19 +8,19 @@ void two_ui_OrbitMode__to_string(void* val, string& str) { str = g_enu[type<two:
 void two_ui_OrbitMode__to_value(const string& str, void* val) { (*static_cast<two::ui::OrbitMode*>(val)) = two::ui::OrbitMode(g_enu[type<two::ui::OrbitMode>().m_id]->value(str.c_str())); }
 void two_OrbitController_set_eye(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::OrbitController*>(object)).set_eye(*static_cast<two::quat*>(args[0])); }
 void two_OrbitController_set_target(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::OrbitController*>(object)).set_target(*static_cast<two::vec3*>(args[0])); }
-void two_ViewerBox__default_construct(void* ref) { new(stl::placeholder(), ref) two::ViewerBox(); }
-void two_ViewerBox__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::ViewerBox((*static_cast<two::ViewerBox*>(other))); }
-void two_SceneViewerBox__default_construct(void* ref) { new(stl::placeholder(), ref) two::SceneViewerBox(); }
-void two_SceneViewerBox__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::SceneViewerBox((*static_cast<two::SceneViewerBox*>(other))); }
-void two_ui_viewer_0(span<void*> args, void*& result) { (*static_cast<two::ViewerBox*>(result)) = two::ui::viewer(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Scene*>(args[2])); }
-void two_ui_scene_viewer_1(span<void*> args, void*& result) { (*static_cast<two::SceneViewerBox*>(result)) = two::ui::scene_viewer(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::vec2*>(args[2])); }
-void two_ui_trackball_controller_2(span<void*> args, void*& result) { result = &two::ui::trackball_controller(*static_cast<two::Widget*>(args[0]), *static_cast<two::Viewer*>(args[1])); }
-void two_ui_orbit_controls_3(span<void*> args, void*& result) { result = &two::ui::orbit_controls(*static_cast<two::Widget*>(args[0]), *static_cast<two::Viewer*>(args[1])); }
-void two_ui_orbit_controller_4(span<void*> args, void*& result) { result = &two::ui::orbit_controller(*static_cast<two::Widget*>(args[0]), *static_cast<two::Viewer*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<float*>(args[4])); }
-void two_ui_free_orbit_controller_5(span<void*> args, void*& result) { result = &two::ui::free_orbit_controller(*static_cast<two::Widget*>(args[0]), *static_cast<two::Viewer*>(args[1])); }
-void two_ui_isometric_controller_6(span<void*> args, void*& result) { result = &two::ui::isometric_controller(*static_cast<two::Widget*>(args[0]), *static_cast<two::Viewer*>(args[1]), *static_cast<bool*>(args[2])); }
-void two_ui_hybrid_controller_7(span<void*> args, void*& result) { result = &two::ui::hybrid_controller(*static_cast<two::Widget*>(args[0]), *static_cast<two::Viewer*>(args[1]), *static_cast<two::ui::OrbitMode*>(args[2]), *static_cast<two::Transform*>(args[3]), *static_cast<bool*>(args[4]), *static_cast<two::vec2*>(args[5]), *static_cast<bool*>(args[6])); }
-void two_ui_velocity_controller_8(span<void*> args, void*& result) { UNUSED(result);  two::ui::velocity_controller(*static_cast<two::Widget*>(args[0]), *static_cast<two::Viewer*>(args[1]), *static_cast<two::vec3*>(args[2]), *static_cast<two::vec3*>(args[3]), *static_cast<float*>(args[4])); }
+void two_ViewerHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::ViewerHandle(); }
+void two_ViewerHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::ViewerHandle((*static_cast<two::ViewerHandle*>(other))); }
+void two_SceneViewerHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::SceneViewerHandle(); }
+void two_SceneViewerHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::SceneViewerHandle((*static_cast<two::SceneViewerHandle*>(other))); }
+void two_ui_viewer_0(span<void*> args, void*& result) { (*static_cast<two::ViewerHandle*>(result)) = two::ui::viewer(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Scene*>(args[2])); }
+void two_ui_scene_viewer_1(span<void*> args, void*& result) { (*static_cast<two::SceneViewerHandle*>(result)) = two::ui::scene_viewer(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::vec2*>(args[2])); }
+void two_ui_trackball_controller_2(span<void*> args, void*& result) { result = &two::ui::trackball_controller(*static_cast<two::ViewerHandle*>(args[0])); }
+void two_ui_orbit_controls_3(span<void*> args, void*& result) { result = &two::ui::orbit_controls(*static_cast<two::ViewerHandle*>(args[0])); }
+void two_ui_orbit_controller_4(span<void*> args, void*& result) { result = &two::ui::orbit_controller(*static_cast<two::ViewerHandle*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3])); }
+void two_ui_free_orbit_controller_5(span<void*> args, void*& result) { result = &two::ui::free_orbit_controller(*static_cast<two::ViewerHandle*>(args[0])); }
+void two_ui_isometric_controller_6(span<void*> args, void*& result) { result = &two::ui::isometric_controller(*static_cast<two::ViewerHandle*>(args[0]), *static_cast<bool*>(args[1])); }
+void two_ui_hybrid_controller_7(span<void*> args, void*& result) { result = &two::ui::hybrid_controller(*static_cast<two::ViewerHandle*>(args[0]), *static_cast<two::ui::OrbitMode*>(args[1]), *static_cast<two::Transform*>(args[2]), *static_cast<bool*>(args[3]), *static_cast<two::vec2*>(args[4]), *static_cast<bool*>(args[5])); }
+void two_ui_velocity_controller_8(span<void*> args, void*& result) { UNUSED(result);  two::ui::velocity_controller(*static_cast<two::ViewerHandle*>(args[0]), *static_cast<two::vec3*>(args[1]), *static_cast<two::vec3*>(args[2]), *static_cast<float*>(args[3])); }
 
 namespace two
 {
@@ -206,59 +206,55 @@ namespace two
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
-	// two::ViewerBox
+	// two::ViewerHandle
 	{
-		Type& t = type<two::ViewerBox>();
-		static Meta meta = { t, &namspc({ "two" }), "ViewerBox", sizeof(two::ViewerBox), TypeClass::Struct };
+		Type& t = type<two::ViewerHandle>();
+		static Meta meta = { t, &namspc({ "two" }), "ViewerHandle", sizeof(two::ViewerHandle), TypeClass::Struct };
 		// bases
 		// defaults
 		static two::Widget* self_default = nullptr;
 		static two::Viewer* viewer_default = nullptr;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
-			{ t, two_ViewerBox__default_construct }
+			{ t, two_ViewerHandle__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
-			{ t, two_ViewerBox__copy_construct }
+			{ t, two_ViewerHandle__copy_construct }
 		};
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ViewerBox, self), type<two::Widget>(), "self", self_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::ViewerBox, viewer), type<two::Viewer>(), "viewer", viewer_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
+			{ t, offsetof(two::ViewerHandle, self), type<two::Widget>(), "self", self_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::ViewerHandle, viewer), type<two::Viewer>(), "viewer", viewer_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
 		};
 		// methods
 		// static members
 		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
-		meta.m_empty_var = var(two::ViewerBox());
+		meta.m_empty_var = var(two::ViewerHandle());
 	}
-	// two::SceneViewerBox
+	// two::SceneViewerHandle
 	{
-		Type& t = type<two::SceneViewerBox>();
-		static Meta meta = { t, &namspc({ "two" }), "SceneViewerBox", sizeof(two::SceneViewerBox), TypeClass::Struct };
+		Type& t = type<two::SceneViewerHandle>();
+		static Meta meta = { t, &namspc({ "two" }), "SceneViewerHandle", sizeof(two::SceneViewerHandle), TypeClass::Struct };
 		// bases
+		static Type* bases[] = { &type<two::ViewerHandle>() };
+		static size_t bases_offsets[] = { base_offset<two::SceneViewerHandle, two::ViewerHandle>() };
 		// defaults
-		static two::Widget* self_default = nullptr;
-		static two::SceneViewer* viewer_default = nullptr;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
-			{ t, two_SceneViewerBox__default_construct }
+			{ t, two_SceneViewerHandle__default_construct }
 		};
 		// copy constructor
 		static CopyConstructor copy_constructor[] = {
-			{ t, two_SceneViewerBox__copy_construct }
+			{ t, two_SceneViewerHandle__copy_construct }
 		};
 		// constructors
 		// members
-		static Member members[] = {
-			{ t, offsetof(two::SceneViewerBox, self), type<two::Widget>(), "self", self_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::SceneViewerBox, viewer), type<two::SceneViewer>(), "viewer", viewer_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
-		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
-		meta.m_empty_var = var(two::SceneViewerBox());
+		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, {}, {}, {}, };
+		meta.m_empty_var = var(two::SceneViewerHandle());
 	}
 	
 	
@@ -270,50 +266,50 @@ namespace two
 		m.m_types.push_back(&type<two::TrackballController>());
 		m.m_types.push_back(&type<two::OrbitControls>());
 		m.m_types.push_back(&type<two::FreeOrbitController>());
-		m.m_types.push_back(&type<two::ViewerBox>());
-		m.m_types.push_back(&type<two::SceneViewerBox>());
+		m.m_types.push_back(&type<two::ViewerHandle>());
+		m.m_types.push_back(&type<two::SceneViewerHandle>());
 		m.m_types.push_back(&type<two::ui::OrbitMode>());
 		{
-			static Function f = { &namspc({ "two", "ui" }), "viewer", funcptr<two::ViewerBox(*)(two::NodeKey, two::Widget&, two::Scene&)>(two::ui::viewer), two_ui_viewer_0, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "scene", type<two::Scene>(), Param::Reference } }, { &type<two::ViewerBox>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "viewer", funcptr<two::ViewerHandle(*)(two::NodeKey, two::Widget&, two::Scene&)>(two::ui::viewer), two_ui_viewer_0, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "scene", type<two::Scene>(), Param::Reference } }, { &type<two::ViewerHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static two::vec2 size_default = vec2(0.f);
-			static Function f = { &namspc({ "two", "ui" }), "scene_viewer", funcptr<two::SceneViewerBox(*)(two::NodeKey, two::Widget&, const two::vec2&)>(two::ui::scene_viewer), two_ui_scene_viewer_1, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "size", type<two::vec2>(), Param::Default, &size_default } }, { &type<two::SceneViewerBox>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "scene_viewer", funcptr<two::SceneViewerHandle(*)(two::NodeKey, two::Widget&, const two::vec2&)>(two::ui::scene_viewer), two_ui_scene_viewer_1, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "size", type<two::vec2>(), Param::Default, &size_default } }, { &type<two::SceneViewerHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "trackball_controller", funcptr<two::TrackballController&(*)(two::Widget&, two::Viewer&)>(two::ui::trackball_controller), two_ui_trackball_controller_2, { { "self", type<two::Widget>(), Param::Reference }, { "viewer", type<two::Viewer>(), Param::Reference } }, { &type<two::TrackballController>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "trackball_controller", funcptr<two::TrackballController&(*)(two::ViewerHandle)>(two::ui::trackball_controller), two_ui_trackball_controller_2, { { "viewer", type<two::ViewerHandle>(),  } }, { &type<two::TrackballController>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "orbit_controls", funcptr<two::OrbitControls&(*)(two::Widget&, two::Viewer&)>(two::ui::orbit_controls), two_ui_orbit_controls_3, { { "self", type<two::Widget>(), Param::Reference }, { "viewer", type<two::Viewer>(), Param::Reference } }, { &type<two::OrbitControls>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "orbit_controls", funcptr<two::OrbitControls&(*)(two::ViewerHandle)>(two::ui::orbit_controls), two_ui_orbit_controls_3, { { "viewer", type<two::ViewerHandle>(),  } }, { &type<two::OrbitControls>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float yaw_default = c_pi4;
 			static float pitch_default = -c_pi4;
 			static float distance_default = 10.f;
-			static Function f = { &namspc({ "two", "ui" }), "orbit_controller", funcptr<two::OrbitController&(*)(two::Widget&, two::Viewer&, float, float, float)>(two::ui::orbit_controller), two_ui_orbit_controller_4, { { "self", type<two::Widget>(), Param::Reference }, { "viewer", type<two::Viewer>(), Param::Reference }, { "yaw", type<float>(), Param::Default, &yaw_default }, { "pitch", type<float>(), Param::Default, &pitch_default }, { "distance", type<float>(), Param::Default, &distance_default } }, { &type<two::OrbitController>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "orbit_controller", funcptr<two::OrbitController&(*)(two::ViewerHandle, float, float, float)>(two::ui::orbit_controller), two_ui_orbit_controller_4, { { "viewer", type<two::ViewerHandle>(),  }, { "yaw", type<float>(), Param::Default, &yaw_default }, { "pitch", type<float>(), Param::Default, &pitch_default }, { "distance", type<float>(), Param::Default, &distance_default } }, { &type<two::OrbitController>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "free_orbit_controller", funcptr<two::FreeOrbitController&(*)(two::Widget&, two::Viewer&)>(two::ui::free_orbit_controller), two_ui_free_orbit_controller_5, { { "self", type<two::Widget>(), Param::Reference }, { "viewer", type<two::Viewer>(), Param::Reference } }, { &type<two::FreeOrbitController>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "free_orbit_controller", funcptr<two::FreeOrbitController&(*)(two::ViewerHandle)>(two::ui::free_orbit_controller), two_ui_free_orbit_controller_5, { { "viewer", type<two::ViewerHandle>(),  } }, { &type<two::FreeOrbitController>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool topdown_default = false;
-			static Function f = { &namspc({ "two", "ui" }), "isometric_controller", funcptr<two::OrbitController&(*)(two::Widget&, two::Viewer&, bool)>(two::ui::isometric_controller), two_ui_isometric_controller_6, { { "self", type<two::Widget>(), Param::Reference }, { "viewer", type<two::Viewer>(), Param::Reference }, { "topdown", type<bool>(), Param::Default, &topdown_default } }, { &type<two::OrbitController>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "isometric_controller", funcptr<two::OrbitController&(*)(two::ViewerHandle, bool)>(two::ui::isometric_controller), two_ui_isometric_controller_6, { { "viewer", type<two::ViewerHandle>(),  }, { "topdown", type<bool>(), Param::Default, &topdown_default } }, { &type<two::OrbitController>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool modal_default = false;
-			static Function f = { &namspc({ "two", "ui" }), "hybrid_controller", funcptr<two::OrbitController&(*)(two::Widget&, two::Viewer&, two::ui::OrbitMode, two::Transform&, bool&, two::vec2&, bool)>(two::ui::hybrid_controller), two_ui_hybrid_controller_7, { { "self", type<two::Widget>(), Param::Reference }, { "viewer", type<two::Viewer>(), Param::Reference }, { "mode", type<two::ui::OrbitMode>(),  }, { "entity", type<two::Transform>(), Param::Reference }, { "aiming", type<bool>(), Param::Reference }, { "angles", type<two::vec2>(), Param::Reference }, { "modal", type<bool>(), Param::Default, &modal_default } }, { &type<two::OrbitController>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "hybrid_controller", funcptr<two::OrbitController&(*)(two::ViewerHandle, two::ui::OrbitMode, two::Transform&, bool&, two::vec2&, bool)>(two::ui::hybrid_controller), two_ui_hybrid_controller_7, { { "viewer", type<two::ViewerHandle>(),  }, { "mode", type<two::ui::OrbitMode>(),  }, { "entity", type<two::Transform>(), Param::Reference }, { "aiming", type<bool>(), Param::Reference }, { "angles", type<two::vec2>(), Param::Reference }, { "modal", type<bool>(), Param::Default, &modal_default } }, { &type<two::OrbitController>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float speed_default = 1.f;
-			static Function f = { &namspc({ "two", "ui" }), "velocity_controller", funcptr<void(*)(two::Widget&, two::Viewer&, two::vec3&, two::vec3&, float)>(two::ui::velocity_controller), two_ui_velocity_controller_8, { { "self", type<two::Widget>(), Param::Reference }, { "viewer", type<two::Viewer>(), Param::Reference }, { "linear", type<two::vec3>(), Param::Reference }, { "angular", type<two::vec3>(), Param::Reference }, { "speed", type<float>(), Param::Default, &speed_default } }, g_qvoid };
+			static Function f = { &namspc({ "two", "ui" }), "velocity_controller", funcptr<void(*)(two::ViewerHandle, two::vec3&, two::vec3&, float)>(two::ui::velocity_controller), two_ui_velocity_controller_8, { { "viewer", type<two::ViewerHandle>(),  }, { "linear", type<two::vec3>(), Param::Reference }, { "angular", type<two::vec3>(), Param::Reference }, { "speed", type<float>(), Param::Default, &speed_default } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

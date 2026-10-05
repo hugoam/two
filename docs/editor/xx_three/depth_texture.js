@@ -48,17 +48,17 @@ function pass_todepth(gfx, render) {
 }
 
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(viewer);
 //controls.dampingFactor = 0.25;
 //controls.rotateSpeed = 0.35;
 
-viewer.viewport.autorender = false;
+viewer.viewer.viewport.autorender = false;
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if (init) {
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 70.0; camera.near = 0.01; camera.far = 50.0;
     camera.eye.z = 4.0;
 
@@ -97,7 +97,7 @@ function renderer(gfx, render) {
     pass_todepth(gfx, render);
 }
 
-var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
+var render = new two.Render(two.Shading.Shaded, viewer.viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
 app.gfx.renderer.gather(render);
 app.gfx.renderer.begin(render);
 renderer(app.gfx, render);

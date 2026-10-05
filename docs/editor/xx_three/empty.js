@@ -1,12 +1,12 @@
 // empty.js
 
-var viewer = two.ui.scene_viewer(panel).viewer;
-viewer.viewport.autorender = false;
+var viewer = two.ui.scene_viewer(panel);
+viewer.viewer.viewport.autorender = false;
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if(init) {
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 70.0; camera.near = 1.0; camera.far = 1000.0;
     camera.eye.z = 400.0;
 }

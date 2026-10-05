@@ -18,10 +18,10 @@ void xx_geom(Shell app, var parent, Dockbar dockbar)
 	var r = 800.0;
 	var r2 = r / 2.0;
 
-	var { self, viewer } = two.ui.scene_viewer(panel);
-	two.ui.orbit_controller(self, viewer);
+	var viewer = two.ui.scene_viewer(panel);
+	two.ui.orbit_controller(viewer);
 
-	var scene = viewer.scene;
+	var scene = viewer.viewer.scene;
 
 	struct EffectController
 	{
@@ -85,7 +85,7 @@ void xx_geom(Shell app, var parent, Dockbar dockbar)
 	{
 		once = true;
 
-		var camera = viewer.camera;
+		var camera = viewer.viewer.camera;
 		camera.near = 1.0; camera.far = 4000.0;
 		camera.eye.z = 1750.0;
 

@@ -29,13 +29,13 @@ var fragment_shader = `$input v_color
 var numLat = 100;
 var numLng = 200;
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controller(viewer);
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if (init) {
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 45.0; camera.near = 0.01; camera.far = 10.0;
     camera.eye.z = 3.5;
 

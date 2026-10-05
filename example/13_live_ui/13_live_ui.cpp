@@ -61,7 +61,7 @@ static TextScript create_script(LuaInterpreter& interpreter)
 		"local viewers = {}\n"
 		"local colours = {}\n"
 		"\n"
-		"local c = ui.canvas(nil, d2)\n"
+		"local c = ui.canvas(nil, d2).canvas\n"
 		// @todo default values don't work because we are using same call object under the hood (value from previous call is persisted)
 		"local main_viewer = ui.scene_viewer(nil, d2, vec2(0))\n"
 		"local prev_output = nil\n"
@@ -77,8 +77,8 @@ static TextScript create_script(LuaInterpreter& interpreter)
 		"    table.insert(colours, col)\n"
 
 		"    local n = ui.node(c, 'Node ' .. tostring(i), vec2(200 + i * (viewer_size.x + 50), 100), 0)\n"
-		"    local input = ui.node_input(nil, n, 'Input', '(file_15)', col, 1, 0)\n"
-		"    local output = ui.node_output(nil, n, 'Output', '', col, 1, 0)\n"
+		"    local input = ui.node_input(nil, n, 'Input', '(file_15)', col, 1, 0).plug\n"
+		"    local output = ui.node_output(nil, n, 'Output', '', col, 1, 0).plug\n"
 		"    \n"
 		// @todo comment these two fixes the main viewer wrong parent issue -> investigate
 		"    local viewer = ui.scene_viewer(nil, n.body, viewer_size)\n"
@@ -123,7 +123,7 @@ static TextScript create_script(LuaInterpreter& interpreter)
 	return script;
 }
 
-void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_13_live_ui(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 #if NATIVE
 	Widget& ui = parent;
@@ -147,9 +147,9 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 	vector<SceneViewer*> viewers = {};
 	vector<Colour> colours = {};
 		
-	Canvas& c = ui::canvas(key(), d2);
+	Canvas& c = *ui::canvas(key(), d2);
 		// @todo default values don"t work because we are using same call object under the hood (value from previous call is persisted)
-	SceneViewer& main_viewer = *ui::scene_viewer(key(), d2, vec2(0.f)).viewer;
+	SceneViewer& main_viewer = *ui::scene_viewer(key(), d2, vec2(0.f));
 	NodePlug* prev_output = nullptr;
 		
 	auto next_colour = [&]() {
@@ -164,11 +164,11 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 		colours.push_back(col);
 
 		Node& n = ui::node(c, ("Node " + to_string(i)).c_str(), vec2(200 + i * (viewer_size.x + 50), 100), 0);
-		NodePlug& input = ui::node_input(key(), n, "Input", "(file_15)", col, 1, 0);
-		NodePlug& output = ui::node_output(key(), n, "Output", "", col, 1, 0);
+		NodePlug& input = *ui::node_input(key(), n, "Input", "(file_15)", col, 1, 0);
+		NodePlug& output = *ui::node_output(key(), n, "Output", "", col, 1, 0);
 		    
 		// @todo comment these two fixes the main viewer wrong parent issue -> investigate
-		SceneViewer& viewer = *ui::scene_viewer(key(), *n.m_body, viewer_size).viewer;
+		SceneViewer& viewer = *ui::scene_viewer(key(), *n.m_body, viewer_size);
 		viewers.push_back(&viewer);
 		    
 		if(prev_output)
@@ -214,7 +214,7 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app, ShellWindow& window)
 {
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_13_live_ui(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_13_live_ui(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

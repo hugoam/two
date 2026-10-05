@@ -44,7 +44,7 @@ EX(xx_light_hemisphere)
 {
 #if UI
 	UNUSED(dockbar);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
@@ -54,7 +54,7 @@ EX(xx_light_hemisphere)
 	static ImporterGltf importer_gltf = { app.m_gfx };
 
 #if UI
-	ui::orbit_controls(*self, *viewer);
+	ui::orbit_controls(viewer);
 #endif
 
 	if(init)

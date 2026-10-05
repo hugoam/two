@@ -30,7 +30,7 @@ using namespace two;
 // xx_geom_dynamic
 
 #if UI
-using ExampleFunc = void(*)(ShellX&, Widget&, Dockbar&, bool);
+using ExampleFunc = void(*)(ShellX&, Widget&, DockbarHandle, bool);
 #else
 using ExampleFunc = void(*)(ShellX&, WindowX&, bool);
 #endif
@@ -136,7 +136,7 @@ void ex_xx_three(ShellX& app, WindowX& window, bool& init, uint32_t& example)
 }
 
 #else
-void ex_xx_three(ShellX& app, Widget& parent, Dockbar& dockbar, bool& init, uint32_t& example)
+void ex_xx_three(ShellX& app, Widget& parent, DockbarHandle dockbar, bool& init, uint32_t& example)
 {
 	static vector<cstring> labels = example_labels();
 
@@ -177,7 +177,7 @@ void pump(ShellX& app, WindowX& window, bool& init, uint32_t& example)
 {
 #if UI
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_xx_three(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar, init, example);
+	ex_xx_three(app, *app.m_editor.m_screen, app.m_editor.m_dockbar, init, example);
 #else
 	ex_xx_three(app, window, init, example);
 #endif
@@ -230,7 +230,7 @@ int main(int argc, char *argv[])
 		{
 			Widget& parent = i < 3 ? row0 : row1;
 			Widget& panel = ui::sheet(key(), parent);
-			ex_xx_three(app, panel, *app.m_editor.m_dockbar, init[i], example[i]);
+			ex_xx_three(app, panel, app.m_editor.m_dockbar, init[i], example[i]);
 	}
 #else
 		pump(app, w0, init0, example0);

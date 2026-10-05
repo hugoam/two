@@ -82,21 +82,21 @@ namespace two
 		ui::text_box(key(), self, styles().type_in, output, true, 5);
 	}
 
-	void script_edit_hover(Widget& self, TextEdit& edit)
+	void script_edit_hover(TextEditHandle edit)
 	{
-		if(edit.m_hovered_word != "")
+		if(edit->m_hovered_word != "")
 		{
-			vec2 hover_at = edit.m_hovered_word_rect.pos + vec2(0.f, edit.m_hovered_word_rect.height);
+			vec2 hover_at = edit->m_hovered_word_rect.pos + vec2(0.f, edit->m_hovered_word_rect.height);
 
-			//ui::rectangle(key(), edit, edit.m_hovered_word_rect);
+			//ui::rectangle(key(), edit, edit->m_hovered_word_rect);
 			
-			Function* function = system().find_function(edit.m_hovered_word.c_str());
-			Type* type = system().find_type(edit.m_hovered_word.c_str());
-			Type* lowertype = system().find_type(to_lower(edit.m_hovered_word).c_str());
+			Function* function = system().find_function(edit->m_hovered_word.c_str());
+			Type* type = system().find_type(edit->m_hovered_word.c_str());
+			Type* lowertype = system().find_type(to_lower(edit->m_hovered_word).c_str());
 
 			if(function || type || lowertype)
 			{
-				if(Widget* popup = ui::hoverbox(key(), self, hover_at))
+				if(Widget* popup = ui::hoverbox(key(), *edit.self, hover_at))
 				{
 					if(function)
 						meta_synopsis(*popup, *function);
@@ -105,7 +105,7 @@ namespace two
 				}
 			}
 		
-			if(MouseEvent event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
+			if(MouseEvent event = edit.self->mouse_event(DeviceType::MouseRight, EventType::Stroked))
 			{
 			}
 		}
@@ -131,33 +131,33 @@ namespace two
 			reload();
 
 		vector<string> known_words = meta_words();
-		auto [box, edit] = ui::code_edit(key(), self.body, script.m_script, 0, &known_words);
+		TextEditHandle edit = ui::code_edit(key(), self.body, script.m_script, 0, &known_words);
 		
 		if(script.m_language == Language::Lua)
-			edit.m_language = &LanguageLua();
+			edit->m_language = &LanguageLua();
 		else if(script.m_language == Language::Wren)
-			edit.m_language = &LanguageWren();
+			edit->m_language = &LanguageWren();
 		
-		if(box.char_stroke(Key::S, InputMod::Ctrl))
+		if(edit.self->char_stroke(Key::S, InputMod::Ctrl))
 			reload();
 
-		if(edit.m_entered)
-			script.m_script = ui::auto_indent(edit);
+		if(edit->m_entered)
+			script.m_script = ui::auto_indent(*edit);
 
-		edit.m_text.m_markers.clear();
+		edit->m_text.m_markers.clear();
 		for(const auto& line_error : script.m_compile_errors)
 		{
 			const ScriptError& error = line_error.second;
-			edit.m_text.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
+			edit->m_text.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
 		}
 
 		for(const auto& line_error : script.m_runtime_errors)
 		{
 			const ScriptError& error = line_error.second;
-			edit.m_text.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
+			edit->m_text.m_markers.push_back({ TextMarkerKind::Error, error.m_line, error.m_column, error.m_message, uint16_t(CodePalette::Error), uint16_t(CodePalette::ErrorMarker) });
 		}
 
-		script_edit_hover(box, edit);
+		script_edit_hover(edit);
 
 		return self;
 	}

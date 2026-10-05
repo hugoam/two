@@ -177,9 +177,9 @@ function pack_lights(gfx, render, state) {
     state.texture.load_float(state.texture.size, ld);
 }
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(self, viewer);
-viewer.viewport.autorender = false;
+var viewer = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(viewer);
+viewer.viewer.viewport.autorender = false;
 
 var radius = 75.0;
 
@@ -217,20 +217,20 @@ if (init) {
     
     this.state.texture = new two.Texture(new two.uvec2(32, 2), false, two.TextureFormat.RGBA32F);
 
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 40.0; camera.near = 1.0; camera.far = 2000.0;
     camera.eye = new two.vec3(0.0, 0.0, 240.0);
     
-    var viewport = viewer.viewport;
+    var viewport = viewer.viewer.viewport;
     //viewport.set_clustered(app.gfx);
 
-    var scene = viewer.scene;
+    var scene = viewer.viewer.scene;
 
     var env = scene.env;
     env.radiance.ambient = new two.Colour(0.33);
 
     env.background.colour = two.rgb(0x111111);
-    viewer.viewport.clear_colour = two.rgb(0x111111);
+    viewer.viewer.viewport.clear_colour = two.rgb(0x111111);
     
     var solid = app.gfx.programs.file('solid');
     var phong = app.gfx.programs.file('pbr/phong');
@@ -348,7 +348,7 @@ for(var i = 0; i < this.state.lights.length; ++i)
     l.node.derive(l.parent, new two.vec3(x, y, z));
 }
 
-var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
+var render = new two.Render(two.Shading.Shaded, viewer.viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
 app.gfx.renderer.gather(render);
 app.gfx.renderer.begin(render);
 renderer(app.gfx, render, this.state);

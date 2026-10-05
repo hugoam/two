@@ -31,7 +31,7 @@ namespace two
 		EditContext(GfxSystem& gfx);
         ~EditContext();
 
-		void set_tool(ViewportTool& tool, Viewer& viewer);
+		void set_tool(ViewportTool& tool, ViewerHandle viewer);
 
 		GfxSystem& m_gfx;
 
@@ -52,8 +52,7 @@ namespace two
 
 		//PlaceBrush m_place_brush;
 
-		attr_ Viewer* m_viewer = nullptr;
-		Widget* m_viewer_widget = nullptr;	// the widget of the viewer, a handle
+		attr_ ViewerHandle m_viewer;
 		attr_ ViewportTool* m_tool = nullptr;
 		attr_ SpatialTool* m_spatial_tool = nullptr;
 		attr_ Brush* m_brush = nullptr;
@@ -63,7 +62,7 @@ namespace two
 		ScriptEditor m_script_editor;
 
 		Docksystem m_docksystem;
-		Dockbar* m_dockbar = nullptr;
+		DockbarHandle m_dockbar;
 		Widget* m_screen = nullptr;
     };
 
@@ -75,7 +74,7 @@ namespace two
 
 	TWO_TOOL_EXPORT void tools_transform(Widget& toolbar, EditContext& context);
 	TWO_TOOL_EXPORT void edit_transform(Widget& parent, EditContext& context);
-	TWO_TOOL_EXPORT void edit_tools(Widget& screen, Docker& docker, EditContext& context);
+	TWO_TOOL_EXPORT void edit_tools(Widget& screen, DockerHandle docker, EditContext& context);
 	TWO_TOOL_EXPORT void edit_tools(Widget& screen, EditContext& context);
 	TWO_TOOL_EXPORT void edit_context(Widget& parent, EditContext& context, bool tools = false);
 }

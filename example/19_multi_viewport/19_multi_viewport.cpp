@@ -17,7 +17,7 @@ size_t viewport_mode(Widget& parent)
 	return num_viewer_vals[choice];
 }
 
-void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_19_multi_viewport(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	static float time = 0.f;
 	time += 0.01f;
@@ -32,7 +32,7 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar)
 	Widget& first_split = ui::board(key(), layout);
 	Widget* second_split = num_viewers > 2 ? &ui::board(key(), layout) : nullptr;
 
-	vector<ViewerBox> viewers = {};
+	vector<ViewerHandle> viewers = {};
 
 	if(!multiple_scene)
 	{
@@ -43,20 +43,17 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar)
 	else
 	{
 		for(size_t i = 0; i < num_viewers; ++i)
-		{
-			auto [self, viewer] = ui::scene_viewer(key(), i >= 2 ? *second_split : first_split);
-			viewers.push_back({ self, viewer });
-		}
+			viewers.push_back(ui::scene_viewer(key(), i >= 2 ? *second_split : first_split));
 	}
 
 
-	for(auto [self, viewer] : viewers)
+	for(ViewerHandle viewer : viewers)
 	{
-		ui::orbit_controller(*self, *viewer);
+		ui::orbit_controller(viewer);
 	}
 
 
-	for(auto [self, viewer] : multiple_scene ? viewers : slice(span<ViewerBox>(viewers), 0, 1))
+	for(ViewerHandle viewer : multiple_scene ? viewers : slice(span<ViewerHandle>(viewers), 0, 1))
 	{
 		Gnode& scene = viewer->m_scene->begin();
 
@@ -81,7 +78,7 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app, ShellWindow& window)
 {
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_19_multi_viewport(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_19_multi_viewport(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

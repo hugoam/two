@@ -49,11 +49,11 @@ static string fragment =
 	"}\n"
 	;
 
-void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_09_live_shader(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	UNUSED(app);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(*self, *viewer);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(viewer);
 
 	Gnode& scene = viewer->m_scene.begin();
 
@@ -74,7 +74,7 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 		if(section_action(edit, "Reload"))
 			program.reload();
 
-		auto [box, text_edit] = ui::code_edit(key(), edit.body, program.m_sources[ShaderType::Fragment], 0);
+		TextEdit& text_edit = *ui::code_edit(key(), edit.body, program.m_sources[ShaderType::Fragment], 0);
 		if(text_edit.m_changed)
 			program.reload();
 		text_edit.m_changed = false;
@@ -86,7 +86,7 @@ void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app, ShellWindow& window)
 {
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_09_live_shader(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_09_live_shader(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

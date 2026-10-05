@@ -49,8 +49,8 @@ var fragment_shader =`$input v_uv0
     
     }`;
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(viewer);
 
 if (init) {
     var program = app.gfx.programs.create('custom');
@@ -67,7 +67,7 @@ if (init) {
     var model = app.gfx.shape(new two.Quad(new two.vec3(0.5, 0.5, 0.0), new two.vec3(0.5, -0.5, 0.0), new two.vec3(-0.5, -0.5, 0.0), new two.vec3(-0.5, 0.5, 0.0)));
     //var model = app.gfx.shape(new two.Rect(0.0, 0.0, 1.0, 1.0));
 
-    var scene = viewer.scene;
+    var scene = viewer.viewer.scene;
 
     var node = new two.Node3().add(scene.graph);
     var it = new two.Item(node, model, 0, material).add(scene.graph);

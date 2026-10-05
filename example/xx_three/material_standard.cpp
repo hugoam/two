@@ -9,7 +9,7 @@ EX(xx_material_standard)
 {
 #if UI
 	UNUSED(dockbar);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
@@ -21,7 +21,7 @@ EX(xx_material_standard)
 #if UI
 	//TrackballControls control;
 	//control.update(window, viewer->m_size, viewer->m_camera);
-	ui::trackball_controller(*self, *viewer);
+	ui::trackball_controller(viewer);
 #endif
 
 	if(init)

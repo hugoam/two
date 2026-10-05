@@ -7,6 +7,7 @@
 #include <ui/Forward.h>
 #include <ui/Style/Style.h>
 #include <ui/Widget.h>
+#include <ui/NodeStruct.h>
 
 namespace two
 {
@@ -39,14 +40,14 @@ namespace ui
 
 	export_ TWO_UI_EXPORT CanvasStyles& canvas_styles();
 
-	export_ TWO_UI_EXPORT NodePlug& node_plug(NodeKey id, Node& node, cstring name, cstring icon, const Colour& colour, bool input, bool active, bool connected);
+	export_ TWO_UI_EXPORT NodePlugHandle node_plug(NodeKey id, Node& node, cstring name, cstring icon, const Colour& colour, bool input, bool active, bool connected);
 	
-	export_ func_ inline NodePlug& node_input(NodeKey id, Node& node, cstring name, cstring icon = "", const Colour& colour = Colour::NeonGreen, bool active = true, bool connected = false)
+	export_ func_ inline NodePlugHandle node_input(NodeKey id, Node& node, cstring name, cstring icon = "", const Colour& colour = Colour::NeonGreen, bool active = true, bool connected = false)
 	{
 		return node_plug(id, node, name, icon, colour, true, active, connected);
 	}
 
-	export_ func_ inline NodePlug& node_output(NodeKey id, Node& node, cstring name, cstring icon = "", const Colour& colour = Colour::NeonGreen, bool active = true, bool connected = false)
+	export_ func_ inline NodePlugHandle node_output(NodeKey id, Node& node, cstring name, cstring icon = "", const Colour& colour = Colour::NeonGreen, bool active = true, bool connected = false)
 	{
 		return node_plug(id, node, name, icon, colour, false, active, connected);
 	}
@@ -58,7 +59,7 @@ namespace ui
 
 	export_ TWO_UI_EXPORT func_ Widget& node_cable(NodeKey id, Canvas& canvas, NodePlug& plug_out, NodePlug& plug_in);
 
-	export_ TWO_UI_EXPORT func_ Canvas& canvas(NodeKey id, Widget& parent, size_t num_nodes = 0);
+	export_ TWO_UI_EXPORT func_ CanvasHandle canvas(NodeKey id, Widget& parent, size_t num_nodes = 0);
 	export_ TWO_UI_EXPORT NodeConnection canvas_connect(Canvas& canvas);
 	export_ TWO_UI_EXPORT void canvas_autolayout(Canvas& canvas);
 }

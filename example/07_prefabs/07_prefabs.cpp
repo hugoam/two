@@ -43,7 +43,7 @@ void ex_07_prefabs_init(Shell& app)
 	//app.m_gfx_system.models().load_files(MUD_RESOURCE_PATH "models/");
 }
 
-void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_07_prefabs(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	static bool once = false;
 	if(!once)
@@ -61,8 +61,8 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	asset_browser(right, app.m_gfx_system);
 
-	auto [self, viewer] = ui::scene_viewer(key(), left);
-	ui::orbit_controller(*self, *viewer);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), left);
+	ui::orbit_controller(viewer);
 	app.m_editor.m_viewer = viewer;
 
 	Gnode& scene = viewer->m_scene->begin();
@@ -72,15 +72,15 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 	//gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 
-	if(MouseEvent mouse_event = self->mouse_event(DeviceType::MouseLeft, EventType::DraggedTarget))
+	if(MouseEvent mouse_event = viewer.self->mouse_event(DeviceType::MouseLeft, EventType::DraggedTarget))
 		if(parent.ui().m_drop.m_object)
 		{
-			Widget& tooltip = ui::widget(key(), self->ui(), styles().tooltip).layer();
+			Widget& tooltip = ui::widget(key(), viewer.self->ui(), styles().tooltip).layer();
 			tooltip.set_position(mouse_event.m_pos);
 			ui::label(key(), tooltip, "dropping");
 		}
 
-	if(MouseEvent mouse_event = self->mouse_event(DeviceType::MouseLeft, EventType::Dropped))
+	if(MouseEvent mouse_event = viewer.self->mouse_event(DeviceType::MouseLeft, EventType::Dropped))
 		if(parent.ui().m_drop.m_object)
 		{
 			if(type(parent.ui().m_drop.m_object).is<Model>())
@@ -89,7 +89,7 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 				selected = &add_node(prefab, PrefabType::Particles, function(gfx::particles), parent.ui().m_drop.m_object);
 		}
 
-	if(MouseEvent mouse_event = self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+	if(MouseEvent mouse_event = viewer.self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
 		auto select = [&](Item* item) { selected = &val<PrefabNode>(item->m_node->m_object); };
 		viewer->picker(0).pick_point(viewer->m_viewport, mouse_event.m_relative, select, ItemFlag::Default | ItemFlag::Selectable);
@@ -122,7 +122,7 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app)
 {
 	shell_context(app.m_ui->begin(), app.m_editor);
-	ex_07_prefabs(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_07_prefabs(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

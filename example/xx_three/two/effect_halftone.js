@@ -314,16 +314,16 @@ HalftoneBlend.Add = 3;
 HalftoneBlend.Lighter = 4;
 HalftoneBlend.Darker = 5;
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(self, viewer);
-viewer.viewport.autorender = false;
+var viewer = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(viewer);
+viewer.viewer.viewport.autorender = false;
 
 var rotationSpeed = Math.PI / 64.0;
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if(init) {
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 75.0; camera.near = 1.0; camera.far = 1000.0;
     camera.eye.z = 12.0;
 
@@ -338,7 +338,7 @@ if(init) {
         disable: false,
     };
 
-    viewer.viewport.clear_colour = two.rgb(0x444444);
+    viewer.viewer.viewport.clear_colour = two.rgb(0x444444);
     scene.env.background.colour = two.rgb(0x444444);
 
     var program = app.gfx.programs.create('halftone');
@@ -402,7 +402,7 @@ function renderer(gfx, render, halftone) {
     pass_halftone(gfx, render, halftone);
 }
 
-var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
+var render = new two.Render(two.Shading.Shaded, viewer.viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
 app.gfx.renderer.gather(render);
 app.gfx.renderer.begin(render);
 

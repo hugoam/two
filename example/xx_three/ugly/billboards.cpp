@@ -9,9 +9,9 @@ EX(xx_billboards)
 {
 #if UI
 	UNUSED(dockbar);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer->m_scene;
-	ControlNode& input = *self;
+	ControlNode& input = *viewer.self;
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);
@@ -19,7 +19,7 @@ EX(xx_billboards)
 #endif
 
 #if UI
-	ui::orbit_controls(*self, *viewer);
+	ui::orbit_controls(viewer);
 #endif
 
 	//scene.fog = new THREE.FogExp2(0x000000, 0.001);
@@ -67,7 +67,7 @@ EX(xx_billboards)
 		it.m_batch = batch;
 	}
 
-	//ui::slider_field(key(), *self, "sizeAttenuation", { material.sizeAttenuation, { 0.f, 1000.f, 1.f } })
+	//ui::slider_field(key(), *viewer.self, "sizeAttenuation", { material.sizeAttenuation, { 0.f, 1000.f, 1.f } })
 
 	float time = app.m_gfx.m_time;
 

@@ -13,13 +13,13 @@ function upload_cubes(cubes, mesh) {
     cubes.direct(direct);
 }
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controller(viewer);
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if (init) {
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 45.0; camera.near = 1.0; camera.far = 10000.0;
     camera.eye = new two.vec3(-500.0, 500.0, 1500.0);
 

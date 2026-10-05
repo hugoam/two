@@ -71,7 +71,7 @@ VisualScript& create_visual_script()
 	return script;
 }
 
-void ex_14_live_gfx_visual(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_14_live_gfx_visual(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	UNUSED(app);
 #ifdef TWO_PLATFORM_EMSCRIPTEN
@@ -81,8 +81,8 @@ void ex_14_live_gfx_visual(Shell& app, Widget& parent, Dockbar& dockbar)
 	g_time += 0.01f;
 #endif
 
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(*self, *viewer);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(viewer);
 
 	static VisualScript& script = create_visual_script();
 
@@ -99,7 +99,7 @@ void ex_14_live_gfx_visual(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app, ShellWindow& window)
 {
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_14_live_gfx_visual(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_14_live_gfx_visual(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

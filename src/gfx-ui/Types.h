@@ -21,6 +21,6 @@ namespace two
     template <> TWO_GFX_UI_EXPORT Type& type<two::TrackballController>();
     template <> TWO_GFX_UI_EXPORT Type& type<two::OrbitControls>();
     template <> TWO_GFX_UI_EXPORT Type& type<two::FreeOrbitController>();
-    template <> TWO_GFX_UI_EXPORT Type& type<two::ViewerBox>();
-    template <> TWO_GFX_UI_EXPORT Type& type<two::SceneViewerBox>();
+    template <> TWO_GFX_UI_EXPORT Type& type<two::ViewerHandle>();
+    template <> TWO_GFX_UI_EXPORT Type& type<two::SceneViewerHandle>();
 }

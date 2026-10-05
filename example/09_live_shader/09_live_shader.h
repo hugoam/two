@@ -6,4 +6,4 @@
 
 using namespace two;
 
-void ex_09_live_shader(Shell& app, Widget& parent, Dockbar& dockbar);
+void ex_09_live_shader(Shell& app, Widget& parent, DockbarHandle dockbar);

@@ -19,9 +19,9 @@ var viewer_size = new two.vec2(200, 170);
 var viewers = []
 var colours = []
 
-var c = two.ui.canvas(d2);
+var c = two.ui.canvas(d2).canvas;
 // @todo default values don't work because we are using same call object under the hood (value from previous call is persisted)
-var main_viewer = two.ui.scene_viewer(d2, new two.vec2(0)).viewer;
+var main_viewer = two.ui.scene_viewer(d2, new two.vec2(0));
 var prev_output = null;
 
 function next_colour() {
@@ -35,11 +35,11 @@ for(var i = 0; i < 4; ++i) {
     colours.push(col);
 
     var n = two.ui.node(c, 'Node ' + i.toString(), new two.vec2(200 + i * (viewer_size.x + 50), 100), 0);
-    var input = two.ui.node_input(n, 'Input', '(file_15)', col, 1, 0);
-    var output = two.ui.node_output(n, 'Output', '', col, 1, 0);
+    var input = two.ui.node_input(n, 'Input', '(file_15)', col, 1, 0).plug;
+    var output = two.ui.node_output(n, 'Output', '', col, 1, 0).plug;
     
     // @todo comment these two fixes the main viewer wrong parent issue . investigate
-    var viewer = two.ui.scene_viewer(n, viewer_size).viewer;
+    var viewer = two.ui.scene_viewer(n, viewer_size);
     viewers.push(viewer);
     
     if(prev_output !== null) {
@@ -56,7 +56,7 @@ viewers.push(main_viewer);
 var rotation = new two.vec3(0, time, 0);
 
 for(var i = 0; i < 5; ++i) {
-    var scene = viewers[i].scene.begin();
+    var scene = viewers[i].viewer.scene.begin();
     
     var cn2 = two.gfx.node(scene, null, new two.vec3(0), new two.quat(rotation), new two.vec3(1));
     two.gfx.shape(cn2, new two.Cube(), new two.Symbol(colours[i], new two.Colour(0, 0, 0, 0))); //two.Colour.None

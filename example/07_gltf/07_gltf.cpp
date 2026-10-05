@@ -19,12 +19,12 @@ void debug_normals(Gnode& parent, Mesh& mesh, const mat4& transform, float lengt
 	}
 }
 
-void ex_07_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_07_gltf(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	static ImporterGltf gltf_importer(app.m_gfx);
 
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
-	ui::orbit_controller(*self, *viewer);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
+	ui::orbit_controller(viewer);
 
 	Gnode& scene = viewer->m_scene.begin();
 
@@ -45,7 +45,7 @@ void ex_07_gltf(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app, ShellWindow& window)
 {
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_07_gltf(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_07_gltf(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])

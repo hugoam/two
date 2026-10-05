@@ -58,7 +58,7 @@ EX(xx_depth_texture)
 {
 #if UI
 	UNUSED(dockbar);
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer->m_scene;
 #else
 	static Scene scene = Scene(app.m_gfx);
@@ -67,8 +67,8 @@ EX(xx_depth_texture)
 	viewer->m_viewport.m_autorender = false;
 
 #if UI
-	OrbitControls& controls = ui::orbit_controls(*self, *viewer);
-	//TrackballController& controls = ui::trackball_controller(*self, *viewer);
+	OrbitControls& controls = ui::orbit_controls(viewer);
+	//TrackballController& controls = ui::trackball_controller(viewer);
 	//controls.m_dynamicDampingFactor = 0.05f;
 	controls.enableDamping = true;
 	controls.dampingFactor = 0.15f;

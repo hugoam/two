@@ -6,4 +6,4 @@
 
 using namespace two;
 
-void ex_00_cube(Shell& app, Widget& parent, Dockbar& dockbar);
+void ex_00_cube(Shell& app, Widget& parent, DockbarHandle dockbar);

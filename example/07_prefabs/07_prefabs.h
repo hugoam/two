@@ -6,4 +6,4 @@
 
 using namespace mud;
 
-void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar);
+void ex_07_prefabs(Shell& app, Widget& parent, DockbarHandle dockbar);

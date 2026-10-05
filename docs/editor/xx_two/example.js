@@ -3,9 +3,9 @@ function update(two, app, time) {
     //var button = two.ui.button(board, "Teeeeeeeeeeeeeeeeeest");
     var screen = two.ui.board(board);
 
-    var viewer = two.ui.scene_viewer(screen).viewer;
+    var viewer = two.ui.scene_viewer(screen);
     two.ui.orbit_controller();
-    var scene = viewer.scene.begin();
+    var scene = viewer.viewer.scene.begin();
     
     var empty = new two.Colour(0, 0, 0, 0);
     var zero3 = new two.vec3(0);

@@ -878,6 +878,28 @@ extern "C" {
 	void DECL two_TextEdit__destroy(two::TextEdit* self) {
 		delete self;
 	}
+	// TextEditHandle
+	two::Type* DECL two_TextEditHandle__type() {
+		return &two::type<two::TextEditHandle>();
+	}
+	two::TextEditHandle* DECL two_TextEditHandle__construct_0() {
+		return new two::TextEditHandle();
+	}
+	two::Widget* DECL two_TextEditHandle__get_self(two::TextEditHandle* self) {
+		return self->self;
+	}
+	void DECL two_TextEditHandle__set_self(two::TextEditHandle* self, two::Widget* value) {
+		self->self = value;
+	}
+	two::TextEdit* DECL two_TextEditHandle__get_edit(two::TextEditHandle* self) {
+		return self->edit;
+	}
+	void DECL two_TextEditHandle__set_edit(two::TextEditHandle* self, two::TextEdit* value) {
+		self->edit = value;
+	}
+	void DECL two_TextEditHandle__destroy(two::TextEditHandle* self) {
+		delete self;
+	}
 	// NodeConnection
 	two::Type* DECL two_NodeConnection__type() {
 		return &two::type<two::NodeConnection>();
@@ -971,6 +993,28 @@ extern "C" {
 	void DECL two_Dock__destroy(two::Dock* self) {
 		delete self;
 	}
+	// DockerHandle
+	two::Type* DECL two_DockerHandle__type() {
+		return &two::type<two::DockerHandle>();
+	}
+	two::DockerHandle* DECL two_DockerHandle__construct_0() {
+		return new two::DockerHandle();
+	}
+	two::Widget* DECL two_DockerHandle__get_self(two::DockerHandle* self) {
+		return self->self;
+	}
+	void DECL two_DockerHandle__set_self(two::DockerHandle* self, two::Widget* value) {
+		self->self = value;
+	}
+	two::Docker* DECL two_DockerHandle__get_docker(two::DockerHandle* self) {
+		return self->docker;
+	}
+	void DECL two_DockerHandle__set_docker(two::DockerHandle* self, two::Docker* value) {
+		self->docker = value;
+	}
+	void DECL two_DockerHandle__destroy(two::DockerHandle* self) {
+		delete self;
+	}
 	// Docksystem
 	two::Type* DECL two_Docksystem__type() {
 		return &two::type<two::Docksystem>();
@@ -999,11 +1043,53 @@ extern "C" {
 	void DECL two_Dockbar__destroy(two::Dockbar* self) {
 		delete self;
 	}
+	// DockspaceHandle
+	two::Type* DECL two_DockspaceHandle__type() {
+		return &two::type<two::DockspaceHandle>();
+	}
+	two::DockspaceHandle* DECL two_DockspaceHandle__construct_0() {
+		return new two::DockspaceHandle();
+	}
+	void DECL two_DockspaceHandle__destroy(two::DockspaceHandle* self) {
+		delete self;
+	}
+	// DockbarHandle
+	two::Type* DECL two_DockbarHandle__type() {
+		return &two::type<two::DockbarHandle>();
+	}
+	two::DockbarHandle* DECL two_DockbarHandle__construct_0() {
+		return new two::DockbarHandle();
+	}
+	void DECL two_DockbarHandle__destroy(two::DockbarHandle* self) {
+		delete self;
+	}
 	// NodePlug
 	two::Type* DECL two_NodePlug__type() {
 		return &two::type<two::NodePlug>();
 	}
 	void DECL two_NodePlug__destroy(two::NodePlug* self) {
+		delete self;
+	}
+	// NodePlugHandle
+	two::Type* DECL two_NodePlugHandle__type() {
+		return &two::type<two::NodePlugHandle>();
+	}
+	two::NodePlugHandle* DECL two_NodePlugHandle__construct_0() {
+		return new two::NodePlugHandle();
+	}
+	two::Widget* DECL two_NodePlugHandle__get_self(two::NodePlugHandle* self) {
+		return self->self;
+	}
+	void DECL two_NodePlugHandle__set_self(two::NodePlugHandle* self, two::Widget* value) {
+		self->self = value;
+	}
+	two::NodePlug* DECL two_NodePlugHandle__get_plug(two::NodePlugHandle* self) {
+		return self->plug;
+	}
+	void DECL two_NodePlugHandle__set_plug(two::NodePlugHandle* self, two::NodePlug* value) {
+		self->plug = value;
+	}
+	void DECL two_NodePlugHandle__destroy(two::NodePlugHandle* self) {
 		delete self;
 	}
 	// Node
@@ -1058,6 +1144,28 @@ extern "C" {
 		return &two::type<two::Canvas>();
 	}
 	void DECL two_Canvas__destroy(two::Canvas* self) {
+		delete self;
+	}
+	// CanvasHandle
+	two::Type* DECL two_CanvasHandle__type() {
+		return &two::type<two::CanvasHandle>();
+	}
+	two::CanvasHandle* DECL two_CanvasHandle__construct_0() {
+		return new two::CanvasHandle();
+	}
+	two::Widget* DECL two_CanvasHandle__get_self(two::CanvasHandle* self) {
+		return self->self;
+	}
+	void DECL two_CanvasHandle__set_self(two::CanvasHandle* self, two::Widget* value) {
+		self->self = value;
+	}
+	two::Canvas* DECL two_CanvasHandle__get_canvas(two::CanvasHandle* self) {
+		return self->canvas;
+	}
+	void DECL two_CanvasHandle__set_canvas(two::CanvasHandle* self, two::Canvas* value) {
+		self->canvas = value;
+	}
+	void DECL two_CanvasHandle__destroy(two::CanvasHandle* self) {
 		delete self;
 	}
 	// Ui
@@ -1340,11 +1448,13 @@ extern "C" {
 	two::Widget* DECL two_ui_viewport_3(two::NodeKey* id, two::Widget* parent, const two::vec4* rect) {
 		return &two::ui::viewport(*id, *parent, *rect);
 	}
-	two::Dockspace* DECL two_ui_dockspace_3(two::NodeKey* id, two::Widget* parent, two::Docksystem* docksystem) {
-		return &two::ui::dockspace(*id, *parent, *docksystem);
+	two::DockspaceHandle* DECL two_ui_dockspace_3(two::NodeKey* id, two::Widget* parent, two::Docksystem* docksystem) {
+		static two::DockspaceHandle temp;
+		return (temp = two::ui::dockspace(*id, *parent, *docksystem), &temp);
 	}
-	two::Dockbar* DECL two_ui_dockbar_3(two::NodeKey* id, two::Widget* parent, two::Docksystem* docksystem) {
-		return &two::ui::dockbar(*id, *parent, *docksystem);
+	two::DockbarHandle* DECL two_ui_dockbar_3(two::NodeKey* id, two::Widget* parent, two::Docksystem* docksystem) {
+		static two::DockbarHandle temp;
+		return (temp = two::ui::dockbar(*id, *parent, *docksystem), &temp);
 	}
 	two::Widget* DECL two_ui_dockitem_3(two::Widget* parent, two::Docksystem* docksystem, const char* name) {
 		return two::ui::dockitem(*parent, *docksystem, name);
@@ -1472,35 +1582,45 @@ extern "C" {
 	bool DECL two_ui_field_float_6(two::NodeKey* id, two::Widget* parent, const char* name, float value, two::StatDef<float>* def, bool reverse) {
 		return two::ui::field<float>(*id, *parent, name, value, *def, reverse);
 	}
-	two::NodePlug* DECL two_ui_node_input_3(two::NodeKey* id, two::Node* node, const char* name) {
-		return &two::ui::node_input(*id, *node, name);
+	two::NodePlugHandle* DECL two_ui_node_input_3(two::NodeKey* id, two::Node* node, const char* name) {
+		static two::NodePlugHandle temp;
+		return (temp = two::ui::node_input(*id, *node, name), &temp);
 	}
-	two::NodePlug* DECL two_ui_node_input_4(two::NodeKey* id, two::Node* node, const char* name, const char* icon) {
-		return &two::ui::node_input(*id, *node, name, icon);
+	two::NodePlugHandle* DECL two_ui_node_input_4(two::NodeKey* id, two::Node* node, const char* name, const char* icon) {
+		static two::NodePlugHandle temp;
+		return (temp = two::ui::node_input(*id, *node, name, icon), &temp);
 	}
-	two::NodePlug* DECL two_ui_node_input_5(two::NodeKey* id, two::Node* node, const char* name, const char* icon, const two::Colour* colour) {
-		return &two::ui::node_input(*id, *node, name, icon, *colour);
+	two::NodePlugHandle* DECL two_ui_node_input_5(two::NodeKey* id, two::Node* node, const char* name, const char* icon, const two::Colour* colour) {
+		static two::NodePlugHandle temp;
+		return (temp = two::ui::node_input(*id, *node, name, icon, *colour), &temp);
 	}
-	two::NodePlug* DECL two_ui_node_input_6(two::NodeKey* id, two::Node* node, const char* name, const char* icon, const two::Colour* colour, bool active) {
-		return &two::ui::node_input(*id, *node, name, icon, *colour, active);
+	two::NodePlugHandle* DECL two_ui_node_input_6(two::NodeKey* id, two::Node* node, const char* name, const char* icon, const two::Colour* colour, bool active) {
+		static two::NodePlugHandle temp;
+		return (temp = two::ui::node_input(*id, *node, name, icon, *colour, active), &temp);
 	}
-	two::NodePlug* DECL two_ui_node_input_7(two::NodeKey* id, two::Node* node, const char* name, const char* icon, const two::Colour* colour, bool active, bool connected) {
-		return &two::ui::node_input(*id, *node, name, icon, *colour, active, connected);
+	two::NodePlugHandle* DECL two_ui_node_input_7(two::NodeKey* id, two::Node* node, const char* name, const char* icon, const two::Colour* colour, bool active, bool connected) {
+		static two::NodePlugHandle temp;
+		return (temp = two::ui::node_input(*id, *node, name, icon, *colour, active, connected), &temp);
 	}
-	two::NodePlug* DECL two_ui_node_output_3(two::NodeKey* id, two::Node* node, const char* name) {
-		return &two::ui::node_output(*id, *node, name);
+	two::NodePlugHandle* DECL two_ui_node_output_3(two::NodeKey* id, two::Node* node, const char* name) {
+		static two::NodePlugHandle temp;
+		return (temp = two::ui::node_output(*id, *node, name), &temp);
 	}
-	two::NodePlug* DECL two_ui_node_output_4(two::NodeKey* id, two::Node* node, const char* name, const char* icon) {
-		return &two::ui::node_output(*id, *node, name, icon);
+	two::NodePlugHandle* DECL two_ui_node_output_4(two::NodeKey* id, two::Node* node, const char* name, const char* icon) {
+		static two::NodePlugHandle temp;
+		return (temp = two::ui::node_output(*id, *node, name, icon), &temp);
 	}
-	two::NodePlug* DECL two_ui_node_output_5(two::NodeKey* id, two::Node* node, const char* name, const char* icon, const two::Colour* colour) {
-		return &two::ui::node_output(*id, *node, name, icon, *colour);
+	two::NodePlugHandle* DECL two_ui_node_output_5(two::NodeKey* id, two::Node* node, const char* name, const char* icon, const two::Colour* colour) {
+		static two::NodePlugHandle temp;
+		return (temp = two::ui::node_output(*id, *node, name, icon, *colour), &temp);
 	}
-	two::NodePlug* DECL two_ui_node_output_6(two::NodeKey* id, two::Node* node, const char* name, const char* icon, const two::Colour* colour, bool active) {
-		return &two::ui::node_output(*id, *node, name, icon, *colour, active);
+	two::NodePlugHandle* DECL two_ui_node_output_6(two::NodeKey* id, two::Node* node, const char* name, const char* icon, const two::Colour* colour, bool active) {
+		static two::NodePlugHandle temp;
+		return (temp = two::ui::node_output(*id, *node, name, icon, *colour, active), &temp);
 	}
-	two::NodePlug* DECL two_ui_node_output_7(two::NodeKey* id, two::Node* node, const char* name, const char* icon, const two::Colour* colour, bool active, bool connected) {
-		return &two::ui::node_output(*id, *node, name, icon, *colour, active, connected);
+	two::NodePlugHandle* DECL two_ui_node_output_7(two::NodeKey* id, two::Node* node, const char* name, const char* icon, const two::Colour* colour, bool active, bool connected) {
+		static two::NodePlugHandle temp;
+		return (temp = two::ui::node_output(*id, *node, name, icon, *colour, active, connected), &temp);
 	}
 	two::Node* DECL two_ui_node_3(two::Canvas* parent, const char* title, two::vec2* position) {
 		return &two::ui::node(*parent, title, *position);
@@ -1514,11 +1634,13 @@ extern "C" {
 	two::Widget* DECL two_ui_node_cable_4(two::NodeKey* id, two::Canvas* canvas, two::NodePlug* plug_out, two::NodePlug* plug_in) {
 		return &two::ui::node_cable(*id, *canvas, *plug_out, *plug_in);
 	}
-	two::Canvas* DECL two_ui_canvas_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::canvas(*id, *parent);
+	two::CanvasHandle* DECL two_ui_canvas_2(two::NodeKey* id, two::Widget* parent) {
+		static two::CanvasHandle temp;
+		return (temp = two::ui::canvas(*id, *parent), &temp);
 	}
-	two::Canvas* DECL two_ui_canvas_3(two::NodeKey* id, two::Widget* parent, size_t num_nodes) {
-		return &two::ui::canvas(*id, *parent, num_nodes);
+	two::CanvasHandle* DECL two_ui_canvas_3(two::NodeKey* id, two::Widget* parent, size_t num_nodes) {
+		static two::CanvasHandle temp;
+		return (temp = two::ui::canvas(*id, *parent, num_nodes), &temp);
 	}
 	two::Widget* DECL two_ui_scrollable_2(two::NodeKey* id, two::Widget* parent) {
 		return &two::ui::scrollable(*id, *parent);

@@ -60,7 +60,7 @@ void light_grid(Gnode& parent, span2d<LightInstance> light_grid, bool moving, Li
 }
 
 #ifdef DOCKBAR
-void ex_04_lights(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_04_lights(Shell& app, Widget& parent, DockbarHandle dockbar)
 #else
 void ex_04_lights(Shell& app, Widget& parent)
 #endif
@@ -72,8 +72,8 @@ void ex_04_lights(Shell& app, Widget& parent)
 	g_time += 0.01f;
 #endif
 
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
-	ui::free_orbit_controller(*self, *viewer);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
+	ui::free_orbit_controller(viewer);
 
 	//viewer->m_viewport.m_to_gamma = true;
 	//viewer->m_viewport.comp<Tonemap>().m_enabled = true;
@@ -122,8 +122,8 @@ void ex_04_lights(Shell& app, Widget& parent)
 #if DEBUG_CLUSTERED
 	if(debug)
 	{
-		auto [self, debug_viewer] = ui::viewer(key(), parent, viewer->m_scene);
-		ui::free_orbit_controller(*self, *debug_viewer);
+		ViewerHandle debug_viewer = ui::viewer(key(), parent, viewer->m_scene);
+		ui::free_orbit_controller(debug_viewer);
 		debug_draw_light_clusters(scene, viewer->m_camera);
 	}
 #endif
@@ -164,7 +164,7 @@ void pump(Shell& app, ShellWindow& window)
 {
 #if DOCKBAR
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_04_lights(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_04_lights(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 #else
 	ex_04_lights(app, app.m_ui->begin());
 #endif

@@ -243,14 +243,14 @@ var lava_fragment = `$input v_position, v_uv0
         //gl_FragColor = mix(source, vec4(fog_color, source.w), fogFactor);
     }`;
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controller(self, viewer);
-viewer.viewport.autorender = false;
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controller(viewer);
+viewer.viewer.viewport.autorender = false;
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if (init) {
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 35.0; camera.near = 1.0; camera.far = 3000.0;
     camera.eye.z = 4.0;
 
@@ -328,7 +328,7 @@ function renderer(gfx, render, film) {
     gfx.copy.quad(flip, render.fbo, render.target.post.last());
 }
 
-var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
+var render = new two.Render(two.Shading.Shaded, viewer.viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
 app.gfx.renderer.gather(render);
 app.gfx.renderer.begin(render);
 renderer(app.gfx, render, this.film);

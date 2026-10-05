@@ -27,7 +27,7 @@ namespace ui
 
 		int min_index = 0;
 		int max_index = 0;
-		for(Node* node : canvas.m_nodes)
+		for(NodeHandle node : canvas.m_nodes)
 		{
 			min_index = min(min_index, node->m_order);
 			max_index = max(max_index, node->m_order);
@@ -51,13 +51,13 @@ namespace ui
 			columns.push_back(tree.add(line, layout_column));
 
 		vector<uint32_t> elements;
-		for(Node* node : canvas.m_nodes)
-			elements.push_back(tree.add(columns[node->m_order + shift], layout_node, node->m_self));
+		for(NodeHandle node : canvas.m_nodes)
+			elements.push_back(tree.add(columns[node->m_order + shift], layout_node, node.self));
 
 		tree.solve();
 
 		for(size_t i = 0; i < canvas.m_nodes.size(); ++i)
-			canvas.m_nodes[i]->m_self->set_position(tree.absolute(elements[i]));
+			canvas.m_nodes[i].self->set_position(tree.absolute(elements[i]));
 	}
 
 	void draw_node_cable(vec2 pos_out, vec2 pos_in, const Colour& colour_out, const Colour& colour_in, bool straight, Vg& vg)
@@ -108,11 +108,10 @@ namespace ui
 		return canvas_cable(id, *canvas.m_plan, out, in, !canvas.m_rounded_links);
 	}
 
-	NodePlug& node_plug(NodeKey id, Node& node, cstring name, cstring icon, const Colour& colour, bool input, bool active, bool connected)
+	NodePlugHandle node_plug(NodeKey id, Node& node, cstring name, cstring icon, const Colour& colour, bool input, bool active, bool connected)
 	{
 		Widget& self = widget(id, input ? *node.m_inputs : *node.m_outputs, node_styles().plug);
 		NodePlug& plug = self.state<NodePlug>();
-		plug.m_self = &self;
 		plug.m_node = &node;
 		plug.m_colour = colour;
 
@@ -130,18 +129,20 @@ namespace ui
 
 		plug.m_end = input ? plug_at_in(canvas, plug) : plug_at_out(canvas, plug);
 
+		NodePlugHandle handle = { &self, &plug };
+
 		CanvasConnect& connect = canvas.m_connect;
 
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			Widget* target = static_cast<Widget*>(event.m_target);
-			NodePlug* target_plug = nullptr;
+			NodePlugHandle target_plug = {};
 			if(target && target->frame().d_style == &node_styles().plug && target != &self)
-				target_plug = &target->state<NodePlug>();
+				target_plug = { target, &target->state<NodePlug>() };
 
-			connect.m_origin = &plug;
-			connect.m_in = input ? &plug : target_plug;
-			connect.m_out = input ? target_plug : &plug;
+			connect.m_origin = handle;
+			connect.m_in = input ? handle : target_plug;
+			connect.m_out = input ? target_plug : handle;
 			connect.m_position = event.m_pos;
 
 			if(target_plug)
@@ -160,7 +161,7 @@ namespace ui
 			canvas.m_connect.m_done = true;
 		}
 
-		return plug;
+		return handle;
 	}
 
 	Widget& node_header(NodeKey id, Widget& parent, span<cstring> title)
@@ -172,29 +173,28 @@ namespace ui
 
 	void canvas_clear_select(Canvas& canvas)
 	{
-		for(Node* selected : canvas.m_selection)
-			selected->m_self->disable_state(SELECTED);
+		for(NodeHandle selected : canvas.m_selection)
+			selected.self->disable_state(SELECTED);
 		canvas.m_selection.clear();
 	}
 
-	void canvas_select(Canvas& canvas, Node& node)
+	void canvas_select(Canvas& canvas, NodeHandle node)
 	{
 		canvas_clear_select(canvas);
-		select(canvas.m_selection, &node);
-		node.m_self->enable_state(SELECTED);
+		select(canvas.m_selection, node);
+		node.self->enable_state(SELECTED);
 	}
 
-	void canvas_swap_select(Canvas& canvas, Node& node)
+	void canvas_swap_select(Canvas& canvas, NodeHandle node)
 	{
-		bool selected = select_swap(canvas.m_selection, &node);
-		node.m_self->set_state(SELECTED, selected);
+		bool selected = select_swap(canvas.m_selection, node);
+		node.self->set_state(SELECTED, selected);
 	}
 
-	Node& node(Canvas& parent, span<cstring> title, int order, Ref identity)
+	Node& node(Canvas& parent, span<cstring> title, float* position, int order, Ref identity)
 	{
 		Widget& self = widget(key(identity.m_value), *parent.m_plan, node_styles().node).layer();
 		Node& node = self.state<Node>();
-		node.m_self = &self;
 		node.m_canvas = &parent;
 		node.m_order = order;
 		node.m_header = &node_header(key(), self, title);
@@ -205,32 +205,30 @@ namespace ui
 
 		node.m_body = &self;
 
+		NodeHandle handle = { &self, &node };
+
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::Shift))
-			canvas_swap_select(parent, node);
+			canvas_swap_select(parent, handle);
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
-			canvas_select(parent, node);
+			canvas_select(parent, handle);
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
-			canvas_select(parent, node);
+			canvas_select(parent, handle);
 
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
-			if(!has(parent.m_selection, &node))
-				canvas_select(parent, node);
+			if(!has(parent.m_selection, handle))
+				canvas_select(parent, handle);
 
-			for(Node* selected : parent.m_selection)
-				selected->m_self->set_position(selected->m_self->frame().m_position + event.m_delta / selected->m_self->absolute_scale());
+			for(NodeHandle selected : parent.m_selection)
+				selected.self->set_position(selected.self->frame().m_position + event.m_delta / selected.self->absolute_scale());
 		}
 
 		node.m_index = uint32_t(parent.m_nodes.size());
-		parent.m_nodes.push_back(&node);
+		parent.m_nodes.push_back(handle);
 
-		return node;
-	}
+		if(!position)
+			return node;
 
-	Node& node(Canvas& parent, span<cstring> title, float* position, int order, Ref identity)
-	{
-		Node& node = ui::node(parent, title, order, identity);
-		Widget& self = *node.m_self;
 		if(self.once())// && position != vec2(0.f))
 			self.set_position({ position[0], position[1] });
 		else
@@ -239,6 +237,11 @@ namespace ui
 			position[1] = self.frame().m_position.y;
 		}
 		return node;
+	}
+
+	Node& node(Canvas& parent, span<cstring> title, int order, Ref identity)
+	{
+		return node(parent, title, nullptr, order, identity);
 	}
 
 	Node& node(Canvas& parent, span<cstring> title, vec2& position, int order, Ref identity)
@@ -251,19 +254,18 @@ namespace ui
 		return node(parent, { title }, &position[0], order, identity);
 	}
 
-	Canvas& canvas(NodeKey id, Widget& parent, size_t num_nodes) // , const Callback& context_trigger
+	CanvasHandle canvas(NodeKey id, Widget& parent, size_t num_nodes) // , const Callback& context_trigger
 	{
 		Widget& widget = ui::widget(id, parent, canvas_styles().canvas).layer();
 		Canvas& self = widget.state<Canvas>();
-		self.m_self = &widget;
 
 		ScrollSheet scroll_sheet = scroll_plan(key(), widget);
 		self.m_scroll_plan = &scroll_sheet.self;
 		self.m_plan = &scroll_sheet.body;
 
 		vector<Widget*> nodes;
-		for(Node* node : self.m_nodes)
-			nodes.push_back(node->m_self);
+		for(NodeHandle node : self.m_nodes)
+			nodes.push_back(node.self);
 		autofit_scroll_plan(*self.m_plan, nodes);
 
 		//if(mouse_click_right(self) && context_trigger)
@@ -271,8 +273,8 @@ namespace ui
 
 		if(MouseEvent event = self.m_scroll_plan->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
-			for(Node* node : self.m_selection)
-				node->m_self->set_position(node->m_self->frame().m_position + event.m_delta / node->m_self->absolute_scale());
+			for(NodeHandle node : self.m_selection)
+				node.self->set_position(node.self->frame().m_position + event.m_delta / node.self->absolute_scale());
 		}
 
 		if(MouseEvent event = self.m_scroll_plan->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
@@ -284,7 +286,7 @@ namespace ui
 		self.m_nodes.reserve(num_nodes);
 		self.m_nodes.clear();
 
-		return self;
+		return { &widget, &self };
 	}
 
 	NodeConnection canvas_connect(Canvas& canvas)
@@ -299,8 +301,8 @@ namespace ui
 			if(connect.m_done)
 			{
 				if(connect.m_out && connect.m_in)
-					connection = { connect.m_out->m_node->m_index, connect.m_out->m_self->sibling(),
-								   connect.m_in->m_node->m_index,  connect.m_in->m_self->sibling() };
+					connection = { connect.m_out->m_node->m_index, connect.m_out.self->sibling(),
+								   connect.m_in->m_node->m_index,  connect.m_in.self->sibling() };
 
 				connect = {};
 			}

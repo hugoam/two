@@ -1,11 +1,11 @@
 // material_displace.js
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(viewer);
 //controls.enableZoom = false;
 //controls.enableDamping = true;
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 var height = 500; // of camera frustum
 
@@ -14,11 +14,11 @@ var r = 0.0;
 if(init) {
     this.importerOBJ = new two.ImporterOBJ(app.gfx);
 
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 40.0; camera.near = 1.0; camera.far = 10000.0;
     camera.eye.z = 1500.0;
 
-    viewer.viewport.to_gamma = true;
+    viewer.viewer.viewport.to_gamma = true;
 
     var reflection = app.gfx.textures.file('cube/royal.jpg.cube');
     

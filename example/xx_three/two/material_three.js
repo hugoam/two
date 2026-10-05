@@ -1,16 +1,16 @@
 // material_standard.js
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controls(self, viewer);
-two.ui.trackball_controller(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controls(viewer);
+two.ui.trackball_controller(viewer);
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 
 if(init) {
     this.importerOBJ = new two.ImporterOBJ(app.gfx);
     
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 50.0; camera.near = 0.01; camera.far = 1000.0;
     camera.eye.z = 2.0;
 
@@ -21,7 +21,7 @@ if(init) {
     env.background.texture = hdrenv;
     env.background.mode = two.BackgroundMode.Panorama;
 
-    viewer.viewport.to_gamma = true;
+    viewer.viewer.viewport.to_gamma = true;
     
     //this.tonemap = new two.Tonemap();
     //this.tonemap.enabled = true;

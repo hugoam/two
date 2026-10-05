@@ -1,10 +1,10 @@
 // loader_gltf.js
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(viewer);
 
-var camera = viewer.camera;
-var scene = viewer.scene;
+var camera = viewer.viewer.camera;
+var scene = viewer.viewer.scene;
 
 if(init) {
     this.importerGltf = new two.ImporterGltf(app.gfx);
@@ -13,7 +13,7 @@ if(init) {
     camera.eye = new two.vec3(-1.8, 0.9, 2.7);
     camera.target = new two.vec3(0.0, -0.2, -0.2);
 
-    viewer.viewport.to_gamma = true;
+    viewer.viewer.viewport.to_gamma = true;
     
     var texture = app.gfx.textures.file('cube/bridge.jpg.cube');
     

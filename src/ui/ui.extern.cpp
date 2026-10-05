@@ -12,7 +12,7 @@ namespace stl
 	template class TWO_UI_EXPORT vector<Space>;
 	template class TWO_UI_EXPORT vector<Style*>;
 	template class TWO_UI_EXPORT vector<Layer*>;
-	template class TWO_UI_EXPORT vector<Docker*>;
+	template class TWO_UI_EXPORT vector<DockerHandle>;
 	template class TWO_UI_EXPORT vector<Dock*>;
 	template class TWO_UI_EXPORT vector<Node*>;
 	template class TWO_UI_EXPORT vector<InkStyle>;

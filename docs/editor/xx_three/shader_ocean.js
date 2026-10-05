@@ -387,12 +387,12 @@ Sky.prototype = Object.assign(Object.create(Object.prototype), {
     }
 });
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-//two.ui.orbit_controls(self, viewer);
-two.ui.orbit_controls(self, viewer);
-viewer.viewport.autorender = false;
+var viewer = two.ui.scene_viewer(panel);
+//two.ui.orbit_controls(viewer);
+two.ui.orbit_controls(viewer);
+viewer.viewer.viewport.autorender = false;
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 //controls.maxPolarAngle = c_pi * 0.495;
 //controls.target.set(0, 10, 0);
@@ -401,7 +401,7 @@ var scene = viewer.scene;
 //camera.lookAt(controls.target);
 
 if(init) {
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 55.0; camera.near = 1.0; camera.far = 20000.0;
     camera.eye = new two.vec3(30.0, 30.0, 100.0);
 
@@ -535,7 +535,7 @@ sphere.apply(position, new two.quat(angles));
 
 //water.material.uniforms['time'].value += 1.0 / 60.0;
 
-var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
+var render = new two.Render(two.Shading.Shaded, viewer.viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
 app.gfx.renderer.gather(render);
 app.gfx.renderer.begin(render);
 

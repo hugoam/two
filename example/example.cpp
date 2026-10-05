@@ -29,7 +29,7 @@ using namespace mud;
 
 struct Example
 {
-	std::function<void(Shell&, Widget&, Dockbar&)> m_func;
+	std::function<void(Shell&, Widget&, DockbarHandle)> m_func;
 	cstring m_name;
 	bool m_with_tab;
 };
@@ -62,7 +62,7 @@ static Example examples[] = {
 	{ ex_20_meta,				"20_meta",				true  },
 };
 
-void example_select(Shell& app, Widget& parent, Dockbar& dockbar)
+void example_select(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	UNUSED(app);
 	static std::vector<cstring> example_names = []() { std::vector<cstring> names; for(Example ex : examples) names.push_back(ex.m_name); return names; }();
@@ -73,7 +73,7 @@ void example_select(Shell& app, Widget& parent, Dockbar& dockbar)
 	{
 		current_example = &examples[example];
 		if(examples[example].m_with_tab)
-			dockbar.m_current_tab = 1;
+			dockbar->m_current_tab = 1;
 	}
 }
 
@@ -81,11 +81,11 @@ void pump(Shell& app)
 {
 	edit_context(app.m_ui->begin(), app.m_editor);
 
-	if(Widget* dock = ui::dockitem(*app.m_editor.m_dockbar, "Options", carray<uint16_t, 1>{ 0U }))
-		example_select(app, *dock, *app.m_editor.m_dockbar);
+	if(Widget* dock = ui::dockitem(app.m_editor.m_dockbar, "Options", carray<uint16_t, 1>{ 0U }))
+		example_select(app, *dock, app.m_editor.m_dockbar);
 	
 	if(current_example)
-		current_example->m_func(app, ui::widget(key(), *app.m_editor.m_screen, styles().board, current_example), *app.m_editor.m_dockbar);
+		current_example->m_func(app, ui::widget(key(), *app.m_editor.m_screen, styles().board, current_example), app.m_editor.m_dockbar);
 
 	edit_tools(app.m_editor, *app.m_editor.m_screen);
 }

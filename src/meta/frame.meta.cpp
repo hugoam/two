@@ -34,7 +34,6 @@ namespace two
 		// bases
 		// defaults
 		static two::Widget* screen_default = nullptr;
-		static two::Dockbar* dockbar_default = nullptr;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_ShellContext__default_construct }
@@ -47,7 +46,7 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::ShellContext, m_screen), type<two::Widget>(), "screen", screen_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::ShellContext, m_dockbar), type<two::Dockbar>(), "dockbar", dockbar_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
+			{ t, offsetof(two::ShellContext, m_dockbar), type<two::DockbarHandle>(), "dockbar", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members

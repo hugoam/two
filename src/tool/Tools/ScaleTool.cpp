@@ -65,7 +65,7 @@ namespace two
 	public:
 		ScaleLinearGizmo(TransformTool& tool, Axis axis, float hue) : TransformGizmo(tool, axis, hue) {}
 
-		virtual vec3 grab_point(Widget& self, Viewer& viewer, const vec2& pos) { UNUSED(pos); return inverse(m_tool.m_transform.m_rotation) * gizmo_grab_linear(self, viewer, m_tool.m_transform, m_axis); };
+		virtual vec3 grab_point(ViewerHandle viewer, const vec2& pos) { UNUSED(pos); return inverse(m_tool.m_transform.m_rotation) * gizmo_grab_linear(viewer, m_tool.m_transform, m_axis); };
 
 		virtual Item* draw_handle(Gnode& parent) { return &scale_1d_gizmo(parent, m_axis, Colour::Invisible, ItemFlag::Ui); };
 		virtual void draw_gizmo(Gnode& parent, bool active) { scale_1d_gizmo(parent, m_axis, gizmo_colour(m_hue, active)); };
@@ -76,7 +76,7 @@ namespace two
 	public:
 		ScalePlanarGizmo(TransformTool& tool, Axis axis, float hue) : TransformGizmo(tool, axis, hue) {}
 
-		virtual vec3 grab_point(Widget& self, Viewer& viewer, const vec2& pos) { UNUSED(pos); return inverse(m_tool.m_transform.m_rotation) * gizmo_grab_planar(self, viewer, m_tool.m_transform, m_axis); };
+		virtual vec3 grab_point(ViewerHandle viewer, const vec2& pos) { UNUSED(pos); return inverse(m_tool.m_transform.m_rotation) * gizmo_grab_planar(viewer, m_tool.m_transform, m_axis); };
 
 		virtual Item* draw_handle(Gnode& parent) { return &scale_2d_gizmo(parent, m_axis, Colour::Invisible, ItemFlag::Ui); };
 		virtual void draw_gizmo(Gnode& parent, bool active) { scale_2d_gizmo(parent, m_axis, gizmo_colour(m_hue, active)); };
@@ -87,9 +87,9 @@ namespace two
 	public:
 		ScaleUniformGizmo(TransformTool& tool) : TransformGizmo(tool) {}
 
-		virtual vec3 grab_point(Widget& self, Viewer& viewer, const vec2& pos)
+		virtual vec3 grab_point(ViewerHandle viewer, const vec2& pos)
 		{
-			vec2 delta = (pos - m_tool.m_drag_start) * 5.f / self.frame().m_size;
+			vec2 delta = (pos - m_tool.m_drag_start) * 5.f / viewer.self->frame().m_size;
 			return fabs(delta.x) > fabs(delta.y) ? vec3(delta.x) : vec3(delta.y);
 		};
 

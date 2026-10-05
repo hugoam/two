@@ -192,19 +192,19 @@ function pass_unreal_bloom(gfx, render, bloom) {
     pass_merge(gfx, render, bloom, source);
 }
 
-var { self, viewer } = two.ui.scene_viewer(panel);
-two.ui.orbit_controls(self, viewer);
+var viewer = two.ui.scene_viewer(panel);
+two.ui.orbit_controls(viewer);
 //controls.maxPolarAngle = c_pi * 0.5;
 //controls.minDistance = 1;
 //controls.maxDistance = 10;
-viewer.viewport.autorender = false;
+viewer.viewer.viewport.autorender = false;
 
-var scene = viewer.scene;
+var scene = viewer.viewer.scene;
 
 if(init) {
     this.importerGltf = new two.ImporterGltf(app.gfx);
 
-    var camera = viewer.camera;
+    var camera = viewer.viewer.camera;
     camera.fov = 40.0; camera.near = 1.0; camera.far = 100.0;
     camera.eye = new two.vec3(-5.0, 2.5, -3.5);
 
@@ -289,7 +289,7 @@ function renderer(gfx, render, tonemap, bcs, bloom) {
     two.pass_flip(gfx, render);
 }
 
-var render = new two.Render(two.Shading.Shaded, viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
+var render = new two.Render(two.Shading.Shaded, viewer.viewer.viewport, app.gfx.main_target(), app.gfx.render_frame);
 app.gfx.renderer.gather(render);
 app.gfx.renderer.begin(render);
 

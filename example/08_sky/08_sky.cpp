@@ -441,7 +441,7 @@ void example_options(Widget& parent, PerezSky& sky)
 
 static PerezSky g_sky;
 
-void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
+void ex_08_sky(Shell& app, Widget& parent, DockbarHandle dockbar)
 {
 	UNUSED(app);
 	if(!g_sky.m_initialized)
@@ -449,10 +449,10 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 
 	//app.m_gfx->m_renderer.block<BlockTonemap>()->m_enabled = false;
 
-	auto [self, viewer] = ui::scene_viewer(key(), parent);
+	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	//viewer->m_viewport.m_lighting = Lighting::VoxelGI;
 
-	ui::orbit_controller(*self, *viewer);
+	ui::orbit_controller(viewer);
 
 	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
 		example_options(*dock, g_sky);
@@ -481,7 +481,7 @@ void ex_08_sky(Shell& app, Widget& parent, Dockbar& dockbar)
 void pump(Shell& app, ShellWindow& window)
 {
 	shell_context(window.m_ui->begin(), app.m_editor);
-	ex_08_sky(app, *app.m_editor.m_screen, *app.m_editor.m_dockbar);
+	ex_08_sky(app, *app.m_editor.m_screen, app.m_editor.m_dockbar);
 }
 
 int main(int argc, char *argv[])
