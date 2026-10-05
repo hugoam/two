@@ -214,7 +214,7 @@ namespace two
 
 		select({ "TabberEdge" })
 		.declare([&](Layout& l, InkStyle& i) {
-			i.m_background_colour = style.TabActive;
+			i.m_background_colour = style.TabSelected;
 			l.m_size = vec2(2.f);
 		});
 
@@ -229,7 +229,7 @@ namespace two
 			i.m_background_colour = style.TabHovered;
 		})
 		.decline({ ACTIVE, SELECTED, PRESSED, FOCUSED, ACTIVE|HOVERED, PRESSED|HOVERED, ACTIVE|PRESSED }, [&](InkStyle& i) {
-			i.m_background_colour = style.TabActive;
+			i.m_background_colour = style.TabSelected;
 		});
 
 		Style& dropdown_toggle = ui::dropdown_styles().toggle;
@@ -449,9 +449,24 @@ namespace two
 		}
 	}
 
-	void style_imgui_dark(UiWindow& ui_window)
+	// the sizes of the dear imgui v1.70 style
+	ImguiLook imgui_look_legacy()
 	{
 		ImguiLook look;
+		look.WindowRounding = 7.0f;
+		look.ScrollbarSize = 16.0f;
+		look.ScrollbarPadding = 0.0f;
+		look.GrabMinSize = 10.0f;
+		look.TabRounding = 4.0f;
+		look.TabBarBorderSize = 0.0f;
+		look.TabBarOverlineSize = 0.0f;
+		look.SeparatorTextBorderSize = 1.0f;
+		return look;
+	}
+
+	void style_imgui_legacy_dark(UiWindow& ui_window)
+	{
+		ImguiLook look = imgui_look_legacy();
 		ImguiColours dark;
 
 		dark.Text = Colour(1.00f, 1.00f, 1.00f, 1.00f);
@@ -489,16 +504,16 @@ namespace two
 		dark.ResizeGripActive = Colour(0.26f, 0.59f, 0.98f, 0.95f);
 		dark.Tab = lerp(dark.Header, dark.TitleBgActive, 0.80f);
 		dark.TabHovered = dark.HeaderHovered;
-		dark.TabActive = lerp(dark.HeaderActive, dark.TitleBgActive, 0.60f);
-		dark.TabUnfocused = lerp(dark.Tab, dark.TitleBg, 0.80f);
-		dark.TabUnfocusedActive = lerp(dark.TabActive, dark.TitleBg, 0.40f);
+		dark.TabSelected = lerp(dark.HeaderActive, dark.TitleBgActive, 0.60f);
+		dark.TabDimmed = lerp(dark.Tab, dark.TitleBg, 0.80f);
+		dark.TabDimmedSelected = lerp(dark.TabSelected, dark.TitleBg, 0.40f);
 		dark.PlotLines = Colour(0.61f, 0.61f, 0.61f, 1.00f);
 		dark.PlotLinesHovered = Colour(1.00f, 0.43f, 0.35f, 1.00f);
 		dark.PlotHistogram = Colour(0.90f, 0.70f, 0.00f, 1.00f);
 		dark.PlotHistogramHovered = Colour(1.00f, 0.60f, 0.00f, 1.00f);
 		dark.TextSelectedBg = Colour(0.26f, 0.59f, 0.98f, 0.35f);
 		dark.DragDropTarget = Colour(1.00f, 1.00f, 0.00f, 0.90f);
-		dark.NavHighlight = Colour(0.26f, 0.59f, 0.98f, 1.00f);
+		dark.NavCursor = Colour(0.26f, 0.59f, 0.98f, 1.00f);
 		dark.NavWindowingHighlight = Colour(1.00f, 1.00f, 1.00f, 0.70f);
 		dark.NavWindowingDimBg = Colour(0.80f, 0.80f, 0.80f, 0.20f);
 		dark.ModalWindowDimBg = Colour(0.80f, 0.80f, 0.80f, 0.35f);
@@ -506,9 +521,9 @@ namespace two
 		style_imgui(ui_window, look, dark);
 	}
 
-	void style_imgui_classic(UiWindow& ui_window)
+	void style_imgui_legacy_classic(UiWindow& ui_window)
 	{
-		ImguiLook look;
+		ImguiLook look = imgui_look_legacy();
 		ImguiColours classic;
 
 		classic.Text = Colour(0.90f, 0.90f, 0.90f, 1.00f);
@@ -546,16 +561,16 @@ namespace two
 		classic.ResizeGripActive = Colour(0.78f, 0.82f, 1.00f, 0.90f);
 		classic.Tab = lerp(classic.Header, classic.TitleBgActive, 0.80f);
 		classic.TabHovered = classic.HeaderHovered;
-		classic.TabActive = lerp(classic.HeaderActive, classic.TitleBgActive, 0.60f);
-		classic.TabUnfocused = lerp(classic.Tab, classic.TitleBg, 0.80f);
-		classic.TabUnfocusedActive = lerp(classic.TabActive, classic.TitleBg, 0.40f);
+		classic.TabSelected = lerp(classic.HeaderActive, classic.TitleBgActive, 0.60f);
+		classic.TabDimmed = lerp(classic.Tab, classic.TitleBg, 0.80f);
+		classic.TabDimmedSelected = lerp(classic.TabSelected, classic.TitleBg, 0.40f);
 		classic.PlotLines = Colour(1.00f, 1.00f, 1.00f, 1.00f);
 		classic.PlotLinesHovered = Colour(0.90f, 0.70f, 0.00f, 1.00f);
 		classic.PlotHistogram = Colour(0.90f, 0.70f, 0.00f, 1.00f);
 		classic.PlotHistogramHovered = Colour(1.00f, 0.60f, 0.00f, 1.00f);
 		classic.TextSelectedBg = Colour(0.00f, 0.00f, 1.00f, 0.35f);
 		classic.DragDropTarget = Colour(1.00f, 1.00f, 0.00f, 0.90f);
-		classic.NavHighlight = classic.HeaderHovered;
+		classic.NavCursor = classic.HeaderHovered;
 		classic.NavWindowingHighlight = Colour(1.00f, 1.00f, 1.00f, 0.70f);
 		classic.NavWindowingDimBg = Colour(0.80f, 0.80f, 0.80f, 0.20f);
 		classic.ModalWindowDimBg = Colour(0.20f, 0.20f, 0.20f, 0.35f);
@@ -563,9 +578,9 @@ namespace two
 		style_imgui(ui_window, look, classic);
 	}
 
-	void style_imgui_light(UiWindow& ui_window)
+	void style_imgui_legacy_light(UiWindow& ui_window)
 	{
-		ImguiLook look;
+		ImguiLook look = imgui_look_legacy();
 		ImguiColours light;
 
 		// Those light colors are better suited with a thicker font than the default one + FrameBorder
@@ -605,21 +620,239 @@ namespace two
 		light.ResizeGripActive = Colour(0.26f, 0.59f, 0.98f, 0.95f);
 		light.Tab = lerp(light.Header, light.TitleBgActive, 0.90f);
 		light.TabHovered = light.HeaderHovered;
-		light.TabActive = lerp(light.HeaderActive, light.TitleBgActive, 0.60f);
-		light.TabUnfocused = lerp(light.Tab, light.TitleBg, 0.80f);
-		light.TabUnfocusedActive = lerp(light.TabActive, light.TitleBg, 0.40f);
+		light.TabSelected = lerp(light.HeaderActive, light.TitleBgActive, 0.60f);
+		light.TabDimmed = lerp(light.Tab, light.TitleBg, 0.80f);
+		light.TabDimmedSelected = lerp(light.TabSelected, light.TitleBg, 0.40f);
 		light.PlotLines = Colour(0.39f, 0.39f, 0.39f, 1.00f);
 		light.PlotLinesHovered = Colour(1.00f, 0.43f, 0.35f, 1.00f);
 		light.PlotHistogram = Colour(0.90f, 0.70f, 0.00f, 1.00f);
 		light.PlotHistogramHovered = Colour(1.00f, 0.45f, 0.00f, 1.00f);
 		light.TextSelectedBg = Colour(0.26f, 0.59f, 0.98f, 0.35f);
 		light.DragDropTarget = Colour(0.26f, 0.59f, 0.98f, 0.95f);
-		light.NavHighlight = light.HeaderHovered;
+		light.NavCursor = light.HeaderHovered;
 		light.NavWindowingHighlight = Colour(0.70f, 0.70f, 0.70f, 0.70f);
 		light.NavWindowingDimBg = Colour(0.20f, 0.20f, 0.20f, 0.20f);
 		light.ModalWindowDimBg = Colour(0.20f, 0.20f, 0.20f, 0.35f);
 
 		style_imgui(ui_window, look, light);
+	}
+
+	// the colors of the dear imgui v1.93 styles, as in ImGui::StyleColorsDark(), ImGui::StyleColorsLight() and ImGui::StyleColorsClassic()
+
+	ImguiColours imgui_colours_dark()
+	{
+		ImguiColours colors;
+		colors.Text                   = Colour(1.00f, 1.00f, 1.00f, 1.00f);
+		colors.TextDisabled           = Colour(0.50f, 0.50f, 0.50f, 1.00f);
+		colors.WindowBg               = Colour(0.06f, 0.06f, 0.06f, 0.94f);
+		colors.ChildBg                = Colour(0.00f, 0.00f, 0.00f, 0.00f);
+		colors.PopupBg                = Colour(0.08f, 0.08f, 0.08f, 0.94f);
+		colors.Border                 = Colour(0.43f, 0.43f, 0.50f, 0.50f);
+		colors.BorderShadow           = Colour(0.00f, 0.00f, 0.00f, 0.00f);
+		colors.FrameBg                = Colour(0.16f, 0.29f, 0.48f, 0.54f);
+		colors.FrameBgHovered         = Colour(0.26f, 0.59f, 0.98f, 0.40f);
+		colors.FrameBgActive          = Colour(0.26f, 0.59f, 0.98f, 0.67f);
+		colors.TitleBg                = Colour(0.04f, 0.04f, 0.04f, 1.00f);
+		colors.TitleBgActive          = Colour(0.16f, 0.29f, 0.48f, 1.00f);
+		colors.TitleBgCollapsed       = Colour(0.00f, 0.00f, 0.00f, 0.51f);
+		colors.MenuBarBg              = Colour(0.14f, 0.14f, 0.14f, 1.00f);
+		colors.ScrollbarBg            = Colour(0.02f, 0.02f, 0.02f, 0.53f);
+		colors.ScrollbarGrab          = Colour(0.31f, 0.31f, 0.31f, 1.00f);
+		colors.ScrollbarGrabHovered   = Colour(0.41f, 0.41f, 0.41f, 1.00f);
+		colors.ScrollbarGrabActive    = Colour(0.51f, 0.51f, 0.51f, 1.00f);
+		colors.CheckMark              = Colour(0.26f, 0.59f, 0.98f, 1.00f);
+		colors.CheckboxSelectedBg     = lerp(colors.FrameBg, colors.FrameBgHovered, 0.65f);
+		colors.SliderGrab             = Colour(0.24f, 0.52f, 0.88f, 1.00f);
+		colors.SliderGrabActive       = Colour(0.26f, 0.59f, 0.98f, 1.00f);
+		colors.Button                 = Colour(0.26f, 0.59f, 0.98f, 0.40f);
+		colors.ButtonHovered          = Colour(0.26f, 0.59f, 0.98f, 1.00f);
+		colors.ButtonActive           = Colour(0.06f, 0.53f, 0.98f, 1.00f);
+		colors.Header                 = Colour(0.26f, 0.59f, 0.98f, 0.31f);
+		colors.HeaderHovered          = Colour(0.26f, 0.59f, 0.98f, 0.80f);
+		colors.HeaderActive           = Colour(0.26f, 0.59f, 0.98f, 1.00f);
+		colors.Separator              = colors.Border;
+		colors.SeparatorHovered       = Colour(0.10f, 0.40f, 0.75f, 0.78f);
+		colors.SeparatorActive        = Colour(0.10f, 0.40f, 0.75f, 1.00f);
+		colors.ResizeGrip             = Colour(0.26f, 0.59f, 0.98f, 0.20f);
+		colors.ResizeGripHovered      = Colour(0.26f, 0.59f, 0.98f, 0.67f);
+		colors.ResizeGripActive       = Colour(0.26f, 0.59f, 0.98f, 0.95f);
+		colors.InputTextCursor        = colors.Text;
+		colors.TabHovered             = colors.HeaderHovered;
+		colors.Tab                    = lerp(colors.Header,       colors.TitleBgActive, 0.80f);
+		colors.TabSelected            = lerp(colors.HeaderActive, colors.TitleBgActive, 0.60f);
+		colors.TabSelectedOverline    = colors.HeaderActive;
+		colors.TabDimmed              = lerp(colors.Tab,          colors.TitleBg, 0.80f);
+		colors.TabDimmedSelected      = lerp(colors.TabSelected,  colors.TitleBg, 0.40f);
+		colors.TabDimmedSelectedOverline = Colour(0.50f, 0.50f, 0.50f, 0.00f);
+		colors.PlotLines              = Colour(0.61f, 0.61f, 0.61f, 1.00f);
+		colors.PlotLinesHovered       = Colour(1.00f, 0.43f, 0.35f, 1.00f);
+		colors.PlotHistogram          = Colour(0.90f, 0.70f, 0.00f, 1.00f);
+		colors.PlotHistogramHovered   = Colour(1.00f, 0.60f, 0.00f, 1.00f);
+		colors.TableHeaderBg          = Colour(0.19f, 0.19f, 0.20f, 1.00f);
+		colors.TableBorderStrong      = Colour(0.31f, 0.31f, 0.35f, 1.00f);   // Prefer using Alpha=1.0 here
+		colors.TableBorderLight       = Colour(0.23f, 0.23f, 0.25f, 1.00f);   // Prefer using Alpha=1.0 here
+		colors.TableRowBg             = Colour(0.00f, 0.00f, 0.00f, 0.00f);
+		colors.TableRowBgAlt          = Colour(1.00f, 1.00f, 1.00f, 0.06f);
+		colors.TextLink               = colors.HeaderActive;
+		colors.TextSelectedBg         = Colour(0.26f, 0.59f, 0.98f, 0.35f);
+		colors.TreeLines              = colors.Border;
+		colors.DragDropTarget         = Colour(1.00f, 1.00f, 0.00f, 0.90f);
+		colors.DragDropTargetBg       = Colour(0.00f, 0.00f, 0.00f, 0.00f);
+		colors.UnsavedMarker          = Colour(1.00f, 1.00f, 1.00f, 1.00f);
+		colors.NavCursor              = Colour(0.26f, 0.59f, 0.98f, 1.00f);
+		colors.NavWindowingHighlight  = Colour(1.00f, 1.00f, 1.00f, 0.70f);
+		colors.NavWindowingDimBg      = Colour(0.80f, 0.80f, 0.80f, 0.20f);
+		colors.ModalWindowDimBg       = Colour(0.80f, 0.80f, 0.80f, 0.35f);
+		return colors;
+	}
+
+	ImguiColours imgui_colours_classic()
+	{
+		ImguiColours colors;
+		colors.Text                   = Colour(0.90f, 0.90f, 0.90f, 1.00f);
+		colors.TextDisabled           = Colour(0.60f, 0.60f, 0.60f, 1.00f);
+		colors.WindowBg               = Colour(0.00f, 0.00f, 0.00f, 0.85f);
+		colors.ChildBg                = Colour(0.00f, 0.00f, 0.00f, 0.00f);
+		colors.PopupBg                = Colour(0.11f, 0.11f, 0.14f, 0.92f);
+		colors.Border                 = Colour(0.50f, 0.50f, 0.50f, 0.50f);
+		colors.BorderShadow           = Colour(0.00f, 0.00f, 0.00f, 0.00f);
+		colors.FrameBg                = Colour(0.43f, 0.43f, 0.43f, 0.39f);
+		colors.FrameBgHovered         = Colour(0.47f, 0.47f, 0.69f, 0.40f);
+		colors.FrameBgActive          = Colour(0.42f, 0.41f, 0.64f, 0.69f);
+		colors.TitleBg                = Colour(0.27f, 0.27f, 0.54f, 0.83f);
+		colors.TitleBgActive          = Colour(0.32f, 0.32f, 0.63f, 0.87f);
+		colors.TitleBgCollapsed       = Colour(0.40f, 0.40f, 0.80f, 0.20f);
+		colors.MenuBarBg              = Colour(0.40f, 0.40f, 0.55f, 0.80f);
+		colors.ScrollbarBg            = Colour(0.20f, 0.25f, 0.30f, 0.60f);
+		colors.ScrollbarGrab          = Colour(0.40f, 0.40f, 0.80f, 0.30f);
+		colors.ScrollbarGrabHovered   = Colour(0.40f, 0.40f, 0.80f, 0.40f);
+		colors.ScrollbarGrabActive    = Colour(0.41f, 0.39f, 0.80f, 0.60f);
+		colors.CheckMark              = Colour(0.90f, 0.90f, 0.90f, 0.50f);
+		colors.CheckboxSelectedBg     = lerp(colors.FrameBg, colors.FrameBgActive, 0.65f);
+		colors.SliderGrab             = Colour(1.00f, 1.00f, 1.00f, 0.30f);
+		colors.SliderGrabActive       = Colour(0.41f, 0.39f, 0.80f, 0.60f);
+		colors.Button                 = Colour(0.35f, 0.40f, 0.61f, 0.62f);
+		colors.ButtonHovered          = Colour(0.40f, 0.48f, 0.71f, 0.79f);
+		colors.ButtonActive           = Colour(0.46f, 0.54f, 0.80f, 1.00f);
+		colors.Header                 = Colour(0.40f, 0.40f, 0.90f, 0.45f);
+		colors.HeaderHovered          = Colour(0.45f, 0.45f, 0.90f, 0.80f);
+		colors.HeaderActive           = Colour(0.53f, 0.53f, 0.87f, 0.80f);
+		colors.Separator              = Colour(0.50f, 0.50f, 0.50f, 0.60f);
+		colors.SeparatorHovered       = Colour(0.60f, 0.60f, 0.70f, 1.00f);
+		colors.SeparatorActive        = Colour(0.70f, 0.70f, 0.90f, 1.00f);
+		colors.ResizeGrip             = Colour(1.00f, 1.00f, 1.00f, 0.10f);
+		colors.ResizeGripHovered      = Colour(0.78f, 0.82f, 1.00f, 0.60f);
+		colors.ResizeGripActive       = Colour(0.78f, 0.82f, 1.00f, 0.90f);
+		colors.InputTextCursor        = colors.Text;
+		colors.TabHovered             = colors.HeaderHovered;
+		colors.Tab                    = lerp(colors.Header,       colors.TitleBgActive, 0.80f);
+		colors.TabSelected            = lerp(colors.HeaderActive, colors.TitleBgActive, 0.60f);
+		colors.TabSelectedOverline    = colors.HeaderActive;
+		colors.TabDimmed              = lerp(colors.Tab,          colors.TitleBg, 0.80f);
+		colors.TabDimmedSelected      = lerp(colors.TabSelected,  colors.TitleBg, 0.40f);
+		colors.TabDimmedSelectedOverline = Colour(0.53f, 0.53f, 0.87f, 0.00f);
+		colors.PlotLines              = Colour(1.00f, 1.00f, 1.00f, 1.00f);
+		colors.PlotLinesHovered       = Colour(0.90f, 0.70f, 0.00f, 1.00f);
+		colors.PlotHistogram          = Colour(0.90f, 0.70f, 0.00f, 1.00f);
+		colors.PlotHistogramHovered   = Colour(1.00f, 0.60f, 0.00f, 1.00f);
+		colors.TableHeaderBg          = Colour(0.27f, 0.27f, 0.38f, 1.00f);
+		colors.TableBorderStrong      = Colour(0.31f, 0.31f, 0.45f, 1.00f);   // Prefer using Alpha=1.0 here
+		colors.TableBorderLight       = Colour(0.26f, 0.26f, 0.28f, 1.00f);   // Prefer using Alpha=1.0 here
+		colors.TableRowBg             = Colour(0.00f, 0.00f, 0.00f, 0.00f);
+		colors.TableRowBgAlt          = Colour(1.00f, 1.00f, 1.00f, 0.07f);
+		colors.TextLink               = colors.HeaderActive;
+		colors.TextSelectedBg         = Colour(0.00f, 0.00f, 1.00f, 0.35f);
+		colors.TreeLines              = colors.Border;
+		colors.DragDropTarget         = Colour(1.00f, 1.00f, 0.00f, 0.90f);
+		colors.DragDropTargetBg       = Colour(0.00f, 0.00f, 0.00f, 0.00f);
+		colors.UnsavedMarker          = Colour(0.90f, 0.90f, 0.90f, 1.00f);
+		colors.NavCursor              = colors.HeaderHovered;
+		colors.NavWindowingHighlight  = Colour(1.00f, 1.00f, 1.00f, 0.70f);
+		colors.NavWindowingDimBg      = Colour(0.80f, 0.80f, 0.80f, 0.20f);
+		colors.ModalWindowDimBg       = Colour(0.20f, 0.20f, 0.20f, 0.35f);
+		return colors;
+	}
+
+	ImguiColours imgui_colours_light()
+	{
+		ImguiColours colors;
+		colors.Text                   = Colour(0.00f, 0.00f, 0.00f, 1.00f);
+		colors.TextDisabled           = Colour(0.60f, 0.60f, 0.60f, 1.00f);
+		colors.WindowBg               = Colour(0.94f, 0.94f, 0.94f, 1.00f);
+		colors.ChildBg                = Colour(0.00f, 0.00f, 0.00f, 0.00f);
+		colors.PopupBg                = Colour(1.00f, 1.00f, 1.00f, 0.98f);
+		colors.Border                 = Colour(0.00f, 0.00f, 0.00f, 0.30f);
+		colors.BorderShadow           = Colour(0.00f, 0.00f, 0.00f, 0.00f);
+		colors.FrameBg                = Colour(1.00f, 1.00f, 1.00f, 1.00f);
+		colors.FrameBgHovered         = Colour(0.26f, 0.59f, 0.98f, 0.40f);
+		colors.FrameBgActive          = Colour(0.26f, 0.59f, 0.98f, 0.67f);
+		colors.TitleBg                = Colour(0.82f, 0.82f, 0.82f, 1.00f);
+		colors.TitleBgActive          = Colour(1.00f, 1.00f, 1.00f, 1.00f);
+		colors.TitleBgCollapsed       = Colour(1.00f, 1.00f, 1.00f, 0.43f);
+		colors.MenuBarBg              = Colour(0.86f, 0.86f, 0.86f, 1.00f);
+		colors.ScrollbarBg            = Colour(0.98f, 0.98f, 0.98f, 0.53f);
+		colors.ScrollbarGrab          = Colour(0.69f, 0.69f, 0.69f, 0.80f);
+		colors.ScrollbarGrabHovered   = Colour(0.49f, 0.49f, 0.49f, 0.80f);
+		colors.ScrollbarGrabActive    = Colour(0.49f, 0.49f, 0.49f, 1.00f);
+		colors.CheckMark              = Colour(0.26f, 0.59f, 0.98f, 1.00f);
+		colors.CheckboxSelectedBg     = Colour(0.95f, 0.97f, 1.00f, 1.00f);
+		colors.SliderGrab             = Colour(0.26f, 0.59f, 0.98f, 0.78f);
+		colors.SliderGrabActive       = Colour(0.46f, 0.54f, 0.80f, 0.60f);
+		colors.Button                 = Colour(0.26f, 0.59f, 0.98f, 0.40f);
+		colors.ButtonHovered          = Colour(0.26f, 0.59f, 0.98f, 1.00f);
+		colors.ButtonActive           = Colour(0.06f, 0.53f, 0.98f, 1.00f);
+		colors.Header                 = Colour(0.26f, 0.59f, 0.98f, 0.31f);
+		colors.HeaderHovered          = Colour(0.26f, 0.59f, 0.98f, 0.80f);
+		colors.HeaderActive           = Colour(0.26f, 0.59f, 0.98f, 1.00f);
+		colors.Separator              = Colour(0.39f, 0.39f, 0.39f, 0.62f);
+		colors.SeparatorHovered       = Colour(0.14f, 0.44f, 0.80f, 0.78f);
+		colors.SeparatorActive        = Colour(0.14f, 0.44f, 0.80f, 1.00f);
+		colors.ResizeGrip             = Colour(0.35f, 0.35f, 0.35f, 0.17f);
+		colors.ResizeGripHovered      = Colour(0.26f, 0.59f, 0.98f, 0.67f);
+		colors.ResizeGripActive       = Colour(0.26f, 0.59f, 0.98f, 0.95f);
+		colors.InputTextCursor        = colors.Text;
+		colors.TabHovered             = colors.HeaderHovered;
+		colors.Tab                    = lerp(colors.Header,       colors.TitleBgActive, 0.90f);
+		colors.TabSelected            = lerp(colors.HeaderActive, colors.TitleBgActive, 0.60f);
+		colors.TabSelectedOverline    = colors.HeaderActive;
+		colors.TabDimmed              = lerp(colors.Tab,          colors.TitleBg, 0.80f);
+		colors.TabDimmedSelected      = lerp(colors.TabSelected,  colors.TitleBg, 0.40f);
+		colors.TabDimmedSelectedOverline = Colour(0.26f, 0.59f, 1.00f, 0.00f);
+		colors.PlotLines              = Colour(0.39f, 0.39f, 0.39f, 1.00f);
+		colors.PlotLinesHovered       = Colour(1.00f, 0.43f, 0.35f, 1.00f);
+		colors.PlotHistogram          = Colour(0.90f, 0.70f, 0.00f, 1.00f);
+		colors.PlotHistogramHovered   = Colour(1.00f, 0.45f, 0.00f, 1.00f);
+		colors.TableHeaderBg          = Colour(0.78f, 0.87f, 0.98f, 1.00f);
+		colors.TableBorderStrong      = Colour(0.57f, 0.57f, 0.64f, 1.00f);   // Prefer using Alpha=1.0 here
+		colors.TableBorderLight       = Colour(0.68f, 0.68f, 0.74f, 1.00f);   // Prefer using Alpha=1.0 here
+		colors.TableRowBg             = Colour(0.00f, 0.00f, 0.00f, 0.00f);
+		colors.TableRowBgAlt          = Colour(0.30f, 0.30f, 0.30f, 0.09f);
+		colors.TextLink               = colors.HeaderActive;
+		colors.TextSelectedBg         = Colour(0.26f, 0.59f, 0.98f, 0.35f);
+		colors.TreeLines              = colors.Border;
+		colors.DragDropTarget         = Colour(0.26f, 0.59f, 0.98f, 0.95f);
+		colors.DragDropTargetBg       = Colour(0.00f, 0.00f, 0.00f, 0.00f);
+		colors.UnsavedMarker          = Colour(0.00f, 0.00f, 0.00f, 1.00f);
+		colors.NavCursor              = colors.HeaderHovered;
+		colors.NavWindowingHighlight  = Colour(0.70f, 0.70f, 0.70f, 0.70f);
+		colors.NavWindowingDimBg      = Colour(0.20f, 0.20f, 0.20f, 0.20f);
+		colors.ModalWindowDimBg       = Colour(0.20f, 0.20f, 0.20f, 0.35f);
+		return colors;
+	}
+
+	void style_imgui_dark(UiWindow& ui_window)
+	{
+		style_imgui(ui_window, ImguiLook(), imgui_colours_dark());
+	}
+
+	void style_imgui_light(UiWindow& ui_window)
+	{
+		style_imgui(ui_window, ImguiLook(), imgui_colours_light());
+	}
+
+	void style_imgui_classic(UiWindow& ui_window)
+	{
+		style_imgui(ui_window, ImguiLook(), imgui_colours_classic());
 	}
 
 	void style_imgui(UiWindow& ui_window, ImguiStyle style)
