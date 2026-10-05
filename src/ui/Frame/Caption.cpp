@@ -121,14 +121,11 @@ namespace two
 		return { compute_width(), compute_height() };
 	}
 
+	// the number of lines of a text is the least it shows: a longer text is as high as its rows
 	float Text::compute_height() const
 	{
-		if(m_num_lines)
-			return line_height() * m_num_lines;
-		else if(!m_text_rows.empty())
-			return m_text_rows.back().m_rect.y + m_text_rows.back().m_rect.height;
-		else
-			return 0.f;
+		const float rows = m_text_rows.empty() ? 0.f : m_text_rows.back().m_rect.y + m_text_rows.back().m_rect.height;
+		return max(rows, line_height() * float(m_num_lines));
 	}
 
 	float Text::compute_width() const
