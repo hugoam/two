@@ -60,4 +60,7 @@ namespace two
 	{
 		return { key_mix(base.m_value, uint64_t(uintptr_t(object))) };
 	}
+
+	// the conversions to a key from a number, e.g an index given by a script, and from nullptr, which is no key
+	export_ TWO_TREE_EXPORT void register_tree_conversions();
 }

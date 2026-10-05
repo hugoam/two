@@ -80,6 +80,7 @@ namespace two
 	{
 		// @todo this should be automatically done by math module
 		register_math_conversions();
+		register_tree_conversions();
 
 		//declare_gfx_edit();
 

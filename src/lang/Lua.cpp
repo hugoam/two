@@ -295,6 +295,23 @@ namespace two
 
 	inline void read_cstring(lua_State* state, int index, Var& result);
 
+	// a number given for a class is converted to it, when there is a conversion: e.g an index for a key
+	inline void read_converted_number(lua_State* state, int index, Var& value)
+	{
+		Var number = lua_isinteger(state, index) ? var(ullong(lua_tointeger(state, index))) : var(double(lua_tonumber(state, index)));
+		if(TypeConverter::me().check(number, type(value)))
+			TypeConverter::me().convert(number, value);
+		else
+			value.clear();
+	}
+
+	// nil given for a class is converted to it, when there is a conversion from nullptr: e.g no key
+	inline void read_converted_null(Var& value)
+	{
+		decltype(nullptr) null = nullptr;
+		TypeConverter::me().convert(Ref(&null, type<decltype(nullptr)>()), value);
+	}
+
 	inline void read_value(lua_State* state, int index, Var& value)
 	{
 		if(value.m_mode == VarMode::Ref && value.m_ref == Ref())
@@ -305,6 +322,10 @@ namespace two
 			value = read_type(state, index);
 		else if(is_sequence(type(value)))
 			read_sequence(state, index, type(value), value);
+		else if((is_object(type(value)) || is_struct(type(value))) && lua_type(state, index) == LUA_TNUMBER)
+			read_converted_number(state, index, value);
+		else if((is_object(type(value)) || is_struct(type(value))) && lua_isnil(state, index) && TypeConverter::me().check(type<decltype(nullptr)>(), type(value)))
+			read_converted_null(value);
 		else if(is_object(type(value)) || is_struct(type(value)))
 			value = read_object(state, index, type(value));
 		else if(is_enum(type(value)))

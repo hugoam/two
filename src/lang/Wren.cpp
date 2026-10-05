@@ -210,6 +210,23 @@ namespace two
 		ToWren::me().dispatch(value, vm, slot);
 	}
 
+	// a number given for a class is converted to it, when there is a conversion: e.g an index for a key
+	inline void read_converted_number(WrenVM* vm, int slot, Ref& value)
+	{
+		double number = wrenGetSlotDouble(vm, slot);
+		if(TypeConverter::me().check(type<double>(), type(value)))
+			TypeConverter::me().dispatch(Ref(&number), value);
+		else
+			value = Ref();
+	}
+
+	// null given for a class is converted to it, when there is a conversion from nullptr: e.g no key
+	inline void read_converted_null(Ref& value)
+	{
+		decltype(nullptr) null = nullptr;
+		TypeConverter::me().dispatch(Ref(&null, type<decltype(nullptr)>()), value);
+	}
+
 	inline void read_value(WrenVM* vm, int index, Ref& value)
 	{
 		if(value == Ref())
@@ -218,6 +235,10 @@ namespace two
 			value = read_ref(vm, index);
 		else if(is_sequence(type(value)))
 			read_sequence(vm, index, type(value), value);
+		else if((is_object(type(value)) || is_struct(type(value))) && wrenGetSlotType(vm, index) == WREN_TYPE_NUM)
+			read_converted_number(vm, index, value);
+		else if((is_object(type(value)) || is_struct(type(value))) && wrenGetSlotType(vm, index) == WREN_TYPE_NULL && TypeConverter::me().check(type<decltype(nullptr)>(), type(value)))
+			read_converted_null(value);
 		else if(is_object(type(value)) || is_struct(type(value)))
 			read_object(vm, index, type(value), value);
 		else if(is_enum(type(value)))

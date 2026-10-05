@@ -51,6 +51,9 @@ namespace two // export_ namespace two// @todo evaluate export at namespace leve
 
 	template <> inline Type& type<Type>() { return Type::type(); }
 
+	// the type of nullptr, e.g for a nil given by a script, which converts to the types that have a value for it
+	template <> inline Type& type<decltype(nullptr)>() { static Type ty("nullptr_t", sizeof(decltype(nullptr))); return ty; }
+
 	template <class T>
 	struct Typed
 	{

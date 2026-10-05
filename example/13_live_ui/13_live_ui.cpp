@@ -12,12 +12,12 @@ using namespace two;
 #define NATIVE 0
 
 #if 0
-"local l = ui.scrollable(d1)\n"
+"local l = ui.scrollable(nil, d1)\n"
 "local modules = system().modules\n"
 "for _, module in ipairs(modules) do\n"
 "    local types = module.types\n"
 "    for _, type in ipairs(types) do\n"
-"        --local tb = ui.button(l, type.name)\n"
+"        --local tb = ui.button(nil, l, type.name)\n"
 "        --if tb.activated then\n"
 "        --    selected_type = type\n"
 "        --end\n"
@@ -25,9 +25,9 @@ using namespace two;
 "end\n"
 "local w = window(d2, 'A random window', WINDOW_DEFAULT)"               "\n"
 "if selected_type then\n"
-"    local e = ui.expandbox(d2, { selected_type.name }, true).body\n"
+"    local e = ui.expandbox(nil, d2, { selected_type.name }, true).body\n"
 "    if e then\n"
-"        ui.button(e, selected_type.name)\n"
+"        ui.button(nil, e, selected_type.name)\n"
 "    end\n"
 "end\n"
 #endif
@@ -41,29 +41,29 @@ static TextScript create_script(LuaInterpreter& interpreter)
 	//interpreter.set("selected_type", Var());
 
 	script.m_script =
-		"local b = ui.board(ui_root)\n"
-		"local d1 = ui.div(b)\n"
+		"local b = ui.board(nil, ui_root)\n"
+		"local d1 = ui.div(nil, b)\n"
 		"\n"
-		"local r = ui.row(d1)\n"
-		"ui.button(r, '(arrow_right)')\n"
-		"ui.button(r, '(arrow_left)')\n"
-		"ui.button(r, '(arrow_down)')\n"
-		"ui.button(r, '(arrow_up)')\n"
-		"ui.button(r, 'test button')\n"
-		"--ui.multi_button(r, { '(folder_15)', 'test' }, nil)""\n"
+		"local r = ui.row(nil, d1)\n"
+		"ui.button(nil, r, '(arrow_right)')\n"
+		"ui.button(nil, r, '(arrow_left)')\n"
+		"ui.button(nil, r, '(arrow_down)')\n"
+		"ui.button(nil, r, '(arrow_up)')\n"
+		"ui.button(nil, r, 'test button')\n"
+		"--ui.multi_button(nil, r, { '(folder_15)', 'test' }, nil)""\n"
 		"\n"
 		"local col = Colour.Pink\n"
-		"ui.color_edit(d1, col)\n"
+		"ui.color_edit(nil, d1, col)\n"
 		"\n"
-		"local d2 = ui.layout(b)\n"
+		"local d2 = ui.layout(nil, b)\n"
 		"\n"
 		"local viewer_size = vec2(200, 170)\n"
 		"local viewers = {}\n"
 		"local colours = {}\n"
 		"\n"
-		"local c = ui.canvas(d2)\n"
+		"local c = ui.canvas(nil, d2)\n"
 		// @todo default values don't work because we are using same call object under the hood (value from previous call is persisted)
-		"local main_viewer = ui.scene_viewer(d2, vec2(0))\n"
+		"local main_viewer = ui.scene_viewer(nil, d2, vec2(0))\n"
 		"local prev_output = nil\n"
 		"\n"
 		"function next_colour()\n"
@@ -77,20 +77,20 @@ static TextScript create_script(LuaInterpreter& interpreter)
 		"    table.insert(colours, col)\n"
 
 		"    local n = ui.node(c, 'Node ' .. tostring(i), vec2(200 + i * (viewer_size.x + 50), 100), 0)\n"
-		"    local input = ui.node_input(n, 'Input', '(file_15)', col, 1, 0)\n"
-		"    local output = ui.node_output(n, 'Output', '', col, 1, 0)\n"
+		"    local input = ui.node_input(nil, n, 'Input', '(file_15)', col, 1, 0)\n"
+		"    local output = ui.node_output(nil, n, 'Output', '', col, 1, 0)\n"
 		"    \n"
 		// @todo comment these two fixes the main viewer wrong parent issue -> investigate
-		"    local viewer = ui.scene_viewer(n, viewer_size)\n"
+		"    local viewer = ui.scene_viewer(nil, n.body, viewer_size)\n"
 		"    table.insert(viewers, viewer)\n"
 		"    \n"
 		"    if prev_output then\n"
-		"        ui.node_cable(c, prev_output, input)\n"
+		"        ui.node_cable(nil, c, prev_output, input)\n"
 		"    end\n"
 		"    prev_output = output\n"
 		"end\n"
 		"\n"
-		//"local main_viewer = ui.scene_viewer(d2, vec2(0))\n"
+		//"local main_viewer = ui.scene_viewer(nil, d2, vec2(0))\n"
 		"next_colour()\n"
 		"table.insert(colours, col)\n"
 		"table.insert(viewers, main_viewer)\n"
@@ -113,7 +113,7 @@ static TextScript create_script(LuaInterpreter& interpreter)
 		"    gfx.shape(cn, Cube(), Symbol(colours[i], Colour.None))\n"
 		"end\n"
 		"\n"
-		//"local viewer = ui.viewer(d2)"                                          "\n"
+		//"local viewer = ui.viewer(nil, d2)"                                          "\n"
 		// @todo ^ this should silently fail but it crashes, but scene arg is not nullable
 		// -> lua wrapper should detect it and not call
 		"\n"
@@ -168,7 +168,7 @@ void ex_13_live_ui(Shell& app, Widget& parent, Dockbar& dockbar)
 		NodePlug& output = ui::node_output(key(), n, "Output", "", col, 1, 0);
 		    
 		// @todo comment these two fixes the main viewer wrong parent issue -> investigate
-		SceneViewer& viewer = ui::scene_viewer(key(), n, viewer_size);
+		SceneViewer& viewer = ui::scene_viewer(key(), *n.m_body, viewer_size);
 		viewers.push_back(&viewer);
 		    
 		if(prev_output)
