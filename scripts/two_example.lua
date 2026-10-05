@@ -41,6 +41,11 @@ function two_example(name, deps, exdeps, ismodule)
         files {
             path.join(TWO_DIR, "example", "CrashReport.cpp"),
         }
+
+    -- the sources an example is ported from are kept as reference, they are not compiled
+    excludes {
+        path.join(TWO_DIR, "example", name, "reference", "**"),
+    }
 end
 
 group "examples"
