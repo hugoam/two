@@ -14,18 +14,20 @@ namespace two
 	class Sound;
 
 #ifndef _MSC_VER
-	extern template class Graph<Gnode>;
+	extern template class PooledNode<Gnode>;
 #endif
 
-	export_ class refl_ TWO_GFX_EXPORT Gnode : public Graph<Gnode>
+	export_ class refl_ TWO_GFX_EXPORT Gnode : public PooledNode<Gnode>
 	{
 	public:
-		Gnode();
-		Gnode(Scene& scene, SoundManager* sound_manager = nullptr);
-		Gnode(Gnode* parent, void* identity);
+		Gnode(PooledGraph<Gnode>& graph, Scene& scene, SoundManager* sound_manager = nullptr);
+		Gnode(Gnode* parent);
 		~Gnode();
 		
 		void clear();
+
+		// the gfx nodes have no top nodes, they never change parent
+		void reparent(Gnode* old) { UNUSED(old); }
 
 		template <class T, class... Args>
 		T* instantiate(Scene& scene, Args&&... args);

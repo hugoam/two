@@ -105,6 +105,7 @@ namespace two
 		unique<ObjectPool> m_pool;
 
 		attr_ uint32_t m_index;
+		PooledGraph<Gnode> m_nodes;
 		attr_ Gnode m_graph;
 		attr_ Node3 m_root_node;
 		attr_ Zone m_env;

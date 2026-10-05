@@ -176,7 +176,7 @@ namespace two
 		viewer.m_controller->process(viewer);
 		//viewport_picker(viewer, screen, targets);
 
-		this->paint(viewer.m_scene->m_graph.subi(this));
+		this->paint(viewer.m_scene->m_graph.sub(key(this)));
 	}
 
 	Gizmo& TransformTool::gizmo(Item& item)

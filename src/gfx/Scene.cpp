@@ -14,7 +14,7 @@ namespace two
 		: m_gfx(gfx)
 		, m_immediate(oconstruct<ImmediateDraw>(gfx.fetch_material("immediate", "solid")))
 		, m_pass_jobs(oconstruct<PassJobs>())
-		, m_graph(*this)
+		, m_graph(m_nodes, *this)
 	{
 		m_pool = oconstruct<ObjectPool>();
 		m_pool->create_pool<Flare>(1024);

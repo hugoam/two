@@ -9,7 +9,7 @@ module two.gfx;
 
 namespace two
 {
-	template class Graph<Gnode>;
+	template class PooledNode<Gnode>;
 
 	template class TPool<Node3>;
 	template class TPool<Item>;
@@ -19,9 +19,8 @@ namespace two
 	template class TPool<Light>;
 	template class TPool<Flare>;
 
-	Gnode::Gnode() : Graph() {}
-	Gnode::Gnode(Scene& scene, SoundManager* sound_manager) : Graph(), m_scene(&scene), m_attach(&scene.m_root_node), m_sound_manager(sound_manager) {}
-	Gnode::Gnode(Gnode* parent, void* identity) : Graph(parent, identity), m_scene(parent->m_scene), m_attach(parent->m_attach), m_sound_manager(parent->m_sound_manager) {}
+	Gnode::Gnode(PooledGraph<Gnode>& graph, Scene& scene, SoundManager* sound_manager) : PooledNode(graph), m_scene(&scene), m_attach(&scene.m_root_node), m_sound_manager(sound_manager) { graph.m_root = this; }
+	Gnode::Gnode(Gnode* parent) : PooledNode(parent), m_scene(parent->m_scene), m_attach(parent->m_attach), m_sound_manager(parent->m_sound_manager) {}
 
 	Gnode::~Gnode()
 	{
@@ -30,7 +29,7 @@ namespace two
 
 	void Gnode::clear()
 	{
-		Graph::clear();
+		PooledNode::clear();
 		
 		if(m_sound)
 		{
@@ -106,7 +105,7 @@ namespace gfx
 
 	Item& item(Gnode& parent, const Model& model, uint32_t flags, Material* material)
 	{
-		Gnode& self = parent.suba<Gnode>();
+		Gnode& self = parent.suba();
 		bool update = (flags & ItemFlag::NoUpdate) == 0;
 		Item* item = self.as<Item>();
 		if(item == nullptr)
@@ -125,7 +124,7 @@ namespace gfx
 
 	Batch& batch(Gnode& parent, Item& item, uint16_t stride)
 	{
-		Gnode& self = parent.suba<Gnode>();
+		Gnode& self = parent.suba();
 		Batch* batch = self.as<Batch>();
 		if (batch == nullptr)
 		{
@@ -137,7 +136,7 @@ namespace gfx
 
 	Batch& instances(Gnode& parent, Item& item, span<mat4> transforms)
 	{
-		Gnode& self = parent.suba<Gnode>();
+		Gnode& self = parent.suba();
 		Batch* batch = self.as<Batch>();
 		if (batch == nullptr)
 		{
@@ -151,7 +150,7 @@ namespace gfx
 
 	void prefab(Gnode& parent, const Prefab& prefab, bool transform, uint32_t flags, Material* material)
 	{
-		Gnode& self = parent.suba<Gnode>();
+		Gnode& self = parent.suba();
 		
 		for(const Prefab::Elem& elem : prefab.m_items)
 		{
