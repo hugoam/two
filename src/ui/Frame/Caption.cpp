@@ -82,8 +82,8 @@ namespace two
 
 	Vg* Text::s_vg = nullptr;
 
-	Text::Text(Frame& frame)
-		: m_frame(frame)
+	Text::Text(Widget& widget)
+		: m_widget(widget)
 		, m_text()
 		, m_num_lines(0)
 	{}
@@ -95,7 +95,7 @@ namespace two
 
 	void Text::update_style()
 	{
-		m_text_paint = style_text_paint(*m_frame.d_inkstyle);
+		m_text_paint = style_text_paint(*m_widget.m_frame.d_inkstyle);
 	}
 
 	void Text::set_lines(size_t lines)
@@ -138,7 +138,7 @@ namespace two
 
 	void Text::break_text_rows()
 	{
-		const vec2 padded_size = floor(m_frame.m_size - rect_sum(m_frame.d_inkstyle->m_padding));
+		const vec2 padded_size = floor(m_widget.m_frame.m_size - rect_sum(m_widget.m_frame.d_inkstyle->m_padding));
 
 		if(!m_text.empty())
 			s_vg->break_text(m_text.c_str(), m_text.size(), padded_size, m_text_paint, m_text_rows);
@@ -146,8 +146,8 @@ namespace two
 			m_text_rows.clear();
 
 		//return offset +  + rect_sum(m_frame.d_inkstyle->m_padding);
-		m_frame.m_content = this->compute_text_size();
-		m_frame.mark_dirty(DIRTY_LAYOUT);
+		m_widget.m_frame.m_content = this->compute_text_size();
+		m_widget.mark_dirty(DIRTY_LAYOUT);
 	}
 
 	size_t Text::char_at(const vec2& pos) const

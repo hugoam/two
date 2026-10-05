@@ -55,13 +55,13 @@ namespace two
 			ui_debug_layout(*tab, target, selected);
 
 		if(selected)
-			ui::rectangle(key(), parent.ui(), { selected->m_frame.absolute_position(), selected->m_frame.m_size });
+			ui::rectangle(key(), parent.ui(), { selected->absolute_position(), selected->m_frame.m_size });
 
 		if(selecting)
 		{
 			Widget* highlighted = target.pinpoint(target.ui().m_mouse.m_pos);
 			if(highlighted)
-				ui::rectangle(key(), parent.ui(), { highlighted->m_frame.absolute_position(), highlighted->m_frame.m_size });
+				ui::rectangle(key(), parent.ui(), { highlighted->absolute_position(), highlighted->m_frame.m_size });
 		}
 
 		if(selected)

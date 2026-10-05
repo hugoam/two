@@ -81,7 +81,7 @@ namespace two
 		vec2 frame_size();
 
 		void update();
-		void update_scroll(Frame& frame, Frame& content);
+		void update_scroll(Widget& frame, Widget& content);
 		void render(Vg& vg);
 		vec2 visible_range();
 
@@ -126,7 +126,7 @@ namespace two
 		void select_all();
 		void select_word();
 
-		void scroll_to_cursor(Frame& frame, Frame& content);
+		void scroll_to_cursor(Widget& frame, Widget& content);
 
 		void move_right(size_t count, bool select = false, bool word_mode = false);
 		void move_left(size_t count, bool select = false, bool word_mode = false);

@@ -12,61 +12,60 @@ namespace two
 
 	inline bool clip(const Frame& frame) { return frame.d_layout->m_clipping == Clip::Clip; }
 
-	Frame* pinpoint(Frame& frame, vec2 pos, const FrameFilter& filter)
+	Widget* pinpoint(Widget& self, vec2 pos, const FrameFilter& filter)
 	{
+		Frame& frame = self.m_frame;
 		if (!frame.d_style || frame.hollow() || (clip(frame) && !frame.inside(pos)))
 			return nullptr;
 
 		if (frame.m_layer)
 			for (Layer* layer : reverse_adapt(frame.m_layer->d_sublayers))
 			{
-				vec2 local = layer->m_frame.integrate_position(pos, frame);
-				Frame* target = pinpoint(layer->m_frame, local, filter);
-				if (target)
+				vec2 local = layer->m_widget.integrate_position(pos, self);
+				if (Widget* target = pinpoint(layer->m_widget, local, filter))
 					return target;
 			}
 
 		// the last children are on top: the top nodes attached, then the descendants walked backward, keeping the children
-		PooledGraph<Widget>& graph = *frame.d_widget.m_graph;
-		span<uint32_t> attached = frame.d_widget.attached();
+		PooledGraph<Widget>& graph = *self.m_graph;
+		span<uint32_t> attached = self.attached();
 		for (size_t i = attached.size(); i-- > 0;)
 		{
 			Widget& widget = graph.node(attached[i]);
-			vec2 local = widget.m_frame.integrate_position(pos, frame);
-			Frame* target = pinpoint(widget.m_frame, local, filter);
-			if (target)
+			vec2 local = widget.integrate_position(pos, self);
+			if (Widget* target = pinpoint(widget, local, filter))
 				return target;
 		}
 
-		span<uint32_t> descendants = frame.d_widget.descendants();
+		span<uint32_t> descendants = self.descendants();
 		for (size_t i = descendants.size(); i-- > 0;)
 		{
-			if (descendants[i] == PooledGraph<Widget>::none || graph.m_parent[descendants[i]] != frame.d_widget.m_index)
+			if (descendants[i] == PooledGraph<Widget>::none || graph.m_parent[descendants[i]] != self.m_index)
 				continue;
 			Widget& widget = graph.node(descendants[i]);
 
-			vec2 local = widget.m_frame.integrate_position(pos, frame);
-			Frame* target = pinpoint(widget.m_frame, local, filter);
-			if (target)
+			vec2 local = widget.integrate_position(pos, self);
+			if (Widget* target = pinpoint(widget, local, filter))
 				return target;
 		}
 
 		if (filter(frame) && frame.inside(pos))
-			return &frame;
+			return &self;
 		return nullptr;
 	}
 
 	Widget::Widget(PooledGraph<Widget>& graph)
 		: PooledNode(graph)
-		, m_frame(nullptr, *this)
 	{
 		graph.m_root = this;
 	}
 
+	// the index of the widget isn't set yet: its parent is the one given
 	Widget::Widget(Widget* parent)
 		: PooledNode(parent)
-		, m_frame(&parent->m_frame, *this)
-	{}
+	{
+		parent->mark_dirty(DIRTY_LAYOUT);
+	}
 
 	Widget::~Widget()
 	{
@@ -82,14 +81,17 @@ namespace two
 				if(button.m_pressed == this)
 					button.m_pressed = &this->ui();
 		this->clear();
+		// the nodes are destroyed before their index is freed: the parent is still known
+		if(Widget* parent = this->parent())
+			parent->mark_dirty(DIRTY_LAYOUT);
 	}
 
 	void Widget::reparent(Widget* old)
 	{
 		// the frame follows the widget in its new parent, so do the layers, its own, or else the ones of its descendants
-		Layer* old_layer = old ? &old->m_frame.layer() : nullptr;
+		Layer* old_layer = old ? &old->draw_layer() : nullptr;
 		Widget* parent = this->parent();
-		Layer* new_layer = parent ? &parent->m_frame.layer() : nullptr;
+		Layer* new_layer = parent ? &parent->draw_layer() : nullptr;
 
 		auto relink = [&](Layer& layer)
 		{
@@ -112,16 +114,15 @@ namespace two
 				}
 
 		if(old)
-			old->m_frame.mark_dirty(DIRTY_LAYOUT);
-		m_frame.d_parent = parent ? &parent->m_frame : nullptr;
+			old->mark_dirty(DIRTY_LAYOUT);
 		++Frame::s_epoch;
-		m_frame.mark_dirty(DIRTY_LAYOUT);
+		this->mark_dirty(DIRTY_LAYOUT);
 	}
 
 	Widget& Widget::layer()
 	{
 		if(!m_frame.m_layer)
-			m_frame.m_layer = oconstruct<Layer>(m_frame);
+			m_frame.m_layer = oconstruct<Layer>(*this);
 		return *this;
 	}
 
@@ -155,11 +156,11 @@ namespace two
 		{
 			string name = to_lower(str.substr(1, str.size() - 2));
 			Image& icon = *this->ui_window().find_image(name.c_str());
-			m_frame.set_icon(&icon);
+			this->set_icon(&icon);
 		}
 		else
 		{
-			m_frame.set_caption(content);
+			this->set_caption(content);
 		}
 	}
 
@@ -195,7 +196,7 @@ namespace two
 	void Widget::toggle_state(WidgetState state)
 	{
 		m_state = static_cast<WidgetState>(m_state ^ state);
-		m_frame.update_state(m_state);
+		this->update_state(m_state);
 	}
 
 	Widget* Widget::pinpoint(vec2 pos)
@@ -205,8 +206,7 @@ namespace two
 
 	Widget* Widget::pinpoint(vec2 pos, const FrameFilter& filter)
 	{
-		Frame* frame = two::pinpoint(m_frame, pos, filter);
-		return frame ? &frame->d_widget : nullptr;
+		return two::pinpoint(*this, pos, filter);
 	}
 
 	void Widget::transform_event(InputEvent& event)
@@ -214,7 +214,7 @@ namespace two
 		if(event.m_deviceType >= DeviceType::Mouse)
 		{
 			MouseEvent& mouse_event = static_cast<MouseEvent&>(event);
-			mouse_event.m_relative = m_frame.local_position(mouse_event.m_pos);
+			mouse_event.m_relative = this->local_position(mouse_event.m_pos);
 		}
 	}
 

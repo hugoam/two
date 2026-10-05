@@ -44,7 +44,7 @@ namespace two
 		auto add_process = [&](object<Process> process)
 		{
 			script.m_processes.push_back(move(process));
-			vec2 position = canvas.m_plan->m_frame.integrate_position(parent.m_frame.m_position, canvas.m_scroll_plan->m_frame);
+			vec2 position = canvas.m_plan->integrate_position(parent.m_frame.m_position, *canvas.m_scroll_plan);
 			script.m_processes.back()->m_position[0] = position.x;
 			script.m_processes.back()->m_position[1] = position.y;
 		};
@@ -255,7 +255,7 @@ namespace two
 
 		if(canvas.m_self->once())
 		{
-			canvas.m_self->m_frame.relayout();
+			canvas.m_self->relayout();
 			ui::canvas_autolayout(canvas);
 		}
 

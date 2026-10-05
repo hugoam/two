@@ -90,7 +90,7 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT Text
 	{
 	public:
-		Text(Frame& frame);
+		Text(Widget& widget);
 
 		void update_style();
 
@@ -135,7 +135,7 @@ namespace two
 		};
 
 	public:
-		Frame& m_frame;
+		Widget& m_widget;
 		string m_text;
 		size_t m_num_lines;
 

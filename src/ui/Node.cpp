@@ -52,12 +52,12 @@ namespace ui
 
 		vector<uint32_t> elements;
 		for(Node* node : canvas.m_nodes)
-			elements.push_back(tree.add(columns[node->m_order + shift], layout_node, &node->m_self->m_frame));
+			elements.push_back(tree.add(columns[node->m_order + shift], layout_node, node->m_self));
 
 		tree.solve();
 
 		for(size_t i = 0; i < canvas.m_nodes.size(); ++i)
-			canvas.m_nodes[i]->m_self->m_frame.set_position(tree.absolute(elements[i]));
+			canvas.m_nodes[i]->m_self->set_position(tree.absolute(elements[i]));
 	}
 
 	void draw_node_cable(vec2 pos_out, vec2 pos_in, const Colour& colour_out, const Colour& colour_in, bool straight, Vg& vg)
@@ -72,9 +72,9 @@ namespace ui
 	{
 		Widget& self = widget(id, parent, style);
 		static Colour disabled_colour = Colour::DarkGrey;
-		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg)
+		self.m_custom_draw = [=](Widget& widget, const vec4& rect, Vg& vg)
 		{
-			UNUSED(rect); draw_knob(frame, active ? colour : disabled_colour, connected, vg);
+			UNUSED(rect); draw_knob(widget.m_frame, active ? colour : disabled_colour, connected, vg);
 		};
 		return self;
 	}
@@ -82,25 +82,25 @@ namespace ui
 	Widget& canvas_cable(NodeKey id, Widget& parent, NodeKnob& out, NodeKnob& in, bool straight = false)
 	{
 		Widget& self = widget(id, parent, node_styles().cable);
-		self.m_frame.set_position(min(out.m_end, in.m_end));
+		self.set_position(min(out.m_end, in.m_end));
 		self.m_frame.m_size = max(out.m_end, in.m_end) - self.m_frame.m_position;
-		self.m_custom_draw = [&, straight](const Frame& frame, const vec4& rect, Vg& vg)
+		self.m_custom_draw = [&, straight](Widget& widget, const vec4& rect, Vg& vg)
 		{
-			UNUSED(rect); draw_node_cable(out.m_end - frame.m_position, in.m_end - frame.m_position, out.m_colour, in.m_colour, straight, vg);
+			UNUSED(rect); draw_node_cable(out.m_end - widget.m_frame.m_position, in.m_end - widget.m_frame.m_position, out.m_colour, in.m_colour, straight, vg);
 		};
 		return self;
 	}
 
 	vec2 plug_at_out(Canvas& canvas, NodePlug& plug)
 	{
-		Frame& knob = plug.m_knob->m_frame;
-		return knob.derive_position({ knob.m_size.x, knob.m_size.y / 2 }, canvas.m_plan->m_frame);
+		Widget& knob = *plug.m_knob;
+		return knob.derive_position({ knob.m_frame.m_size.x, knob.m_frame.m_size.y / 2 }, *canvas.m_plan);
 	}
 
 	vec2 plug_at_in(Canvas& canvas, NodePlug& plug)
 	{
-		Frame& knob = plug.m_knob->m_frame;
-		return knob.derive_position({ 0.f, knob.m_size.y / 2 }, canvas.m_plan->m_frame);
+		Widget& knob = *plug.m_knob;
+		return knob.derive_position({ 0.f, knob.m_frame.m_size.y / 2 }, *canvas.m_plan);
 	}
 
 	Widget& node_cable(NodeKey id, Canvas& canvas, NodePlug& out, NodePlug& in)
@@ -150,7 +150,7 @@ namespace ui
 			}
 			else
 			{
-				connect.m_end.m_end = canvas.m_plan->m_frame.local_position(connect.m_position);
+				connect.m_end.m_end = canvas.m_plan->local_position(connect.m_position);
 				connect.m_end.m_colour = plug.m_colour;
 			}
 		}
@@ -218,7 +218,7 @@ namespace ui
 				canvas_select(parent, node);
 
 			for(Node* selected : parent.m_selection)
-				selected->m_self->m_frame.set_position(selected->m_self->m_frame.m_position + event.m_delta / selected->m_self->m_frame.absolute_scale());
+				selected->m_self->set_position(selected->m_self->m_frame.m_position + event.m_delta / selected->m_self->absolute_scale());
 		}
 
 		node.m_index = uint32_t(parent.m_nodes.size());
@@ -232,7 +232,7 @@ namespace ui
 		Node& node = ui::node(parent, title, order, identity);
 		Widget& self = *node.m_self;
 		if(self.once())// && position != vec2(0.f))
-			self.m_frame.set_position({ position[0], position[1] });
+			self.set_position({ position[0], position[1] });
 		else
 		{
 			position[0] = self.m_frame.m_position.x;
@@ -272,7 +272,7 @@ namespace ui
 		if(MouseEvent event = self.m_scroll_plan->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			for(Node* node : self.m_selection)
-				node->m_self->m_frame.set_position(node->m_self->m_frame.m_position + event.m_delta / node->m_self->m_frame.absolute_scale());
+				node->m_self->set_position(node->m_self->m_frame.m_position + event.m_delta / node->m_self->absolute_scale());
 		}
 
 		if(MouseEvent event = self.m_scroll_plan->mouse_event(DeviceType::MouseLeft, EventType::Stroked))

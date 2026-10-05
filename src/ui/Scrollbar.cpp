@@ -17,7 +17,7 @@ namespace ui
 		return content_size - visible_size > 0.f;
 	}
 
-	void scroll_to(Frame& content, Axis dim, float offset)
+	void scroll_to(Widget& content, Axis dim, float offset)
 	{
 		content.set_position(dim, -offset);
 		//content.layer().setForceRedraw();
@@ -29,12 +29,12 @@ namespace ui
 					  dim, true, false, &scrollbar_styles().scroller_knob);
 	}
 
-	Widget& scrollbar(NodeKey id, Widget& parent, Frame& frame, Frame& content, Axis dim, v2<uint> grid_index)
+	Widget& scrollbar(NodeKey id, Widget& parent, Widget& frame, Widget& content, Axis dim, v2<uint> grid_index)
 	{
 		Widget& self = widget(id, parent, styles().row, false, dim, grid_index);
 
-		float visible_size = frame.m_size[dim];
-		float content_size = content.m_size[dim] * content.m_scale;
+		float visible_size = frame.m_frame.m_size[dim];
+		float content_size = content.m_frame.m_size[dim] * content.m_frame.m_scale;
 		float overflow = content_size - visible_size;
 
 		if(overflow <= 0.f)
@@ -42,7 +42,7 @@ namespace ui
 
 		Widget& scrollbar = widget(key(), self, scrollbar_styles().scrollbar, false, dim);
 
-		float cursor = -content.m_position[dim];
+		float cursor = -content.m_frame.m_position[dim];
 		if(cursor > 0.f && content_size - cursor < visible_size)
 			cursor = max(content_size - visible_size, 0.f);
 

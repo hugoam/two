@@ -11,7 +11,7 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT Layer
 	{
 	public:
-		Layer(Frame& frame);
+		Layer(Widget& widget);
 		~Layer();
 
 		enum Redraw
@@ -49,7 +49,7 @@ namespace two
 		}
 
 	public:
-		Frame& m_frame;
+		Widget& m_widget;
 		Layer* d_parentLayer = nullptr;
 		size_t d_index = SIZE_MAX;
 		size_t d_z = 0;

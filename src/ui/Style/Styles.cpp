@@ -8,7 +8,7 @@ module two.ui;
 
 namespace two
 {
-	void render_bullet(const Frame& frame, const vec4& rect, Vg& vg)
+	void render_bullet(Widget& widget, const vec4& rect, Vg& vg)
 	{
 		static auto render_bullet = [](Vg& vg, vec2 pos, float fontsize, Colour colour)
 		{
@@ -16,7 +16,7 @@ namespace two
 			vg.fill(Paint(colour));
 		};
 
-		const InkStyle& ink = *frame.d_inkstyle;
+		const InkStyle& ink = *widget.m_frame.d_inkstyle;
 		render_bullet(vg, rect.pos + vec2(ink.m_text_size * 0.5f), ink.m_text_size, Colour(1.f));
 	}
 	

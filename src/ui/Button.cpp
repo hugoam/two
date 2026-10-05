@@ -26,7 +26,7 @@ namespace ui
 
 		// @todo optimize (doesn't need to be done on each call)
 		if(!self.m_frame.m_text)
-			self.m_frame.m_text = make_unique<Text>(self.m_frame);
+			self.m_frame.m_text = make_unique<Text>(self);
 		self.m_frame.m_text->m_text = label;
 		self.m_frame.m_text->update_style();
 		self.m_frame.m_text->break_text_rows();
@@ -195,7 +195,7 @@ namespace ui
 			vector<uint8_t> data = source.read();
 			image = &self.ui_window().create_image(name, source.m_size, data, false);
 		}
-		self.m_frame.set_icon(image);
+		self.set_icon(image);
 		return self;
 	}
 
@@ -207,7 +207,7 @@ namespace ui
 	Widget& image256(NodeKey id, Widget& parent, cstring name, const Image256& source, const vec2& size)
 	{
 		Widget& self = image256(id, parent, styles().image_stretch, name, source);
-		//self.m_frame.set_size(size);
+		//self.set_size(size);
 		ui::dummy(key(), self, size);
 		return self;
 	}

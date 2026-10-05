@@ -15,8 +15,8 @@ namespace ui
 {
 	export_ struct DragPoint
 	{
-		Frame* prev = nullptr;
-		Frame* next = nullptr;
+		Widget* prev = nullptr;
+		Widget* next = nullptr;
 	};
 
 	// a popup sized by the content of its body

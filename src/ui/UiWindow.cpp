@@ -129,7 +129,7 @@ namespace two
 		info("ui window - resize to (%i, %i) - pixel size (%i, %i)", int(size.x), int(size.y), int(fb_size.x), int(fb_size.y));
 		m_size = size;
 		m_context.reset_fb(fb_size);
-		m_ui->m_frame.set_size(vec2(fb_size));
+		m_ui->set_size(vec2(fb_size));
 	}
 
 	bool UiWindow::input_frame()
@@ -139,7 +139,7 @@ namespace two
 
 		m_ui->input_frame();
 
-		m_ui->m_frame.relayout();
+		m_ui->relayout();
 
 		return !m_shutdown;
 	}

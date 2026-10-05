@@ -19,7 +19,7 @@ namespace two
 		this->layer();
 
 		//if(!params.m_parent)
-			m_frame.update_style(true);
+			this->update_style(true);
 	}
 
 	Ui::~Ui()
@@ -47,12 +47,12 @@ namespace two
 		if(!m_window.m_context.m_mouse_lock)
 		{
 			Widget& cursor = ui::cursor(key(), *this, m_mouse.m_pos, m_cursor_style ? *m_cursor_style : ui::cursor_styles().cursor);
-			cursor.m_frame.layer().setForceRedraw();
+			cursor.draw_layer().setForceRedraw();
 		}
 
 		m_cursor_style = &ui::cursor_styles().cursor;
 
-		m_frame.relayout();
+		this->relayout();
 	}
 
 	void Ui::clear_events()
@@ -68,7 +68,7 @@ namespace two
 		Widget::visit([](Widget& widget, bool& visit)
 		{
 			UNUSED(visit);
-			widget.m_frame.update_style(true);
+			widget.update_style(true);
 		});
 	}
 }

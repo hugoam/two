@@ -150,10 +150,10 @@ namespace ui
 	bool color_wheel(NodeKey id, Widget& parent, ColourHSL& hsla)
 	{
 		Widget& self = widget(id, parent, styles().color_wheel);
-		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg)
+		self.m_custom_draw = [=](Widget& widget, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect);
-			draw_color_wheel(vg, frame.m_size, hsla.h, hsla.s, hsla.l);
+			draw_color_wheel(vg, widget.m_frame.m_size, hsla.h, hsla.s, hsla.l);
 		};
 		bool changed = false;
 
@@ -223,10 +223,10 @@ namespace ui
 	Widget& color_slab(NodeKey id, Widget& parent, Style& style, const Colour& value)
 	{
 		Widget& self = button(id, parent, style);//styles().color_slab);
-		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
+		self.m_custom_draw = [&](Widget& widget, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect);
-			vg.draw_rect({ vec2(0.f), frame.m_size }, value, frame.d_inkstyle->m_corner_radius);
+			vg.draw_rect({ vec2(0.f), widget.m_frame.m_size }, value, widget.m_frame.d_inkstyle->m_corner_radius);
 		};
 		return self;
 	}
@@ -320,7 +320,7 @@ namespace
 		static size_t dragged = SIZE_MAX;
 
 		if(self.ui().m_hovered == &self)
-			hovered = curve.point_at(self.m_frame.local_position(self.ui().m_mouse.m_pos));
+			hovered = curve.point_at(self.local_position(self.ui().m_mouse.m_pos));
 
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 			dragged = curve.point_at(event.m_relative);
@@ -335,9 +335,9 @@ namespace
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Released))
 			dragged = SIZE_MAX;
 
-		self.m_custom_draw = [&](const Frame& frame, const vec4& rect, Vg& vg)
+		self.m_custom_draw = [&](Widget& widget, const vec4& rect, Vg& vg)
 		{
-			UNUSED(frame); UNUSED(rect);
+			UNUSED(widget); UNUSED(rect);
 			Curve curve = { rect.size, 0.f, 1.f, values, points };
 			vg.draw_rect(rect, { Colour::DarkGrey });
 			draw_curve(Colour::NeonGreen, curve, hovered, vg);

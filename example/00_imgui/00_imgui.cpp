@@ -592,9 +592,9 @@ namespace ui
 		const Colour colour = histogram ? Colour(0.90f, 0.70f, 0.00f, 1.00f) : Colour(0.61f, 0.61f, 0.61f, 1.00f);
 		const Colour background = Colour(0.16f, 0.29f, 0.48f, 0.54f);
 		const string text = overlay ? overlay : "";
-		graph.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg)
+		graph.m_custom_draw = [=](Widget& widget, const vec4& rect, Vg& vg)
 		{
-			UNUSED(frame);
+			UNUSED(widget);
 			vg.draw_rect(rect, { background });
 			const int count = int(values.size());
 			if(count == 0 || max == min) return;
@@ -618,7 +618,7 @@ namespace ui
 				vg.stroke({ colour, 1.f });
 			}
 		};
-		graph.m_frame.mark_dirty(DIRTY_REDRAW);
+		graph.mark_dirty(DIRTY_REDRAW);
 		if(!text.empty())
 			tooltip(key(), graph, text.c_str());
 		if(label && label[0] != '#')
@@ -682,7 +682,7 @@ namespace ui
 	{
 		Ui& ui = parent.ui();
 		Widget& self = widget(id, ui, styles().tooltip).layer();
-		self.m_frame.set_position(ui.m_mouse.m_pos + vec2(16.f));
+		self.set_position(ui.m_mouse.m_pos + vec2(16.f));
 		return self;
 	}
 
@@ -742,7 +742,7 @@ namespace ui
 			return nullptr;
 		Widget& self = popup(id, parent, PopupFlags::Modal);
 		if(self.once())
-			self.m_frame.set_position(parent.m_frame.local_position(parent.ui().m_mouse.m_pos));
+			self.set_position(parent.local_position(parent.ui().m_mouse.m_pos));
 		// clicking outside of the popup closes it
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 			if(!self.m_frame.inside(event.m_relative))
@@ -790,7 +790,7 @@ namespace ui
 			state = WindowState(uint32_t(state) & ~uint32_t(WindowState::Closable));
 		Window self = window(id, parent, name, state);
 		if(size != vec2(0.f) && self.self.m_frame.m_size == vec2(480.f, 350.f))
-			self.self.m_frame.set_size(size);
+			self.self.set_size(size);
 		if(p_open && !self.self.open())
 			*p_open = false;
 		if(!self.body)
@@ -890,7 +890,7 @@ namespace ui
 	{
 		Widget& self = button(id, parent, label);
 		if(size.x > 0.f || size.y > 0.f)
-			self.m_frame.set_size(max(size, self.m_frame.m_size));
+			self.set_size(max(size, self.m_frame.m_size));
 		return self;
 	}
 
@@ -898,7 +898,7 @@ namespace ui
 	{
 		Widget& self = button(id, parent, style, label);
 		if(size.x > 0.f || size.y > 0.f)
-			self.m_frame.set_size(max(size, self.m_frame.m_size));
+			self.set_size(max(size, self.m_frame.m_size));
 		return self;
 	}
 
@@ -932,7 +932,7 @@ namespace ui
 		UNUSED(uv0); UNUSED(uv1);
 		Widget& self = dummy(id, parent, size);
 		if(image)
-			self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(frame); draw_image(vg, *image, rect); };
+			self.m_custom_draw = [=](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); draw_image(vg, *image, rect); };
 		return self;
 	}
 
@@ -1053,8 +1053,8 @@ namespace ui
 	bool is_item_focused(Widget& item) { return item.focused(); }
 	bool is_item_clicked(Widget& item) { return item.activated(); }
 	bool is_item_toggled_open(TreeNode& node) { return node.header.activated(); }
-	vec2 get_item_rect_min(Widget& item) { return item.m_frame.absolute_position(); }
-	vec2 get_item_rect_max(Widget& item) { return item.m_frame.absolute_position() + item.m_frame.m_size; }
+	vec2 get_item_rect_min(Widget& item) { return item.absolute_position(); }
+	vec2 get_item_rect_max(Widget& item) { return item.absolute_position() + item.m_frame.m_size; }
 	vec2 get_item_rect_size(Widget& item) { return item.m_frame.m_size; }
 
 	// IsWindowFocused(), IsWindowHovered(): in two.ui a window is queried through the widgets of the window
@@ -1121,8 +1121,8 @@ namespace ui
 	float get_scroll_y(ScrollSheet& sheet) { return -sheet.body.m_frame.m_position.y; }
 	float get_scroll_max_x(ScrollSheet& sheet) { return max(0.f, sheet.body.m_frame.m_size.x - sheet.scroll_zone.m_frame.m_size.x); }
 	float get_scroll_max_y(ScrollSheet& sheet) { return max(0.f, sheet.body.m_frame.m_size.y - sheet.scroll_zone.m_frame.m_size.y); }
-	void set_scroll_x(ScrollSheet& sheet, float scroll) { sheet.body.m_frame.set_position(Axis::X, -clamp(scroll, 0.f, get_scroll_max_x(sheet))); }
-	void set_scroll_y(ScrollSheet& sheet, float scroll) { sheet.body.m_frame.set_position(Axis::Y, -clamp(scroll, 0.f, get_scroll_max_y(sheet))); }
+	void set_scroll_x(ScrollSheet& sheet, float scroll) { sheet.body.set_position(Axis::X, -clamp(scroll, 0.f, get_scroll_max_x(sheet))); }
+	void set_scroll_y(ScrollSheet& sheet, float scroll) { sheet.body.set_position(Axis::Y, -clamp(scroll, 0.f, get_scroll_max_y(sheet))); }
 	void set_scroll_from_pos_x(ScrollSheet& sheet, float pos, float ratio) { set_scroll_x(sheet, pos - sheet.scroll_zone.m_frame.m_size.x * ratio); }
 	void set_scroll_from_pos_y(ScrollSheet& sheet, float pos, float ratio) { set_scroll_y(sheet, pos - sheet.scroll_zone.m_frame.m_size.y * ratio); }
 	void set_scroll_here_x(ScrollSheet& sheet, Widget& item, float ratio) { set_scroll_from_pos_x(sheet, item.m_frame.m_position.x, ratio); }
@@ -1245,8 +1245,8 @@ namespace ui
 	void foreground_line(NodeKey id, Widget& parent, const vec2& a, const vec2& b, const Colour& colour, float thickness)
 	{
 		Widget& self = widget(id, parent.ui(), styles().overlay).layer();
-		self.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(frame); UNUSED(rect); vg.path_line(a, b); vg.stroke({ colour, thickness }); };
-		self.m_frame.mark_dirty(DIRTY_REDRAW);
+		self.m_custom_draw = [=](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); UNUSED(rect); vg.path_line(a, b); vg.stroke({ colour, thickness }); };
+		self.mark_dirty(DIRTY_REDRAW);
 	}
 
 	// ImDrawList::AddText()
@@ -6312,9 +6312,9 @@ static void DemoWindowLayout(Widget& parent)
             const char* text_str = "Line 1 hello\nLine 2 clip me!";
             const vec2 text_pos = offset;
             // In two.ui, the custom rendering of a widget is done in its custom draw function, with the Vg API, in the space of the widget
-            canvas.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg)
+            canvas.m_custom_draw = [=](Widget& widget, const vec4& rect, Vg& vg)
             {
-                UNUSED(frame);
+                UNUSED(widget);
                 switch (i)
                 {
                 case 0:
@@ -6332,7 +6332,7 @@ static void DemoWindowLayout(Widget& parent)
                     break;
                 }
             };
-            canvas.m_frame.mark_dirty(DIRTY_REDRAW);
+            canvas.mark_dirty(DIRTY_REDRAW);
         }
     }
 
@@ -6353,9 +6353,9 @@ static void DemoWindowLayout(Widget& parent)
         vec2 button2_pos = vec2(button1_pos.x + 50.0f, button1_pos.y + 50.0f);
         //if (enable_allow_overlap)
         //    ImGui::SetNextItemAllowOverlap();
-        ui::button(key(), overlap, "Button 1", vec2(80, 80)).m_frame.set_position(button1_pos);
+        ui::button(key(), overlap, "Button 1", vec2(80, 80)).set_position(button1_pos);
         //ImGui::SetCursorScreenPos(button2_pos);
-        ui::button(key(), overlap, "Button 2", vec2(80, 80)).m_frame.set_position(button2_pos);
+        ui::button(key(), overlap, "Button 2", vec2(80, 80)).set_position(button2_pos);
 
         // This is typically used with width-spanning items.
         // (note that Selectable() has a dedicated flag ImGuiSelectableFlags_AllowOverlap, which is a shortcut
@@ -9817,9 +9817,9 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
 
                     Widget& canvas = dummy(key(), group, vec2(canvas_width, RAD_MAX * 2));
                     const Colour text_colour = style.colours[ImGuiCol_Text];
-                    canvas.m_custom_draw = [=](const Frame& frame, const vec4& rect, Vg& vg)
+                    canvas.m_custom_draw = [=](Widget& widget, const vec4& rect, Vg& vg)
                     {
-                        UNUSED(frame);
+                        UNUSED(widget);
                         vg.path_circle(rect.pos + vec2(offset_x, offset_y), rad);
                         vg.stroke({ text_colour, 1.f }); // draw_list->AddCircle(ImVec2(p1.x + offset_x, p1.y + offset_y), rad, GetColorU32(ImGuiCol_Text));
                     };
@@ -10673,8 +10673,8 @@ void example_ui(Widget& root_sheet)
 
     // The background, cleared to clear_color
     Widget& background = ui::board(key(), root_sheet);
-    background.m_custom_draw = [](const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(frame); vg.draw_rect(rect, { clear_color }); };
-    background.m_frame.mark_dirty(DIRTY_REDRAW);
+    background.m_custom_draw = [](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); vg.draw_rect(rect, { clear_color }); };
+    background.mark_dirty(DIRTY_REDRAW);
 
     // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
     if (show_demo_window)

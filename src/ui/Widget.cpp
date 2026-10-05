@@ -56,7 +56,7 @@ namespace ui
 	Widget& spanner(NodeKey id, Widget& parent, Style& style, Axis dim, float span)
 	{
 		Widget& self = widget(id, parent, style);
-		self.m_frame.set_span(dim, span);
+		self.set_span(dim, span);
 		return self;
 	}
 }

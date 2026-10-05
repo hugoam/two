@@ -43,11 +43,12 @@ namespace ui
 		return state;
 	}
 
-	bool slider_cursor(Frame& slider, Frame& knob, Axis dim, const MouseEvent& event, float& value, const SliderMetrics& metrics, bool relative)
+	bool slider_cursor(Widget& slider, Frame& knob, Axis dim, const MouseEvent& event, float& value, const SliderMetrics& metrics, bool relative)
 	{
+		const vec2 size = slider.m_frame.m_size;
 		if(relative)
 		{
-			float delta = event.m_delta[dim] / slider.m_size[dim];
+			float delta = event.m_delta[dim] / size[dim];
 			float cursor = min(1.f, max(0.f, metrics.offset(value) + delta));
 			value = metrics.cursor(value, cursor);
 		}
@@ -55,13 +56,13 @@ namespace ui
 		{
 			vec2 position = slider.local_position(event.m_pos);
 			float offset = -knob.m_size[dim] / 2.f;
-			float cursor = min(slider.m_size[dim]/* - knob.m_size[dim]*/, max(0.f, position[dim] + offset)) / slider.m_size[dim];
+			float cursor = min(size[dim]/* - knob.m_size[dim]*/, max(0.f, position[dim] + offset)) / size[dim];
 			value = metrics.cursor(value, cursor);
 		}
 		return true;
 	}
 
-	bool slider_logic(Widget& self, Frame& slider, Frame& filler, Frame& knob, float& value, const SliderMetrics& metrics, Axis dim, bool relative)
+	bool slider_logic(Widget& self, Widget& slider, Frame& filler, Frame& knob, float& value, const SliderMetrics& metrics, Axis dim, bool relative)
 	{
         UNUSED(filler);
 		bool changed = false;
@@ -91,8 +92,8 @@ namespace ui
 		spanner(key(), self, styles().spacer, dim, state.m_post_span);
 		
 		bool changed = false;
-		changed |= slider_logic(self, self.m_frame, filler.m_frame, button.m_frame, value, metrics, dim, false);
-		changed |= slider_logic(button, self.m_frame, filler.m_frame, button.m_frame, value, metrics, dim, relative);
+		changed |= slider_logic(self, self, filler.m_frame, button.m_frame, value, metrics, dim, false);
+		changed |= slider_logic(button, self, filler.m_frame, button.m_frame, value, metrics, dim, relative);
 		return changed;
 	}
 

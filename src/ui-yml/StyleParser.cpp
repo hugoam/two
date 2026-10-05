@@ -229,7 +229,7 @@ namespace two
 			this->load(*kv.second, m_layouts, m_skins);
 
 		visit_node<Widget>(*m_ui_window.m_root_sheet, [](Widget& widget, bool&) {
-			widget.m_frame.update_style(true);
+			widget.update_style(true);
 		});
 	}
 

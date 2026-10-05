@@ -28,9 +28,9 @@ namespace two
 	{
 		m_viewport.m_tasks.push_back([&](Render& render) { this->render(render); });
 
-		self.m_custom_draw = [this](const Frame& frame, const vec4& rect, Vg& vg)
+		self.m_custom_draw = [this](Widget& widget, const vec4& rect, Vg& vg)
 		{
-			UNUSED(frame); UNUSED(rect);
+			UNUSED(widget); UNUSED(rect);
 			//renderer.draw_frame(frame, rect);
 			this->blit(vg);
 		};
@@ -79,8 +79,8 @@ namespace two
 
 	vec4 Viewer::query_rect()
 	{
-		m_position = m_self->m_frame.absolute_position();
-		m_size = m_self->m_frame.m_size * m_self->m_frame.absolute_scale();
+		m_position = m_self->absolute_position();
+		m_size = m_self->m_frame.m_size * m_self->absolute_scale();
 		const vec4 absolute = vec4(m_position, m_size);
 		return absolute / vec2(m_context.m_size);
 	}
@@ -99,7 +99,7 @@ namespace two
 
 	Ray Viewer::mouse_ray()
 	{
-		vec2 pos = m_self->m_frame.local_position(m_self->ui().m_mouse.m_pos);
+		vec2 pos = m_self->local_position(m_self->ui().m_mouse.m_pos);
 		//return m_viewport.ray(pos);
 		return this->mouse_ray(pos);
 	}
@@ -1078,7 +1078,7 @@ namespace ui
 		if(self.once() && size != vec2(0.f))
 		{
 			self.m_frame.m_content = size;
-			self.m_frame.init(viewer_styles().viewer_fixed);
+			self.set_style(viewer_styles().viewer_fixed);
 			//dummy(key(), self, size);
 		}
 		return viewer;

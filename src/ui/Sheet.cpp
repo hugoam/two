@@ -16,9 +16,9 @@ namespace ui
 		//if(size != self.m_frame.m_content)
 		if(size != self.m_frame.m_size)
 		{
-			self.m_frame.set_size(size);
+			self.set_size(size);
 			//self.m_frame.m_content = size;
-			self.m_frame.mark_dirty(DIRTY_LAYOUT);
+			self.mark_dirty(DIRTY_LAYOUT);
 		}
 		return self;
 	}
@@ -26,8 +26,8 @@ namespace ui
 	Widget& layout_span(NodeKey id, Widget& parent, float span)
 	{
 		Widget& self = ui::layout(id, parent);
-		self.m_frame.set_span(Axis::X, span);
-		self.m_frame.set_span(Axis::Y, span);
+		self.set_span(Axis::X, span);
+		self.set_span(Axis::Y, span);
 		return self;
 	}
 
@@ -39,7 +39,7 @@ namespace ui
 			self.take_modal();
 
 		if(bit(flags, PopupFlags::Clamp))
-			self.m_frame.clamp_to_parent();
+			self.clamp_to_parent();
 
 		if(bit(flags, PopupFlags::AutoClose))
 		{
@@ -61,7 +61,7 @@ namespace ui
 	Widget& popup_at(NodeKey id, Widget& parent, Style& style, const vec2& position, PopupFlags flags)
 	{
 		Widget& self = popup(id, parent, style, flags);
-		self.m_frame.set_position(position);
+		self.set_position(position);
 		return self;
 	}
 
@@ -93,8 +93,8 @@ namespace ui
 			if(self.once())
 			{
 				vec2 mouse_pos = self.ui().m_mouse.m_pos;
-				vec2 local = parent.m_frame.local_position(mouse_pos);
-				self.m_frame.set_position(local);
+				vec2 local = parent.local_position(mouse_pos);
+				self.set_position(local);
 			}
 
 			parent.m_switch &= self.open() ? mode : 0;
@@ -109,16 +109,16 @@ namespace ui
 	{
 		// If not dragging already we take the position BEFORE the mouse moved as a reference
 		DragPoint drag_point;
-		vec2 local = !start_drag ? event.m_relative : self.m_frame.local_position(event.m_pressed);
+		vec2 local = !start_drag ? event.m_relative : self.local_position(event.m_pressed);
 
 		for(Widget& widget : self.children())
 		{
 			if(widget.m_frame.m_position[dim] >= local[dim])
 			{
-				drag_point.next = &widget.m_frame;
+				drag_point.next = &widget;
 				break;
 			}
-			drag_point.prev = &widget.m_frame;
+			drag_point.prev = &widget;
 		}
 
 		return drag_point;
@@ -138,7 +138,7 @@ namespace ui
 		{
 			dragging = true;
 			if(drag_point.next && drag_point.prev)
-				self.m_frame.transfer_pixel_span(*drag_point.prev, *drag_point.next, dim, event.m_delta[size_t(dim)]);
+				self.transfer_pixel_span(*drag_point.prev, *drag_point.next, dim, event.m_delta[size_t(dim)]);
 		}
 
 		if(&self == self.ui().m_hovered)
@@ -170,8 +170,8 @@ namespace ui
 		if(dragging)
 			if(drag_point.next && drag_point.prev)
 			{
-				spans[drag_point.prev->d_widget.sibling()] = drag_point.prev->m_span[dim];
-				spans[drag_point.next->d_widget.sibling()] = drag_point.next->m_span[dim];
+				spans[drag_point.prev->sibling()] = drag_point.prev->m_frame.m_span[dim];
+				spans[drag_point.next->sibling()] = drag_point.next->m_frame.m_span[dim];
 			}
 
 		return self;

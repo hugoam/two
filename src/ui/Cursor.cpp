@@ -19,7 +19,7 @@ namespace ui
 		if(&parent == ui.m_hovered && ui.m_tooltip_clock.read() > delay)
 		{
 			Widget& self = widget(id, ui, styles().tooltip).layer();
-			self.m_frame.set_position(parent.m_frame.absolute_position() + position);
+			self.set_position(parent.absolute_position() + position);
 			return &self;
 		}
 
@@ -28,7 +28,7 @@ namespace ui
 
 	Widget* hoverbox(NodeKey id, Widget& parent, float delay)
 	{
-		const vec2 position = parent.ui().m_mouse.m_pos + vec2(4.f) - parent.m_frame.absolute_position();
+		const vec2 position = parent.ui().m_mouse.m_pos + vec2(4.f) - parent.absolute_position();
 		return hoverbox(id, parent, position, delay);
 	}
 
@@ -42,7 +42,7 @@ namespace ui
 
 	Widget* tooltip(NodeKey id, Widget& parent, span<cstring> elements)
 	{
-		const vec2 position = parent.ui().m_mouse.m_pos + vec2(4.f) - parent.m_frame.absolute_position();
+		const vec2 position = parent.ui().m_mouse.m_pos + vec2(4.f) - parent.absolute_position();
 		return tooltip(id, parent, position, elements);
 	}
 
@@ -69,16 +69,16 @@ namespace ui
 	Widget& rectangle(NodeKey id, Widget& parent, const vec4& rect)
 	{
 		Widget& self = widget(id, parent, styles().rectangle).layer();
-		self.m_frame.set_position(rect.pos);
-		self.m_frame.set_size(rect.size);
+		self.set_position(rect.pos);
+		self.set_size(rect.size);
 		return self;
 	}
 
 	Widget& viewport(NodeKey id, Widget& parent, const vec4& rect)
 	{
 		Widget& self = widget(id, parent, styles().viewport).layer();
-		self.m_frame.set_position(rect.pos);
-		self.m_frame.set_size(rect.size);
+		self.set_position(rect.pos);
+		self.set_size(rect.size);
 		return self;
 	}
 
@@ -86,7 +86,7 @@ namespace ui
 	{
 		UNUSED(locked);
 		Widget& self = widget(id, parent, style).layer();
-		self.m_frame.set_position(position);
+		self.set_position(position);
 		return self;
 	}
 

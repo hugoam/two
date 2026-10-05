@@ -16,16 +16,16 @@ namespace ui
 		{
 			window.enable_state(ACTIVE);
 			//if(!window.m_dock) // crashes for some reason
-			window.m_frame.layer().moveToTop();
+			window.draw_layer().moveToTop();
 		}
 
 		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
-			window.m_frame.layer().moveToTop();
-			window.m_frame.layer().m_frame.m_opacity = Opacity::Hollow;
+			window.draw_layer().moveToTop();
+			window.draw_layer().m_widget.m_frame.m_opacity = Opacity::Hollow;
 
 			if(bit(state, WindowState::Movable))
-				window.m_frame.set_position(window.m_frame.m_position + event.m_delta);
+				window.set_position(window.m_frame.m_position + event.m_delta);
 		}
 
 		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
@@ -33,7 +33,7 @@ namespace ui
 			if(bit(state, WindowState::Dockable) && docksystem)
 				docksystem->dock(name, event.m_pos);
 
-			window.m_frame.layer().m_frame.m_opacity = Opacity::Opaque;
+			window.draw_layer().m_widget.m_frame.m_opacity = Opacity::Opaque;
 		}
 	}
 
@@ -41,14 +41,14 @@ namespace ui
 	{
 		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
-			window.m_frame.layer().moveToTop();
+			window.draw_layer().moveToTop();
 
 			if(left)
-				window.m_frame.set_position(Axis::X, window.m_frame.m_position.x + event.m_delta.x);
+				window.set_position(Axis::X, window.m_frame.m_position.x + event.m_delta.x);
 			if(left)
-				window.m_frame.set_size(max(vec2(50.f), window.m_frame.m_size - event.m_delta));
+				window.set_size(max(vec2(50.f), window.m_frame.m_size - event.m_delta));
 			else
-				window.m_frame.set_size(max(vec2(50.f), window.m_frame.m_size + event.m_delta));
+				window.set_size(max(vec2(50.f), window.m_frame.m_size + event.m_delta));
 		}
 	}
 
@@ -94,7 +94,7 @@ namespace ui
 		if(!self.m_frame.d_style)
 			self.init(style);
 		else if(self.m_frame.d_style != &style)
-			self.m_frame.init(style); // a window docked or undocked changes style
+			self.set_style(style); // a window docked or undocked changes style
 		self.layer();
 
 		if(self.once())
@@ -102,10 +102,10 @@ namespace ui
 			self.set_open(true);
 
 			if(!dock)
-				self.m_frame.set_size(vec2(480.f, 350.f));
+				self.set_size(vec2(480.f, 350.f));
 
 			if(!dock)
-				self.m_frame.set_position((self.parent()->m_frame.m_size - self.m_frame.m_size) / 2.f);
+				self.set_position((self.parent()->m_frame.m_size - self.m_frame.m_size) / 2.f);
 		}
 
 		Widget* header = bit(state, WindowState::Header) ? &window_header(key(), self, self, state, docksystem, title) : nullptr;
@@ -117,7 +117,7 @@ namespace ui
 			window_footer(key(), self, self);
 
 		if(!dock && self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
-			self.m_frame.layer().moveToTop();
+			self.draw_layer().moveToTop();
 
 		return { self, header, menu, self.open() ? &body : nullptr };
 	}

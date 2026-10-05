@@ -159,7 +159,7 @@ namespace two
 		m_debug_batch = 0;
 		static size_t prevBatch = 0;
 
-		m_vg.begin_frame(view, vec4(vec2(0.f), target.m_frame.m_size), pixel_ratio, colour);
+		m_vg.begin_frame(view, vec4(vec2(0.f), target.m_widget.m_frame.m_size), pixel_ratio, colour);
 
 #ifdef TWO_UI_DRAW_CACHE
 		target.visit([&](Layer& layer) {
@@ -195,18 +195,19 @@ namespace two
 		m_vg.begin_cached(layer);
 #endif
 
-		if(layer.m_frame.d_parent)
-			this->begin_layer(*layer.m_frame.d_parent);
+		Widget* parent = layer.m_widget.parent();
+		if(parent)
+			this->begin_layer(*parent);
 
 		m_vg.begin_layer(layer);
 
-		this->render_frame(layer.m_frame);
+		this->render_frame(layer.m_widget);
 
 		m_vg.end_layer();
 		layer.endRedraw();
 
-		if(layer.m_frame.d_parent)
-			this->end_layer(*layer.m_frame.d_parent);
+		if(parent)
+			this->end_layer(*parent);
 
 #ifdef TWO_UI_DRAW_CACHE
 		m_vg.end_cached();
@@ -235,37 +236,38 @@ namespace two
 		m_vg.end_update();
 	}
 
-	void UiRenderer::begin_layer(Frame& frame)
+	void UiRenderer::begin_layer(Widget& widget)
 	{
-		if(frame.d_parent)
-			this->begin_layer(*frame.d_parent);
+		if(Widget* parent = widget.parent())
+			this->begin_layer(*parent);
 
-		this->begin_frame(frame);
+		this->begin_frame(widget.m_frame);
 	}
 
-	void UiRenderer::end_layer(Frame& frame)
+	void UiRenderer::end_layer(Widget& widget)
 	{
-		this->end_frame(frame);
+		this->end_frame(widget.m_frame);
 
-		if(frame.d_parent)
-			this->end_layer(*frame.d_parent);
+		if(Widget* parent = widget.parent())
+			this->end_layer(*parent);
 	}
 
-	void UiRenderer::render_frame(Frame& frame)
+	void UiRenderer::render_frame(Widget& widget)
 	{
-		this->begin_frame(frame);
+		this->begin_frame(widget.m_frame);
 
-		this->draw_frame(frame);
+		this->draw_frame(widget);
 
-		for(Widget& widget : frame.d_widget.children())
-			if(!widget.m_frame.m_layer)
-				this->render_frame(widget.m_frame);
+		for(Widget& child : widget.children())
+			if(!child.m_frame.m_layer)
+				this->render_frame(child);
 
-		this->end_frame(frame);
+		this->end_frame(widget.m_frame);
 	}
 
-	void UiRenderer::draw_frame(const Frame& frame)
+	void UiRenderer::draw_frame(Widget& widget)
 	{
+		const Frame& frame = widget.m_frame;
 		vec4 rect = frame.content_rect();
 
 		if(m_vg.clipped(rect))
@@ -276,17 +278,18 @@ namespace two
 		if(frame.d_inkstyle->m_empty)
 			return;
 
-		if(frame.d_widget.m_custom_draw)
-			return frame.d_widget.m_custom_draw(frame, rect, m_vg);
+		if(widget.m_custom_draw)
+			return widget.m_custom_draw(widget, rect, m_vg);
 
 		if(frame.d_inkstyle->m_custom_draw)
-			return frame.d_inkstyle->m_custom_draw(frame, rect, m_vg);
-	
-		two::draw_frame(m_vg, frame, rect);
+			return frame.d_inkstyle->m_custom_draw(widget, rect, m_vg);
+
+		two::draw_frame(m_vg, widget, rect);
 	}
 
-	void draw_frame(Vg& vg, const Frame& frame, const vec4& rect)
+	void draw_frame(Vg& vg, Widget& widget, const vec4& rect)
 	{
+		const Frame& frame = widget.m_frame;
 		const vec2 padded_pos = floor(frame.d_inkstyle->m_padding.pos);
 		const vec2 padded_size = floor(frame.m_size - rect_sum(frame.d_inkstyle->m_padding));
 		const vec4 padded_rect = { padded_pos, padded_size };
@@ -300,7 +303,7 @@ namespace two
 		const vec2 content_pos = { content_position(frame, content, padded_pos, padded_size, Axis::X), content_position(frame, content, padded_pos, padded_size, Axis::Y) };
 		const vec4 content_rect = { content_pos, content };
 
-		draw_background(vg, frame, rect, padded_rect, content_rect);
+		draw_background(vg, widget, rect, padded_rect, content_rect);
 		draw_content(vg, frame, rect, padded_rect, content_rect);
 
 		//vg.debug_rect(rect, Colour::Red);
@@ -318,23 +321,25 @@ namespace two
 			return padded_pos[dim];
 	}
 
-	vec4 select_corners(const Frame& frame)
+	vec4 select_corners(Widget& widget)
 	{
-		Frame& parent = *frame.d_parent;
+		Widget& parent = *widget.parent();
+		const Frame& frame = parent.m_frame;
 
-		const vec4& corners = parent.d_inkstyle->m_corner_radius;
-		if(parent.first(frame))
-			return parent.d_length == Axis::X ? vec4(corners[0], 0.f, 0.f, corners[3]) : vec4(corners[0], corners[1], 0.f, 0.f);
-		else if(parent.last(frame))
-			return parent.d_length == Axis::X ? vec4(0.f, corners[1], corners[2], 0.f) : vec4(0.f, 0.f, corners[2], corners[3]);
+		const vec4& corners = frame.d_inkstyle->m_corner_radius;
+		if(parent.is_first(widget))
+			return frame.d_length == Axis::X ? vec4(corners[0], 0.f, 0.f, corners[3]) : vec4(corners[0], corners[1], 0.f, 0.f);
+		else if(parent.is_last(widget))
+			return frame.d_length == Axis::X ? vec4(0.f, corners[1], corners[2], 0.f) : vec4(0.f, 0.f, corners[2], corners[3]);
 		else
 			return vec4();
 	}
 
-	void draw_background(Vg& vg, const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)
+	void draw_background(Vg& vg, Widget& widget, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)
 	{
 		//m_debug_batch++;
 
+		const Frame& frame = widget.m_frame;
 		InkStyle& inkstyle = *frame.d_inkstyle;
 
 		// Shadow
@@ -346,7 +351,7 @@ namespace two
 		// Rect
 		if(inkstyle.m_border_width.x || !inkstyle.m_background_colour.null())
 		{
-			vec4 corners = inkstyle.m_weak_corners ? select_corners(frame) : inkstyle.m_corner_radius;
+			vec4 corners = inkstyle.m_weak_corners ? select_corners(widget) : inkstyle.m_corner_radius;
 			draw_rect(vg, rect, corners, inkstyle);
 		}
 

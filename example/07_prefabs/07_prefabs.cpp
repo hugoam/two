@@ -76,7 +76,7 @@ void ex_07_prefabs(Shell& app, Widget& parent, Dockbar& dockbar)
 		if(parent.ui().m_drop.m_object)
 		{
 			Widget& tooltip = ui::widget(key(), viewer.m_self->ui(), styles().tooltip).layer();
-			tooltip.m_frame.set_position(mouse_event.m_pos);
+			tooltip.set_position(mouse_event.m_pos);
 			ui::label(key(), tooltip, "dropping");
 		}
 

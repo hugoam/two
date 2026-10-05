@@ -8,9 +8,9 @@ module two.ui;
 
 namespace two
 {
-	Layer::Layer(Frame& frame)
-		: m_frame(frame)
-		, d_parentLayer(frame.d_parent ? &frame.d_parent->layer() : nullptr)
+	Layer::Layer(Widget& widget)
+		: m_widget(widget)
+		, d_parentLayer(widget.parent() ? &widget.parent()->draw_layer() : nullptr)
 	{
 		if(d_parentLayer)
 			d_parentLayer->addLayer(*this);
@@ -24,7 +24,8 @@ namespace two
 
 	size_t Layer::z() const
 	{
-		return m_frame.d_layout->m_zorder ? m_frame.d_layout->m_zorder : d_z;
+		const Layout& layout = *m_widget.m_frame.d_layout;
+		return layout.m_zorder ? layout.m_zorder : d_z;
 	}
 
 	void Layer::reindex()

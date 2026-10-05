@@ -66,7 +66,7 @@ namespace two
 			glDisable(GL_FRAMEBUFFER_SRGB);
 
 		// Update and render
-		glViewport(0, 0, target.m_layer.m_frame.m_size.x, target.m_layer.m_frame.m_size.y);
+		glViewport(0, 0, target.m_layer.m_widget.m_frame.m_size.x, target.m_layer.m_widget.m_frame.m_size.y);
 
 		if(m_clear)
 		{

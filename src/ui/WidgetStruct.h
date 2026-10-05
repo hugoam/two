@@ -82,13 +82,67 @@ namespace two
 		attr_ WidgetState m_state = CREATED;
 		attr_ uint32_t m_switch = 0;
 
-		using CustomRender = function<void(const Frame&, const vec4&, Vg&)>;
+		using CustomRender = function<void(Widget&, const vec4&, Vg&)>;
 		CustomRender m_custom_draw;
 
 		Widget& layer();
 
 		inline bool once() { if((m_state & CREATED) != 0) { disable_state(CREATED); return true; } return false; }
-		inline Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 }) { if(!m_frame.d_style) { m_frame.init(style, length, index); this->set_open(open); } return *this; }
+		inline Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 }) { if(!m_frame.d_style) { this->set_style(style, length, index); this->set_open(open); } return *this; }
+
+		// --- frame ---
+		// the frame of the widget: its layout and its drawing, on the data of m_frame, and of the frames of its parents (Frame.cpp)
+
+		void set_style(Style& style, Axis length = Axis::None, v2<uint> index = { 0, 0 });
+
+		// the layer the frame is drawn in: its own, or the one of its parent
+		Layer& draw_layer();
+
+		void mark_dirty(DirtyLayout dirty);
+
+		void update_style(bool reset = false);
+		void update_state(WidgetState state);
+		void update_inkstyle(InkStyle& inkstyle, bool reset = false);
+
+		void set_caption(cstring text);
+		void set_icon(Image* image);
+
+		void set_size(Axis dim, float size);
+		void set_span(Axis dim, float span);
+		void set_position(Axis dim, float position);
+		void set_scale(float scale);
+
+		inline void set_position(const vec2& pos) { set_position(Axis::X, pos.x), set_position(Axis::Y, pos.y); }
+		inline void set_size(const vec2& size) { set_size(Axis::X, size.x); set_size(Axis::Y, size.y); }
+
+		// the position and the scale of the frame in the space of its root, inherited from its parents:
+		// they are cached until a frame moves or scales, and resolved for all the frames in one pass by the layout
+		void resolve();
+
+		// from the local space of the frame to the space of its root, or of an ancestor
+		inline vec2 absolute_position() { resolve(); return m_frame.d_absolute; }
+		inline vec2 derive_position(const vec2& local) { resolve(); return m_frame.d_absolute + local * m_frame.d_scale; }
+		inline vec2 derive_position(const vec2& local, Widget& root) { resolve(); root.resolve(); return (m_frame.d_absolute + local * m_frame.d_scale - root.m_frame.d_absolute) / root.m_frame.d_scale; }
+
+		// from the space of its root, or of an ancestor, to the local space of the frame
+		inline vec2 local_position(const vec2& pos) { resolve(); return (pos - m_frame.d_absolute) / m_frame.d_scale; }
+		inline vec2 integrate_position(const vec2& pos, Widget& root) { resolve(); root.resolve(); return (root.m_frame.d_absolute + pos * root.m_frame.d_scale - m_frame.d_absolute) / m_frame.d_scale; }
+
+		// the scale of the frame and of its parents up to an ancestor, including it
+		inline float derive_scale(Widget& root) { resolve(); root.resolve(); return m_frame.d_scale / root.m_frame.d_scale * root.m_frame.m_scale; }
+		inline float absolute_scale() { return this->derive_scale(this->root()); }
+
+		void clamp_to_parent();
+
+		inline bool inside_abs(const vec2& pos) { return m_frame.inside(this->local_position(pos)); }
+
+		void transfer_pixel_span(Widget& prev, Widget& next, Axis dim, float pixelSpan);
+
+		void relayout();
+
+		void debug_print(bool commit);
+
+		// --- end frame ---
 	};
 
 }

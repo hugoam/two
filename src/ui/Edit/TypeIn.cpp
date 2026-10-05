@@ -11,7 +11,7 @@ namespace two
 	TextEdit::TextEdit(Widget& self, bool editor, string allowed_chars)
 		: m_self(&self)
 		, m_editor(editor)
-		, m_text(self.m_frame)
+		, m_text(self)
 		, m_string(m_text.m_text)
 		, m_dirty(0, uint(m_string.size()))
 		, m_allowed_chars(allowed_chars)
@@ -508,15 +508,15 @@ namespace two
 		if(!m_self->mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 			m_word_selection_mode = false;
 
-		m_self->m_frame.layer().setForceRedraw(); // TextEdit must redraw each frame
+		m_self->draw_layer().setForceRedraw(); // TextEdit must redraw each frame
 	}
 
-	void TextEdit::update_scroll(Frame& frame, Frame& content)
+	void TextEdit::update_scroll(Widget& frame, Widget& content)
 	{
 		if(MouseEvent event = m_self->mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
-			float overflow = content.m_size.y - frame.m_size.y;
-			const float scrolled = content.m_position.y + event.m_deltaZ * 22.f * 3.f;
+			float overflow = content.m_frame.m_size.y - frame.m_frame.m_size.y;
+			const float scrolled = content.m_frame.m_position.y + event.m_deltaZ * 22.f * 3.f;
 			content.set_position(Axis::Y, min(0.f, max(scrolled, -overflow)));
 		}
 
@@ -550,14 +550,14 @@ namespace two
 	// the vertical range of the text inside the frame clipping it, e.g the scroll zone of an editor: the rows out of it are not drawn
 	vec2 TextEdit::visible_range()
 	{
-		Frame* clip = m_self->m_frame.d_parent;
-		while(clip && !(clip->d_layout && clip->d_layout->m_clipping == Clip::Clip))
-			clip = clip->d_parent;
+		Widget* clip = m_self->parent();
+		while(clip && !(clip->m_frame.d_layout && clip->m_frame.d_layout->m_clipping == Clip::Clip))
+			clip = clip->parent();
 		if(!clip)
 			return { -FLT_MAX, FLT_MAX };
 
-		const float top = m_self->m_frame.integrate_position(vec2(0.f), *clip).y;
-		const float bottom = m_self->m_frame.integrate_position(clip->m_size, *clip).y;
+		const float top = m_self->integrate_position(vec2(0.f), *clip).y;
+		const float bottom = m_self->integrate_position(clip->m_frame.m_size, *clip).y;
 		return { top, bottom };
 	}
 
@@ -660,7 +660,7 @@ namespace two
 		}
 	}
 
-	void TextEdit::scroll_to_cursor(Frame& frame, Frame& content)
+	void TextEdit::scroll_to_cursor(Widget& frame, Widget& content)
 	{
 		const vec2 margin = vec2(0.f);
 
@@ -668,14 +668,14 @@ namespace two
 		const vec2 cursor_min = cursor_rect.pos - margin;
 		const vec2 cursor_max = cursor_min + cursor_rect.size + margin;
 
-		const vec2 frame_min = -content.m_position;
-		const vec2 frame_max = -content.m_position + frame.m_size;
+		const vec2 frame_min = -content.m_frame.m_position;
+		const vec2 frame_max = -content.m_frame.m_position + frame.m_frame.m_size;
 
 		const vec2 delta_neg = max(vec2(0.f), frame_min - cursor_min);
 		const vec2 delta_pos = min(vec2(0.f), frame_max - cursor_max);
 
-		content.set_position(content.m_position + delta_neg);
-		content.set_position(content.m_position + delta_pos);
+		content.set_position(content.m_frame.m_position + delta_neg);
+		content.set_position(content.m_frame.m_position + delta_pos);
 	}
 
 	void TextEdit::Action::Undo(TextEdit * aEditor)
@@ -731,7 +731,7 @@ namespace ui
 		const vec2 size = edit.frame_size();
 		ui::dummy(key(), self, size);
 
-		self.m_custom_draw = [&edit](const Frame& frame, const vec4& rect, Vg& vg) { UNUSED(frame); UNUSED(rect); edit.render(vg); };
+		self.m_custom_draw = [&edit](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); UNUSED(rect); edit.render(vg); };
 
 		return edit;
 	}
@@ -773,7 +773,7 @@ namespace ui
 		ScrollSheet scroll_sheet = ui::scroll_sheet(key(), self);
 		TextEdit& edit = text_box(key(), scroll_sheet.body, styles().type_zone, text, true, lines);
 
-		edit.update_scroll(scroll_sheet.scroll_zone.m_frame, scroll_sheet.body.m_frame);
+		edit.update_scroll(scroll_sheet.scroll_zone, scroll_sheet.body);
 
 		if(vocabulary && edit.m_completing && !edit.has_selection())
 		{

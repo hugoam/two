@@ -86,7 +86,7 @@ namespace two
 
 		virtual void dock(cstring name, const vec2& pos) final;
 
-		void dock(cstring name, Dock& target, Frame& frame, const vec2& pos);
+		void dock(cstring name, Dock& target, Widget& window, const vec2& pos);
 
 		Widget* m_mainline;
 	};

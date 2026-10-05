@@ -167,7 +167,7 @@ namespace two
 	void Docksystem::dock(cstring name, const vec2& pos)
 	{
 		for(Docker* docker : m_dockers)
-			if(docker->m_self->m_frame.inside_abs(pos))
+			if(docker->m_self->inside_abs(pos))
 			{
 				docker->m_pending_docks.push_back({ name, pos });
 				return;
@@ -180,7 +180,7 @@ namespace two
 
 	Dockspace::DockedWindow* Dockspace::pinpoint_dock(const vec2& pos)
 	{
-		Widget* widget = m_self->pinpoint(m_self->m_frame.local_position(pos), [](Frame& frame) { return frame.d_style == &ui::window_styles().dock_window; });
+		Widget* widget = m_self->pinpoint(m_self->local_position(pos), [](Frame& frame) { return frame.d_style == &ui::window_styles().dock_window; });
 		// the docks shown in the last frame might have been removed since
 		for(DockedWindow& docked : m_docked)
 			if(docked.window == widget && has_pred(m_docks, [&](auto& dock) { return dock.get() == docked.dock; }))
@@ -200,7 +200,7 @@ namespace two
 			dim = flip(dim);
 			line = &ui::dockline(*line, index, dim);
 			if(dockid.size() == 0 && dock.m_span > 0.f && line->m_frame.m_span[flip(dim)] == 1.f)
-				line->m_frame.set_span(flip(dim), dock.m_span);
+				line->set_span(flip(dim), dock.m_span);
 		}
 
 		Tabber section = ui::docksection(*line);
@@ -228,7 +228,7 @@ namespace two
 	{
 		DockedWindow* target = pinpoint_dock(pos);
 		if(target)
-			this->dock(name, *target->dock, target->window->m_frame, pos);
+			this->dock(name, *target->dock, *target->window, pos);
 		else if(m_docks.empty())
 		{
 			// an empty dockspace receives the item in a root dock
@@ -237,9 +237,10 @@ namespace two
 		}
 	}
 
-	void Dockspace::dock(cstring name, Dock& target, Frame& frame, const vec2& pos)
+	void Dockspace::dock(cstring name, Dock& target, Widget& window, const vec2& pos)
 	{
-		vec2 local = frame.local_position(pos);
+		const Frame& frame = window.m_frame;
+		vec2 local = window.local_position(pos);
 
 		// the target and its siblings are laid out along dim: dropping on the edges along dim inserts beside the target, on the other edges splits it
 		Axis dim = Axis(target.m_dockid.size() % 2);
