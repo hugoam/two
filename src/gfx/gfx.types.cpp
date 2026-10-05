@@ -127,13 +127,6 @@ namespace two
     template <> TWO_GFX_EXPORT Type& type<two::ClusteredFrustum>() { static Type ty("ClusteredFrustum", type<two::Frustum>(), sizeof(two::ClusteredFrustum)); return ty; }
     template <> TWO_GFX_EXPORT Type& type<two::Light>() { static Type ty("Light", sizeof(two::Light)); return ty; }
     template <> TWO_GFX_EXPORT Type& type<two::Gnode>() { static Type ty("Gnode", sizeof(two::Gnode)); return ty; }
-    template <> TWO_GFX_EXPORT Type& type<two::ChunkedPool<two::Node3>>() { static Type ty("ChunkedPool<two::Node3>", sizeof(two::ChunkedPool<two::Node3>)); return ty; }
-    template <> TWO_GFX_EXPORT Type& type<two::ChunkedPool<two::Item>>() { static Type ty("ChunkedPool<two::Item>", sizeof(two::ChunkedPool<two::Item>)); return ty; }
-    template <> TWO_GFX_EXPORT Type& type<two::ChunkedPool<two::Batch>>() { static Type ty("ChunkedPool<two::Batch>", sizeof(two::ChunkedPool<two::Batch>)); return ty; }
-    template <> TWO_GFX_EXPORT Type& type<two::ChunkedPool<two::Direct>>() { static Type ty("ChunkedPool<two::Direct>", sizeof(two::ChunkedPool<two::Direct>)); return ty; }
-    template <> TWO_GFX_EXPORT Type& type<two::ChunkedPool<two::Mime>>() { static Type ty("ChunkedPool<two::Mime>", sizeof(two::ChunkedPool<two::Mime>)); return ty; }
-    template <> TWO_GFX_EXPORT Type& type<two::ChunkedPool<two::Light>>() { static Type ty("ChunkedPool<two::Light>", sizeof(two::ChunkedPool<two::Light>)); return ty; }
-    template <> TWO_GFX_EXPORT Type& type<two::ChunkedPool<two::Flare>>() { static Type ty("ChunkedPool<two::Flare>", sizeof(two::ChunkedPool<two::Flare>)); return ty; }
     template <> TWO_GFX_EXPORT Type& type<two::Culler>() { static Type ty("Culler", sizeof(two::Culler)); return ty; }
     template <> TWO_GFX_EXPORT Type& type<two::Viewport>() { static Type ty("Viewport", type<two::OEntt>(), sizeof(two::Viewport)); return ty; }
     template <> TWO_GFX_EXPORT Type& type<two::RenderQuad>() { static Type ty("RenderQuad", sizeof(two::RenderQuad)); return ty; }

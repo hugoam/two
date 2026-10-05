@@ -54,6 +54,9 @@ extern "C" {
 	void DECL two_Node3_derive_4(two::Node3* self, const two::Node3* parent, const two::vec3* position, const two::quat* rotation, const two::vec3* scale) {
 		self->derive(*parent, *position, *rotation, *scale);
 	}
+	two::Node3* DECL two_Node3_add_1(two::Node3* self, two::Gnode* parent) {
+		return &self->add(*parent);
+	}
 	two::vec3* DECL two_Node3_position_0(two::Node3* self) {
 		static two::vec3 temp;
 		return (temp = self->position(), &temp);
@@ -420,6 +423,9 @@ extern "C" {
 	}
 	two::Mime* DECL two_Mime__construct_0() {
 		return new two::Mime();
+	}
+	two::Mime* DECL two_Mime_add_1(two::Mime* self, two::Gnode* parent) {
+		return &self->add(*parent);
 	}
 	void DECL two_Mime_start_2(two::Mime* self, const char* animation, bool loop) {
 		self->start(animation, loop);
@@ -2115,6 +2121,9 @@ extern "C" {
 	two::Batch* DECL two_Batch__construct_2(two::Item* item, uint16_t stride) {
 		return new two::Batch(*item, stride);
 	}
+	two::Batch* DECL two_Batch_add_1(two::Batch* self, two::Gnode* parent) {
+		return &self->add(*parent);
+	}
 	void DECL two_Batch_update_aabb_1(two::Batch* self, float* instances, int instances_size) {
 		self->update_aabb({ (two::mat4*)instances, instances_size / (sizeof(two::mat4) / sizeof(float)) });
 	}
@@ -2163,6 +2172,9 @@ extern "C" {
 	}
 	two::Item* DECL two_Item__construct_4(two::Node3* node, const two::Model* model, uint32_t flags, two::Material* material) {
 		return new two::Item(*node, *model, flags, material);
+	}
+	two::Item* DECL two_Item_add_1(two::Item* self, two::Gnode* parent) {
+		return &self->add(*parent);
 	}
 	void DECL two_Item_update_aabb_0(two::Item* self) {
 		self->update_aabb();
@@ -2353,11 +2365,11 @@ extern "C" {
 	two::Type* DECL two_Prefab__type() {
 		return &two::type<two::Prefab>();
 	}
-	void DECL two_Prefab_add_1(two::Prefab* self, two::Scene* scene) {
-		self->add(*scene);
+	void DECL two_Prefab_add_1(two::Prefab* self, two::Gnode* parent) {
+		self->add(*parent);
 	}
-	void DECL two_Prefab_add_2(two::Prefab* self, two::Scene* scene, two::Mime* mime) {
-		self->add(*scene, mime);
+	void DECL two_Prefab_add_2(two::Prefab* self, two::Gnode* parent, two::Mime* mime) {
+		self->add(*parent, mime);
 	}
 	const char* DECL two_Prefab__get_name(two::Prefab* self) {
 		return self->m_name.c_str();
@@ -3121,6 +3133,9 @@ extern "C" {
 	two::Light* DECL two_Light__construct_6(two::Node3* node, two::LightType type, bool shadows, two::Colour* colour, float energy, float range) {
 		return new two::Light(*node, type, shadows, *colour, energy, range);
 	}
+	two::Light* DECL two_Light_add_1(two::Light* self, two::Gnode* parent) {
+		return &self->add(*parent);
+	}
 	two::Node3* DECL two_Light__get_node(two::Light* self) {
 		return self->m_node;
 	}
@@ -3249,181 +3264,6 @@ extern "C" {
 		return &two::type<two::Gnode>();
 	}
 	void DECL two_Gnode__destroy(two::Gnode* self) {
-		delete self;
-	}
-	// ChunkedPool<two::Node3>
-	two::Type* DECL two_ChunkedPool_two_Node3__type() {
-		return &two::type<two::ChunkedPool<two::Node3>>();
-	}
-	two::Node3* DECL two_ChunkedPool_two_Node3_add_1(two::ChunkedPool<two::Node3>* self, const two::Node3* value) {
-		return &self->add(*value);
-	}
-	two::Node3* DECL two_ChunkedPool_two_Node3_add_2(two::ChunkedPool<two::Node3>* self, const two::Node3* value, uint32_t colour) {
-		return &self->add(*value, colour);
-	}
-	two::Node3* DECL two_ChunkedPool_two_Node3_talloc_0(two::ChunkedPool<two::Node3>* self) {
-		return self->talloc();
-	}
-	two::Node3* DECL two_ChunkedPool_two_Node3_talloc_1(two::ChunkedPool<two::Node3>* self, uint32_t colour) {
-		return self->talloc(colour);
-	}
-	void DECL two_ChunkedPool_two_Node3_tdestroy_1(two::ChunkedPool<two::Node3>* self, two::Node3* object) {
-		self->tdestroy(*object);
-	}
-	void DECL two_ChunkedPool_two_Node3_tfree_1(two::ChunkedPool<two::Node3>* self, two::Node3* object) {
-		self->tfree(*object);
-	}
-	void DECL two_ChunkedPool_two_Node3__destroy(two::ChunkedPool<two::Node3>* self) {
-		delete self;
-	}
-	// ChunkedPool<two::Item>
-	two::Type* DECL two_ChunkedPool_two_Item__type() {
-		return &two::type<two::ChunkedPool<two::Item>>();
-	}
-	two::Item* DECL two_ChunkedPool_two_Item_add_1(two::ChunkedPool<two::Item>* self, const two::Item* value) {
-		return &self->add(*value);
-	}
-	two::Item* DECL two_ChunkedPool_two_Item_add_2(two::ChunkedPool<two::Item>* self, const two::Item* value, uint32_t colour) {
-		return &self->add(*value, colour);
-	}
-	two::Item* DECL two_ChunkedPool_two_Item_talloc_0(two::ChunkedPool<two::Item>* self) {
-		return self->talloc();
-	}
-	two::Item* DECL two_ChunkedPool_two_Item_talloc_1(two::ChunkedPool<two::Item>* self, uint32_t colour) {
-		return self->talloc(colour);
-	}
-	void DECL two_ChunkedPool_two_Item_tdestroy_1(two::ChunkedPool<two::Item>* self, two::Item* object) {
-		self->tdestroy(*object);
-	}
-	void DECL two_ChunkedPool_two_Item_tfree_1(two::ChunkedPool<two::Item>* self, two::Item* object) {
-		self->tfree(*object);
-	}
-	void DECL two_ChunkedPool_two_Item__destroy(two::ChunkedPool<two::Item>* self) {
-		delete self;
-	}
-	// ChunkedPool<two::Batch>
-	two::Type* DECL two_ChunkedPool_two_Batch__type() {
-		return &two::type<two::ChunkedPool<two::Batch>>();
-	}
-	two::Batch* DECL two_ChunkedPool_two_Batch_add_1(two::ChunkedPool<two::Batch>* self, const two::Batch* value) {
-		return &self->add(*value);
-	}
-	two::Batch* DECL two_ChunkedPool_two_Batch_add_2(two::ChunkedPool<two::Batch>* self, const two::Batch* value, uint32_t colour) {
-		return &self->add(*value, colour);
-	}
-	two::Batch* DECL two_ChunkedPool_two_Batch_talloc_0(two::ChunkedPool<two::Batch>* self) {
-		return self->talloc();
-	}
-	two::Batch* DECL two_ChunkedPool_two_Batch_talloc_1(two::ChunkedPool<two::Batch>* self, uint32_t colour) {
-		return self->talloc(colour);
-	}
-	void DECL two_ChunkedPool_two_Batch_tdestroy_1(two::ChunkedPool<two::Batch>* self, two::Batch* object) {
-		self->tdestroy(*object);
-	}
-	void DECL two_ChunkedPool_two_Batch_tfree_1(two::ChunkedPool<two::Batch>* self, two::Batch* object) {
-		self->tfree(*object);
-	}
-	void DECL two_ChunkedPool_two_Batch__destroy(two::ChunkedPool<two::Batch>* self) {
-		delete self;
-	}
-	// ChunkedPool<two::Direct>
-	two::Type* DECL two_ChunkedPool_two_Direct__type() {
-		return &two::type<two::ChunkedPool<two::Direct>>();
-	}
-	two::Direct* DECL two_ChunkedPool_two_Direct_add_1(two::ChunkedPool<two::Direct>* self, const two::Direct* value) {
-		return &self->add(*value);
-	}
-	two::Direct* DECL two_ChunkedPool_two_Direct_add_2(two::ChunkedPool<two::Direct>* self, const two::Direct* value, uint32_t colour) {
-		return &self->add(*value, colour);
-	}
-	two::Direct* DECL two_ChunkedPool_two_Direct_talloc_0(two::ChunkedPool<two::Direct>* self) {
-		return self->talloc();
-	}
-	two::Direct* DECL two_ChunkedPool_two_Direct_talloc_1(two::ChunkedPool<two::Direct>* self, uint32_t colour) {
-		return self->talloc(colour);
-	}
-	void DECL two_ChunkedPool_two_Direct_tdestroy_1(two::ChunkedPool<two::Direct>* self, two::Direct* object) {
-		self->tdestroy(*object);
-	}
-	void DECL two_ChunkedPool_two_Direct_tfree_1(two::ChunkedPool<two::Direct>* self, two::Direct* object) {
-		self->tfree(*object);
-	}
-	void DECL two_ChunkedPool_two_Direct__destroy(two::ChunkedPool<two::Direct>* self) {
-		delete self;
-	}
-	// ChunkedPool<two::Mime>
-	two::Type* DECL two_ChunkedPool_two_Mime__type() {
-		return &two::type<two::ChunkedPool<two::Mime>>();
-	}
-	two::Mime* DECL two_ChunkedPool_two_Mime_add_1(two::ChunkedPool<two::Mime>* self, const two::Mime* value) {
-		return &self->add(*value);
-	}
-	two::Mime* DECL two_ChunkedPool_two_Mime_add_2(two::ChunkedPool<two::Mime>* self, const two::Mime* value, uint32_t colour) {
-		return &self->add(*value, colour);
-	}
-	two::Mime* DECL two_ChunkedPool_two_Mime_talloc_0(two::ChunkedPool<two::Mime>* self) {
-		return self->talloc();
-	}
-	two::Mime* DECL two_ChunkedPool_two_Mime_talloc_1(two::ChunkedPool<two::Mime>* self, uint32_t colour) {
-		return self->talloc(colour);
-	}
-	void DECL two_ChunkedPool_two_Mime_tdestroy_1(two::ChunkedPool<two::Mime>* self, two::Mime* object) {
-		self->tdestroy(*object);
-	}
-	void DECL two_ChunkedPool_two_Mime_tfree_1(two::ChunkedPool<two::Mime>* self, two::Mime* object) {
-		self->tfree(*object);
-	}
-	void DECL two_ChunkedPool_two_Mime__destroy(two::ChunkedPool<two::Mime>* self) {
-		delete self;
-	}
-	// ChunkedPool<two::Light>
-	two::Type* DECL two_ChunkedPool_two_Light__type() {
-		return &two::type<two::ChunkedPool<two::Light>>();
-	}
-	two::Light* DECL two_ChunkedPool_two_Light_add_1(two::ChunkedPool<two::Light>* self, const two::Light* value) {
-		return &self->add(*value);
-	}
-	two::Light* DECL two_ChunkedPool_two_Light_add_2(two::ChunkedPool<two::Light>* self, const two::Light* value, uint32_t colour) {
-		return &self->add(*value, colour);
-	}
-	two::Light* DECL two_ChunkedPool_two_Light_talloc_0(two::ChunkedPool<two::Light>* self) {
-		return self->talloc();
-	}
-	two::Light* DECL two_ChunkedPool_two_Light_talloc_1(two::ChunkedPool<two::Light>* self, uint32_t colour) {
-		return self->talloc(colour);
-	}
-	void DECL two_ChunkedPool_two_Light_tdestroy_1(two::ChunkedPool<two::Light>* self, two::Light* object) {
-		self->tdestroy(*object);
-	}
-	void DECL two_ChunkedPool_two_Light_tfree_1(two::ChunkedPool<two::Light>* self, two::Light* object) {
-		self->tfree(*object);
-	}
-	void DECL two_ChunkedPool_two_Light__destroy(two::ChunkedPool<two::Light>* self) {
-		delete self;
-	}
-	// ChunkedPool<two::Flare>
-	two::Type* DECL two_ChunkedPool_two_Flare__type() {
-		return &two::type<two::ChunkedPool<two::Flare>>();
-	}
-	two::Flare* DECL two_ChunkedPool_two_Flare_add_1(two::ChunkedPool<two::Flare>* self, const two::Flare* value) {
-		return &self->add(*value);
-	}
-	two::Flare* DECL two_ChunkedPool_two_Flare_add_2(two::ChunkedPool<two::Flare>* self, const two::Flare* value, uint32_t colour) {
-		return &self->add(*value, colour);
-	}
-	two::Flare* DECL two_ChunkedPool_two_Flare_talloc_0(two::ChunkedPool<two::Flare>* self) {
-		return self->talloc();
-	}
-	two::Flare* DECL two_ChunkedPool_two_Flare_talloc_1(two::ChunkedPool<two::Flare>* self, uint32_t colour) {
-		return self->talloc(colour);
-	}
-	void DECL two_ChunkedPool_two_Flare_tdestroy_1(two::ChunkedPool<two::Flare>* self, two::Flare* object) {
-		self->tdestroy(*object);
-	}
-	void DECL two_ChunkedPool_two_Flare_tfree_1(two::ChunkedPool<two::Flare>* self, two::Flare* object) {
-		self->tfree(*object);
-	}
-	void DECL two_ChunkedPool_two_Flare__destroy(two::ChunkedPool<two::Flare>* self) {
 		delete self;
 	}
 	// Culler
@@ -4046,27 +3886,6 @@ extern "C" {
 	}
 	void DECL two_Scene_update_0(two::Scene* self) {
 		self->update();
-	}
-	two::ChunkedPool<two::Node3>* DECL two_Scene_nodes_0(two::Scene* self) {
-		return &two::gfx::nodes(*self);
-	}
-	two::ChunkedPool<two::Item>* DECL two_Scene_items_0(two::Scene* self) {
-		return &two::gfx::items(*self);
-	}
-	two::ChunkedPool<two::Batch>* DECL two_Scene_batches_0(two::Scene* self) {
-		return &two::gfx::batches(*self);
-	}
-	two::ChunkedPool<two::Direct>* DECL two_Scene_directs_0(two::Scene* self) {
-		return &two::gfx::directs(*self);
-	}
-	two::ChunkedPool<two::Mime>* DECL two_Scene_mimes_0(two::Scene* self) {
-		return &two::gfx::mimes(*self);
-	}
-	two::ChunkedPool<two::Light>* DECL two_Scene_lights_0(two::Scene* self) {
-		return &two::gfx::lights(*self);
-	}
-	two::ChunkedPool<two::Flare>* DECL two_Scene_flares_0(two::Scene* self) {
-		return &two::gfx::flares(*self);
 	}
 	uint32_t DECL two_Scene__get_index(two::Scene* self) {
 		return self->m_index;
