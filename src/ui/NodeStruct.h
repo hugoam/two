@@ -20,7 +20,7 @@ namespace two
 	{
 	public:
 		Node* m_node = nullptr;
-		Widget* m_knob = nullptr;
+		WidgetHandle m_knob = nullptr;
 	};
 
 	// a handle to a plug: for now the widget of the plug and the plug in its state, the plug's members reached through ->
@@ -40,10 +40,10 @@ namespace two
 	{
 	public:
 		Canvas* m_canvas = nullptr;
-		attr_ Widget* m_header = nullptr;
-		attr_ Widget* m_inputs = nullptr;
-		attr_ Widget* m_outputs = nullptr;
-		attr_ Widget* m_body = nullptr;
+		attr_ Widget* m_header = nullptr;	// a WidgetHandle
+		attr_ Widget* m_inputs = nullptr;	// a WidgetHandle
+		attr_ Widget* m_outputs = nullptr;	// a WidgetHandle
+		attr_ Widget* m_body = nullptr;	// a WidgetHandle
 		attr_ int m_order = 0;
 		uint32_t m_index = 0;
 	};
@@ -51,7 +51,7 @@ namespace two
 	// a handle to a node: for now the widget of the node and the node in its state, the node's members reached through ->
 	export_ struct NodeHandle
 	{
-		Widget* self = nullptr;	// a WidgetHandle
+		WidgetHandle self = nullptr;
 		Node* node = nullptr;
 
 		Node* operator->() const { return node; }
@@ -73,8 +73,8 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT Canvas : public NodeState
 	{
 	public:
-		Widget* m_scroll_plan = nullptr;
-		Widget* m_plan = nullptr;
+		WidgetHandle m_scroll_plan = nullptr;
+		WidgetHandle m_plan = nullptr;
 		bool m_rounded_links = true;
 
 		CanvasConnect m_connect;

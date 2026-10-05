@@ -87,7 +87,7 @@ namespace two
 		Dockspace(Docksystem& docksystem);
 
 		// the windows of the docks shown in this frame
-		struct DockedWindow { Widget* window; Dock* dock; };
+		struct DockedWindow { WidgetHandle window; Dock* dock; };
 		vector<DockedWindow> m_docked;
 
 		DockedWindow* pinpoint_dock(Widget& self, const vec2& pos);
@@ -98,7 +98,7 @@ namespace two
 
 		void dock(cstring name, Dock& target, Widget& window, const vec2& pos);
 
-		Widget* m_mainline;
+		WidgetHandle m_mainline = nullptr;
 	};
 
 	export_ class refl_ TWO_UI_EXPORT Dockbar : public Docker
@@ -106,8 +106,8 @@ namespace two
 	public:
 		Dockbar(Docksystem& docksystem);
 
-		Widget* m_togglebar = nullptr;
-		Widget* m_dockzone = nullptr;
+		WidgetHandle m_togglebar = nullptr;
+		WidgetHandle m_dockzone = nullptr;
 
 		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) final;
 

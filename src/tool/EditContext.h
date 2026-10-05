@@ -63,7 +63,7 @@ namespace two
 
 		Docksystem m_docksystem;
 		DockbarHandle m_dockbar;
-		Widget* m_screen = nullptr;
+		WidgetHandle m_screen = nullptr;
     };
 
 	TWO_TOOL_EXPORT void brush_preview(Widget& parent, Brush& brush);

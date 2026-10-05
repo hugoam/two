@@ -42,7 +42,7 @@ namespace two
 
 	void ui_debug(Widget& parent, Widget& target)
 	{
-		static Widget* selected = nullptr;
+		static WidgetHandle selected = nullptr;
 		static bool selecting = false;
 
 		Section self = section(key(), parent, "Ui Edit");

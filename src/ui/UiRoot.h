@@ -19,8 +19,8 @@ namespace two
 	struct DropAction
 	{
 		DropAction() {}
-		DropAction(Widget* target, Ref object, DropState state) : m_target(target), m_object(object), m_state(state) {}
-		Widget* m_target = nullptr;
+		DropAction(WidgetHandle target, Ref object, DropState state) : m_target(target), m_object(object), m_state(state) {}
+		WidgetHandle m_target = nullptr;
 		Ref m_object = {};
 		DropState m_state = DropState::None;
 	};
@@ -49,7 +49,7 @@ namespace two
 		Mouse m_mouse;
 
 		Style* m_cursor_style = nullptr;
-		Widget* m_hovered = nullptr;
+		WidgetHandle m_hovered = nullptr;
 		DropAction m_drop = {};
 		Clock m_tooltip_clock;
 	};
