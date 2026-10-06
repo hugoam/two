@@ -38,7 +38,11 @@ namespace two
 		Widget(PooledGraph<Widget>& graph);
 		Widget(Widget* parent);
 
+		// the bookkeeping of the widget as a node, called by the graph
+		// a top node changed parent: its frame and its layers follow it
 		void reparent(Widget* old);
+		// the node is going away, its states are still there: it lets go of what refers to it
+		void release();
 
 		meth_ inline bool focused() { return (m_state & FOCUSED) != 0; }
 		meth_ inline bool hovered() { return (m_state & HOVERED) != 0; }
@@ -100,7 +104,18 @@ namespace two
 		inline CustomRender::Draw& custom_draw() { return this->state<CustomRender>().m_draw; }
 
 		inline bool once() { if((m_state & CREATED) != 0) { disable_state(CREATED); return true; } return false; }
-		inline Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 }) { if(!frame().d_style) { this->set_style(style, length, index); this->set_open(open); } return *this; }
+		// a widget is initialized when it's declared the first time, right after the graph created its node: its parent is laid out again with it
+		inline Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 })
+		{
+			if(!frame().d_style)
+			{
+				if(Widget* parent = this->parent())
+					parent->mark_dirty(DIRTY_LAYOUT);
+				this->set_style(style, length, index);
+				this->set_open(open);
+			}
+			return *this;
+		}
 
 		// --- frame ---
 		// the frame of the widget: its layout and its drawing, on the data of frame(), and of the frames of its parents (Frame.cpp)
@@ -131,8 +146,6 @@ namespace two
 				m_graph->node(node).visit_layers(visitor);
 		}
 
-		// the node is going away, its states are still there: it lets go of what refers to it
-		void release();
 		// the layer of the widget leaves the layer it's drawn in
 		void release_layer();
 

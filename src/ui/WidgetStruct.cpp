@@ -64,9 +64,7 @@ namespace two
 	// the index of the widget isn't set yet: its parent is the one given
 	Widget::Widget(Widget* parent)
 		: PooledNode(parent)
-	{
-		parent->mark_dirty(DIRTY_LAYOUT);
-	}
+	{}
 
 	// the widget forgets the events it received, gives its modal control up, and the presses it holds back to the root, unless another widget took them over
 	// its parent is laid out again without it: the nodes are released before any is destroyed, the parent is still known
