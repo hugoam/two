@@ -349,7 +349,7 @@ EX(xx_effect_godrays)
 	UNUSED(dockbar);
 	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	Scene& scene = viewer->m_scene;
-	ControlNode& input = *viewer.self;
+	ControlNode& input = viewer.self();
 #else
 	static Scene scene = Scene(app.m_gfx);
 	static GfxViewer viewer = GfxViewer(window, scene);

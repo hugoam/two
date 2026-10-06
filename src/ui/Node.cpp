@@ -52,12 +52,12 @@ namespace ui
 
 		vector<uint32_t> elements;
 		for(NodeHandle node : canvas.m_nodes)
-			elements.push_back(tree.add(columns[node->m_order + shift], layout_node, node.self));
+			elements.push_back(tree.add(columns[node->m_order + shift], layout_node, &node.self()));
 
 		tree.solve();
 
 		for(size_t i = 0; i < canvas.m_nodes.size(); ++i)
-			canvas.m_nodes[i].self->set_position(tree.absolute(elements[i]));
+			canvas.m_nodes[i].self().set_position(tree.absolute(elements[i]));
 	}
 
 	void draw_node_cable(vec2 pos_out, vec2 pos_in, const Colour& colour_out, const Colour& colour_in, bool straight, Vg& vg)
@@ -129,16 +129,16 @@ namespace ui
 
 		plug.m_end = input ? plug_at_in(canvas, plug) : plug_at_out(canvas, plug);
 
-		NodePlugHandle handle = { &self, &plug };
+		NodePlugHandle handle = NodePlugHandle(self);
 
 		CanvasConnect& connect = canvas.m_connect;
 
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			Widget* target = self.ui().find_control(event.m_target);
-			NodePlugHandle target_plug = {};
+			NodePlugHandle target_plug;
 			if(target && target->frame().d_style == &node_styles().plug && target != &self)
-				target_plug = { target, &target->state<NodePlug>() };
+				target_plug = NodePlugHandle(*target);
 
 			connect.m_origin = handle;
 			connect.m_in = input ? handle : target_plug;
@@ -174,7 +174,7 @@ namespace ui
 	void canvas_clear_select(Canvas& canvas)
 	{
 		for(NodeHandle selected : canvas.m_selection)
-			selected.self->disable_state(SELECTED);
+			selected.self().disable_state(SELECTED);
 		canvas.m_selection.clear();
 	}
 
@@ -182,13 +182,13 @@ namespace ui
 	{
 		canvas_clear_select(canvas);
 		select(canvas.m_selection, node);
-		node.self->enable_state(SELECTED);
+		node.self().enable_state(SELECTED);
 	}
 
 	void canvas_swap_select(Canvas& canvas, NodeHandle node)
 	{
 		bool selected = select_swap(canvas.m_selection, node);
-		node.self->set_state(SELECTED, selected);
+		node.self().set_state(SELECTED, selected);
 	}
 
 	Node& node(Canvas& parent, span<cstring> title, float* position, int order, Ref identity)
@@ -205,7 +205,7 @@ namespace ui
 
 		node.m_body = &self;
 
-		NodeHandle handle = { &self, &node };
+		NodeHandle handle = NodeHandle(self);
 
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::Shift))
 			canvas_swap_select(parent, handle);
@@ -220,7 +220,7 @@ namespace ui
 				canvas_select(parent, handle);
 
 			for(NodeHandle selected : parent.m_selection)
-				selected.self->set_position(selected.self->frame().m_position + event.m_delta / selected.self->absolute_scale());
+				selected.self().set_position(selected.self().frame().m_position + event.m_delta / selected.self().absolute_scale());
 		}
 
 		node.m_index = uint32_t(parent.m_nodes.size());
@@ -265,7 +265,7 @@ namespace ui
 
 		vector<Widget*> nodes;
 		for(NodeHandle node : self.m_nodes)
-			nodes.push_back(node.self);
+			nodes.push_back(&node.self());
 		autofit_scroll_plan(*self.m_plan, nodes);
 
 		//if(mouse_click_right(self) && context_trigger)
@@ -274,7 +274,7 @@ namespace ui
 		if(MouseEvent event = self.m_scroll_plan->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
 			for(NodeHandle node : self.m_selection)
-				node.self->set_position(node.self->frame().m_position + event.m_delta / node.self->absolute_scale());
+				node.self().set_position(node.self().frame().m_position + event.m_delta / node.self().absolute_scale());
 		}
 
 		if(MouseEvent event = self.m_scroll_plan->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
@@ -286,7 +286,7 @@ namespace ui
 		self.m_nodes.reserve(num_nodes);
 		self.m_nodes.clear();
 
-		return { &widget, &self };
+		return CanvasHandle(widget);
 	}
 
 	NodeConnection canvas_connect(Canvas& canvas)
@@ -301,8 +301,8 @@ namespace ui
 			if(connect.m_done)
 			{
 				if(connect.m_out && connect.m_in)
-					connection = { connect.m_out->m_node->m_index, connect.m_out.self->sibling(),
-								   connect.m_in->m_node->m_index,  connect.m_in.self->sibling() };
+					connection = { connect.m_out->m_node->m_index, connect.m_out.self().sibling(),
+								   connect.m_in->m_node->m_index,  connect.m_in.self().sibling() };
 
 				connect = {};
 			}

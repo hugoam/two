@@ -144,7 +144,7 @@ namespace two
 		if(Widget* dock = ui::dockitem(docker, "Ui", { 7U }))
 			ui_debug(*dock, screen);
 
-		if(context.m_spatial_tool && context.m_viewer.viewer)
+		if(context.m_spatial_tool && context.m_viewer.find_viewer())
 			context.m_spatial_tool->process(context.m_viewer, context.m_selection.objects);
 	}
 

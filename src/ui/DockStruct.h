@@ -20,15 +20,20 @@ namespace two
 		vector<string> m_items;
 	};
 
-	// a handle to a docker: for now the widget of the docker and the docker in its state, the docker's members reached through ->
-	export_ struct refl_ struct_ DockerHandle
+	// a handle to the widget of a docker, the dockspace or the dockbar in its state reached through ->
+	export_ struct refl_ struct_ TWO_UI_EXPORT DockerHandle : public WidgetHandle
 	{
-		attr_ Widget* self = nullptr;	// a WidgetHandle
-		attr_ Docker* docker = nullptr;
+		DockerHandle() {}
+		explicit DockerHandle(Widget& self) : WidgetHandle(self) {}
 
-		Docker* operator->() const { return docker; }
-		Docker& operator*() const { return *docker; }
-		bool operator==(const DockerHandle& other) const { return docker == other.docker; }
+		attr_ inline Widget& self() const { return this->widget(); }
+		attr_ inline Docker& docker() const { return *this->find_docker(); }
+
+		// the docker in the state of the widget, if the widget and its state are still there
+		Docker* find_docker() const;
+
+		Docker* operator->() const { return &this->docker(); }
+		Docker& operator*() const { return this->docker(); }
 	};
 
 	export_ class refl_ TWO_UI_EXPORT Docksystem
@@ -98,7 +103,7 @@ namespace two
 
 		void dock(cstring name, Dock& target, Widget& window, const vec2& pos);
 
-		WidgetHandle m_mainline = nullptr;
+		WidgetHandle m_mainline;
 	};
 
 	export_ class refl_ TWO_UI_EXPORT Dockbar : public Docker
@@ -106,8 +111,8 @@ namespace two
 	public:
 		Dockbar(Docksystem& docksystem);
 
-		WidgetHandle m_togglebar = nullptr;
-		WidgetHandle m_dockzone = nullptr;
+		WidgetHandle m_togglebar;
+		WidgetHandle m_dockzone;
 
 		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) final;
 
@@ -120,13 +125,19 @@ namespace two
 
 	export_ struct refl_ struct_ DockspaceHandle : public DockerHandle
 	{
-		Dockspace* operator->() const { return static_cast<Dockspace*>(docker); }
-		Dockspace& operator*() const { return static_cast<Dockspace&>(*docker); }
+		DockspaceHandle() {}
+		explicit DockspaceHandle(Widget& self) : DockerHandle(self) {}
+
+		Dockspace* operator->() const { return static_cast<Dockspace*>(&this->docker()); }
+		Dockspace& operator*() const { return static_cast<Dockspace&>(this->docker()); }
 	};
 
 	export_ struct refl_ struct_ DockbarHandle : public DockerHandle
 	{
-		Dockbar* operator->() const { return static_cast<Dockbar*>(docker); }
-		Dockbar& operator*() const { return static_cast<Dockbar&>(*docker); }
+		DockbarHandle() {}
+		explicit DockbarHandle(Widget& self) : DockerHandle(self) {}
+
+		Dockbar* operator->() const { return static_cast<Dockbar*>(&this->docker()); }
+		Dockbar& operator*() const { return static_cast<Dockbar&>(this->docker()); }
 	};
 }

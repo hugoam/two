@@ -20,7 +20,7 @@ namespace two
 	void Brush::process(ViewerHandle viewer, span<Ref> selection)
 	{
 		UNUSED(selection);
-		Widget& screen = ui::overlay(key(), *viewer.self);
+		Widget& screen = ui::overlay(key(), viewer.self());
 
 		if(MouseEvent event = screen.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
@@ -57,7 +57,7 @@ namespace two
 		}
 
 		// the controller of the viewer takes its input from the overlay covering the viewer
-		viewer->m_controller->process({ &screen, viewer.viewer });
+		viewer->m_controller->process(screen, *viewer);
 
 		this->paint(viewer->m_scene->m_graph.sub(key(this)));
 	}

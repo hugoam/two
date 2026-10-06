@@ -21,7 +21,7 @@ namespace two
 		}
 	}
 
-	void ui_debug_layout_node(Widget& parent, Widget& target, Widget*& selected)
+	void ui_debug_layout_node(Widget& parent, Widget& target, WidgetHandle& selected)
 	{
 		for(Widget& widget : target.children())
 		{
@@ -35,7 +35,7 @@ namespace two
 		}
 	}
 
-	void ui_debug_layout(Widget& parent, Widget& target, Widget*& selected)
+	void ui_debug_layout(Widget& parent, Widget& target, WidgetHandle& selected)
 	{
 		ScrollSheet scroll_sheet = ui::scroll_sheet(key(), parent);
 		ui_debug_layout_node(scroll_sheet.body, target, selected);
@@ -43,7 +43,7 @@ namespace two
 
 	void ui_debug(Widget& parent, Widget& target)
 	{
-		static WidgetHandle selected = nullptr;
+		static WidgetHandle selected;
 		static bool selecting = false;
 
 		Section self = section(key(), parent, "Ui Edit");
@@ -68,7 +68,7 @@ namespace two
 		if(selected)
 		{
 			if(Widget* tab = ui::tab(key(), tabber, "Widget"))
-				object_edit(*tab, Ref(selected));
+				object_edit(*tab, Ref(selected.get()));
 
 			if(Widget* tab = ui::tab(key(), tabber, "Style"))
 				object_edit(*tab, Ref(selected->frame().d_layout));

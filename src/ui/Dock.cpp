@@ -38,18 +38,18 @@ namespace ui
 	{
 		Widget& self = widget(id, parent, dock_styles().dockspace);
 		Dockspace& dockspace = self.state<Dockspace>(docksystem);
-		add(docksystem.m_dockers, DockerHandle{ &self, &dockspace });
+		add(docksystem.m_dockers, DockerHandle(self));
 		dockspace.apply_pending(self);
 		dockspace.m_docked.clear();
 		dockspace.m_mainline = &dockline(self, 0, Axis::Y);
-		return { { &self, &dockspace } };
+		return DockspaceHandle(self);
 	}
 
 	DockbarHandle dockbar(NodeKey id, Widget& parent, Docksystem& docksystem)
 	{
 		Widget& self = widget(id, parent, dock_styles().dockbar).layer();
 		Dockbar& dockbar = self.state<Dockbar>(docksystem);
-		add(docksystem.m_dockers, DockerHandle{ &self, &dockbar });
+		add(docksystem.m_dockers, DockerHandle(self));
 		dockbar.apply_pending(self);
 
 		dockbar.m_togglebar = &widget(key(), self, dock_styles().docktabs);
@@ -64,7 +64,7 @@ namespace ui
 		else
 			dockbar.m_dockzone->frame().m_size = vec2(dockbar.width, 0.f);
 
-		return { { &self, &dockbar } };
+		return DockbarHandle(self);
 	}
 
 	Widget* dockitem(Widget& parent, Docksystem& docksystem, cstring name)
@@ -99,7 +99,7 @@ namespace ui
 		if(!dockid.empty() && !docker->m_docksystem->m_item_docks.contains(name))
 			docker->dock_create(name, dockid, span);
 
-		return dockitem(*docker.self, *docker->m_docksystem, name);
+		return dockitem(docker.self(), *docker->m_docksystem, name);
 	}
 }
 }

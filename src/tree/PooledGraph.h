@@ -199,6 +199,7 @@ namespace two
 		vector<uint64_t> m_key;
 		vector<uint8_t> m_flags;
 		vector<uint32_t> m_tree;	// the top-level tree of the node: the index of its top node, or the root
+		vector<uint8_t> m_generation;	// counts the nodes which had the index, to tell a handle to a node gone from one to the node which took its index
 		vector<unique<vector<uint32_t>>> m_attached;
 
 		// the nodes in depth-first order, and for each slot left empty by a node destroyed with its descendants, the number of slots to jump over
@@ -225,6 +226,21 @@ namespace two
 
 		inline T& node(uint32_t index) { return index == 0 ? *m_root : m_nodes[index]; }
 		inline T* node_or_null(uint32_t index) { return index == none ? nullptr : &this->node(index); }
+
+		// a handle to a node packs its index with the generation of the index: 0 is no node, as the generations start at 1
+		static constexpr uint32_t handle_shift = 24;
+		static constexpr uint32_t handle_mask = (1 << handle_shift) - 1;
+
+		inline uint32_t handle(uint32_t index) const { return (uint32_t(m_generation[index]) << handle_shift) | index; }
+
+		// the node of a handle, or null if the node is gone
+		inline T* resolve(uint32_t handle)
+		{
+			uint32_t index = handle & handle_mask;
+			if(handle == 0 || index >= m_generation.size() || m_generation[index] != (handle >> handle_shift))
+				return nullptr;
+			return &this->node(index);
+		}
 
 		inline uint32_t jump(uint32_t slot) const { return m_order[slot] != none ? m_descendants[m_order[slot]] + 1 : m_holes[slot]; }
 
@@ -436,7 +452,9 @@ namespace two
 			m_key.push_back(0);
 			m_flags.push_back(0);
 			m_tree.push_back(0);
+			m_generation.push_back(1);
 			m_attached.emplace_back();
+			assert(m_parent.size() <= handle_mask);
 			return uint32_t(m_parent.size() - 1);
 		}
 
@@ -456,6 +474,9 @@ namespace two
 			m_key[index] = 0;
 			m_flags[index] = 0;
 			m_tree[index] = 0;
+			// the generation wraps around, skipping 0: a handle only needs to tell apart the last few nodes of an index
+			if(++m_generation[index] == 0)
+				m_generation[index] = 1;
 			m_attached[index] = nullptr;
 			m_free.push_back(index);
 		}

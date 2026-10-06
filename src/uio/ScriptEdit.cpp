@@ -96,7 +96,7 @@ namespace two
 
 			if(function || type || lowertype)
 			{
-				if(Widget* popup = ui::hoverbox(key(), *edit.self, hover_at))
+				if(Widget* popup = ui::hoverbox(key(), edit.self(), hover_at))
 				{
 					if(function)
 						meta_synopsis(*popup, *function);
@@ -105,7 +105,7 @@ namespace two
 				}
 			}
 		
-			if(MouseEvent event = edit.self->mouse_event(DeviceType::MouseRight, EventType::Stroked))
+			if(MouseEvent event = edit.self().mouse_event(DeviceType::MouseRight, EventType::Stroked))
 			{
 			}
 		}
@@ -138,7 +138,7 @@ namespace two
 		else if(script.m_language == Language::Wren)
 			edit->m_language = &LanguageWren();
 		
-		if(edit.self->char_stroke(Key::S, InputMod::Ctrl))
+		if(edit.self().char_stroke(Key::S, InputMod::Ctrl))
 			reload();
 
 		if(edit->m_entered)

@@ -9220,18 +9220,18 @@ static void DemoWindowInputs(Widget& parent)
             static string buf = "click on a button to set focus";
 
             TextEditHandle input1 = ui::input_text_edit(key(), *n, "1", buf);
-            if (focus_1) ui::set_keyboard_focus_here(*input1.self);
-            if (ui::is_item_active(*input1.self)) has_focus = 1;
+            if (focus_1) ui::set_keyboard_focus_here(input1.self());
+            if (ui::is_item_active(input1.self())) has_focus = 1;
 
             TextEditHandle input2 = ui::input_text_edit(key(), *n, "2", buf);
-            if (focus_2) ui::set_keyboard_focus_here(*input2.self);
-            if (ui::is_item_active(*input2.self)) has_focus = 2;
+            if (focus_2) ui::set_keyboard_focus_here(input2.self());
+            if (ui::is_item_active(input2.self())) has_focus = 2;
 
             ui::push_item_flag(ImGuiItemFlags_NoTabStop, true);
             Widget& line3 = ui::row(key(), *n);
             TextEditHandle input3 = ui::input_text_edit(key(), line3, "3 (tab skip)", buf);
-            if (focus_3) ui::set_keyboard_focus_here(*input3.self);
-            if (ui::is_item_active(*input3.self)) has_focus = 3;
+            if (focus_3) ui::set_keyboard_focus_here(input3.self());
+            if (ui::is_item_active(input3.self())) has_focus = 3;
             HelpMarker(line3, "Item won't be cycled through when using TAB or Shift+Tab.");
             ui::pop_item_flag();
 
@@ -10227,7 +10227,7 @@ struct ExampleAppConsole
         // Auto-focus on window apparition
         //ImGui::SetItemDefaultFocus();
         if (reclaim_focus)
-            ui::set_keyboard_focus_here(*input.self); // Auto focus previous widget
+            ui::set_keyboard_focus_here(input.self()); // Auto focus previous widget
     }
 
     void    ExecCommand(const char* command_line)

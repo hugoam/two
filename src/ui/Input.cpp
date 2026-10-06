@@ -21,9 +21,9 @@ namespace ui
 		string text = truncate_number(to_string(value));
 		TextEditHandle edit = type_in(id, parent, text, 0, "1234567890.");
 		edit->m_focus_mode = TextFocusMode::Click;
-		if(MouseEvent event = edit.self->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+		if(MouseEvent event = edit.self().mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
-			edit.self->clear_focus();
+			edit.self().clear_focus();
 			value += event.m_delta.x * step;
 			return true;
 		}

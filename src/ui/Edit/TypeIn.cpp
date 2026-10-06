@@ -732,7 +732,7 @@ namespace ui
 
 		self.custom_draw() = [](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(rect); widget.find_state<TextEdit>()->render(widget, vg); };
 
-		return { &self, &edit };
+		return TextEditHandle(self);
 	}
 
 	TextEditHandle type_in(NodeKey id, Widget& parent, string& text, size_t lines, const string& allowed_chars)
@@ -749,18 +749,18 @@ namespace ui
 
 		static uint32_t current = 0;
 
-		const bool selected = ui::popdown(key(), *edit.self, completions, current, popup_position, PopupFlags::None); //auto_complete_style
+		const bool selected = ui::popdown(key(), edit.self(), completions, current, popup_position, PopupFlags::None); //auto_complete_style
 
-		if(edit.self->key_stroke(Key::Up))
+		if(edit.self().key_stroke(Key::Up))
 			current = max(current - 1, uint32_t(0));
 
-		if(edit.self->key_stroke(Key::Down))
+		if(edit.self().key_stroke(Key::Down))
 			current = min(current + 1, uint32_t(completions.size()) - 1);
 
-		if(edit.self->key_stroke(Key::Tab) || selected)
+		if(edit.self().key_stroke(Key::Tab) || selected)
 		{
-			edit->insert(*edit.self, string(completions[current]).substr(current_word.size()));
-			edit->m_text.break_text_rows(*edit.self);
+			edit->insert(edit.self(), string(completions[current]).substr(current_word.size()));
+			edit->m_text.break_text_rows(edit.self());
 			edit->m_completing = false;
 			text = edit->m_string;
 		}
@@ -772,7 +772,7 @@ namespace ui
 		ScrollSheet scroll_sheet = ui::scroll_sheet(key(), self);
 		TextEditHandle edit = text_box(key(), scroll_sheet.body, styles().type_zone, text, true, lines);
 
-		edit->update_scroll(*edit.self, scroll_sheet.scroll_zone, scroll_sheet.body);
+		edit->update_scroll(edit.self(), scroll_sheet.scroll_zone, scroll_sheet.body);
 
 		if(vocabulary && edit->m_completing && !edit->has_selection())
 		{

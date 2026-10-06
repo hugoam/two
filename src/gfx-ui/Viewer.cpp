@@ -119,11 +119,12 @@ namespace two
 
 	OrbitController::OrbitController(Viewer& viewer, float yaw, float pitch, float distance) : m_viewer(viewer), m_camera(viewer.m_camera), m_yaw(yaw), m_pitch(pitch), m_distance(distance) {}
 
-	void OrbitController::process(ViewerHandle viewer)
+	void OrbitController::process(Widget& input, Viewer& viewer)
 	{
+		UNUSED(viewer);
 		//EventDispatch::process(viewer);
 
-		if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
 			if(event.m_deltaZ > 0)
 				m_distance *= 0.75f;
@@ -131,7 +132,7 @@ namespace two
 				m_distance *= 1.3f;
 		}
 
-		if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseMiddle, EventType::Dragged))
+		if(MouseEvent event = input.mouse_event(DeviceType::MouseMiddle, EventType::Dragged))
 		{
 			m_yaw = fmod(m_yaw - 0.02f * event.m_delta.x, c_2pi);
 			m_pitch = fmod(m_pitch - 0.02f * event.m_delta.y, c_2pi);
@@ -197,10 +198,10 @@ namespace two
 		return vec3(x, y, z);
 	}
 
-	void OrbitControls::process(ViewerHandle viewer)
+	void OrbitControls::process(Widget& input, Viewer& viewer)
 	{
-		Camera& camera = viewer->m_camera;
-		this->update(*viewer.self, camera.m_fov, camera.m_eye, camera.m_target, camera.m_up, camera.m_view);
+		Camera& camera = viewer.m_camera;
+		this->update(input, camera.m_fov, camera.m_eye, camera.m_target, camera.m_up, camera.m_view);
 	}
 
 	void OrbitControls::update(Widget& widget, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat)
@@ -819,10 +820,10 @@ namespace two
 		}
 	}
 
-	void TrackballController::process(ViewerHandle viewer)
+	void TrackballController::process(Widget& input, Viewer& viewer)
 	{
-		Camera& camera = viewer->m_camera;
-		this->update(*viewer.self, camera.m_eye, camera.m_target, camera.m_up); // , camera.m_up);
+		Camera& camera = viewer.m_camera;
+		this->update(input, camera.m_eye, camera.m_target, camera.m_up); // , camera.m_up);
 	}
 
 	void TrackballController::update(Widget& widget, vec3& eye, vec3& target, vec3& up)
@@ -1047,6 +1048,16 @@ namespace two
 	}
 	*/
 
+	Viewer* ViewerHandle::find_viewer() const
+	{
+		Widget* widget = this->get();
+		if(!widget)
+			return nullptr;
+		if(Viewer* viewer = widget->find_state<Viewer>())
+			return viewer;
+		return widget->find_state<SceneViewer>();
+	}
+
 namespace ui
 {
 	ViewerHandle viewer(NodeKey id, Widget& parent, Scene& scene)
@@ -1057,7 +1068,7 @@ namespace ui
 		viewer.resize(self);
 		//if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
 		//	self.take_focus();
-		return { &self, &viewer };
+		return ViewerHandle(self);
 	}
 
 #if 0
@@ -1080,7 +1091,7 @@ namespace ui
 			self.set_style(viewer_styles().viewer_fixed);
 			//dummy(key(), self, size);
 		}
-		return { { &self, &viewer } };
+		return SceneViewerHandle(self);
 	}
 
 	void viewport_picker(Viewer& viewer, Widget& widget, vector<Ref>& selection)
@@ -1125,7 +1136,7 @@ namespace ui
 	{
 		if(!viewer->m_controller)
 			viewer->m_controller = make_unique<OrbitController>(*viewer, yaw, pitch, distance);
-		viewer->m_controller->process(viewer);
+		viewer->m_controller->process(viewer.self(), *viewer);
 		return as<OrbitController>(*viewer->m_controller);
 	}
 
@@ -1133,7 +1144,7 @@ namespace ui
 	{
 		if(!viewer->m_controller)
 			viewer->m_controller = make_unique<OrbitControls>();
-		viewer->m_controller->process(viewer);
+		viewer->m_controller->process(viewer.self(), *viewer);
 		return as<OrbitControls>(*viewer->m_controller);
 	}
 
@@ -1141,7 +1152,7 @@ namespace ui
 	{
 		if(!viewer->m_controller)
 			viewer->m_controller = make_unique<TrackballController>(*viewer);
-		viewer->m_controller->process(viewer);
+		viewer->m_controller->process(viewer.self(), *viewer);
 		return as<TrackballController>(*viewer->m_controller);
 	}
 
@@ -1151,10 +1162,10 @@ namespace ui
 			viewer->m_controller = make_unique<FreeOrbitController>(*viewer);
 
 		FreeOrbitController& controller = as<FreeOrbitController>(*viewer->m_controller);
-		controller.process(viewer);
+		controller.process(viewer.self(), *viewer);
 		
-		if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
-			viewer.self->take_focus();
+		if(MouseEvent event = viewer.self().mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
+			viewer.self().take_focus();
 
 		struct KeyMove { Key key; vec3 velocity; };
 
@@ -1177,7 +1188,7 @@ namespace ui
 		};
 
 		for(const KeyMove& key_move : moves)
-			move_key(*viewer.self, controller.m_speed, key_move);
+			move_key(viewer.self(), controller.m_speed, key_move);
 
 		vec3 velocity = rotate(quat({ controller.m_pitch, controller.m_yaw, 0.f }), controller.m_speed);
 		controller.set_target(viewer->m_camera.m_target + velocity);
@@ -1213,21 +1224,21 @@ namespace ui
 
 		orbit.set_target(entity.m_position + y3 * 2.f);
 
-		if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
+		if(MouseEvent event = viewer.self().mouse_event(DeviceType::MouseLeft, EventType::Stroked, InputMod::None, false))
 		{
-			if(!viewer.self->modal())
+			if(!viewer.self().modal())
 			{
-				viewer.self->take_modal();
+				viewer.self().take_modal();
 
 				if(mode == Mode::ThirdPerson || mode == Mode::PseudoIsometric)
 				{
-					if(!viewer.self->ui_window().m_context.m_mouse_lock)
-						viewer.self->ui_window().m_context.lock_mouse(true);
+					if(!viewer.self().ui_window().m_context.m_mouse_lock)
+						viewer.self().ui_window().m_context.lock_mouse(true);
 				}
 			}
 		}
 
-		if(MouseEvent event = viewer.self->mouse_event(DeviceType::Mouse, EventType::Moved))
+		if(MouseEvent event = viewer.self().mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
 			const float rotation_speed = 1.f;
 			vec2 angle = -event.m_delta / 250.f * rotation_speed;
@@ -1266,13 +1277,13 @@ namespace ui
 			orbit.update_eye();
 		}
 
-		if(viewer.self->key_event(Key::Escape, EventType::Stroked))
+		if(viewer.self().key_event(Key::Escape, EventType::Stroked))
 		{
-			viewer.self->yield_modal();
+			viewer.self().yield_modal();
 			if(mode == Mode::ThirdPerson || mode == Mode::PseudoIsometric)
 			{
-				if(viewer.self->ui_window().m_context.m_mouse_lock)
-					viewer.self->ui_window().m_context.lock_mouse(false);
+				if(viewer.self().ui_window().m_context.m_mouse_lock)
+					viewer.self().ui_window().m_context.lock_mouse(false);
 			}
 		}
 
@@ -1303,7 +1314,7 @@ namespace ui
 		};
 
 		for(const KeyMove& key_move : moves)
-			velocity_key(*viewer.self, linear, angular, key_move, speed);
+			velocity_key(viewer.self(), linear, angular, key_move, speed);
 	}
 }
 }

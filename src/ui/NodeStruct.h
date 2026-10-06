@@ -20,19 +20,20 @@ namespace two
 	{
 	public:
 		Node* m_node = nullptr;
-		WidgetHandle m_knob = nullptr;
+		WidgetHandle m_knob;
 	};
 
-	// a handle to a plug: for now the widget of the plug and the plug in its state, the plug's members reached through ->
-	export_ struct refl_ struct_ NodePlugHandle
+	// a handle to the widget of a plug, the plug in its state reached through ->
+	export_ struct refl_ struct_ NodePlugHandle : public WidgetHandle
 	{
-		attr_ Widget* self = nullptr;	// a WidgetHandle
-		attr_ NodePlug* plug = nullptr;
+		NodePlugHandle() {}
+		explicit NodePlugHandle(Widget& self) : WidgetHandle(self) {}
 
-		NodePlug* operator->() const { return plug; }
-		NodePlug& operator*() const { return *plug; }
-		explicit operator bool() const { return plug != nullptr; }
-		bool operator==(const NodePlugHandle& other) const { return plug == other.plug; }
+		attr_ inline Widget& self() const { return this->widget(); }
+		attr_ inline NodePlug& plug() const { return *this->get()->find_state<NodePlug>(); }
+
+		NodePlug* operator->() const { return &this->plug(); }
+		NodePlug& operator*() const { return this->plug(); }
 	};
 
 	// a node of a canvas, kept in the state of its widget, with its parts in the frame: the content goes in the body
@@ -40,23 +41,30 @@ namespace two
 	{
 	public:
 		Canvas* m_canvas = nullptr;
-		attr_ Widget* m_header = nullptr;	// a WidgetHandle
-		attr_ Widget* m_inputs = nullptr;	// a WidgetHandle
-		attr_ Widget* m_outputs = nullptr;	// a WidgetHandle
-		attr_ Widget* m_body = nullptr;	// a WidgetHandle
+		WidgetHandle m_header;
+		WidgetHandle m_inputs;
+		WidgetHandle m_outputs;
+		WidgetHandle m_body;
 		attr_ int m_order = 0;
 		uint32_t m_index = 0;
+
+		attr_ inline Widget& header() const { return m_header.widget(); }
+		attr_ inline Widget& inputs() const { return m_inputs.widget(); }
+		attr_ inline Widget& outputs() const { return m_outputs.widget(); }
+		attr_ inline Widget& body() const { return m_body.widget(); }
 	};
 
-	// a handle to a node: for now the widget of the node and the node in its state, the node's members reached through ->
-	export_ struct NodeHandle
+	// a handle to the widget of a node, the node in its state reached through ->
+	export_ struct NodeHandle : public WidgetHandle
 	{
-		WidgetHandle self = nullptr;
-		Node* node = nullptr;
+		NodeHandle() {}
+		explicit NodeHandle(Widget& self) : WidgetHandle(self) {}
 
-		Node* operator->() const { return node; }
-		Node& operator*() const { return *node; }
-		bool operator==(const NodeHandle& other) const { return node == other.node; }
+		inline Widget& self() const { return this->widget(); }
+		inline Node& node() const { return *this->get()->find_state<Node>(); }
+
+		Node* operator->() const { return &this->node(); }
+		Node& operator*() const { return this->node(); }
 	};
 
 	export_ struct refl_ TWO_UI_EXPORT CanvasConnect
@@ -73,8 +81,8 @@ namespace two
 	export_ class refl_ TWO_UI_EXPORT Canvas : public NodeState
 	{
 	public:
-		WidgetHandle m_scroll_plan = nullptr;
-		WidgetHandle m_plan = nullptr;
+		WidgetHandle m_scroll_plan;
+		WidgetHandle m_plan;
 		bool m_rounded_links = true;
 
 		CanvasConnect m_connect;
@@ -83,13 +91,16 @@ namespace two
 		vector<NodeHandle> m_selection;
 	};
 
-	// a handle to a canvas: for now the widget of the canvas and the canvas in its state, the canvas' members reached through ->
-	export_ struct refl_ struct_ CanvasHandle
+	// a handle to the widget of a canvas, the canvas in its state reached through ->
+	export_ struct refl_ struct_ CanvasHandle : public WidgetHandle
 	{
-		attr_ Widget* self = nullptr;	// a WidgetHandle
-		attr_ Canvas* canvas = nullptr;
+		CanvasHandle() {}
+		explicit CanvasHandle(Widget& self) : WidgetHandle(self) {}
 
-		Canvas* operator->() const { return canvas; }
-		Canvas& operator*() const { return *canvas; }
+		attr_ inline Widget& self() const { return this->widget(); }
+		attr_ inline Canvas& canvas() const { return *this->get()->find_state<Canvas>(); }
+
+		Canvas* operator->() const { return &this->canvas(); }
+		Canvas& operator*() const { return this->canvas(); }
 	};
 }

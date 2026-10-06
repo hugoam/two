@@ -10,6 +10,8 @@ void two_OrbitController_set_eye(void* object, span<void*> args, void*& result) 
 void two_OrbitController_set_target(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::OrbitController*>(object)).set_target(*static_cast<two::vec3*>(args[0])); }
 void two_ViewerHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::ViewerHandle(); }
 void two_ViewerHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::ViewerHandle((*static_cast<two::ViewerHandle*>(other))); }
+void* two_ViewerHandle__get_self(void* object) { return &(*static_cast<two::ViewerHandle*>(object)).self(); }
+void* two_ViewerHandle__get_viewer(void* object) { return &(*static_cast<two::ViewerHandle*>(object)).viewer(); }
 void two_SceneViewerHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::SceneViewerHandle(); }
 void two_SceneViewerHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::SceneViewerHandle((*static_cast<two::SceneViewerHandle*>(other))); }
 void two_ui_viewer_0(span<void*> args, void*& result) { (*static_cast<two::ViewerHandle*>(result)) = two::ui::viewer(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Scene*>(args[2])); }
@@ -211,9 +213,9 @@ namespace two
 		Type& t = type<two::ViewerHandle>();
 		static Meta meta = { t, &namspc({ "two" }), "ViewerHandle", sizeof(two::ViewerHandle), TypeClass::Struct };
 		// bases
+		static Type* bases[] = { &type<two::WidgetHandle>() };
+		static size_t bases_offsets[] = { base_offset<two::ViewerHandle, two::WidgetHandle>() };
 		// defaults
-		static two::Widget* self_default = nullptr;
-		static two::Viewer* viewer_default = nullptr;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_ViewerHandle__default_construct }
@@ -225,12 +227,12 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ViewerHandle, self), type<two::Widget>(), "self", self_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
-			{ t, offsetof(two::ViewerHandle, viewer), type<two::Viewer>(), "viewer", viewer_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
+			{ t, SIZE_MAX, type<two::Widget>(), "self", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_ViewerHandle__get_self },
+			{ t, SIZE_MAX, type<two::Viewer>(), "viewer", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_ViewerHandle__get_viewer }
 		};
 		// methods
 		// static members
-		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
 		meta.m_empty_var = var(two::ViewerHandle());
 	}
 	// two::SceneViewerHandle

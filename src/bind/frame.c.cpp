@@ -19,11 +19,11 @@ extern "C" {
 	two::ShellContext* DECL two_ShellContext__construct_0() {
 		return new two::ShellContext();
 	}
-	two::Widget* DECL two_ShellContext__get_screen(two::ShellContext* self) {
-		return self->m_screen;
+	two::WidgetHandle* DECL two_ShellContext__get_screen(two::ShellContext* self) {
+		return &self->m_screen;
 	}
-	void DECL two_ShellContext__set_screen(two::ShellContext* self, two::Widget* value) {
-		self->m_screen = value;
+	void DECL two_ShellContext__set_screen(two::ShellContext* self, two::WidgetHandle* value) {
+		self->m_screen = *value;
 	}
 	two::DockbarHandle* DECL two_ShellContext__get_dockbar(two::ShellContext* self) {
 		return &self->m_dockbar;

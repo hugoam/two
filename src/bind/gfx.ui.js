@@ -240,29 +240,20 @@ FreeOrbitController.prototype["__destroy"] = FreeOrbitController.prototype.__des
 function ViewerHandle() {
     this.__ptr = _two_ViewerHandle__construct_0(); getCache(ViewerHandle)[this.__ptr] = this;
 };
-ViewerHandle.prototype = Object.create(WrapperObject.prototype);
+ViewerHandle.prototype = Object.create(WidgetHandle.prototype);
 ViewerHandle.prototype.constructor = ViewerHandle;
 ViewerHandle.prototype.__class = ViewerHandle;
+ViewerHandle.__base = WidgetHandle;
 ViewerHandle.__cache = {};
 Module['ViewerHandle'] = ViewerHandle;
 Object.defineProperty(ViewerHandle.prototype, "self", {
     get: function() {
         return wrapPointer(_two_ViewerHandle__get_self(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('ViewerHandle.self: expected Widget');
-        _two_ViewerHandle__set_self(this.__ptr, value.__ptr);
-    }
-});
+    }});
 Object.defineProperty(ViewerHandle.prototype, "viewer", {
     get: function() {
         return wrapPointer(_two_ViewerHandle__get_viewer(this.__ptr), Viewer);
-    },
-    set: function(value) {
-        if (!checkClass(value, Viewer)) throw Error('ViewerHandle.viewer: expected Viewer');
-        _two_ViewerHandle__set_viewer(this.__ptr, value.__ptr);
-    }
-});
+    }});
 ViewerHandle.prototype["__destroy"] = ViewerHandle.prototype.__destroy = function() {
     _two_ViewerHandle__destroy(this.__ptr);
 };

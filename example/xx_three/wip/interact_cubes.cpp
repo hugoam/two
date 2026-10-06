@@ -72,7 +72,7 @@ EX(xx_interact_cubes)
 	auto unhover = [](Item& item) { item.m_material->m_lit.m_emissive = rgba(0x00000000); };
 
 #if UI
-	if(MouseEvent event = viewer.self->mouse_event(DeviceType::Mouse, EventType::Moved))
+	if(MouseEvent event = viewer.self().mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
 		auto pick = [&](Item* item) { if(hovered) unhover(*hovered); hovered = item; if(hovered) hover(*hovered); };
 		viewer->picker(0).pick_point(viewer->m_viewport, event.m_relative, pick, ItemFlag::Selectable);

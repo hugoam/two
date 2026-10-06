@@ -21,7 +21,8 @@ namespace two
 	public:
 		virtual ~ViewerController() {}
 
-		virtual void process(ViewerHandle viewer) = 0;
+		// the controller drives the viewer from the input of a widget: the one of the viewer, or one covering it
+		virtual void process(Widget& input, Viewer& viewer) = 0;
 	};
 
 	// a viewer of a scene, kept in the state of its widget
@@ -80,7 +81,7 @@ namespace two
 		attr_ float m_pitch = 0.f;
 		attr_ float m_distance = 1.f;
 
-		virtual void process(ViewerHandle viewer);
+		virtual void process(Widget& input, Viewer& viewer);
 
 		meth_ void set_eye(const quat& rotation);
 		meth_ void set_target(const vec3& position);
@@ -154,7 +155,7 @@ namespace two
 
 		void reset(vec3& eye, vec3& target, vec3& up);
 
-		virtual void process(ViewerHandle viewer) override;
+		virtual void process(Widget& input, Viewer& viewer) override;
 
 		void update(Widget& widget, vec3& eye, vec3& target, vec3& up);
 		void update(Widget& input, const vec2& size, vec3& eye, vec3& target, vec3& up);
@@ -230,7 +231,7 @@ namespace two
 		// Mouse buttons
 		//this.mouseButtons = { LEFT: THREE.MOUSE.LEFT, MIDDLE: THREE.MOUSE.MIDDLE, RIGHT: THREE.MOUSE.RIGHT };
 
-		virtual void process(ViewerHandle viewer) override;
+		virtual void process(Widget& input, Viewer& viewer) override;
 
 		void update(Widget& widget, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat);
 		void update(Widget& input, const vec2& size, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat);
@@ -271,20 +272,29 @@ namespace two
 		vec3 m_speed = vec3(0.f);
 	};
 
-	// a handle to a viewer: for now the widget of the viewer and the viewer in its state, the viewer's members reached through ->
-	export_ struct refl_ struct_ ViewerHandle
+	// a handle to the widget of a viewer, the viewer or the scene viewer in its state reached through ->
+	export_ struct refl_ struct_ TWO_GFX_UI_EXPORT ViewerHandle : public WidgetHandle
 	{
-		attr_ Widget* self = nullptr;	// a WidgetHandle
-		attr_ Viewer* viewer = nullptr;
+		ViewerHandle() {}
+		explicit ViewerHandle(Widget& self) : WidgetHandle(self) {}
 
-		Viewer* operator->() const { return viewer; }
-		Viewer& operator*() const { return *viewer; }
+		attr_ inline Widget& self() const { return this->widget(); }
+		attr_ inline Viewer& viewer() const { return *this->find_viewer(); }
+
+		// the viewer in the state of the widget, if the widget is still there
+		Viewer* find_viewer() const;
+
+		Viewer* operator->() const { return &this->viewer(); }
+		Viewer& operator*() const { return this->viewer(); }
 	};
 
 	export_ struct refl_ struct_ SceneViewerHandle : public ViewerHandle
 	{
-		SceneViewer* operator->() const { return static_cast<SceneViewer*>(viewer); }
-		SceneViewer& operator*() const { return static_cast<SceneViewer&>(*viewer); }
+		SceneViewerHandle() {}
+		explicit SceneViewerHandle(Widget& self) : ViewerHandle(self) {}
+
+		SceneViewer* operator->() const { return static_cast<SceneViewer*>(&this->viewer()); }
+		SceneViewer& operator*() const { return static_cast<SceneViewer&>(this->viewer()); }
 	};
 
 namespace ui

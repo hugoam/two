@@ -455,22 +455,22 @@ namespace two
 		//if(highlighted != uvec3(UINT32_MAX))
 		//	tile_states_view(overlay, tileblock, highlighted);
 
-		highlighted = tileblock_ray(tileblock, viewer->mouse_ray(*viewer.self));
+		highlighted = tileblock_ray(tileblock, viewer->mouse_ray(viewer.self()));
 
-		if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
-			selected = tileblock_ray(tileblock, viewer->mouse_ray(*viewer.self));
+		if(MouseEvent event = viewer.self().mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+			selected = tileblock_ray(tileblock, viewer->mouse_ray(viewer.self()));
 
-		if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseLeft, EventType::Dragged))
-			selected = tileblock_ray(tileblock, viewer->mouse_ray(*viewer.self));
+		if(MouseEvent event = viewer.self().mouse_event(DeviceType::MouseLeft, EventType::Dragged))
+			selected = tileblock_ray(tileblock, viewer->mouse_ray(viewer.self()));
 
-		if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseRight, EventType::Pressed))
-			focused = tileblock_ray(tileblock, viewer->mouse_ray(*viewer.self));
-		if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseRight, EventType::Released))
+		if(MouseEvent event = viewer.self().mouse_event(DeviceType::MouseRight, EventType::Pressed))
+			focused = tileblock_ray(tileblock, viewer->mouse_ray(viewer.self()));
+		if(MouseEvent event = viewer.self().mouse_event(DeviceType::MouseRight, EventType::Released))
 			focused = uvec3(UINT32_MAX);
 
 		if(focused != uvec3(UINT32_MAX))
 		{
-			Widget& widget = ui::popup(key(), *viewer.self, styles().modal, ui::PopupFlags::None);
+			Widget& widget = ui::popup(key(), viewer.self(), styles().modal, ui::PopupFlags::None);
 
 			size_t entropy = tileblock.m_entropy.at(focused.x, focused.y, focused.z);
 			if(entropy == 1)

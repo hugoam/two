@@ -182,4 +182,25 @@ namespace two
 		// --- end frame ---
 	};
 
+	// a handle to a widget, kept from one frame to the next: the graph of the widget, and its node index packed with the generation of the index
+	// it resolves to the widget while it's there, and to nothing once it's gone, even if another widget took its index
+	export_ struct refl_ struct_ TWO_UI_EXPORT WidgetHandle
+	{
+		WidgetHandle() {}
+		WidgetHandle(Widget* widget) : m_graph(widget ? widget->m_graph : nullptr), m_handle(widget ? widget->m_graph->handle(widget->m_index) : 0) {}
+		WidgetHandle(Widget& widget) : WidgetHandle(&widget) {}
+
+		PooledGraph<Widget>* m_graph = nullptr;
+		uint32_t m_handle = 0;
+
+		// the widget, or null if it's gone
+		inline Widget* get() const { return m_graph ? m_graph->resolve(m_handle) : nullptr; }
+
+		attr_ inline Widget& widget() const { return *this->get(); }
+
+		inline Widget* operator->() const { return this->get(); }
+		inline Widget& operator*() const { return *this->get(); }
+		explicit operator bool() const { return this->get() != nullptr; }
+		bool operator==(const WidgetHandle& other) const { return m_handle == other.m_handle && m_graph == other.m_graph; }
+	};
 }

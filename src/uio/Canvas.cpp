@@ -115,7 +115,7 @@ namespace two
 		if(canvas.m_connect.m_origin)
 		{
 			size_t connect_node = canvas.m_connect.m_origin->m_node->m_index;
-			size_t connect_plug = canvas.m_connect.m_origin.self->sibling();
+			size_t connect_plug = canvas.m_connect.m_origin.self().sibling();
 			Valve& connecting = node_valve(script, connect_node, connect_plug, canvas.m_connect.m_origin == canvas.m_connect.m_in);
 
 			bool convertible = can_convert(input ? *connecting.m_stream.m_type : *valve.m_stream.m_type,
@@ -127,7 +127,7 @@ namespace two
 
 		NodePlugHandle plug = ui::node_plug(key(), node, valve.m_name.c_str(), icon.c_str(), colour, input, enabled, !valve.m_pipes.empty());
 		
-		if(Widget* tooltip = ui::tooltip(key(), *plug.self, plug.self->frame()))
+		if(Widget* tooltip = ui::tooltip(key(), plug.self(), plug.self().frame()))
 		{
 			string info = valve.error_info() + valve.param_info();
 			ui::label(key(), *tooltip, info.c_str());
@@ -253,9 +253,9 @@ namespace two
 				script.connect(output, input);
 		}
 
-		if(canvas.self->once())
+		if(canvas.self().once())
 		{
-			canvas.self->relayout();
+			canvas.self().relayout();
 			ui::canvas_autolayout(*canvas);
 		}
 

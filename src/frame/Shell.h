@@ -9,7 +9,7 @@ namespace two
 	export_ struct refl_ ShellContext
 	{
 		Docksystem m_docksystem;
-		attr_ Widget* m_screen = nullptr;	// a WidgetHandle
+		attr_ WidgetHandle m_screen;
 		attr_ DockbarHandle m_dockbar;
 	};
 	

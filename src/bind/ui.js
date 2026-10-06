@@ -1157,6 +1157,22 @@ Object.defineProperty(Widget.prototype, "switch", {
 Widget.prototype["__destroy"] = Widget.prototype.__destroy = function() {
     _two_Widget__destroy(this.__ptr);
 };
+// WidgetHandle
+function WidgetHandle() {
+    this.__ptr = _two_WidgetHandle__construct_0(); getCache(WidgetHandle)[this.__ptr] = this;
+};
+WidgetHandle.prototype = Object.create(WrapperObject.prototype);
+WidgetHandle.prototype.constructor = WidgetHandle;
+WidgetHandle.prototype.__class = WidgetHandle;
+WidgetHandle.__cache = {};
+Module['WidgetHandle'] = WidgetHandle;
+Object.defineProperty(WidgetHandle.prototype, "widget", {
+    get: function() {
+        return wrapPointer(_two_WidgetHandle__get_widget(this.__ptr), Widget);
+    }});
+WidgetHandle.prototype["__destroy"] = WidgetHandle.prototype.__destroy = function() {
+    _two_WidgetHandle__destroy(this.__ptr);
+};
 // TextCursor
 function TextCursor() {
     this.__ptr = _two_TextCursor__construct_0(); getCache(TextCursor)[this.__ptr] = this;
@@ -1217,29 +1233,20 @@ TextEdit.prototype["__destroy"] = TextEdit.prototype.__destroy = function() {
 function TextEditHandle() {
     this.__ptr = _two_TextEditHandle__construct_0(); getCache(TextEditHandle)[this.__ptr] = this;
 };
-TextEditHandle.prototype = Object.create(WrapperObject.prototype);
+TextEditHandle.prototype = Object.create(WidgetHandle.prototype);
 TextEditHandle.prototype.constructor = TextEditHandle;
 TextEditHandle.prototype.__class = TextEditHandle;
+TextEditHandle.__base = WidgetHandle;
 TextEditHandle.__cache = {};
 Module['TextEditHandle'] = TextEditHandle;
 Object.defineProperty(TextEditHandle.prototype, "self", {
     get: function() {
         return wrapPointer(_two_TextEditHandle__get_self(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('TextEditHandle.self: expected Widget');
-        _two_TextEditHandle__set_self(this.__ptr, value.__ptr);
-    }
-});
+    }});
 Object.defineProperty(TextEditHandle.prototype, "edit", {
     get: function() {
         return wrapPointer(_two_TextEditHandle__get_edit(this.__ptr), TextEdit);
-    },
-    set: function(value) {
-        if (!checkClass(value, TextEdit)) throw Error('TextEditHandle.edit: expected TextEdit');
-        _two_TextEditHandle__set_edit(this.__ptr, value.__ptr);
-    }
-});
+    }});
 TextEditHandle.prototype["__destroy"] = TextEditHandle.prototype.__destroy = function() {
     _two_TextEditHandle__destroy(this.__ptr);
 };
@@ -1257,29 +1264,20 @@ NodePlug.prototype["__destroy"] = NodePlug.prototype.__destroy = function() {
 function NodePlugHandle() {
     this.__ptr = _two_NodePlugHandle__construct_0(); getCache(NodePlugHandle)[this.__ptr] = this;
 };
-NodePlugHandle.prototype = Object.create(WrapperObject.prototype);
+NodePlugHandle.prototype = Object.create(WidgetHandle.prototype);
 NodePlugHandle.prototype.constructor = NodePlugHandle;
 NodePlugHandle.prototype.__class = NodePlugHandle;
+NodePlugHandle.__base = WidgetHandle;
 NodePlugHandle.__cache = {};
 Module['NodePlugHandle'] = NodePlugHandle;
 Object.defineProperty(NodePlugHandle.prototype, "self", {
     get: function() {
         return wrapPointer(_two_NodePlugHandle__get_self(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('NodePlugHandle.self: expected Widget');
-        _two_NodePlugHandle__set_self(this.__ptr, value.__ptr);
-    }
-});
+    }});
 Object.defineProperty(NodePlugHandle.prototype, "plug", {
     get: function() {
         return wrapPointer(_two_NodePlugHandle__get_plug(this.__ptr), NodePlug);
-    },
-    set: function(value) {
-        if (!checkClass(value, NodePlug)) throw Error('NodePlugHandle.plug: expected NodePlug');
-        _two_NodePlugHandle__set_plug(this.__ptr, value.__ptr);
-    }
-});
+    }});
 NodePlugHandle.prototype["__destroy"] = NodePlugHandle.prototype.__destroy = function() {
     _two_NodePlugHandle__destroy(this.__ptr);
 };
@@ -1290,42 +1288,6 @@ Node.prototype.constructor = Node;
 Node.prototype.__class = Node;
 Node.__cache = {};
 Module['Node'] = Node;
-Object.defineProperty(Node.prototype, "header", {
-    get: function() {
-        return wrapPointer(_two_Node__get_header(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('Node.header: expected Widget');
-        _two_Node__set_header(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(Node.prototype, "inputs", {
-    get: function() {
-        return wrapPointer(_two_Node__get_inputs(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('Node.inputs: expected Widget');
-        _two_Node__set_inputs(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(Node.prototype, "outputs", {
-    get: function() {
-        return wrapPointer(_two_Node__get_outputs(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('Node.outputs: expected Widget');
-        _two_Node__set_outputs(this.__ptr, value.__ptr);
-    }
-});
-Object.defineProperty(Node.prototype, "body", {
-    get: function() {
-        return wrapPointer(_two_Node__get_body(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('Node.body: expected Widget');
-        _two_Node__set_body(this.__ptr, value.__ptr);
-    }
-});
 Object.defineProperty(Node.prototype, "order", {
     get: function() {
         return _two_Node__get_order(this.__ptr);
@@ -1335,6 +1297,22 @@ Object.defineProperty(Node.prototype, "order", {
         _two_Node__set_order(this.__ptr, value);
     }
 });
+Object.defineProperty(Node.prototype, "header", {
+    get: function() {
+        return wrapPointer(_two_Node__get_header(this.__ptr), Widget);
+    }});
+Object.defineProperty(Node.prototype, "inputs", {
+    get: function() {
+        return wrapPointer(_two_Node__get_inputs(this.__ptr), Widget);
+    }});
+Object.defineProperty(Node.prototype, "outputs", {
+    get: function() {
+        return wrapPointer(_two_Node__get_outputs(this.__ptr), Widget);
+    }});
+Object.defineProperty(Node.prototype, "body", {
+    get: function() {
+        return wrapPointer(_two_Node__get_body(this.__ptr), Widget);
+    }});
 Node.prototype["__destroy"] = Node.prototype.__destroy = function() {
     _two_Node__destroy(this.__ptr);
 };
@@ -1364,29 +1342,20 @@ Canvas.prototype["__destroy"] = Canvas.prototype.__destroy = function() {
 function CanvasHandle() {
     this.__ptr = _two_CanvasHandle__construct_0(); getCache(CanvasHandle)[this.__ptr] = this;
 };
-CanvasHandle.prototype = Object.create(WrapperObject.prototype);
+CanvasHandle.prototype = Object.create(WidgetHandle.prototype);
 CanvasHandle.prototype.constructor = CanvasHandle;
 CanvasHandle.prototype.__class = CanvasHandle;
+CanvasHandle.__base = WidgetHandle;
 CanvasHandle.__cache = {};
 Module['CanvasHandle'] = CanvasHandle;
 Object.defineProperty(CanvasHandle.prototype, "self", {
     get: function() {
         return wrapPointer(_two_CanvasHandle__get_self(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('CanvasHandle.self: expected Widget');
-        _two_CanvasHandle__set_self(this.__ptr, value.__ptr);
-    }
-});
+    }});
 Object.defineProperty(CanvasHandle.prototype, "canvas", {
     get: function() {
         return wrapPointer(_two_CanvasHandle__get_canvas(this.__ptr), Canvas);
-    },
-    set: function(value) {
-        if (!checkClass(value, Canvas)) throw Error('CanvasHandle.canvas: expected Canvas');
-        _two_CanvasHandle__set_canvas(this.__ptr, value.__ptr);
-    }
-});
+    }});
 CanvasHandle.prototype["__destroy"] = CanvasHandle.prototype.__destroy = function() {
     _two_CanvasHandle__destroy(this.__ptr);
 };
@@ -1520,29 +1489,20 @@ Dock.prototype["__destroy"] = Dock.prototype.__destroy = function() {
 function DockerHandle() {
     this.__ptr = _two_DockerHandle__construct_0(); getCache(DockerHandle)[this.__ptr] = this;
 };
-DockerHandle.prototype = Object.create(WrapperObject.prototype);
+DockerHandle.prototype = Object.create(WidgetHandle.prototype);
 DockerHandle.prototype.constructor = DockerHandle;
 DockerHandle.prototype.__class = DockerHandle;
+DockerHandle.__base = WidgetHandle;
 DockerHandle.__cache = {};
 Module['DockerHandle'] = DockerHandle;
 Object.defineProperty(DockerHandle.prototype, "self", {
     get: function() {
         return wrapPointer(_two_DockerHandle__get_self(this.__ptr), Widget);
-    },
-    set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('DockerHandle.self: expected Widget');
-        _two_DockerHandle__set_self(this.__ptr, value.__ptr);
-    }
-});
+    }});
 Object.defineProperty(DockerHandle.prototype, "docker", {
     get: function() {
         return wrapPointer(_two_DockerHandle__get_docker(this.__ptr), Docker);
-    },
-    set: function(value) {
-        if (!checkClass(value, Docker)) throw Error('DockerHandle.docker: expected Docker');
-        _two_DockerHandle__set_docker(this.__ptr, value.__ptr);
-    }
-});
+    }});
 DockerHandle.prototype["__destroy"] = DockerHandle.prototype.__destroy = function() {
     _two_DockerHandle__destroy(this.__ptr);
 };
@@ -2229,6 +2189,7 @@ Module['ui']['file_tree'] = function(a0, a1, a2) {
         Frame.prototype.__type = _two_Frame__type();
         Layer.prototype.__type = _two_Layer__type();
         Widget.prototype.__type = _two_Widget__type();
+        WidgetHandle.prototype.__type = _two_WidgetHandle__type();
         TextCursor.prototype.__type = _two_TextCursor__type();
         TextSelection.prototype.__type = _two_TextSelection__type();
         TextMarker.prototype.__type = _two_TextMarker__type();

@@ -13,7 +13,7 @@ namespace ui
 	Widget& command_line(NodeKey id, Widget& parent, string& text, string& command)
 	{
 		string console_chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .,:;+-*=~!()[]{}'\"\t";
-		Widget& self = *ui::type_in(id, parent, text, 1, console_chars).self;
+		Widget& self = ui::type_in(id, parent, text, 1, console_chars).self();
 
 		if(self.key_stroke(Key::Return))
 		{

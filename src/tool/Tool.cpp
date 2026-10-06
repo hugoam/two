@@ -65,14 +65,14 @@ namespace two
 	{
 		vec3 direction = space.m_rotation * to_vec3(axis);
 		vec3 normal = space.m_rotation * c_tangents[axis];
-		vec3 projected = plane_segment_intersection(Plane(space.m_position, space.m_position + direction, space.m_position + normal), to_segment(viewer->mouse_ray(*viewer.self)));
+		vec3 projected = plane_segment_intersection(Plane(space.m_position, space.m_position + direction, space.m_position + normal), to_segment(viewer->mouse_ray(viewer.self())));
 		return nearest_point_on_line(space.m_position, direction, projected);
 	}
 
 	vec3 gizmo_grab_planar(ViewerHandle viewer, const Transform& space, Axis normal)
 	{
 		Plane plane(space.m_position, space.m_rotation * to_vec3(normal));
-		return plane_segment_intersection(plane, to_segment(viewer->mouse_ray(*viewer.self)));
+		return plane_segment_intersection(plane, to_segment(viewer->mouse_ray(viewer.self())));
 	}
 
 	TransformAction::TransformAction(span<Transform*> targets)
@@ -130,7 +130,7 @@ namespace two
 
 	void TransformTool::process(ViewerHandle viewer, span<Ref> targets)
 	{
-		Widget& screen = *viewer.self;//= ui::overlay(key(), *viewer.self);
+		Widget& screen = viewer.self();//= ui::overlay(key(), viewer.self());
 
 		this->refresh();
 
@@ -173,7 +173,7 @@ namespace two
 			event.consume(screen.control_id());
 		}
 
-		viewer->m_controller->process(viewer);
+		viewer->m_controller->process(viewer.self(), *viewer);
 		//viewport_picker(viewer, screen, targets);
 
 		this->paint(viewer->m_scene->m_graph.sub(key(this)));

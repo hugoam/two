@@ -33,7 +33,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "ShellContext", sizeof(two::ShellContext), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::Widget* screen_default = nullptr;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_ShellContext__default_construct }
@@ -45,7 +44,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::ShellContext, m_screen), type<two::Widget>(), "screen", screen_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::ShellContext, m_screen), type<two::WidgetHandle>(), "screen", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::ShellContext, m_dockbar), type<two::DockbarHandle>(), "dockbar", nullptr, Member::Value, nullptr }
 		};
 		// methods

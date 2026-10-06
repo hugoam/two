@@ -92,7 +92,7 @@ void ex_06_particles(Shell& app, Widget& parent, DockbarHandle dockbar)
 		gfx::shape(node, Cube(), Symbol(Colour::Transparent), ItemFlag::Default | ItemFlag::Selectable);
 	}
 
-	if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseLeft, EventType::Stroked))
+	if(MouseEvent event = viewer.self().mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
 		auto callback = [&controller, middle](Item* item)
 		{

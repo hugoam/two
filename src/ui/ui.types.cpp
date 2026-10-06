@@ -40,25 +40,26 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::Frame>() { static Type ty("Frame", type<two::UiRect>(), sizeof(two::Frame)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Layer>() { static Type ty("Layer", sizeof(two::Layer)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Widget>() { static Type ty("Widget", sizeof(two::Widget)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::WidgetHandle>() { static Type ty("WidgetHandle", sizeof(two::WidgetHandle)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::TextCursor>() { static Type ty("TextCursor", sizeof(two::TextCursor)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::TextSelection>() { static Type ty("TextSelection", sizeof(two::TextSelection)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::TextMarker>() { static Type ty("TextMarker", sizeof(two::TextMarker)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Text>() { static Type ty("Text", sizeof(two::Text)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::TextEdit>() { static Type ty("TextEdit", sizeof(two::TextEdit)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::TextEditHandle>() { static Type ty("TextEditHandle", sizeof(two::TextEditHandle)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::TextEditHandle>() { static Type ty("TextEditHandle", type<two::WidgetHandle>(), sizeof(two::TextEditHandle)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::NodePlug>() { static Type ty("NodePlug", sizeof(two::NodePlug)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::NodePlugHandle>() { static Type ty("NodePlugHandle", sizeof(two::NodePlugHandle)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::NodePlugHandle>() { static Type ty("NodePlugHandle", type<two::WidgetHandle>(), sizeof(two::NodePlugHandle)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Node>() { static Type ty("Node", sizeof(two::Node)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::CanvasConnect>() { static Type ty("CanvasConnect", sizeof(two::CanvasConnect)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Canvas>() { static Type ty("Canvas", sizeof(two::Canvas)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::CanvasHandle>() { static Type ty("CanvasHandle", sizeof(two::CanvasHandle)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::CanvasHandle>() { static Type ty("CanvasHandle", type<two::WidgetHandle>(), sizeof(two::CanvasHandle)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::NodeConnection>() { static Type ty("NodeConnection", sizeof(two::NodeConnection)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Vg>() { static Type ty("Vg", sizeof(two::Vg)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Clipboard>() { static Type ty("Clipboard", sizeof(two::Clipboard)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::UiWindow>() { static Type ty("UiWindow", sizeof(two::UiWindow)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::User>() { static Type ty("User", sizeof(two::User)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Dock>() { static Type ty("Dock", sizeof(two::Dock)); return ty; }
-    template <> TWO_UI_EXPORT Type& type<two::DockerHandle>() { static Type ty("DockerHandle", sizeof(two::DockerHandle)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::DockerHandle>() { static Type ty("DockerHandle", type<two::WidgetHandle>(), sizeof(two::DockerHandle)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Docksystem>() { static Type ty("Docksystem", sizeof(two::Docksystem)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Docker>() { static Type ty("Docker", sizeof(two::Docker)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Dockspace>() { static Type ty("Dockspace", type<two::Docker>(), sizeof(two::Dockspace)); return ty; }

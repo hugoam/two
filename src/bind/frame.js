@@ -9,10 +9,10 @@ ShellContext.__cache = {};
 Module['ShellContext'] = ShellContext;
 Object.defineProperty(ShellContext.prototype, "screen", {
     get: function() {
-        return wrapPointer(_two_ShellContext__get_screen(this.__ptr), Widget);
+        return wrapPointer(_two_ShellContext__get_screen(this.__ptr), WidgetHandle);
     },
     set: function(value) {
-        if (!checkClass(value, Widget)) throw Error('ShellContext.screen: expected Widget');
+        if (!checkClass(value, WidgetHandle)) throw Error('ShellContext.screen: expected WidgetHandle');
         _two_ShellContext__set_screen(this.__ptr, value.__ptr);
     }
 });

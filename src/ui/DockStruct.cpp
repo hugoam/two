@@ -26,7 +26,18 @@ namespace two
 		for(auto& dock : m_docks)
 			for(const string& item : dock->m_items)
 				m_docksystem->m_item_docks.erase(item);
-		remove(m_docksystem->m_dockers, DockerHandle{ nullptr, this });
+		// the state of a node is unmapped before it's destroyed: the handle of this docker finds no docker anymore
+		remove_if(m_docksystem->m_dockers, [&](const DockerHandle& handle) { Docker* docker = handle.find_docker(); return docker == nullptr || docker == this; });
+	}
+
+	Docker* DockerHandle::find_docker() const
+	{
+		Widget* widget = this->get();
+		if(!widget)
+			return nullptr;
+		if(Dockspace* dockspace = widget->find_state<Dockspace>())
+			return dockspace;
+		return widget->find_state<Dockbar>();
 	}
 
 	Dock& Docker::add_dock(vector<uint16_t> dockid, float span)
@@ -167,7 +178,7 @@ namespace two
 	void Docksystem::dock(cstring name, const vec2& pos)
 	{
 		for(DockerHandle docker : m_dockers)
-			if(docker.self->inside_abs(pos))
+			if(docker.self().inside_abs(pos))
 			{
 				docker->m_pending_docks.push_back({ name, pos });
 				return;
@@ -191,7 +202,7 @@ namespace two
 	Widget* Dockspace::docksection(Dock& dock, cstring name, NodeKey id)
 	{
 		vector<uint16_t> dockid = reverse(dock.m_dockid);
-		Widget* line = m_mainline;
+		Widget* line = m_mainline.get();
 
 		Axis dim = Axis::Y;
 		while(dockid.size() > 0)

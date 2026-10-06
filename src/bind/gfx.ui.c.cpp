@@ -184,16 +184,10 @@ extern "C" {
 		return new two::ViewerHandle();
 	}
 	two::Widget* DECL two_ViewerHandle__get_self(two::ViewerHandle* self) {
-		return self->self;
-	}
-	void DECL two_ViewerHandle__set_self(two::ViewerHandle* self, two::Widget* value) {
-		self->self = value;
+		return &self->self();
 	}
 	two::Viewer* DECL two_ViewerHandle__get_viewer(two::ViewerHandle* self) {
-		return self->viewer;
-	}
-	void DECL two_ViewerHandle__set_viewer(two::ViewerHandle* self, two::Viewer* value) {
-		self->viewer = value;
+		return &self->viewer();
 	}
 	void DECL two_ViewerHandle__destroy(two::ViewerHandle* self) {
 		delete self;

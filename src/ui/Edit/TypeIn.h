@@ -202,14 +202,17 @@ namespace two
 		LanguageDefinition* m_language = nullptr;
 	};
 
-	// a handle to a text edit: for now the widget of the text box and the text edit in its state, the edit's members reached through ->
-	export_ struct refl_ struct_ TextEditHandle
+	// a handle to the widget of a text box, the text edit in its state reached through ->
+	export_ struct refl_ struct_ TextEditHandle : public WidgetHandle
 	{
-		attr_ Widget* self = nullptr;	// a WidgetHandle
-		attr_ TextEdit* edit = nullptr;
+		TextEditHandle() {}
+		explicit TextEditHandle(Widget& self) : WidgetHandle(self) {}
 
-		TextEdit* operator->() const { return edit; }
-		TextEdit& operator*() const { return *edit; }
+		attr_ inline Widget& self() const { return this->widget(); }
+		attr_ inline TextEdit& edit() const { return *this->get()->find_state<TextEdit>(); }
+
+		TextEdit* operator->() const { return &this->edit(); }
+		TextEdit& operator*() const { return this->edit(); }
 	};
 
 namespace ui

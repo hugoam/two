@@ -78,7 +78,7 @@ EX(xx_cubemap_dynamic)
 	static float presslat = 0.f; static float presslon = 0.f;
 	static bool pressed = false;
 #if UI
-	if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseLeft, EventType::Pressed))
+	if(MouseEvent event = viewer.self().mouse_event(DeviceType::MouseLeft, EventType::Pressed))
 	{
 		presscoord = event.m_relative;
 		presslon = lon;
@@ -86,10 +86,10 @@ EX(xx_cubemap_dynamic)
 		pressed = true;
 	}
 
-	if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseLeft, EventType::Released))
+	if(MouseEvent event = viewer.self().mouse_event(DeviceType::MouseLeft, EventType::Released))
 		pressed = false;
 
-	if(MouseEvent event = viewer.self->mouse_event(DeviceType::Mouse, EventType::Moved))
+	if(MouseEvent event = viewer.self().mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
 		if(pressed)
 		{
@@ -98,7 +98,7 @@ EX(xx_cubemap_dynamic)
 		}
 	}
 
-	if(MouseEvent event = viewer.self->mouse_event(DeviceType::MouseMiddle, EventType::Moved))
+	if(MouseEvent event = viewer.self().mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 	{
 		viewer->m_camera.m_fov = clamp(viewer->m_camera.m_fov + event.m_deltaZ * 0.5f, 10.f, 75.f);
 	}
