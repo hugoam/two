@@ -17,7 +17,6 @@ namespace stl
 	template class TWO_UI_EXPORT vector<Node*>;
 	template class TWO_UI_EXPORT vector<InkStyle>;
 	template class TWO_UI_EXPORT vector<Subskin>;
-	template class TWO_UI_EXPORT vector<unique<Widget>>;
 	template class TWO_UI_EXPORT vector<unique<Image>>;
 	template class TWO_UI_EXPORT unordered_map<KeyCombo, KeyHandler>;
 	template class TWO_UI_EXPORT unordered_map<string, Dock>;

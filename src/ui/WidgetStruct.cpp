@@ -69,8 +69,12 @@ namespace two
 	}
 
 	// the widget forgets the events it received, gives its modal control up, and the presses it holds back to the root, unless another widget took them over
+	// its parent is laid out again without it: the nodes are released before any is destroyed, the parent is still known
 	void Widget::release()
 	{
+		if(Widget* parent = this->parent())
+			parent->mark_dirty(DIRTY_LAYOUT);
+
 		this->release_layer();
 
 		Ui& ui = this->ui();
@@ -84,14 +88,6 @@ namespace two
 			for(MouseButton& button : ui.m_mouse.m_buttons)
 				if(button.m_pressed == this->control_id())
 					button.m_pressed = ui.control_id();
-	}
-
-	Widget::~Widget()
-	{
-		this->clear();
-		// the nodes are destroyed before their index is freed: the parent is still known
-		if(Widget* parent = this->parent())
-			parent->mark_dirty(DIRTY_LAYOUT);
 	}
 
 	void Widget::reparent(Widget* old)

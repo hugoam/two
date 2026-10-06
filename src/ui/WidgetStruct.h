@@ -37,7 +37,6 @@ namespace two
 	public:
 		Widget(PooledGraph<Widget>& graph);
 		Widget(Widget* parent);
-		virtual ~Widget();
 
 		void reparent(Widget* old);
 

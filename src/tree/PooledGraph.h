@@ -85,18 +85,9 @@ namespace two
 		ChunkedPool<T> m_pool;
 	};
 
-	// data that every node has, by node index, created and destroyed with the node
-	export_ class NodeArray
-	{
-	public:
-		virtual ~NodeArray() {}
-		virtual void create(uint32_t index) = 0;
-		virtual void destroy(uint32_t index) = 0;
-	};
-
-	// the data of one type of every node, by node index: stored in chunks of a fixed size, where the data doesn't move
+	// data by node index, stored in chunks of a fixed size, where the data doesn't move
 	export_ template <class T>
-	class TNodeArray : public NodeArray
+	class NodeChunks
 	{
 	public:
 		static constexpr uint32_t shift = 10;
@@ -106,7 +97,11 @@ namespace two
 		// the memory of the data of a node, constructed and destroyed in place: the data never moves, it doesn't need to be movable
 		struct Slot { alignas(T) uint8_t m_bytes[sizeof(T)]; };
 
-		~TNodeArray()
+		NodeChunks() {}
+		NodeChunks(const NodeChunks& other) = delete;
+		NodeChunks& operator=(const NodeChunks& other) = delete;
+
+		~NodeChunks()
 		{
 			for(uint32_t index = 0; index < uint32_t(m_live.size()); ++index)
 				if(m_live[index])
@@ -115,17 +110,21 @@ namespace two
 
 		inline T& operator[](uint32_t index) { return *reinterpret_cast<T*>(m_chunks[index >> shift][index & mask].m_bytes); }
 
-		virtual void create(uint32_t index) override
+		inline bool live(uint32_t index) const { return index < m_live.size() && m_live[index]; }
+
+		template <class... Args>
+		inline T& construct(uint32_t index, Args&&... args)
 		{
 			while((index >> shift) >= m_chunks.size())
 				m_chunks.emplace_back(chunk_size);
 			if(index >= m_live.size())
 				m_live.resize(index + 1, false);
-			new (stl::placeholder(), &(*this)[index]) T();
+			T* data = new (stl::placeholder(), &(*this)[index]) T(static_cast<Args&&>(args)...);
 			m_live[index] = true;
+			return *data;
 		}
 
-		virtual void destroy(uint32_t index) override
+		inline void destroy(uint32_t index)
 		{
 			(*this)[index].~T();
 			m_live[index] = false;
@@ -133,6 +132,28 @@ namespace two
 
 		vector<vector<Slot>> m_chunks;	// each chunk is allocated once at its full size, it never grows
 		vector<bool> m_live;
+	};
+
+	// data that every node has, by node index, created and destroyed with the node
+	export_ class NodeArray
+	{
+	public:
+		virtual ~NodeArray() {}
+		virtual void create(uint32_t index) = 0;
+		virtual void destroy(uint32_t index) = 0;
+	};
+
+	// the data of one type of every node, by node index, default constructed with the node
+	export_ template <class T>
+	class TNodeArray : public NodeArray
+	{
+	public:
+		inline T& operator[](uint32_t index) { return m_data[index]; }
+
+		virtual void create(uint32_t index) override { m_data.construct(index); }
+		virtual void destroy(uint32_t index) override { m_data.destroy(index); }
+
+		NodeChunks<T> m_data;
 	};
 
 	// the single object holding all the nodes of a graph, and their structure
@@ -163,8 +184,8 @@ namespace two
 		// the data every node has, by node index, an array for each type of data: declared before the nodes, which use their data until they're destroyed
 		vector<unique<NodeArray>> m_arrays;
 
-		// the nodes, by index: the root is owned outside of the graph
-		vector<unique<T>> m_nodes;
+		// the nodes, by index, in chunks where they don't move: the root is owned outside of the graph
+		NodeChunks<T> m_nodes;
 		vector<uint32_t> m_free;
 
 		// the structure, by node index
@@ -194,15 +215,15 @@ namespace two
 		{
 			unique<TNodeArray<T_Data>> array = make_unique<TNodeArray<T_Data>>();
 			array->create(0);
-			for(uint32_t index = 1; index < uint32_t(m_nodes.size()); ++index)
-				if(m_nodes[index])
+			for(uint32_t index = 1; index < uint32_t(m_parent.size()); ++index)
+				if(m_nodes.live(index))
 					array->create(index);
 			TNodeArray<T_Data>& result = *array;
 			m_arrays.push_back(move(array));
 			return result;
 		}
 
-		inline T& node(uint32_t index) { return index == 0 ? *m_root : *m_nodes[index]; }
+		inline T& node(uint32_t index) { return index == 0 ? *m_root : m_nodes[index]; }
 		inline T* node_or_null(uint32_t index) { return index == none ? nullptr : &this->node(index); }
 
 		inline uint32_t jump(uint32_t slot) const { return m_order[slot] != none ? m_descendants[m_order[slot]] + 1 : m_holes[slot]; }
@@ -384,13 +405,13 @@ namespace two
 				if (m_order[slot] != none)
 				{
 					uint32_t index = m_order[slot];
-					check(m_nodes[index] != nullptr && m_slot[index] == slot);
+					check(m_nodes.live(index) && m_slot[index] == slot);
 					uint32_t parent = this->storage_parent(index);
 					if (parent != none)
 						check(slot >= this->first_slot(parent) && slot + m_descendants[index] < this->end_slot(parent));
 				}
 			for (uint32_t index : m_free)
-				check(m_nodes[index] == nullptr);
+				check(!m_nodes.live(index));
 			return valid;
 		}
 
@@ -405,7 +426,6 @@ namespace two
 				return index;
 			}
 
-			m_nodes.emplace_back();
 			m_parent.push_back(none);
 			m_slot.push_back(none);
 			m_descendants.push_back(0);
@@ -417,13 +437,13 @@ namespace two
 			m_flags.push_back(0);
 			m_tree.push_back(0);
 			m_attached.emplace_back();
-			return uint32_t(m_nodes.size() - 1);
+			return uint32_t(m_parent.size() - 1);
 		}
 
 		// the node is destroyed, and its index freed, reset for the next node to take it
 		inline void free_index(uint32_t index)
 		{
-			m_nodes[index] = nullptr;
+			m_nodes.destroy(index);
 			for(unique<NodeArray>& array : m_arrays)
 				array->destroy(index);
 			m_parent[index] = none;
@@ -449,8 +469,7 @@ namespace two
 			m_tree[index] = top ? index : m_tree[parent];
 			for(unique<NodeArray>& array : m_arrays)
 				array->create(index);
-			m_nodes[index] = make_unique<T>(&this->node(parent));
-			m_nodes[index]->m_index = index;
+			m_nodes.construct(index, &this->node(parent)).m_index = index;
 			return index;
 		}
 

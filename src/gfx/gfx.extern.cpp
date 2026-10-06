@@ -63,7 +63,6 @@ namespace stl
 	//template class TWO_GFX_EXPORT vector<LightRecord>;
 	template class TWO_GFX_EXPORT vector<Froxelizer::FroxelEntry>;
 	template class TWO_GFX_EXPORT vector<array<uint, 8193>>;
-	template class TWO_GFX_EXPORT vector<unique<Gnode>>;
 	template class TWO_GFX_EXPORT vector<unique<GfxBlock>>;
 	template class TWO_GFX_EXPORT vector<unique<Picker>>;
 	template class TWO_GFX_EXPORT vector<vector<float>>;
