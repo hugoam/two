@@ -34,7 +34,7 @@ namespace two
 		struct Slot
 		{
 			uint16_t m_index;
-			Light* m_light = nullptr;
+			LightHandle m_light;
 			vec4 m_rect;
 			uvec4 m_trect;
 			uint32_t m_frame = 0;
@@ -57,8 +57,8 @@ namespace two
 		Slot& alloc(Slice& slice, bool block6 = false);
 		void yield(Slice& slice, uint32_t index);
 
-		vec4 render_update(Render& render, Light& light);
-		bool update_light(Light& light, uint32_t render, float coverage, uint32_t light_version);
+		vec4 render_update(Render& render, LightIndex index);
+		bool update_light(Light& light, LightHandle handle, uint32_t render, float coverage, uint32_t light_version);
 		void remove_light(Light& light, bool block = false);
 
 		struct Slice

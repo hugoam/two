@@ -17,6 +17,7 @@ namespace two
 	GIProbe& GIProbeHandle::operator*() const { return this->probe(); }
 
 	LightmapAtlasHandle::LightmapAtlasHandle(Gnode self) : GnodeHandle(self) {}
+	LightmapAtlasHandle::LightmapAtlasHandle(Scene& scene, LightmapAtlasIndex index) : GnodeHandle(scene.node(scene.store<LightmapAtlas>().node(index))) {}
 	Gnode LightmapAtlasHandle::self() const { return this->get(); }
 	LightmapAtlas& LightmapAtlasHandle::atlas() const { return *this->get().find_state<LightmapAtlas>(); }
 	LightmapAtlas* LightmapAtlasHandle::operator->() const { return &this->atlas(); }

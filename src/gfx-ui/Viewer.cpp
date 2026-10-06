@@ -1099,7 +1099,7 @@ namespace ui
 		UNUSED(selection);
 		if(MouseEvent event = widget.mouse_event(DeviceType::Mouse, EventType::Moved, InputMod::None, false))
 		{
-			auto callback = [&](Item* item) { viewer.m_hovered = item; };
+			auto callback = [&](ItemHandle item) { viewer.m_hovered = item; };
 			viewer.picker(0).pick_point(viewer.m_viewport, event.m_relative, callback, ItemFlag::Selectable);
 		}
 

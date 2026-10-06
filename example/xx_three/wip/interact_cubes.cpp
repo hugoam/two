@@ -66,7 +66,7 @@ EX(xx_interact_cubes)
 	camera.m_eye.z = radius * cos(to_radians(theta));
 	//camera.m_target = scene.position;
 
-	static Item* hovered = nullptr;
+	static ItemHandle hovered;
 
 	auto hover = [](Item& item) { item.m_material->m_lit.m_emissive = rgba(0xff0000ff); };
 	auto unhover = [](Item& item) { item.m_material->m_lit.m_emissive = rgba(0x00000000); };
@@ -74,7 +74,7 @@ EX(xx_interact_cubes)
 #if UI
 	if(MouseEvent event = viewer.self().mouse_event(DeviceType::Mouse, EventType::Moved))
 	{
-		auto pick = [&](Item* item) { if(hovered) unhover(*hovered); hovered = item; if(hovered) hover(*hovered); };
+		auto pick = [&](ItemHandle item) { if(hovered) unhover(*hovered); hovered = item; if(hovered) hover(*hovered); };
 		viewer->picker(0).pick_point(viewer->m_viewport, event.m_relative, pick, ItemFlag::Selectable);
 	}
 #endif

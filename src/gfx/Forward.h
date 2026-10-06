@@ -128,6 +128,10 @@ namespace two
     export_ class Light;
 	export_ class Lines;
     export_ class Gnode;
+    export_ enum class ItemIndex : uint32_t;
+    export_ enum class LightIndex : uint32_t;
+    export_ enum class MimeIndex : uint32_t;
+    export_ enum class FlareIndex : uint32_t;
     export_ struct GnodeHandle;
     export_ struct Node3Handle;
     export_ struct ItemHandle;

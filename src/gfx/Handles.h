@@ -8,6 +8,17 @@
 
 namespace two
 {
+	// the index of a state in its store, valid for a frame: see TypeIndex
+	export_ enum class ItemIndex : uint32_t {};
+	export_ enum class LightIndex : uint32_t {};
+	export_ enum class MimeIndex : uint32_t {};
+	export_ enum class FlareIndex : uint32_t {};
+
+	template <> struct TypeIndex<Item> { using Index = ItemIndex; };
+	template <> struct TypeIndex<Light> { using Index = LightIndex; };
+	template <> struct TypeIndex<Mime> { using Index = MimeIndex; };
+	template <> struct TypeIndex<Flare> { using Index = FlareIndex; };
+
 	// a handle to a gfx node, kept from one frame to the next: the graph of the node, and its node index packed with the generation of the index
 	// it resolves to the node while it's there, and to nothing once it's gone, even if another node took its index
 	// the bodies are in Handles.hpp, where the nodes and their objects are complete
@@ -52,6 +63,7 @@ namespace two
 		ItemHandle() {}
 		ItemHandle(nullptr_t) {}
 		inline explicit ItemHandle(Gnode self);
+		inline ItemHandle(Scene& scene, ItemIndex index);
 
 		attr_ inline Gnode self() const;
 		attr_ inline Item& item() const;
@@ -80,6 +92,7 @@ namespace two
 		LightHandle() {}
 		LightHandle(nullptr_t) {}
 		inline explicit LightHandle(Gnode self);
+		inline LightHandle(Scene& scene, LightIndex index);
 
 		attr_ inline Gnode self() const;
 		attr_ inline Light& light() const;

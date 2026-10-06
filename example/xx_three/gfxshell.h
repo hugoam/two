@@ -77,7 +77,7 @@ namespace two
 
 		vector<unique<Picker>> m_pickers;
 
-		Item* m_hovered = nullptr;
+		ItemHandle m_hovered;
 
 		void update();
 

@@ -56,6 +56,8 @@ namespace two
 	{
 		if(!query || render.m_shot->m_items.empty()) return;
 
+		TStateStore<Item>& store = render.m_scene->store<Item>();
+
 		uint8_t view = render.picking_pass();
 
 		bgfx::setViewFrameBuffer(view, m_fbo);
@@ -73,7 +75,7 @@ namespace two
 
 		for(uint32_t index = 0; index < render.m_shot->m_items.size(); ++index)
 		{
-			Item& item = *render.m_shot->m_items[index];
+			Item& item = store[render.m_shot->m_items[index]];
 
 			//if(!frustum_aabb_intersection(frustum.m_planes, item.m_aabb))
 			//	continue;
@@ -112,8 +114,8 @@ namespace two
 		// every time the blit to CPU texture is finished, we read the focused item
 		if(query.m_readback_ready <= render.m_frame->m_frame)
 		{
-			Item* item = nullptr;
-			vector<Item*> items = {};
+			ItemHandle item;
+			vector<ItemHandle> items = {};
 
 			// not sure which is more efficient
 			//vector<uint32_t> counts(render.m_items.size());
@@ -131,13 +133,13 @@ namespace two
 					if(id == uint32_t(255 << 24) || id >= render.m_shot->m_items.size())
 						continue;
 
-					add(items, render.m_shot->m_items[id]);
+					add(items, ItemHandle(*render.m_scene, render.m_shot->m_items[id]));
 
 					uint32_t count = ++counts[id];
 					if(count > maxAmount && id < render.m_shot->m_items.size())
 					{
 						maxAmount = count;
-						item = render.m_shot->m_items[id];
+						item = ItemHandle(*render.m_scene, render.m_shot->m_items[id]);
 					}
 				}
 

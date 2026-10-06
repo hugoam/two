@@ -34,10 +34,10 @@ void ex_11_selection(Shell& app, Widget parent, DockbarHandle dockbar)
 
 	shape_grid(scene, { shape_items.data(), 10U, 10U }, &symbol, false, &material);
 
-	static vector<Item*> selected = {};
+	static vector<ItemHandle> selected = {};
 	if(MouseEvent event = viewer.self().mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
-		auto pick = [&](Item* item) { selected = { item }; };
+		auto pick = [&](ItemHandle item) { selected = { item }; };
 		viewer->picker(0).pick_point(viewer->m_viewport, event.m_relative, pick, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
@@ -51,7 +51,7 @@ void ex_11_selection(Shell& app, Widget parent, DockbarHandle dockbar)
 
 	if(MouseEvent event = viewer.self().mouse_event(DeviceType::MouseLeft, EventType::DragEnded))
 	{
-		auto select = [&](span<Item*> items) { selected = to_vector(items); };
+		auto select = [&](span<ItemHandle> items) { selected = to_vector(items); };
 		viewer->picker(0).pick_rectangle(viewer->m_viewport, select_rect, select, ItemFlag::Default | ItemFlag::Selectable);
 		select_rect = vec4(0.f);
 	}
@@ -59,7 +59,7 @@ void ex_11_selection(Shell& app, Widget parent, DockbarHandle dockbar)
 	if(select_rect != vec4(0.f))
 		ui::rectangle(key(), viewer.self(), select_rect);
 
-	for(Item* selected_item : selected)
+	for(ItemHandle selected_item : selected)
 		if(selected_item)
 			gfx::draw(scene, Cube(selected_item->m_aabb), Symbol::wire(Colour::White));
 }

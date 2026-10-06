@@ -28,6 +28,11 @@ namespace two
 	export_ template <class T>
 	inline uint32_t state_type() { static uint32_t id = next_state_type(); return id; }
 
+	// the index of a state in its store, typed by its state type: it changes when states are created or released, so it's only kept for a frame
+	// each state type that is iterated declares its index type: template <> struct TypeIndex<Item> { using Index = ItemIndex; };
+	export_ template <class T>
+	struct TypeIndex;
+
 	// the state of a node, found or created, and whether it was just created
 	export_ template <class T>
 	struct FoundState
@@ -78,9 +83,13 @@ namespace two
 			m_pool.tdestroy(*state);
 		}
 
-		// visits the states of the nodes of a tree
-		template <class T_Func>
-		inline void iterate(uint32_t tree, T_Func func) const { m_pool.iterate(tree, func); }
+		uint32_t size() const { return uint32_t(m_states.size()); }
+
+		// the state at an index, and the node of the state
+		template <class U = T>
+		inline T& operator[](typename TypeIndex<U>::Index index) { return *static_cast<T*>(m_states[uint32_t(index)]); }
+		template <class U = T>
+		inline uint32_t node(typename TypeIndex<U>::Index index) const { return m_handles.reverse(uint32_t(index)); }
 
 		ChunkedPool<T> m_pool;
 	};
@@ -269,6 +278,19 @@ namespace two
 			if(!m_stores[id])
 				m_stores[id] = make_unique<TStateStore<T_State>>(static_cast<Args&&>(args)...);
 			return static_cast<TStateStore<T_State>&>(*m_stores[id]);
+		}
+
+		// visits the states of a type of the nodes of a tree, with their index in their store
+		template <class T_State, class T_Func>
+		inline void iterate(uint32_t tree, T_Func func)
+		{
+			using Index = typename TypeIndex<T_State>::Index;
+			TStateStore<T_State>* store = this->template find_store<T_State>();
+			if(!store)
+				return;
+			for(uint32_t i = 0; i < store->size(); ++i)
+				if(m_tree[store->m_handles.reverse(i)] == tree)
+					func(Index(i), *static_cast<T_State*>(store->m_states[i]));
 		}
 
 		template <class T_State>

@@ -221,31 +221,31 @@ namespace gfx
 			block->submit(render, element, pass);
 	}
 
-	void gather_gi_probes(Scene& scene, vector<GIProbe*>& gi_probes)
+	void gather_gi_probes(Scene& scene, vector<GIProbeIndex>& gi_probes)
 	{
-		//gi_probes.reserve(m_pool->pool<GIProbe>().size());
-		scene.iterate<GIProbe>([&](GIProbe& gi_probe)
+		gi_probes.reserve(scene.store<GIProbe>().size());
+		scene.iterate<GIProbe>([&](GIProbeIndex index, GIProbe&)
 		{
-			gi_probes.push_back(&gi_probe);
+			gi_probes.push_back(index);
 		});
 	}
 
-	void gather_lightmaps(Scene& scene, vector<LightmapAtlas*>& atlases)
+	void gather_lightmaps(Scene& scene, vector<LightmapAtlasIndex>& atlases)
 	{
-		//atlases.reserve(m_pool->pool<LightmapAtlas>().size());
-		scene.iterate<LightmapAtlas>([&](LightmapAtlas& atlas)
+		atlases.reserve(scene.store<LightmapAtlas>().size());
+		scene.iterate<LightmapAtlas>([&](LightmapAtlasIndex index, LightmapAtlas&)
 		{
-			atlases.push_back(&atlas);
+			atlases.push_back(index);
 		});
 	}
 
-	void gather_reflection_probes(Scene& scene, vector<ReflectionProbe*>& reflection_probes)
+	void gather_reflection_probes(Scene& scene, vector<ReflectionProbeIndex>& reflection_probes)
 	{
-		scene.iterate<ReflectionProbe>([&](ReflectionProbe& probe)
+		scene.iterate<ReflectionProbe>([&](ReflectionProbeIndex index, ReflectionProbe& probe)
 		{
 			if(probe.m_visible)
 			{
-				reflection_probes.push_back(&probe);
+				reflection_probes.push_back(index);
 				probe.m_dirty = true; // force dirty for now
 			}
 		});
@@ -263,7 +263,7 @@ namespace gfx
 		gather_lightmaps(scene, shot->m_lightmaps);
 		gather_reflection_probes(scene, shot->m_reflection_probes);
 
-		render.m_frustum = optimized_frustum(*render.m_camera, shot->m_items);
+		render.m_frustum = optimized_frustum(*render.m_camera, scene.store<Item>(), shot->m_items);
 
 		shot->m_immediate = { scene.m_immediate.get() };
 

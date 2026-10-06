@@ -11,9 +11,9 @@ namespace two
 	export_ class refl_ TWO_GFX_PBR_EXPORT PBRShot : public Shot
 	{
 	public:
-		vector<ReflectionProbe*> m_reflection_probes;
-		vector<GIProbe*> m_gi_probes;
-		vector<LightmapAtlas*> m_lightmaps;
+		vector<ReflectionProbeIndex> m_reflection_probes;
+		vector<GIProbeIndex> m_gi_probes;
+		vector<LightmapAtlasIndex> m_lightmaps;
 	};
 
 	export_ class refl_ TWO_GFX_PBR_EXPORT BlockGeometry : public DrawBlock
@@ -59,9 +59,9 @@ namespace two
 	export_ TWO_GFX_PBR_EXPORT func_ void render_lightmap(GfxSystem& gfx, Render& render);
 	export_ TWO_GFX_PBR_EXPORT func_ void render_reflection(GfxSystem& gfx, Render& render);
 
-	export_ TWO_GFX_PBR_EXPORT void gather_gi_probes(Scene& scene, vector<GIProbe*>& gi_probes);
-	export_ TWO_GFX_PBR_EXPORT void gather_lightmaps(Scene& scene, vector<LightmapAtlas*>& atlases);
-	export_ TWO_GFX_PBR_EXPORT void gather_reflection_probes(Scene& scene, vector<ReflectionProbe*>& reflection_probes);
+	export_ TWO_GFX_PBR_EXPORT void gather_gi_probes(Scene& scene, vector<GIProbeIndex>& gi_probes);
+	export_ TWO_GFX_PBR_EXPORT void gather_lightmaps(Scene& scene, vector<LightmapAtlasIndex>& atlases);
+	export_ TWO_GFX_PBR_EXPORT void gather_reflection_probes(Scene& scene, vector<ReflectionProbeIndex>& reflection_probes);
 
 	export_ TWO_GFX_PBR_EXPORT void gather_render_pbr(Scene& scene, Render& render);
 

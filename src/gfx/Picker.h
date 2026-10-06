@@ -5,6 +5,7 @@
 #pragma once
 
 #include <gfx/Forward.h>
+#include <gfx/Handles.h>
 #include <gfx/RenderTarget.h>
 #include <gfx/Texture.h>
 
@@ -14,8 +15,8 @@ namespace two
 {
 #define PICKING_BUFFER_SIZE 8  // Size of the ID buffer
 
-	using PickCallback = function<void(Item*)>;
-	using MultipickCallback = function<void(span<Item*>)>;
+	using PickCallback = function<void(ItemHandle)>;
+	using MultipickCallback = function<void(span<ItemHandle>)>;
 
 	export_ struct PickQuery
 	{

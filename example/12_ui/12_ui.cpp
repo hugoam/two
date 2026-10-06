@@ -164,10 +164,10 @@ void ex_12_ui(Shell& app, Widget parent, DockbarHandle dockbar)
 
 	static game::Character character = game::create_character();
 
-	static Item* selected = nullptr;
+	static ItemHandle selected;
 	if(MouseEvent mouse_event = viewer.self().mouse_event(DeviceType::MouseRight, EventType::Stroked))
 	{
-		auto callback = [&](Item* item) { selected = item; umain.data().m_switch |= Context; };
+		auto callback = [&](ItemHandle item) { selected = item; umain.data().m_switch |= Context; };
 		viewer->picker(0).pick_point(viewer->m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
 	}
 

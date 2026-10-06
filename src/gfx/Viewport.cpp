@@ -68,7 +68,7 @@ namespace two
 			const uvec4 rect = uvec4(m_rect * vec2(render.m_fbo->m_size));
 			m_clusters->m_dirty |= uint8_t(Froxelizer::Dirty::Viewport) | uint8_t(Froxelizer::Dirty::Projection);
 			m_clusters->update(rect, m_camera->m_proj, m_camera->m_near, m_camera->m_far);
-			m_clusters->clusterize_lights(*m_camera, render.m_shot->m_lights);
+			m_clusters->clusterize_lights(*m_camera, render.m_scene->store<Light>(), render.m_shot->m_lights);
 			m_clusters->upload();
 		}
 

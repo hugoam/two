@@ -169,7 +169,7 @@ namespace two
 			m_radius = max(distance(m_center, m_corners[i]), m_radius);
 	}
 
-	Frustum optimized_frustum(Camera& camera, span<Item*> items)
+	Frustum optimized_frustum(Camera& camera, TStateStore<Item>& store, span<ItemIndex> items)
 	{
 		if(!camera.m_optimize_ends)
 			return Frustum{ camera.m_view, camera.m_fov, camera.m_aspect, camera.m_near, camera.m_far };
@@ -179,9 +179,9 @@ namespace two
 		float z_max = -1e20f;
 		float z_min = 1e20f;
 
-		for(Item* item : items)
+		for(ItemIndex index : items)
 		{
-			vec2 min_max = project_aabb_in_plane(near_plane, item->m_aabb);
+			vec2 min_max = project_aabb_in_plane(near_plane, store[index].m_aabb);
 
 			z_min = min(min_max.x, z_min);
 			z_max = max(min_max.y, z_max);

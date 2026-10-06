@@ -55,7 +55,7 @@ namespace two
 			for(uint32_t i = 0; i < slice.m_slots.size(); ++i)
 			{
 				Slot& slot = slice.m_slots[i];
-				if(slot.m_light && slot.m_frame < frame.m_frame-1)
+				if(slot.m_light.m_handle != 0 && slot.m_frame < frame.m_frame-1)
 					this->yield(slice, i);
 			}
 	}
@@ -143,7 +143,7 @@ namespace two
 		this->yield(slice, light.m_shadow_index.slot);
 	}
 
-	bool ShadowAtlas::update_light(Light& light, uint32_t frame, float coverage, uint32_t light_version)
+	bool ShadowAtlas::update_light(Light& light, LightHandle handle, uint32_t frame, float coverage, uint32_t light_version)
 	{
 		UNUSED(light_version);
 
@@ -201,7 +201,7 @@ namespace two
 		if(slice != nullptr)
 		{
 			Slot& slot = this->alloc(*slice, light.m_type == LightType::Point);
-			slot.m_light = &light;
+			slot.m_light = handle;
 			slot.m_frame = frame;
 			light.m_shadow_index = { slice->m_index, slot.m_index };
 			return true;
@@ -210,12 +210,14 @@ namespace two
 		return false;
 	}
 
-	vec4 ShadowAtlas::render_update(Render& render, Light& light)
+	vec4 ShadowAtlas::render_update(Render& render, LightIndex index)
 	{
+		Light& light = render.m_scene->store<Light>()[index];
+		LightHandle handle = LightHandle(*render.m_scene, index);
 		if(light.m_type == LightType::Direct)
 		{
 			// direct light has full coverage (1.0)
-			const bool redraw = this->update_light(light, render.m_frame->m_frame, 1.f, light.m_last_update);
+			const bool redraw = this->update_light(light, handle, render.m_frame->m_frame, 1.f, light.m_last_update);
 			UNUSED(redraw);
 			return this->light_slot(light).m_rect;
 		}
@@ -264,8 +266,8 @@ namespace two
 		//}
 
 		// @todo fix coverage calculation
-		const bool redraw = this->update_light(light, render.m_frame->m_frame, 1.f, light.m_last_update);
-		//const bool redraw = this->update_light(light, render.m_frame->m_frame, min(coverage, 1.f), light.m_last_update);
+		const bool redraw = this->update_light(light, handle, render.m_frame->m_frame, 1.f, light.m_last_update);
+		//const bool redraw = this->update_light(light, handle, render.m_frame->m_frame, min(coverage, 1.f), light.m_last_update);
 		UNUSED(redraw);
 		return this->light_slot(light).m_rect;
 	}

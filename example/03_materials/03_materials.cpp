@@ -201,7 +201,7 @@ void ex_03_materials(Shell& app, Widget parent, DockbarHandle dockbar)
 
 	if(MouseEvent event = viewer.self().mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
-		auto callback = [&](Item* item)
+		auto callback = [&](ItemHandle item)
 		{
 			if(!item->m_node->m_object) return;
 			//edited = &val<Material>(item->m_node->m_object);

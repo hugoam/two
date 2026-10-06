@@ -321,26 +321,27 @@ namespace two
 		encoder.setTexture(uint8_t(TextureSampler::Clusters), m_impl->m_uniform.s_light_clusters, m_impl->m_clusters.m_buffer.m_texture);
 	}
 
-	void Froxelizer::clusterize_lights(const Camera& camera, span<Light*> lights)
+	void Froxelizer::clusterize_lights(const Camera& camera, TStateStore<Light>& store, span<LightIndex> lights)
 	{
 		// note: this is called asynchronously
-		clusterize_loop(camera, lights);
+		clusterize_loop(camera, store, lights);
 		clusterize_assign_records_compress(uint32_t(lights.size()));
 	}
 
-	void Froxelizer::clusterize_light_group(const Camera& camera, span<Light*> lights, uint32_t offset, uint32_t stride)
+	void Froxelizer::clusterize_light_group(const Camera& camera, TStateStore<Light>& store, span<LightIndex> lights, uint32_t offset, uint32_t stride)
 	{
 		const mat4& projection = m_proj;
 
 		for(uint32_t i = offset; i < lights.size(); i += stride)
 		{
-			vec3 position = mulp(camera.m_view, lights[i]->m_node->position());
-			vec3 direction = muln(camera.m_view, lights[i]->m_node->direction());
+			const Light& scene_light = store[lights[i]];
+			vec3 position = mulp(camera.m_view, scene_light.m_node->position());
+			vec3 direction = muln(camera.m_view, scene_light.m_node->direction());
 
-			float cos2 = sq(cos(to_radians(lights[i]->m_spot_angle)));
+			float cos2 = sq(cos(to_radians(scene_light.m_spot_angle)));
 			float invsin = 1.f / std::sqrt(1.f - cos2);
 
-			LightParams light = { position, cos2, direction, invsin, lights[i]->m_range };
+			LightParams light = { position, cos2, direction, invsin, scene_light.m_range };
 
 			const uint32_t group = i % GROUP_COUNT;
 			const uint32_t bit = i / GROUP_COUNT;
@@ -355,7 +356,7 @@ namespace two
 
 #define TWO_THREADED
 
-	void Froxelizer::clusterize_loop(const Camera& camera, span<Light*> lights)
+	void Froxelizer::clusterize_loop(const Camera& camera, TStateStore<Light>& store, span<LightIndex> lights)
 	{
 		memset(m_impl->m_cluster_sharded_data.data(), 0, m_impl->m_cluster_sharded_data.size() * sizeof(FroxelThreadData));
 
@@ -364,13 +365,13 @@ namespace two
 		Job* parent = js.job();
 		for(uint32_t i = 0; i < GROUP_COUNT; i++)
 		{
-			auto task = [=, &camera](JobSystem&, Job*) { this->clusterize_light_group(camera, lights, i, GROUP_COUNT); };
+			auto task = [=, &camera, &store](JobSystem&, Job*) { this->clusterize_light_group(camera, store, lights, i, GROUP_COUNT); };
 			js.run(js.job(parent, task));
 		}
 		js.complete(parent);
 #else
 		for(uint32_t i = 0; i < GROUP_COUNT; i++)
-			this->clusterize_light_group(camera, lights, i, GROUP_COUNT);
+			this->clusterize_light_group(camera, store, lights, i, GROUP_COUNT);
 #endif
 	}
 

@@ -74,7 +74,7 @@ namespace two
 
 	export_ struct refl_ TWO_GFX_PBR_EXPORT LightShadow
 	{
-		Light* m_light = nullptr;
+		LightIndex m_light = {};
 
 		FrameBuffer* m_fbo = nullptr;
 		vec4 m_rect = {};
@@ -91,7 +91,7 @@ namespace two
 		FrustumSlice m_frustum_slice;
 		LightBounds m_light_bounds;
 
-		vector<Item*> m_items;
+		vector<ItemIndex> m_items;
 	};
 
 	export_ struct refl_ TWO_GFX_PBR_EXPORT CSMSlice : public LightShadow, public FrustumSlice
@@ -99,7 +99,7 @@ namespace two
 
 	export_ struct refl_ TWO_GFX_PBR_EXPORT CSMShadow
 	{
-		Light* m_light;
+		LightIndex m_light = {};
 
 		vector<CSMSlice> m_slices;
 	};
@@ -128,7 +128,7 @@ namespace two
 		void commit_shadows(Render& render, const mat4& view);
 		void upload_shadows(Render& render, const Pass& pass) const;
 
-		void update_csm(Render& render, Light& light, CSMShadow& csm);
+		void update_csm(Render& render, LightIndex index, CSMShadow& csm);
 
 		DepthMethod depth_method()
 		{

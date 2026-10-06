@@ -5,6 +5,7 @@
 #pragma once
 
 #include <gfx/Forward.h>
+#include <gfx/Handles.h>
 
 #if defined TWO_UNIFORM_BLOCKS
 #include <gfx/Uniform.h>
@@ -53,7 +54,7 @@ namespace two
 		attr_ float m_radius;
 	};
 
-	export_ TWO_GFX_EXPORT Frustum optimized_frustum(Camera& camera, span<Item*> items);
+	export_ TWO_GFX_EXPORT Frustum optimized_frustum(Camera& camera, TStateStore<Item>& store, span<ItemIndex> items);
 
 	export_ struct refl_ TWO_GFX_EXPORT FrustumSlice
 	{

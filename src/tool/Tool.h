@@ -131,7 +131,7 @@ namespace two
 		TransformTool(ToolContext& context, cstring name, Type& type);
 		~TransformTool();
 		
-		Gizmo& gizmo(Item& item);
+		Gizmo& gizmo(ItemHandle item);
 
 		void refresh();
 

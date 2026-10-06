@@ -91,7 +91,7 @@ void ex_07_prefabs(Shell& app, Widget parent, DockbarHandle dockbar)
 
 	if(MouseEvent mouse_event = viewer.self().mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
-		auto select = [&](Item* item) { selected = &val<PrefabNode>(item->m_node->m_object); };
+		auto select = [&](ItemHandle item) { selected = &val<PrefabNode>(item->m_node->m_object); };
 		viewer->picker(0).pick_point(viewer->m_viewport, mouse_event.m_relative, select, ItemFlag::Default | ItemFlag::Selectable);
 	}
 

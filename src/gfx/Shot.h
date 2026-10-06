@@ -5,6 +5,7 @@
 #pragma once
 
 #include <gfx/Forward.h>
+#include <gfx/Handles.h>
 
 namespace two
 {
@@ -12,9 +13,9 @@ namespace two
 	{
 	public:
 		virtual ~Shot() {}
-		vector<Item*> m_items;
-		vector<Item*> m_occluders;
-		vector<Light*> m_lights;
+		vector<ItemIndex> m_items;
+		vector<ItemIndex> m_occluders;
+		vector<LightIndex> m_lights;
 		vector<ImmediateDraw*> m_immediate;
 	};
 }

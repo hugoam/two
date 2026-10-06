@@ -42,7 +42,7 @@ namespace two
 
 		vector<unique<Picker>> m_pickers;
 
-		Item* m_hovered = nullptr;
+		ItemHandle m_hovered;
 
 		unique<ViewerController> m_controller;
 

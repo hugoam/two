@@ -6,6 +6,7 @@
 
 #include <gfx/Handles.h>
 #include <gfx/Graph.h>
+#include <gfx/Scene.h>
 #include <gfx/Node3.h>
 #include <gfx/Item.h>
 #include <gfx/Light.h>
@@ -30,6 +31,7 @@ namespace two
 	Node3& Node3Handle::operator*() const { return this->node(); }
 
 	ItemHandle::ItemHandle(Gnode self) : GnodeHandle(self) {}
+	ItemHandle::ItemHandle(Scene& scene, ItemIndex index) : GnodeHandle(scene.node(scene.store<Item>().node(index))) {}
 	Gnode ItemHandle::self() const { return this->get(); }
 	Item& ItemHandle::item() const { return *this->get().find_state<Item>(); }
 	Item* ItemHandle::operator->() const { return &this->item(); }
@@ -42,6 +44,7 @@ namespace two
 	Batch& BatchHandle::operator*() const { return this->batch(); }
 
 	LightHandle::LightHandle(Gnode self) : GnodeHandle(self) {}
+	LightHandle::LightHandle(Scene& scene, LightIndex index) : GnodeHandle(scene.node(scene.store<Light>().node(index))) {}
 	Gnode LightHandle::self() const { return this->get(); }
 	Light& LightHandle::light() const { return *this->get().find_state<Light>(); }
 	Light* LightHandle::operator->() const { return &this->light(); }

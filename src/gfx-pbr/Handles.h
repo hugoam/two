@@ -8,6 +8,14 @@
 
 namespace two
 {
+	export_ enum class GIProbeIndex : uint32_t {};
+	export_ enum class LightmapAtlasIndex : uint32_t {};
+	export_ enum class ReflectionProbeIndex : uint32_t {};
+
+	template <> struct TypeIndex<GIProbe> { using Index = GIProbeIndex; };
+	template <> struct TypeIndex<LightmapAtlas> { using Index = LightmapAtlasIndex; };
+	template <> struct TypeIndex<ReflectionProbe> { using Index = ReflectionProbeIndex; };
+
 	template <> struct TypedBuffer<Tonemap> { static uint32_t index() { return 0; } };
 	template <> struct TypedBuffer<BCS> { static uint32_t index() { return 1; } };
 	template <> struct TypedBuffer<Glow> { static uint32_t index() { return 2; } };
@@ -33,6 +41,7 @@ namespace two
 		LightmapAtlasHandle() {}
 		LightmapAtlasHandle(nullptr_t) {}
 		inline explicit LightmapAtlasHandle(Gnode self);
+		inline LightmapAtlasHandle(Scene& scene, LightmapAtlasIndex index);
 
 		attr_ inline Gnode self() const;
 		attr_ inline LightmapAtlas& atlas() const;

@@ -137,37 +137,39 @@ namespace gfx
 			return;
 
 		PBRShot& shot = static_cast<PBRShot&>(*render.m_shot);
-		for(GIProbe* gi_probe : shot.m_gi_probes)
+		TStateStore<GIProbe>& probes = render.m_scene->store<GIProbe>();
+		for(GIProbeIndex index : shot.m_gi_probes)
 		{
-			if(!gi_probe->m_enabled || !gi_probe->m_dirty)
+			GIProbe& gi_probe = probes[index];
+			if(!gi_probe.m_enabled || !gi_probe.m_dirty)
 				continue;
 
-			if(gi_probe->m_mode == GIProbeMode::Voxelize)
+			if(gi_probe.m_mode == GIProbeMode::Voxelize)
 			{
 				info("bake GIProbe");
 
-				block_gi_bake.voxelize(render, *gi_probe);
-				block_gi_bake.output(render, *gi_probe);
+				block_gi_bake.voxelize(render, gi_probe);
+				block_gi_bake.output(render, gi_probe);
 
-				for(int i = 0; i < gi_probe->m_bounces; ++i)
+				for(int i = 0; i < gi_probe.m_bounces; ++i)
 				{
 					// @todo fix D3D bounce bug
-					block_gi_bake.bounce(render, *gi_probe);
-					block_gi_bake.output(render, *gi_probe);
+					block_gi_bake.bounce(render, gi_probe);
+					block_gi_bake.output(render, gi_probe);
 				}
 
-				gi_probe->m_dirty = false;
+				gi_probe.m_dirty = false;
 
 				info("bake GIProbe done");
 
 				//string path = m_gfx.m_resource_path + "/" + "gi_probe.dds";
-				//save_gi_probe(m_gfx, *gi_probe, bgfx::TextureFormat::RGBA16F, bgfx::TextureFormat::BC6H, path);
+				//save_gi_probe(m_gfx, gi_probe, bgfx::TextureFormat::RGBA16F, bgfx::TextureFormat::BC6H, path);
 			}
 
-			if(gi_probe->m_mode == GIProbeMode::LoadVoxels)
+			if(gi_probe.m_mode == GIProbeMode::LoadVoxels)
 			{
 				string path = gfx.m_resource_path + "/" + "gi_probe.dds";
-				load_gi_probe(gfx, *gi_probe, path);
+				load_gi_probe(gfx, gi_probe, path);
 			}
 		}
 	}
@@ -335,8 +337,9 @@ namespace gfx
 	{
 		UNUSED(element);
 		PBRShot& shot = static_cast<PBRShot&>(*render.m_shot);
-		for(GIProbe* gi_probe : shot.m_gi_probes)
-			if(gi_probe->m_enabled)
+		TStateStore<GIProbe>& probes = render.m_scene->store<GIProbe>();
+		for(GIProbeIndex index : shot.m_gi_probes)
+			if(probes[index].m_enabled)
 			{
 				program.set_option(m_index, GI_CONETRACE, true);
 			}
@@ -357,13 +360,15 @@ namespace gfx
 
 		uint8_t index = 0;
 		PBRShot& shot = static_cast<PBRShot&>(*render.m_shot);
-		for(GIProbe* gi_probe : shot.m_gi_probes)
+		TStateStore<GIProbe>& probes = render.m_scene->store<GIProbe>();
+		for(GIProbeIndex probe : shot.m_gi_probes)
 		{
-			if(gi_probe->m_enabled)
+			GIProbe& gi_probe = probes[probe];
+			if(gi_probe.m_enabled)
 			{
-				encoder.setTexture(uint8_t(TextureSampler::GIProbe) + index++, u_gi_probe.s_gi_probe, gi_probe->m_voxels_light_rgba, TEXTURE_CLAMP3);
+				encoder.setTexture(uint8_t(TextureSampler::GIProbe) + index++, u_gi_probe.s_gi_probe, gi_probe.m_voxels_light_rgba, TEXTURE_CLAMP3);
 
-				GpuState<GIProbe>::me.upload(encoder, *gi_probe, render.m_camera->m_view);
+				GpuState<GIProbe>::me.upload(encoder, gi_probe, render.m_camera->m_view);
 			}
 
 			return;

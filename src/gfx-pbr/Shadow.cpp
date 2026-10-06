@@ -52,43 +52,44 @@ namespace two
 	}
 
 	template <class T_Filter>
-	vector<Item*> filter_cull(Scene& scene, T_Filter filter, bool nofilter = false)
+	vector<ItemIndex> filter_cull(Scene& scene, T_Filter filter, bool nofilter = false)
 	{
-		vector<Item*> culled;
-		scene.iterate<Item>([&](Item& item) {
+		vector<ItemIndex> culled;
+		scene.iterate<Item>([&](ItemIndex index, Item& item) {
 			if(nofilter || filter(item))
 			{
-				culled.push_back(&item);
+				culled.push_back(index);
 			}
 		});
 		return culled;
 	}
 
 	template <class T_Filter>
-	vector<Item*> frustum_cull(Scene& scene, const Plane6& frustum_planes, T_Filter filter, bool nofilter = false)
+	vector<ItemIndex> frustum_cull(Scene& scene, const Plane6& frustum_planes, T_Filter filter, bool nofilter = false)
 	{
-		vector<Item*> culled;
-		scene.iterate<Item>([&](Item& item) {
+		vector<ItemIndex> culled;
+		scene.iterate<Item>([&](ItemIndex index, Item& item) {
 			if(nofilter || filter(item))
 			{
 				if(frustum_aabb_intersection(frustum_planes, item.m_aabb))
-					culled.push_back(&item);
+					culled.push_back(index);
 			}
 		});
 		return culled;
 	}
 
-	void cull_shadow_render(Render& render, vector<Item*>& result, const Plane6& planes)
+	void cull_shadow_render(Render& render, vector<ItemIndex>& result, const Plane6& planes)
 	{
 		auto filter = [](Item& item) { return item.m_visible && item.m_model->m_geometry[PrimitiveType::Triangles] && (item.m_flags & ItemFlag::Shadows) != 0; };
 		result = filter_cull(*render.m_scene, filter);
 		//result = frustum_cull(items, planes, filter);
 
-		for(Item* item : result)
-			item->m_depth = distance(planes.m_near, item->m_aabb.m_center);
+		TStateStore<Item>& items = render.m_scene->store<Item>();
+		for(ItemIndex index : result)
+			items[index].m_depth = distance(planes.m_near, items[index].m_aabb.m_center);
 	}
 
-	void cull_shadow_render(Render& render, vector<Item*>& result, const mat4& projection, const mat4& transform)
+	void cull_shadow_render(Render& render, vector<ItemIndex>& result, const mat4& projection, const mat4& transform)
 	{
 		Plane6 planes = frustum_planes(projection, transform);
 		cull_shadow_render(render, result, planes);
@@ -129,7 +130,7 @@ namespace two
 		light_bounds.max.z = zmax;
 	}
 
-	void light_slice_cull(Render& render, Light& light, LightBounds& light_bounds, vector<Item*>& result)
+	void light_slice_cull(Render& render, Light& light, LightBounds& light_bounds, vector<ItemIndex>& result)
 	{
 		vec3 x = light.m_node->axis(x3);
 		vec3 y = light.m_node->axis(y3);
@@ -147,9 +148,10 @@ namespace two
 
 		cull_shadow_render(render, result, light_frustum_planes);
 
-		for(Item* item : result)
+		TStateStore<Item>& items = render.m_scene->store<Item>();
+		for(ItemIndex index : result)
 		{
-			vec2 min_max = project_aabb_in_plane(Plane{ z, 0 }, item->m_aabb);
+			vec2 min_max = project_aabb_in_plane(Plane{ z, 0 }, items[index].m_aabb);
 			float z_max = min_max[1];
 
 			light_bounds.max.z = max(light_bounds.max.z, z_max);
@@ -201,7 +203,6 @@ namespace two
 	void update_csm_slice(Render& render, Light& light, const mat4& light_transform, const mat4& light_proj, 
 						  CSMSlice& slice, CSMShadow& csm, const vec4& atlas_rect, uint csm_size)
 	{
-		slice.m_light = &light;
 		slice.m_rect = csm_pass_rect(atlas_rect, light, slice.m_index);
 		
 		slice.m_light_bounds = light_slice_bounds(slice.m_frustum, light_transform);
@@ -228,9 +229,10 @@ namespace two
 		slice.m_frustum_slice = slice;
 	}
 
-	void BlockShadow::update_csm(Render& render, Light& light, CSMShadow& csm)
+	void BlockShadow::update_csm(Render& render, LightIndex index, CSMShadow& csm)
 	{
-		csm.m_light = &light;
+		Light& light = render.m_scene->store<Light>()[index];
+		csm.m_light = index;
 		csm.m_slices.resize(light.m_shadow_num_splits);
 
 		vector<FrustumSlice*> slices;
@@ -247,6 +249,7 @@ namespace two
 		for(size_t i = 0; i < csm.m_slices.size(); ++i)
 		{
 			CSMSlice& slice = csm.m_slices[i];
+			slice.m_light = index;
 			update_csm_slice(render, light, light_transform, light_proj, slice, csm, slot.m_rect, slot.m_trect.width);
 			slice.m_fbo = &m_atlas.m_fbo;
 			slice.m_depth_method = depth_method();
@@ -316,15 +319,15 @@ namespace two
 
 	void BlockShadow::begin_render(Render& render)
 	{
-		UNUSED(render);
 
-		for(Light* light : render.m_shot->m_lights)
-			if(light->m_shadows)
+		TStateStore<Light>& lights = render.m_scene->store<Light>();
+		for(LightIndex index : render.m_shot->m_lights)
+			if(lights[index].m_shadows)
 			{
 				if(m_atlas.m_side == 0)
 					m_atlas = { 1024U, 4U };
 
-				m_atlas.render_update(render, *light);
+				m_atlas.render_update(render, index);
 			}
 
 		this->setup_shadows(render);
@@ -344,7 +347,8 @@ namespace two
 
 	void BlockShadow::setup_shadows(Render& render)
 	{
-		span<Light*> lights = render.m_shot->m_lights;
+		TStateStore<Light>& store = render.m_scene->store<Light>();
+		span<LightIndex> lights = render.m_shot->m_lights;
 		lights.m_count = min(lights.m_count, size_t(c_max_forward_lights));
 		
 		m_csm_shadows.clear();
@@ -352,14 +356,14 @@ namespace two
 
 		for(size_t index = 0; index < lights.size(); ++index)
 		{
-			Light& light = *lights[index];
+			Light& light = store[lights[index]];
 			if(!light.m_shadows) continue;
 
 			if(light.m_type == LightType::Direct)
 			{
 				CSMShadow& csm = push(m_csm_shadows);
 				if(m_atlas.m_size != uvec2(0U))
-					this->update_csm(render, light, csm);
+					this->update_csm(render, lights[index], csm);
 			}
 			else if(light.m_type == LightType::Point)
 			{
@@ -397,7 +401,7 @@ namespace two
 					static const table<SignedAxis, vec3> view_up = { y3, y3, z3, -z3, y3, y3 };
 
 					LightShadow& shadow = push(m_shadows);
-					shadow.m_light = &light;
+					shadow.m_light = lights[index];
 					shadow.m_rect = { offsets[axis], slot_size };
 					shadow.m_far = light.m_range;
 					shadow.m_depth_method = DepthMethod::Distance;
@@ -418,8 +422,8 @@ namespace two
 			else if(light.m_type == LightType::Spot)
 			{
 				LightShadow& shadow = push(m_shadows);
-				shadow.m_light = &light;
-				shadow.m_rect = m_atlas.render_update(render, light);
+				shadow.m_light = lights[index];
+				shadow.m_rect = m_atlas.render_update(render, lights[index]);
 				shadow.m_depth_method = depth_method();
 
 				shadow.m_proj = bxproj(light.m_spot_angle * 2.f, 1.f, 0.01f, light.m_range, bgfx::getCaps()->homogeneousDepth);
@@ -438,7 +442,7 @@ namespace two
 
 	void BlockShadow::commit_shadows(Render& render, const mat4& view)
 	{
-		UNUSED(render);
+		TStateStore<Light>& lights = render.m_scene->store<Light>();
 		const mat4 inverse_view = inverse(view);
 
 		size_t index = 0;
@@ -450,11 +454,11 @@ namespace two
 			uint32_t i = 0;
 			for(const CSMSlice& slice : csm.m_slices)
 			{
-				GpuCSMShadow& gpu = m_block_light.m_gpu_lights[slice.m_light->m_index].csm;
+				GpuCSMShadow& gpu = m_block_light.m_gpu_lights[lights[slice.m_light].m_index].csm;
 
 				m_shadow_matrices[index] = slice.m_shadow_matrix * inverse_view;
 
-				gpu.num_slices = slice.m_light->m_shadow_num_splits;
+				gpu.num_slices = lights[slice.m_light].m_shadow_num_splits;
 				gpu.matrices[i] = float(index);
 				gpu.splits[i] = slice.m_frustum.m_far;
 
@@ -464,12 +468,12 @@ namespace two
 
 		for(const LightShadow& shadow : m_shadows)
 		{
-			GpuShadow& gpu = m_block_light.m_gpu_lights[shadow.m_light->m_index].shadow;
+			GpuShadow& gpu = m_block_light.m_gpu_lights[lights[shadow.m_light].m_index].shadow;
 
 			m_shadow_matrices[index] = shadow.m_shadow_matrix * inverse_view;
 
 			gpu.matrix = float(index);
-			gpu.bias = shadow.m_light->m_shadow_bias;
+			gpu.bias = lights[shadow.m_light].m_shadow_bias;
 			gpu.radius = 1.f;
 			gpu.range = shadow.m_far;
 
@@ -591,7 +595,7 @@ namespace two
 			shadow_render.m_shot->m_lights = render.m_shot->m_lights;
 			shadow_render.m_shot->m_items = shadow.m_items;
 
-			setup_block(*shadow.m_light, shadow.m_depth_method, shadow.m_bias_scale);
+			setup_block(render.m_scene->store<Light>()[shadow.m_light], shadow.m_depth_method, shadow.m_bias_scale);
 
 			RenderFunc renderer = gfx.renderer(Shading::Volume);
 			gfx.m_renderer.subrender(render, shadow_render, renderer);

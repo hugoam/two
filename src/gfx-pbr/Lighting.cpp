@@ -120,7 +120,8 @@ namespace two
 		const vec3 skylight = muln(view, normalize(render.m_env->m_skylight.m_position));
 		render.m_env->m_skylight.m_direction = skylight;
 
-		span<Light*> lights = render.m_shot->m_lights;
+		TStateStore<Light>& store = render.m_scene->store<Light>();
+		span<LightIndex> lights = render.m_shot->m_lights;
 		lights.m_count = min(lights.m_count, size_t(c_max_forward_lights));
 
 		ZoneLights& zone = m_zones[0];
@@ -131,7 +132,7 @@ namespace two
 
 		for(size_t index = 0; index < lights.size(); ++index)
 		{
-			const Light& light = *lights[index];
+			const Light& light = store[lights[index]];
 
 			const vec3 position = mulp(view, light.m_node->position());
 			const float range = light.m_range;

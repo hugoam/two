@@ -3,6 +3,7 @@
 #pragma once
 
 #include <gfx-pbr/Forward.h>
+#include <gfx-pbr/Handles.h>
 
 namespace two
 {
@@ -83,7 +84,7 @@ namespace two
 		virtual void submit(Render& render, const Pass& pass) const override;
 		virtual void submit(Render& render, const DrawElement& element, const Pass& pass) const override;
 
-		void bake_geometry(span<Item*> items, LightmapAtlas& atlas);
+		void bake_geometry(TStateStore<Item>& store, span<ItemIndex> items, LightmapAtlas& atlas);
 		void bake_lightmaps(Scene& scene, LightmapAtlas& atlas, const mat4& transform, const vec3& extents);
 
 		struct VoxelGIUniform
@@ -99,7 +100,7 @@ namespace two
 
 		Program* m_lightmap;
 
-		struct BakeEntry { Scene* scene; LightmapAtlas* atlas; };
+		struct BakeEntry { Scene* scene; LightmapAtlasHandle atlas; };
 		vector<BakeEntry> m_bake_queue;
 	};
 }

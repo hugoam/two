@@ -94,9 +94,9 @@ void ex_06_particles(Shell& app, Widget parent, DockbarHandle dockbar)
 
 	if(MouseEvent event = viewer.self().mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 	{
-		auto callback = [&controller, middle](Item* item)
+		auto callback = [&controller, middle](ItemHandle item)
 		{
-			if(item == nullptr) return;
+			if(!item) return;
 			//edited = &val<ParticleItem>(item->m_node->m_object);
 			controller.m_position = vec3(-middle + edited->m_index * 10.f, 0.f, 0.f);
 		};

@@ -206,7 +206,7 @@ namespace two
 	void ParticleSystem::update(float _dt)
 	{
 		uint32_t num_particles = 0;
-		m_scene.iterate<Flare>([&](Flare& emitter)
+		m_scene.iterate<Flare>([&](FlareIndex, Flare& emitter)
 		{
 			emitter.update(_dt);
 			num_particles += uint32_t(emitter.m_particles.size());
@@ -240,7 +240,7 @@ namespace two
 
 			// all the particles are drawn in one call, with the blend mode of the first emitter
 			Flare* first = nullptr;
-			m_scene.iterate<Flare>([&](Flare& emitter)
+			m_scene.iterate<Flare>([&](FlareIndex, Flare& emitter)
 			{
 				if(!first)
 					first = &emitter;

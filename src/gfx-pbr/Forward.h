@@ -31,6 +31,7 @@ namespace two
 	export_ class CubeCamera;
     export_ class ReflectionAtlas;
     export_ class ReflectionProbe;
+    export_ enum class ReflectionProbeIndex : uint32_t;
 	export_ class PassGeometry;
 	export_ class PassLights;
 	export_ class PassOpaque;
@@ -67,10 +68,12 @@ namespace two
     export_ class BlockTonemap;
     export_ class GIProbe;
     export_ struct GIProbeHandle;
+    export_ enum class GIProbeIndex : uint32_t;
     export_ class ReflectionProbe;
     export_ class Lightmap;
     export_ class LightmapAtlas;
     export_ struct LightmapAtlasHandle;
+    export_ enum class LightmapAtlasIndex : uint32_t;
     export_ class LightmapItem;
     export_ class PBRShot;
 }

@@ -322,7 +322,7 @@ namespace two
 		map<Model*, ModelUnwrap> unwraps;
 	};
 
-	void BlockLightmap::bake_geometry(span<Item*> items, LightmapAtlas& lightmaps)
+	void BlockLightmap::bake_geometry(TStateStore<Item>& store, span<ItemIndex> items, LightmapAtlas& lightmaps)
 	{
 		struct PackResult { Image* image; Lightmap* lightmap; };
 
@@ -344,13 +344,13 @@ namespace two
 			sorted.push_back(i);
 
 #ifdef LIGHTMAP_SORT
-		auto compare = [&](size_t& a, size_t& b) { return atlas.unwrap(*items[a]->m_model).size.y > atlas.unwrap(*items[b]->m_model).size.y; };
+		auto compare = [&](size_t& a, size_t& b) { return atlas.unwrap(*store[items[a]].m_model).size.y > atlas.unwrap(*store[items[b]].m_model).size.y; };
 		std::sort(sorted.begin(), sorted.end(), compare);
 #endif
 
 		for(size_t i : sorted)
 		{
-			Model& model = *items[i]->m_model;
+			Model& model = *store[items[i]].m_model;
 			ModelUnwrap& unwrap = atlas.unwrap(model);
 
 			if(unwrap.size == uvec2(0U))
@@ -372,13 +372,13 @@ namespace two
 			{
 				if(!unwrap.success[elem.m_index])
 				{
-					lightmap.add_item(i, *items[i], false, vec4(0.f));
+					lightmap.add_item(i, store[items[i]], false, vec4(0.f));
 					continue;
 				}
 
 				vec2 scale = vec2(1.f / float(lightmaps.m_size));
 				vec2 offset = vec2(rect.pos) / float(lightmaps.m_size);
-				lightmap.add_item(i, *items[i], true, vec4(scale, offset));
+				lightmap.add_item(i, store[items[i]], true, vec4(scale, offset));
 			}
 		}
 	}
@@ -387,19 +387,19 @@ namespace two
 	{
 		info("bake lightmaps");
 
-		vector<Item*> items;
+		vector<ItemIndex> items;
 		//Plane6 planes = frustum_planes(transform, vec2(extents.x, extents.y), -extents.z / 2.f, -extents.z / 2.f);
 		//scene.cull_items(planes, items);
-		scene.iterate<Item>([&](Item& item)
+		scene.iterate<Item>([&](ItemIndex index, Item& item)
 		{
 			if((item.m_flags & ItemFlag::Render) != 0
 			&& (item.m_flags & ItemFlag::Static) != 0)
-				items.push_back(&item);
+				items.push_back(index);
 		});
 
-		this->bake_geometry(items, atlas);
+		this->bake_geometry(scene.store<Item>(), items, atlas);
 
-		vector<GIProbe*> gi_probes;
+		vector<GIProbeIndex> gi_probes;
 		gather_gi_probes(scene, gi_probes);
 
 		RenderFunc renderer = m_gfx.renderer(Shading::Lightmap);
@@ -460,9 +460,11 @@ namespace two
 		UNUSED(frame);
 		for(const BakeEntry& bake_entry : m_bake_queue)
 		{
+			if(!bake_entry.atlas)
+				continue;
 			LightmapAtlas& atlas = *bake_entry.atlas;
 			this->bake_lightmaps(*bake_entry.scene, atlas, atlas.m_capture_transform, atlas.m_capture_extents);
-			bake_entry.atlas->m_dirty = false;
+			atlas.m_dirty = false;
 		}
 		m_bake_queue.clear();
 	}
@@ -474,10 +476,11 @@ namespace two
 
 		UNUSED(render);
 		PBRShot& shot = static_cast<PBRShot&>(*render.m_shot);
-		for(LightmapAtlas* atlas : shot.m_lightmaps)
-			if(atlas->m_dirty)
+		TStateStore<LightmapAtlas>& atlases = render.m_scene->store<LightmapAtlas>();
+		for(LightmapAtlasIndex index : shot.m_lightmaps)
+			if(atlases[index].m_dirty)
 			{
-				m_bake_queue.push_back({ render.m_scene, atlas });
+				m_bake_queue.push_back({ render.m_scene, LightmapAtlasHandle(*render.m_scene, index) });
 			}
 	}
 

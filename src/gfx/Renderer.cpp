@@ -307,10 +307,11 @@ namespace two
 
 	void Renderer::gather_draw_elements(Render& render, Pass& pass)
 	{
-		for(Item* item : render.m_shot->m_items)
-			for(const ModelElem& elem : item->m_model->m_items)
+		TStateStore<Item>& items = render.m_scene->store<Item>();
+		for(ItemIndex index : render.m_shot->m_items)
+			for(const ModelElem& elem : items[index].m_model->m_items)
 			{
-				DrawElement element = this->draw_element(*item, elem);
+				DrawElement element = this->draw_element(items[index], elem);
 				this->add_element(render, pass, element);
 			}
 	}
@@ -426,10 +427,11 @@ namespace two
 
 		this->clear_draw_elements(render, pass);
 
-		for(Item* item : render.m_shot->m_items)
-			for(const ModelElem& elem : item->m_model->m_items)
+		TStateStore<Item>& items = render.m_scene->store<Item>();
+		for(ItemIndex index : render.m_shot->m_items)
+			for(const ModelElem& elem : items[index].m_model->m_items)
 			{
-				DrawElement element = this->draw_element(*item, elem);
+				DrawElement element = this->draw_element(items[index], elem);
 				if(enqueue(m_gfx, render, pass, element))
 					this->add_element(render, pass, element);
 			}
@@ -441,10 +443,11 @@ namespace two
 	{
 		this->begin_render_pass(render, pass.m_pass_type);
 
-		for(Item* item : render.m_shot->m_items)
-			for(const ModelElem& elem : item->m_model->m_items)
+		TStateStore<Item>& items = render.m_scene->store<Item>();
+		for(ItemIndex index : render.m_shot->m_items)
+			for(const ModelElem& elem : items[index].m_model->m_items)
 			{
-				DrawElement element = this->draw_element(*item, elem);
+				DrawElement element = this->draw_element(items[index], elem);
 				if(enqueue(m_gfx, render, pass, element))
 				{
 					this->element_options(render, pass, element);

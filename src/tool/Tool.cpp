@@ -141,7 +141,7 @@ namespace two
 		{
 			if(!m_dragging)
 			{
-				auto callback = [&](Item* item) { m_current = &this->gizmo(*item); };
+				auto callback = [&](ItemHandle item) { m_current = &this->gizmo(item); };
 				viewer->picker(1).pick_point(viewer->m_viewport, event.m_relative, callback, ItemFlag::Ui);
 			}
 		}
@@ -179,10 +179,10 @@ namespace two
 		this->paint(viewer->m_scene->m_graph.sub(key(this)));
 	}
 
-	Gizmo& TransformTool::gizmo(Item& item)
+	Gizmo& TransformTool::gizmo(ItemHandle item)
 	{
 		for(auto& gizmo : m_gizmos)
-			if(gizmo->m_handle && &*gizmo->m_handle == &item)
+			if(gizmo->m_handle == item)
 				return *gizmo;
 
 		return *m_gizmos.front();

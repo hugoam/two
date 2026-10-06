@@ -7,6 +7,7 @@
 #include <gfx/Forward.h>
 #include <gfx/Node3.h>
 #include <gfx/Graph.h>
+#include <gfx/Handles.h>
 #include <gfx/Texture.h>
 
 #include <bgfx/bgfx.h>
@@ -120,20 +121,20 @@ namespace two
 		meth_ Gnode begin();
 		meth_ void update();
 
-		// visits the objects of a type of the scene's tree
+		// visits the objects of a type of the scene's tree, with their index in their store
 		template <class T, class T_Func>
-		inline void iterate(T_Func func) { this->template store<T>().iterate(m_render_tree, func); }
+		inline void iterate(T_Func func) { PooledGraph<Gnode>::template iterate<T>(m_render_tree, func); }
 
 		void debug_items(Render& render);
 
 		vector<Sound*> m_orphan_sounds;
 	};
 
-	export_ TWO_GFX_EXPORT void cull_items(Scene& scene, const Plane6& planes, vector<Item*>& items);
+	export_ TWO_GFX_EXPORT void cull_items(Scene& scene, const Plane6& planes, vector<ItemIndex>& items);
 
-	export_ TWO_GFX_EXPORT void gather_items(Scene& scene, const Camera& camera, vector<Item*>& items);
-	export_ TWO_GFX_EXPORT void gather_occluders(Scene& scene, const Camera& camera, vector<Item*>& occluders);
-	export_ TWO_GFX_EXPORT void gather_lights(Scene& scene, vector<Light*>& lights);
+	export_ TWO_GFX_EXPORT void gather_items(Scene& scene, const Camera& camera, vector<ItemIndex>& items);
+	export_ TWO_GFX_EXPORT void gather_occluders(Scene& scene, const Camera& camera, vector<ItemIndex>& occluders);
+	export_ TWO_GFX_EXPORT void gather_lights(Scene& scene, vector<LightIndex>& lights);
 
 	export_ TWO_GFX_EXPORT void gather_render(Scene& scene, Render& render);
 }

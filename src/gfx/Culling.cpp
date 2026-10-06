@@ -240,12 +240,13 @@ namespace two
 #ifdef DEBUG_VISIBLE
 		mat4 identity = bxidentity();
 		bool debug = render.m_target != nullptr;
+		TStateStore<Item>& items = render.m_scene->store<Item>();
 		if(debug)
-			for(Item* item : render.m_shot->m_items)
-				if((item->m_flags & ItemFlag::Occluder) == 0)
+			for(ItemIndex index : render.m_shot->m_items)
+				if((items[index].m_flags & ItemFlag::Occluder) == 0)
 				{
 					Colour colour = { 1.f, 1.f, 0.f, 0.15f };
-					render.m_shot->m_immediate[0]->draw(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
+					render.m_shot->m_immediate[0]->draw(identity, { Symbol::wire(colour, true), &items[index].m_aabb, OUTLINE });
 				}
 #endif
 	}
@@ -253,12 +254,14 @@ namespace two
 	void Culler::rasterize(Render& render)
 	{
 		const mat4 world_to_clip = render.m_camera->m_proj * render.m_camera->m_view;
+		TStateStore<Item>& items = render.m_scene->store<Item>();
 
-		for(Item* item : render.m_shot->m_occluders)
+		for(ItemIndex index : render.m_shot->m_occluders)
 		{
-			const mat4 model_to_clip = world_to_clip * item->m_node->m_transform;
+			Item& item = items[index];
+			const mat4 model_to_clip = world_to_clip * item.m_node->m_transform;
 
-			for(ModelElem& elem : item->m_model->m_items)
+			for(ModelElem& elem : item.m_model->m_items)
 			{
 				Mesh& mesh = *elem.m_mesh;
 
@@ -291,33 +294,35 @@ namespace two
 		static const mat4 identity = bxidentity();
 		const mat4 world_to_clip = render.m_camera->m_proj * render.m_camera->m_view;
 		const mat4 camera_to_world = inverse(render.m_camera->m_view);
+		TStateStore<Item>& store = render.m_scene->store<Item>();
 
-		vector<Item*> items = render.m_shot->m_items;
+		vector<ItemIndex> items = render.m_shot->m_items;
 		render.m_shot->m_items.clear();
 
 		Plane near = render.m_camera->near_plane();
 
-		vector<Item*> culled;
-		for(Item* item : items)
+		vector<ItemIndex> culled;
+		for(ItemIndex index : items)
 		{
-			if((item->m_flags & ItemFlag::Occluder) != 0)
+			Item& item = store[index];
+			if((item.m_flags & ItemFlag::Occluder) != 0)
 			{
-				render.m_shot->m_items.push_back(item);
+				render.m_shot->m_items.push_back(index);
 				continue;
 			}
 
 #ifdef ITEM_TO_CLIP
-			mat4 item_to_clip = world_to_clip * item->m_node->m_transform;
-			DepthRect bounds = project_aabb_strict(*render.m_camera, item_to_clip, item->m_model->m_aabb);
+			mat4 item_to_clip = world_to_clip * item.m_node->m_transform;
+			DepthRect bounds = project_aabb_strict(*render.m_camera, item_to_clip, item.m_model->m_aabb);
 #else
-			DepthRect bounds = project_aabb_strict(*render.m_camera, world_to_clip, item->m_aabb);
+			DepthRect bounds = project_aabb_strict(*render.m_camera, world_to_clip, item.m_aabb);
 #endif
 
 			MaskedOcclusionCulling::CullingResult result = m_moc->TestRect(bounds.lo.x, bounds.lo.y, bounds.hi.x, bounds.hi.y, bounds.depth);
 			if(result == MaskedOcclusionCulling::VISIBLE)
-				render.m_shot->m_items.push_back(item);
+				render.m_shot->m_items.push_back(index);
 			else
-				culled.push_back(item);
+				culled.push_back(index);
 
 #ifdef DEBUG_CULLED_RECTS
 			if(result != MaskedOcclusionCulling::VISIBLE)
@@ -331,10 +336,10 @@ namespace two
 #ifdef DEBUG_CULLED
 		bool debug = render.m_target != nullptr;
 		if(debug)
-			for(Item* item : culled)
+			for(ItemIndex index : culled)
 			{
 				Colour colour = { 1.f, 0.f, 1.f, 0.15f };
-				render.m_shot->m_immediate[0]->draw(identity, { Symbol::wire(colour, true), &item->m_aabb, OUTLINE });
+				render.m_shot->m_immediate[0]->draw(identity, { Symbol::wire(colour, true), &store[index].m_aabb, OUTLINE });
 			}
 #endif
 	}

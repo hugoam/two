@@ -61,8 +61,8 @@ namespace two
 		bool update(const uvec4& rect, const mat4& projection, float near, float far);
 
 		// update Records and Froxels texture with lights data. this is thread-safe.
-		void clusterize_lights(const Camera& camera, span<Light*> lights);
-		void clusterize_loop(const Camera& camera, span<Light*> lights);
+		void clusterize_lights(const Camera& camera, TStateStore<Light>& store, span<LightIndex> lights);
+		void clusterize_loop(const Camera& camera, TStateStore<Light>& store, span<LightIndex> lights);
 
 		// send cluster data to GPU
 		void upload();
@@ -96,7 +96,7 @@ namespace two
 
 		void clusterize_assign_records_compress(uint32_t num_lights);
 
-		void clusterize_light_group(const Camera& camera, span<Light*> lights, uint32_t offset, uint32_t stride);
+		void clusterize_light_group(const Camera& camera, TStateStore<Light>& store, span<LightIndex> lights, uint32_t offset, uint32_t stride);
 
 		GfxSystem& m_gfx;
 

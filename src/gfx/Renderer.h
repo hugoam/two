@@ -270,7 +270,7 @@ namespace two
 	{
 		ProgramVersion m_shader_version = {};
 		uint64_t m_bgfx_state = 0;
-		span<Light*> m_lights = {};
+		span<LightIndex> m_lights = {};
 	};
 
 	export_ class refl_ TWO_GFX_EXPORT Renderer
