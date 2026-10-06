@@ -4,32 +4,16 @@
 
 #pragma once
 
-#include <stl/function.h>
-#include <stl/string.h>
-#include <stl/vector.h>
-#include <stl/memory.h>
-#include <stl/map.h>
-#include <type/Unique.h>
-#include <math/Timer.h>
-#include <math/Vec.h>
 #include <snd/Forward.h>
 #include <snd/SoundImplementer.h>
 #include <snd/SoundListener.h>
 #include <snd/Sound.h>
 
-#ifdef SOUND_THREADED
-#include <type/Util/LocklessQueue.h>
-//#include <thread>
-//#include <memory>
-#endif
-
 namespace two
 {
-	using SoundCallback = void(*)(Sound&);
-
 	bool openal_check_error();
 
-	class TWO_SND_EXPORT SoundManager : public SoundImplementer
+	export_ class TWO_SND_EXPORT SoundManager : public SoundImplementer
 	{
 	public:
 		using SoundAction = function<void()>;

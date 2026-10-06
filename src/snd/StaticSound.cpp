@@ -3,9 +3,10 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 
-#include <snd/StaticSound.h>
-
-#include <AL/al.h>
+module;
+#include <infra/Cpp20.h>
+#include <snd/OpenAL.h>
+module two.snd;
 
 namespace two
 {

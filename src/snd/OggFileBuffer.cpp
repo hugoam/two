@@ -2,14 +2,11 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <snd/OggFileBuffer.h>
-
-#include <stl/vector.h>
-
+module;
+#include <infra/Cpp20.h>
 #include <vorbis/vorbisfile.h>
-
-#include <AL/al.h>
-#include <AL/alc.h>
+#include <snd/OpenAL.h>
+module two.snd;
 
 namespace two
 {

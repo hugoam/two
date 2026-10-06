@@ -1,6 +1,7 @@
 module;
 #include <infra/Cpp20.h>
 #include <infra/Config.h>
+#include <snd/Structs.h>
 
 export module two.snd;
 

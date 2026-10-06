@@ -9,7 +9,7 @@
 
 namespace two
 {
-	class StaticSound : public Sound
+	export_ class StaticSound : public Sound
 	{
 	public:
 		StaticSound(SoundImplementer& manager, SoundCallback callback = {});

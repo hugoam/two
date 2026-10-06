@@ -4,15 +4,13 @@
 
 #pragma once
 
-#include <type/Unique.h>
 #include <snd/Sound.h>
 #include <snd/SoundFileBuffer.h>
 
-#include <stl/vector.h>
 
 namespace two
 {
-	class StreamSound : public Sound
+	export_ class StreamSound : public Sound
 	{
 	public:
 		StreamSound(SoundImplementer& manager, SoundCallback callback = {});

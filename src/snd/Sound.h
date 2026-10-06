@@ -4,22 +4,17 @@
 
 #pragma once
 
-#include <stl/string.h>
-#include <stl/vector.h>
 #include <snd/Forward.h>
-#include <snd/Structs.h>
-#include <math/Vec.h>
 
-#include <stdint.h>
 
 namespace two
 {
 	class Sound;
 
 	using cstring = const char*;
-	using SoundCallback = void(*)(Sound&);
+	export_ using SoundCallback = void(*)(Sound&);
 
-	class TWO_SND_EXPORT Sound
+	export_ class TWO_SND_EXPORT Sound
 	{
 	public:
 		enum State

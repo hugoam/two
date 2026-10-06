@@ -2,25 +2,12 @@
 //  This software is provided 'as-is' under the zlib License, see the LICENSE.txt file.
 //  This notice and the license may not be removed or altered from any source distribution.
 
-#include <snd/SoundManager.h>
-
-#include <stl/hash_base.hpp>
-#include <stl/algorithm.h>
-#include <infra/File.h>
-#include <math/Vec.hpp>
-
-#include <AL/al.h>
-#include <AL/alc.h>
-
-#include <snd/StaticSound.h>
-#include <snd/StreamSound.h>
-#include <snd/SharedBuffer.h>
-#include <snd/SoundListener.h>
-
-#include <snd/SoundManager.h>
-
+module;
+#include <infra/Cpp20.h>
+#include <snd/OpenAL.h>
 #include <cstdio>
 #include <cstring>
+module two.snd;
 
 namespace two
 {

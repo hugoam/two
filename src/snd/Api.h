@@ -8,6 +8,5 @@
 #include <snd/SoundManager.h>
 #include <snd/StaticSound.h>
 #include <snd/StreamSound.h>
-#include <snd/Structs.h>
 #include <snd/Types.h>
 

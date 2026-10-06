@@ -6,11 +6,10 @@
 
 #include <snd/Sound.h>
 #include <snd/Forward.h>
-#include <stl/string.h>
 
 namespace two
 {
-	class TWO_SND_EXPORT SoundFileBuffer
+	export_ class TWO_SND_EXPORT SoundFileBuffer
 	{
 	public:
 		virtual ~SoundFileBuffer() {}

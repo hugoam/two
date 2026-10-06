@@ -203,6 +203,14 @@ function two_snd()
         path.join(TWO_3RDPARTY_DIR, "ogg", "include"),
         path.join(TWO_DIR, "scripts/3rdparty/ogg/"),
     }
+
+    configuration { "windows" }
+        includedirs {
+            "C:/Program Files (x86)/OpenAL/include",
+            "C:/Program Files/OpenAL/include",
+        }
+
+    configuration {}
 end
 
 function uses_two_snd()
@@ -211,6 +219,12 @@ function uses_two_snd()
         
     configuration { "not wasm*" }
         links { "OpenAL32" }
+
+    configuration { "windows" }
+        libdirs {
+            "C:/Program Files (x86)/OpenAL/libs/Win64",
+            "C:/Program Files/OpenAL/libs/Win64",
+        }
         
     configuration {}
 end

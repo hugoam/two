@@ -4,12 +4,11 @@
 
 #pragma once
 
-#include <math/Vec.h>
 #include <snd/Forward.h>
 
 namespace two
 {
-	class TWO_SND_EXPORT SoundListener
+	export_ class TWO_SND_EXPORT SoundListener
 	{
 	public:
 		SoundListener();

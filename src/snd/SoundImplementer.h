@@ -8,7 +8,7 @@
 
 namespace two
 {
-	class SoundImplementer
+	export_ class SoundImplementer
 	{
 	public:
 		virtual void play_sound(Sound& sound) = 0;

@@ -5,13 +5,12 @@
 #pragma once
 
 #include <snd/SoundFileBuffer.h>
-#include <type/Unique.h>
 
 namespace two
 {
 	using cstring = const char*;
 
-	class TWO_SND_EXPORT OggFileBuffer : public SoundFileBuffer
+	export_ class TWO_SND_EXPORT OggFileBuffer : public SoundFileBuffer
 	{
 	public:	
 		OggFileBuffer();

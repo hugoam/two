@@ -4,13 +4,12 @@
 
 #pragma once
 
-#include <type/Unique.h>
 #include <snd/SoundFileBuffer.h>
 #include <snd/OggFileBuffer.h>
 
 namespace two
 {
-	class SharedBuffer
+	export_ class SharedBuffer
 	{
 	public:
 		SharedBuffer(const string& fileName, SoundManager& manager);

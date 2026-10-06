@@ -3,11 +3,10 @@
 //  This notice and the license may not be removed or altered from any source distribution.
 
 
-#include <math/Vec.hpp>
-#include <snd/SoundListener.h>
-
-#include <AL/al.h>
-#include <AL/alc.h>
+module;
+#include <infra/Cpp20.h>
+#include <snd/OpenAL.h>
+module two.snd;
 
 namespace two
 {
