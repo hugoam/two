@@ -466,16 +466,18 @@ namespace two
 			frame.m_span = n.span;
 		}
 
-		++Frame::s_epoch;
+		++FrameCache::s_epoch;
 		m_nodes[0].widget->resolve();
 		for(uint32_t i = 1; i < uint32_t(m_nodes.size()); ++i)
 		{
 			if(!m_nodes[i].widget) continue;
-			Frame& frame = m_nodes[i].widget->frame();
-			const Frame& parent = m_nodes[m_nodes[i].frame_parent].widget->frame();
-			frame.d_absolute = parent.d_absolute + frame.m_position * parent.d_scale;
-			frame.d_scale = parent.d_scale * frame.m_scale;
-			frame.d_epoch = Frame::s_epoch;
+			Widget& widget = *m_nodes[i].widget;
+			const Frame& frame = widget.frame();
+			FrameCache& cache = widget.cache();
+			const FrameCache& parent = m_nodes[m_nodes[i].frame_parent].widget->cache();
+			cache.d_absolute = parent.d_absolute + frame.m_position * parent.d_scale;
+			cache.d_scale = parent.d_scale * frame.m_scale;
+			cache.d_epoch = FrameCache::s_epoch;
 		}
 	}
 
@@ -498,7 +500,7 @@ namespace two
 				m_layers[i]->setRedraw();
 				m_layers[i]->setForceRedraw(); // @ kludge for nodes in canvas when moving the canvas window
 			}
-			widget->frame().clearDirty();
+			widget->cache().clearDirty();
 		}
 	}
 }

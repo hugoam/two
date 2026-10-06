@@ -17,7 +17,7 @@ namespace two
 	template <> string to_string<DirtyLayout>(const DirtyLayout& dirty) { if(dirty == CLEAN) return "CLEAN"; else if(dirty == DIRTY_REDRAW) return "DIRTY_REDRAW"; else return "DIRTY_LAYOUT"; }
 
 	Vg* Frame::s_vg = nullptr;
-	uint64_t Frame::s_epoch = 1;
+	uint64_t FrameCache::s_epoch = 1;
 
 	Frame::Frame()
 		: UiRect()
@@ -48,8 +48,8 @@ namespace two
 	{
 		if(dirty == DIRTY_LAYOUT)
 		{
-			this->frame().set_dirty(DIRTY_LAYOUT);
-			this->root().frame().set_dirty(DIRTY_LAYOUT);
+			this->cache().set_dirty(DIRTY_LAYOUT);
+			this->root().cache().set_dirty(DIRTY_LAYOUT);
 		}
 		else if(dirty == DIRTY_REDRAW)
 		{
@@ -160,7 +160,7 @@ namespace two
 		Frame& frame = this->frame();
 		if(frame.m_position[dim] == position) return;
 		frame.m_position[dim] = position;
-		++Frame::s_epoch;
+		++FrameCache::s_epoch;
 		this->mark_dirty(DIRTY_REDRAW);
 	}
 
@@ -169,29 +169,30 @@ namespace two
 		Frame& frame = this->frame();
 		if(frame.m_scale == scale) return;
 		frame.m_scale = scale;
-		++Frame::s_epoch;
+		++FrameCache::s_epoch;
 		this->mark_dirty(DIRTY_REDRAW);
 	}
 
 	// a frame resolves its parent first, which is cached in turn: a frame resolves once for the current positions
 	void Widget::resolve()
 	{
-		Frame& frame = this->frame();
-		if(frame.d_epoch == Frame::s_epoch)
+		FrameCache& cache = this->cache();
+		if(cache.d_epoch == FrameCache::s_epoch)
 			return;
+		const Frame& frame = this->frame();
 		if(Widget* parent = this->parent())
 		{
 			parent->resolve();
-			const Frame& parent_frame = parent->frame();
-			frame.d_absolute = parent_frame.d_absolute + frame.m_position * parent_frame.d_scale;
-			frame.d_scale = parent_frame.d_scale * frame.m_scale;
+			const FrameCache& parent_cache = parent->cache();
+			cache.d_absolute = parent_cache.d_absolute + frame.m_position * parent_cache.d_scale;
+			cache.d_scale = parent_cache.d_scale * frame.m_scale;
 		}
 		else
 		{
-			frame.d_absolute = vec2(0.f);
-			frame.d_scale = 1.f;
+			cache.d_absolute = vec2(0.f);
+			cache.d_scale = 1.f;
 		}
-		frame.d_epoch = Frame::s_epoch;
+		cache.d_epoch = FrameCache::s_epoch;
 	}
 
 	void Widget::clamp_to_parent()
@@ -234,7 +235,7 @@ namespace two
 
 	void Widget::relayout()
 	{
-		if(this->frame().clearDirty() < DIRTY_LAYOUT)
+		if(this->cache().clearDirty() < DIRTY_LAYOUT)
 			return;
 
 		static LayoutTree tree;

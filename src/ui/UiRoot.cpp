@@ -12,6 +12,7 @@ namespace two
 		: Widget(static_cast<PooledGraph<Widget>&>(*this))
 		, EventDispatcher()
 		, m_frames(this->add_array<Frame>())
+		, m_caches(this->add_array<FrameCache>())
 		, m_window(window)
 		, m_keyboard(*this)
 		, m_mouse(*this, m_keyboard)

@@ -120,7 +120,7 @@ namespace two
 
 		if(old)
 			old->mark_dirty(DIRTY_LAYOUT);
-		++Frame::s_epoch;
+		++FrameCache::s_epoch;
 		this->mark_dirty(DIRTY_LAYOUT);
 	}
 
