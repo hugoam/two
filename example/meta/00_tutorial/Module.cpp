@@ -1,12 +1,12 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
+#ifdef TWO_MODULES
 module ._00_tutorial;
 #else
 #include <meta/00_tutorial/Module.h>
 #endif
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <meta/00_tutorial/Convert.h>
 #endif
 #define _00_TUTORIAL_REFLECTION_IMPL

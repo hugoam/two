@@ -2,7 +2,7 @@
 
 #pragma once
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <meta/15_script/Module.h>
 
 #include <type/Any.h>
@@ -11,7 +11,7 @@
 #include <refl/Module.h>
 #endif
 
-namespace mud
+namespace two
 {
     void _15_script_meta(Module& m)
     {   
@@ -40,7 +40,7 @@ namespace mud
             // members
             {
                 { type<GameObject>(), member_address(&GameObject::m_index), type<uint32_t>(), "index", var(uint32_t()), Member::Value, nullptr },
-                { type<GameObject>(), member_address(&GameObject::m_colour), type<mud::Colour>(), "colour", var(mud::Colour()), Member::Value, nullptr }
+                { type<GameObject>(), member_address(&GameObject::m_colour), type<two::Colour>(), "colour", var(two::Colour()), Member::Value, nullptr }
             },
             // methods
             {

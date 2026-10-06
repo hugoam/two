@@ -4,6 +4,6 @@
 
 #pragma once
 
-using namespace mud;
+using namespace two;
 
 void ex_07_prefabs(Shell& app, Widget parent, DockbarHandle dockbar);

@@ -115,7 +115,7 @@ now that we have created a module and reflected its contents, let's flesh out a 
 #include <mud/mud.h>
 #include <MyModule.h>
 
-using namespace mud;
+using namespace two;
 
 void pump(Shell& app)
 {

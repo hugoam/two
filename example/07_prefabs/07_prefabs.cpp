@@ -3,11 +3,11 @@ import two.frame;
 
 #include <07_prefabs/07_prefabs.h>
 
-using namespace mud;
+using namespace two;
 
-namespace mud
+namespace two
 {
-	//MUD_GFX_UI_EXPORT void prefab_edit(Widget parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected, EditContext& context);
+	//TWO_GFX_UI_EXPORT void prefab_edit(Widget parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected, EditContext& context);
 
 	void prefab_edit(Widget parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected, EditContext& context)
 	{
@@ -33,14 +33,14 @@ PrefabNode& add_node(Prefab& prefab, PrefabType type, Function& function, Ref ob
 
 void ex_07_prefabs_init(Shell& app)
 {
-#ifdef MUD_PLATFORM_EMSCRIPTEN
-	app.m_gfx_system.particles().load_files(MUD_RESOURCE_PATH);
-	app.m_gfx_system.models().load_files(MUD_RESOURCE_PATH);
+#ifdef TWO_PLATFORM_EMSCRIPTEN
+	app.m_gfx_system.particles().load_files(TWO_RESOURCE_PATH);
+	app.m_gfx_system.models().load_files(TWO_RESOURCE_PATH);
 #else
-	app.m_gfx_system.particles().load_files(MUD_RESOURCE_PATH "examples/07_prefabs/");
-	app.m_gfx_system.models().load_files(MUD_RESOURCE_PATH "examples/07_gltf/");
+	app.m_gfx_system.particles().load_files(TWO_RESOURCE_PATH "examples/07_prefabs/");
+	app.m_gfx_system.models().load_files(TWO_RESOURCE_PATH "examples/07_gltf/");
 #endif
-	//app.m_gfx_system.models().load_files(MUD_RESOURCE_PATH "models/");
+	//app.m_gfx_system.models().load_files(TWO_RESOURCE_PATH "models/");
 }
 
 void ex_07_prefabs(Shell& app, Widget parent, DockbarHandle dockbar)
@@ -127,10 +127,10 @@ void pump(Shell& app)
 
 int main(int argc, char *argv[])
 {
-	cstring prefab_path		= MUD_RESOURCE_PATH "examples/07_prefabs/";
-	cstring gtlf_path		= MUD_RESOURCE_PATH "examples/07_gltf/";
-	//cstring character_path	= MUD_RESOURCE_PATH "examples/07_character/";
-	Shell app(cstrarray(MUD_RESOURCE_PATH, prefab_path, gtlf_path), argc, argv);
+	cstring prefab_path		= TWO_RESOURCE_PATH "examples/07_prefabs/";
+	cstring gtlf_path		= TWO_RESOURCE_PATH "examples/07_gltf/";
+	//cstring character_path	= TWO_RESOURCE_PATH "examples/07_character/";
+	Shell app(cstrarray(TWO_RESOURCE_PATH, prefab_path, gtlf_path), argc, argv);
 	app.m_gfx_system.init_pipeline(pipeline_pbr);
 	app.run(pump);
 }

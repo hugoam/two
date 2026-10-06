@@ -36,7 +36,7 @@ this is the minimal sample code you need to run a mud application
 ```c++
 #include <mud/mud.h>
 
-using namespace mud;
+using namespace two;
 
 bool pump(Shell& app)
 {

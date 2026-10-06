@@ -3,7 +3,7 @@
 #include <infra/Config.h>
 
 #ifndef _00_TUTORIAL_EXPORT
-#define _00_TUTORIAL_EXPORT MUD_IMPORT
+#define _00_TUTORIAL_EXPORT TWO_IMPORT
 #endif
 
 enum class ShapeType : unsigned int;

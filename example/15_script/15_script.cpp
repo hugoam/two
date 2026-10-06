@@ -115,7 +115,7 @@ void pump(Shell& app)
 
 int main(int argc, char *argv[])
 {
-	Shell app(cstrarray(MUD_RESOURCE_PATH), argc, argv);
+	Shell app(cstrarray(TWO_RESOURCE_PATH), argc, argv);
 	LuaInterpreter lua = { true };
 
 	system().load_module(_15_script::m());

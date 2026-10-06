@@ -8,7 +8,7 @@
 
 #define INSTANCING 1
 
-using namespace mud;
+using namespace two;
 
 void xx_geom(Shell app, var parent, Dockbar dockbar)
 {

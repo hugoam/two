@@ -1,12 +1,12 @@
 #include <infra/Cpp20.h>
 
-#ifdef MUD_MODULES
+#ifdef TWO_MODULES
 module ._15_script;
 #else
 #include <meta/15_script/Module.h>
 #endif
 
-#ifndef MUD_MODULES
+#ifndef TWO_MODULES
 #include <meta/15_script/Convert.h>
 #endif
 #define _15_SCRIPT_REFLECTION_IMPL

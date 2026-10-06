@@ -25,7 +25,7 @@
 #include <19_multi_viewport/19_multi_viewport.h>
 #include <20_meta/20_meta.h>
 
-using namespace mud;
+using namespace two;
 
 struct Example
 {
@@ -92,9 +92,9 @@ void pump(Shell& app)
 
 int main(int argc, char *argv[])
 {
-	std::vector<string> example_paths = []() { std::vector<string> paths; for(Example ex : examples) paths.push_back(MUD_RESOURCE_PATH "examples/" + string(ex.m_name) + "/"); return paths; }();
+	std::vector<string> example_paths = []() { std::vector<string> paths; for(Example ex : examples) paths.push_back(TWO_RESOURCE_PATH "examples/" + string(ex.m_name) + "/"); return paths; }();
 	std::vector<cstring> resource_paths;
-	resource_paths.push_back(MUD_RESOURCE_PATH);
+	resource_paths.push_back(TWO_RESOURCE_PATH);
 	for(const string& path : example_paths)
 		resource_paths.push_back(path.c_str());
 

@@ -6,7 +6,7 @@
 
 #include <stl/vector.hpp>
 
-using namespace mud;
+using namespace two;
 
 var vertex_merged()
 {

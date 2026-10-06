@@ -5,7 +5,7 @@ import two.frame;
 #include <01_shapes/01_shapes.h>
 #include <03_materials/03_materials.h>
 
-using namespace mud;
+using namespace two;
 
 void generator_script(VisualScript& script)
 {
@@ -96,7 +96,7 @@ void pump(Shell& app)
 
 int main(int argc, char *argv[])
 {
-	Shell app(MUD_RESOURCE_PATH, exec_path(argc, argv).c_str());
+	Shell app(TWO_RESOURCE_PATH, exec_path(argc, argv).c_str());
 	app.m_gfx_system.init_pipeline(pipeline_minimal);
 	app.run(pump);
 }

@@ -2,19 +2,11 @@
 
 #include <15_script/Forward.h>
 
-#if !defined MUD_MODULES || defined MUD_TYPE_LIB
+#if defined TWO_TYPE_LIB
 #include <type/Type.h>
-#include <type/Vector.h>
 #endif
 
-#ifndef MUD_CPP_20
-#include <string>
-#include <cstdint>
-#include <vector>
-#endif
-
-
-namespace mud
+namespace two
 {
     // Exported types
     
