@@ -1,6 +1,7 @@
 #include <infra/Api.h>
 #include <pool/Api.h>
 #include <type/Api.h>
+#include <jobs/Api.h>
 #include <ecs/Api.h>
 
 #ifdef TWO_PLATFORM_EMSCRIPTEN

@@ -6,6 +6,8 @@ export module two.frame.meta;
 
 import two.frame;
 import two.refl;
+import two.ui;
+import two.ui.meta;
 import two.gfx;
 import two.gfx.meta;
 import two.gfx.ui;

@@ -123,7 +123,7 @@ namespace two
 namespace two
 {
 	two_frame::two_frame()
-		: Module("two::frame", { &two_gfx::m(), &two_gfx_ui::m() })
+		: Module("two::frame", { &two_ui::m(), &two_gfx::m(), &two_gfx_ui::m() })
 	{
 		// setup reflection meta data
 		two_frame_meta(*this);

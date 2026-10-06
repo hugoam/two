@@ -14,6 +14,8 @@ import two.pool;
 import two.pool.meta;
 import two.type;
 import two.type.meta;
+import two.jobs;
+import two.jobs.meta;
 
 #include <meta/ecs.meta.h>
 #include <meta/ecs.conv.h>

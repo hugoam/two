@@ -131,7 +131,7 @@ namespace two
 namespace two
 {
 	two_ecs::two_ecs()
-		: Module("two::ecs", { &two_infra::m(), &two_pool::m(), &two_type::m() })
+		: Module("two::ecs", { &two_infra::m(), &two_pool::m(), &two_type::m(), &two_jobs::m() })
 	{
 		// setup reflection meta data
 		two_ecs_meta(*this);
