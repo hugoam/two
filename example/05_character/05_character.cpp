@@ -33,12 +33,12 @@ public:
 	vector<State> m_states;
 };
 
-Mime& paint_human(Gnode parent, Human& human, bool high_lod)
+MimeHandle paint_human(Gnode parent, Human& human, bool high_lod)
 {
 	Gnode self = gfx::node(parent, human.m_position, human.m_rotation);
 	gfx::shape(self, Circle(0.35f), Symbol::wire(Colour::White), ItemFlag::Default | ItemFlag::Selectable);
-	Item* item = gfx::model(self, high_lod ? "human" : "human00", ItemFlag::Default | ItemFlag::Selectable);
-	Mime& animated = gfx::animated(self, *item);
+	ItemHandle item = gfx::model(self, high_lod ? "human" : "human00", ItemFlag::Default | ItemFlag::Selectable);
+	MimeHandle animated = gfx::animated(self, item);
 	return animated;
 }
 
@@ -124,7 +124,7 @@ void ex_05_character(Shell& app, Widget parent, DockbarHandle dockbar)
 	static Human* selected = &characters[0];
 	static cstring animations[] = { "TPose", "Idle", "Walk", "Run", "WalkFight" };
 	static size_t animation = 1;
-	static Mime* animated = nullptr;
+	static MimeHandle animated = nullptr;
 	static bool follow_character = false;
 	static bool anim_editor = false;
 	static bool model_high_lod = false;
@@ -145,7 +145,7 @@ void ex_05_character(Shell& app, Widget parent, DockbarHandle dockbar)
 	for(size_t i = 0; i < num_characters; ++i)
 	{
 		const Human::State& state = characters[i].m_states.back();
-		animated = &paint_human(scene, characters[i], model_high_lod);
+		animated = paint_human(scene, characters[i], model_high_lod);
 
 		if(anim_editor && selected == &characters[i])
 			continue;
@@ -175,7 +175,7 @@ void ex_05_character(Shell& app, Widget parent, DockbarHandle dockbar)
 	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
 		anim_editor = true;
-		animation_edit(*dock, *animated);
+		animation_edit(*dock, animated);
 	}
 	else
 	{

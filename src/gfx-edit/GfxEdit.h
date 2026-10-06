@@ -16,7 +16,7 @@ namespace two
 
 	export_ TWO_GFX_EDIT_EXPORT void space_axes(Gnode parent);
 
-	export_ TWO_GFX_EDIT_EXPORT void animation_edit(Widget parent, Mime& animated);
+	export_ TWO_GFX_EDIT_EXPORT void animation_edit(Widget parent, MimeHandle animated);
 
 	export_ TWO_GFX_EDIT_EXPORT void asset_browser(Widget parent, GfxSystem& gfx);
 

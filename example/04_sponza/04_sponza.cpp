@@ -59,9 +59,9 @@ void ex_04_sponza(Shell& app, Widget parent, DockbarHandle dockbar)
 	static float azimuth = 0.f;
 	static float altitude = c_pi2 - 0.01f - 0.1f;
 
-	Light& direct_light = gfx::direct_light_node(scene, sun_rotation(azimuth, altitude));
-	direct_light.m_energy = 2.f;
-	direct_light.m_shadow_range = 150.f; // @todo why does need to be doubled ? extents of this model are only ~70 in Y axis
+	LightHandle direct_light = gfx::direct_light_node(scene, sun_rotation(azimuth, altitude));
+	direct_light->m_energy = 2.f;
+	direct_light->m_shadow_range = 150.f; // @todo why does need to be doubled ? extents of this model are only ~70 in Y axis
 #endif
 
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
@@ -89,21 +89,21 @@ void ex_04_sponza(Shell& app, Widget parent, DockbarHandle dockbar)
 	gfx::prefab(sponza_node, prefab, false, ItemFlag::NoUpdate);
 
 #if GI_PROBE
-	GIProbe& probe = gfx::gi_probe(scene, 512, prefab.m_aabb.m_extents);
+	GIProbeHandle probe = gfx::gi_probe(scene, 512, prefab.m_aabb.m_extents);
 	//probe.m_transform = bxtranslation(-model.m_aabb.m_center);
 
 	if(app.m_gfx.m_frame == 1)
 	{
 		//probe.m_bounces = 1;
-		probe.m_diffuse = 6.f;
+		probe->m_diffuse = 6.f;
 	}
 #endif
 
 #if LIGHTMAPS
 	string path = app.m_gfx.m_resource_path + "/examples/04_sponza/lightmaps/";
-	LightmapAtlas& lightmap = gfx::lightmap(scene, 4096U, 4.f, path);
-	lightmap.m_capture_transform = bxidentity();
-	lightmap.m_capture_extents = prefab.m_aabb.m_extents;
+	LightmapAtlasHandle lightmap = gfx::lightmap(scene, 4096U, 4.f, path);
+	lightmap->m_capture_transform = bxidentity();
+	lightmap->m_capture_extents = prefab.m_aabb.m_extents;
 #endif
 
 #if DEBUG_CAPTURE
@@ -140,7 +140,7 @@ void ex_04_sponza(Shell& app, Widget parent, DockbarHandle dockbar)
 
 #if DIRECT_LIGHT
 		ui::label(key(), sheet, "Shadow : ");
-		ui::flag_field(key(), sheet, "Stabilize", (uint32_t&) direct_light.m_shadow_flags, 0);
+		ui::flag_field(key(), sheet, "Stabilize", (uint32_t&) direct_light->m_shadow_flags, 0);
 
 		ui::label(key(), sheet, "Sun :");
 		ui::slider_field(key(), sheet, "Azimuth", azimuth, { 0.f, c_pi, 0.01f });

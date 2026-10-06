@@ -66,9 +66,11 @@ namespace two
     export_ struct TonemapUniform;
     export_ class BlockTonemap;
     export_ class GIProbe;
+    export_ struct GIProbeHandle;
     export_ class ReflectionProbe;
     export_ class Lightmap;
     export_ class LightmapAtlas;
+    export_ struct LightmapAtlasHandle;
     export_ class LightmapItem;
     export_ class PBRShot;
 }

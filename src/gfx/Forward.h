@@ -128,6 +128,13 @@ namespace two
     export_ class Light;
 	export_ class Lines;
     export_ class Gnode;
+    export_ struct GnodeHandle;
+    export_ struct Node3Handle;
+    export_ struct ItemHandle;
+    export_ struct BatchHandle;
+    export_ struct LightHandle;
+    export_ struct MimeHandle;
+    export_ struct FlareHandle;
 	export_ class Item;
 	export_ class Direct;
 	export_ struct Batch;

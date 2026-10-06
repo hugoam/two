@@ -121,13 +121,13 @@ EX(xx_shadow_point)
 
 		Gnode node = gfx::node(parent, pos, rot);
 
-		Item& inner = gfx::shape(node, Sphere(0.3f), Symbol::plain(color * intensity));
-		Item& outer = gfx::shape(node, Sphere(2.0f), Symbol::plain(Colour::White), 0U, spheremat);
+		ItemHandle inner = gfx::shape(node, Sphere(0.3f), Symbol::plain(color * intensity));
+		ItemHandle outer = gfx::shape(node, Sphere(2.0f), Symbol::plain(Colour::White), 0U, spheremat);
 		
-		Light& light = gfx::light(node, LightType::Point, true, color, range, 0.6f);// intensity);
-		light.m_range = range;
-		light.m_energy = intensity;
-		light.m_shadow_bias = 0.005f;
+		LightHandle light = gfx::light(node, LightType::Point, true, color, range, 0.6f);// intensity);
+		light->m_range = range;
+		light->m_energy = intensity;
+		light->m_shadow_bias = 0.005f;
 
 		return node;
 	};

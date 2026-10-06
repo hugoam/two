@@ -4463,6 +4463,148 @@ Object.defineProperty(Light.prototype, "shadow_bias", {
 Light.prototype["__destroy"] = Light.prototype.__destroy = function() {
     _two_Light__destroy(this.__ptr);
 };
+// GnodeHandle
+function GnodeHandle() {
+    this.__ptr = _two_GnodeHandle__construct_0(); getCache(GnodeHandle)[this.__ptr] = this;
+};
+GnodeHandle.prototype = Object.create(WrapperObject.prototype);
+GnodeHandle.prototype.constructor = GnodeHandle;
+GnodeHandle.prototype.__class = GnodeHandle;
+GnodeHandle.__cache = {};
+Module['GnodeHandle'] = GnodeHandle;
+Object.defineProperty(GnodeHandle.prototype, "gnode", {
+    get: function() {
+        return wrapPointer(_two_GnodeHandle__get_gnode(this.__ptr), Gnode);
+    }});
+GnodeHandle.prototype["__destroy"] = GnodeHandle.prototype.__destroy = function() {
+    _two_GnodeHandle__destroy(this.__ptr);
+};
+// Node3Handle
+function Node3Handle() {
+    this.__ptr = _two_Node3Handle__construct_0(); getCache(Node3Handle)[this.__ptr] = this;
+};
+Node3Handle.prototype = Object.create(GnodeHandle.prototype);
+Node3Handle.prototype.constructor = Node3Handle;
+Node3Handle.prototype.__class = Node3Handle;
+Node3Handle.__base = GnodeHandle;
+Node3Handle.__cache = {};
+Module['Node3Handle'] = Node3Handle;
+Object.defineProperty(Node3Handle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_Node3Handle__get_self(this.__ptr), Gnode);
+    }});
+Object.defineProperty(Node3Handle.prototype, "node", {
+    get: function() {
+        return wrapPointer(_two_Node3Handle__get_node(this.__ptr), Node3);
+    }});
+Node3Handle.prototype["__destroy"] = Node3Handle.prototype.__destroy = function() {
+    _two_Node3Handle__destroy(this.__ptr);
+};
+// ItemHandle
+function ItemHandle() {
+    this.__ptr = _two_ItemHandle__construct_0(); getCache(ItemHandle)[this.__ptr] = this;
+};
+ItemHandle.prototype = Object.create(GnodeHandle.prototype);
+ItemHandle.prototype.constructor = ItemHandle;
+ItemHandle.prototype.__class = ItemHandle;
+ItemHandle.__base = GnodeHandle;
+ItemHandle.__cache = {};
+Module['ItemHandle'] = ItemHandle;
+Object.defineProperty(ItemHandle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_ItemHandle__get_self(this.__ptr), Gnode);
+    }});
+Object.defineProperty(ItemHandle.prototype, "item", {
+    get: function() {
+        return wrapPointer(_two_ItemHandle__get_item(this.__ptr), Item);
+    }});
+ItemHandle.prototype["__destroy"] = ItemHandle.prototype.__destroy = function() {
+    _two_ItemHandle__destroy(this.__ptr);
+};
+// BatchHandle
+function BatchHandle() {
+    this.__ptr = _two_BatchHandle__construct_0(); getCache(BatchHandle)[this.__ptr] = this;
+};
+BatchHandle.prototype = Object.create(GnodeHandle.prototype);
+BatchHandle.prototype.constructor = BatchHandle;
+BatchHandle.prototype.__class = BatchHandle;
+BatchHandle.__base = GnodeHandle;
+BatchHandle.__cache = {};
+Module['BatchHandle'] = BatchHandle;
+Object.defineProperty(BatchHandle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_BatchHandle__get_self(this.__ptr), Gnode);
+    }});
+Object.defineProperty(BatchHandle.prototype, "batch", {
+    get: function() {
+        return wrapPointer(_two_BatchHandle__get_batch(this.__ptr), Batch);
+    }});
+BatchHandle.prototype["__destroy"] = BatchHandle.prototype.__destroy = function() {
+    _two_BatchHandle__destroy(this.__ptr);
+};
+// LightHandle
+function LightHandle() {
+    this.__ptr = _two_LightHandle__construct_0(); getCache(LightHandle)[this.__ptr] = this;
+};
+LightHandle.prototype = Object.create(GnodeHandle.prototype);
+LightHandle.prototype.constructor = LightHandle;
+LightHandle.prototype.__class = LightHandle;
+LightHandle.__base = GnodeHandle;
+LightHandle.__cache = {};
+Module['LightHandle'] = LightHandle;
+Object.defineProperty(LightHandle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_LightHandle__get_self(this.__ptr), Gnode);
+    }});
+Object.defineProperty(LightHandle.prototype, "light", {
+    get: function() {
+        return wrapPointer(_two_LightHandle__get_light(this.__ptr), Light);
+    }});
+LightHandle.prototype["__destroy"] = LightHandle.prototype.__destroy = function() {
+    _two_LightHandle__destroy(this.__ptr);
+};
+// MimeHandle
+function MimeHandle() {
+    this.__ptr = _two_MimeHandle__construct_0(); getCache(MimeHandle)[this.__ptr] = this;
+};
+MimeHandle.prototype = Object.create(GnodeHandle.prototype);
+MimeHandle.prototype.constructor = MimeHandle;
+MimeHandle.prototype.__class = MimeHandle;
+MimeHandle.__base = GnodeHandle;
+MimeHandle.__cache = {};
+Module['MimeHandle'] = MimeHandle;
+Object.defineProperty(MimeHandle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_MimeHandle__get_self(this.__ptr), Gnode);
+    }});
+Object.defineProperty(MimeHandle.prototype, "mime", {
+    get: function() {
+        return wrapPointer(_two_MimeHandle__get_mime(this.__ptr), Mime);
+    }});
+MimeHandle.prototype["__destroy"] = MimeHandle.prototype.__destroy = function() {
+    _two_MimeHandle__destroy(this.__ptr);
+};
+// FlareHandle
+function FlareHandle() {
+    this.__ptr = _two_FlareHandle__construct_0(); getCache(FlareHandle)[this.__ptr] = this;
+};
+FlareHandle.prototype = Object.create(GnodeHandle.prototype);
+FlareHandle.prototype.constructor = FlareHandle;
+FlareHandle.prototype.__class = FlareHandle;
+FlareHandle.__base = GnodeHandle;
+FlareHandle.__cache = {};
+Module['FlareHandle'] = FlareHandle;
+Object.defineProperty(FlareHandle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_FlareHandle__get_self(this.__ptr), Gnode);
+    }});
+Object.defineProperty(FlareHandle.prototype, "flare", {
+    get: function() {
+        return wrapPointer(_two_FlareHandle__get_flare(this.__ptr), Flare);
+    }});
+FlareHandle.prototype["__destroy"] = FlareHandle.prototype.__destroy = function() {
+    _two_FlareHandle__destroy(this.__ptr);
+};
 // Gnode
 function Gnode() {
     this.__ptr = _two_Gnode__construct_0(); getCache(Gnode)[this.__ptr] = this;
@@ -5450,18 +5592,18 @@ Module['gfx']['node'] = function(a0, a1, a2, a3) {
     else if (a2 === undefined) { if (!checkClass(a0, Gnode)) throw Error('node(0:parent): expected Gnode'); if (!checkClass(a1, v3_float)) throw Error('node(1:position): expected v3<float>'); }
     else if (a3 === undefined) { if (!checkClass(a0, Gnode)) throw Error('node(0:parent): expected Gnode'); if (!checkClass(a1, v3_float)) throw Error('node(1:position): expected v3<float>'); if (!checkClass(a2, quat)) throw Error('node(2:rotation): expected quat'); }
     else { if (!checkClass(a0, Gnode)) throw Error('node(0:parent): expected Gnode'); if (!checkClass(a1, v3_float)) throw Error('node(1:position): expected v3<float>'); if (!checkClass(a2, quat)) throw Error('node(2:rotation): expected quat'); if (!checkClass(a3, v3_float)) throw Error('node(3:scale): expected v3<float>'); }
-    if (a1 === undefined) { return wrapPointer(_two_gfx_node_1(/*parent*/a0.__ptr), Gnode); }
-    else if (a2 === undefined) { return wrapPointer(_two_gfx_node_2(/*parent*/a0.__ptr, /*position*/a1.__ptr), Gnode); }
-    else if (a3 === undefined) { return wrapPointer(_two_gfx_node_3(/*parent*/a0.__ptr, /*position*/a1.__ptr, /*rotation*/a2.__ptr), Gnode); }
-    else { return wrapPointer(_two_gfx_node_4(/*parent*/a0.__ptr, /*position*/a1.__ptr, /*rotation*/a2.__ptr, /*scale*/a3.__ptr), Gnode); }
+    if (a1 === undefined) { return wrapPointer(_two_gfx_node_1(/*parent*/a0.__ptr), Node3Handle); }
+    else if (a2 === undefined) { return wrapPointer(_two_gfx_node_2(/*parent*/a0.__ptr, /*position*/a1.__ptr), Node3Handle); }
+    else if (a3 === undefined) { return wrapPointer(_two_gfx_node_3(/*parent*/a0.__ptr, /*position*/a1.__ptr, /*rotation*/a2.__ptr), Node3Handle); }
+    else { return wrapPointer(_two_gfx_node_4(/*parent*/a0.__ptr, /*position*/a1.__ptr, /*rotation*/a2.__ptr, /*scale*/a3.__ptr), Node3Handle); }
 };
 Module['gfx']['shape'] = function(a0, a1, a2, a3, a4) {
     if (a3 === undefined) { if (!checkClass(a0, Gnode)) throw Error('shape(0:parent): expected Gnode'); if (!checkClass(a1, Shape)) throw Error('shape(1:shape): expected Shape'); if (!checkClass(a2, Symbol)) throw Error('shape(2:symbol): expected Symbol'); }
     else if (a4 === undefined) { if (!checkClass(a0, Gnode)) throw Error('shape(0:parent): expected Gnode'); if (!checkClass(a1, Shape)) throw Error('shape(1:shape): expected Shape'); if (!checkClass(a2, Symbol)) throw Error('shape(2:symbol): expected Symbol'); if (typeof a3 !== 'number') throw Error('shape(3:flags): expected integer'); }
     else { if (!checkClass(a0, Gnode)) throw Error('shape(0:parent): expected Gnode'); if (!checkClass(a1, Shape)) throw Error('shape(1:shape): expected Shape'); if (!checkClass(a2, Symbol)) throw Error('shape(2:symbol): expected Symbol'); if (typeof a3 !== 'number') throw Error('shape(3:flags): expected integer'); if (!checkClass(a4, Material)) throw Error('shape(4:material): expected Material'); }
-    if (a3 === undefined) { return wrapPointer(_two_gfx_shape_3(/*parent*/a0.__ptr, /*shape*/a1.__ptr, /*symbol*/a2.__ptr), Item); }
-    else if (a4 === undefined) { return wrapPointer(_two_gfx_shape_4(/*parent*/a0.__ptr, /*shape*/a1.__ptr, /*symbol*/a2.__ptr, /*flags*/a3), Item); }
-    else { return wrapPointer(_two_gfx_shape_5(/*parent*/a0.__ptr, /*shape*/a1.__ptr, /*symbol*/a2.__ptr, /*flags*/a3, /*material*/a4.__ptr), Item); }
+    if (a3 === undefined) { return wrapPointer(_two_gfx_shape_3(/*parent*/a0.__ptr, /*shape*/a1.__ptr, /*symbol*/a2.__ptr), ItemHandle); }
+    else if (a4 === undefined) { return wrapPointer(_two_gfx_shape_4(/*parent*/a0.__ptr, /*shape*/a1.__ptr, /*symbol*/a2.__ptr, /*flags*/a3), ItemHandle); }
+    else { return wrapPointer(_two_gfx_shape_5(/*parent*/a0.__ptr, /*shape*/a1.__ptr, /*symbol*/a2.__ptr, /*flags*/a3, /*material*/a4.__ptr), ItemHandle); }
 };
 Module['gfx']['draw'] = function(a0, a1, a2, a3) {
     if (a3 === undefined) { if (!checkClass(a0, Gnode)) throw Error('draw(0:parent): expected Gnode'); if (!checkClass(a1, Shape)) throw Error('draw(1:shape): expected Shape'); if (!checkClass(a2, Symbol)) throw Error('draw(2:symbol): expected Symbol'); }
@@ -5473,27 +5615,27 @@ Module['gfx']['sprite'] = function(a0, a1, a2, a3, a4) {
     if (a3 === undefined) { if (!checkClass(a0, Gnode)) throw Error('sprite(0:parent): expected Gnode'); if (!checkClass(a1, Image256)) throw Error('sprite(1:image): expected Image256'); if (!checkClass(a2, v2_float)) throw Error('sprite(2:size): expected v2<float>'); }
     else if (a4 === undefined) { if (!checkClass(a0, Gnode)) throw Error('sprite(0:parent): expected Gnode'); if (!checkClass(a1, Image256)) throw Error('sprite(1:image): expected Image256'); if (!checkClass(a2, v2_float)) throw Error('sprite(2:size): expected v2<float>'); if (typeof a3 !== 'number') throw Error('sprite(3:flags): expected integer'); }
     else { if (!checkClass(a0, Gnode)) throw Error('sprite(0:parent): expected Gnode'); if (!checkClass(a1, Image256)) throw Error('sprite(1:image): expected Image256'); if (!checkClass(a2, v2_float)) throw Error('sprite(2:size): expected v2<float>'); if (typeof a3 !== 'number') throw Error('sprite(3:flags): expected integer'); if (!checkClass(a4, Material)) throw Error('sprite(4:material): expected Material'); }
-    if (a3 === undefined) { return wrapPointer(_two_gfx_sprite_3(/*parent*/a0.__ptr, /*image*/a1.__ptr, /*size*/a2.__ptr), Item); }
-    else if (a4 === undefined) { return wrapPointer(_two_gfx_sprite_4(/*parent*/a0.__ptr, /*image*/a1.__ptr, /*size*/a2.__ptr, /*flags*/a3), Item); }
-    else { return wrapPointer(_two_gfx_sprite_5(/*parent*/a0.__ptr, /*image*/a1.__ptr, /*size*/a2.__ptr, /*flags*/a3, /*material*/a4.__ptr), Item); }
+    if (a3 === undefined) { return wrapPointer(_two_gfx_sprite_3(/*parent*/a0.__ptr, /*image*/a1.__ptr, /*size*/a2.__ptr), ItemHandle); }
+    else if (a4 === undefined) { return wrapPointer(_two_gfx_sprite_4(/*parent*/a0.__ptr, /*image*/a1.__ptr, /*size*/a2.__ptr, /*flags*/a3), ItemHandle); }
+    else { return wrapPointer(_two_gfx_sprite_5(/*parent*/a0.__ptr, /*image*/a1.__ptr, /*size*/a2.__ptr, /*flags*/a3, /*material*/a4.__ptr), ItemHandle); }
 };
 Module['gfx']['item'] = function(a0, a1, a2, a3) {
     if (a2 === undefined) { if (!checkClass(a0, Gnode)) throw Error('item(0:parent): expected Gnode'); if (!checkClass(a1, Model)) throw Error('item(1:model): expected Model'); }
     else if (a3 === undefined) { if (!checkClass(a0, Gnode)) throw Error('item(0:parent): expected Gnode'); if (!checkClass(a1, Model)) throw Error('item(1:model): expected Model'); if (typeof a2 !== 'number') throw Error('item(2:flags): expected integer'); }
     else { if (!checkClass(a0, Gnode)) throw Error('item(0:parent): expected Gnode'); if (!checkClass(a1, Model)) throw Error('item(1:model): expected Model'); if (typeof a2 !== 'number') throw Error('item(2:flags): expected integer'); if (!checkClass(a3, Material)) throw Error('item(3:material): expected Material'); }
-    if (a2 === undefined) { return wrapPointer(_two_gfx_item_2(/*parent*/a0.__ptr, /*model*/a1.__ptr), Item); }
-    else if (a3 === undefined) { return wrapPointer(_two_gfx_item_3(/*parent*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2), Item); }
-    else { return wrapPointer(_two_gfx_item_4(/*parent*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2, /*material*/a3.__ptr), Item); }
+    if (a2 === undefined) { return wrapPointer(_two_gfx_item_2(/*parent*/a0.__ptr, /*model*/a1.__ptr), ItemHandle); }
+    else if (a3 === undefined) { return wrapPointer(_two_gfx_item_3(/*parent*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2), ItemHandle); }
+    else { return wrapPointer(_two_gfx_item_4(/*parent*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2, /*material*/a3.__ptr), ItemHandle); }
 };
 Module['gfx']['batch'] = function(a0, a1, a2) {
-    if (!checkClass(a0, Gnode)) throw Error('batch(0:parent): expected Gnode'); if (!checkClass(a1, Item)) throw Error('batch(1:item): expected Item'); if (typeof a2 !== 'number') throw Error('batch(2:stride): expected integer');
-    return wrapPointer(_two_gfx_batch_3(/*parent*/a0.__ptr, /*item*/a1.__ptr, /*stride*/a2), Batch);
+    if (!checkClass(a0, Gnode)) throw Error('batch(0:parent): expected Gnode'); if (!checkClass(a1, ItemHandle)) throw Error('batch(1:item): expected ItemHandle'); if (typeof a2 !== 'number') throw Error('batch(2:stride): expected integer');
+    return wrapPointer(_two_gfx_batch_3(/*parent*/a0.__ptr, /*item*/a1.__ptr, /*stride*/a2), BatchHandle);
 };
 Module['gfx']['instances'] = function(a0, a1, a2) {
-    if (a2 === undefined) { if (!checkClass(a0, Gnode)) throw Error('instances(0:parent): expected Gnode'); if (!checkClass(a1, Item)) throw Error('instances(1:item): expected Item'); }
-    else { if (!checkClass(a0, Gnode)) throw Error('instances(0:parent): expected Gnode'); if (!checkClass(a1, Item)) throw Error('instances(1:item): expected Item');  }
-    if (a2 === undefined) { return wrapPointer(_two_gfx_instances_2(/*parent*/a0.__ptr, /*item*/a1.__ptr), Batch); }
-    else { return wrapPointer(_two_gfx_instances_3(/*parent*/a0.__ptr, /*item*/a1.__ptr, ensureFloat32(/*transforms*/a2), /*transforms*/a2.length), Batch); }
+    if (a2 === undefined) { if (!checkClass(a0, Gnode)) throw Error('instances(0:parent): expected Gnode'); if (!checkClass(a1, ItemHandle)) throw Error('instances(1:item): expected ItemHandle'); }
+    else { if (!checkClass(a0, Gnode)) throw Error('instances(0:parent): expected Gnode'); if (!checkClass(a1, ItemHandle)) throw Error('instances(1:item): expected ItemHandle');  }
+    if (a2 === undefined) { return wrapPointer(_two_gfx_instances_2(/*parent*/a0.__ptr, /*item*/a1.__ptr), BatchHandle); }
+    else { return wrapPointer(_two_gfx_instances_3(/*parent*/a0.__ptr, /*item*/a1.__ptr, ensureFloat32(/*transforms*/a2), /*transforms*/a2.length), BatchHandle); }
 };
 Module['gfx']['prefab'] = function(a0, a1, a2, a3, a4) {
     if (a2 === undefined) { if (!checkClass(a0, Gnode)) throw Error('prefab(0:parent): expected Gnode'); if (!checkClass(a1, Prefab)) throw Error('prefab(1:prefab): expected Prefab'); }
@@ -5510,31 +5652,31 @@ Module['gfx']['model'] = function(a0, a1, a2, a3) {
     if (a2 === undefined) { if (!checkClass(a0, Gnode)) throw Error('model(0:parent): expected Gnode'); if (typeof a1 !== 'string') throw Error('model(1:name): expected string'); }
     else if (a3 === undefined) { if (!checkClass(a0, Gnode)) throw Error('model(0:parent): expected Gnode'); if (typeof a1 !== 'string') throw Error('model(1:name): expected string'); if (typeof a2 !== 'number') throw Error('model(2:flags): expected integer'); }
     else { if (!checkClass(a0, Gnode)) throw Error('model(0:parent): expected Gnode'); if (typeof a1 !== 'string') throw Error('model(1:name): expected string'); if (typeof a2 !== 'number') throw Error('model(2:flags): expected integer'); if (!checkClass(a3, Material)) throw Error('model(3:material): expected Material'); }
-    if (a2 === undefined) { return wrapPointer(_two_gfx_model_2(/*parent*/a0.__ptr, ensureString(/*name*/a1)), Item); }
-    else if (a3 === undefined) { return wrapPointer(_two_gfx_model_3(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*flags*/a2), Item); }
-    else { return wrapPointer(_two_gfx_model_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*flags*/a2, /*material*/a3.__ptr), Item); }
+    if (a2 === undefined) { return wrapPointer(_two_gfx_model_2(/*parent*/a0.__ptr, ensureString(/*name*/a1)), ItemHandle); }
+    else if (a3 === undefined) { return wrapPointer(_two_gfx_model_3(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*flags*/a2), ItemHandle); }
+    else { return wrapPointer(_two_gfx_model_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*flags*/a2, /*material*/a3.__ptr), ItemHandle); }
 };
 Module['gfx']['animated'] = function(a0, a1) {
-    if (!checkClass(a0, Gnode)) throw Error('animated(0:parent): expected Gnode'); if (!checkClass(a1, Item)) throw Error('animated(1:item): expected Item');
-    return wrapPointer(_two_gfx_animated_2(/*parent*/a0.__ptr, /*item*/a1.__ptr), Mime);
+    if (!checkClass(a0, Gnode)) throw Error('animated(0:parent): expected Gnode'); if (!checkClass(a1, ItemHandle)) throw Error('animated(1:item): expected ItemHandle');
+    return wrapPointer(_two_gfx_animated_2(/*parent*/a0.__ptr, /*item*/a1.__ptr), MimeHandle);
 };
 Module['gfx']['flows'] = function(a0, a1, a2) {
     if (a2 === undefined) { if (!checkClass(a0, Gnode)) throw Error('flows(0:parent): expected Gnode'); if (!checkClass(a1, Flow)) throw Error('flows(1:emitter): expected Flow'); }
     else { if (!checkClass(a0, Gnode)) throw Error('flows(0:parent): expected Gnode'); if (!checkClass(a1, Flow)) throw Error('flows(1:emitter): expected Flow'); if (typeof a2 !== 'number') throw Error('flows(2:flags): expected integer'); }
-    if (a2 === undefined) { return wrapPointer(_two_gfx_flows_2(/*parent*/a0.__ptr, /*emitter*/a1.__ptr), Flare); }
-    else { return wrapPointer(_two_gfx_flows_3(/*parent*/a0.__ptr, /*emitter*/a1.__ptr, /*flags*/a2), Flare); }
+    if (a2 === undefined) { return wrapPointer(_two_gfx_flows_2(/*parent*/a0.__ptr, /*emitter*/a1.__ptr), FlareHandle); }
+    else { return wrapPointer(_two_gfx_flows_3(/*parent*/a0.__ptr, /*emitter*/a1.__ptr, /*flags*/a2), FlareHandle); }
 };
 Module['gfx']['light'] = function(a0, a1, a2, a3, a4, a5) {
     if (a4 === undefined) { if (!checkClass(a0, Gnode)) throw Error('light(0:parent): expected Gnode'); if (typeof a1 !== 'number') throw Error('light(1:type): expected integer'); if (typeof a2 !== 'boolean') throw Error('light(2:shadows): expected boolean'); if (!checkClass(a3, Colour)) throw Error('light(3:colour): expected Colour'); }
     else if (a5 === undefined) { if (!checkClass(a0, Gnode)) throw Error('light(0:parent): expected Gnode'); if (typeof a1 !== 'number') throw Error('light(1:type): expected integer'); if (typeof a2 !== 'boolean') throw Error('light(2:shadows): expected boolean'); if (!checkClass(a3, Colour)) throw Error('light(3:colour): expected Colour'); if (typeof a4 !== 'number') throw Error('light(4:range): expected number'); }
     else { if (!checkClass(a0, Gnode)) throw Error('light(0:parent): expected Gnode'); if (typeof a1 !== 'number') throw Error('light(1:type): expected integer'); if (typeof a2 !== 'boolean') throw Error('light(2:shadows): expected boolean'); if (!checkClass(a3, Colour)) throw Error('light(3:colour): expected Colour'); if (typeof a4 !== 'number') throw Error('light(4:range): expected number'); if (typeof a5 !== 'number') throw Error('light(5:attenuation): expected number'); }
-    if (a4 === undefined) { return wrapPointer(_two_gfx_light_4(/*parent*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr), Light); }
-    else if (a5 === undefined) { return wrapPointer(_two_gfx_light_5(/*parent*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr, /*range*/a4), Light); }
-    else { return wrapPointer(_two_gfx_light_6(/*parent*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr, /*range*/a4, /*attenuation*/a5), Light); }
+    if (a4 === undefined) { return wrapPointer(_two_gfx_light_4(/*parent*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr), LightHandle); }
+    else if (a5 === undefined) { return wrapPointer(_two_gfx_light_5(/*parent*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr, /*range*/a4), LightHandle); }
+    else { return wrapPointer(_two_gfx_light_6(/*parent*/a0.__ptr, /*type*/a1, /*shadows*/a2, /*colour*/a3.__ptr, /*range*/a4, /*attenuation*/a5), LightHandle); }
 };
 Module['gfx']['sun_light'] = function(a0, a1, a2) {
     if (!checkClass(a0, Gnode)) throw Error('sun_light(0:parent): expected Gnode'); if (typeof a1 !== 'number') throw Error('sun_light(1:azimuth): expected number'); if (typeof a2 !== 'number') throw Error('sun_light(2:elevation): expected number');
-    return wrapPointer(_two_gfx_sun_light_3(/*parent*/a0.__ptr, /*azimuth*/a1, /*elevation*/a2), Light);
+    return wrapPointer(_two_gfx_sun_light_3(/*parent*/a0.__ptr, /*azimuth*/a1, /*elevation*/a2), LightHandle);
 };
 Module['gfx']['radiance'] = function(a0, a1, a2) {
     ensureCache.prepare();
@@ -5543,7 +5685,7 @@ Module['gfx']['radiance'] = function(a0, a1, a2) {
 };
 Module['gfx']['direct_light_node'] = function(a0, a1) {
     if (!checkClass(a0, Gnode)) throw Error('direct_light_node(0:parent): expected Gnode'); if (!checkClass(a1, v3_float)) throw Error('direct_light_node(1:direction): expected v3<float>');
-    return wrapPointer(_two_gfx_direct_light_node_2(/*parent*/a0.__ptr, /*direction*/a1.__ptr), Light);
+    return wrapPointer(_two_gfx_direct_light_node_2(/*parent*/a0.__ptr, /*direction*/a1.__ptr), LightHandle);
 };
 Module['gfx']['solid_material'] = function(a0, a1, a2) {
     ensureCache.prepare();
@@ -5673,6 +5815,13 @@ Module['render_clear'] = function(a0, a1) {
         BlockCopy.prototype.__type = _two_BlockCopy__type();
         ClusteredFrustum.prototype.__type = _two_ClusteredFrustum__type();
         Light.prototype.__type = _two_Light__type();
+        GnodeHandle.prototype.__type = _two_GnodeHandle__type();
+        Node3Handle.prototype.__type = _two_Node3Handle__type();
+        ItemHandle.prototype.__type = _two_ItemHandle__type();
+        BatchHandle.prototype.__type = _two_BatchHandle__type();
+        LightHandle.prototype.__type = _two_LightHandle__type();
+        MimeHandle.prototype.__type = _two_MimeHandle__type();
+        FlareHandle.prototype.__type = _two_FlareHandle__type();
         Gnode.prototype.__type = _two_Gnode__type();
         Culler.prototype.__type = _two_Culler__type();
         Viewport.prototype.__type = _two_Viewport__type();

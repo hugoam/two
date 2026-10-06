@@ -12,4 +12,32 @@ namespace two
 	template <> struct TypedBuffer<BCS> { static uint32_t index() { return 1; } };
 	template <> struct TypedBuffer<Glow> { static uint32_t index() { return 2; } };
 	template <> struct TypedBuffer<DofBlur> { static uint32_t index() { return 3; } };
+
+	// a handle to the node of a global illumination probe, the probe in its state reached through ->
+	export_ struct refl_ struct_ GIProbeHandle : public GnodeHandle
+	{
+		GIProbeHandle() {}
+		GIProbeHandle(nullptr_t) {}
+		inline explicit GIProbeHandle(Gnode self);
+
+		attr_ inline Gnode self() const;
+		attr_ inline GIProbe& probe() const;
+
+		inline GIProbe* operator->() const;
+		inline GIProbe& operator*() const;
+	};
+
+	// a handle to the node of a lightmap atlas, the atlas in its state reached through ->
+	export_ struct refl_ struct_ LightmapAtlasHandle : public GnodeHandle
+	{
+		LightmapAtlasHandle() {}
+		LightmapAtlasHandle(nullptr_t) {}
+		inline explicit LightmapAtlasHandle(Gnode self);
+
+		attr_ inline Gnode self() const;
+		attr_ inline LightmapAtlas& atlas() const;
+
+		inline LightmapAtlas* operator->() const;
+		inline LightmapAtlas& operator*() const;
+	};
 }

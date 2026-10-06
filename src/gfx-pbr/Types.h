@@ -29,6 +29,8 @@ namespace two
     template <> TWO_GFX_PBR_EXPORT Type& type<two::CSMSlice>();
     template <> TWO_GFX_PBR_EXPORT Type& type<two::CSMShadow>();
     template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockShadow>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::GIProbeHandle>();
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::LightmapAtlasHandle>();
     template <> TWO_GFX_PBR_EXPORT Type& type<two::GIProbe>();
     template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockGITrace>();
     template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockGIBake>();

@@ -22,3 +22,4 @@
 #include <gfx-pbr/Gpu/DofBlur.hpp>
 #include <gfx-pbr/Gpu/Glow.hpp>
 #include <gfx-pbr/Gpu/Tonemap.hpp>
+#include <gfx-pbr/Handles.hpp>

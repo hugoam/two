@@ -131,6 +131,13 @@ namespace two
     template <> TWO_GFX_EXPORT Type& type<two::BlockCopy>();
     template <> TWO_GFX_EXPORT Type& type<two::ClusteredFrustum>();
     template <> TWO_GFX_EXPORT Type& type<two::Light>();
+    template <> TWO_GFX_EXPORT Type& type<two::GnodeHandle>();
+    template <> TWO_GFX_EXPORT Type& type<two::Node3Handle>();
+    template <> TWO_GFX_EXPORT Type& type<two::ItemHandle>();
+    template <> TWO_GFX_EXPORT Type& type<two::BatchHandle>();
+    template <> TWO_GFX_EXPORT Type& type<two::LightHandle>();
+    template <> TWO_GFX_EXPORT Type& type<two::MimeHandle>();
+    template <> TWO_GFX_EXPORT Type& type<two::FlareHandle>();
     template <> TWO_GFX_EXPORT Type& type<two::Gnode>();
     template <> TWO_GFX_EXPORT Type& type<two::Culler>();
     template <> TWO_GFX_EXPORT Type& type<two::Viewport>();

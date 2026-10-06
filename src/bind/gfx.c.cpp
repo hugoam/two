@@ -3259,6 +3259,122 @@ extern "C" {
 	void DECL two_Light__destroy(two::Light* self) {
 		delete self;
 	}
+	// GnodeHandle
+	two::Type* DECL two_GnodeHandle__type() {
+		return &two::type<two::GnodeHandle>();
+	}
+	two::GnodeHandle* DECL two_GnodeHandle__construct_0() {
+		return new two::GnodeHandle();
+	}
+	two::Gnode* DECL two_GnodeHandle__get_gnode(two::GnodeHandle* self) {
+		static two::Gnode temp;
+		return (temp = self->gnode(), &temp);
+	}
+	void DECL two_GnodeHandle__destroy(two::GnodeHandle* self) {
+		delete self;
+	}
+	// Node3Handle
+	two::Type* DECL two_Node3Handle__type() {
+		return &two::type<two::Node3Handle>();
+	}
+	two::Node3Handle* DECL two_Node3Handle__construct_0() {
+		return new two::Node3Handle();
+	}
+	two::Gnode* DECL two_Node3Handle__get_self(two::Node3Handle* self) {
+		static two::Gnode temp;
+		return (temp = self->self(), &temp);
+	}
+	two::Node3* DECL two_Node3Handle__get_node(two::Node3Handle* self) {
+		return &self->node();
+	}
+	void DECL two_Node3Handle__destroy(two::Node3Handle* self) {
+		delete self;
+	}
+	// ItemHandle
+	two::Type* DECL two_ItemHandle__type() {
+		return &two::type<two::ItemHandle>();
+	}
+	two::ItemHandle* DECL two_ItemHandle__construct_0() {
+		return new two::ItemHandle();
+	}
+	two::Gnode* DECL two_ItemHandle__get_self(two::ItemHandle* self) {
+		static two::Gnode temp;
+		return (temp = self->self(), &temp);
+	}
+	two::Item* DECL two_ItemHandle__get_item(two::ItemHandle* self) {
+		return &self->item();
+	}
+	void DECL two_ItemHandle__destroy(two::ItemHandle* self) {
+		delete self;
+	}
+	// BatchHandle
+	two::Type* DECL two_BatchHandle__type() {
+		return &two::type<two::BatchHandle>();
+	}
+	two::BatchHandle* DECL two_BatchHandle__construct_0() {
+		return new two::BatchHandle();
+	}
+	two::Gnode* DECL two_BatchHandle__get_self(two::BatchHandle* self) {
+		static two::Gnode temp;
+		return (temp = self->self(), &temp);
+	}
+	two::Batch* DECL two_BatchHandle__get_batch(two::BatchHandle* self) {
+		return &self->batch();
+	}
+	void DECL two_BatchHandle__destroy(two::BatchHandle* self) {
+		delete self;
+	}
+	// LightHandle
+	two::Type* DECL two_LightHandle__type() {
+		return &two::type<two::LightHandle>();
+	}
+	two::LightHandle* DECL two_LightHandle__construct_0() {
+		return new two::LightHandle();
+	}
+	two::Gnode* DECL two_LightHandle__get_self(two::LightHandle* self) {
+		static two::Gnode temp;
+		return (temp = self->self(), &temp);
+	}
+	two::Light* DECL two_LightHandle__get_light(two::LightHandle* self) {
+		return &self->light();
+	}
+	void DECL two_LightHandle__destroy(two::LightHandle* self) {
+		delete self;
+	}
+	// MimeHandle
+	two::Type* DECL two_MimeHandle__type() {
+		return &two::type<two::MimeHandle>();
+	}
+	two::MimeHandle* DECL two_MimeHandle__construct_0() {
+		return new two::MimeHandle();
+	}
+	two::Gnode* DECL two_MimeHandle__get_self(two::MimeHandle* self) {
+		static two::Gnode temp;
+		return (temp = self->self(), &temp);
+	}
+	two::Mime* DECL two_MimeHandle__get_mime(two::MimeHandle* self) {
+		return &self->mime();
+	}
+	void DECL two_MimeHandle__destroy(two::MimeHandle* self) {
+		delete self;
+	}
+	// FlareHandle
+	two::Type* DECL two_FlareHandle__type() {
+		return &two::type<two::FlareHandle>();
+	}
+	two::FlareHandle* DECL two_FlareHandle__construct_0() {
+		return new two::FlareHandle();
+	}
+	two::Gnode* DECL two_FlareHandle__get_self(two::FlareHandle* self) {
+		static two::Gnode temp;
+		return (temp = self->self(), &temp);
+	}
+	two::Flare* DECL two_FlareHandle__get_flare(two::FlareHandle* self) {
+		return &self->flare();
+	}
+	void DECL two_FlareHandle__destroy(two::FlareHandle* self) {
+		delete self;
+	}
 	// Gnode
 	two::Type* DECL two_Gnode__type() {
 		return &two::type<two::Gnode>();
@@ -3998,30 +4114,33 @@ extern "C" {
 	void DECL two_gfx_setup_pipeline_minimal_1(two::GfxSystem* gfx) {
 		two::gfx::setup_pipeline_minimal(*gfx);
 	}
-	two::Gnode* DECL two_gfx_node_1(two::Gnode* parent) {
-		static two::Gnode temp;
+	two::Node3Handle* DECL two_gfx_node_1(two::Gnode* parent) {
+		static two::Node3Handle temp;
 		return (temp = two::gfx::node(*parent), &temp);
 	}
-	two::Gnode* DECL two_gfx_node_2(two::Gnode* parent, const two::vec3* position) {
-		static two::Gnode temp;
+	two::Node3Handle* DECL two_gfx_node_2(two::Gnode* parent, const two::vec3* position) {
+		static two::Node3Handle temp;
 		return (temp = two::gfx::node(*parent, *position), &temp);
 	}
-	two::Gnode* DECL two_gfx_node_3(two::Gnode* parent, const two::vec3* position, const two::quat* rotation) {
-		static two::Gnode temp;
+	two::Node3Handle* DECL two_gfx_node_3(two::Gnode* parent, const two::vec3* position, const two::quat* rotation) {
+		static two::Node3Handle temp;
 		return (temp = two::gfx::node(*parent, *position, *rotation), &temp);
 	}
-	two::Gnode* DECL two_gfx_node_4(two::Gnode* parent, const two::vec3* position, const two::quat* rotation, const two::vec3* scale) {
-		static two::Gnode temp;
+	two::Node3Handle* DECL two_gfx_node_4(two::Gnode* parent, const two::vec3* position, const two::quat* rotation, const two::vec3* scale) {
+		static two::Node3Handle temp;
 		return (temp = two::gfx::node(*parent, *position, *rotation, *scale), &temp);
 	}
-	two::Item* DECL two_gfx_shape_3(two::Gnode* parent, const two::Shape* shape, const two::Symbol* symbol) {
-		return &two::gfx::shape(*parent, *shape, *symbol);
+	two::ItemHandle* DECL two_gfx_shape_3(two::Gnode* parent, const two::Shape* shape, const two::Symbol* symbol) {
+		static two::ItemHandle temp;
+		return (temp = two::gfx::shape(*parent, *shape, *symbol), &temp);
 	}
-	two::Item* DECL two_gfx_shape_4(two::Gnode* parent, const two::Shape* shape, const two::Symbol* symbol, uint32_t flags) {
-		return &two::gfx::shape(*parent, *shape, *symbol, flags);
+	two::ItemHandle* DECL two_gfx_shape_4(two::Gnode* parent, const two::Shape* shape, const two::Symbol* symbol, uint32_t flags) {
+		static two::ItemHandle temp;
+		return (temp = two::gfx::shape(*parent, *shape, *symbol, flags), &temp);
 	}
-	two::Item* DECL two_gfx_shape_5(two::Gnode* parent, const two::Shape* shape, const two::Symbol* symbol, uint32_t flags, two::Material* material) {
-		return &two::gfx::shape(*parent, *shape, *symbol, flags, material);
+	two::ItemHandle* DECL two_gfx_shape_5(two::Gnode* parent, const two::Shape* shape, const two::Symbol* symbol, uint32_t flags, two::Material* material) {
+		static two::ItemHandle temp;
+		return (temp = two::gfx::shape(*parent, *shape, *symbol, flags, material), &temp);
 	}
 	void DECL two_gfx_draw_3(two::Gnode* parent, const two::Shape* shape, const two::Symbol* symbol) {
 		two::gfx::draw(*parent, *shape, *symbol);
@@ -4029,32 +4148,41 @@ extern "C" {
 	void DECL two_gfx_draw_4(two::Gnode* parent, const two::Shape* shape, const two::Symbol* symbol, uint32_t flags) {
 		two::gfx::draw(*parent, *shape, *symbol, flags);
 	}
-	two::Item* DECL two_gfx_sprite_3(two::Gnode* parent, const two::Image256* image, const two::vec2* size) {
-		return &two::gfx::sprite(*parent, *image, *size);
+	two::ItemHandle* DECL two_gfx_sprite_3(two::Gnode* parent, const two::Image256* image, const two::vec2* size) {
+		static two::ItemHandle temp;
+		return (temp = two::gfx::sprite(*parent, *image, *size), &temp);
 	}
-	two::Item* DECL two_gfx_sprite_4(two::Gnode* parent, const two::Image256* image, const two::vec2* size, uint32_t flags) {
-		return &two::gfx::sprite(*parent, *image, *size, flags);
+	two::ItemHandle* DECL two_gfx_sprite_4(two::Gnode* parent, const two::Image256* image, const two::vec2* size, uint32_t flags) {
+		static two::ItemHandle temp;
+		return (temp = two::gfx::sprite(*parent, *image, *size, flags), &temp);
 	}
-	two::Item* DECL two_gfx_sprite_5(two::Gnode* parent, const two::Image256* image, const two::vec2* size, uint32_t flags, two::Material* material) {
-		return &two::gfx::sprite(*parent, *image, *size, flags, material);
+	two::ItemHandle* DECL two_gfx_sprite_5(two::Gnode* parent, const two::Image256* image, const two::vec2* size, uint32_t flags, two::Material* material) {
+		static two::ItemHandle temp;
+		return (temp = two::gfx::sprite(*parent, *image, *size, flags, material), &temp);
 	}
-	two::Item* DECL two_gfx_item_2(two::Gnode* parent, const two::Model* model) {
-		return &two::gfx::item(*parent, *model);
+	two::ItemHandle* DECL two_gfx_item_2(two::Gnode* parent, const two::Model* model) {
+		static two::ItemHandle temp;
+		return (temp = two::gfx::item(*parent, *model), &temp);
 	}
-	two::Item* DECL two_gfx_item_3(two::Gnode* parent, const two::Model* model, uint32_t flags) {
-		return &two::gfx::item(*parent, *model, flags);
+	two::ItemHandle* DECL two_gfx_item_3(two::Gnode* parent, const two::Model* model, uint32_t flags) {
+		static two::ItemHandle temp;
+		return (temp = two::gfx::item(*parent, *model, flags), &temp);
 	}
-	two::Item* DECL two_gfx_item_4(two::Gnode* parent, const two::Model* model, uint32_t flags, two::Material* material) {
-		return &two::gfx::item(*parent, *model, flags, material);
+	two::ItemHandle* DECL two_gfx_item_4(two::Gnode* parent, const two::Model* model, uint32_t flags, two::Material* material) {
+		static two::ItemHandle temp;
+		return (temp = two::gfx::item(*parent, *model, flags, material), &temp);
 	}
-	two::Batch* DECL two_gfx_batch_3(two::Gnode* parent, two::Item* item, uint16_t stride) {
-		return &two::gfx::batch(*parent, *item, stride);
+	two::BatchHandle* DECL two_gfx_batch_3(two::Gnode* parent, two::ItemHandle* item, uint16_t stride) {
+		static two::BatchHandle temp;
+		return (temp = two::gfx::batch(*parent, *item, stride), &temp);
 	}
-	two::Batch* DECL two_gfx_instances_2(two::Gnode* parent, two::Item* item) {
-		return &two::gfx::instances(*parent, *item);
+	two::BatchHandle* DECL two_gfx_instances_2(two::Gnode* parent, two::ItemHandle* item) {
+		static two::BatchHandle temp;
+		return (temp = two::gfx::instances(*parent, *item), &temp);
 	}
-	two::Batch* DECL two_gfx_instances_3(two::Gnode* parent, two::Item* item, float* transforms, int transforms_size) {
-		return &two::gfx::instances(*parent, *item, { (two::mat4*)transforms, transforms_size / (sizeof(two::mat4) / sizeof(float)) });
+	two::BatchHandle* DECL two_gfx_instances_3(two::Gnode* parent, two::ItemHandle* item, float* transforms, int transforms_size) {
+		static two::BatchHandle temp;
+		return (temp = two::gfx::instances(*parent, *item, { (two::mat4*)transforms, transforms_size / (sizeof(two::mat4) / sizeof(float)) }), &temp);
 	}
 	void DECL two_gfx_prefab_2(two::Gnode* parent, const two::Prefab* prefab) {
 		two::gfx::prefab(*parent, *prefab);
@@ -4068,41 +4196,52 @@ extern "C" {
 	void DECL two_gfx_prefab_5(two::Gnode* parent, const two::Prefab* prefab, bool transform, uint32_t flags, two::Material* material) {
 		two::gfx::prefab(*parent, *prefab, transform, flags, material);
 	}
-	two::Item* DECL two_gfx_model_2(two::Gnode* parent, const char* name) {
-		return two::gfx::model(*parent, name);
+	two::ItemHandle* DECL two_gfx_model_2(two::Gnode* parent, const char* name) {
+		static two::ItemHandle temp;
+		return (temp = two::gfx::model(*parent, name), &temp);
 	}
-	two::Item* DECL two_gfx_model_3(two::Gnode* parent, const char* name, uint32_t flags) {
-		return two::gfx::model(*parent, name, flags);
+	two::ItemHandle* DECL two_gfx_model_3(two::Gnode* parent, const char* name, uint32_t flags) {
+		static two::ItemHandle temp;
+		return (temp = two::gfx::model(*parent, name, flags), &temp);
 	}
-	two::Item* DECL two_gfx_model_4(two::Gnode* parent, const char* name, uint32_t flags, two::Material* material) {
-		return two::gfx::model(*parent, name, flags, material);
+	two::ItemHandle* DECL two_gfx_model_4(two::Gnode* parent, const char* name, uint32_t flags, two::Material* material) {
+		static two::ItemHandle temp;
+		return (temp = two::gfx::model(*parent, name, flags, material), &temp);
 	}
-	two::Mime* DECL two_gfx_animated_2(two::Gnode* parent, two::Item* item) {
-		return &two::gfx::animated(*parent, *item);
+	two::MimeHandle* DECL two_gfx_animated_2(two::Gnode* parent, two::ItemHandle* item) {
+		static two::MimeHandle temp;
+		return (temp = two::gfx::animated(*parent, *item), &temp);
 	}
-	two::Flare* DECL two_gfx_flows_2(two::Gnode* parent, const two::Flow* emitter) {
-		return &two::gfx::flows(*parent, *emitter);
+	two::FlareHandle* DECL two_gfx_flows_2(two::Gnode* parent, const two::Flow* emitter) {
+		static two::FlareHandle temp;
+		return (temp = two::gfx::flows(*parent, *emitter), &temp);
 	}
-	two::Flare* DECL two_gfx_flows_3(two::Gnode* parent, const two::Flow* emitter, uint32_t flags) {
-		return &two::gfx::flows(*parent, *emitter, flags);
+	two::FlareHandle* DECL two_gfx_flows_3(two::Gnode* parent, const two::Flow* emitter, uint32_t flags) {
+		static two::FlareHandle temp;
+		return (temp = two::gfx::flows(*parent, *emitter, flags), &temp);
 	}
-	two::Light* DECL two_gfx_light_4(two::Gnode* parent, two::LightType type, bool shadows, two::Colour* colour) {
-		return &two::gfx::light(*parent, type, shadows, *colour);
+	two::LightHandle* DECL two_gfx_light_4(two::Gnode* parent, two::LightType type, bool shadows, two::Colour* colour) {
+		static two::LightHandle temp;
+		return (temp = two::gfx::light(*parent, type, shadows, *colour), &temp);
 	}
-	two::Light* DECL two_gfx_light_5(two::Gnode* parent, two::LightType type, bool shadows, two::Colour* colour, float range) {
-		return &two::gfx::light(*parent, type, shadows, *colour, range);
+	two::LightHandle* DECL two_gfx_light_5(two::Gnode* parent, two::LightType type, bool shadows, two::Colour* colour, float range) {
+		static two::LightHandle temp;
+		return (temp = two::gfx::light(*parent, type, shadows, *colour, range), &temp);
 	}
-	two::Light* DECL two_gfx_light_6(two::Gnode* parent, two::LightType type, bool shadows, two::Colour* colour, float range, float attenuation) {
-		return &two::gfx::light(*parent, type, shadows, *colour, range, attenuation);
+	two::LightHandle* DECL two_gfx_light_6(two::Gnode* parent, two::LightType type, bool shadows, two::Colour* colour, float range, float attenuation) {
+		static two::LightHandle temp;
+		return (temp = two::gfx::light(*parent, type, shadows, *colour, range, attenuation), &temp);
 	}
-	two::Light* DECL two_gfx_sun_light_3(two::Gnode* parent, float azimuth, float elevation) {
-		return &two::gfx::sun_light(*parent, azimuth, elevation);
+	two::LightHandle* DECL two_gfx_sun_light_3(two::Gnode* parent, float azimuth, float elevation) {
+		static two::LightHandle temp;
+		return (temp = two::gfx::sun_light(*parent, azimuth, elevation), &temp);
 	}
 	void DECL two_gfx_radiance_3(two::Gnode* parent, const char* texture, two::BackgroundMode background) {
 		two::gfx::radiance(*parent, texture, background);
 	}
-	two::Light* DECL two_gfx_direct_light_node_2(two::Gnode* parent, const two::vec3* direction) {
-		return &two::gfx::direct_light_node(*parent, *direction);
+	two::LightHandle* DECL two_gfx_direct_light_node_2(two::Gnode* parent, const two::vec3* direction) {
+		static two::LightHandle temp;
+		return (temp = two::gfx::direct_light_node(*parent, *direction), &temp);
 	}
 	two::Material* DECL two_gfx_solid_material_3(two::GfxSystem* gfx, const char* name, const two::Colour* colour) {
 		return &two::gfx::solid_material(*gfx, name, *colour);

@@ -168,7 +168,7 @@ namespace two
 		static Material& alpha_material = parent.scene().m_gfx.fetch_material("debug_alpha", "solid");
 
 		const uint32_t num_tiles = tileblock.m_tileset->m_num_tiles;
-		vector<Batch*> batches = vector<Batch*>(num_tiles + 1, nullptr);
+		vector<BatchHandle> batches = vector<BatchHandle>(num_tiles + 1);
 
 		for(uint32_t i = 0; i < num_tiles; ++i)
 		{
@@ -177,10 +177,10 @@ namespace two
 
 			Material* material = focused == uvec3(UINT32_MAX) ? nullptr : &alpha_material;
 			uint32_t flags = ItemFlag::Default | ItemFlag::Static | ItemFlag::NoCull | (dirty ? 0 : uint32_t(ItemFlag::NoUpdate));
-			Item& item = gfx::item(self, *model, flags, material);
-			item.m_aabb = tileblock.m_aabb;
+			ItemHandle item = gfx::item(self, *model, flags, material);
+			item->m_aabb = tileblock.m_aabb;
 
-			batches[i] = &gfx::batch(self, item, uint16_t(sizeof(mat4))); //gfx::instances(self, item, *model);
+			batches[i] = gfx::batch(self, item, uint16_t(sizeof(mat4))); //gfx::instances(self, item, *model);
 		}
 
 		if(dirty || exclude)

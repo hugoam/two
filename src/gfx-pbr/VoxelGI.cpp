@@ -16,23 +16,23 @@ namespace two
 
 namespace gfx
 {
-	GIProbe& gi_probe(Gnode parent, uint16_t subdiv, const vec3& extents)
+	GIProbeHandle gi_probe(Gnode parent, uint16_t subdiv, const vec3& extents)
 	{
 		Gnode self = parent.suba();
 		GIProbe& gi_probe = self.state<GIProbe>(self.attach());
 		if(subdiv != gi_probe.m_subdiv || extents != gi_probe.m_extents)
 			gi_probe.resize(subdiv, extents);
-		return gi_probe;
+		return GIProbeHandle(self);
 	}
 
-	LightmapAtlas& lightmap(Gnode parent, uint32_t resolution, float density, const string& save_path)
+	LightmapAtlasHandle lightmap(Gnode parent, uint32_t resolution, float density, const string& save_path)
 	{
 		Gnode self = parent.suba();
 		FoundState<LightmapAtlas> lightmap_atlas = self.find_or_create_state<LightmapAtlas>(resolution, density);
 		if(lightmap_atlas.created)
 			lightmap_atlas.state.m_dirty = true;
 		lightmap_atlas.state.m_save_path = save_path;
-		return lightmap_atlas.state;
+		return LightmapAtlasHandle(self);
 	}
 }
 

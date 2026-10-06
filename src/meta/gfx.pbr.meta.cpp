@@ -19,6 +19,14 @@ void two_CSMSlice__default_construct(void* ref) { new(stl::placeholder(), ref) t
 void two_CSMSlice__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::CSMSlice((*static_cast<two::CSMSlice*>(other))); }
 void two_CSMShadow__default_construct(void* ref) { new(stl::placeholder(), ref) two::CSMShadow(); }
 void two_CSMShadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::CSMShadow((*static_cast<two::CSMShadow*>(other))); }
+void two_GIProbeHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::GIProbeHandle(); }
+void two_GIProbeHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::GIProbeHandle((*static_cast<two::GIProbeHandle*>(other))); }
+void two_GIProbeHandle__get_self(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::GIProbeHandle*>(object)).self(); }
+void two_GIProbeHandle__get_probe(void* object, void*& result) { result = &(*static_cast<two::GIProbeHandle*>(object)).probe(); }
+void two_LightmapAtlasHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::LightmapAtlasHandle(); }
+void two_LightmapAtlasHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::LightmapAtlasHandle((*static_cast<two::LightmapAtlasHandle*>(other))); }
+void two_LightmapAtlasHandle__get_self(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::LightmapAtlasHandle*>(object)).self(); }
+void two_LightmapAtlasHandle__get_atlas(void* object, void*& result) { result = &(*static_cast<two::LightmapAtlasHandle*>(object)).atlas(); }
 void two_DofParams__default_construct(void* ref) { new(stl::placeholder(), ref) two::DofParams(); }
 void two_DofParams__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::DofParams((*static_cast<two::DofParams*>(other))); }
 void two_DofBlur__default_construct(void* ref) { new(stl::placeholder(), ref) two::DofBlur(); }
@@ -50,8 +58,8 @@ void two_render_lightmap_17(span<void*> args, void*& result) { UNUSED(result);  
 void two_render_reflection_18(span<void*> args, void*& result) { UNUSED(result);  two::render_reflection(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
 void two_pipeline_pbr_19(span<void*> args, void*& result) { UNUSED(result);  two::pipeline_pbr(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Renderer*>(args[1]), *static_cast<bool*>(args[2])); }
 void two_gfx_setup_pipeline_pbr_20(span<void*> args, void*& result) { UNUSED(result);  two::gfx::setup_pipeline_pbr(*static_cast<two::GfxSystem*>(args[0])); }
-void two_gfx_gi_probe_21(span<void*> args, void*& result) { result = &two::gfx::gi_probe(*static_cast<two::Gnode*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<two::vec3*>(args[2])); }
-void two_gfx_lightmap_22(span<void*> args, void*& result) { result = &two::gfx::lightmap(*static_cast<two::Gnode*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<float*>(args[2]), *static_cast<stl::string*>(args[3])); }
+void two_gfx_gi_probe_21(span<void*> args, void*& result) { (*static_cast<two::GIProbeHandle*>(result)) = two::gfx::gi_probe(*static_cast<two::Gnode*>(args[0]), *static_cast<uint16_t*>(args[1]), *static_cast<two::vec3*>(args[2])); }
+void two_gfx_lightmap_22(span<void*> args, void*& result) { (*static_cast<two::LightmapAtlasHandle*>(result)) = two::gfx::lightmap(*static_cast<two::Gnode*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<float*>(args[2]), *static_cast<stl::string*>(args[3])); }
 void two_pass_dofblur_23(span<void*> args, void*& result) { UNUSED(result);  two::pass_dofblur(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1]), *static_cast<two::DofBlur*>(args[2])); }
 void two_pass_glow_24(span<void*> args, void*& result) { UNUSED(result);  two::pass_glow(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1]), *static_cast<two::Glow*>(args[2])); }
 void two_pass_tonemap_25(span<void*> args, void*& result) { UNUSED(result);  two::pass_tonemap(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1]), *static_cast<two::Tonemap*>(args[2]), *static_cast<two::BCS*>(args[3])); }
@@ -378,6 +386,60 @@ namespace two
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
 	}
+	// two::GIProbeHandle
+	{
+		Type& t = type<two::GIProbeHandle>();
+		static Meta meta = { t, &namspc({ "two" }), "GIProbeHandle", sizeof(two::GIProbeHandle), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<two::GnodeHandle>() };
+		static size_t bases_offsets[] = { base_offset<two::GIProbeHandle, two::GnodeHandle>() };
+		// defaults
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_GIProbeHandle__default_construct }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, two_GIProbeHandle__copy_construct }
+		};
+		// constructors
+		// members
+		static Member members[] = {
+			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_GIProbeHandle__get_self },
+			{ t, SIZE_MAX, type<two::GIProbe>(), "probe", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_GIProbeHandle__get_probe }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::GIProbeHandle());
+	}
+	// two::LightmapAtlasHandle
+	{
+		Type& t = type<two::LightmapAtlasHandle>();
+		static Meta meta = { t, &namspc({ "two" }), "LightmapAtlasHandle", sizeof(two::LightmapAtlasHandle), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<two::GnodeHandle>() };
+		static size_t bases_offsets[] = { base_offset<two::LightmapAtlasHandle, two::GnodeHandle>() };
+		// defaults
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_LightmapAtlasHandle__default_construct }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, two_LightmapAtlasHandle__copy_construct }
+		};
+		// constructors
+		// members
+		static Member members[] = {
+			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_LightmapAtlasHandle__get_self },
+			{ t, SIZE_MAX, type<two::LightmapAtlas>(), "atlas", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_LightmapAtlasHandle__get_atlas }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::LightmapAtlasHandle());
+	}
 	// two::GIProbe
 	{
 		Type& t = type<two::GIProbe>();
@@ -661,6 +723,8 @@ namespace two
 		m.m_types.push_back(&type<two::CSMSlice>());
 		m.m_types.push_back(&type<two::CSMShadow>());
 		m.m_types.push_back(&type<two::BlockShadow>());
+		m.m_types.push_back(&type<two::GIProbeHandle>());
+		m.m_types.push_back(&type<two::LightmapAtlasHandle>());
 		m.m_types.push_back(&type<two::GIProbe>());
 		m.m_types.push_back(&type<two::BlockGITrace>());
 		m.m_types.push_back(&type<two::BlockGIBake>());
@@ -760,13 +824,13 @@ namespace two
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "gfx" }), "gi_probe", funcptr<two::GIProbe&(*)(two::Gnode, uint16_t, const two::vec3&)>(two::gfx::gi_probe), two_gfx_gi_probe_21, { { "parent", type<two::Gnode>(),  }, { "subdiv", type<uint16_t>(),  }, { "extents", type<two::vec3>(),  } }, { &type<two::GIProbe>(), QualType::None } };
+			static Function f = { &namspc({ "two", "gfx" }), "gi_probe", funcptr<two::GIProbeHandle(*)(two::Gnode, uint16_t, const two::vec3&)>(two::gfx::gi_probe), two_gfx_gi_probe_21, { { "parent", type<two::Gnode>(),  }, { "subdiv", type<uint16_t>(),  }, { "extents", type<two::vec3>(),  } }, { &type<two::GIProbeHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float density_default = 8.f;
 			static stl::string save_path_default = "";
-			static Function f = { &namspc({ "two", "gfx" }), "lightmap", funcptr<two::LightmapAtlas&(*)(two::Gnode, uint32_t, float, const stl::string&)>(two::gfx::lightmap), two_gfx_lightmap_22, { { "parent", type<two::Gnode>(),  }, { "resolution", type<uint32_t>(),  }, { "density", type<float>(), Param::Default, &density_default }, { "save_path", type<stl::string>(), Param::Default, &save_path_default } }, { &type<two::LightmapAtlas>(), QualType::None } };
+			static Function f = { &namspc({ "two", "gfx" }), "lightmap", funcptr<two::LightmapAtlasHandle(*)(two::Gnode, uint32_t, float, const stl::string&)>(two::gfx::lightmap), two_gfx_lightmap_22, { { "parent", type<two::Gnode>(),  }, { "resolution", type<uint32_t>(),  }, { "density", type<float>(), Param::Default, &density_default }, { "save_path", type<stl::string>(), Param::Default, &save_path_default } }, { &type<two::LightmapAtlasHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{

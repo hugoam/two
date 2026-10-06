@@ -16,6 +16,7 @@
 #include <gfx/Gfx.h>
 #include <gfx/GfxSystem.h>
 #include <gfx/Graph.h>
+#include <gfx/Handles.h>
 #include <gfx/Importer.h>
 #include <gfx/Item.h>
 #include <gfx/Light.h>
@@ -40,6 +41,7 @@
 #include <gfx/Viewport.h>
 #include <gfx/Blocks/Sky.h>
 #include <gfx/Asset.hpp>
+#include <gfx/Handles.hpp>
 #include <gfx/Gpu/Depth.hpp>
 #include <gfx/Gpu/Material.hpp>
 

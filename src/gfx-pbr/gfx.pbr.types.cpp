@@ -24,6 +24,8 @@ namespace two
     template <> TWO_GFX_PBR_EXPORT Type& type<two::CSMSlice>() { static Type ty("CSMSlice", type<two::LightShadow>(), sizeof(two::CSMSlice)); return ty; }
     template <> TWO_GFX_PBR_EXPORT Type& type<two::CSMShadow>() { static Type ty("CSMShadow", sizeof(two::CSMShadow)); return ty; }
     template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockShadow>() { static Type ty("BlockShadow", type<two::DrawBlock>(), sizeof(two::BlockShadow)); return ty; }
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::GIProbeHandle>() { static Type ty("GIProbeHandle", type<two::GnodeHandle>(), sizeof(two::GIProbeHandle)); return ty; }
+    template <> TWO_GFX_PBR_EXPORT Type& type<two::LightmapAtlasHandle>() { static Type ty("LightmapAtlasHandle", type<two::GnodeHandle>(), sizeof(two::LightmapAtlasHandle)); return ty; }
     template <> TWO_GFX_PBR_EXPORT Type& type<two::GIProbe>() { static Type ty("GIProbe", sizeof(two::GIProbe)); return ty; }
     template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockGITrace>() { static Type ty("BlockGITrace", type<two::DrawBlock>(), sizeof(two::BlockGITrace)); return ty; }
     template <> TWO_GFX_PBR_EXPORT Type& type<two::BlockGIBake>() { static Type ty("BlockGIBake", type<two::DrawBlock>(), sizeof(two::BlockGIBake)); return ty; }

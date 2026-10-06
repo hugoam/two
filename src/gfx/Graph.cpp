@@ -58,7 +58,7 @@ namespace gfx
 		gfx.init_pipeline(pipeline_minimal);
 	}
 
-	Gnode node(Gnode parent, const mat4& transform)
+	Node3Handle node(Gnode parent, const mat4& transform)
 	{
 		Gnode self = parent.suba();
 		//Gnode self = parent.subi((void*)object.as_uint());
@@ -66,30 +66,30 @@ namespace gfx
 		if(node.created)
 			self.set_attach(node.state);
 		node.state.m_transform = transform;
-		return self;
+		return Node3Handle(self);
 	}
 
-	Gnode node(Gnode parent, const vec3& position, const quat& rotation, const vec3& scale)
+	Node3Handle node(Gnode parent, const vec3& position, const quat& rotation, const vec3& scale)
 	{
 		return node(parent, bxTRS(scale, rotation, position));
 	}
 
-	Gnode node(Gnode parent, const Transform& transform)
+	Node3Handle node(Gnode parent, const Transform& transform)
 	{
 		return node(parent, transform.m_position, transform.m_rotation, transform.m_scale);
 	}
 
-	Gnode transform(Gnode parent, const vec3& position, const quat& rotation, const vec3& scale)
+	Node3Handle transform(Gnode parent, const vec3& position, const quat& rotation, const vec3& scale)
 	{
 		return node(parent, parent.attach().m_transform * bxTRS(scale, rotation, position));
 	}
 
-	Gnode transform(Gnode parent, const vec3& position, const quat& rotation)
+	Node3Handle transform(Gnode parent, const vec3& position, const quat& rotation)
 	{
 		return node(parent, parent.attach().m_transform * bxTRS(vec3(1.f), rotation, position));
 	}
 
-	Item& item(Gnode parent, const Model& model, uint32_t flags, Material* material)
+	ItemHandle item(Gnode parent, const Model& model, uint32_t flags, Material* material)
 	{
 		Gnode self = parent.suba();
 		FoundState<Item> item = self.find_or_create_state<Item>(self.attach(), model, flags, material);
@@ -100,27 +100,27 @@ namespace gfx
 		{
 			item.state.update_aabb();
 		}
-		return item.state;
+		return ItemHandle(self);
 	}
 
-	Batch& batch(Gnode parent, Item& item, uint16_t stride)
+	BatchHandle batch(Gnode parent, ItemHandle item, uint16_t stride)
 	{
 		Gnode self = parent.suba();
-		FoundState<Batch> batch = self.find_or_create_state<Batch>(item, stride);
+		FoundState<Batch> batch = self.find_or_create_state<Batch>(*item, stride);
 		if(batch.created)
-			item.m_batch = &batch.state;
-		return batch.state;
+			item->m_batch = &batch.state;
+		return BatchHandle(self);
 	}
 
-	Batch& instances(Gnode parent, Item& item, span<mat4> transforms)
+	BatchHandle instances(Gnode parent, ItemHandle item, span<mat4> transforms)
 	{
 		Gnode self = parent.suba();
-		FoundState<Batch> batch = self.find_or_create_state<Batch>(item, uint16_t(sizeof(mat4)));
+		FoundState<Batch> batch = self.find_or_create_state<Batch>(*item, uint16_t(sizeof(mat4)));
 		if(batch.created)
-			item.m_batch = &batch.state;
+			item->m_batch = &batch.state;
 		batch.state.transforms(transforms);
 		batch.state.update_aabb(transforms);
-		return batch.state;
+		return BatchHandle(self);
 	}
 
 	void prefab(Gnode parent, const Prefab& prefab, bool transform, uint32_t flags, Material* material)
@@ -132,8 +132,8 @@ namespace gfx
 			const Node3& n = prefab.m_nodes[elem.node];
 			mat4 tr = transform ? parent.attach().m_transform * n.m_transform
 								: n.m_transform;
-			Gnode no = node(self, tr);
-			Item& it = item(no, *elem.item.m_model, elem.item.m_flags | flags, material);
+			Node3Handle no = node(self, tr);
+			ItemHandle it = item(no, *elem.item.m_model, elem.item.m_flags | flags, material);
 			//it = prefab.m_items[i];
 			//shape(self, Cube(i.m_aabb.m_center, vec3(0.1f)), Symbol::wire(Colour::Red, true));
 			//shape(self, submodel->m_aabb, Symbol::wire(Colour::White));
@@ -141,22 +141,22 @@ namespace gfx
 		}
 	}
 
-	Item& shape_item(Gnode parent, Model& model, const Symbol& symbol, uint32_t flags, Material* material, DrawMode draw_mode)
+	ItemHandle shape_item(Gnode parent, Model& model, const Symbol& symbol, uint32_t flags, Material* material, DrawMode draw_mode)
 	{
-		Item& self = item(parent, model, flags, material);
-		self.m_material = material ? material : &parent.scene().m_gfx.symbol_material(symbol, draw_mode);
+		ItemHandle self = item(parent, model, flags, material);
+		self->m_material = material ? material : &parent.scene().m_gfx.symbol_material(symbol, draw_mode);
 		return self;
 	}
 
-	Item& shape(Gnode parent, const Shape& shape, const Symbol& symbol, uint32_t flags, Material* material)
+	ItemHandle shape(Gnode parent, const Shape& shape, const Symbol& symbol, uint32_t flags, Material* material)
 	{
-		Item* item = nullptr;
+		ItemHandle item;
 		static Symbol white = { Colour::White, Colour::White };
 		if(symbol.fill())
-			item = &shape_item(parent, parent.scene().m_gfx.shape(shape, white, PLAIN), symbol, flags, material, PLAIN);
+			item = shape_item(parent, parent.scene().m_gfx.shape(shape, white, PLAIN), symbol, flags, material, PLAIN);
 		if(symbol.outline())
-			item = &shape_item(parent, parent.scene().m_gfx.shape(shape, white, OUTLINE), symbol, flags, material, OUTLINE);
-		return *item;
+			item = shape_item(parent, parent.scene().m_gfx.shape(shape, white, OUTLINE), symbol, flags, material, OUTLINE);
+		return item;
 	}
 
 	void draw(Scene& scene, const mat4& transform, const Shape& shape, const Symbol& symbol, uint32_t flags)
@@ -173,29 +173,29 @@ namespace gfx
 		draw(parent.scene(), parent.attach().m_transform, shape, symbol, flags);
 	}
 
-	Item& sprite(Gnode parent, const Image256& image, const vec2& size, uint32_t flags, Material* material)
+	ItemHandle sprite(Gnode parent, const Image256& image, const vec2& size, uint32_t flags, Material* material)
 	{
 		return shape(parent, Quad(size), { image }, flags, material);
 	}
 
-	Item* model(Gnode parent, const string& name, uint32_t flags, Material* material)
+	ItemHandle model(Gnode parent, const string& name, uint32_t flags, Material* material)
 	{
 		Model* model = parent.scene().m_gfx.models().file(name.c_str());
 		if(model)
-			return &item(parent, *model, flags, material);
+			return item(parent, *model, flags, material);
 		return nullptr;
 	}
 
-	Mime& animated(Gnode parent, Item& item)
+	MimeHandle animated(Gnode parent, ItemHandle item)
 	{
 		Gnode self = parent.suba();
 		FoundState<Mime> animated = self.find_or_create_state<Mime>();
 		if(animated.created)
-			animated.state.add_item(item);
-		return animated.state;
+			animated.state.add_item(*item);
+		return MimeHandle(self);
 	}
 
-	Flare& flows(Gnode parent, const Flow& emitter, uint32_t flags)
+	FlareHandle flows(Gnode parent, const Flow& emitter, uint32_t flags)
 	{
 		UNUSED(flags);
 		Gnode self = parent.suba();
@@ -203,10 +203,10 @@ namespace gfx
 		as<Flow>(particles) = emitter;
 		particles.m_node = &self.attach();
 		particles.m_sprite = &parent.scene().m_particle_system->m_block.m_sprites->find_sprite(emitter.m_sprite_name.c_str());
-		return particles;
+		return FlareHandle(self);
 	}
 
-	Light& light(Gnode parent, LightType light_type, bool shadows, Colour colour, float range, float attenuation)
+	LightHandle light(Gnode parent, LightType light_type, bool shadows, Colour colour, float range, float attenuation)
 	{
 		Gnode self = parent.suba();
 		Light& light = self.state<Light>(self.attach(), light_type, shadows);
@@ -214,28 +214,28 @@ namespace gfx
 		light.m_colour = colour;
 		light.m_range = range;
 		light.m_attenuation = attenuation;
-		return light;
+		return LightHandle(self);
 	}
 
-	Light& direct_light_node(Gnode parent, const quat& rotation)
+	LightHandle direct_light_node(Gnode parent, const quat& rotation)
 	{
-		Gnode self = node(parent, vec3(0.f), rotation);
-		Light& l = light(self, LightType::Direct, true, Colour(0.8f, 0.8f, 0.7f), 1.f);
-		l.m_energy = 0.6f;
+		Node3Handle self = node(parent, vec3(0.f), rotation);
+		LightHandle l = light(self, LightType::Direct, true, Colour(0.8f, 0.8f, 0.7f), 1.f);
+		l->m_energy = 0.6f;
 		return l;
 	}
 
-	Light& sun_light(Gnode parent, float azimuth, float elevation)
+	LightHandle sun_light(Gnode parent, float azimuth, float elevation)
 	{
 		return direct_light_node(parent, sun_rotation(azimuth, elevation));
 	}
 
-	Light& direct_light_node(Gnode parent, const vec3& direction)
+	LightHandle direct_light_node(Gnode parent, const vec3& direction)
 	{
 		return direct_light_node(parent, facing(direction));
 	}
 
-	Light& direct_light_node(Gnode parent)
+	LightHandle direct_light_node(Gnode parent)
 	{
 		return direct_light_node(parent, quat(vec3(-c_pi4, -c_pi4, 0.f)));
 	}

@@ -77,14 +77,14 @@ void ex_16_visual_script(Shell& app, Widget parent, DockbarHandle dockbar)
 					filled_positions.push_back({ x, y, z });
 			}
 
-	Item& filled_item = gfx::shape(filled_node, Cube(), Symbol(), 0U, nullptr, filled_positions.size());
-	Item& empty_item = gfx::shape(empty_node, Cube(), Symbol(Colour::White, Colour::None), 0U, nullptr, empty_positions.size());
+	ItemHandle filled_item = gfx::shape(filled_node, Cube(), Symbol(), 0U, nullptr, filled_positions.size());
+	ItemHandle empty_item = gfx::shape(empty_node, Cube(), Symbol(Colour::White, Colour::None), 0U, nullptr, empty_positions.size());
 
 	for(size_t i = 0; i < filled_positions.size(); ++i)
-		filled_item.m_instances[i] = bxtranslation(filled_positions[i]);
+		filled_item->m_instances[i] = bxtranslation(filled_positions[i]);
 
 	for(size_t i = 0; i < empty_positions.size(); ++i)
-		empty_item.m_instances[i] = bxtranslation(empty_positions[i]);
+		empty_item->m_instances[i] = bxtranslation(empty_positions[i]);
 }
 
 #ifdef _16_VISUAL_SCRIPT_EXE

@@ -96,11 +96,11 @@ namespace two
 	{
 	public:
 		virtual ~Gizmo() {}
-		virtual Item* draw_handle(Gnode) = 0;
+		virtual ItemHandle draw_handle(Gnode) = 0;
 		virtual void draw_gizmo(Gnode, bool) = 0;
 		virtual vec3 grab_point(ViewerHandle, const vec2&) = 0;
 
-		Item* m_handle = nullptr;
+		ItemHandle m_handle;
 		bool m_highlighted = false;
 	};
 

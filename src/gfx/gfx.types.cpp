@@ -126,6 +126,13 @@ namespace two
     template <> TWO_GFX_EXPORT Type& type<two::BlockCopy>() { static Type ty("BlockCopy", type<two::GfxBlock>(), sizeof(two::BlockCopy)); return ty; }
     template <> TWO_GFX_EXPORT Type& type<two::ClusteredFrustum>() { static Type ty("ClusteredFrustum", type<two::Frustum>(), sizeof(two::ClusteredFrustum)); return ty; }
     template <> TWO_GFX_EXPORT Type& type<two::Light>() { static Type ty("Light", sizeof(two::Light)); return ty; }
+    template <> TWO_GFX_EXPORT Type& type<two::GnodeHandle>() { static Type ty("GnodeHandle", sizeof(two::GnodeHandle)); return ty; }
+    template <> TWO_GFX_EXPORT Type& type<two::Node3Handle>() { static Type ty("Node3Handle", type<two::GnodeHandle>(), sizeof(two::Node3Handle)); return ty; }
+    template <> TWO_GFX_EXPORT Type& type<two::ItemHandle>() { static Type ty("ItemHandle", type<two::GnodeHandle>(), sizeof(two::ItemHandle)); return ty; }
+    template <> TWO_GFX_EXPORT Type& type<two::BatchHandle>() { static Type ty("BatchHandle", type<two::GnodeHandle>(), sizeof(two::BatchHandle)); return ty; }
+    template <> TWO_GFX_EXPORT Type& type<two::LightHandle>() { static Type ty("LightHandle", type<two::GnodeHandle>(), sizeof(two::LightHandle)); return ty; }
+    template <> TWO_GFX_EXPORT Type& type<two::MimeHandle>() { static Type ty("MimeHandle", type<two::GnodeHandle>(), sizeof(two::MimeHandle)); return ty; }
+    template <> TWO_GFX_EXPORT Type& type<two::FlareHandle>() { static Type ty("FlareHandle", type<two::GnodeHandle>(), sizeof(two::FlareHandle)); return ty; }
     template <> TWO_GFX_EXPORT Type& type<two::Gnode>() { static Type ty("Gnode", sizeof(two::Gnode)); return ty; }
     template <> TWO_GFX_EXPORT Type& type<two::Culler>() { static Type ty("Culler", sizeof(two::Culler)); return ty; }
     template <> TWO_GFX_EXPORT Type& type<two::Viewport>() { static Type ty("Viewport", type<two::OEntt>(), sizeof(two::Viewport)); return ty; }

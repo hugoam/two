@@ -23,7 +23,7 @@ struct ParticleItem
 {
 	size_t m_index;
 	Flow* m_emitter;
-	Flare* m_particles;
+	FlareHandle m_particles;
 };
 
 namespace two
@@ -80,7 +80,7 @@ void ex_06_particles(Shell& app, Widget parent, DockbarHandle dockbar)
 	for(ParticleItem& item : particles)
 	{
 		Gnode node = gfx::node(scene, vec3(-middle + item.m_index * 10.f, 0.f, 0.f));
-		item.m_particles = &gfx::flows(node, *item.m_emitter);
+		item.m_particles = gfx::flows(node, *item.m_emitter);
 
 		if(item.m_particles->ended())
 			item.m_particles->m_time = 0.f;

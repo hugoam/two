@@ -271,6 +271,48 @@ Module['BlockShadow'] = BlockShadow;
 BlockShadow.prototype["__destroy"] = BlockShadow.prototype.__destroy = function() {
     _two_BlockShadow__destroy(this.__ptr);
 };
+// GIProbeHandle
+function GIProbeHandle() {
+    this.__ptr = _two_GIProbeHandle__construct_0(); getCache(GIProbeHandle)[this.__ptr] = this;
+};
+GIProbeHandle.prototype = Object.create(GnodeHandle.prototype);
+GIProbeHandle.prototype.constructor = GIProbeHandle;
+GIProbeHandle.prototype.__class = GIProbeHandle;
+GIProbeHandle.__base = GnodeHandle;
+GIProbeHandle.__cache = {};
+Module['GIProbeHandle'] = GIProbeHandle;
+Object.defineProperty(GIProbeHandle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_GIProbeHandle__get_self(this.__ptr), Gnode);
+    }});
+Object.defineProperty(GIProbeHandle.prototype, "probe", {
+    get: function() {
+        return wrapPointer(_two_GIProbeHandle__get_probe(this.__ptr), GIProbe);
+    }});
+GIProbeHandle.prototype["__destroy"] = GIProbeHandle.prototype.__destroy = function() {
+    _two_GIProbeHandle__destroy(this.__ptr);
+};
+// LightmapAtlasHandle
+function LightmapAtlasHandle() {
+    this.__ptr = _two_LightmapAtlasHandle__construct_0(); getCache(LightmapAtlasHandle)[this.__ptr] = this;
+};
+LightmapAtlasHandle.prototype = Object.create(GnodeHandle.prototype);
+LightmapAtlasHandle.prototype.constructor = LightmapAtlasHandle;
+LightmapAtlasHandle.prototype.__class = LightmapAtlasHandle;
+LightmapAtlasHandle.__base = GnodeHandle;
+LightmapAtlasHandle.__cache = {};
+Module['LightmapAtlasHandle'] = LightmapAtlasHandle;
+Object.defineProperty(LightmapAtlasHandle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_LightmapAtlasHandle__get_self(this.__ptr), Gnode);
+    }});
+Object.defineProperty(LightmapAtlasHandle.prototype, "atlas", {
+    get: function() {
+        return wrapPointer(_two_LightmapAtlasHandle__get_atlas(this.__ptr), LightmapAtlas);
+    }});
+LightmapAtlasHandle.prototype["__destroy"] = LightmapAtlasHandle.prototype.__destroy = function() {
+    _two_LightmapAtlasHandle__destroy(this.__ptr);
+};
 // GIProbe
 function GIProbe() { throw "cannot construct a GIProbe, no constructor in IDL" }
 GIProbe.prototype = Object.create(WrapperObject.prototype);
@@ -702,16 +744,16 @@ Module['gfx']['setup_pipeline_pbr'] = function(a0) {
 };
 Module['gfx']['gi_probe'] = function(a0, a1, a2) {
     if (!checkClass(a0, Gnode)) throw Error('gi_probe(0:parent): expected Gnode'); if (typeof a1 !== 'number') throw Error('gi_probe(1:subdiv): expected integer'); if (!checkClass(a2, v3_float)) throw Error('gi_probe(2:extents): expected v3<float>');
-    return wrapPointer(_two_gfx_gi_probe_3(/*parent*/a0.__ptr, /*subdiv*/a1, /*extents*/a2.__ptr), GIProbe);
+    return wrapPointer(_two_gfx_gi_probe_3(/*parent*/a0.__ptr, /*subdiv*/a1, /*extents*/a2.__ptr), GIProbeHandle);
 };
 Module['gfx']['lightmap'] = function(a0, a1, a2, a3) {
     ensureCache.prepare();
     if (a2 === undefined) { if (!checkClass(a0, Gnode)) throw Error('lightmap(0:parent): expected Gnode'); if (typeof a1 !== 'number') throw Error('lightmap(1:resolution): expected integer'); }
     else if (a3 === undefined) { if (!checkClass(a0, Gnode)) throw Error('lightmap(0:parent): expected Gnode'); if (typeof a1 !== 'number') throw Error('lightmap(1:resolution): expected integer'); if (typeof a2 !== 'number') throw Error('lightmap(2:density): expected number'); }
     else { if (!checkClass(a0, Gnode)) throw Error('lightmap(0:parent): expected Gnode'); if (typeof a1 !== 'number') throw Error('lightmap(1:resolution): expected integer'); if (typeof a2 !== 'number') throw Error('lightmap(2:density): expected number'); if (typeof a3 !== 'string') throw Error('lightmap(3:save_path): expected string'); }
-    if (a2 === undefined) { return wrapPointer(_two_gfx_lightmap_2(/*parent*/a0.__ptr, /*resolution*/a1), LightmapAtlas); }
-    else if (a3 === undefined) { return wrapPointer(_two_gfx_lightmap_3(/*parent*/a0.__ptr, /*resolution*/a1, /*density*/a2), LightmapAtlas); }
-    else { return wrapPointer(_two_gfx_lightmap_4(/*parent*/a0.__ptr, /*resolution*/a1, /*density*/a2, ensureString(/*save_path*/a3)), LightmapAtlas); }
+    if (a2 === undefined) { return wrapPointer(_two_gfx_lightmap_2(/*parent*/a0.__ptr, /*resolution*/a1), LightmapAtlasHandle); }
+    else if (a3 === undefined) { return wrapPointer(_two_gfx_lightmap_3(/*parent*/a0.__ptr, /*resolution*/a1, /*density*/a2), LightmapAtlasHandle); }
+    else { return wrapPointer(_two_gfx_lightmap_4(/*parent*/a0.__ptr, /*resolution*/a1, /*density*/a2, ensureString(/*save_path*/a3)), LightmapAtlasHandle); }
 };
 Module['pass_dofblur'] = function(a0, a1, a2) {
     if (!checkClass(a0, GfxSystem)) throw Error('pass_dofblur(0:gfx): expected GfxSystem'); if (!checkClass(a1, Render)) throw Error('pass_dofblur(1:render): expected Render'); if (!checkClass(a2, DofBlur)) throw Error('pass_dofblur(2:blur): expected DofBlur');
@@ -744,6 +786,8 @@ Module['pass_tonemap'] = function(a0, a1, a2, a3) {
         CSMSlice.prototype.__type = _two_CSMSlice__type();
         CSMShadow.prototype.__type = _two_CSMShadow__type();
         BlockShadow.prototype.__type = _two_BlockShadow__type();
+        GIProbeHandle.prototype.__type = _two_GIProbeHandle__type();
+        LightmapAtlasHandle.prototype.__type = _two_LightmapAtlasHandle__type();
         GIProbe.prototype.__type = _two_GIProbe__type();
         BlockGITrace.prototype.__type = _two_BlockGITrace__type();
         BlockGIBake.prototype.__type = _two_BlockGIBake__type();

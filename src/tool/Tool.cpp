@@ -182,7 +182,7 @@ namespace two
 	Gizmo& TransformTool::gizmo(Item& item)
 	{
 		for(auto& gizmo : m_gizmos)
-			if(gizmo->m_handle == &item)
+			if(gizmo->m_handle && &*gizmo->m_handle == &item)
 				return *gizmo;
 
 		return *m_gizmos.front();

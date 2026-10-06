@@ -3,13 +3,14 @@
 #pragma once
 
 #include <gfx-pbr/Forward.h>
+#include <gfx-pbr/Handles.h>
 
 namespace two
 {
 namespace gfx
 {
-	export_ TWO_GFX_EXPORT func_ GIProbe& gi_probe(Gnode parent, uint16_t subdiv, const vec3& extents);
-	export_ TWO_GFX_EXPORT func_ LightmapAtlas& lightmap(Gnode parent, uint32_t resolution, float density = 8.f, const string& save_path = "");
+	export_ TWO_GFX_EXPORT func_ GIProbeHandle gi_probe(Gnode parent, uint16_t subdiv, const vec3& extents);
+	export_ TWO_GFX_EXPORT func_ LightmapAtlasHandle lightmap(Gnode parent, uint32_t resolution, float density = 8.f, const string& save_path = "");
 }
 
 	enum ShaderOptionGI : unsigned int

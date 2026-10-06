@@ -209,6 +209,40 @@ extern "C" {
 	void DECL two_BlockShadow__destroy(two::BlockShadow* self) {
 		delete self;
 	}
+	// GIProbeHandle
+	two::Type* DECL two_GIProbeHandle__type() {
+		return &two::type<two::GIProbeHandle>();
+	}
+	two::GIProbeHandle* DECL two_GIProbeHandle__construct_0() {
+		return new two::GIProbeHandle();
+	}
+	two::Gnode* DECL two_GIProbeHandle__get_self(two::GIProbeHandle* self) {
+		static two::Gnode temp;
+		return (temp = self->self(), &temp);
+	}
+	two::GIProbe* DECL two_GIProbeHandle__get_probe(two::GIProbeHandle* self) {
+		return &self->probe();
+	}
+	void DECL two_GIProbeHandle__destroy(two::GIProbeHandle* self) {
+		delete self;
+	}
+	// LightmapAtlasHandle
+	two::Type* DECL two_LightmapAtlasHandle__type() {
+		return &two::type<two::LightmapAtlasHandle>();
+	}
+	two::LightmapAtlasHandle* DECL two_LightmapAtlasHandle__construct_0() {
+		return new two::LightmapAtlasHandle();
+	}
+	two::Gnode* DECL two_LightmapAtlasHandle__get_self(two::LightmapAtlasHandle* self) {
+		static two::Gnode temp;
+		return (temp = self->self(), &temp);
+	}
+	two::LightmapAtlas* DECL two_LightmapAtlasHandle__get_atlas(two::LightmapAtlasHandle* self) {
+		return &self->atlas();
+	}
+	void DECL two_LightmapAtlasHandle__destroy(two::LightmapAtlasHandle* self) {
+		delete self;
+	}
 	// GIProbe
 	two::Type* DECL two_GIProbe__type() {
 		return &two::type<two::GIProbe>();
@@ -512,17 +546,21 @@ extern "C" {
 	void DECL two_gfx_setup_pipeline_pbr_1(two::GfxSystem* gfx) {
 		two::gfx::setup_pipeline_pbr(*gfx);
 	}
-	two::GIProbe* DECL two_gfx_gi_probe_3(two::Gnode* parent, uint16_t subdiv, const two::vec3* extents) {
-		return &two::gfx::gi_probe(*parent, subdiv, *extents);
+	two::GIProbeHandle* DECL two_gfx_gi_probe_3(two::Gnode* parent, uint16_t subdiv, const two::vec3* extents) {
+		static two::GIProbeHandle temp;
+		return (temp = two::gfx::gi_probe(*parent, subdiv, *extents), &temp);
 	}
-	two::LightmapAtlas* DECL two_gfx_lightmap_2(two::Gnode* parent, uint32_t resolution) {
-		return &two::gfx::lightmap(*parent, resolution);
+	two::LightmapAtlasHandle* DECL two_gfx_lightmap_2(two::Gnode* parent, uint32_t resolution) {
+		static two::LightmapAtlasHandle temp;
+		return (temp = two::gfx::lightmap(*parent, resolution), &temp);
 	}
-	two::LightmapAtlas* DECL two_gfx_lightmap_3(two::Gnode* parent, uint32_t resolution, float density) {
-		return &two::gfx::lightmap(*parent, resolution, density);
+	two::LightmapAtlasHandle* DECL two_gfx_lightmap_3(two::Gnode* parent, uint32_t resolution, float density) {
+		static two::LightmapAtlasHandle temp;
+		return (temp = two::gfx::lightmap(*parent, resolution, density), &temp);
 	}
-	two::LightmapAtlas* DECL two_gfx_lightmap_4(two::Gnode* parent, uint32_t resolution, float density, const char* save_path) {
-		return &two::gfx::lightmap(*parent, resolution, density, save_path);
+	two::LightmapAtlasHandle* DECL two_gfx_lightmap_4(two::Gnode* parent, uint32_t resolution, float density, const char* save_path) {
+		static two::LightmapAtlasHandle temp;
+		return (temp = two::gfx::lightmap(*parent, resolution, density, save_path), &temp);
 	}
 	void DECL two_pass_dofblur_3(two::GfxSystem* gfx, two::Render* render, const two::DofBlur* blur) {
 		two::pass_dofblur(*gfx, *render, *blur);
