@@ -21,14 +21,14 @@ namespace two
 	TextEdit::~TextEdit()
 	{}
 
-	size_t TextEdit::visible_lines(Widget& self) const
+	size_t TextEdit::visible_lines(Widget self) const
 	{
 		const Frame& scroll_frame = self.frame();
 		float height = scroll_frame.m_size.y - 20.0f;
 		return size_t(floor(height / m_text.line_height()));
 	}
 
-	vec2 TextEdit::frame_size(Widget& self)
+	vec2 TextEdit::frame_size(Widget self)
 	{
 		auto count_digits = [](int number) { int digits = 0; do { number /= 10; digits++; } while(number != 0); return digits; };
 		const int digits = count_digits(int(m_text.m_text_rows.size()));
@@ -37,7 +37,7 @@ namespace two
 		return offset + m_text.compute_text_size() + rect_sum(self.frame().d_inkstyle->m_padding);
 	}
 
-	void TextEdit::update_style(Widget& self)
+	void TextEdit::update_style(Widget self)
 	{
 		m_text.update_style(self);
 
@@ -57,7 +57,7 @@ namespace two
 			m_text_offset = padding;
 	}
 
-	void TextEdit::set_text(Widget& self, const string& text)
+	void TextEdit::set_text(Widget self, const string& text)
 	{
 		if(m_string == text) return;
 
@@ -78,7 +78,7 @@ namespace two
 		m_changed = true;
 	}
 
-	void TextEdit::mark_dirty(Widget& self, size_t start, size_t end)
+	void TextEdit::mark_dirty(Widget self, size_t start, size_t end)
 	{
 		m_dirty[0] = min<uint>(m_dirty[0], uint(start));
 		m_dirty[1] = max<uint>(m_dirty[1], uint(end));
@@ -102,7 +102,7 @@ namespace two
 		}
 	}
 
-	void TextEdit::insert(Widget& self, size_t index, const string& text)
+	void TextEdit::insert(Widget self, size_t index, const string& text)
 	{
 		this->shift(index, int(text.size()));
 		m_string.insert(index, text);
@@ -110,7 +110,7 @@ namespace two
 		m_follow_cursor = true;
 	}
 
-	void TextEdit::insert(Widget& self, size_t index, const string& text, size_t cursor, Action& action)
+	void TextEdit::insert(Widget self, size_t index, const string& text, size_t cursor, Action& action)
 	{
 		action.mAdded = text;
 		action.mAddedStart = index;
@@ -120,7 +120,7 @@ namespace two
 		this->cursor(cursor);
 	}
 
-	void TextEdit::erase(Widget& self, size_t start, size_t end)
+	void TextEdit::erase(Widget self, size_t start, size_t end)
 	{
 		if(end == start) return;
 		this->clear(start, end);
@@ -130,7 +130,7 @@ namespace two
 		m_follow_cursor = true;
 	}
 
-	void TextEdit::erase(Widget& self, size_t start, size_t end, size_t cursor, Action& action)
+	void TextEdit::erase(Widget self, size_t start, size_t end, size_t cursor, Action& action)
 	{
 		action.mRemoved = m_string.substr(start, end - start);
 		action.mRemovedStart = start;
@@ -140,7 +140,7 @@ namespace two
 		this->cursor(cursor);
 	}
 
-	void TextEdit::enter(Widget& self)
+	void TextEdit::enter(Widget self)
 	{
 		if(allowed('\n'))
 		{
@@ -149,7 +149,7 @@ namespace two
 		}
 	}
 
-	void TextEdit::escape(Widget& self)
+	void TextEdit::escape(Widget self)
 	{
 		if(m_completing)
 			m_completing = false;
@@ -157,12 +157,12 @@ namespace two
 			self.yield_focus();
 	}
 
-	void TextEdit::erase_selected(Widget& self, Action& action)
+	void TextEdit::erase_selected(Widget self, Action& action)
 	{
 		erase(self, m_selection.m_start, m_selection.m_end, m_selection.m_start, action);
 	}
 
-	void TextEdit::erase(Widget& self)
+	void TextEdit::erase(Widget self)
 	{
 		if(m_string.empty()) return;
 
@@ -175,7 +175,7 @@ namespace two
 		});
 	}
 
-	void TextEdit::backspace(Widget& self)
+	void TextEdit::backspace(Widget self)
 	{
 		if(m_string.empty()) return;
 
@@ -190,7 +190,7 @@ namespace two
 		m_completing = m_completing && !is_separator(m_string[m_selection.m_cursor - 1]);
 	}
 
-	void TextEdit::insert(Widget& self, unsigned char c)
+	void TextEdit::insert(Widget self, unsigned char c)
 	{
 		if(c == 0 || (!isprint(c) && !isspace(c)) || !allowed(c)) return;
 		if(c == '\r') c = '\n';
@@ -209,7 +209,7 @@ namespace two
 		});
 	}
 
-	void TextEdit::insert(Widget& self, const string& text)
+	void TextEdit::insert(Widget self, const string& text)
 	{
 		CommitAction([&](Action& action)
 		{
@@ -225,7 +225,7 @@ namespace two
 		return m_string.substr(m_selection.m_start, m_selection.m_end - m_selection.m_start);
 	}
 
-	void TextEdit::copy(Widget& self)
+	void TextEdit::copy(Widget self)
 	{
 		Clipboard& clipboard = self.ui_window().m_clipboard;
 		if(has_selection())
@@ -234,7 +234,7 @@ namespace two
 			clipboard = { text_line(m_string, m_selection.m_cursor), true };
 	}
 
-	void TextEdit::cut(Widget& self)
+	void TextEdit::cut(Widget self)
 	{
 		if(m_read_only) return;
 
@@ -248,7 +248,7 @@ namespace two
 		});
 	}
 
-	void TextEdit::paste(Widget& self)
+	void TextEdit::paste(Widget self)
 	{
 		Clipboard& clipboard = self.ui_window().m_clipboard;
 		if(clipboard.m_text.empty()) return;
@@ -316,12 +316,12 @@ namespace two
 		this->move_select(m_text.clamp_cursor(ivec2(m_selection.m_cursor.m_grid_index) + ivec2(0, 1)), select);
 	}
 
-	void TextEdit::move_page_up(Widget& self, bool select)
+	void TextEdit::move_page_up(Widget self, bool select)
 	{
 		this->move_select(m_text.clamp_cursor(ivec2(m_selection.m_cursor.m_grid_index) - ivec2(0, int(visible_lines(self)) - 4)), select);
 	}
 
-	void TextEdit::move_page_down(Widget& self, bool select)
+	void TextEdit::move_page_down(Widget self, bool select)
 	{
 		this->move_select(m_text.clamp_cursor(ivec2(m_selection.m_cursor.m_grid_index) + ivec2(0, int(visible_lines(self)) - 4)), select);
 	}
@@ -378,7 +378,7 @@ namespace two
 		++m_undo_index;
 	}
 
-	void TextEdit::update(Widget& self)
+	void TextEdit::update(Widget self)
 	{
 		m_changed = false;
 		m_entered = false;
@@ -510,7 +510,7 @@ namespace two
 		self.draw_layer().setForceRedraw(); // TextEdit must redraw each frame
 	}
 
-	void TextEdit::update_scroll(Widget& self, Widget& frame, Widget& content)
+	void TextEdit::update_scroll(Widget self, Widget frame, Widget content)
 	{
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseMiddle, EventType::Moved))
 		{
@@ -526,7 +526,7 @@ namespace two
 		}
 	}
 
-	void TextEdit::render(Widget& self, Vg& vg)
+	void TextEdit::render(Widget self, Vg& vg)
 	{
 		if(m_editor)
 			recolorize();
@@ -547,9 +547,9 @@ namespace two
 	}
 
 	// the vertical range of the text inside the frame clipping it, e.g the scroll zone of an editor: the rows out of it are not drawn
-	vec2 TextEdit::visible_range(Widget& self)
+	vec2 TextEdit::visible_range(Widget self)
 	{
-		Widget* clip = self.parent();
+		Widget clip = self.parent();
 		while(clip && !(clip->frame().d_layout && clip->frame().d_layout->m_clipping == Clip::Clip))
 			clip = clip->parent();
 		if(!clip)
@@ -560,13 +560,13 @@ namespace two
 		return { top, bottom };
 	}
 
-	void TextEdit::undo(Widget& self)
+	void TextEdit::undo(Widget self)
 	{
 		if(CanUndo())
 			m_undo_stack[--m_undo_index].Undo(this, self);
 	}
 
-	void TextEdit::redo(Widget& self)
+	void TextEdit::redo(Widget self)
 	{
 		if(CanRedo())
 			m_undo_stack[m_undo_index++].Redo(this, self);
@@ -659,7 +659,7 @@ namespace two
 		}
 	}
 
-	void TextEdit::scroll_to_cursor(Widget& frame, Widget& content)
+	void TextEdit::scroll_to_cursor(Widget frame, Widget content)
 	{
 		const vec2 margin = vec2(0.f);
 
@@ -677,7 +677,7 @@ namespace two
 		content.set_position(content.frame().m_position + delta_pos);
 	}
 
-	void TextEdit::Action::Undo(TextEdit* aEditor, Widget& self)
+	void TextEdit::Action::Undo(TextEdit* aEditor, Widget self)
 	{
 		if(!mAdded.empty())
 			aEditor->erase(self, mAddedStart, mAddedEnd);
@@ -690,7 +690,7 @@ namespace two
 
 	}
 
-	void TextEdit::Action::Redo(TextEdit* aEditor, Widget& self)
+	void TextEdit::Action::Redo(TextEdit* aEditor, Widget self)
 	{
 		if(!mRemoved.empty())
 			aEditor->erase(self, mRemovedStart, mRemovedEnd);
@@ -713,9 +713,9 @@ namespace ui
 		return true;
 	}
 
-	TextEditHandle text_box(NodeKey id, Widget& parent, Style& style, string& text, bool editor, size_t lines, const string& allowed_chars)
+	TextEditHandle text_box(NodeKey id, Widget parent, Style& style, string& text, bool editor, size_t lines, const string& allowed_chars)
 	{
-		Widget& self = widget(id, parent, style);
+		Widget self = widget(id, parent, style);
 		TextEdit& edit = self.state<TextEdit>(editor, allowed_chars);
 
 		if(lines > 0)
@@ -730,14 +730,14 @@ namespace ui
 		const vec2 size = edit.frame_size(self);
 		ui::dummy(key(), self, size);
 
-		self.custom_draw() = [](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(rect); widget.find_state<TextEdit>()->render(widget, vg); };
+		self.custom_draw() = [](Widget widget, const vec4& rect, Vg& vg) { UNUSED(rect); widget.find_state<TextEdit>()->render(widget, vg); };
 
 		return TextEditHandle(self);
 	}
 
-	TextEditHandle type_in(NodeKey id, Widget& parent, string& text, size_t lines, const string& allowed_chars)
+	TextEditHandle type_in(NodeKey id, Widget parent, string& text, size_t lines, const string& allowed_chars)
 	{
-		Widget& self = widget(id, parent, styles().type_in);
+		Widget self = widget(id, parent, styles().type_in);
 		TextEditHandle edit = text_box(key(), self, styles().type_in, text, false, lines, allowed_chars);
 		return edit;
 	}
@@ -766,9 +766,9 @@ namespace ui
 		}
 	}
 
-	TextEditHandle text_edit(NodeKey id, Widget& parent, string& text, size_t lines, vector<string>* vocabulary)
+	TextEditHandle text_edit(NodeKey id, Widget parent, string& text, size_t lines, vector<string>* vocabulary)
 	{
-		Widget& self = widget(id, parent, styles().text_edit);
+		Widget self = widget(id, parent, styles().text_edit);
 		ScrollSheet scroll_sheet = ui::scroll_sheet(key(), self);
 		TextEditHandle edit = text_box(key(), scroll_sheet.body, styles().type_zone, text, true, lines);
 
@@ -801,7 +801,7 @@ namespace ui
 		return edit;
 	}
 
-	TextEditHandle code_edit(NodeKey id, Widget& parent, string& text, size_t lines, vector<string>* vocabulary)
+	TextEditHandle code_edit(NodeKey id, Widget parent, string& text, size_t lines, vector<string>* vocabulary)
 	{
 		return text_edit(id, parent, text, lines, vocabulary);
 	}

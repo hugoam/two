@@ -32,7 +32,7 @@ namespace two
 		attr_ Call m_call = {};
 		attr_ vector<PrefabNode> m_nodes;
 
-		void draw(Gnode& parent);
+		void draw(Gnode parent);
 	};
 #endif
 
@@ -47,7 +47,7 @@ namespace two
 #endif
 
 		// adds copies of the nodes and the items of the prefab, as the objects of new children of a node of a graph, the nodes animated by the mime if given
-		meth_ void add(Gnode& parent, Mime* mime = nullptr);
+		meth_ void add(Gnode parent, Mime* mime = nullptr);
 
 		vector<Node3> m_nodes;
 		struct Elem { uint32_t node; Item item; };

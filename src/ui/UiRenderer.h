@@ -103,12 +103,12 @@ namespace two
 		bool m_null = false;
 	};
 
-	export_ TWO_UI_EXPORT vec4 select_corners(Widget& widget);
+	export_ TWO_UI_EXPORT vec4 select_corners(Widget widget);
 	export_ TWO_UI_EXPORT float content_position(const Frame& frame, const vec2& content, const vec2& padded_pos, const vec2& padded_size, Axis dim);
 
-	export_ TWO_UI_EXPORT void draw_frame(Vg& vg, Widget& widget, const vec4& rect);
-	export_ TWO_UI_EXPORT void draw_content(Vg& vg, Widget& widget, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
-	export_ TWO_UI_EXPORT void draw_background(Vg& vg, Widget& widget, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
+	export_ TWO_UI_EXPORT void draw_frame(Vg& vg, Widget widget, const vec4& rect);
+	export_ TWO_UI_EXPORT void draw_content(Vg& vg, Widget widget, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
+	export_ TWO_UI_EXPORT void draw_background(Vg& vg, Widget widget, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
 	export_ TWO_UI_EXPORT void draw_rect(Vg& vg, const vec4& rect, const vec4& corners, const InkStyle& inkstyle);
 	export_ TWO_UI_EXPORT void draw_image(Vg& vg, const Image& image, const vec4& rect);
 	export_ TWO_UI_EXPORT void draw_image_stretch(Vg& vg, const Image& image, const vec4& rect, const vec2& stretch = { 1.f, 1.f });
@@ -120,17 +120,17 @@ namespace two
 		UiRenderer(Vg& vg);
 		virtual ~UiRenderer();
 
-		void render(Widget& target, uint16_t view, float pixel_ratio, const Colour& colour = Colour(0.f));// = 1.f);
+		void render(Widget target, uint16_t view, float pixel_ratio, const Colour& colour = Colour(0.f));// = 1.f);
 
 		// drawing implementation
-		void render_layer(Widget& widget, Layer& layer);
+		void render_layer(Widget widget, Layer& layer);
 
-		void begin_layer(Widget& widget);
+		void begin_layer(Widget widget);
 		void begin_frame(Frame& frame);
-		void render_frame(Widget& widget);
+		void render_frame(Widget widget);
 		void end_frame(Frame& frame);
-		void end_layer(Widget& widget);
-		void draw_frame(Widget& widget);
+		void end_layer(Widget widget);
+		void draw_frame(Widget widget);
 
 		void log_FPS();
 

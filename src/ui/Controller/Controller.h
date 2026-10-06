@@ -33,7 +33,7 @@ namespace two
 	public:
 		EventDispatch();
 
-		virtual void process(Widget& widget);
+		virtual void process(Widget widget);
 		
 		//EventMap<KeyHandler> m_handlers;
 

@@ -43,22 +43,22 @@ namespace ui
 
 	export_ TWO_UI_EXPORT TabberStyles& tabber_styles();
 
-	export_ TWO_UI_EXPORT ScrollSheet select_list(NodeKey id, Widget& parent);
+	export_ TWO_UI_EXPORT ScrollSheet select_list(NodeKey id, Widget parent);
 
 	// @todo reflection for span<T>
-	export_ TWO_UI_EXPORT func_ Widget& columns(NodeKey id, Widget& parent, span<float> weights);
-	export_ TWO_UI_EXPORT func_ Widget& table(NodeKey id, Widget& parent, span<cstring> columns, span<float> weights);
-	export_ TWO_UI_EXPORT func_ Widget& table_row(NodeKey id, Widget& parent);
-	export_ TWO_UI_EXPORT func_ Widget& table_separator(NodeKey id, Widget& parent);
+	export_ TWO_UI_EXPORT func_ Widget columns(NodeKey id, Widget parent, span<float> weights);
+	export_ TWO_UI_EXPORT func_ Widget table(NodeKey id, Widget parent, span<cstring> columns, span<float> weights);
+	export_ TWO_UI_EXPORT func_ Widget table_row(NodeKey id, Widget parent);
+	export_ TWO_UI_EXPORT func_ Widget table_separator(NodeKey id, Widget parent);
 
-	export_ TWO_UI_EXPORT Expandbox expandbox(NodeKey id, Widget& parent, span<cstring> elements, bool open = true);
-	export_ TWO_UI_EXPORT Expandbox expandbox(NodeKey id, Widget& parent, cstring name, bool open = true);
+	export_ TWO_UI_EXPORT Expandbox expandbox(NodeKey id, Widget parent, span<cstring> elements, bool open = true);
+	export_ TWO_UI_EXPORT Expandbox expandbox(NodeKey id, Widget parent, cstring name, bool open = true);
 
-	export_ TWO_UI_EXPORT TreeNode tree_node(NodeKey id, Widget& parent, span<cstring> elements, bool leaf = false, bool open = true);
-	export_ TWO_UI_EXPORT TreeNode tree_node(NodeKey id, Widget& parent, cstring name, bool leaf = false, bool open = true);
-	export_ TWO_UI_EXPORT func_ Widget& tree(NodeKey id, Widget& parent);
+	export_ TWO_UI_EXPORT TreeNode tree_node(NodeKey id, Widget parent, span<cstring> elements, bool leaf = false, bool open = true);
+	export_ TWO_UI_EXPORT TreeNode tree_node(NodeKey id, Widget parent, cstring name, bool leaf = false, bool open = true);
+	export_ TWO_UI_EXPORT func_ Widget tree(NodeKey id, Widget parent);
 
-	export_ TWO_UI_EXPORT Widget* tab(NodeKey id, Tabber& tabber, cstring name);
-	export_ TWO_UI_EXPORT Tabber tabber(NodeKey id, Widget& parent);
+	export_ TWO_UI_EXPORT Widget tab(NodeKey id, Tabber& tabber, cstring name);
+	export_ TWO_UI_EXPORT Tabber tabber(NodeKey id, Widget parent);
 }
 }

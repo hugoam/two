@@ -32,14 +32,14 @@ namespace two
 
 namespace ui
 {
-	export_ TWO_UI_EXPORT func_ Widget& widget(NodeKey id, Widget& parent, Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 });
+	export_ TWO_UI_EXPORT func_ Widget widget(NodeKey id, Widget parent, Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 });
 
-	export_ TWO_UI_EXPORT func_ Widget& item(NodeKey id, Widget& parent, Style& style, cstring content = nullptr);
-	export_ TWO_UI_EXPORT Widget& item(NodeKey id, Widget& parent, Style& style, const string& content);
+	export_ TWO_UI_EXPORT func_ Widget item(NodeKey id, Widget parent, Style& style, cstring content = nullptr);
+	export_ TWO_UI_EXPORT Widget item(NodeKey id, Widget parent, Style& style, const string& content);
 
-	export_ TWO_UI_EXPORT func_ Widget& multi_item(NodeKey id, Widget& parent, Style& style, span<cstring> elements, Style* element_style = nullptr);
-	export_ TWO_UI_EXPORT Widget& multi_item(NodeKey id, Widget& parent, span<cstring> elements, Style* element_style = nullptr);
+	export_ TWO_UI_EXPORT func_ Widget multi_item(NodeKey id, Widget parent, Style& style, span<cstring> elements, Style* element_style = nullptr);
+	export_ TWO_UI_EXPORT Widget multi_item(NodeKey id, Widget parent, span<cstring> elements, Style* element_style = nullptr);
 
-	export_ TWO_UI_EXPORT func_ Widget& spanner(NodeKey id, Widget& parent, Style& style, Axis dim, float span);
+	export_ TWO_UI_EXPORT func_ Widget spanner(NodeKey id, Widget parent, Style& style, Axis dim, float span);
 }
 }

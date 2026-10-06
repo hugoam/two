@@ -71,6 +71,6 @@ namespace two
 		ShellUpdate m_pump = nullptr;
 	};
 
-	export_ void shell_context(Widget& parent, ShellContext& context);
+	export_ void shell_context(Widget parent, ShellContext& context);
 }
 

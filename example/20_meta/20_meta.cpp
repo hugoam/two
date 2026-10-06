@@ -6,7 +6,7 @@ import two.frame;
 
 using namespace two;
 
-void ex_20_meta(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_20_meta(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
 	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
@@ -14,7 +14,7 @@ void ex_20_meta(Shell& app, Widget& parent, DockbarHandle dockbar)
 
 	//meta_browser(parent);
 
-	Gnode& scene = viewer->m_scene->begin();
+	Gnode scene = viewer->m_scene->begin();
 
 	Material& material = milky_white(viewer->m_gfx_system);
 

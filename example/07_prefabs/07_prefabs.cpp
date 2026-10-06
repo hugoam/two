@@ -7,14 +7,14 @@ using namespace mud;
 
 namespace mud
 {
-	//MUD_GFX_UI_EXPORT void prefab_edit(Widget& parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected, EditContext& context);
+	//MUD_GFX_UI_EXPORT void prefab_edit(Widget parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected, EditContext& context);
 
-	void prefab_edit(Widget& parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected, EditContext& context)
+	void prefab_edit(Widget parent, GfxSystem& gfx_system, PrefabNode& node, PrefabNode*& selected, EditContext& context)
 	{
 		prefab_edit(parent, gfx_system, node, selected);
-		Widget& layout = ui::layout(key(), *context.m_viewer);
-		//Widget& toolbar = ui::toolbar(key(), layout);
-		Widget& toolbar = ui::row(key(), layout);
+		Widget layout = ui::layout(key(), *context.m_viewer);
+		//Widget toolbar = ui::toolbar(key(), layout);
+		Widget toolbar = ui::row(key(), layout);
 		tools_transform(toolbar, context);
 	}
 }
@@ -43,7 +43,7 @@ void ex_07_prefabs_init(Shell& app)
 	//app.m_gfx_system.models().load_files(MUD_RESOURCE_PATH "models/");
 }
 
-void ex_07_prefabs(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_07_prefabs(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 	static bool once = false;
 	if(!once)
@@ -55,9 +55,9 @@ void ex_07_prefabs(Shell& app, Widget& parent, DockbarHandle dockbar)
 	static Prefab& prefab = app.m_gfx_system.prefabs().create("Prefab");
 	static PrefabNode* selected = nullptr;
 
-	Widget& board = ui::board(key(), parent);
-	Widget& right = ui::layout_span(key(), board, 0.2f);
-	Widget& left = ui::layout_span(key(), board, 0.8f);
+	Widget board = ui::board(key(), parent);
+	Widget right = ui::layout_span(key(), board, 0.2f);
+	Widget left = ui::layout_span(key(), board, 0.8f);
 
 	asset_browser(right, app.m_gfx_system);
 
@@ -65,7 +65,7 @@ void ex_07_prefabs(Shell& app, Widget& parent, DockbarHandle dockbar)
 	ui::orbit_controller(viewer);
 	app.m_editor.m_viewer = viewer;
 
-	Gnode& scene = viewer->m_scene->begin();
+	Gnode scene = viewer->m_scene->begin();
 	prefab.m_node.draw(scene);
 
 	gfx::direct_light_node(scene, sun_rotation(c_pi / 4.f, c_pi / 4.f));
@@ -75,7 +75,7 @@ void ex_07_prefabs(Shell& app, Widget& parent, DockbarHandle dockbar)
 	if(MouseEvent mouse_event = viewer.self().mouse_event(DeviceType::MouseLeft, EventType::DraggedTarget))
 		if(parent.ui().m_drop.m_object)
 		{
-			Widget& tooltip = ui::widget(key(), viewer.self().ui(), styles().tooltip).layer();
+			Widget tooltip = ui::widget(key(), viewer.self().ui(), styles().tooltip).layer();
 			tooltip.set_position(mouse_event.m_pos);
 			ui::label(key(), tooltip, "dropping");
 		}
@@ -95,7 +95,7 @@ void ex_07_prefabs(Shell& app, Widget& parent, DockbarHandle dockbar)
 		viewer->picker(0).pick_point(viewer->m_viewport, mouse_event.m_relative, select, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
 		prefab_edit(*dock, viewer->m_gfx_system, prefab.m_node, selected, app.m_editor); // "Particle Editor" // identity = edited
 		if(selected)
@@ -106,7 +106,7 @@ void ex_07_prefabs(Shell& app, Widget& parent, DockbarHandle dockbar)
 
 	if(selected)
 	{
-		Gnode& node = gfx::node(scene, Ref(selected), selected->m_transform);
+		Gnode node = gfx::node(scene, Ref(selected), selected->m_transform);
 		if(selected->m_prefab_type == PrefabType::Item)
 		{
 			if(!selected->m_call.m_arguments[1].null())

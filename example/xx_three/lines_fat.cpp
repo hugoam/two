@@ -112,9 +112,9 @@ EX(xx_lines_fat)
 #endif
 
 #if UI
-	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::columns(key(), *dock, { 0.3f, 0.7f });
+		Widget sheet = ui::columns(key(), *dock, { 0.3f, 0.7f });
 
 		ui::slider_field(key(), sheet, "line width", material->m_line.m_line_width, { 0.f, 20.f, 0.1f });
 

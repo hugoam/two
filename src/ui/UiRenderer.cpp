@@ -152,7 +152,7 @@ namespace two
 	UiRenderer::~UiRenderer()
 	{}
 
-	void UiRenderer::render(Widget& target, uint16_t view, float pixel_ratio, const Colour& colour)
+	void UiRenderer::render(Widget target, uint16_t view, float pixel_ratio, const Colour& colour)
 	{
 		this->log_FPS();
 
@@ -162,17 +162,17 @@ namespace two
 		m_vg.begin_frame(view, vec4(vec2(0.f), target.frame().m_size), pixel_ratio, colour);
 
 #ifdef TWO_UI_DRAW_CACHE
-		target.visit_layers([&](Widget& widget, Layer& layer) {
+		target.visit_layers([&](Widget widget, Layer& layer) {
 			if(layer.redraw() || layer.forceRedraw())
 				this->render_layer(widget, layer);
 		});
 
-		target.visit_layers([&](Widget& widget, Layer& layer) {
+		target.visit_layers([&](Widget widget, Layer& layer) {
 			UNUSED(widget);
 			m_vg.draw_layer(layer, vec2(0.f), 1.f);
 		});
 #else
-		target.visit_layers([&](Widget& widget, Layer& layer)
+		target.visit_layers([&](Widget widget, Layer& layer)
 		{
 			this->render_layer(widget, layer);
 		});
@@ -187,7 +187,7 @@ namespace two
 		m_vg.end_frame(view);
 	}
 
-	void UiRenderer::render_layer(Widget& widget, Layer& layer)
+	void UiRenderer::render_layer(Widget widget, Layer& layer)
 	{
 		if(layer.master())
 			m_vg.begin_target();
@@ -196,7 +196,7 @@ namespace two
 		m_vg.begin_cached(layer);
 #endif
 
-		Widget* parent = widget.parent();
+		Widget parent = widget.parent();
 		if(parent)
 			this->begin_layer(*parent);
 
@@ -237,36 +237,36 @@ namespace two
 		m_vg.end_update();
 	}
 
-	void UiRenderer::begin_layer(Widget& widget)
+	void UiRenderer::begin_layer(Widget widget)
 	{
-		if(Widget* parent = widget.parent())
+		if(Widget parent = widget.parent())
 			this->begin_layer(*parent);
 
 		this->begin_frame(widget.frame());
 	}
 
-	void UiRenderer::end_layer(Widget& widget)
+	void UiRenderer::end_layer(Widget widget)
 	{
 		this->end_frame(widget.frame());
 
-		if(Widget* parent = widget.parent())
+		if(Widget parent = widget.parent())
 			this->end_layer(*parent);
 	}
 
-	void UiRenderer::render_frame(Widget& widget)
+	void UiRenderer::render_frame(Widget widget)
 	{
 		this->begin_frame(widget.frame());
 
 		this->draw_frame(widget);
 
-		for(Widget& child : widget.children())
+		for(Widget child : widget.children())
 			if(!child.find_state<Layer>())
 				this->render_frame(child);
 
 		this->end_frame(widget.frame());
 	}
 
-	void UiRenderer::draw_frame(Widget& widget)
+	void UiRenderer::draw_frame(Widget widget)
 	{
 		const Frame& frame = widget.frame();
 		vec4 rect = frame.content_rect();
@@ -288,7 +288,7 @@ namespace two
 		two::draw_frame(m_vg, widget, rect);
 	}
 
-	void draw_frame(Vg& vg, Widget& widget, const vec4& rect)
+	void draw_frame(Vg& vg, Widget widget, const vec4& rect)
 	{
 		const Frame& frame = widget.frame();
 		const vec2 padded_pos = floor(frame.d_inkstyle->m_padding.pos);
@@ -322,9 +322,9 @@ namespace two
 			return padded_pos[dim];
 	}
 
-	vec4 select_corners(Widget& widget)
+	vec4 select_corners(Widget widget)
 	{
-		Widget& parent = *widget.parent();
+		Widget parent = *widget.parent();
 		const Frame& frame = parent.frame();
 
 		const vec4& corners = frame.d_inkstyle->m_corner_radius;
@@ -336,7 +336,7 @@ namespace two
 			return vec4();
 	}
 
-	void draw_background(Vg& vg, Widget& widget, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)
+	void draw_background(Vg& vg, Widget widget, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)
 	{
 		//m_debug_batch++;
 
@@ -426,7 +426,7 @@ namespace two
 		draw_image_stretch(vg, imageSkin.d_images[section], rect, ratio);
 	}
 
-	void draw_content(Vg& vg, Widget& widget, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)
+	void draw_content(Vg& vg, Widget widget, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)
 	{
 		UNUSED(rect);
 

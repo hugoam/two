@@ -10,7 +10,7 @@
 
 namespace two
 {
-	using CustomDraw = void(*)(Widget&, const vec4&, Vg&);
+	using CustomDraw = void(*)(Widget, const vec4&, Vg&);
 
 	export_ struct refl_ TWO_UI_EXPORT InkStyle
 	{

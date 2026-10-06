@@ -20,7 +20,7 @@ using namespace two;
 #define SHAPES 1
 #define POSTPROCESS 0
 
-void ex_04_sponza(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_04_sponza(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 	static ImporterOBJ obj_importer(app.m_gfx);
 
@@ -51,7 +51,7 @@ void ex_04_sponza(Shell& app, Widget& parent, DockbarHandle dockbar)
 		shadow.m_atlas = ShadowAtlas(4096U, 1U);
 	}
 
-	Gnode& scene = viewer->m_scene.begin();
+	Gnode scene = viewer->m_scene.begin();
 
 	Material& material = milky_white(app.m_gfx);
 
@@ -84,8 +84,8 @@ void ex_04_sponza(Shell& app, Widget& parent, DockbarHandle dockbar)
 	config.m_optimize_geometry = true;
 	static Prefab& prefab = import_prefab(app.m_gfx, ModelFormat::obj, "sponza", config);
 
-	//Gnode& sponza_node = gfx::node(scene, vec3(0.f, -5.f, 0.f));
-	Gnode& sponza_node = gfx::node(scene, -prefab.m_aabb.m_center);
+	//Gnode sponza_node = gfx::node(scene, vec3(0.f, -5.f, 0.f));
+	Gnode sponza_node = gfx::node(scene, -prefab.m_aabb.m_center);
 	gfx::prefab(sponza_node, prefab, false, ItemFlag::NoUpdate);
 
 #if GI_PROBE
@@ -117,9 +117,9 @@ void ex_04_sponza(Shell& app, Widget& parent, DockbarHandle dockbar)
 	viewer->m_viewport.set_clustered(app.m_gfx);
 #endif
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::columns(key(), *dock, { 0.3f, 0.7f });
+		Widget sheet = ui::columns(key(), *dock, { 0.3f, 0.7f });
 
 		ui::label(key(), sheet, "Zone :");
 		ui::color_field(key(), sheet, "Ambient", viewer->m_scene.m_env.m_radiance.m_ambient);

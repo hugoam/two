@@ -71,9 +71,9 @@ namespace two
 		return symbols;
 	}
 
-	void script_edit_output(Widget& parent, Interpreter& interpreter)
+	void script_edit_output(Widget parent, Interpreter& interpreter)
 	{
-		Widget& self = ui::sheet(key(), parent);
+		Widget self = ui::sheet(key(), parent);
 		ui::title_header(key(), self, "Output");
 
 		static string output = "";
@@ -96,7 +96,7 @@ namespace two
 
 			if(function || type || lowertype)
 			{
-				if(Widget* popup = ui::hoverbox(key(), edit.self(), hover_at))
+				if(Widget popup = ui::hoverbox(key(), edit.self(), hover_at))
 				{
 					if(function)
 						meta_synopsis(*popup, *function);
@@ -112,15 +112,15 @@ namespace two
 	}
 
 #if 0
-	Widget& error_tooltip(Widget& parent)
+	Widget error_tooltip(Widget parent)
 	{
-		Widget* tooltip = ui::tooltip();
+		Widget tooltip = ui::tooltip();
 		ui::label(key(), "Error at line %d:", errorIt->first); // Colour(1.0f, 0.2f, 0.2f, 1.0f)
 		ui::label(key(), "%s", errorIt->second.c_str()); // Colour(1.0f, 1.0f, 0.2f, 1.0f)
 	}
 #endif
 
-	Section script_edit_code(Widget& parent, TextScript& script)
+	Section script_edit_code(Widget parent, TextScript& script)
 	{
 		//auto run = [&] { script({}); };
 		auto reload = [&] { script.m_dirty = true; };
@@ -162,18 +162,18 @@ namespace two
 		return self;
 	}
 
-	Section script_edit(Widget& parent, TextScript& script)
+	Section script_edit(Widget parent, TextScript& script)
 	{
 		return script_edit_code(parent, script);
-		//Widget& span_0 = ui::layout_span(key(), parent, 0.8f);
+		//Widget span_0 = ui::layout_span(key(), parent, 0.8f);
 		//script_edit_code(span_0, script, actions);
-		//Widget& span_1 = ui::layout_span(key(), parent, 0.2f);
+		//Widget span_1 = ui::layout_span(key(), parent, 0.2f);
 		//script_edit_output(span_1, *script.m_interpreter);
 	}
 
 	void script_tab(Tabber& parent, ScriptEditor& editor, Script& script)
 	{
-		if(Widget* tab = ui::tab(key(), parent, script.m_name.c_str()))
+		if(Widget tab = ui::tab(key(), parent, script.m_name.c_str()))
 		{
 			Section edit = script.m_type.is<VisualScript>()
 				? visual_script_edit(*tab, as<VisualScript>(script))
@@ -184,7 +184,7 @@ namespace two
 		}
 	}
 
-	void script_editor(Widget& parent, ScriptEditor& editor)
+	void script_editor(Widget parent, ScriptEditor& editor)
 	{
 		enum Modes { Open = 1 << 0, Browse = 1 << 1 };
 

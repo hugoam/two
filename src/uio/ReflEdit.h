@@ -11,7 +11,7 @@ namespace two
 namespace ui
 {
 	template <class T>
-	inline bool enum_input(NodeKey id, Widget& parent, T& value)
+	inline bool enum_input(NodeKey id, Widget parent, T& value)
 	{
 		Enum& e = enu<T>();
 		uint32_t index = e.index(Ref(&value));
@@ -25,28 +25,28 @@ namespace ui
 	}
 
 	template <class T>
-	inline bool enum_field(NodeKey id, Widget& parent, cstring name, T& value, bool reverse = false) { return do_field(id, [&](Widget& self) { return enum_input<T>(key(), self, value); }, parent, name, reverse); }
+	inline bool enum_field(NodeKey id, Widget parent, cstring name, T& value, bool reverse = false) { return do_field(id, [&](Widget self) { return enum_input<T>(key(), self, value); }, parent, name, reverse); }
 }
 
 	export_ TWO_UIO_EXPORT void set_meta_palette(span<uint32_t> palette);
 
-	export_ TWO_UIO_EXPORT void meta_description(Widget& parent, Type& type);
+	export_ TWO_UIO_EXPORT void meta_description(Widget parent, Type& type);
 
-	export_ TWO_UIO_EXPORT void meta_constructors(Widget& parent, Class& cls);
-	export_ TWO_UIO_EXPORT void meta_methods(Widget& parent, Class& cls);
-	export_ TWO_UIO_EXPORT void meta_fields(Widget& parent, Class& cls);
+	export_ TWO_UIO_EXPORT void meta_constructors(Widget parent, Class& cls);
+	export_ TWO_UIO_EXPORT void meta_methods(Widget parent, Class& cls);
+	export_ TWO_UIO_EXPORT void meta_fields(Widget parent, Class& cls);
 
-	export_ TWO_UIO_EXPORT void meta_enum(Widget& parent, Enum& enu);
+	export_ TWO_UIO_EXPORT void meta_enum(Widget parent, Enum& enu);
 
-	export_ TWO_UIO_EXPORT void meta_synopsis(Widget& parent, Function& function);
-	export_ TWO_UIO_EXPORT void meta_synopsis(Widget& parent, Method& method);
-	export_ TWO_UIO_EXPORT void meta_synopsis(Widget& parent, Type& type);
+	export_ TWO_UIO_EXPORT void meta_synopsis(Widget parent, Function& function);
+	export_ TWO_UIO_EXPORT void meta_synopsis(Widget parent, Method& method);
+	export_ TWO_UIO_EXPORT void meta_synopsis(Widget parent, Type& type);
 
-	export_ TWO_UIO_EXPORT void class_edit(Widget& parent, Class& cls);
-	export_ TWO_UIO_EXPORT void meta_edit(Widget& parent, Type& type);
+	export_ TWO_UIO_EXPORT void class_edit(Widget parent, Class& cls);
+	export_ TWO_UIO_EXPORT void meta_edit(Widget parent, Type& type);
 
-	export_ TWO_UIO_EXPORT void meta_browser(Widget& parent, Module& m);
-	export_ TWO_UIO_EXPORT void meta_browser(Widget& parent);
+	export_ TWO_UIO_EXPORT void meta_browser(Widget parent, Module& m);
+	export_ TWO_UIO_EXPORT void meta_browser(Widget parent);
 
-	export_ TWO_UIO_EXPORT void type_browser(Widget& parent);
+	export_ TWO_UIO_EXPORT void type_browser(Widget parent);
 }

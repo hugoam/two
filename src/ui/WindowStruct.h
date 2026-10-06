@@ -14,10 +14,10 @@ namespace two
 	// a window, with its header and its menu if it has them: the content goes in the body, which is there when it's open
 	export_ struct Window
 	{
-		Widget& self;
-		Widget* header;
-		Widget* menu;
-		Widget* body;
-		operator Widget&() const { return self; }
+		Widget self;
+		Widget header;
+		Widget menu;
+		Widget body;
+		operator Widget() const { return self; }
 	};
 }

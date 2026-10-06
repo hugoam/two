@@ -9,23 +9,23 @@
 namespace two
 {
 #if 0
-	export_ TWO_GFX_EDIT_EXPORT void painter_edit(Widget& parent, VisuPainter& painter);
-	export_ TWO_GFX_EDIT_EXPORT void painter_panel(Widget& parent, VisuScene& scene);
+	export_ TWO_GFX_EDIT_EXPORT void painter_edit(Widget parent, VisuPainter& painter);
+	export_ TWO_GFX_EDIT_EXPORT void painter_panel(Widget parent, VisuScene& scene);
 
 #endif
 
-	export_ TWO_GFX_EDIT_EXPORT void space_axes(Gnode& parent);
+	export_ TWO_GFX_EDIT_EXPORT void space_axes(Gnode parent);
 
-	export_ TWO_GFX_EDIT_EXPORT void animation_edit(Widget& parent, Mime& animated);
+	export_ TWO_GFX_EDIT_EXPORT void animation_edit(Widget parent, Mime& animated);
 
-	export_ TWO_GFX_EDIT_EXPORT void asset_browser(Widget& parent, GfxSystem& gfx);
+	export_ TWO_GFX_EDIT_EXPORT void asset_browser(Widget parent, GfxSystem& gfx);
 
-	export_ TWO_GFX_EDIT_EXPORT void edit_viewer_filters(Widget& parent, Viewer& viewer);
+	export_ TWO_GFX_EDIT_EXPORT void edit_viewer_filters(Widget parent, Viewer& viewer);
 
-	export_ TWO_GFX_EDIT_EXPORT void panel_gfx_stats(Widget& parent);
-	export_ TWO_GFX_EDIT_EXPORT void edit_gfx(Widget& parent, GfxSystem& system);
+	export_ TWO_GFX_EDIT_EXPORT void panel_gfx_stats(Widget parent);
+	export_ TWO_GFX_EDIT_EXPORT void edit_gfx(Widget parent, GfxSystem& system);
 	
-	export_ TWO_GFX_EDIT_EXPORT void gfx_editor(Widget& parent, GfxSystem& system);
+	export_ TWO_GFX_EDIT_EXPORT void gfx_editor(Widget parent, GfxSystem& system);
 
 	export_ TWO_GFX_EDIT_EXPORT void declare_gfx_edit();
 }

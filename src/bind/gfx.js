@@ -4464,7 +4464,9 @@ Light.prototype["__destroy"] = Light.prototype.__destroy = function() {
     _two_Light__destroy(this.__ptr);
 };
 // Gnode
-function Gnode() { throw "cannot construct a Gnode, no constructor in IDL" }
+function Gnode() {
+    this.__ptr = _two_Gnode__construct_0(); getCache(Gnode)[this.__ptr] = this;
+};
 Gnode.prototype = Object.create(WrapperObject.prototype);
 Gnode.prototype.constructor = Gnode;
 Gnode.prototype.__class = Gnode;
@@ -5342,7 +5344,12 @@ Object.defineProperty(Scene.prototype, "root_node", {
 Object.defineProperty(Scene.prototype, "graph", {
     get: function() {
         return wrapPointer(_two_Scene__get_graph(this.__ptr), Gnode);
-    }});
+    },
+    set: function(value) {
+        if (!checkClass(value, Gnode)) throw Error('Scene.graph: expected Gnode');
+        _two_Scene__set_graph(this.__ptr, value.__ptr);
+    }
+});
 Object.defineProperty(Scene.prototype, "env", {
     get: function() {
         return wrapPointer(_two_Scene__get_env(this.__ptr), Zone);

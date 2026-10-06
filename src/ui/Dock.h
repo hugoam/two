@@ -20,14 +20,14 @@ namespace ui
 
 	export_ TWO_UI_EXPORT DockStyles& dock_styles();
 
-	export_ TWO_UI_EXPORT Widget& dockline(Widget& parent, uint16_t index, Axis dim);
-	export_ TWO_UI_EXPORT Tabber docksection(Widget& parent);
+	export_ TWO_UI_EXPORT Widget dockline(Widget parent, uint16_t index, Axis dim);
+	export_ TWO_UI_EXPORT Tabber docksection(Widget parent);
 
-	export_ TWO_UI_EXPORT func_ DockspaceHandle dockspace(NodeKey id, Widget& parent, Docksystem& docksystem);
-	export_ TWO_UI_EXPORT func_ DockbarHandle dockbar(NodeKey id, Widget& parent, Docksystem& docksystem);
+	export_ TWO_UI_EXPORT func_ DockspaceHandle dockspace(NodeKey id, Widget parent, Docksystem& docksystem);
+	export_ TWO_UI_EXPORT func_ DockbarHandle dockbar(NodeKey id, Widget parent, Docksystem& docksystem);
 
-	export_ TWO_UI_EXPORT func_ Widget* dockitem(Widget& parent, Docksystem& docksystem, cstring name);
+	export_ TWO_UI_EXPORT func_ Widget dockitem(Widget parent, Docksystem& docksystem, cstring name);
 
-	export_ TWO_UI_EXPORT Widget* dockitem(DockerHandle docker, cstring name, span<uint16_t> dockid = {}, float span = 0.f);
+	export_ TWO_UI_EXPORT Widget dockitem(DockerHandle docker, cstring name, span<uint16_t> dockid = {}, float span = 0.f);
 }
 }

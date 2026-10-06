@@ -19,7 +19,7 @@ namespace two
 
 	ViewerStyles& viewer_styles() { static ViewerStyles styles; return styles; }
 
-	Viewer::Viewer(Widget& self, Scene& scene)
+	Viewer::Viewer(Widget self, Scene& scene)
 		: m_scene(&scene)
 		, m_context(as<GfxWindow>(self.ui_window().m_context))
 		, m_camera()
@@ -27,7 +27,7 @@ namespace two
 	{
 		m_viewport.m_tasks.push_back([&](Render& render) { this->render(render); });
 
-		self.custom_draw() = [this](Widget& widget, const vec4& rect, Vg& vg)
+		self.custom_draw() = [this](Widget widget, const vec4& rect, Vg& vg)
 		{
 			UNUSED(widget); UNUSED(rect);
 			//renderer.draw_frame(frame, rect);
@@ -76,7 +76,7 @@ namespace two
 		vg.end_target();
 	}
 
-	vec4 Viewer::query_rect(Widget& self)
+	vec4 Viewer::query_rect(Widget self)
 	{
 		m_position = self.absolute_position();
 		m_size = self.frame().m_size * self.absolute_scale();
@@ -84,7 +84,7 @@ namespace two
 		return absolute / vec2(m_context.m_size);
 	}
 
-    void Viewer::resize(Widget& self)
+    void Viewer::resize(Widget self)
     {
 		m_viewport.m_rect = this->query_rect(self);
     }
@@ -96,7 +96,7 @@ namespace two
 		return m_camera.ray(vec2(xNDC, yNDC));
 	}
 
-	Ray Viewer::mouse_ray(Widget& self)
+	Ray Viewer::mouse_ray(Widget self)
 	{
 		vec2 pos = self.local_position(self.ui().m_mouse.m_pos);
 		//return m_viewport.ray(pos);
@@ -112,14 +112,14 @@ namespace two
 		return *m_pickers[index];
 	}
 
-	SceneViewer::SceneViewer(Widget& self)
+	SceneViewer::SceneViewer(Widget self)
 		: Viewer(self, m_scene)
 		, m_scene(as<GfxWindow>(self.ui_window().m_context).m_gfx)
 	{}
 
 	OrbitController::OrbitController(Viewer& viewer, float yaw, float pitch, float distance) : m_viewer(viewer), m_camera(viewer.m_camera), m_yaw(yaw), m_pitch(pitch), m_distance(distance) {}
 
-	void OrbitController::process(Widget& input, Viewer& viewer)
+	void OrbitController::process(Widget input, Viewer& viewer)
 	{
 		UNUSED(viewer);
 		//EventDispatch::process(viewer);
@@ -198,18 +198,18 @@ namespace two
 		return vec3(x, y, z);
 	}
 
-	void OrbitControls::process(Widget& input, Viewer& viewer)
+	void OrbitControls::process(Widget input, Viewer& viewer)
 	{
 		Camera& camera = viewer.m_camera;
 		this->update(input, camera.m_fov, camera.m_eye, camera.m_target, camera.m_up, camera.m_view);
 	}
 
-	void OrbitControls::update(Widget& widget, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat)
+	void OrbitControls::update(Widget widget, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat)
 	{
 		this->update(widget, widget.frame().m_size, fov, eye, target, up, mat);
 	}
 
-	void OrbitControls::update(Widget& input, const vec2& size, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat)
+	void OrbitControls::update(Widget input, const vec2& size, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat)
 	{
 		auto getAutoRotationAngle = [&]() -> float { return 2.f * c_pi / 60.f / 60.f * autoRotateSpeed; };
 
@@ -820,18 +820,18 @@ namespace two
 		}
 	}
 
-	void TrackballController::process(Widget& input, Viewer& viewer)
+	void TrackballController::process(Widget input, Viewer& viewer)
 	{
 		Camera& camera = viewer.m_camera;
 		this->update(input, camera.m_eye, camera.m_target, camera.m_up); // , camera.m_up);
 	}
 
-	void TrackballController::update(Widget& widget, vec3& eye, vec3& target, vec3& up)
+	void TrackballController::update(Widget widget, vec3& eye, vec3& target, vec3& up)
 	{
 		this->update(widget, widget.frame().m_size, eye, target, up);
 	}
 
-	void TrackballController::update(Widget& input, const vec2& size, vec3& eye, vec3& target, vec3& up)
+	void TrackballController::update(Widget input, const vec2& size, vec3& eye, vec3& target, vec3& up)
 	{
 		m_to_eye = eye - m_target;
 
@@ -1050,7 +1050,7 @@ namespace two
 
 	Viewer* ViewerHandle::find_viewer() const
 	{
-		Widget* widget = this->get();
+		Widget widget = this->get();
 		if(!widget)
 			return nullptr;
 		if(Viewer* viewer = widget->find_state<Viewer>())
@@ -1060,9 +1060,9 @@ namespace two
 
 namespace ui
 {
-	ViewerHandle viewer(NodeKey id, Widget& parent, Scene& scene)
+	ViewerHandle viewer(NodeKey id, Widget parent, Scene& scene)
 	{
-		Widget& self = widget(id, parent, viewer_styles().viewer);
+		Widget self = widget(id, parent, viewer_styles().viewer);
 		Viewer& viewer = self.state<Viewer>(self, scene);
 		viewer.m_scene = viewer.m_viewport.m_scene = &scene;;
 		viewer.resize(self);
@@ -1072,7 +1072,7 @@ namespace ui
 	}
 
 #if 0
-	Viewer& pbr_viewer(Widget& parent, Scene& scene)
+	Viewer& pbr_viewer(Widget parent, Scene& scene)
 	{
 		viewer.m_filters = make_unique<RenderFilters>();
 		viewer.m_viewport.m_filters = &viewer.m_filters;
@@ -1080,9 +1080,9 @@ namespace ui
 	}
 #endif
 
-	SceneViewerHandle scene_viewer(NodeKey id, Widget& parent, const vec2& size)
+	SceneViewerHandle scene_viewer(NodeKey id, Widget parent, const vec2& size)
 	{
-		Widget& self = widget(id, parent, viewer_styles().viewer);
+		Widget self = widget(id, parent, viewer_styles().viewer);
 		SceneViewer& viewer = self.state<SceneViewer>(self);
 		viewer.resize(self);
 		if(self.once() && size != vec2(0.f))
@@ -1094,7 +1094,7 @@ namespace ui
 		return SceneViewerHandle(self);
 	}
 
-	void viewport_picker(Viewer& viewer, Widget& widget, vector<Ref>& selection)
+	void viewport_picker(Viewer& viewer, Widget widget, vector<Ref>& selection)
 	{
 		UNUSED(selection);
 		if(MouseEvent event = widget.mouse_event(DeviceType::Mouse, EventType::Moved, InputMod::None, false))
@@ -1116,9 +1116,9 @@ namespace ui
 		}
 	}
 
-	Viewer& scene_viewport(NodeKey id, Widget& parent, Scene& scene, Camera& camera, vector<Ref>& selection)
+	Viewer& scene_viewport(NodeKey id, Widget parent, Scene& scene, Camera& camera, vector<Ref>& selection)
 	{
-		Widget& self = widget(id, parent, viewer_styles().viewer);
+		Widget self = widget(id, parent, viewer_styles().viewer);
 		Viewer& viewer = self.state<Viewer>(self, scene);
 		if(self.once())
 		{
@@ -1169,7 +1169,7 @@ namespace ui
 
 		struct KeyMove { Key key; vec3 velocity; };
 
-		auto move_key = [](Widget& self, vec3& speed, const KeyMove& move)
+		auto move_key = [](Widget self, vec3& speed, const KeyMove& move)
 		{
 			if(self.key_event(move.key, EventType::Pressed))
 				speed += move.velocity;
@@ -1294,7 +1294,7 @@ namespace ui
 	{
 		struct KeyMove { Key key; vec3 velocity; };
 
-		auto velocity_key = [](Widget& widget, vec3& linear, vec3& angular, const KeyMove& move, float speed)
+		auto velocity_key = [](Widget widget, vec3& linear, vec3& angular, const KeyMove& move, float speed)
 		{
 			UNUSED(angular);
 			if(widget.key_event(move.key, EventType::Pressed))

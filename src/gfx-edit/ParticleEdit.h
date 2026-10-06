@@ -8,7 +8,7 @@
 
 namespace two
 {
-	TWO_GFX_EDIT_EXPORT void particle_edit(Widget& parent, GfxSystem& system, Flow& generator);
-	TWO_GFX_EDIT_EXPORT void particle_edit(Widget& parent, GfxSystem& system, Call& particles);
-	TWO_GFX_EDIT_EXPORT void particle_editor(Widget& parent, GfxSystem& system);
+	TWO_GFX_EDIT_EXPORT void particle_edit(Widget parent, GfxSystem& system, Flow& generator);
+	TWO_GFX_EDIT_EXPORT void particle_edit(Widget parent, GfxSystem& system, Call& particles);
+	TWO_GFX_EDIT_EXPORT void particle_editor(Widget parent, GfxSystem& system);
 }

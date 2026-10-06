@@ -488,17 +488,17 @@ EX(xx_effect_sao)
 	}
 
 #if UI
-	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::sheet(key(), *dock);
+		Widget sheet = ui::sheet(key(), *dock);
 
-		auto panel = [&](const string& name) -> Widget&
+		auto panel = [&](const string& name) -> Widget
 		{
-			Widget& s = ui::expandbox(key(), sheet, name.c_str());
+			Widget s = ui::expandbox(key(), sheet, name.c_str());
 			return ui::columns(key(), s, { 0.3f, 0.7f });
 		};
 
-		Widget& a = panel("Material");
+		Widget a = panel("Material");
 
 		ui::dropdown_field(key(), a, "shape", { "Beauty+SAO", "Beauty", "SAO", "Depth", "Normal" }, (uint32_t&)sao.output);
 

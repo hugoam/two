@@ -8,6 +8,6 @@
 
 namespace two
 {
-	export_ TWO_UIO_EXPORT void structure_node(Widget& parent, Ref object, vector<Ref>& selection);
-	export_ TWO_UIO_EXPORT void structure_view(Widget& parent, Ref object, vector<Ref>& selection);
+	export_ TWO_UIO_EXPORT void structure_node(Widget parent, Ref object, vector<Ref>& selection);
+	export_ TWO_UIO_EXPORT void structure_view(Widget parent, Ref object, vector<Ref>& selection);
 }

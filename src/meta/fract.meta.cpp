@@ -25,7 +25,7 @@ void two_Fract_render(void* object, span<void*> args, void*& result) { UNUSED(re
 void two_Fract_render_whole(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Fract*>(object)).render_whole(*static_cast<two::Pattern*>(args[0]), *static_cast<two::uvec2*>(args[1]), *static_cast<two::Image256*>(args[2])); }
 void two_Fract_render_grid(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Fract*>(object)).render_grid(*static_cast<two::uvec2*>(args[0]), *static_cast<two::Pattern*>(args[1]), *static_cast<two::uvec2*>(args[2]), *static_cast<stl::vector<two::Image256>*>(args[3])); }
 void two_FractSample__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::FractSample( *static_cast<two::Fract*>(args[0]), *static_cast<two::Rect*>(args[1]), *static_cast<two::uvec2*>(args[2]) ); }
-void* two_FractSample__get_fract(void* object) { return &(*static_cast<two::FractSample*>(object)).m_fract; }
+void two_FractSample__get_fract(void* object, void*& result) { result = &(*static_cast<two::FractSample*>(object)).m_fract; }
 void two_FractSample_render(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::FractSample*>(object)).render(*static_cast<two::Pattern*>(args[0]), *static_cast<two::Image256*>(args[1])); }
 void two_generate_fract_0(span<void*> args, void*& result) { UNUSED(result);  two::generate_fract(*static_cast<two::uvec2*>(args[0]), *static_cast<two::Pattern*>(args[1]), *static_cast<two::Image256*>(args[2])); }
 

@@ -20,7 +20,7 @@ namespace two
 	void Brush::process(ViewerHandle viewer, span<Ref> selection)
 	{
 		UNUSED(selection);
-		Widget& screen = ui::overlay(key(), viewer.self());
+		Widget screen = ui::overlay(key(), viewer.self());
 
 		if(MouseEvent event = screen.mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
@@ -130,7 +130,7 @@ namespace two
 		//entity.set_position(position);
 	}
 
-	void PlaceBrush::paint(Gnode& parent)
+	void PlaceBrush::paint(Gnode parent)
 	{
 		UNUSED(parent);
 	}
@@ -145,10 +145,10 @@ namespace two
 		//m_creator.setPrototype(type<OLight>());
 	}
 
-	void CircleBrush::paint(Gnode& parent)
+	void CircleBrush::paint(Gnode parent)
 	{
 		UNUSED(parent);
-		Gnode& self = gfx::node(parent);
+		Gnode self = gfx::node(parent);
 		gfx::shape(self, Circle(m_radius, Axis::Y), Symbol(Colour::White, Colour::AlphaGrey));
 	}
 
@@ -218,7 +218,7 @@ namespace two
 		m_call();
 	}
 
-	void ScriptedBrush::paint(Gnode& parent)
+	void ScriptedBrush::paint(Gnode parent)
 	{
 		UNUSED(parent);
 	}

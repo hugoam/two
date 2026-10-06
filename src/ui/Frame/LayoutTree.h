@@ -22,7 +22,7 @@ namespace two
 	// the nodes are stored in depth-first order: the container of a node, on each axis, always comes before it
 	export_ struct LayoutNode
 	{
-		Widget* widget = nullptr;			// the widget whose frame the node lays out, none for a virtual node
+		Widget widget = nullptr;			// the widget whose frame the node lays out, none for a virtual node
 		uint32_t frame_parent = 0;			// the node of the parent frame, which the position of the frame is relative to
 		v2<uint32_t> container = { 0, 0 };	// the node laying out this node, on each axis
 		uint32_t virtuals = 0;				// the number of virtual nodes following this node: its tracks
@@ -57,11 +57,11 @@ namespace two
 	{
 	public:
 		// a tree of frames, from its root
-		void build(Widget& root);
+		void build(Widget root);
 
 		// a tree built by hand: a root lending its size, then nodes laid out by their parent, each optionally laying out a frame
 		uint32_t add_root(const Layout& layout, const vec2& size);
-		uint32_t add(uint32_t parent, const Layout& layout, Widget* widget = nullptr);
+		uint32_t add(uint32_t parent, const Layout& layout, Widget widget = nullptr);
 
 		void solve();
 		void apply();
@@ -79,10 +79,10 @@ namespace two
 
 	private:
 		LayoutNode node(const Layout& layout, Axis length, Axis parent_length) const;
-		void read_frame(LayoutNode& node, Widget& widget) const;
-		void add_frame(Widget& widget, uint32_t parent);
+		void read_frame(LayoutNode& node, Widget widget) const;
+		void add_frame(Widget widget, uint32_t parent);
 		void add_virtuals(uint32_t index);
-		uint32_t container(uint32_t parent, Widget& widget, Axis dim) const;
+		uint32_t container(uint32_t parent, Widget widget, Axis dim) const;
 		vec2 local_position(uint32_t index) const;
 
 		void measure(Axis dim);

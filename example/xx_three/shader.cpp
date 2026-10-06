@@ -101,7 +101,7 @@ EX(xx_shader)
 		Item& it = Item(node, model, 0U, &material).add(scene.m_graph);
 	}
 #else
-	Gnode& scene = viewer->m_scene.begin();
+	Gnode scene = viewer->m_scene.begin();
 
 	auto draw_quad = [](GfxSystem& gfx, Render& render, const Pass& pass)
 	{

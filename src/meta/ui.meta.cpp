@@ -81,8 +81,10 @@ void two_UiRect__default_construct(void* ref) { new(stl::placeholder(), ref) two
 void two_UiRect__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::UiRect((*static_cast<two::UiRect*>(other))); }
 void two_WidgetData__default_construct(void* ref) { new(stl::placeholder(), ref) two::WidgetData(); }
 void two_WidgetData__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::WidgetData((*static_cast<two::WidgetData*>(other))); }
-void* two_Widget__get_frame(void* object) { return &(*static_cast<two::Widget*>(object)).frame(); }
-void* two_Widget__get_data(void* object) { return &(*static_cast<two::Widget*>(object)).data(); }
+void two_Widget__default_construct(void* ref) { new(stl::placeholder(), ref) two::Widget(); }
+void two_Widget__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Widget((*static_cast<two::Widget*>(other))); }
+void two_Widget__get_frame(void* object, void*& result) { result = &(*static_cast<two::Widget*>(object)).frame(); }
+void two_Widget__get_data(void* object, void*& result) { result = &(*static_cast<two::Widget*>(object)).data(); }
 void two_Widget_focused(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<two::Widget*>(object)).focused(); }
 void two_Widget_hovered(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<two::Widget*>(object)).hovered(); }
 void two_Widget_pressed(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<two::Widget*>(object)).pressed(); }
@@ -94,7 +96,7 @@ void two_Widget_closed(void* object, span<void*> args, void*& result) { UNUSED(a
 void two_Widget_open(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<two::Widget*>(object)).open(); }
 void two_Widget_ui_window(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<two::Widget*>(object)).ui_window(); }
 void two_Widget_ui(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<two::Widget*>(object)).ui(); }
-void two_Widget_parent_modal(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<two::Widget*>(object)).parent_modal(); }
+void two_Widget_parent_modal(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<two::Widget*>(result)) = (*static_cast<two::Widget*>(object)).parent_modal(); }
 void two_Widget_clear(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::Widget*>(object)).clear(); }
 void two_Widget_toggle_state(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Widget*>(object)).toggle_state(*static_cast<two::WidgetState*>(args[0])); }
 void two_Widget_disable_state(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Widget*>(object)).disable_state(*static_cast<two::WidgetState*>(args[0])); }
@@ -112,7 +114,7 @@ void two_Widget_char_stroke(void* object, span<void*> args, void*& result) { (*s
 void two_Widget_mouse_event(void* object, span<void*> args, void*& result) { (*static_cast<two::MouseEvent*>(result)) = (*static_cast<two::Widget*>(object)).mouse_event(*static_cast<two::DeviceType*>(args[0]), *static_cast<two::EventType*>(args[1]), *static_cast<two::InputMod*>(args[2]), *static_cast<bool*>(args[3])); }
 void two_WidgetHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::WidgetHandle(); }
 void two_WidgetHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::WidgetHandle((*static_cast<two::WidgetHandle*>(other))); }
-void* two_WidgetHandle__get_widget(void* object) { return &(*static_cast<two::WidgetHandle*>(object)).widget(); }
+void two_WidgetHandle__get_widget(void* object, void*& result) { (*static_cast<two::Widget*>(result)) = (*static_cast<two::WidgetHandle*>(object)).widget(); }
 void two_TextCursor__default_construct(void* ref) { new(stl::placeholder(), ref) two::TextCursor(); }
 void two_TextCursor__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::TextCursor((*static_cast<two::TextCursor*>(other))); }
 void two_TextSelection__default_construct(void* ref) { new(stl::placeholder(), ref) two::TextSelection(); }
@@ -121,40 +123,40 @@ void two_TextMarker__default_construct(void* ref) { new(stl::placeholder(), ref)
 void two_TextMarker__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::TextMarker((*static_cast<two::TextMarker*>(other))); }
 void two_TextEditHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::TextEditHandle(); }
 void two_TextEditHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::TextEditHandle((*static_cast<two::TextEditHandle*>(other))); }
-void* two_TextEditHandle__get_self(void* object) { return &(*static_cast<two::TextEditHandle*>(object)).self(); }
-void* two_TextEditHandle__get_edit(void* object) { return &(*static_cast<two::TextEditHandle*>(object)).edit(); }
+void two_TextEditHandle__get_self(void* object, void*& result) { (*static_cast<two::Widget*>(result)) = (*static_cast<two::TextEditHandle*>(object)).self(); }
+void two_TextEditHandle__get_edit(void* object, void*& result) { result = &(*static_cast<two::TextEditHandle*>(object)).edit(); }
 void two_NodePlugHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::NodePlugHandle(); }
 void two_NodePlugHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::NodePlugHandle((*static_cast<two::NodePlugHandle*>(other))); }
-void* two_NodePlugHandle__get_self(void* object) { return &(*static_cast<two::NodePlugHandle*>(object)).self(); }
-void* two_NodePlugHandle__get_plug(void* object) { return &(*static_cast<two::NodePlugHandle*>(object)).plug(); }
-void* two_Node__get_header(void* object) { return &(*static_cast<two::Node*>(object)).header(); }
-void* two_Node__get_inputs(void* object) { return &(*static_cast<two::Node*>(object)).inputs(); }
-void* two_Node__get_outputs(void* object) { return &(*static_cast<two::Node*>(object)).outputs(); }
-void* two_Node__get_body(void* object) { return &(*static_cast<two::Node*>(object)).body(); }
+void two_NodePlugHandle__get_self(void* object, void*& result) { (*static_cast<two::Widget*>(result)) = (*static_cast<two::NodePlugHandle*>(object)).self(); }
+void two_NodePlugHandle__get_plug(void* object, void*& result) { result = &(*static_cast<two::NodePlugHandle*>(object)).plug(); }
+void two_Node__get_header(void* object, void*& result) { (*static_cast<two::Widget*>(result)) = (*static_cast<two::Node*>(object)).header(); }
+void two_Node__get_inputs(void* object, void*& result) { (*static_cast<two::Widget*>(result)) = (*static_cast<two::Node*>(object)).inputs(); }
+void two_Node__get_outputs(void* object, void*& result) { (*static_cast<two::Widget*>(result)) = (*static_cast<two::Node*>(object)).outputs(); }
+void two_Node__get_body(void* object, void*& result) { (*static_cast<two::Widget*>(result)) = (*static_cast<two::Node*>(object)).body(); }
 void two_CanvasConnect__default_construct(void* ref) { new(stl::placeholder(), ref) two::CanvasConnect(); }
 void two_CanvasConnect__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::CanvasConnect((*static_cast<two::CanvasConnect*>(other))); }
 void two_CanvasHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::CanvasHandle(); }
 void two_CanvasHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::CanvasHandle((*static_cast<two::CanvasHandle*>(other))); }
-void* two_CanvasHandle__get_self(void* object) { return &(*static_cast<two::CanvasHandle*>(object)).self(); }
-void* two_CanvasHandle__get_canvas(void* object) { return &(*static_cast<two::CanvasHandle*>(object)).canvas(); }
+void two_CanvasHandle__get_self(void* object, void*& result) { (*static_cast<two::Widget*>(result)) = (*static_cast<two::CanvasHandle*>(object)).self(); }
+void two_CanvasHandle__get_canvas(void* object, void*& result) { result = &(*static_cast<two::CanvasHandle*>(object)).canvas(); }
 void two_NodeConnection__default_construct(void* ref) { new(stl::placeholder(), ref) two::NodeConnection(); }
 void two_NodeConnection__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::NodeConnection((*static_cast<two::NodeConnection*>(other))); }
 void two_Clipboard__default_construct(void* ref) { new(stl::placeholder(), ref) two::Clipboard(); }
 void two_Clipboard__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Clipboard((*static_cast<two::Clipboard*>(other))); }
-void* two_UiWindow__get_context(void* object) { return &(*static_cast<two::UiWindow*>(object)).m_context; }
-void* two_UiWindow__get_vg(void* object) { return &(*static_cast<two::UiWindow*>(object)).m_vg; }
+void two_UiWindow__get_context(void* object, void*& result) { result = &(*static_cast<two::UiWindow*>(object)).m_context; }
+void two_UiWindow__get_vg(void* object, void*& result) { result = &(*static_cast<two::UiWindow*>(object)).m_vg; }
 void two_UiWindow_reset_styles(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::UiWindow*>(object)).reset_styles(); }
 void two_Dock__default_construct(void* ref) { new(stl::placeholder(), ref) two::Dock(); }
 void two_Dock__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Dock((*static_cast<two::Dock*>(other))); }
 void two_DockerHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::DockerHandle(); }
 void two_DockerHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::DockerHandle((*static_cast<two::DockerHandle*>(other))); }
-void* two_DockerHandle__get_self(void* object) { return &(*static_cast<two::DockerHandle*>(object)).self(); }
-void* two_DockerHandle__get_docker(void* object) { return &(*static_cast<two::DockerHandle*>(object)).docker(); }
+void two_DockerHandle__get_self(void* object, void*& result) { (*static_cast<two::Widget*>(result)) = (*static_cast<two::DockerHandle*>(object)).self(); }
+void two_DockerHandle__get_docker(void* object, void*& result) { result = &(*static_cast<two::DockerHandle*>(object)).docker(); }
 void two_DockspaceHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::DockspaceHandle(); }
 void two_DockspaceHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::DockspaceHandle((*static_cast<two::DockspaceHandle*>(other))); }
 void two_DockbarHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::DockbarHandle(); }
 void two_DockbarHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::DockbarHandle((*static_cast<two::DockbarHandle*>(other))); }
-void two_Ui_begin(void* object, span<void*> args, void*& result) { UNUSED(args); result = &(*static_cast<two::Ui*>(object)).begin(); }
+void two_Ui_begin(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<two::Widget*>(result)) = (*static_cast<two::Ui*>(object)).begin(); }
 void two_Ui_reset_styles(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::Ui*>(object)).reset_styles(); }
 void two_layout_minimal_0(span<void*> args, void*& result) { UNUSED(result);  two::layout_minimal(*static_cast<two::UiWindow*>(args[0])); }
 void two_style_minimal_1(span<void*> args, void*& result) { UNUSED(result);  two::style_minimal(*static_cast<two::UiWindow*>(args[0])); }
@@ -165,75 +167,75 @@ void two_style_blendish_dark_5(span<void*> args, void*& result) { UNUSED(result)
 void two_style_imgui_dark_6(span<void*> args, void*& result) { UNUSED(result);  two::style_imgui_dark(*static_cast<two::UiWindow*>(args[0])); }
 void two_style_imgui_light_7(span<void*> args, void*& result) { UNUSED(result);  two::style_imgui_light(*static_cast<two::UiWindow*>(args[0])); }
 void two_style_imgui_classic_8(span<void*> args, void*& result) { UNUSED(result);  two::style_imgui_classic(*static_cast<two::UiWindow*>(args[0])); }
-void two_ui_widget_9(span<void*> args, void*& result) { result = &two::ui::widget(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Style*>(args[2]), *static_cast<bool*>(args[3]), *static_cast<two::Axis*>(args[4]), *static_cast<two::v2<uint>*>(args[5])); }
-void two_ui_item_10(span<void*> args, void*& result) { result = &two::ui::item(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Style*>(args[2]), static_cast<const char*>(args[3])); }
-void two_ui_multi_item_11(span<void*> args, void*& result) { result = &two::ui::multi_item(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Style*>(args[2]), *static_cast<stl::span<const char*>*>(args[3]), static_cast<two::Style*>(args[4])); }
-void two_ui_spanner_12(span<void*> args, void*& result) { result = &two::ui::spanner(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Style*>(args[2]), *static_cast<two::Axis*>(args[3]), *static_cast<float*>(args[4])); }
-void two_ui_spacer_13(span<void*> args, void*& result) { result = &two::ui::spacer(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_separator_14(span<void*> args, void*& result) { result = &two::ui::separator(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_icon_15(span<void*> args, void*& result) { result = &two::ui::icon(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
-void two_ui_label_16(span<void*> args, void*& result) { result = &two::ui::label(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
-void two_ui_title_17(span<void*> args, void*& result) { result = &two::ui::title(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
-void two_ui_message_18(span<void*> args, void*& result) { result = &two::ui::message(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
-void two_ui_text_19(span<void*> args, void*& result) { result = &two::ui::text(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
-void two_ui_bullet_20(span<void*> args, void*& result) { result = &two::ui::bullet(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
-void two_ui_selectable_21(span<void*> args, void*& result) { result = &two::ui::selectable(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2]), *static_cast<bool*>(args[3])); }
-void two_ui_button_22(span<void*> args, void*& result) { result = &two::ui::button(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
-void two_ui_toggle_23(span<void*> args, void*& result) { result = &two::ui::toggle(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<bool*>(args[2]), static_cast<const char*>(args[3])); }
-void two_ui_button_24(span<void*> args, void*& result) { result = &two::ui::button(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2])); }
-void two_ui_toggle_25(span<void*> args, void*& result) { result = &two::ui::toggle(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<stl::string*>(args[3])); }
-void two_ui_multi_button_26(span<void*> args, void*& result) { result = &two::ui::multi_button(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), static_cast<two::Style*>(args[3])); }
-void two_ui_multi_toggle_27(span<void*> args, void*& result) { result = &two::ui::multi_toggle(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<stl::span<const char*>*>(args[3]), static_cast<two::Style*>(args[4])); }
+void two_ui_widget_9(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::widget(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Style*>(args[2]), *static_cast<bool*>(args[3]), *static_cast<two::Axis*>(args[4]), *static_cast<two::v2<uint>*>(args[5])); }
+void two_ui_item_10(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::item(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Style*>(args[2]), static_cast<const char*>(args[3])); }
+void two_ui_multi_item_11(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::multi_item(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Style*>(args[2]), *static_cast<stl::span<const char*>*>(args[3]), static_cast<two::Style*>(args[4])); }
+void two_ui_spanner_12(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::spanner(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Style*>(args[2]), *static_cast<two::Axis*>(args[3]), *static_cast<float*>(args[4])); }
+void two_ui_spacer_13(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::spacer(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_separator_14(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::separator(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_icon_15(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::icon(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
+void two_ui_label_16(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::label(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
+void two_ui_title_17(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::title(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
+void two_ui_message_18(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::message(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
+void two_ui_text_19(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::text(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
+void two_ui_bullet_20(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::bullet(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
+void two_ui_selectable_21(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::selectable(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2]), *static_cast<bool*>(args[3])); }
+void two_ui_button_22(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::button(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
+void two_ui_toggle_23(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::toggle(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<bool*>(args[2]), static_cast<const char*>(args[3])); }
+void two_ui_button_24(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::button(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2])); }
+void two_ui_toggle_25(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::toggle(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<stl::string*>(args[3])); }
+void two_ui_multi_button_26(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::multi_button(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), static_cast<two::Style*>(args[3])); }
+void two_ui_multi_toggle_27(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::multi_toggle(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<stl::span<const char*>*>(args[3]), static_cast<two::Style*>(args[4])); }
 void two_ui_modal_button_28(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::modal_button(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Widget*>(args[2]), static_cast<const char*>(args[3]), *static_cast<uint32_t*>(args[4])); }
 void two_ui_modal_multi_button_29(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::modal_multi_button(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Widget*>(args[2]), *static_cast<stl::span<const char*>*>(args[3]), *static_cast<uint32_t*>(args[4])); }
-void two_ui_checkbox_30(span<void*> args, void*& result) { result = &two::ui::checkbox(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<bool*>(args[2])); }
-void two_ui_fill_bar_31(span<void*> args, void*& result) { result = &two::ui::fill_bar(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<float*>(args[2]), *static_cast<two::Axis*>(args[3])); }
-void two_ui_image256_32(span<void*> args, void*& result) { result = &two::ui::image256(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2]), *static_cast<two::Image256*>(args[3])); }
-void two_ui_image256_33(span<void*> args, void*& result) { result = &two::ui::image256(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2]), *static_cast<two::Image256*>(args[3]), *static_cast<two::vec2*>(args[4])); }
-void two_ui_image256_34(span<void*> args, void*& result) { result = &two::ui::image256(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2]), *static_cast<two::Image256*>(args[3])); }
-void two_ui_image256_35(span<void*> args, void*& result) { result = &two::ui::image256(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2]), *static_cast<two::Image256*>(args[3]), *static_cast<two::vec2*>(args[4])); }
-void two_ui_radio_choice_36(span<void*> args, void*& result) { result = &two::ui::radio_choice(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2]), *static_cast<bool*>(args[3])); }
-void two_ui_radio_button_37(span<void*> args, void*& result) { result = &two::ui::radio_button(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2]), *static_cast<uint32_t*>(args[3]), *static_cast<uint32_t*>(args[4])); }
+void two_ui_checkbox_30(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::checkbox(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<bool*>(args[2])); }
+void two_ui_fill_bar_31(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::fill_bar(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<float*>(args[2]), *static_cast<two::Axis*>(args[3])); }
+void two_ui_image256_32(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::image256(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2]), *static_cast<two::Image256*>(args[3])); }
+void two_ui_image256_33(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::image256(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2]), *static_cast<two::Image256*>(args[3]), *static_cast<two::vec2*>(args[4])); }
+void two_ui_image256_34(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::image256(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2]), *static_cast<two::Image256*>(args[3])); }
+void two_ui_image256_35(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::image256(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2]), *static_cast<two::Image256*>(args[3]), *static_cast<two::vec2*>(args[4])); }
+void two_ui_radio_choice_36(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::radio_choice(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2]), *static_cast<bool*>(args[3])); }
+void two_ui_radio_button_37(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::radio_button(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2]), *static_cast<uint32_t*>(args[3]), *static_cast<uint32_t*>(args[4])); }
 void two_ui_radio_switch_38(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::radio_switch(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), *static_cast<uint32_t*>(args[3]), *static_cast<two::Axis*>(args[4])); }
 void two_ui_popdown_39(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::popdown(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), *static_cast<uint32_t*>(args[3]), *static_cast<two::vec2*>(args[4]), *static_cast<two::ui::PopupFlags*>(args[5])); }
 void two_ui_dropdown_input_40(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::dropdown_input(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), *static_cast<uint32_t*>(args[3]), *static_cast<bool*>(args[4])); }
 void two_ui_typedown_input_41(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::typedown_input(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), *static_cast<uint32_t*>(args[3])); }
-void two_ui_menu_choice_42(span<void*> args, void*& result) { result = &two::ui::menu_choice(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2]), static_cast<const char*>(args[3])); }
-void two_ui_menu_option_43(span<void*> args, void*& result) { result = &two::ui::menu_option(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2]), static_cast<const char*>(args[3]), *static_cast<bool*>(args[4])); }
-void two_ui_menubar_44(span<void*> args, void*& result) { result = &two::ui::menubar(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_toolbutton_45(span<void*> args, void*& result) { result = &two::ui::toolbutton(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
-void two_ui_tooldock_46(span<void*> args, void*& result) { result = &two::ui::tooldock(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_toolbar_47(span<void*> args, void*& result) { result = &two::ui::toolbar(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<bool*>(args[2])); }
-void two_ui_columns_48(span<void*> args, void*& result) { result = &two::ui::columns(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::span<float>*>(args[2])); }
-void two_ui_table_49(span<void*> args, void*& result) { result = &two::ui::table(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), *static_cast<stl::span<float>*>(args[3])); }
-void two_ui_table_row_50(span<void*> args, void*& result) { result = &two::ui::table_row(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_table_separator_51(span<void*> args, void*& result) { result = &two::ui::table_separator(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_tree_52(span<void*> args, void*& result) { result = &two::ui::tree(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_row_53(span<void*> args, void*& result) { result = &two::ui::row(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_header_54(span<void*> args, void*& result) { result = &two::ui::header(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_div_55(span<void*> args, void*& result) { result = &two::ui::div(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_stack_56(span<void*> args, void*& result) { result = &two::ui::stack(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_sheet_57(span<void*> args, void*& result) { result = &two::ui::sheet(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_board_58(span<void*> args, void*& result) { result = &two::ui::board(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_layout_59(span<void*> args, void*& result) { result = &two::ui::layout(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_indent_60(span<void*> args, void*& result) { result = &two::ui::indent(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_screen_61(span<void*> args, void*& result) { result = &two::ui::screen(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_decal_62(span<void*> args, void*& result) { result = &two::ui::decal(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_overlay_63(span<void*> args, void*& result) { result = &two::ui::overlay(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_title_header_64(span<void*> args, void*& result) { result = &two::ui::title_header(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
-void two_ui_dummy_65(span<void*> args, void*& result) { result = &two::ui::dummy(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::vec2*>(args[2])); }
-void two_ui_popup_66(span<void*> args, void*& result) { result = &two::ui::popup(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::ui::PopupFlags*>(args[2])); }
-void two_ui_popup_at_67(span<void*> args, void*& result) { result = &two::ui::popup_at(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::vec2*>(args[2]), *static_cast<two::ui::PopupFlags*>(args[3])); }
-void two_ui_modal_68(span<void*> args, void*& result) { result = &two::ui::modal(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
-void two_ui_auto_modal_69(span<void*> args, void*& result) { result = &two::ui::auto_modal(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<uint32_t*>(args[2])); }
-void two_ui_context_70(span<void*> args, void*& result) { result = two::ui::context(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<uint32_t*>(args[2]), *static_cast<two::ui::PopupFlags*>(args[3])); }
-void two_ui_hoverbox_71(span<void*> args, void*& result) { result = two::ui::hoverbox(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<float*>(args[2])); }
-void two_ui_cursor_72(span<void*> args, void*& result) { result = &two::ui::cursor(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::vec2*>(args[2]), *static_cast<two::Widget*>(args[3]), *static_cast<bool*>(args[4])); }
-void two_ui_rectangle_73(span<void*> args, void*& result) { result = &two::ui::rectangle(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::vec4*>(args[2])); }
-void two_ui_viewport_74(span<void*> args, void*& result) { result = &two::ui::viewport(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::vec4*>(args[2])); }
+void two_ui_menu_choice_42(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::menu_choice(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2]), static_cast<const char*>(args[3])); }
+void two_ui_menu_option_43(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::menu_option(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2]), static_cast<const char*>(args[3]), *static_cast<bool*>(args[4])); }
+void two_ui_menubar_44(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::menubar(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_toolbutton_45(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::toolbutton(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
+void two_ui_tooldock_46(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::tooldock(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_toolbar_47(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::toolbar(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<bool*>(args[2])); }
+void two_ui_columns_48(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::columns(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::span<float>*>(args[2])); }
+void two_ui_table_49(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::table(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), *static_cast<stl::span<float>*>(args[3])); }
+void two_ui_table_row_50(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::table_row(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_table_separator_51(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::table_separator(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_tree_52(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::tree(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_row_53(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::row(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_header_54(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::header(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_div_55(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::div(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_stack_56(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::stack(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_sheet_57(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::sheet(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_board_58(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::board(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_layout_59(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::layout(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_indent_60(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::indent(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_screen_61(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::screen(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_decal_62(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::decal(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_overlay_63(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::overlay(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_title_header_64(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::title_header(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), static_cast<const char*>(args[2])); }
+void two_ui_dummy_65(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::dummy(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::vec2*>(args[2])); }
+void two_ui_popup_66(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::popup(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::ui::PopupFlags*>(args[2])); }
+void two_ui_popup_at_67(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::popup_at(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::vec2*>(args[2]), *static_cast<two::ui::PopupFlags*>(args[3])); }
+void two_ui_modal_68(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::modal(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_auto_modal_69(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::auto_modal(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<uint32_t*>(args[2])); }
+void two_ui_context_70(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::context(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<uint32_t*>(args[2]), *static_cast<two::ui::PopupFlags*>(args[3])); }
+void two_ui_hoverbox_71(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::hoverbox(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<float*>(args[2])); }
+void two_ui_cursor_72(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::cursor(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::vec2*>(args[2]), *static_cast<two::Widget*>(args[3]), *static_cast<bool*>(args[4])); }
+void two_ui_rectangle_73(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::rectangle(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::vec4*>(args[2])); }
+void two_ui_viewport_74(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::viewport(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::vec4*>(args[2])); }
 void two_ui_dockspace_75(span<void*> args, void*& result) { (*static_cast<two::DockspaceHandle*>(result)) = two::ui::dockspace(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Docksystem*>(args[2])); }
 void two_ui_dockbar_76(span<void*> args, void*& result) { (*static_cast<two::DockbarHandle*>(result)) = two::ui::dockbar(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Docksystem*>(args[2])); }
-void two_ui_dockitem_77(span<void*> args, void*& result) { result = two::ui::dockitem(*static_cast<two::Widget*>(args[0]), *static_cast<two::Docksystem*>(args[1]), static_cast<const char*>(args[2])); }
+void two_ui_dockitem_77(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::dockitem(*static_cast<two::Widget*>(args[0]), *static_cast<two::Docksystem*>(args[1]), static_cast<const char*>(args[2])); }
 void two_ui_drag_float_78(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::drag_float(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3])); }
 void two_ui_float2_input_79(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::float2_input(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), *static_cast<stl::span<float>*>(args[3]), *static_cast<two::StatDef<float>*>(args[4])); }
 void two_ui_float3_input_80(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::float3_input(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::span<const char*>*>(args[2]), *static_cast<stl::span<float>*>(args[3]), *static_cast<two::StatDef<float>*>(args[4])); }
@@ -244,7 +246,7 @@ void two_ui_float4_slider_84(span<void*> args, void*& result) { (*static_cast<bo
 void two_ui_vec2_edit_85(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::vec2_edit(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::vec2*>(args[2])); }
 void two_ui_vec3_edit_86(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::vec3_edit(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::vec3*>(args[2])); }
 void two_ui_quat_edit_87(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::quat_edit(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::quat*>(args[2])); }
-void two_ui_color_display_88(span<void*> args, void*& result) { result = &two::ui::color_display(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Colour*>(args[2])); }
+void two_ui_color_display_88(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::color_display(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Colour*>(args[2])); }
 void two_ui_color_edit_89(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::color_edit(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Colour*>(args[2])); }
 void two_ui_color_edit_simple_90(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::color_edit_simple(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Colour*>(args[2])); }
 void two_ui_color_toggle_edit_91(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::color_toggle_edit(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Colour*>(args[2])); }
@@ -271,21 +273,21 @@ void two_ui_code_edit_111(span<void*> args, void*& result) { (*static_cast<two::
 void two_ui_node_input_112(span<void*> args, void*& result) { (*static_cast<two::NodePlugHandle*>(result)) = two::ui::node_input(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Node*>(args[1]), static_cast<const char*>(args[2]), static_cast<const char*>(args[3]), *static_cast<two::Colour*>(args[4]), *static_cast<bool*>(args[5]), *static_cast<bool*>(args[6])); }
 void two_ui_node_output_113(span<void*> args, void*& result) { (*static_cast<two::NodePlugHandle*>(result)) = two::ui::node_output(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Node*>(args[1]), static_cast<const char*>(args[2]), static_cast<const char*>(args[3]), *static_cast<two::Colour*>(args[4]), *static_cast<bool*>(args[5]), *static_cast<bool*>(args[6])); }
 void two_ui_node_114(span<void*> args, void*& result) { result = &two::ui::node(*static_cast<two::Canvas*>(args[0]), static_cast<const char*>(args[1]), *static_cast<two::vec2*>(args[2]), *static_cast<int*>(args[3]), *static_cast<two::Ref*>(args[4])); }
-void two_ui_node_cable_115(span<void*> args, void*& result) { result = &two::ui::node_cable(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Canvas*>(args[1]), *static_cast<two::NodePlug*>(args[2]), *static_cast<two::NodePlug*>(args[3])); }
+void two_ui_node_cable_115(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::node_cable(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Canvas*>(args[1]), *static_cast<two::NodePlug*>(args[2]), *static_cast<two::NodePlug*>(args[3])); }
 void two_ui_canvas_116(span<void*> args, void*& result) { (*static_cast<two::CanvasHandle*>(result)) = two::ui::canvas(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<size_t*>(args[2])); }
-void two_ui_scrollable_117(span<void*> args, void*& result) { result = &two::ui::scrollable(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
+void two_ui_scrollable_117(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::scrollable(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1])); }
 void two_ui_multiselect_logic_118(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::multiselect_logic(*static_cast<two::Widget*>(args[0]), *static_cast<two::Ref*>(args[1]), *static_cast<stl::vector<two::Ref>*>(args[2])); }
 void two_ui_select_logic_119(span<void*> args, void*& result) { (*static_cast<bool*>(result)) = two::ui::select_logic(*static_cast<two::Widget*>(args[0]), *static_cast<two::Ref*>(args[1]), *static_cast<two::Ref*>(args[2])); }
-void two_ui_element_120(span<void*> args, void*& result) { result = &two::ui::element(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Ref*>(args[2])); }
-void two_ui_dir_item_121(span<void*> args, void*& result) { result = &two::ui::dir_item(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2])); }
-void two_ui_file_item_122(span<void*> args, void*& result) { result = &two::ui::file_item(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2])); }
-void two_ui_file_list_123(span<void*> args, void*& result) { result = &two::ui::file_list(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2])); }
-void two_ui_file_browser_124(span<void*> args, void*& result) { result = &two::ui::file_browser(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2])); }
-void two_ui_dir_node_125(span<void*> args, void*& result) { result = &two::ui::dir_node(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2]), *static_cast<stl::string*>(args[3]), *static_cast<bool*>(args[4])); }
-void two_ui_file_node_126(span<void*> args, void*& result) { result = &two::ui::file_node(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2])); }
-void two_ui_file_tree_127(span<void*> args, void*& result) { result = &two::ui::file_tree(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2])); }
-void two_ui_command_line_128(span<void*> args, void*& result) { result = &two::ui::command_line(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2]), *static_cast<stl::string*>(args[3])); }
-void two_ui_console_129(span<void*> args, void*& result) { result = &two::ui::console(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2]), *static_cast<stl::string*>(args[3]), *static_cast<stl::string*>(args[4]), *static_cast<size_t*>(args[5])); }
+void two_ui_element_120(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::element(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Ref*>(args[2])); }
+void two_ui_dir_item_121(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::dir_item(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2])); }
+void two_ui_file_item_122(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::file_item(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2])); }
+void two_ui_file_list_123(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::file_list(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2])); }
+void two_ui_file_browser_124(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::file_browser(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2])); }
+void two_ui_dir_node_125(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::dir_node(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2]), *static_cast<stl::string*>(args[3]), *static_cast<bool*>(args[4])); }
+void two_ui_file_node_126(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::file_node(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2])); }
+void two_ui_file_tree_127(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::file_tree(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2])); }
+void two_ui_command_line_128(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::command_line(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2]), *static_cast<stl::string*>(args[3])); }
+void two_ui_console_129(span<void*> args, void*& result) { (*static_cast<two::Widget*>(result)) = two::ui::console(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<stl::string*>(args[2]), *static_cast<stl::string*>(args[3]), *static_cast<stl::string*>(args[4]), *static_cast<size_t*>(args[5])); }
 
 namespace two
 {
@@ -1033,7 +1035,7 @@ namespace two
 	// two::Widget
 	{
 		Type& t = type<two::Widget>();
-		static Meta meta = { t, &namspc({ "two" }), "Widget", sizeof(two::Widget), TypeClass::Object };
+		static Meta meta = { t, &namspc({ "two" }), "Widget", sizeof(two::Widget), TypeClass::Struct };
 		// bases
 		// defaults
 		static two::InputMod key_event_0_modifier_default = InputMod::Any;
@@ -1042,7 +1044,13 @@ namespace two
 		static two::InputMod mouse_event_0_modifier_default = InputMod::None;
 		static bool mouse_event_0_consume_default = true;
 		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_Widget__default_construct }
+		};
 		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, two_Widget__copy_construct }
+		};
 		// constructors
 		// members
 		static Member members[] = {
@@ -1080,7 +1088,8 @@ namespace two
 			{ t, "mouse_event", Address(), two_Widget_mouse_event, { { "device", type<two::DeviceType>(),  }, { "event_type", type<two::EventType>(),  }, { "modifier", type<two::InputMod>(), Param::Default, &mouse_event_0_modifier_default }, { "consume", type<bool>(), Param::Default, &mouse_event_0_consume_default } }, { &type<two::MouseEvent>(), QualType::None } }
 		};
 		// static members
-		static Class cls = { t, {}, {}, {}, {}, {}, members, methods, {}, };
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, methods, {}, };
+		meta.m_empty_var = var(two::Widget());
 	}
 	// two::WidgetHandle
 	{
@@ -1099,7 +1108,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, SIZE_MAX, type<two::Widget>(), "widget", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_WidgetHandle__get_widget }
+			{ t, SIZE_MAX, type<two::Widget>(), "widget", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_WidgetHandle__get_widget }
 		};
 		// methods
 		// static members
@@ -1216,7 +1225,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, SIZE_MAX, type<two::Widget>(), "self", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_TextEditHandle__get_self },
+			{ t, SIZE_MAX, type<two::Widget>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_TextEditHandle__get_self },
 			{ t, SIZE_MAX, type<two::TextEdit>(), "edit", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_TextEditHandle__get_edit }
 		};
 		// methods
@@ -1257,7 +1266,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, SIZE_MAX, type<two::Widget>(), "self", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_NodePlugHandle__get_self },
+			{ t, SIZE_MAX, type<two::Widget>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_NodePlugHandle__get_self },
 			{ t, SIZE_MAX, type<two::NodePlug>(), "plug", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_NodePlugHandle__get_plug }
 		};
 		// methods
@@ -1278,10 +1287,10 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::Node, m_order), type<int>(), "order", &order_default, Member::Value, nullptr },
-			{ t, SIZE_MAX, type<two::Widget>(), "header", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Node__get_header },
-			{ t, SIZE_MAX, type<two::Widget>(), "inputs", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Node__get_inputs },
-			{ t, SIZE_MAX, type<two::Widget>(), "outputs", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Node__get_outputs },
-			{ t, SIZE_MAX, type<two::Widget>(), "body", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Node__get_body }
+			{ t, SIZE_MAX, type<two::Widget>(), "header", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_Node__get_header },
+			{ t, SIZE_MAX, type<two::Widget>(), "inputs", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_Node__get_inputs },
+			{ t, SIZE_MAX, type<two::Widget>(), "outputs", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_Node__get_outputs },
+			{ t, SIZE_MAX, type<two::Widget>(), "body", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_Node__get_body }
 		};
 		// methods
 		// static members
@@ -1341,7 +1350,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, SIZE_MAX, type<two::Widget>(), "self", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_CanvasHandle__get_self },
+			{ t, SIZE_MAX, type<two::Widget>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_CanvasHandle__get_self },
 			{ t, SIZE_MAX, type<two::Canvas>(), "canvas", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_CanvasHandle__get_canvas }
 		};
 		// methods
@@ -1493,7 +1502,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, SIZE_MAX, type<two::Widget>(), "self", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_DockerHandle__get_self },
+			{ t, SIZE_MAX, type<two::Widget>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_DockerHandle__get_self },
 			{ t, SIZE_MAX, type<two::Docker>(), "docker", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_DockerHandle__get_docker }
 		};
 		// methods
@@ -1665,14 +1674,14 @@ namespace two
 		m.m_types.push_back(&type<stl::span<const char*>>());
 		m.m_types.push_back(&type<stl::vector<two::Space>>());
 		m.m_types.push_back(&type<stl::vector<two::Subskin>>());
-		m.m_types.push_back(&type<two::WidgetState>());
-		m.m_types.push_back(&type<two::ui::PopupFlags>());
 		m.m_types.push_back(&type<two::UiRect>());
 		m.m_types.push_back(&type<two::Frame>());
 		m.m_types.push_back(&type<two::Layer>());
+		m.m_types.push_back(&type<two::WidgetState>());
 		m.m_types.push_back(&type<two::WidgetData>());
 		m.m_types.push_back(&type<two::Widget>());
 		m.m_types.push_back(&type<two::WidgetHandle>());
+		m.m_types.push_back(&type<two::ui::PopupFlags>());
 		m.m_types.push_back(&type<two::TextCursor>());
 		m.m_types.push_back(&type<two::TextSelection>());
 		m.m_types.push_back(&type<two::PaletteIndex>());
@@ -1742,453 +1751,453 @@ namespace two
 			static bool open_default = false;
 			static two::Axis length_default = Axis::None;
 			static two::v2<uint> index_default = {0,0};
-			static Function f = { &namspc({ "two", "ui" }), "widget", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, two::Style&, bool, two::Axis, two::v2<uint>)>(two::ui::widget), two_ui_widget_9, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "style", type<two::Style>(), Param::Reference }, { "open", type<bool>(), Param::Default, &open_default }, { "length", type<two::Axis>(), Param::Default, &length_default }, { "index", type<two::v2<uint>>(), Param::Default, &index_default } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "widget", funcptr<two::Widget(*)(two::NodeKey, two::Widget, two::Style&, bool, two::Axis, two::v2<uint>)>(two::ui::widget), two_ui_widget_9, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "style", type<two::Style>(), Param::Reference }, { "open", type<bool>(), Param::Default, &open_default }, { "length", type<two::Axis>(), Param::Default, &length_default }, { "index", type<two::v2<uint>>(), Param::Default, &index_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static const char* content_default = nullptr;
-			static Function f = { &namspc({ "two", "ui" }), "item", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, two::Style&, const char*)>(two::ui::item), two_ui_item_10, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "style", type<two::Style>(), Param::Reference }, { "content", type<const char*>(), Param::Default, (void*)content_default } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "item", funcptr<two::Widget(*)(two::NodeKey, two::Widget, two::Style&, const char*)>(two::ui::item), two_ui_item_10, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "style", type<two::Style>(), Param::Reference }, { "content", type<const char*>(), Param::Default, (void*)content_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static two::Style* element_style_default = nullptr;
-			static Function f = { &namspc({ "two", "ui" }), "multi_item", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, two::Style&, stl::span<const char*>, two::Style*)>(two::ui::multi_item), two_ui_multi_item_11, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "style", type<two::Style>(), Param::Reference }, { "elements", type<stl::span<const char*>>(),  }, { "element_style", type<two::Style>(), Param::Flags(Param::Nullable|Param::Default), (void*)element_style_default } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "multi_item", funcptr<two::Widget(*)(two::NodeKey, two::Widget, two::Style&, stl::span<const char*>, two::Style*)>(two::ui::multi_item), two_ui_multi_item_11, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "style", type<two::Style>(), Param::Reference }, { "elements", type<stl::span<const char*>>(),  }, { "element_style", type<two::Style>(), Param::Flags(Param::Nullable|Param::Default), (void*)element_style_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "spanner", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, two::Style&, two::Axis, float)>(two::ui::spanner), two_ui_spanner_12, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "style", type<two::Style>(), Param::Reference }, { "dim", type<two::Axis>(),  }, { "span", type<float>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "spanner", funcptr<two::Widget(*)(two::NodeKey, two::Widget, two::Style&, two::Axis, float)>(two::ui::spanner), two_ui_spanner_12, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "style", type<two::Style>(), Param::Reference }, { "dim", type<two::Axis>(),  }, { "span", type<float>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "spacer", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::spacer), two_ui_spacer_13, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "spacer", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::spacer), two_ui_spacer_13, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "separator", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::separator), two_ui_separator_14, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "separator", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::separator), two_ui_separator_14, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "icon", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const char*)>(two::ui::icon), two_ui_icon_15, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "image", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "icon", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const char*)>(two::ui::icon), two_ui_icon_15, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "image", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "label", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const char*)>(two::ui::label), two_ui_label_16, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "label", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "label", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const char*)>(two::ui::label), two_ui_label_16, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "label", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "title", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const char*)>(two::ui::title), two_ui_title_17, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "label", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "title", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const char*)>(two::ui::title), two_ui_title_17, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "label", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "message", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const char*)>(two::ui::message), two_ui_message_18, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "label", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "message", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const char*)>(two::ui::message), two_ui_message_18, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "label", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "text", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const char*)>(two::ui::text), two_ui_text_19, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "label", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "text", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const char*)>(two::ui::text), two_ui_text_19, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "label", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "bullet", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const char*)>(two::ui::bullet), two_ui_bullet_20, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "label", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "bullet", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const char*)>(two::ui::bullet), two_ui_bullet_20, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "label", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "selectable", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const char*, bool&)>(two::ui::selectable), two_ui_selectable_21, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "label", type<const char*>(),  }, { "selected", type<bool>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "selectable", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const char*, bool&)>(two::ui::selectable), two_ui_selectable_21, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "label", type<const char*>(),  }, { "selected", type<bool>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static const char* content_default = nullptr;
-			static Function f = { &namspc({ "two", "ui" }), "button", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const char*)>(two::ui::button), two_ui_button_22, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "content", type<const char*>(), Param::Default, (void*)content_default } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "button", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const char*)>(two::ui::button), two_ui_button_22, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "content", type<const char*>(), Param::Default, (void*)content_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static const char* content_default = nullptr;
-			static Function f = { &namspc({ "two", "ui" }), "toggle", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, bool&, const char*)>(two::ui::toggle), two_ui_toggle_23, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "on", type<bool>(), Param::Reference }, { "content", type<const char*>(), Param::Default, (void*)content_default } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "toggle", funcptr<two::Widget(*)(two::NodeKey, two::Widget, bool&, const char*)>(two::ui::toggle), two_ui_toggle_23, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "on", type<bool>(), Param::Reference }, { "content", type<const char*>(), Param::Default, (void*)content_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "button", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const stl::string&)>(two::ui::button), two_ui_button_24, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "content", type<stl::string>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "button", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const stl::string&)>(two::ui::button), two_ui_button_24, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "content", type<stl::string>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "toggle", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, bool&, const stl::string&)>(two::ui::toggle), two_ui_toggle_25, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "on", type<bool>(), Param::Reference }, { "content", type<stl::string>(),  } }, { &type<two::Widget>(), QualType::None } };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static two::Style* element_style_default = nullptr;
-			static Function f = { &namspc({ "two", "ui" }), "multi_button", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, stl::span<const char*>, two::Style*)>(two::ui::multi_button), two_ui_multi_button_26, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "elements", type<stl::span<const char*>>(),  }, { "element_style", type<two::Style>(), Param::Flags(Param::Nullable|Param::Default), (void*)element_style_default } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "toggle", funcptr<two::Widget(*)(two::NodeKey, two::Widget, bool&, const stl::string&)>(two::ui::toggle), two_ui_toggle_25, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "on", type<bool>(), Param::Reference }, { "content", type<stl::string>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static two::Style* element_style_default = nullptr;
-			static Function f = { &namspc({ "two", "ui" }), "multi_toggle", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, bool&, stl::span<const char*>, two::Style*)>(two::ui::multi_toggle), two_ui_multi_toggle_27, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "on", type<bool>(), Param::Reference }, { "elements", type<stl::span<const char*>>(),  }, { "element_style", type<two::Style>(), Param::Flags(Param::Nullable|Param::Default), (void*)element_style_default } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "multi_button", funcptr<two::Widget(*)(two::NodeKey, two::Widget, stl::span<const char*>, two::Style*)>(two::ui::multi_button), two_ui_multi_button_26, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "elements", type<stl::span<const char*>>(),  }, { "element_style", type<two::Style>(), Param::Flags(Param::Nullable|Param::Default), (void*)element_style_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "modal_button", funcptr<bool(*)(two::NodeKey, two::Widget&, two::Widget&, const char*, uint32_t)>(two::ui::modal_button), two_ui_modal_button_28, { { "id", type<two::NodeKey>(),  }, { "screen", type<two::Widget>(), Param::Reference }, { "parent", type<two::Widget>(), Param::Reference }, { "content", type<const char*>(),  }, { "mode", type<uint32_t>(),  } }, { &type<bool>(), QualType::None } };
+			static two::Style* element_style_default = nullptr;
+			static Function f = { &namspc({ "two", "ui" }), "multi_toggle", funcptr<two::Widget(*)(two::NodeKey, two::Widget, bool&, stl::span<const char*>, two::Style*)>(two::ui::multi_toggle), two_ui_multi_toggle_27, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "on", type<bool>(), Param::Reference }, { "elements", type<stl::span<const char*>>(),  }, { "element_style", type<two::Style>(), Param::Flags(Param::Nullable|Param::Default), (void*)element_style_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "modal_multi_button", funcptr<bool(*)(two::NodeKey, two::Widget&, two::Widget&, stl::span<const char*>, uint32_t)>(two::ui::modal_multi_button), two_ui_modal_multi_button_29, { { "id", type<two::NodeKey>(),  }, { "screen", type<two::Widget>(), Param::Reference }, { "parent", type<two::Widget>(), Param::Reference }, { "elements", type<stl::span<const char*>>(),  }, { "mode", type<uint32_t>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "modal_button", funcptr<bool(*)(two::NodeKey, two::Widget, two::Widget, const char*, uint32_t)>(two::ui::modal_button), two_ui_modal_button_28, { { "id", type<two::NodeKey>(),  }, { "screen", type<two::Widget>(),  }, { "parent", type<two::Widget>(),  }, { "content", type<const char*>(),  }, { "mode", type<uint32_t>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "checkbox", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, bool&)>(two::ui::checkbox), two_ui_checkbox_30, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "on", type<bool>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "modal_multi_button", funcptr<bool(*)(two::NodeKey, two::Widget, two::Widget, stl::span<const char*>, uint32_t)>(two::ui::modal_multi_button), two_ui_modal_multi_button_29, { { "id", type<two::NodeKey>(),  }, { "screen", type<two::Widget>(),  }, { "parent", type<two::Widget>(),  }, { "elements", type<stl::span<const char*>>(),  }, { "mode", type<uint32_t>(),  } }, { &type<bool>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "two", "ui" }), "checkbox", funcptr<two::Widget(*)(two::NodeKey, two::Widget, bool&)>(two::ui::checkbox), two_ui_checkbox_30, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "on", type<bool>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static two::Axis dim_default = Axis::X;
-			static Function f = { &namspc({ "two", "ui" }), "fill_bar", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, float, two::Axis)>(two::ui::fill_bar), two_ui_fill_bar_31, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "percentage", type<float>(),  }, { "dim", type<two::Axis>(), Param::Default, &dim_default } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "fill_bar", funcptr<two::Widget(*)(two::NodeKey, two::Widget, float, two::Axis)>(two::ui::fill_bar), two_ui_fill_bar_31, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "percentage", type<float>(),  }, { "dim", type<two::Axis>(), Param::Default, &dim_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "image256", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const char*, const two::Image256&)>(two::ui::image256), two_ui_image256_32, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<const char*>(),  }, { "source", type<two::Image256>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "image256", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const char*, const two::Image256&)>(two::ui::image256), two_ui_image256_32, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<const char*>(),  }, { "source", type<two::Image256>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "image256", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const char*, const two::Image256&, const two::vec2&)>(two::ui::image256), two_ui_image256_33, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<const char*>(),  }, { "source", type<two::Image256>(),  }, { "size", type<two::vec2>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "image256", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const char*, const two::Image256&, const two::vec2&)>(two::ui::image256), two_ui_image256_33, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<const char*>(),  }, { "source", type<two::Image256>(),  }, { "size", type<two::vec2>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "image256", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const stl::string&, const two::Image256&)>(two::ui::image256), two_ui_image256_34, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<stl::string>(),  }, { "source", type<two::Image256>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "image256", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const stl::string&, const two::Image256&)>(two::ui::image256), two_ui_image256_34, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<stl::string>(),  }, { "source", type<two::Image256>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "image256", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const stl::string&, const two::Image256&, const two::vec2&)>(two::ui::image256), two_ui_image256_35, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<stl::string>(),  }, { "source", type<two::Image256>(),  }, { "size", type<two::vec2>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "image256", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const stl::string&, const two::Image256&, const two::vec2&)>(two::ui::image256), two_ui_image256_35, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<stl::string>(),  }, { "source", type<two::Image256>(),  }, { "size", type<two::vec2>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "radio_choice", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const char*, bool)>(two::ui::radio_choice), two_ui_radio_choice_36, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "label", type<const char*>(),  }, { "active", type<bool>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "radio_choice", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const char*, bool)>(two::ui::radio_choice), two_ui_radio_choice_36, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "label", type<const char*>(),  }, { "active", type<bool>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "radio_button", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const char*, uint32_t&, uint32_t)>(two::ui::radio_button), two_ui_radio_button_37, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "label", type<const char*>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "index", type<uint32_t>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "radio_button", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const char*, uint32_t&, uint32_t)>(two::ui::radio_button), two_ui_radio_button_37, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "label", type<const char*>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "index", type<uint32_t>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static two::Axis dim_default = Axis::X;
-			static Function f = { &namspc({ "two", "ui" }), "radio_switch", funcptr<bool(*)(two::NodeKey, two::Widget&, stl::span<const char*>, uint32_t&, two::Axis)>(two::ui::radio_switch), two_ui_radio_switch_38, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "labels", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "dim", type<two::Axis>(), Param::Default, &dim_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "radio_switch", funcptr<bool(*)(two::NodeKey, two::Widget, stl::span<const char*>, uint32_t&, two::Axis)>(two::ui::radio_switch), two_ui_radio_switch_38, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "labels", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "dim", type<two::Axis>(), Param::Default, &dim_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "popdown", funcptr<bool(*)(two::NodeKey, two::Widget&, stl::span<const char*>, uint32_t&, two::vec2, two::ui::PopupFlags)>(two::ui::popdown), two_ui_popdown_39, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "position", type<two::vec2>(),  }, { "flags", type<two::ui::PopupFlags>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "popdown", funcptr<bool(*)(two::NodeKey, two::Widget, stl::span<const char*>, uint32_t&, two::vec2, two::ui::PopupFlags)>(two::ui::popdown), two_ui_popdown_39, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "position", type<two::vec2>(),  }, { "flags", type<two::ui::PopupFlags>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool compact_default = false;
-			static Function f = { &namspc({ "two", "ui" }), "dropdown_input", funcptr<bool(*)(two::NodeKey, two::Widget&, stl::span<const char*>, uint32_t&, bool)>(two::ui::dropdown_input), two_ui_dropdown_input_40, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "compact", type<bool>(), Param::Default, &compact_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "dropdown_input", funcptr<bool(*)(two::NodeKey, two::Widget, stl::span<const char*>, uint32_t&, bool)>(two::ui::dropdown_input), two_ui_dropdown_input_40, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "compact", type<bool>(), Param::Default, &compact_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "typedown_input", funcptr<bool(*)(two::NodeKey, two::Widget&, stl::span<const char*>, uint32_t&)>(two::ui::typedown_input), two_ui_typedown_input_41, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(), Param::Reference } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "typedown_input", funcptr<bool(*)(two::NodeKey, two::Widget, stl::span<const char*>, uint32_t&)>(two::ui::typedown_input), two_ui_typedown_input_41, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(), Param::Reference } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static const char* shortcut_default = nullptr;
-			static Function f = { &namspc({ "two", "ui" }), "menu_choice", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const char*, const char*)>(two::ui::menu_choice), two_ui_menu_choice_42, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "content", type<const char*>(),  }, { "shortcut", type<const char*>(), Param::Default, (void*)shortcut_default } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "menu_choice", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const char*, const char*)>(two::ui::menu_choice), two_ui_menu_choice_42, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "content", type<const char*>(),  }, { "shortcut", type<const char*>(), Param::Default, (void*)shortcut_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "menu_option", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const char*, const char*, bool)>(two::ui::menu_option), two_ui_menu_option_43, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "content", type<const char*>(),  }, { "shortcut", type<const char*>(),  }, { "enabled", type<bool>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "menu_option", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const char*, const char*, bool)>(two::ui::menu_option), two_ui_menu_option_43, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "content", type<const char*>(),  }, { "shortcut", type<const char*>(),  }, { "enabled", type<bool>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "menubar", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::menubar), two_ui_menubar_44, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "menubar", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::menubar), two_ui_menubar_44, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "toolbutton", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const char*)>(two::ui::toolbutton), two_ui_toolbutton_45, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "icon", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "toolbutton", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const char*)>(two::ui::toolbutton), two_ui_toolbutton_45, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "icon", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "tooldock", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::tooldock), two_ui_tooldock_46, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "tooldock", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::tooldock), two_ui_tooldock_46, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool wrap_default = false;
-			static Function f = { &namspc({ "two", "ui" }), "toolbar", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, bool)>(two::ui::toolbar), two_ui_toolbar_47, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "wrap", type<bool>(), Param::Default, &wrap_default } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "toolbar", funcptr<two::Widget(*)(two::NodeKey, two::Widget, bool)>(two::ui::toolbar), two_ui_toolbar_47, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "wrap", type<bool>(), Param::Default, &wrap_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "columns", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, stl::span<float>)>(two::ui::columns), two_ui_columns_48, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "weights", type<stl::span<float>>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "columns", funcptr<two::Widget(*)(two::NodeKey, two::Widget, stl::span<float>)>(two::ui::columns), two_ui_columns_48, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "weights", type<stl::span<float>>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "table", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, stl::span<const char*>, stl::span<float>)>(two::ui::table), two_ui_table_49, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "columns", type<stl::span<const char*>>(),  }, { "weights", type<stl::span<float>>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "table", funcptr<two::Widget(*)(two::NodeKey, two::Widget, stl::span<const char*>, stl::span<float>)>(two::ui::table), two_ui_table_49, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "columns", type<stl::span<const char*>>(),  }, { "weights", type<stl::span<float>>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "table_row", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::table_row), two_ui_table_row_50, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "table_row", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::table_row), two_ui_table_row_50, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "table_separator", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::table_separator), two_ui_table_separator_51, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "table_separator", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::table_separator), two_ui_table_separator_51, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "tree", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::tree), two_ui_tree_52, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "tree", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::tree), two_ui_tree_52, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "row", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::row), two_ui_row_53, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "row", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::row), two_ui_row_53, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "header", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::header), two_ui_header_54, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "header", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::header), two_ui_header_54, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "div", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::div), two_ui_div_55, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "div", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::div), two_ui_div_55, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "stack", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::stack), two_ui_stack_56, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "stack", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::stack), two_ui_stack_56, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "sheet", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::sheet), two_ui_sheet_57, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "sheet", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::sheet), two_ui_sheet_57, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "board", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::board), two_ui_board_58, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "board", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::board), two_ui_board_58, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "layout", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::layout), two_ui_layout_59, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "layout", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::layout), two_ui_layout_59, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "indent", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::indent), two_ui_indent_60, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "indent", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::indent), two_ui_indent_60, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "screen", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::screen), two_ui_screen_61, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "screen", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::screen), two_ui_screen_61, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "decal", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::decal), two_ui_decal_62, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "decal", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::decal), two_ui_decal_62, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "overlay", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::overlay), two_ui_overlay_63, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "overlay", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::overlay), two_ui_overlay_63, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "title_header", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const char*)>(two::ui::title_header), two_ui_title_header_64, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "title", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "title_header", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const char*)>(two::ui::title_header), two_ui_title_header_64, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "title", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "dummy", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const two::vec2&)>(two::ui::dummy), two_ui_dummy_65, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "size", type<two::vec2>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "dummy", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const two::vec2&)>(two::ui::dummy), two_ui_dummy_65, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "size", type<two::vec2>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "popup", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, two::ui::PopupFlags)>(two::ui::popup), two_ui_popup_66, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "flags", type<two::ui::PopupFlags>(),  } }, { &type<two::Widget>(), QualType::None } };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static two::ui::PopupFlags flags_default = ui::PopupFlags::None;
-			static Function f = { &namspc({ "two", "ui" }), "popup_at", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const two::vec2&, two::ui::PopupFlags)>(two::ui::popup_at), two_ui_popup_at_67, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "position", type<two::vec2>(),  }, { "flags", type<two::ui::PopupFlags>(), Param::Default, &flags_default } }, { &type<two::Widget>(), QualType::None } };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static Function f = { &namspc({ "two", "ui" }), "modal", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::modal), two_ui_modal_68, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static Function f = { &namspc({ "two", "ui" }), "auto_modal", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, uint32_t)>(two::ui::auto_modal), two_ui_auto_modal_69, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "mode", type<uint32_t>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "popup", funcptr<two::Widget(*)(two::NodeKey, two::Widget, two::ui::PopupFlags)>(two::ui::popup), two_ui_popup_66, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "flags", type<two::ui::PopupFlags>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static two::ui::PopupFlags flags_default = ui::PopupFlags::None;
-			static Function f = { &namspc({ "two", "ui" }), "context", funcptr<two::Widget*(*)(two::NodeKey, two::Widget&, uint32_t, two::ui::PopupFlags)>(two::ui::context), two_ui_context_70, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "mode", type<uint32_t>(),  }, { "flags", type<two::ui::PopupFlags>(), Param::Default, &flags_default } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "popup_at", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const two::vec2&, two::ui::PopupFlags)>(two::ui::popup_at), two_ui_popup_at_67, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "position", type<two::vec2>(),  }, { "flags", type<two::ui::PopupFlags>(), Param::Default, &flags_default } }, { &type<two::Widget>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "two", "ui" }), "modal", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::modal), two_ui_modal_68, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "two", "ui" }), "auto_modal", funcptr<two::Widget(*)(two::NodeKey, two::Widget, uint32_t)>(two::ui::auto_modal), two_ui_auto_modal_69, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "mode", type<uint32_t>(),  } }, { &type<two::Widget>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static two::ui::PopupFlags flags_default = ui::PopupFlags::None;
+			static Function f = { &namspc({ "two", "ui" }), "context", funcptr<two::Widget(*)(two::NodeKey, two::Widget, uint32_t, two::ui::PopupFlags)>(two::ui::context), two_ui_context_70, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "mode", type<uint32_t>(),  }, { "flags", type<two::ui::PopupFlags>(), Param::Default, &flags_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float delay_default = 0.5f;
-			static Function f = { &namspc({ "two", "ui" }), "hoverbox", funcptr<two::Widget*(*)(two::NodeKey, two::Widget&, float)>(two::ui::hoverbox), two_ui_hoverbox_71, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "delay", type<float>(), Param::Default, &delay_default } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "hoverbox", funcptr<two::Widget(*)(two::NodeKey, two::Widget, float)>(two::ui::hoverbox), two_ui_hoverbox_71, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "delay", type<float>(), Param::Default, &delay_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool locked_default = false;
-			static Function f = { &namspc({ "two", "ui" }), "cursor", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const two::vec2&, two::Widget&, bool)>(two::ui::cursor), two_ui_cursor_72, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "position", type<two::vec2>(),  }, { "hovered", type<two::Widget>(), Param::Reference }, { "locked", type<bool>(), Param::Default, &locked_default } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "cursor", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const two::vec2&, two::Widget, bool)>(two::ui::cursor), two_ui_cursor_72, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "position", type<two::vec2>(),  }, { "hovered", type<two::Widget>(),  }, { "locked", type<bool>(), Param::Default, &locked_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "rectangle", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const two::vec4&)>(two::ui::rectangle), two_ui_rectangle_73, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "rect", type<two::vec4>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "rectangle", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const two::vec4&)>(two::ui::rectangle), two_ui_rectangle_73, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "rect", type<two::vec4>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "viewport", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const two::vec4&)>(two::ui::viewport), two_ui_viewport_74, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "rect", type<two::vec4>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "viewport", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const two::vec4&)>(two::ui::viewport), two_ui_viewport_74, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "rect", type<two::vec4>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "dockspace", funcptr<two::DockspaceHandle(*)(two::NodeKey, two::Widget&, two::Docksystem&)>(two::ui::dockspace), two_ui_dockspace_75, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "docksystem", type<two::Docksystem>(), Param::Reference } }, { &type<two::DockspaceHandle>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "dockspace", funcptr<two::DockspaceHandle(*)(two::NodeKey, two::Widget, two::Docksystem&)>(two::ui::dockspace), two_ui_dockspace_75, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "docksystem", type<two::Docksystem>(), Param::Reference } }, { &type<two::DockspaceHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "dockbar", funcptr<two::DockbarHandle(*)(two::NodeKey, two::Widget&, two::Docksystem&)>(two::ui::dockbar), two_ui_dockbar_76, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "docksystem", type<two::Docksystem>(), Param::Reference } }, { &type<two::DockbarHandle>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "dockbar", funcptr<two::DockbarHandle(*)(two::NodeKey, two::Widget, two::Docksystem&)>(two::ui::dockbar), two_ui_dockbar_76, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "docksystem", type<two::Docksystem>(), Param::Reference } }, { &type<two::DockbarHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "dockitem", funcptr<two::Widget*(*)(two::Widget&, two::Docksystem&, const char*)>(two::ui::dockitem), two_ui_dockitem_77, { { "parent", type<two::Widget>(), Param::Reference }, { "docksystem", type<two::Docksystem>(), Param::Reference }, { "name", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "dockitem", funcptr<two::Widget(*)(two::Widget, two::Docksystem&, const char*)>(two::ui::dockitem), two_ui_dockitem_77, { { "parent", type<two::Widget>(),  }, { "docksystem", type<two::Docksystem>(), Param::Reference }, { "name", type<const char*>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float step_default = 0.1f;
-			static Function f = { &namspc({ "two", "ui" }), "drag_float", funcptr<bool(*)(two::NodeKey, two::Widget&, float&, float)>(two::ui::drag_float), two_ui_drag_float_78, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "value", type<float>(), Param::Reference }, { "step", type<float>(), Param::Default, &step_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "drag_float", funcptr<bool(*)(two::NodeKey, two::Widget, float&, float)>(two::ui::drag_float), two_ui_drag_float_78, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "value", type<float>(), Param::Reference }, { "step", type<float>(), Param::Default, &step_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "float2_input", funcptr<bool(*)(two::NodeKey, two::Widget&, stl::span<const char*>, stl::span<float>, two::StatDef<float>)>(two::ui::float2_input), two_ui_float2_input_79, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "labels", type<stl::span<const char*>>(),  }, { "vals", type<stl::span<float>>(),  }, { "def", type<two::StatDef<float>>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "float2_input", funcptr<bool(*)(two::NodeKey, two::Widget, stl::span<const char*>, stl::span<float>, two::StatDef<float>)>(two::ui::float2_input), two_ui_float2_input_79, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "labels", type<stl::span<const char*>>(),  }, { "vals", type<stl::span<float>>(),  }, { "def", type<two::StatDef<float>>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "float3_input", funcptr<bool(*)(two::NodeKey, two::Widget&, stl::span<const char*>, stl::span<float>, two::StatDef<float>)>(two::ui::float3_input), two_ui_float3_input_80, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "labels", type<stl::span<const char*>>(),  }, { "vals", type<stl::span<float>>(),  }, { "def", type<two::StatDef<float>>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "float3_input", funcptr<bool(*)(two::NodeKey, two::Widget, stl::span<const char*>, stl::span<float>, two::StatDef<float>)>(two::ui::float3_input), two_ui_float3_input_80, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "labels", type<stl::span<const char*>>(),  }, { "vals", type<stl::span<float>>(),  }, { "def", type<two::StatDef<float>>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "float4_input", funcptr<bool(*)(two::NodeKey, two::Widget&, stl::span<const char*>, stl::span<float>, two::StatDef<float>)>(two::ui::float4_input), two_ui_float4_input_81, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "labels", type<stl::span<const char*>>(),  }, { "vals", type<stl::span<float>>(),  }, { "def", type<two::StatDef<float>>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "float4_input", funcptr<bool(*)(two::NodeKey, two::Widget, stl::span<const char*>, stl::span<float>, two::StatDef<float>)>(two::ui::float4_input), two_ui_float4_input_81, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "labels", type<stl::span<const char*>>(),  }, { "vals", type<stl::span<float>>(),  }, { "def", type<two::StatDef<float>>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "float2_slider", funcptr<bool(*)(two::NodeKey, two::Widget&, const char*, stl::span<const char*>, stl::span<float>, two::StatDef<float>)>(two::ui::float2_slider), two_ui_float2_slider_82, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "label", type<const char*>(),  }, { "labels", type<stl::span<const char*>>(),  }, { "vals", type<stl::span<float>>(),  }, { "def", type<two::StatDef<float>>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "float2_slider", funcptr<bool(*)(two::NodeKey, two::Widget, const char*, stl::span<const char*>, stl::span<float>, two::StatDef<float>)>(two::ui::float2_slider), two_ui_float2_slider_82, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "label", type<const char*>(),  }, { "labels", type<stl::span<const char*>>(),  }, { "vals", type<stl::span<float>>(),  }, { "def", type<two::StatDef<float>>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "float3_slider", funcptr<bool(*)(two::NodeKey, two::Widget&, const char*, stl::span<const char*>, stl::span<float>, two::StatDef<float>)>(two::ui::float3_slider), two_ui_float3_slider_83, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "label", type<const char*>(),  }, { "labels", type<stl::span<const char*>>(),  }, { "vals", type<stl::span<float>>(),  }, { "def", type<two::StatDef<float>>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "float3_slider", funcptr<bool(*)(two::NodeKey, two::Widget, const char*, stl::span<const char*>, stl::span<float>, two::StatDef<float>)>(two::ui::float3_slider), two_ui_float3_slider_83, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "label", type<const char*>(),  }, { "labels", type<stl::span<const char*>>(),  }, { "vals", type<stl::span<float>>(),  }, { "def", type<two::StatDef<float>>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "float4_slider", funcptr<bool(*)(two::NodeKey, two::Widget&, const char*, stl::span<const char*>, stl::span<float>, two::StatDef<float>)>(two::ui::float4_slider), two_ui_float4_slider_84, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "label", type<const char*>(),  }, { "labels", type<stl::span<const char*>>(),  }, { "vals", type<stl::span<float>>(),  }, { "def", type<two::StatDef<float>>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "float4_slider", funcptr<bool(*)(two::NodeKey, two::Widget, const char*, stl::span<const char*>, stl::span<float>, two::StatDef<float>)>(two::ui::float4_slider), two_ui_float4_slider_84, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "label", type<const char*>(),  }, { "labels", type<stl::span<const char*>>(),  }, { "vals", type<stl::span<float>>(),  }, { "def", type<two::StatDef<float>>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "vec2_edit", funcptr<bool(*)(two::NodeKey, two::Widget&, two::vec2&)>(two::ui::vec2_edit), two_ui_vec2_edit_85, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "vec", type<two::vec2>(), Param::Reference } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "vec2_edit", funcptr<bool(*)(two::NodeKey, two::Widget, two::vec2&)>(two::ui::vec2_edit), two_ui_vec2_edit_85, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "vec", type<two::vec2>(), Param::Reference } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "vec3_edit", funcptr<bool(*)(two::NodeKey, two::Widget&, two::vec3&)>(two::ui::vec3_edit), two_ui_vec3_edit_86, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "vec", type<two::vec3>(), Param::Reference } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "vec3_edit", funcptr<bool(*)(two::NodeKey, two::Widget, two::vec3&)>(two::ui::vec3_edit), two_ui_vec3_edit_86, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "vec", type<two::vec3>(), Param::Reference } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "quat_edit", funcptr<bool(*)(two::NodeKey, two::Widget&, two::quat&)>(two::ui::quat_edit), two_ui_quat_edit_87, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "quat", type<two::quat>(), Param::Reference } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "quat_edit", funcptr<bool(*)(two::NodeKey, two::Widget, two::quat&)>(two::ui::quat_edit), two_ui_quat_edit_87, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "quat", type<two::quat>(), Param::Reference } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "color_display", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const two::Colour&)>(two::ui::color_display), two_ui_color_display_88, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "value", type<two::Colour>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "color_display", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const two::Colour&)>(two::ui::color_display), two_ui_color_display_88, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "value", type<two::Colour>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "color_edit", funcptr<bool(*)(two::NodeKey, two::Widget&, two::Colour&)>(two::ui::color_edit), two_ui_color_edit_89, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "value", type<two::Colour>(), Param::Reference } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "color_edit", funcptr<bool(*)(two::NodeKey, two::Widget, two::Colour&)>(two::ui::color_edit), two_ui_color_edit_89, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "value", type<two::Colour>(), Param::Reference } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "color_edit_simple", funcptr<bool(*)(two::NodeKey, two::Widget&, two::Colour&)>(two::ui::color_edit_simple), two_ui_color_edit_simple_90, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "value", type<two::Colour>(), Param::Reference } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "color_edit_simple", funcptr<bool(*)(two::NodeKey, two::Widget, two::Colour&)>(two::ui::color_edit_simple), two_ui_color_edit_simple_90, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "value", type<two::Colour>(), Param::Reference } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "color_toggle_edit", funcptr<bool(*)(two::NodeKey, two::Widget&, two::Colour&)>(two::ui::color_toggle_edit), two_ui_color_toggle_edit_91, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "value", type<two::Colour>(), Param::Reference } }, { &type<bool>(), QualType::None } };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static stl::span<float> points_default = {};
-			static Function f = { &namspc({ "two", "ui" }), "curve_graph", funcptr<bool(*)(two::NodeKey, two::Widget&, stl::span<float>, stl::span<float>)>(two::ui::curve_graph), two_ui_curve_graph_92, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "values", type<stl::span<float>>(),  }, { "points", type<stl::span<float>>(), Param::Default, &points_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "color_toggle_edit", funcptr<bool(*)(two::NodeKey, two::Widget, two::Colour&)>(two::ui::color_toggle_edit), two_ui_color_toggle_edit_91, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "value", type<two::Colour>(), Param::Reference } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static stl::span<float> points_default = {};
-			static Function f = { &namspc({ "two", "ui" }), "curve_edit", funcptr<bool(*)(two::NodeKey, two::Widget&, stl::span<float>, stl::span<float>)>(two::ui::curve_edit), two_ui_curve_edit_93, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "values", type<stl::span<float>>(),  }, { "points", type<stl::span<float>>(), Param::Default, &points_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "curve_graph", funcptr<bool(*)(two::NodeKey, two::Widget, stl::span<float>, stl::span<float>)>(two::ui::curve_graph), two_ui_curve_graph_92, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "values", type<stl::span<float>>(),  }, { "points", type<stl::span<float>>(), Param::Default, &points_default } }, { &type<bool>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static stl::span<float> points_default = {};
+			static Function f = { &namspc({ "two", "ui" }), "curve_edit", funcptr<bool(*)(two::NodeKey, two::Widget, stl::span<float>, stl::span<float>)>(two::ui::curve_edit), two_ui_curve_edit_93, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "values", type<stl::span<float>>(),  }, { "points", type<stl::span<float>>(), Param::Default, &points_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool reverse_default = false;
-			static Function f = { &namspc({ "two", "ui" }), "flag_field", funcptr<bool(*)(two::NodeKey, two::Widget&, const char*, uint32_t&, uint8_t, bool)>(two::ui::flag_field), two_ui_flag_field_94, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<const char*>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "shift", type<uint8_t>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "flag_field", funcptr<bool(*)(two::NodeKey, two::Widget, const char*, uint32_t&, uint8_t, bool)>(two::ui::flag_field), two_ui_flag_field_94, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<const char*>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "shift", type<uint8_t>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static two::Axis dim_default = Axis::X;
 			static bool reverse_default = false;
-			static Function f = { &namspc({ "two", "ui" }), "radio_field", funcptr<bool(*)(two::NodeKey, two::Widget&, const char*, stl::span<const char*>, uint32_t&, two::Axis, bool)>(two::ui::radio_field), two_ui_radio_field_95, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<const char*>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "dim", type<two::Axis>(), Param::Default, &dim_default }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "radio_field", funcptr<bool(*)(two::NodeKey, two::Widget, const char*, stl::span<const char*>, uint32_t&, two::Axis, bool)>(two::ui::radio_field), two_ui_radio_field_95, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<const char*>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "dim", type<two::Axis>(), Param::Default, &dim_default }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool reverse_default = false;
-			static Function f = { &namspc({ "two", "ui" }), "dropdown_field", funcptr<bool(*)(two::NodeKey, two::Widget&, const char*, stl::span<const char*>, uint32_t&, bool)>(two::ui::dropdown_field), two_ui_dropdown_field_96, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<const char*>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "dropdown_field", funcptr<bool(*)(two::NodeKey, two::Widget, const char*, stl::span<const char*>, uint32_t&, bool)>(two::ui::dropdown_field), two_ui_dropdown_field_96, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<const char*>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool reverse_default = false;
-			static Function f = { &namspc({ "two", "ui" }), "typedown_field", funcptr<bool(*)(two::NodeKey, two::Widget&, const char*, stl::span<const char*>, uint32_t&, bool)>(two::ui::typedown_field), two_ui_typedown_field_97, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<const char*>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "typedown_field", funcptr<bool(*)(two::NodeKey, two::Widget, const char*, stl::span<const char*>, uint32_t&, bool)>(two::ui::typedown_field), two_ui_typedown_field_97, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<const char*>(),  }, { "choices", type<stl::span<const char*>>(),  }, { "value", type<uint32_t>(), Param::Reference }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool reverse_default = false;
-			static Function f = { &namspc({ "two", "ui" }), "color_field", funcptr<bool(*)(two::NodeKey, two::Widget&, const char*, two::Colour&, bool)>(two::ui::color_field), two_ui_color_field_98, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<const char*>(),  }, { "value", type<two::Colour>(), Param::Reference }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "color_field", funcptr<bool(*)(two::NodeKey, two::Widget, const char*, two::Colour&, bool)>(two::ui::color_field), two_ui_color_field_98, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<const char*>(),  }, { "value", type<two::Colour>(), Param::Reference }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool reverse_default = false;
-			static Function f = { &namspc({ "two", "ui" }), "color_display_field", funcptr<void(*)(two::NodeKey, two::Widget&, const char*, const two::Colour&, bool)>(two::ui::color_display_field), two_ui_color_display_field_99, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<const char*>(),  }, { "value", type<two::Colour>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, g_qvoid };
+			static Function f = { &namspc({ "two", "ui" }), "color_display_field", funcptr<void(*)(two::NodeKey, two::Widget, const char*, const two::Colour&, bool)>(two::ui::color_display_field), two_ui_color_display_field_99, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<const char*>(),  }, { "value", type<two::Colour>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "input<bool>", funcptr<bool(*)(two::NodeKey, two::Widget&, bool&)>(two::ui::input<bool>), two_ui_input_bool_100, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "value", type<bool>(), Param::Reference } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "input<bool>", funcptr<bool(*)(two::NodeKey, two::Widget, bool&)>(two::ui::input<bool>), two_ui_input_bool_100, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "value", type<bool>(), Param::Reference } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "input<stl::string>", funcptr<bool(*)(two::NodeKey, two::Widget&, stl::string&)>(two::ui::input<stl::string>), two_ui_input_stl_string_101, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "value", type<stl::string>(), Param::Reference } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "input<stl::string>", funcptr<bool(*)(two::NodeKey, two::Widget, stl::string&)>(two::ui::input<stl::string>), two_ui_input_stl_string_101, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "value", type<stl::string>(), Param::Reference } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "input<int>", funcptr<bool(*)(two::NodeKey, two::Widget&, int&, two::StatDef<int>)>(two::ui::input<int>), two_ui_input_int_102, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "value", type<int>(), Param::Reference }, { "def", type<two::StatDef<int>>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "input<int>", funcptr<bool(*)(two::NodeKey, two::Widget, int&, two::StatDef<int>)>(two::ui::input<int>), two_ui_input_int_102, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "value", type<int>(), Param::Reference }, { "def", type<two::StatDef<int>>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "input<float>", funcptr<bool(*)(two::NodeKey, two::Widget&, float&, two::StatDef<float>)>(two::ui::input<float>), two_ui_input_float_103, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "value", type<float>(), Param::Reference }, { "def", type<two::StatDef<float>>(),  } }, { &type<bool>(), QualType::None } };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static bool reverse_default = false;
-			static Function f = { &namspc({ "two", "ui" }), "field<bool>", funcptr<bool(*)(two::NodeKey, two::Widget&, const char*, bool&, bool)>(two::ui::field<bool>), two_ui_field_bool_104, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<const char*>(),  }, { "value", type<bool>(), Param::Reference }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "input<float>", funcptr<bool(*)(two::NodeKey, two::Widget, float&, two::StatDef<float>)>(two::ui::input<float>), two_ui_input_float_103, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "value", type<float>(), Param::Reference }, { "def", type<two::StatDef<float>>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool reverse_default = false;
-			static Function f = { &namspc({ "two", "ui" }), "field<stl::string>", funcptr<bool(*)(two::NodeKey, two::Widget&, const char*, stl::string&, bool)>(two::ui::field<stl::string>), two_ui_field_stl_string_105, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<const char*>(),  }, { "value", type<stl::string>(), Param::Reference }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "field<bool>", funcptr<bool(*)(two::NodeKey, two::Widget, const char*, bool&, bool)>(two::ui::field<bool>), two_ui_field_bool_104, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<const char*>(),  }, { "value", type<bool>(), Param::Reference }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool reverse_default = false;
-			static Function f = { &namspc({ "two", "ui" }), "field<int>", funcptr<bool(*)(two::NodeKey, two::Widget&, const char*, int&, two::StatDef<int>, bool)>(two::ui::field<int>), two_ui_field_int_106, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<const char*>(),  }, { "value", type<int>(), Param::Reference }, { "def", type<two::StatDef<int>>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "field<stl::string>", funcptr<bool(*)(two::NodeKey, two::Widget, const char*, stl::string&, bool)>(two::ui::field<stl::string>), two_ui_field_stl_string_105, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<const char*>(),  }, { "value", type<stl::string>(), Param::Reference }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool reverse_default = false;
-			static Function f = { &namspc({ "two", "ui" }), "field<float>", funcptr<bool(*)(two::NodeKey, two::Widget&, const char*, float&, two::StatDef<float>, bool)>(two::ui::field<float>), two_ui_field_float_107, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<const char*>(),  }, { "value", type<float>(), Param::Reference }, { "def", type<two::StatDef<float>>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "field<int>", funcptr<bool(*)(two::NodeKey, two::Widget, const char*, int&, two::StatDef<int>, bool)>(two::ui::field<int>), two_ui_field_int_106, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<const char*>(),  }, { "value", type<int>(), Param::Reference }, { "def", type<two::StatDef<int>>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static bool reverse_default = false;
+			static Function f = { &namspc({ "two", "ui" }), "field<float>", funcptr<bool(*)(two::NodeKey, two::Widget, const char*, float&, two::StatDef<float>, bool)>(two::ui::field<float>), two_ui_field_float_107, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<const char*>(),  }, { "value", type<float>(), Param::Reference }, { "def", type<two::StatDef<float>>(),  }, { "reverse", type<bool>(), Param::Default, &reverse_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static bool editor_default = false;
 			static size_t lines_default = 1;
 			static stl::string allowed_chars_default = "";
-			static Function f = { &namspc({ "two", "ui" }), "text_box", funcptr<two::TextEditHandle(*)(two::NodeKey, two::Widget&, two::Style&, stl::string&, bool, size_t, const stl::string&)>(two::ui::text_box), two_ui_text_box_108, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "style", type<two::Style>(), Param::Reference }, { "text", type<stl::string>(), Param::Reference }, { "editor", type<bool>(), Param::Default, &editor_default }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "allowed_chars", type<stl::string>(), Param::Default, &allowed_chars_default } }, { &type<two::TextEditHandle>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "text_box", funcptr<two::TextEditHandle(*)(two::NodeKey, two::Widget, two::Style&, stl::string&, bool, size_t, const stl::string&)>(two::ui::text_box), two_ui_text_box_108, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "style", type<two::Style>(), Param::Reference }, { "text", type<stl::string>(), Param::Reference }, { "editor", type<bool>(), Param::Default, &editor_default }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "allowed_chars", type<stl::string>(), Param::Default, &allowed_chars_default } }, { &type<two::TextEditHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static size_t lines_default = 1;
 			static stl::string allowed_chars_default = "";
-			static Function f = { &namspc({ "two", "ui" }), "type_in", funcptr<two::TextEditHandle(*)(two::NodeKey, two::Widget&, stl::string&, size_t, const stl::string&)>(two::ui::type_in), two_ui_type_in_109, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "text", type<stl::string>(), Param::Reference }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "allowed_chars", type<stl::string>(), Param::Default, &allowed_chars_default } }, { &type<two::TextEditHandle>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "type_in", funcptr<two::TextEditHandle(*)(two::NodeKey, two::Widget, stl::string&, size_t, const stl::string&)>(two::ui::type_in), two_ui_type_in_109, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "text", type<stl::string>(), Param::Reference }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "allowed_chars", type<stl::string>(), Param::Default, &allowed_chars_default } }, { &type<two::TextEditHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static size_t lines_default = 1;
 			static stl::vector<stl::string>* vocabulary_default = nullptr;
-			static Function f = { &namspc({ "two", "ui" }), "text_edit", funcptr<two::TextEditHandle(*)(two::NodeKey, two::Widget&, stl::string&, size_t, stl::vector<stl::string>*)>(two::ui::text_edit), two_ui_text_edit_110, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "text", type<stl::string>(), Param::Reference }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "vocabulary", type<stl::vector<stl::string>>(), Param::Flags(Param::Nullable|Param::Default), (void*)vocabulary_default } }, { &type<two::TextEditHandle>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "text_edit", funcptr<two::TextEditHandle(*)(two::NodeKey, two::Widget, stl::string&, size_t, stl::vector<stl::string>*)>(two::ui::text_edit), two_ui_text_edit_110, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "text", type<stl::string>(), Param::Reference }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "vocabulary", type<stl::vector<stl::string>>(), Param::Flags(Param::Nullable|Param::Default), (void*)vocabulary_default } }, { &type<two::TextEditHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static size_t lines_default = 1;
 			static stl::vector<stl::string>* vocabulary_default = nullptr;
-			static Function f = { &namspc({ "two", "ui" }), "code_edit", funcptr<two::TextEditHandle(*)(two::NodeKey, two::Widget&, stl::string&, size_t, stl::vector<stl::string>*)>(two::ui::code_edit), two_ui_code_edit_111, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "text", type<stl::string>(), Param::Reference }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "vocabulary", type<stl::vector<stl::string>>(), Param::Flags(Param::Nullable|Param::Default), (void*)vocabulary_default } }, { &type<two::TextEditHandle>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "code_edit", funcptr<two::TextEditHandle(*)(two::NodeKey, two::Widget, stl::string&, size_t, stl::vector<stl::string>*)>(two::ui::code_edit), two_ui_code_edit_111, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "text", type<stl::string>(), Param::Reference }, { "lines", type<size_t>(), Param::Default, &lines_default }, { "vocabulary", type<stl::vector<stl::string>>(), Param::Flags(Param::Nullable|Param::Default), (void*)vocabulary_default } }, { &type<two::TextEditHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
@@ -2214,65 +2223,65 @@ namespace two
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "node_cable", funcptr<two::Widget&(*)(two::NodeKey, two::Canvas&, two::NodePlug&, two::NodePlug&)>(two::ui::node_cable), two_ui_node_cable_115, { { "id", type<two::NodeKey>(),  }, { "canvas", type<two::Canvas>(), Param::Reference }, { "plug_out", type<two::NodePlug>(), Param::Reference }, { "plug_in", type<two::NodePlug>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "node_cable", funcptr<two::Widget(*)(two::NodeKey, two::Canvas&, two::NodePlug&, two::NodePlug&)>(two::ui::node_cable), two_ui_node_cable_115, { { "id", type<two::NodeKey>(),  }, { "canvas", type<two::Canvas>(), Param::Reference }, { "plug_out", type<two::NodePlug>(), Param::Reference }, { "plug_in", type<two::NodePlug>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static size_t num_nodes_default = 0;
-			static Function f = { &namspc({ "two", "ui" }), "canvas", funcptr<two::CanvasHandle(*)(two::NodeKey, two::Widget&, size_t)>(two::ui::canvas), two_ui_canvas_116, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "num_nodes", type<size_t>(), Param::Default, &num_nodes_default } }, { &type<two::CanvasHandle>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "canvas", funcptr<two::CanvasHandle(*)(two::NodeKey, two::Widget, size_t)>(two::ui::canvas), two_ui_canvas_116, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "num_nodes", type<size_t>(), Param::Default, &num_nodes_default } }, { &type<two::CanvasHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "scrollable", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&)>(two::ui::scrollable), two_ui_scrollable_117, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "scrollable", funcptr<two::Widget(*)(two::NodeKey, two::Widget)>(two::ui::scrollable), two_ui_scrollable_117, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "multiselect_logic", funcptr<bool(*)(two::Widget&, two::Ref, stl::vector<two::Ref>&)>(two::ui::multiselect_logic), two_ui_multiselect_logic_118, { { "element", type<two::Widget>(), Param::Reference }, { "object", type<two::Ref>(), Param::Nullable }, { "selection", type<stl::vector<two::Ref>>(), Param::Reference } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "multiselect_logic", funcptr<bool(*)(two::Widget, two::Ref, stl::vector<two::Ref>&)>(two::ui::multiselect_logic), two_ui_multiselect_logic_118, { { "element", type<two::Widget>(),  }, { "object", type<two::Ref>(), Param::Nullable }, { "selection", type<stl::vector<two::Ref>>(), Param::Reference } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "select_logic", funcptr<bool(*)(two::Widget&, two::Ref, two::Ref&)>(two::ui::select_logic), two_ui_select_logic_119, { { "element", type<two::Widget>(), Param::Reference }, { "object", type<two::Ref>(), Param::Nullable }, { "selection", type<two::Ref>(), Param::Flags(Param::Nullable|Param::Reference) } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "select_logic", funcptr<bool(*)(two::Widget, two::Ref, two::Ref&)>(two::ui::select_logic), two_ui_select_logic_119, { { "element", type<two::Widget>(),  }, { "object", type<two::Ref>(), Param::Nullable }, { "selection", type<two::Ref>(), Param::Flags(Param::Nullable|Param::Reference) } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "element", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, two::Ref)>(two::ui::element), two_ui_element_120, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "object", type<two::Ref>(), Param::Nullable } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "element", funcptr<two::Widget(*)(two::NodeKey, two::Widget, two::Ref)>(two::ui::element), two_ui_element_120, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "object", type<two::Ref>(), Param::Nullable } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "dir_item", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const stl::string&)>(two::ui::dir_item), two_ui_dir_item_121, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<stl::string>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "dir_item", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const stl::string&)>(two::ui::dir_item), two_ui_dir_item_121, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<stl::string>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "file_item", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const stl::string&)>(two::ui::file_item), two_ui_file_item_122, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<stl::string>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "file_item", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const stl::string&)>(two::ui::file_item), two_ui_file_item_122, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<stl::string>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "file_list", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, stl::string&)>(two::ui::file_list), two_ui_file_list_123, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "path", type<stl::string>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "file_list", funcptr<two::Widget(*)(two::NodeKey, two::Widget, stl::string&)>(two::ui::file_list), two_ui_file_list_123, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "path", type<stl::string>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "file_browser", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, stl::string&)>(two::ui::file_browser), two_ui_file_browser_124, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "path", type<stl::string>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "file_browser", funcptr<two::Widget(*)(two::NodeKey, two::Widget, stl::string&)>(two::ui::file_browser), two_ui_file_browser_124, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "path", type<stl::string>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "dir_node", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const stl::string&, const stl::string&, bool)>(two::ui::dir_node), two_ui_dir_node_125, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "path", type<stl::string>(),  }, { "name", type<stl::string>(),  }, { "collapsed", type<bool>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "dir_node", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const stl::string&, const stl::string&, bool)>(two::ui::dir_node), two_ui_dir_node_125, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "path", type<stl::string>(),  }, { "name", type<stl::string>(),  }, { "collapsed", type<bool>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "file_node", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const stl::string&)>(two::ui::file_node), two_ui_file_node_126, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "name", type<stl::string>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "file_node", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const stl::string&)>(two::ui::file_node), two_ui_file_node_126, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "name", type<stl::string>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "file_tree", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, const stl::string&)>(two::ui::file_tree), two_ui_file_tree_127, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "path", type<stl::string>(),  } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "file_tree", funcptr<two::Widget(*)(two::NodeKey, two::Widget, const stl::string&)>(two::ui::file_tree), two_ui_file_tree_127, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "path", type<stl::string>(),  } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "ui" }), "command_line", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, stl::string&, stl::string&)>(two::ui::command_line), two_ui_command_line_128, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "text", type<stl::string>(), Param::Reference }, { "command", type<stl::string>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "command_line", funcptr<two::Widget(*)(two::NodeKey, two::Widget, stl::string&, stl::string&)>(two::ui::command_line), two_ui_command_line_128, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "text", type<stl::string>(), Param::Reference }, { "command", type<stl::string>(), Param::Reference } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static size_t num_lines_default = 0;
-			static Function f = { &namspc({ "two", "ui" }), "console", funcptr<two::Widget&(*)(two::NodeKey, two::Widget&, stl::string&, stl::string&, stl::string&, size_t)>(two::ui::console), two_ui_console_129, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "feed", type<stl::string>(), Param::Reference }, { "line", type<stl::string>(), Param::Reference }, { "command", type<stl::string>(), Param::Reference }, { "num_lines", type<size_t>(), Param::Default, &num_lines_default } }, { &type<two::Widget>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "console", funcptr<two::Widget(*)(two::NodeKey, two::Widget, stl::string&, stl::string&, stl::string&, size_t)>(two::ui::console), two_ui_console_129, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "feed", type<stl::string>(), Param::Reference }, { "line", type<stl::string>(), Param::Reference }, { "command", type<stl::string>(), Param::Reference }, { "num_lines", type<size_t>(), Param::Default, &num_lines_default } }, { &type<two::Widget>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 	}

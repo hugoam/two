@@ -45,7 +45,7 @@ namespace two
 		constr_ Batch(Item& item, uint16_t stride);
 
 		// adds this batch, moved into the object of a new child of a node of a graph
-		meth_ Batch& add(Gnode& parent);
+		meth_ Batch& add(Gnode parent);
 
 		attr_ Item* m_item = nullptr;
 		attr_ uint16_t m_stride;
@@ -74,7 +74,7 @@ namespace two
 		constr_ Item(Node3& node, const Model& model, uint32_t flags = 0, Material* material = nullptr);
 
 		// adds this item, moved into the object of a new child of a node of a graph
-		meth_ Item& add(Gnode& parent);
+		meth_ Item& add(Gnode parent);
 
 		attr_ Node3* m_node = nullptr;
 		attr_ Model* m_model = nullptr;

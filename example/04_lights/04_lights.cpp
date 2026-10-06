@@ -30,7 +30,7 @@ vector<LightInstance> create_light_grid(size_t size_x, size_t size_y)
 	return light_items;
 }
 
-void light_grid(Gnode& parent, span2d<LightInstance> light_grid, bool moving, LightType light_type, float range, float attenuation, float spot_angle, float spot_attenuation)
+void light_grid(Gnode parent, span2d<LightInstance> light_grid, bool moving, LightType light_type, float range, float attenuation, float spot_angle, float spot_attenuation)
 {
 	size_t size_x = light_grid.m_x / 2;
 	size_t size_y = light_grid.m_y / 2;
@@ -44,7 +44,7 @@ void light_grid(Gnode& parent, span2d<LightInstance> light_grid, bool moving, Li
 
 			float height = moving ? sinf(g_time + float(y + x) * 0.21f) * 5.f : 5.f;
 
-			Gnode& light_node = gfx::node(parent, center + vec3(x * spacing, height, y * spacing), angle_axis(c_pi2, x3));
+			Gnode light_node = gfx::node(parent, center + vec3(x * spacing, height, y * spacing), angle_axis(c_pi2, x3));
 			Light& light = gfx::light(light_node, light_type, false, light_item.colour, range, attenuation);
 			if(light_type == LightType::Spot)
 			{
@@ -60,9 +60,9 @@ void light_grid(Gnode& parent, span2d<LightInstance> light_grid, bool moving, Li
 }
 
 #ifdef DOCKBAR
-void ex_04_lights(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_04_lights(Shell& app, Widget parent, DockbarHandle dockbar)
 #else
-void ex_04_lights(Shell& app, Widget& parent)
+void ex_04_lights(Shell& app, Widget parent)
 #endif
 {
 	UNUSED(app);
@@ -78,7 +78,7 @@ void ex_04_lights(Shell& app, Widget& parent)
 	//viewer->m_viewport.m_to_gamma = true;
 	//viewer->m_viewport.comp<Tonemap>().m_enabled = true;
 
-	Gnode& scene = viewer->m_scene.begin();
+	Gnode scene = viewer->m_scene.begin();
 
 	Material& material = milky_white(app.m_gfx);
 
@@ -130,14 +130,14 @@ void ex_04_lights(Shell& app, Widget& parent)
 
 	if(ground)
 	{
-		Gnode& ground_node = gfx::node(scene, vec3(0.f, -5.f, 0.f));
+		Gnode ground_node = gfx::node(scene, vec3(0.f, -5.f, 0.f));
 		gfx::shape(ground_node, Rect(vec2(-50.f), vec2(100.f)), Symbol(), 0U, &material);
 	}
 
 #if DOCKBAR
-	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::columns(key(), *dock, { 0.3f, 0.7f });
+		Widget sheet = ui::columns(key(), *dock, { 0.3f, 0.7f });
 
 		ui::label(key(), sheet, "Zone :");
 		ui::color_field(key(), sheet, "Ambient", viewer->m_scene.m_env.m_radiance.m_ambient);

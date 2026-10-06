@@ -13,7 +13,7 @@ namespace two
 {
 	TWO_GFX_EXPORT mat4 fix_bone_pose(Node3& bone);
 
-	TWO_GFX_EXPORT void debug_draw_skeleton(Gnode& parent, const quat& position, const quat& rotation, Rig& rig);
+	TWO_GFX_EXPORT void debug_draw_skeleton(Gnode parent, const quat& position, const quat& rotation, Rig& rig);
 
 	export_ class refl_ TWO_GFX_EXPORT Skeleton
 	{

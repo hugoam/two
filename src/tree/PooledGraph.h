@@ -171,21 +171,19 @@ namespace two
 		enum Flags : uint8_t
 		{
 			Top = 1 << 0,
-			Retain = 1 << 1
+			Retain = 1 << 1,
+			Live = 1 << 2
 		};
 
 		PooledGraph()
 		{
 			this->add_index();
+			m_flags[0] = Live;
 		}
 
-		T* m_root = nullptr;
-
-		// the data every node has, by node index, an array for each type of data: declared before the nodes, which use their data until they're destroyed
+		// the data every node has, by node index, an array for each type of data
 		vector<unique<NodeArray>> m_arrays;
 
-		// the nodes, by index, in chunks where they don't move: the root is owned outside of the graph
-		NodeChunks<T> m_nodes;
 		vector<uint32_t> m_free;
 
 		// the structure, by node index
@@ -217,15 +215,16 @@ namespace two
 			unique<TNodeArray<T_Data>> array = make_unique<TNodeArray<T_Data>>();
 			array->create(0);
 			for(uint32_t index = 1; index < uint32_t(m_parent.size()); ++index)
-				if(m_nodes.live(index))
+				if(m_flags[index] & Live)
 					array->create(index);
 			TNodeArray<T_Data>& result = *array;
 			m_arrays.push_back(move(array));
 			return result;
 		}
 
-		inline T& node(uint32_t index) { return index == 0 ? *m_root : m_nodes[index]; }
-		inline T* node_or_null(uint32_t index) { return index == none ? nullptr : &this->node(index); }
+		// a node is a view of its index in the graph: none is the null node
+		inline T node(uint32_t index) { return T(*this, index); }
+		inline T node_or_null(uint32_t index) { return index == none ? T() : T(*this, index); }
 
 		// a handle to a node packs its index with the generation of the index: 0 is no node, as the generations start at 1
 		static constexpr uint32_t handle_shift = 24;
@@ -234,12 +233,12 @@ namespace two
 		inline uint32_t handle(uint32_t index) const { return (uint32_t(m_generation[index]) << handle_shift) | index; }
 
 		// the node of a handle, or null if the node is gone
-		inline T* resolve(uint32_t handle)
+		inline T resolve(uint32_t handle)
 		{
 			uint32_t index = handle & handle_mask;
 			if(handle == 0 || index >= m_generation.size() || m_generation[index] != (handle >> handle_shift))
-				return nullptr;
-			return &this->node(index);
+				return T();
+			return this->node(index);
 		}
 
 		inline uint32_t jump(uint32_t slot) const { return m_order[slot] != none ? m_descendants[m_order[slot]] + 1 : m_holes[slot]; }
@@ -294,7 +293,7 @@ namespace two
 			return this->template find_or_create_state<T_State>(index, static_cast<Args&&>(args)...).state;
 		}
 
-		inline T& update(uint32_t parent, uint32_t index)
+		inline T update(uint32_t parent, uint32_t index)
 		{
 			m_heartbeat[index] = m_heartbeat[parent];
 			m_next[index] = 0;
@@ -302,7 +301,7 @@ namespace two
 			return this->node(index);
 		}
 
-		inline T& begin(uint32_t index, bool preserve)
+		inline T begin(uint32_t index, bool preserve)
 		{
 #if TWO_DEBUG_GRAPH
 			assert(this->validate());
@@ -323,7 +322,7 @@ namespace two
 				this->remove_nodes(index, this->first_slot(index), m_descendants[index]);
 		}
 
-		inline T& subx(uint32_t parent, uint16_t index)
+		inline T subx(uint32_t parent, uint16_t index)
 		{
 			uint32_t slot = this->first_slot(parent);
 			for (uint16_t i = 0; i <= index; ++i)
@@ -347,7 +346,7 @@ namespace two
 
 		// a keyed child is looked up by its key from the current position, and moved there: it keeps its state when the children before it change
 		// a child without key is matched by its position
-		inline T& sub(uint32_t parent, NodeKey key)
+		inline T sub(uint32_t parent, NodeKey key)
 		{
 			uint32_t slot = m_slot[parent] + m_cursor[parent];
 			uint32_t end = this->end_slot(parent);
@@ -373,7 +372,7 @@ namespace two
 		}
 
 		// a top node is looked up by its key in the whole graph, and attached to this node, whatever node it was attached to before
-		inline T& sub_top(uint32_t parent, NodeKey key)
+		inline T sub_top(uint32_t parent, NodeKey key)
 		{
 			auto it = m_tops.find(key.m_value);
 			uint32_t index = it != m_tops.end() ? it->second : none;
@@ -421,13 +420,13 @@ namespace two
 				if (m_order[slot] != none)
 				{
 					uint32_t index = m_order[slot];
-					check(m_nodes.live(index) && m_slot[index] == slot);
+					check((m_flags[index] & Live) != 0 && m_slot[index] == slot);
 					uint32_t parent = this->storage_parent(index);
 					if (parent != none)
 						check(slot >= this->first_slot(parent) && slot + m_descendants[index] < this->end_slot(parent));
 				}
 			for (uint32_t index : m_free)
-				check(!m_nodes.live(index));
+				check((m_flags[index] & Live) == 0);
 			return valid;
 		}
 
@@ -461,7 +460,6 @@ namespace two
 		// the node is destroyed, and its index freed, reset for the next node to take it
 		inline void free_index(uint32_t index)
 		{
-			m_nodes.destroy(index);
 			for(unique<NodeArray>& array : m_arrays)
 				array->destroy(index);
 			m_parent[index] = none;
@@ -486,11 +484,10 @@ namespace two
 		{
 			uint32_t index = this->add_index();
 			m_parent[index] = parent;
-			m_flags[index] = top ? Top : 0;
+			m_flags[index] = uint8_t((top ? Top : 0) | Live);
 			m_tree[index] = top ? index : m_tree[parent];
 			for(unique<NodeArray>& array : m_arrays)
 				array->create(index);
-			m_nodes.construct(index, &this->node(parent)).m_index = index;
 			return index;
 		}
 
@@ -532,7 +529,7 @@ namespace two
 				for (uint32_t top : *m_attached[index])
 				{
 					m_parent[top] = none;
-					this->node(top).reparent(&this->node(index));
+					this->node(top).reparent(this->node(index));
 				}
 			// the node unlinks what refers to it, while its states are still there
 			this->node(index).release();
@@ -560,7 +557,7 @@ namespace two
 		}
 
 		// the node at the slot is the next child: the following children go after its descendants
-		inline T& place_node(uint32_t parent, uint32_t slot)
+		inline T place_node(uint32_t parent, uint32_t slot)
 		{
 			uint32_t index = m_order[slot];
 			m_cursor[parent] = slot - m_slot[parent] + this->jump(slot);
@@ -666,24 +663,30 @@ namespace two
 		}
 	};
 
-	// a node of a pooled graph: it knows its index in the graph, which holds its structure, and declares its children, matching them to the ones of the last frame
+	// a node of a pooled graph, a view of its index in the graph, which holds its structure: it declares its children, matching them to the ones of the last frame
+	// a node without a graph is the null node
 	export_ template <class T>
 	class PooledNode
 	{
 	public:
-		PooledNode(PooledGraph<T>& graph) : m_graph(&graph), m_index(0) {}
-		PooledNode(T* parent) : m_graph(parent->m_graph) {}
-
-		PooledNode(PooledNode<T>&& other) = default;
-		PooledNode<T>& operator=(PooledNode<T>&& other) = default;
+		PooledNode() {}
+		PooledNode(PooledGraph<T>& graph, uint32_t index) : m_graph(&graph), m_index(index) {}
 
 		PooledGraph<T>* m_graph = nullptr;
 		uint32_t m_index = PooledGraph<T>::none;
 
 		inline T& impl() { return static_cast<T&>(*this); }
 
-		inline T& root() { return *m_graph->m_root; }
-		inline T* parent() { return m_graph->node_or_null(m_graph->m_parent[m_index]); }
+		explicit operator bool() const { return m_graph != nullptr; }
+		bool operator==(const PooledNode<T>& other) const { return m_graph == other.m_graph && m_index == other.m_index; }
+		bool operator==(nullptr_t) const { return m_graph == nullptr; }
+
+		// a node is used like the pointer to a node it replaces
+		inline T* operator->() const { return const_cast<T*>(static_cast<const T*>(this)); }
+		inline T& operator*() const { return *const_cast<T*>(static_cast<const T*>(this)); }
+
+		inline T root() { return m_graph->node(0); }
+		inline T parent() { return m_graph->node_or_null(m_graph->m_parent[m_index]); }
 		inline uint16_t sibling() const { return m_graph->m_sibling[m_index]; }
 		inline uint16_t next() const { return m_graph->m_next[m_index]; }
 		inline uint32_t heartbeat() const { return m_graph->m_heartbeat[m_index]; }
@@ -698,7 +701,7 @@ namespace two
 			{
 				PooledGraph<T>* graph; uint32_t parent; uint32_t slot; uint32_t last; vector<uint32_t>* attached; size_t index;
 
-				T& operator*() const { return slot < last ? graph->node(graph->m_order[slot]) : graph->node((*attached)[index]); }
+				T operator*() const { return slot < last ? graph->node(graph->m_order[slot]) : graph->node((*attached)[index]); }
 				iterator& operator++() { if (slot < last) { slot += graph->jump(slot); skip(); } else ++index; return *this; }
 				bool operator!=(const iterator& other) const { return slot != other.slot || index != other.index; }
 				bool operator==(const iterator& other) const { return slot == other.slot && index == other.index; }
@@ -715,10 +718,10 @@ namespace two
 		inline span<uint32_t> descendants() { return { m_graph->m_order.data() + m_graph->first_slot(m_index), m_graph->m_descendants[m_index] }; }
 		// the indices of the top nodes attached
 		inline span<uint32_t> attached() { vector<uint32_t>* attached = m_graph->m_attached[m_index].get(); return attached ? span<uint32_t>(*attached) : span<uint32_t>(); }
-		inline T& child(uint32_t index) { auto it = this->children().begin(); while (index--) ++it; return *it; }
+		inline T child(uint32_t index) { auto it = this->children().begin(); while (index--) ++it; return *it; }
 		inline uint32_t child_count() { uint32_t count = 0; for (auto it = this->children().begin(); it != this->children().end(); ++it) ++count; return count; }
-		inline bool is_first(T& child) { return &*this->children().begin() == &child; }
-		inline bool is_last(T& child)
+		inline bool is_first(const T& child) { return (*this->children().begin()).m_index == child.m_index; }
+		inline bool is_last(const T& child)
 		{
 			vector<uint32_t>* attached = m_graph->m_attached[m_index].get();
 			if (attached && !attached->empty())
@@ -729,12 +732,12 @@ namespace two
 		}
 
 		inline void clear() { m_graph->clear(m_index); }
-		inline T& begin(bool preserve = false) { return m_graph->begin(m_index, preserve); }
+		inline T begin(bool preserve = false) { return m_graph->begin(m_index, preserve); }
 
-		inline T& subx(uint16_t index) { return m_graph->subx(m_index, index); }
-		inline T& sub(NodeKey key) { return m_graph->sub(m_index, key); }
-		inline T& sub_top(NodeKey key) { return m_graph->sub_top(m_index, key); }
-		inline T& suba() { return m_graph->subx(m_index, m_graph->m_next[m_index]++); }
+		inline T subx(uint16_t index) { return m_graph->subx(m_index, index); }
+		inline T sub(NodeKey key) { return m_graph->sub(m_index, key); }
+		inline T sub_top(NodeKey key) { return m_graph->sub_top(m_index, key); }
+		inline T suba() { return m_graph->subx(m_index, m_graph->m_next[m_index]++); }
 
 		// the state of this node of the given type, created on first use, and destroyed with the node
 		template <class T_State, class... Args>

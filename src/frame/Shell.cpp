@@ -161,13 +161,13 @@ namespace two
 		return *m_windows[0];
 	}
 
-	void shell_context(Widget& parent, ShellContext& context)
+	void shell_context(Widget parent, ShellContext& context)
 	{
 #if 0
 		edit_context(parent, context, true);
 #else
-		Widget& board = ui::board(key(), parent);
-		context.m_screen = &ui::board(key(), board);
+		Widget board = ui::board(key(), parent);
+		context.m_screen = ui::board(key(), board);
 		context.m_dockbar = ui::dockbar(key(), board, context.m_docksystem);
 #endif
 	}

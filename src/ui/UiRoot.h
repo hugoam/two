@@ -31,7 +31,7 @@ namespace two
 		Ui(UiWindow& window);
 		~Ui();
 
-		meth_ Widget& begin();
+		meth_ Widget begin();
 
 		void input_frame();
 		void render_frame();
@@ -46,8 +46,8 @@ namespace two
 		// the receiver transforms the event, unless it's consumed already
 		virtual void receive(InputEvent& event, ControlId receiver) override;
 
-		Widget& control(ControlId id) { return PooledGraph<Widget>::node(id.m_index); }
-		Widget* find_control(ControlId id) { return id ? &this->control(id) : nullptr; }
+		Widget control(ControlId id) { return PooledGraph<Widget>::node(id.m_index); }
+		Widget find_control(ControlId id) { return id ? this->control(id) : Widget(); }
 
 	public:
 		// the frames of the widgets, by node index: declared first, the root's frame is used from the constructor

@@ -83,10 +83,10 @@ void two_MeshAdapter_uv0(void* object, span<void*> args, void*& result) { result
 void two_MeshAdapter_uv1(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::MeshAdapter*>(object)).uv1(*static_cast<two::vec2*>(args[0])); }
 void two_MeshAdapter_joints(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::MeshAdapter*>(object)).joints(*static_cast<uint32_t*>(args[0])); }
 void two_MeshAdapter_weights(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::MeshAdapter*>(object)).weights(*static_cast<two::vec4*>(args[0])); }
-void* two_Shape__get_type(void* object) { return &(*static_cast<two::Shape*>(object)).m_type; }
+void two_Shape__get_type(void* object, void*& result) { result = &(*static_cast<two::Shape*>(object)).m_type; }
 void two_ShapeVar__default_construct(void* ref) { new(stl::placeholder(), ref) two::ShapeVar(); }
 void two_ShapeVar__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ShapeVar( *static_cast<two::Shape*>(args[0]) ); }
-void* two_ShapeVar__get_shape(void* object) { return &(*static_cast<two::ShapeVar*>(object)).shape(); }
+void two_ShapeVar__get_shape(void* object, void*& result) { result = &(*static_cast<two::ShapeVar*>(object)).shape(); }
 void two_Geometry__default_construct(void* ref) { new(stl::placeholder(), ref) two::Geometry(); }
 void two_MeshPacker__default_construct(void* ref) { new(stl::placeholder(), ref) two::MeshPacker(); }
 void two_MeshPacker__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::MeshPacker((*static_cast<two::MeshPacker*>(other))); }

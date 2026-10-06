@@ -30,7 +30,7 @@ using namespace two;
 // xx_geom_dynamic
 
 #if UI
-using ExampleFunc = void(*)(ShellX&, Widget&, DockbarHandle, bool);
+using ExampleFunc = void(*)(ShellX&, Widget, DockbarHandle, bool);
 #else
 using ExampleFunc = void(*)(ShellX&, WindowX&, bool);
 #endif
@@ -136,24 +136,24 @@ void ex_xx_three(ShellX& app, WindowX& window, bool& init, uint32_t& example)
 }
 
 #else
-void ex_xx_three(ShellX& app, Widget& parent, DockbarHandle dockbar, bool& init, uint32_t& example)
+void ex_xx_three(ShellX& app, Widget parent, DockbarHandle dockbar, bool& init, uint32_t& example)
 {
 	static vector<cstring> labels = example_labels();
 
 #if !MULTI_VIEWPORT
 #if SIDE_PANEL
-	Widget& sheet = ui::board(key(), parent);
+	Widget sheet = ui::board(key(), parent);
 	bool changed = ui::radio_switch(key(), sheet, labels, example, Axis::Y);
 #else
-	Widget& sheet = ui::sheet(key(), parent);
+	Widget sheet = ui::sheet(key(), parent);
 	bool changed = ui::dropdown_field(key(), sheet, "switch example:", labels, example);
 #endif
 #else
-	Widget& sheet = parent;
+	Widget sheet = parent;
 	bool changed = false;
 #endif
 
-	Widget& canvas = ui::sheet(key(), sheet);
+	Widget canvas = ui::sheet(key(), sheet);
 
 	if(changed)
 	{
@@ -221,15 +221,15 @@ int main(int argc, char *argv[])
 #if MULTI_VIEWPORT
 		shell_context(w0.m_ui->begin(), app.m_editor);
 
-		Widget& screen = ui::sheet(key(), *app.m_editor.m_screen);
+		Widget screen = ui::sheet(key(), *app.m_editor.m_screen);
 
-		Widget& row0 = ui::board(key(), screen);
-		Widget& row1 = ui::board(key(), screen);
+		Widget row0 = ui::board(key(), screen);
+		Widget row1 = ui::board(key(), screen);
 
 		for(size_t i = 0; i < 6; ++i)
 		{
-			Widget& parent = i < 3 ? row0 : row1;
-			Widget& panel = ui::sheet(key(), parent);
+			Widget parent = i < 3 ? row0 : row1;
+			Widget panel = ui::sheet(key(), parent);
 			ex_xx_three(app, panel, app.m_editor.m_dockbar, init[i], example[i]);
 	}
 #else

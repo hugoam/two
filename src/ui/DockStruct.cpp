@@ -32,7 +32,7 @@ namespace two
 
 	Docker* DockerHandle::find_docker() const
 	{
-		Widget* widget = this->get();
+		Widget widget = this->get();
 		if(!widget)
 			return nullptr;
 		if(Dockspace* dockspace = widget->find_state<Dockspace>())
@@ -137,7 +137,7 @@ namespace two
 		m_pending_undocks.push_back({ &dock, name });
 	}
 
-	void Docker::apply_pending(Widget& self)
+	void Docker::apply_pending(Widget self)
 	{
 		for(PendingUndock& undock : m_pending_undocks)
 			this->dock_remove(*undock.dock, undock.name.c_str());
@@ -189,9 +189,9 @@ namespace two
 		: Docker(docksystem)
 	{}
 
-	Dockspace::DockedWindow* Dockspace::pinpoint_dock(Widget& self, const vec2& pos)
+	Dockspace::DockedWindow* Dockspace::pinpoint_dock(Widget self, const vec2& pos)
 	{
-		Widget* widget = self.pinpoint(self.local_position(pos), [](Frame& frame) { return frame.d_style == &ui::window_styles().dock_window; });
+		Widget widget = self.pinpoint(self.local_position(pos), [](Frame& frame) { return frame.d_style == &ui::window_styles().dock_window; });
 		// the docks shown in the last frame might have been removed since
 		for(DockedWindow& docked : m_docked)
 			if(docked.window == widget && has_pred(m_docks, [&](auto& dock) { return dock.get() == docked.dock; }))
@@ -199,26 +199,26 @@ namespace two
 		return nullptr;
 	}
 
-	Widget* Dockspace::docksection(Dock& dock, cstring name, NodeKey id)
+	Widget Dockspace::docksection(Dock& dock, cstring name, NodeKey id)
 	{
 		vector<uint16_t> dockid = reverse(dock.m_dockid);
-		Widget* line = m_mainline.get();
+		Widget line = m_mainline.get();
 
 		Axis dim = Axis::Y;
 		while(dockid.size() > 0)
 		{
 			uint16_t index = pop(dockid);
 			dim = flip(dim);
-			line = &ui::dockline(*line, index, dim);
+			line = ui::dockline(*line, index, dim);
 			if(dockid.size() == 0 && dock.m_span > 0.f && line->frame().m_span[flip(dim)] == 1.f)
 				line->set_span(flip(dim), dock.m_span);
 		}
 
 		Tabber section = ui::docksection(*line);
 		size_t index = section.state.m_index;
-		Widget* tab = ui::tab(id, section, name); // dock_styles().docktab, 
+		Widget tab = ui::tab(id, section, name); // dock_styles().docktab, 
 
-		Widget& header = section.head.child(uint32_t(index));
+		Widget header = section.head.child(uint32_t(index));
 		if(header.mouse_event(DeviceType::MouseLeft, EventType::DragStarted))
 		{
 			this->undock(dock, name);
@@ -228,14 +228,14 @@ namespace two
 		if(tab)
 		{
 			Window container = ui::window(id, *tab, name, WindowState::Dockable, &dock);
-			m_docked.push_back({ &container.self, &dock });
+			m_docked.push_back({ container.self, &dock });
 			return container.body;
 		}
 
 		return tab;
 	}
 
-	void Dockspace::dock(Widget& self, cstring name, const vec2& pos)
+	void Dockspace::dock(Widget self, cstring name, const vec2& pos)
 	{
 		DockedWindow* target = pinpoint_dock(self, pos);
 		if(target)
@@ -248,7 +248,7 @@ namespace two
 		}
 	}
 
-	void Dockspace::dock(cstring name, Dock& target, Widget& window, const vec2& pos)
+	void Dockspace::dock(cstring name, Dock& target, Widget window, const vec2& pos)
 	{
 		const Frame& frame = window.frame();
 		vec2 local = window.local_position(pos);
@@ -275,10 +275,10 @@ namespace two
 		: Docker(docksystem)
 	{}
 
-	Widget* Dockbar::docksection(Dock& dock, cstring name, NodeKey id)
+	Widget Dockbar::docksection(Dock& dock, cstring name, NodeKey id)
 	{
 		string icon = "(" + to_lower(replace(name, " ", "")) + ")";
-		Widget& toggle = ui::button(id, *m_togglebar, ui::dock_styles().docktoggle, icon.c_str());
+		Widget toggle = ui::button(id, *m_togglebar, ui::dock_styles().docktoggle, icon.c_str());
 		if(toggle.mouse_event(DeviceType::MouseLeft, EventType::DragStarted))
 		{
 			if(m_current_tab == dock.m_dockid.back())
@@ -298,7 +298,7 @@ namespace two
 			return nullptr;
 	}
 
-	void Dockbar::dock(Widget& self, cstring name, const vec2& pos)
+	void Dockbar::dock(Widget self, cstring name, const vec2& pos)
 	{
 		UNUSED(self); UNUSED(pos);
 		// the dockbar is a single row of tabs: a docked item is stacked after the last one, and opened
@@ -309,7 +309,7 @@ namespace two
 		m_current_tab = index;
 	}
 
-	void Dockbar::apply_pending(Widget& self)
+	void Dockbar::apply_pending(Widget self)
 	{
 		// the open tab moves back if the dock of a tab before it is removed
 		for(PendingUndock& undock : m_pending_undocks)

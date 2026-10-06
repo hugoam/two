@@ -14,13 +14,13 @@ namespace two
 		Flow m_particles;
 	};
 
-	void cube_test(Gnode& parent)
+	void cube_test(Gnode parent)
 	{
-		Gnode& self = gfx::node(parent);
+		Gnode self = gfx::node(parent);
 		gfx::shape(self, Cube(1.f), Symbol());
 	}
 
-	void particle_editor_viewer(Widget& parent, Flow& particles)
+	void particle_editor_viewer(Widget parent, Flow& particles)
 	{
 		SceneViewerHandle viewer = ui::scene_viewer(key(), parent, vec2(500.f));
 		ui::orbit_controller(viewer);
@@ -28,7 +28,7 @@ namespace two
 		//viewer->m_clear_colour = Colour::DarkGrey;
 		//viewer->m_camera.set_isometric(SOUTH, vec3(0.f));
 
-		Gnode& scene = viewer->m_scene.begin();
+		Gnode scene = viewer->m_scene.begin();
 		gfx::flows(scene, particles);
 
 		Shape* shape = particles.m_shape.m_shape.get();
@@ -44,7 +44,7 @@ namespace two
 		SAVE_PARTICLES = 1 << 1
 	};
 
-	void open_particles(Widget& parent, GfxSystem& system, Flow& generator)
+	void open_particles(Widget parent, GfxSystem& system, Flow& generator)
 	{
 		static string location = "";
 		if(select_value(parent, OPEN_PARTICLES, location, true))
@@ -56,7 +56,7 @@ namespace two
 		}
 	}
 
-	void save_particles(Widget& parent, GfxSystem& system, Flow& generator)
+	void save_particles(Widget parent, GfxSystem& system, Flow& generator)
 	{
 		static string destination = "";
 		if(select_value(parent, SAVE_PARTICLES, destination, true))
@@ -65,7 +65,7 @@ namespace two
 		}
 	}
 
-	void particle_edit(Widget& parent, GfxSystem& system, Flow& generator)
+	void particle_edit(Widget parent, GfxSystem& system, Flow& generator)
 	{
 		Section self = section(key(), parent, "Particle Editor");
 
@@ -78,9 +78,9 @@ namespace two
 			save_particles(self, system, generator);
 	}
 
-	void particle_editor(Widget& parent, GfxSystem& system)
+	void particle_editor(Widget parent, GfxSystem& system)
 	{
-		Widget& self = ui::sheet(key(), parent);
+		Widget self = ui::sheet(key(), parent);
 		ParticleEditorState& state = self.state<ParticleEditorState>();
 		particle_edit(self, system, state.m_particles);
 	}

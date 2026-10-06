@@ -6,4 +6,4 @@
 
 using namespace two;
 
-void ex_20_meta(Shell& app, Widget& parent, DockbarHandle dockbar);
+void ex_20_meta(Shell& app, Widget parent, DockbarHandle dockbar);

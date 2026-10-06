@@ -111,6 +111,11 @@ namespace two
 		return this->get(cast(object));
 	}
 
+	inline void Member::cast_get(Ref object, Var& result) const
+	{
+		this->get(cast(object), result);
+	}
+
 #if 0
 	inline Var Member::safe_get(Ref object) const
 	{

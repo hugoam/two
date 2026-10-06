@@ -6,7 +6,7 @@
 
 #include <ui/Forward.h>
 #include <ui/Style/Style.h>
-#include <ui/Widget.h>
+#include <ui/WidgetStruct.h>
 
 namespace two
 {
@@ -34,6 +34,6 @@ namespace ui
 
 	export_ TWO_UI_EXPORT WindowStyles& window_styles();
 
-	export_ TWO_UI_EXPORT Window window(NodeKey id, Widget& parent, cstring title, WindowState state = WindowState::Default, Dock* dock = nullptr, Docksystem* docksystem = nullptr);
+	export_ TWO_UI_EXPORT Window window(NodeKey id, Widget parent, cstring title, WindowState state = WindowState::Default, Dock* dock = nullptr, Docksystem* docksystem = nullptr);
 }
 }

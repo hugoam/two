@@ -8,12 +8,12 @@ module two.ui;
 
 namespace two
 {
-	Widget& Widget::layer()
+	Widget Widget::layer()
 	{
 		if(this->find_state<Layer>())
 			return *this;
 		Layer& layer = this->state<Layer>();
-		if(Widget* parent = this->parent())
+		if(Widget parent = this->parent())
 			parent->layer_widget().add_sublayer(*this, layer);
 		return *this;
 	}
@@ -27,7 +27,7 @@ namespace two
 				m_graph->node(layer->d_parent).remove_sublayer(*this, *layer);
 	}
 
-	Widget& Widget::layer_widget()
+	Widget Widget::layer_widget()
 	{
 		return this->find_state<Layer>() ? *this : this->parent()->layer_widget();
 	}
@@ -48,7 +48,7 @@ namespace two
 	{
 		auto z = [&](uint32_t node) -> size_t
 		{
-			Widget& widget = m_graph->node(node);
+			Widget widget = m_graph->node(node);
 			const Layout& layout = *widget.frame().d_layout;
 			return layout.m_zorder ? layout.m_zorder : widget.find_state<Layer>()->d_z;
 		};
@@ -66,7 +66,7 @@ namespace two
 		this->reindex_layers();
 	}
 
-	void Widget::add_sublayer(Widget& widget, Layer& sublayer)
+	void Widget::add_sublayer(Widget widget, Layer& sublayer)
 	{
 		Layer& layer = *this->find_state<Layer>();
 		sublayer.d_parent = m_index;
@@ -75,7 +75,7 @@ namespace two
 		this->reorder_layers();
 	}
 
-	void Widget::remove_sublayer(Widget& widget, Layer& sublayer)
+	void Widget::remove_sublayer(Widget widget, Layer& sublayer)
 	{
 		Layer& layer = *this->find_state<Layer>();
 		remove(layer.d_sublayers, widget.m_index);
@@ -87,7 +87,7 @@ namespace two
 	void Widget::move_layer_to_top()
 	{
 		Layer& layer = *this->find_state<Layer>();
-		Widget& parent = m_graph->node(layer.d_parent);
+		Widget parent = m_graph->node(layer.d_parent);
 		parent.remove_sublayer(*this, layer);
 		parent.add_sublayer(*this, layer);
 	}

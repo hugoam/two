@@ -10,10 +10,10 @@ namespace two
 {
 namespace ui
 {
-	Widget& command_line(NodeKey id, Widget& parent, string& text, string& command)
+	Widget command_line(NodeKey id, Widget parent, string& text, string& command)
 	{
 		string console_chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .,:;+-*=~!()[]{}'\"\t";
-		Widget& self = ui::type_in(id, parent, text, 1, console_chars).self();
+		Widget self = ui::type_in(id, parent, text, 1, console_chars).self();
 
 		if(self.key_stroke(Key::Return))
 		{
@@ -25,10 +25,10 @@ namespace ui
 		return self;
 	}
 
-	Widget& console(NodeKey id, Widget& parent, string& feed, string& line, string& command, size_t num_lines)
+	Widget console(NodeKey id, Widget parent, string& feed, string& line, string& command, size_t num_lines)
 	{
 		//ui::stack(key(), self);
-		Widget& self = ui::sheet(id, parent);
+		Widget self = ui::sheet(id, parent);
 		ui::text_edit(key(), self, feed, num_lines);
 		ui::command_line(key(), self, line, command);
 		

@@ -41,7 +41,7 @@ import two.frame;
 
 using namespace two;
 
-void speed_key(Widget& widget, vec3& speed, Key key, vec3 speed_offset)
+void speed_key(Widget widget, vec3& speed, Key key, vec3 speed_offset)
 {
 	if(widget.key_event(key, EventType::Pressed))
 		speed += speed_offset;
@@ -49,7 +49,7 @@ void speed_key(Widget& widget, vec3& speed, Key key, vec3 speed_offset)
 		speed -= speed_offset;
 }
 
-void velocity_controller(Widget& widget, vec3& speed, float velocity)
+void velocity_controller(Widget widget, vec3& speed, float velocity)
 {
 	struct KeyMove { Key key; vec3 dir; };
 	const KeyMove moves[8] =
@@ -64,7 +64,7 @@ void velocity_controller(Widget& widget, vec3& speed, float velocity)
 		speed_key(widget, speed, key_move.key, key_move.dir * velocity);
 }
 
-void ex_00_cube(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_00_cube(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
 	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
@@ -77,8 +77,8 @@ void ex_00_cube(Shell& app, Widget& parent, DockbarHandle dockbar)
 	velocity_controller(viewer.self(), speed, 0.01f);
 	position += speed;
 
-	Gnode& scene = viewer->m_scene.begin();
-    Gnode& node = gfx::node(scene, position);
+	Gnode scene = viewer->m_scene.begin();
+    Gnode node = gfx::node(scene, position);
 	gfx::shape(node, Cube(), Symbol::wire(Colour::Pink));
 }
 

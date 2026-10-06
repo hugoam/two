@@ -14,10 +14,10 @@ namespace two
 	PrefabNode::PrefabNode()
 	{}
 
-	void PrefabNode::draw(Gnode& parent)
+	void PrefabNode::draw(Gnode parent)
 	{
-		Gnode& self = gfx::node(parent); // , m_object);
-		Gnode& item = gfx::node(self, m_transform.m_position, m_transform.m_rotation, m_transform.m_scale); // Ref(this), 
+		Gnode self = gfx::node(parent); // , m_object);
+		Gnode item = gfx::node(self, m_transform.m_position, m_transform.m_rotation, m_transform.m_scale); // Ref(this), 
 
 		if(m_call.m_callable)
 			m_call.m_args[0] = Ref(&item);
@@ -35,7 +35,7 @@ namespace two
 		: m_name(name)
 	{}
 
-	void Prefab::add(Gnode& parent, Mime* mime)
+	void Prefab::add(Gnode parent, Mime* mime)
 	{
 		vector<Node3*> nodes;
 		for(const Node3& node : m_nodes)

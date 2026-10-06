@@ -15,9 +15,9 @@ namespace two
 namespace ui
 {
 	export_ template <class T>
-	bool slider_input(NodeKey id, Widget& parent, T& value, StatDef<T> def, Axis dim)
+	bool slider_input(NodeKey id, Widget parent, T& value, StatDef<T> def, Axis dim)
 	{
-		Widget& self = widget(id, parent, styles().slider_input);
+		Widget self = widget(id, parent, styles().slider_input);
 		const SliderMetrics metrics = { float(def.m_min), float(def.m_max), float(def.m_step) };
 		float slider_value = float(value);
 		const bool changed = slider(key(), self, slider_value, metrics, dim);
@@ -27,7 +27,7 @@ namespace ui
 	}
 
 	export_ template <class T>
-	bool number_type_in(NodeKey id, Widget& parent, T& value)
+	bool number_type_in(NodeKey id, Widget parent, T& value)
 	{
 		string text = truncate_number(to_string(value));
 		TextEdit& self = *type_in(id, parent, text, 0, is_float<T> ? "1234567890." : "1234567890");
@@ -40,9 +40,9 @@ namespace ui
 	}
 
 	export_ template <class T>
-	bool number_input(NodeKey id, Widget& parent, T& value, StatDef<T> def)
+	bool number_input(NodeKey id, Widget parent, T& value, StatDef<T> def)
 	{
-		Widget& self = widget(id, parent, styles().number_input);
+		Widget self = widget(id, parent, styles().number_input);
 		bool changed = false;
 
 		changed |= number_type_in<T>(key(), self, value);
@@ -61,56 +61,56 @@ namespace ui
 	}
 
 	template <>
-	inline bool number_input(NodeKey id, Widget& parent, float& value, StatDef<float> def)
+	inline bool number_input(NodeKey id, Widget parent, float& value, StatDef<float> def)
 	{
 		return drag_float(id, parent, value, def.m_step);
 	}
 
 	export_ template <class T>
-	inline enable_if<is_number<T>, bool> input(NodeKey id, Widget& parent, T& value, StatDef<T> def)
+	inline enable_if<is_number<T>, bool> input(NodeKey id, Widget parent, T& value, StatDef<T> def)
 	{
 		return number_input(id, parent, value, def);
 	}
 
 	template <>
-	inline bool input(NodeKey id, Widget& parent, bool& value)
+	inline bool input(NodeKey id, Widget parent, bool& value)
 	{
-		Widget& self = widget(id, parent, styles().input_bool);
+		Widget self = widget(id, parent, styles().input_bool);
 		return checkbox(key(), self, value).activated();
 	}
 
 	template <>
-	inline bool input(NodeKey id, Widget& parent, string& value)
+	inline bool input(NodeKey id, Widget parent, string& value)
 	{
-		Widget& self = widget(id, parent, styles().input_string);
+		Widget self = widget(id, parent, styles().input_string);
 		return text_box(key(), self, styles().type_in, value, false, 1)->m_changed;
 	}
 
 	template <>
-	inline bool input(NodeKey id, Widget& parent, int& value, StatDef<int> def) { return number_input(id, parent, value, def); }
+	inline bool input(NodeKey id, Widget parent, int& value, StatDef<int> def) { return number_input(id, parent, value, def); }
 
 	template <>
-	inline bool input(NodeKey id, Widget& parent, float& value, StatDef<float> def) { return number_input(id, parent, value, def); }
+	inline bool input(NodeKey id, Widget parent, float& value, StatDef<float> def) { return number_input(id, parent, value, def); }
 
 	template <>
-	inline bool field(NodeKey id, Widget& parent, cstring name, bool& value, bool reverse) { return do_field(id, [&](Widget& self) { return input<bool>(key(), self, value); }, parent, name, reverse); }
+	inline bool field(NodeKey id, Widget parent, cstring name, bool& value, bool reverse) { return do_field(id, [&](Widget self) { return input<bool>(key(), self, value); }, parent, name, reverse); }
 
 	template <>
-	inline bool field(NodeKey id, Widget& parent, cstring name, string& value, bool reverse) { return do_field(id, [&](Widget& self) { return input<string>(key(), self, value); }, parent, name, reverse); }
+	inline bool field(NodeKey id, Widget parent, cstring name, string& value, bool reverse) { return do_field(id, [&](Widget self) { return input<string>(key(), self, value); }, parent, name, reverse); }
 
 	template <>
-	inline bool field(NodeKey id, Widget& parent, cstring name, int& value, StatDef<int> def, bool reverse) { return do_field(id, [&](Widget& self) { return number_input<int>(key(), self, value, def); }, parent, name, reverse); }
+	inline bool field(NodeKey id, Widget parent, cstring name, int& value, StatDef<int> def, bool reverse) { return do_field(id, [&](Widget self) { return number_input<int>(key(), self, value, def); }, parent, name, reverse); }
 
 	template <>
-	inline bool field(NodeKey id, Widget& parent, cstring name, float& value, StatDef<float> def, bool reverse) { return do_field(id, [&](Widget& self) { return number_input<float>(key(), self, value, def); }, parent, name, reverse); }
+	inline bool field(NodeKey id, Widget parent, cstring name, float& value, StatDef<float> def, bool reverse) { return do_field(id, [&](Widget self) { return number_input<float>(key(), self, value, def); }, parent, name, reverse); }
 
 	template <>
-	inline bool input(NodeKey id, Widget& parent, vec3& value) { return vec3_edit(id, parent, value); }
+	inline bool input(NodeKey id, Widget parent, vec3& value) { return vec3_edit(id, parent, value); }
 
 	template <>
-	inline bool input(NodeKey id, Widget& parent, quat& value) { return quat_edit(id, parent, value); }
+	inline bool input(NodeKey id, Widget parent, quat& value) { return quat_edit(id, parent, value); }
 
 	template <>
-	inline bool input(NodeKey id, Widget& parent, Colour& value) { return color_toggle_edit(id, parent, value); }
+	inline bool input(NodeKey id, Widget parent, Colour& value) { return color_toggle_edit(id, parent, value); }
 }
 }

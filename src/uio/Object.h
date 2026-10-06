@@ -11,10 +11,10 @@ namespace two
 	export_ TWO_UIO_EXPORT string object_name(Ref object);
 	export_ TWO_UIO_EXPORT string object_icon(Ref object);
 
-	export_ TWO_UIO_EXPORT Widget& object_button(Widget& parent, Ref object);
-	export_ TWO_UIO_EXPORT Widget& object_item(Widget& parent, Ref object);
-	export_ TWO_UIO_EXPORT bool object_item(Widget& parent, Ref object, Ref& selection);
-	export_ TWO_UIO_EXPORT bool object_item(Widget& parent, Ref object, vector<Ref>& selection);
+	export_ TWO_UIO_EXPORT Widget object_button(Widget parent, Ref object);
+	export_ TWO_UIO_EXPORT Widget object_item(Widget parent, Ref object);
+	export_ TWO_UIO_EXPORT bool object_item(Widget parent, Ref object, Ref& selection);
+	export_ TWO_UIO_EXPORT bool object_item(Widget parent, Ref object, vector<Ref>& selection);
 
-	export_ TWO_UIO_EXPORT Widget& entity_item(Widget& parent, Entity entity);
+	export_ TWO_UIO_EXPORT Widget entity_item(Widget parent, Entity entity);
 }

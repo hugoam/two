@@ -56,17 +56,17 @@ static TextScript create_script()
 	return script;
 }
 
-void ex_15_script(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_15_script(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 	UNUSED(app);
 	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
 
-	Gnode& scene = viewer->m_scene->begin();
+	Gnode scene = viewer->m_scene->begin();
 
 	Material& material = milky_white(viewer->m_gfx_system);
 
-	Gnode& ground_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
+	Gnode ground_node = gfx::node(scene, {}, vec3{ 0.f, -5.f, 0.f });
 	gfx::shape(ground_node, Rect(vec2{ -50.f, -50.f }, vec2{ 100.f }), Symbol(), 0U, &material);
 
 	gfx::direct_light_node(scene);
@@ -90,7 +90,7 @@ void ex_15_script(Shell& app, Widget& parent, DockbarHandle dockbar)
 			GameObject& object = objects[x + y * size_x];
 			object.m_material->m_pbr_block.m_albedo.m_value = object.m_colour;
 
-			Gnode& shape_node = gfx::node(scene, {}, center + vec3{ x * spacing, 0.f, y * spacing });
+			Gnode shape_node = gfx::node(scene, {}, center + vec3{ x * spacing, 0.f, y * spacing });
 			gfx::shape(shape_node, shapes[object.m_shape->index], Symbol(object.m_colour), ItemFlag::Default | ItemFlag::Selectable, object.m_material);
 		}
 
@@ -98,7 +98,7 @@ void ex_15_script(Shell& app, Widget& parent, DockbarHandle dockbar)
 	static TextScript script = create_script();
 	script.m_interpreter = &lua;
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 	{
 		script_edit(*dock, script);
 	}

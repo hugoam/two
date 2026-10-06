@@ -228,7 +228,7 @@ namespace two
 		for(auto& kv : s_styles)
 			this->load(*kv.second, m_layouts, m_skins);
 
-		visit_node<Widget>(*m_ui_window.m_root_sheet, [](Widget& widget, bool&) {
+		visit_node<Widget>(*m_ui_window.m_root_sheet, [](Widget widget, bool&) {
 			widget.update_style(true);
 		});
 	}

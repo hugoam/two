@@ -6,4 +6,4 @@
 
 using namespace two;
 
-void ex_04_sponza(Shell& app, Widget& parent, DockbarHandle dockbar);
+void ex_04_sponza(Shell& app, Widget parent, DockbarHandle dockbar);

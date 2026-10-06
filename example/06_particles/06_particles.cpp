@@ -61,13 +61,13 @@ Flow flow0()
 	return f;
 }
 
-void ex_06_particles(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_06_particles(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 	UNUSED(app);
 	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	OrbitController& controller = ui::orbit_controller(viewer);
 
-	Gnode& scene = viewer->m_scene.begin();
+	Gnode scene = viewer->m_scene.begin();
 
 	//static vector<string> particles_names = { "particles_0" };//, "particles_1" }; //, "particles_2" };
 	//static vector<ParticleItem> particles_vector = create_particles(app.m_gfx, particles_names);
@@ -79,7 +79,7 @@ void ex_06_particles(Shell& app, Widget& parent, DockbarHandle dockbar)
 	float middle = 0.f;//particles_vector.size() * 10.f / 2.f;
 	for(ParticleItem& item : particles)
 	{
-		Gnode& node = gfx::node(scene, vec3(-middle + item.m_index * 10.f, 0.f, 0.f));
+		Gnode node = gfx::node(scene, vec3(-middle + item.m_index * 10.f, 0.f, 0.f));
 		item.m_particles = &gfx::flows(node, *item.m_emitter);
 
 		if(item.m_particles->ended())
@@ -105,7 +105,7 @@ void ex_06_particles(Shell& app, Widget& parent, DockbarHandle dockbar)
 
 	if(edited)
 	{
-		//if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+		//if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 		//	particle_edit(*dock, viewer->m_gfx, edited->m_call); // "Particle Editor" // identity = edited
 	}
 }

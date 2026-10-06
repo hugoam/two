@@ -16,7 +16,7 @@ namespace two
 	// the custom drawing of a widget, in place of the drawing of its frame: a state of its node
 	export_ struct CustomRender
 	{
-		using Draw = function<void(Widget&, const vec4&, Vg&)>;
+		using Draw = function<void(Widget, const vec4&, Vg&)>;
 		Draw m_draw;
 	};
 
@@ -39,15 +39,16 @@ namespace two
 	extern template class PooledNode<Widget>;
 #endif
 
-	export_ class refl_ TWO_UI_EXPORT Widget : public PooledNode<Widget>
+	export_ class refl_ struct_ TWO_UI_EXPORT Widget : public PooledNode<Widget>
 	{
 	public:
-		Widget(PooledGraph<Widget>& graph);
-		Widget(Widget* parent);
+		Widget() {}
+		Widget(nullptr_t) {}
+		Widget(PooledGraph<Widget>& graph, uint32_t index) : PooledNode(graph, index) {}
 
 		// the bookkeeping of the widget as a node, called by the graph
 		// a top node changed parent: its frame and its layers follow it
-		void reparent(Widget* old);
+		void reparent(Widget old);
 		// the node is going away, its states are still there: it lets go of what refers to it
 		void release();
 
@@ -63,7 +64,7 @@ namespace two
 
 		meth_ UiWindow& ui_window();
 		meth_ Ui& ui();
-		meth_ Widget& parent_modal();
+		meth_ Widget parent_modal();
 
 		meth_ void clear();
 
@@ -82,13 +83,13 @@ namespace two
 		meth_ inline void take_focus() { if(!this->modal()) this->take_modal(device_mask(DeviceType::Keyboard)); }
 		meth_ inline void yield_focus() { this->yield_modal(); }
 
-		meth_ inline void take_modal(uint32_t device_filter = uint32_t(DeviceMask::All)) { this->parent_modal().set_modal(this, device_filter); }
+		meth_ inline void take_modal(uint32_t device_filter = uint32_t(DeviceMask::All)) { this->parent_modal().set_modal(*this, device_filter); }
 		meth_ void yield_modal();
 
-		void set_modal(Widget* widget, uint32_t device_filter);
+		void set_modal(Widget widget, uint32_t device_filter);
 
-		Widget* pinpoint(vec2 pos);
-		Widget* pinpoint(vec2 pos, const FrameFilter& filter);
+		Widget pinpoint(vec2 pos);
+		Widget pinpoint(vec2 pos, const FrameFilter& filter);
 
 		// the widget as a node of the tree the ui dispatches the events in
 		inline ControlId control_id() const { return ControlId(m_index); }
@@ -111,11 +112,11 @@ namespace two
 
 		inline bool once() { if((data().m_state & CREATED) != 0) { disable_state(CREATED); return true; } return false; }
 		// a widget is initialized when it's declared the first time, right after the graph created its node: its parent is laid out again with it
-		inline Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 })
+		inline Widget init(Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 })
 		{
 			if(!frame().d_style)
 			{
-				if(Widget* parent = this->parent())
+				if(Widget parent = this->parent())
 					parent->mark_dirty(DIRTY_LAYOUT);
 				this->set_style(style, length, index);
 				this->set_open(open);
@@ -131,13 +132,13 @@ namespace two
 		// the layers: a widget with a layer, a state of its node, is drawn in it with its descendants (Layer.cpp)
 
 		// gives the widget its own layer, drawn in the layer of its parent
-		Widget& layer();
+		Widget layer();
 		// the widget whose layer the frame is drawn in: itself, or the one of its parent
-		Widget& layer_widget();
+		Widget layer_widget();
 		Layer& draw_layer();
 
-		void add_sublayer(Widget& widget, Layer& sublayer);
-		void remove_sublayer(Widget& widget, Layer& sublayer);
+		void add_sublayer(Widget widget, Layer& sublayer);
+		void remove_sublayer(Widget widget, Layer& sublayer);
 		void reindex_layers();
 		void reorder_layers();
 		void move_layer_to_top();
@@ -183,21 +184,21 @@ namespace two
 		// from the local space of the frame to the space of its root, or of an ancestor
 		inline vec2 absolute_position() { resolve(); return cache().d_absolute; }
 		inline vec2 derive_position(const vec2& local) { resolve(); return cache().d_absolute + local * cache().d_scale; }
-		inline vec2 derive_position(const vec2& local, Widget& root) { resolve(); root.resolve(); return (cache().d_absolute + local * cache().d_scale - root.cache().d_absolute) / root.cache().d_scale; }
+		inline vec2 derive_position(const vec2& local, Widget root) { resolve(); root.resolve(); return (cache().d_absolute + local * cache().d_scale - root.cache().d_absolute) / root.cache().d_scale; }
 
 		// from the space of its root, or of an ancestor, to the local space of the frame
 		inline vec2 local_position(const vec2& pos) { resolve(); return (pos - cache().d_absolute) / cache().d_scale; }
-		inline vec2 integrate_position(const vec2& pos, Widget& root) { resolve(); root.resolve(); return (root.cache().d_absolute + pos * root.cache().d_scale - cache().d_absolute) / cache().d_scale; }
+		inline vec2 integrate_position(const vec2& pos, Widget root) { resolve(); root.resolve(); return (root.cache().d_absolute + pos * root.cache().d_scale - cache().d_absolute) / cache().d_scale; }
 
 		// the scale of the frame and of its parents up to an ancestor, including it
-		inline float derive_scale(Widget& root) { resolve(); root.resolve(); return cache().d_scale / root.cache().d_scale * root.frame().m_scale; }
+		inline float derive_scale(Widget root) { resolve(); root.resolve(); return cache().d_scale / root.cache().d_scale * root.frame().m_scale; }
 		inline float absolute_scale() { return this->derive_scale(this->root()); }
 
 		void clamp_to_parent();
 
 		inline bool inside_abs(const vec2& pos) { return frame().inside(this->local_position(pos)); }
 
-		void transfer_pixel_span(Widget& prev, Widget& next, Axis dim, float pixelSpan);
+		void transfer_pixel_span(Widget prev, Widget next, Axis dim, float pixelSpan);
 
 		void relayout();
 
@@ -211,20 +212,20 @@ namespace two
 	export_ struct refl_ struct_ TWO_UI_EXPORT WidgetHandle
 	{
 		WidgetHandle() {}
-		WidgetHandle(Widget* widget) : m_graph(widget ? widget->m_graph : nullptr), m_handle(widget ? widget->m_graph->handle(widget->m_index) : 0) {}
-		WidgetHandle(Widget& widget) : WidgetHandle(&widget) {}
+		WidgetHandle(nullptr_t) {}
+		WidgetHandle(Widget widget) : m_graph(widget.m_graph), m_handle(widget ? widget.m_graph->handle(widget.m_index) : 0) {}
 
 		PooledGraph<Widget>* m_graph = nullptr;
 		uint32_t m_handle = 0;
 
 		// the widget, or null if it's gone
-		inline Widget* get() const { return m_graph ? m_graph->resolve(m_handle) : nullptr; }
+		inline Widget get() const { return m_graph ? m_graph->resolve(m_handle) : Widget(); }
 
-		attr_ inline Widget& widget() const { return *this->get(); }
+		attr_ inline Widget widget() const { return this->get(); }
 
-		inline Widget* operator->() const { return this->get(); }
-		inline Widget& operator*() const { return *this->get(); }
-		explicit operator bool() const { return this->get() != nullptr; }
+		inline Widget operator->() const { return this->get(); }
+		inline Widget operator*() const { return this->get(); }
+		explicit operator bool() const { return bool(this->get()); }
 		bool operator==(const WidgetHandle& other) const { return m_handle == other.m_handle && m_graph == other.m_graph; }
 	};
 }

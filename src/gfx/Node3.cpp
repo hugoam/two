@@ -105,9 +105,9 @@ namespace two
 		m_transform = parent.m_transform * bxTRS(scale, rotation, position);
 	}
 
-	Node3& Node3::add(Gnode& parent)
+	Node3& Node3::add(Gnode parent)
 	{
-		Gnode& self = parent.suba();
+		Gnode self = parent.suba();
 		Node3& node = self.state<Node3>(move(*this));
 		self.set_attach(node);
 		return node;

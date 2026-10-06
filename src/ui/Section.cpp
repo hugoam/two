@@ -20,15 +20,15 @@ namespace two
 		return ui::button(key(), *parent.toolbar, name).activated();
 	}
 
-	Section section(NodeKey id, Widget& parent, const string& name, bool no_toolbar)
+	Section section(NodeKey id, Widget parent, const string& name, bool no_toolbar)
 	{
-		Widget& self = ui::widget(id, parent, section_style());
+		Widget self = ui::widget(id, parent, section_style());
 		ui::title_header(key(), self, name.c_str());
 
-		Widget* toolbar = !no_toolbar ? &ui::toolbar(key(), self) : nullptr;
+		Widget toolbar = !no_toolbar ? ui::toolbar(key(), self) : nullptr;
 
 		ScrollSheet scroll_sheet = ui::scroll_sheet(key(), self);
-		Widget& body = ui::sheet(key(), scroll_sheet.body);
+		Widget body = ui::sheet(key(), scroll_sheet.body);
 		return { self, toolbar, body };
 	}
 }

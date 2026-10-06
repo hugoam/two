@@ -53,7 +53,7 @@ namespace two
 		}
 		else if(dirty == DIRTY_REDRAW)
 		{
-			Widget* widget = this;
+			Widget widget = *this;
 			Layer* layer = nullptr;
 			while(widget && !(layer = widget->find_state<Layer>()))
 				widget = widget->parent();
@@ -180,7 +180,7 @@ namespace two
 		if(cache.d_epoch == FrameCache::s_epoch)
 			return;
 		const Frame& frame = this->frame();
-		if(Widget* parent = this->parent())
+		if(Widget parent = this->parent())
 		{
 			parent->resolve();
 			const FrameCache& parent_cache = parent->cache();
@@ -197,7 +197,7 @@ namespace two
 
 	void Widget::clamp_to_parent()
 	{
-		Widget& clip = this->root();
+		Widget clip = this->root();
 		const vec2 position = this->derive_position(vec2(0.f), clip);
 
 		Frame& frame = this->frame();
@@ -223,7 +223,7 @@ namespace two
 			 && pos.y >= 0.f && pos.y <= m_size.y);
 	}
 
-	void Widget::transfer_pixel_span(Widget& prev, Widget& next, Axis dim, float pixelSpan)
+	void Widget::transfer_pixel_span(Widget prev, Widget next, Axis dim, float pixelSpan)
 	{
 		float pixspan = 1.f / this->frame().m_size[dim];
 		float offset = pixelSpan * pixspan;
@@ -247,7 +247,7 @@ namespace two
 
 	void Widget::debug_print(bool commit)
 	{
-		Widget* parent = this->parent();
+		Widget parent = this->parent();
 		while(parent)
 		{
 			printf("  ");

@@ -8,10 +8,10 @@ module two.uio;
 
 namespace two
 {
-	void ui_debug_modal(Widget& parent, Widget& target)
+	void ui_debug_modal(Widget parent, Widget target)
 	{
-		Widget* current_node = &parent;
-		Widget* current_target = &target.ui();
+		Widget current_node = parent;
+		Widget current_target = target.ui();
 		while(current_target && current_node)
 		{
 			ModalControl* control = current_target->find_state<ModalControl>();
@@ -21,27 +21,27 @@ namespace two
 		}
 	}
 
-	void ui_debug_layout_node(Widget& parent, Widget& target, WidgetHandle& selected)
+	void ui_debug_layout_node(Widget parent, Widget target, WidgetHandle& selected)
 	{
-		for(Widget& widget : target.children())
+		for(Widget widget : target.children())
 		{
 			string size = "size : " + truncate_number(to_string(widget.frame().m_size.x)) + ", " + truncate_number(to_string(widget.frame().m_size.y));
 			TreeNode node = ui::tree_node(key(), parent, { widget.frame().d_style->m_name.c_str(), size.c_str() });
-			node.header.set_state(SELECTED, selected == &widget);
+			node.header.set_state(SELECTED, selected == widget);
 			if(node.header.activated())
-				selected = &widget;
+				selected = widget;
 			if(node.body)
 				ui_debug_layout_node(*node.body, widget, selected);
 		}
 	}
 
-	void ui_debug_layout(Widget& parent, Widget& target, WidgetHandle& selected)
+	void ui_debug_layout(Widget parent, Widget target, WidgetHandle& selected)
 	{
 		ScrollSheet scroll_sheet = ui::scroll_sheet(key(), parent);
 		ui_debug_layout_node(scroll_sheet.body, target, selected);
 	}
 
-	void ui_debug(Widget& parent, Widget& target)
+	void ui_debug(Widget parent, Widget target)
 	{
 		static WidgetHandle selected;
 		static bool selecting = false;
@@ -50,9 +50,9 @@ namespace two
 		ui::toggle(key(), *self.toolbar, selecting, "Select Mode");
 
 		Tabber tabber = ui::tabber(key(), self.body);
-		if(Widget* tab = ui::tab(key(), tabber, "Modal"))
+		if(Widget tab = ui::tab(key(), tabber, "Modal"))
 			ui_debug_modal(*tab, target);
-		if(Widget* tab = ui::tab(key(), tabber, "Layout"))
+		if(Widget tab = ui::tab(key(), tabber, "Layout"))
 			ui_debug_layout(*tab, target, selected);
 
 		if(selected)
@@ -60,19 +60,20 @@ namespace two
 
 		if(selecting)
 		{
-			Widget* highlighted = target.pinpoint(target.ui().m_mouse.m_pos);
+			Widget highlighted = target.pinpoint(target.ui().m_mouse.m_pos);
 			if(highlighted)
 				ui::rectangle(key(), parent.ui(), { highlighted->absolute_position(), highlighted->frame().m_size });
 		}
 
 		if(selected)
 		{
-			if(Widget* tab = ui::tab(key(), tabber, "Widget"))
-				object_edit(*tab, Ref(selected.get()));
+			Widget widget = selected.get();
+			if(Widget tab = ui::tab(key(), tabber, "Widget"))
+				object_edit(*tab, Ref(&widget));
 
-			if(Widget* tab = ui::tab(key(), tabber, "Style"))
+			if(Widget tab = ui::tab(key(), tabber, "Style"))
 				object_edit(*tab, Ref(selected->frame().d_layout));
-			if(Widget* tab = ui::tab(key(), tabber, "Skin"))
+			if(Widget tab = ui::tab(key(), tabber, "Skin"))
 				object_edit(*tab, Ref(&selected->frame().d_style->m_skin));
 		}
 	}

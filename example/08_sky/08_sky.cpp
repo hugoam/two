@@ -409,11 +409,11 @@ static void generator_script(VisualScript& script)
 }
 #endif
 
-void example_options(Widget& parent, PerezSky& sky)
+void example_options(Widget parent, PerezSky& sky)
 {
-	//Widget& body = *ui::window(key(), parent, "Procedural Sky").body;
-	//Widget& body = ui::columns(key(), parent, {});
-	Widget& body = ui::table(key(), parent, { "field", "value" }, {});
+	//Widget body = *ui::window(key(), parent, "Procedural Sky").body;
+	//Widget body = ui::columns(key(), parent, {});
+	Widget body = ui::table(key(), parent, { "field", "value" }, {});
 	ui::slider_field(key(), body, "Time scale", sky.m_time_scale,     { 0.0f, 1.0f, 0.01f });
 	ui::slider_field(key(), body, "Time",       sky.m_time,           { 0.0f, 24.0f });
 	ui::slider_field(key(), body, "Latitude",   sky.m_sun.m_latitude, { -90.0f, 90.0f });
@@ -441,7 +441,7 @@ void example_options(Widget& parent, PerezSky& sky)
 
 static PerezSky g_sky;
 
-void ex_08_sky(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_08_sky(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 	UNUSED(app);
 	if(!g_sky.m_initialized)
@@ -454,14 +454,14 @@ void ex_08_sky(Shell& app, Widget& parent, DockbarHandle dockbar)
 
 	ui::orbit_controller(viewer);
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 		example_options(*dock, g_sky);
 
-	Gnode& scene = viewer->m_scene.begin();
+	Gnode scene = viewer->m_scene.begin();
 
 	Material& material = milky_white(app.m_gfx);
 
-	Gnode& ground_node = gfx::node(scene, vec3(0.f, -5.f, 0.f));
+	Gnode ground_node = gfx::node(scene, vec3(0.f, -5.f, 0.f));
 	gfx::shape(ground_node, Rect(vec2(-50.f), vec2(100.f)), Symbol(), 0U, &material);
 
 	gfx::direct_light_node(scene, g_sky.m_sun.m_sun_rotation);

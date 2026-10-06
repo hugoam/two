@@ -43,7 +43,7 @@ namespace ui
 		return state;
 	}
 
-	bool slider_cursor(Widget& slider, Frame& knob, Axis dim, const MouseEvent& event, float& value, const SliderMetrics& metrics, bool relative)
+	bool slider_cursor(Widget slider, Frame& knob, Axis dim, const MouseEvent& event, float& value, const SliderMetrics& metrics, bool relative)
 	{
 		const vec2 size = slider.frame().m_size;
 		if(relative)
@@ -62,7 +62,7 @@ namespace ui
 		return true;
 	}
 
-	bool slider_logic(Widget& self, Widget& slider, Frame& filler, Frame& knob, float& value, const SliderMetrics& metrics, Axis dim, bool relative)
+	bool slider_logic(Widget self, Widget slider, Frame& filler, Frame& knob, float& value, const SliderMetrics& metrics, Axis dim, bool relative)
 	{
         UNUSED(filler);
 		bool changed = false;
@@ -82,13 +82,13 @@ namespace ui
 		return changed;
 	}
 
-	bool slider(NodeKey id, Widget& parent, Style& style, float& value, SliderMetrics metrics, Axis dim, bool relative, bool fill, Style* knob_style)
+	bool slider(NodeKey id, Widget parent, Style& style, float& value, SliderMetrics metrics, Axis dim, bool relative, bool fill, Style* knob_style)
 	{
-		Widget& self = widget(id, parent, style, false, dim);
+		Widget self = widget(id, parent, style, false, dim);
 
 		SliderState state = metrics.compute(value);
-		Widget& filler = spanner(key(), self, fill ? styles().filler : styles().spacer, dim, state.m_pre_span);
-		Widget& button = spanner(key(), self, knob_style ? *knob_style : styles().slider_knob, dim, state.m_knob_span);
+		Widget filler = spanner(key(), self, fill ? styles().filler : styles().spacer, dim, state.m_pre_span);
+		Widget button = spanner(key(), self, knob_style ? *knob_style : styles().slider_knob, dim, state.m_knob_span);
 		spanner(key(), self, styles().spacer, dim, state.m_post_span);
 		
 		bool changed = false;
@@ -97,7 +97,7 @@ namespace ui
 		return changed;
 	}
 
-	bool slider(NodeKey id, Widget& parent, float& value, SliderMetrics metrics, Axis dim, bool relative, bool fill, Style* knob_style)
+	bool slider(NodeKey id, Widget parent, float& value, SliderMetrics metrics, Axis dim, bool relative, bool fill, Style* knob_style)
 	{
 		return slider(id, parent, styles().slider, value, metrics, dim, relative, fill, knob_style);
 	}

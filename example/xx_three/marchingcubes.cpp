@@ -447,19 +447,19 @@ EX(xx_marching_cubes)
 	}
 
 #if UI
-	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::sheet(key(), *dock);
+		Widget sheet = ui::sheet(key(), *dock);
 
-		auto panel = [&](const string& name) -> Widget&
+		auto panel = [&](const string& name) -> Widget
 		{
-			Widget& s = ui::expandbox(key(), sheet, name.c_str());
+			Widget s = ui::expandbox(key(), sheet, name.c_str());
 			return ui::columns(key(), s, { 0.3f, 0.7f });
 		};
 
 		// material (type)
 
-		Widget& a = panel("Material");
+		Widget a = panel("Material");
 
 		static vector<cstring> labels = material_labels(materials);
 		static uint32_t material_index = 0;
@@ -473,7 +473,7 @@ EX(xx_marching_cubes)
 
 		// material (color)
 
-		Widget& b = panel("Material color");
+		Widget b = panel("Material color");
 
 		ui::slider_field(key(), b, "hue",        current->color.h, { 0.f, 1.f, 0.025f });
 		ui::slider_field(key(), b, "saturation", current->color.s, { 0.f, 1.f, 0.025f });
@@ -481,7 +481,7 @@ EX(xx_marching_cubes)
 
 		// light (point)
 
-		Widget& c = panel("Point light color");
+		Widget c = panel("Point light color");
 
 		ui::slider_field(key(), c, "hue",        controller.lhue,        { 0.f, 1.f, 0.025f });
 		ui::slider_field(key(), c, "saturation", controller.lsaturation, { 0.f, 1.f, 0.025f });
@@ -489,7 +489,7 @@ EX(xx_marching_cubes)
 
 		// light (directional)
 
-		Widget& d = panel("Directional light orientation");
+		Widget d = panel("Directional light orientation");
 
 		ui::slider_field(key(), d, "x", controller.lx, { -1.f, 1.f, 0.025f });
 		ui::slider_field(key(), d, "y", controller.ly, { -1.f, 1.f, 0.025f });
@@ -497,7 +497,7 @@ EX(xx_marching_cubes)
 
 		// simulation
 
-		Widget& e = panel("Simulation");
+		Widget e = panel("Simulation");
 
 		ui::slider_field(key(), e,    "speed",      controller.speed,      { 0.1f, 8.0f, 0.05f });
 		ui::slider_field(key(), e, "numBlobs",   controller.numBlobs,   { 1, 50, 1 });

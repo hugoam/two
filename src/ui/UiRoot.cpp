@@ -9,7 +9,7 @@ module two.ui;
 namespace two
 {
 	Ui::Ui(UiWindow& window)
-		: Widget(static_cast<PooledGraph<Widget>&>(*this))
+		: Widget(static_cast<PooledGraph<Widget>&>(*this), 0)
 		, EventDispatcher()
 		, m_frames(this->add_array<Frame>())
 		, m_caches(this->add_array<FrameCache>())
@@ -31,14 +31,14 @@ namespace two
 		Widget::clear();
 	}
 
-	Widget& Ui::begin()
+	Widget Ui::begin()
 	{
 		return Widget::begin();
 	}
 
 	void Ui::input_frame()
 	{
-		Widget* hovered = &this->control(m_mouse.heartbeat().m_receiver);
+		Widget hovered = this->control(m_mouse.heartbeat().m_receiver);
 		if(hovered != m_hovered)
 		{
 			m_tooltip_clock.step();
@@ -52,7 +52,7 @@ namespace two
 	{
 		if(!m_window.m_context.m_mouse_lock)
 		{
-			Widget& cursor = ui::cursor(key(), *this, m_mouse.m_pos, m_cursor_style ? *m_cursor_style : ui::cursor_styles().cursor);
+			Widget cursor = ui::cursor(key(), *this, m_mouse.m_pos, m_cursor_style ? *m_cursor_style : ui::cursor_styles().cursor);
 			cursor.draw_layer().setForceRedraw();
 		}
 
@@ -65,7 +65,7 @@ namespace two
 	{
 		static_assert(ControlId::none == PooledGraph<Widget>::none);
 
-		Widget* widget = this;
+		Widget widget = *this;
 		while(true)
 		{
 			widget->transform_event(event);
@@ -73,13 +73,13 @@ namespace two
 			ModalControl* control = widget->find_state<ModalControl>();
 			if(control && control->m_modal && (control->m_mask & device_mask(event.m_deviceType)) != 0)
 			{
-				widget = &this->control(control->m_modal);
+				widget = this->control(control->m_modal);
 				continue;
 			}
 
 			if(event.m_deviceType >= DeviceType::Mouse)
 			{
-				Widget* pinned = widget->pinpoint(static_cast<MouseEvent&>(event).m_relative);
+				Widget pinned = widget->pinpoint(static_cast<MouseEvent&>(event).m_relative);
 				if(pinned && pinned != widget)
 				{
 					widget = pinned;
@@ -107,7 +107,7 @@ namespace two
 
 	void Ui::reset_styles()
 	{
-		Widget::visit([](Widget& widget, bool& visit)
+		Widget::visit([](Widget widget, bool& visit)
 		{
 			UNUSED(visit);
 			widget.update_style(true);

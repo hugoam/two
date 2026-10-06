@@ -8,7 +8,7 @@ module two.ui;
 
 namespace two
 {
-	void render_bullet(Widget& widget, const vec4& rect, Vg& vg)
+	void render_bullet(Widget widget, const vec4& rect, Vg& vg)
 	{
 		static auto render_bullet = [](Vg& vg, vec2 pos, float fontsize, Colour colour)
 		{

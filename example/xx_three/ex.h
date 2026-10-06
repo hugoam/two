@@ -5,7 +5,7 @@
 #pragma once
 
 #if UI
-#define EX(name) void name(ShellX& app, Widget& parent, DockbarHandle dockbar, bool init)
+#define EX(name) void name(ShellX& app, Widget parent, DockbarHandle dockbar, bool init)
 #else
 #define EX(name) void name(ShellX& app, WindowX& window, bool init)
 #endif

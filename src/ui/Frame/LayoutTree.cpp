@@ -63,10 +63,10 @@ namespace two
 	}
 
 	// a fixed node has the size of its own content, or keeps its size if it has none
-	void LayoutTree::read_frame(LayoutNode& node, Widget& widget) const
+	void LayoutTree::read_frame(LayoutNode& node, Widget widget) const
 	{
 		const Frame& frame = widget.frame();
-		node.widget = &widget;
+		node.widget = widget;
 		node.position = frame.m_position;
 		node.span = frame.m_span;
 
@@ -79,7 +79,7 @@ namespace two
 		}
 	}
 
-	void LayoutTree::build(Widget& root)
+	void LayoutTree::build(Widget root)
 	{
 		m_nodes.clear();
 		this->add_frame(root, 0);
@@ -99,7 +99,7 @@ namespace two
 		return 0;
 	}
 
-	uint32_t LayoutTree::add(uint32_t parent, const Layout& layout, Widget* widget)
+	uint32_t LayoutTree::add(uint32_t parent, const Layout& layout, Widget widget)
 	{
 		const uint32_t index = uint32_t(m_nodes.size());
 		LayoutNode node = this->node(layout, Axis::None, m_nodes[parent].length);
@@ -114,7 +114,7 @@ namespace two
 	// a child is laid out by its parent frame, except:
 	// - the children of a grid are laid out by the line of the grid they are on
 	// - the cells of the rows of a table are laid out by their column along the row
-	uint32_t LayoutTree::container(uint32_t parent, Widget& widget, Axis dim) const
+	uint32_t LayoutTree::container(uint32_t parent, Widget widget, Axis dim) const
 	{
 		const LayoutNode& p = m_nodes[parent];
 		if(p.tracks == LayoutTracks::Lines && p.length != Axis::None)
@@ -132,7 +132,7 @@ namespace two
 		return parent;
 	}
 
-	void LayoutTree::add_frame(Widget& widget, uint32_t parent)
+	void LayoutTree::add_frame(Widget widget, uint32_t parent)
 	{
 		const Frame& frame = widget.frame();
 		if(!frame.d_layout)
@@ -150,7 +150,7 @@ namespace two
 		m_nodes.push_back(node);
 		this->add_virtuals(index);
 
-		for(Widget& child : widget.children())
+		for(Widget child : widget.children())
 			this->add_frame(child, index);
 	}
 
@@ -471,7 +471,7 @@ namespace two
 		for(uint32_t i = 1; i < uint32_t(m_nodes.size()); ++i)
 		{
 			if(!m_nodes[i].widget) continue;
-			Widget& widget = *m_nodes[i].widget;
+			Widget widget = *m_nodes[i].widget;
 			const Frame& frame = widget.frame();
 			FrameCache& cache = widget.cache();
 			const FrameCache& parent = m_nodes[m_nodes[i].frame_parent].widget->cache();
@@ -485,12 +485,12 @@ namespace two
 	void LayoutTree::clear_dirty()
 	{
 		m_layers.assign(m_nodes.size(), nullptr);
-		for(Widget* widget = m_nodes[0].widget; widget && !m_layers[0]; widget = widget->parent())
+		for(Widget widget = m_nodes[0].widget; widget && !m_layers[0]; widget = widget->parent())
 			m_layers[0] = widget->find_state<Layer>();
 
 		for(uint32_t i = 0; i < uint32_t(m_nodes.size()); ++i)
 		{
-			Widget* widget = m_nodes[i].widget;
+			Widget widget = m_nodes[i].widget;
 			if(!widget) continue;
 			Layer* parent = i > 0 ? m_layers[m_nodes[i].frame_parent] : nullptr;
 			Layer* own = widget->find_state<Layer>();

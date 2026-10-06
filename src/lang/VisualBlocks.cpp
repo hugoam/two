@@ -137,7 +137,7 @@ namespace two
 	{
 		const Var& object = m_input_object.read(branch);
 		Var& value = m_output.m_stream.branch(branch.m_index).m_value;
-		value = m_member.get(object.m_ref);
+		m_member.get(object.m_ref, value);
 	}
 
 	ProcessSetMember::ProcessSetMember(VisualScript& script, Member& member)

@@ -11,7 +11,7 @@ namespace two
 	EventDispatch::EventDispatch()
 	{}
 
-	void EventDispatch::process(Widget& widget)
+	void EventDispatch::process(Widget widget)
 	{
 		KeyEvent* key_down_event = static_cast<KeyEvent*>(widget.ui().received(widget.control_id(), DeviceType::Keyboard, EventType::Pressed));
 		if(key_down_event)

@@ -10,6 +10,6 @@ struct ShapeInstance { ShapeVar shape; Colour colour; Symbol symbol; };
 
 vector<ShapeInstance> create_shape_grid(size_t size_x, size_t size_y, span<ShapeVar> shapes, bool plain = true);
 
-void shape_grid(Gnode& parent, span2d<ShapeInstance> shape_grid, const Symbol* symbol = nullptr, bool rotate = true, Material* material = nullptr);
+void shape_grid(Gnode parent, span2d<ShapeInstance> shape_grid, const Symbol* symbol = nullptr, bool rotate = true, Material* material = nullptr);
 
-void ex_01_shapes(Shell& app, Widget& parent, DockbarHandle dockbar);
+void ex_01_shapes(Shell& app, Widget parent, DockbarHandle dockbar);

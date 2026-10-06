@@ -8,7 +8,7 @@ module two.uio;
 
 namespace two
 {
-	void structure_node(Widget& parent, Ref object, vector<Ref>& selection)
+	void structure_node(Widget parent, Ref object, vector<Ref>& selection)
 	{
 		TreeNode self = ui::tree_node(key(), parent, { object_icon(object).c_str(), object_name(object).c_str() }, false, false);
 		
@@ -22,17 +22,17 @@ namespace two
 		for(auto& member : cls(object).m_members)
 			if(member.is_structure() && is_iterable(*member.m_type))
 			{
-				Var value = Var(member.get(object));
+				Var value; member.get(object, value);
 				iter(value).iterate(value, [&](Ref element) {
 					structure_node(self, element, selection);
 				});
 			}
 	}
 
-	void structure_view(Widget& parent, Ref object, vector<Ref>& selection)
+	void structure_view(Widget parent, Ref object, vector<Ref>& selection)
 	{
 		ScrollSheet sheet = ui::scroll_sheet(key(), parent);
-		Widget& tree = ui::tree(key(), sheet.body);
+		Widget tree = ui::tree(key(), sheet.body);
 		structure_node(tree, object, selection);
 	}
 }

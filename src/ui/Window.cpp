@@ -10,7 +10,7 @@ namespace two
 {
 namespace ui
 {
-	void window_drag_logic(Widget& widget, Widget& window, WindowState state, Docksystem* docksystem, cstring name)
+	void window_drag_logic(Widget widget, Widget window, WindowState state, Docksystem* docksystem, cstring name)
 	{
 		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 		{
@@ -37,7 +37,7 @@ namespace ui
 		}
 	}
 
-	void window_resize_logic(Widget& widget, Widget& window, bool left)
+	void window_resize_logic(Widget widget, Widget window, bool left)
 	{
 		if(MouseEvent event = widget.mouse_event(DeviceType::MouseLeft, EventType::Dragged))
 		{
@@ -52,10 +52,10 @@ namespace ui
 		}
 	}
 
-	Widget& window_header(NodeKey id, Widget& parent, Widget& window, WindowState state, Docksystem* docksystem, cstring title)
+	Widget window_header(NodeKey id, Widget parent, Widget window, WindowState state, Docksystem* docksystem, cstring title)
 	{
 		Style* style = bit(state, WindowState::Movable) ? &window_styles().header_movable : &window_styles().header;
-		Widget& self = widget(id, parent, *style);
+		Widget self = widget(id, parent, *style);
 		self.set_state(ACTIVE, window.active());
 
 		item(key(), self, styles().title, title);
@@ -70,25 +70,25 @@ namespace ui
 		return self;
 	}
 	
-	Widget& window_sizer(NodeKey id, Widget& parent, Style& style, Widget& window, bool left)
+	Widget window_sizer(NodeKey id, Widget parent, Style& style, Widget window, bool left)
 	{
-		Widget& self = widget(id, parent, style);
+		Widget self = widget(id, parent, style);
 		window_resize_logic(self, window, left);
 		return self;
 	}
 
-	Widget& window_footer(NodeKey id, Widget& parent, Widget& window)
+	Widget window_footer(NodeKey id, Widget parent, Widget window)
 	{
-		Widget& self = widget(id, parent, window_styles().footer);
+		Widget self = widget(id, parent, window_styles().footer);
 		window_sizer(key(), self, window_styles().sizer_left, window, true);
 		window_sizer(key(), self, window_styles().sizer_right, window, false);
 		return self;
 	}
 
-	Window window(NodeKey id, Widget& parent, cstring title, WindowState state, Dock* dock, Docksystem* docksystem)
+	Window window(NodeKey id, Widget parent, cstring title, WindowState state, Dock* dock, Docksystem* docksystem)
 	{
 		// a dockable window is a top node: it's the same window, with the same contents, wherever it's docked, or floating
-		Widget& self = bit(state, WindowState::Dockable) ? parent.sub_top(id) : parent.sub(id);
+		Widget self = bit(state, WindowState::Dockable) ? parent.sub_top(id) : parent.sub(id);
 
 		Style& style = dock ? window_styles().dock_window : window_styles().window;
 		if(!self.frame().d_style)
@@ -108,10 +108,10 @@ namespace ui
 				self.set_position((self.parent()->frame().m_size - self.frame().m_size) / 2.f);
 		}
 
-		Widget* header = bit(state, WindowState::Header) ? &window_header(key(), self, self, state, docksystem, title) : nullptr;
-		Widget* menu = bit(state, WindowState::Menu) ? &menubar(key(), self) : nullptr;
+		Widget header = bit(state, WindowState::Header) ? window_header(key(), self, self, state, docksystem, title) : nullptr;
+		Widget menu = bit(state, WindowState::Menu) ? menubar(key(), self) : nullptr;
 
-		Widget& body = widget(key(), self, window_styles().body);
+		Widget body = widget(key(), self, window_styles().body);
 
 		if(!dock && bit(state, WindowState::Sizable))
 			window_footer(key(), self, self);
@@ -119,7 +119,7 @@ namespace ui
 		if(!dock && self.mouse_event(DeviceType::MouseLeft, EventType::Stroked))
 			self.layer_widget().move_layer_to_top();
 
-		return { self, header, menu, self.open() ? &body : nullptr };
+		return { self, header, menu, self.open() ? body : nullptr };
 	}
 }
 }

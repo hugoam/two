@@ -52,14 +52,14 @@ void define_visual_script(VisualScript& script)
 
 	Var& colour = script.create<Colour>({ &r, &g, &b, &script.value(1.f) });
 
-	Gnode& (*func_node)(Gnode&, const vec3&, const quat&, const vec3&) = gfx::node;
+	Gnode (*func_node)(Gnode, const vec3&, const quat&, const vec3&) = gfx::node;
 	Var& node = *script.function(func_node, { &scene, &position, &rotation, &scale });
 
 	Var& fill_colour = script.value(Colour::None);
 	Var& symbol = script.create<Symbol>({ &fill_colour, &colour });
 	Var& shape = script.value(Cube());
 
-	using Draw = void(*)(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags);
+	using Draw = void(*)(Gnode parent, const Shape& shape, const Symbol& symbol, uint32_t flags);
 	script.function((Draw)gfx::draw, { &node, &shape, &symbol });
 }
 
@@ -71,7 +71,7 @@ VisualScript& create_visual_script()
 	return script;
 }
 
-void ex_14_live_gfx_visual(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_14_live_gfx_visual(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 	UNUSED(app);
 #ifdef TWO_PLATFORM_EMSCRIPTEN
@@ -86,10 +86,10 @@ void ex_14_live_gfx_visual(Shell& app, Widget& parent, DockbarHandle dockbar)
 
 	static VisualScript& script = create_visual_script();
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 		visual_script_edit(*dock, script);
 
-	Gnode& scene = viewer->m_scene.begin();
+	Gnode scene = viewer->m_scene.begin();
 
 	static Call call = { script, vector<Var>{ Var(Ref(&scene)) } };
 	call();	

@@ -28,7 +28,7 @@ namespace two
 		this->update_aabb();
 	}
 
-	Item& Item::add(Gnode& parent)
+	Item& Item::add(Gnode parent)
 	{
 		return parent.suba().state<Item>(move(*this));
 	}
@@ -81,7 +81,7 @@ namespace two
 		, m_buffer{}
 	{}
 
-	Batch& Batch::add(Gnode& parent)
+	Batch& Batch::add(Gnode parent)
 	{
 		return parent.suba().state<Batch>(move(*this));
 	}

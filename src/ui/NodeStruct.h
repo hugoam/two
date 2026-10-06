@@ -27,9 +27,9 @@ namespace two
 	export_ struct refl_ struct_ NodePlugHandle : public WidgetHandle
 	{
 		NodePlugHandle() {}
-		explicit NodePlugHandle(Widget& self) : WidgetHandle(self) {}
+		explicit NodePlugHandle(Widget self) : WidgetHandle(self) {}
 
-		attr_ inline Widget& self() const { return this->widget(); }
+		attr_ inline Widget self() const { return this->widget(); }
 		attr_ inline NodePlug& plug() const { return *this->get()->find_state<NodePlug>(); }
 
 		NodePlug* operator->() const { return &this->plug(); }
@@ -48,19 +48,19 @@ namespace two
 		attr_ int m_order = 0;
 		uint32_t m_index = 0;
 
-		attr_ inline Widget& header() const { return m_header.widget(); }
-		attr_ inline Widget& inputs() const { return m_inputs.widget(); }
-		attr_ inline Widget& outputs() const { return m_outputs.widget(); }
-		attr_ inline Widget& body() const { return m_body.widget(); }
+		attr_ inline Widget header() const { return m_header.widget(); }
+		attr_ inline Widget inputs() const { return m_inputs.widget(); }
+		attr_ inline Widget outputs() const { return m_outputs.widget(); }
+		attr_ inline Widget body() const { return m_body.widget(); }
 	};
 
 	// a handle to the widget of a node, the node in its state reached through ->
 	export_ struct NodeHandle : public WidgetHandle
 	{
 		NodeHandle() {}
-		explicit NodeHandle(Widget& self) : WidgetHandle(self) {}
+		explicit NodeHandle(Widget self) : WidgetHandle(self) {}
 
-		inline Widget& self() const { return this->widget(); }
+		inline Widget self() const { return this->widget(); }
 		inline Node& node() const { return *this->get()->find_state<Node>(); }
 
 		Node* operator->() const { return &this->node(); }
@@ -95,9 +95,9 @@ namespace two
 	export_ struct refl_ struct_ CanvasHandle : public WidgetHandle
 	{
 		CanvasHandle() {}
-		explicit CanvasHandle(Widget& self) : WidgetHandle(self) {}
+		explicit CanvasHandle(Widget self) : WidgetHandle(self) {}
 
-		attr_ inline Widget& self() const { return this->widget(); }
+		attr_ inline Widget self() const { return this->widget(); }
 		attr_ inline Canvas& canvas() const { return *this->get()->find_state<Canvas>(); }
 
 		Canvas* operator->() const { return &this->canvas(); }

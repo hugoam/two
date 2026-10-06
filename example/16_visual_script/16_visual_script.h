@@ -6,4 +6,4 @@
 
 using namespace two;
 
-void ex_16_visual_script(Shell& app, Widget& parent, DockbarHandle dockbar);
+void ex_16_visual_script(Shell& app, Widget parent, DockbarHandle dockbar);

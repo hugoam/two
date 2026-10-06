@@ -13,7 +13,7 @@ namespace two
 	export_ class refl_ TWO_GFX_UI_EXPORT SpaceSheet : public Ui
 	{
 	public:
-		SpaceSheet(Widget& parent, SpaceViewport& viewport);
+		SpaceSheet(Widget parent, SpaceViewport& viewport);
 		~SpaceSheet();
 
 		void next_frame();

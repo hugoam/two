@@ -12,7 +12,7 @@ namespace two
 
 	inline bool clip(const Frame& frame) { return frame.d_layout->m_clipping == Clip::Clip; }
 
-	Widget* pinpoint(Widget& self, vec2 pos, const FrameFilter& filter)
+	Widget pinpoint(Widget self, vec2 pos, const FrameFilter& filter)
 	{
 		Frame& frame = self.frame();
 		if (!frame.d_style || frame.hollow() || (clip(frame) && !frame.inside(pos)))
@@ -22,9 +22,9 @@ namespace two
 		if (Layer* layer = self.find_state<Layer>())
 			for (uint32_t node : reverse_adapt(layer->d_sublayers))
 			{
-				Widget& widget = graph.node(node);
+				Widget widget = graph.node(node);
 				vec2 local = widget.integrate_position(pos, self);
-				if (Widget* target = pinpoint(widget, local, filter))
+				if (Widget target = pinpoint(widget, local, filter))
 					return target;
 			}
 
@@ -32,9 +32,9 @@ namespace two
 		span<uint32_t> attached = self.attached();
 		for (size_t i = attached.size(); i-- > 0;)
 		{
-			Widget& widget = graph.node(attached[i]);
+			Widget widget = graph.node(attached[i]);
 			vec2 local = widget.integrate_position(pos, self);
-			if (Widget* target = pinpoint(widget, local, filter))
+			if (Widget target = pinpoint(widget, local, filter))
 				return target;
 		}
 
@@ -43,34 +43,23 @@ namespace two
 		{
 			if (descendants[i] == PooledGraph<Widget>::none || graph.m_parent[descendants[i]] != self.m_index)
 				continue;
-			Widget& widget = graph.node(descendants[i]);
+			Widget widget = graph.node(descendants[i]);
 
 			vec2 local = widget.integrate_position(pos, self);
-			if (Widget* target = pinpoint(widget, local, filter))
+			if (Widget target = pinpoint(widget, local, filter))
 				return target;
 		}
 
 		if (filter(frame) && frame.inside(pos))
-			return &self;
+			return self;
 		return nullptr;
 	}
-
-	Widget::Widget(PooledGraph<Widget>& graph)
-		: PooledNode(graph)
-	{
-		graph.m_root = this;
-	}
-
-	// the index of the widget isn't set yet: its parent is the one given
-	Widget::Widget(Widget* parent)
-		: PooledNode(parent)
-	{}
 
 	// the widget forgets the events it received, gives its modal control up, and the presses it holds back to the root, unless another widget took them over
 	// its parent is laid out again without it: the nodes are released before any is destroyed, the parent is still known
 	void Widget::release()
 	{
-		if(Widget* parent = this->parent())
+		if(Widget parent = this->parent())
 			parent->mark_dirty(DIRTY_LAYOUT);
 
 		this->release_layer();
@@ -88,14 +77,14 @@ namespace two
 					button.m_pressed = ui.control_id();
 	}
 
-	void Widget::reparent(Widget* old)
+	void Widget::reparent(Widget old)
 	{
 		// the frame follows the widget in its new parent, so do the layers, its own, or else the ones of its descendants
-		Widget* old_layer = old ? &old->layer_widget() : nullptr;
-		Widget* parent = this->parent();
-		Widget* new_layer = parent ? &parent->layer_widget() : nullptr;
+		Widget old_layer = old ? old->layer_widget() : nullptr;
+		Widget parent = this->parent();
+		Widget new_layer = parent ? parent->layer_widget() : nullptr;
 
-		auto relink = [&](Widget& widget, Layer& layer)
+		auto relink = [&](Widget widget, Layer& layer)
 		{
 			if(!layer.master() && m_graph->find_state<Layer>(layer.d_parent))
 				m_graph->node(layer.d_parent).remove_sublayer(widget, layer);
@@ -110,7 +99,7 @@ namespace two
 			for(uint32_t index : this->descendants())
 				if(index != PooledGraph<Widget>::none)
 				{
-					Widget& widget = m_graph->node(index);
+					Widget widget = m_graph->node(index);
 					Layer* layer = widget.find_state<Layer>();
 					if(layer && layer->d_parent == (old_layer ? old_layer->m_index : Layer::none))
 						relink(widget, *layer);
@@ -127,9 +116,9 @@ namespace two
 		return static_cast<Ui&>(*m_graph);
 	}
 
-	Widget& Widget::parent_modal()
+	Widget Widget::parent_modal()
 	{
-		if(Widget* parent = this->parent())
+		if(Widget parent = this->parent())
 			return parent->modal() ? *parent : parent->parent_modal();
 		else
 			return *this;
@@ -164,12 +153,12 @@ namespace two
 	// its parents in the widget tree can change, e.g a top node detached from its parent
 	// the modality is a state of the node, created when it's first set: a widget without one has no parent, no modal widget and no mask
 	// a released widget has no states anymore, its modality isn't created again
-	void Widget::set_modal(Widget* widget, uint32_t device_filter)
+	void Widget::set_modal(Widget widget, uint32_t device_filter)
 	{
 		ModalControl* control = this->find_state<ModalControl>();
 		if(control && control->m_modal)
 		{
-			Widget& modal = this->ui().control(control->m_modal);
+			Widget modal = this->ui().control(control->m_modal);
 			modal.set_modal(nullptr, 0);
 			modal.disable_state(FOCUSED);
 			if(ModalControl* modal_control = modal.find_state<ModalControl>())
@@ -191,7 +180,7 @@ namespace two
 	void Widget::yield_modal()
 	{
 		ModalControl* control = this->find_state<ModalControl>();
-		Widget* parent = control ? this->ui().find_control(control->m_parent) : nullptr;
+		Widget parent = control ? this->ui().find_control(control->m_parent) : nullptr;
 		ModalControl* parent_control = parent ? parent->find_state<ModalControl>() : nullptr;
 		if(parent_control && parent_control->m_modal == this->control_id())
 			parent->set_modal(nullptr, 0);
@@ -205,12 +194,12 @@ namespace two
 		this->update_state(data().m_state);
 	}
 
-	Widget* Widget::pinpoint(vec2 pos)
+	Widget Widget::pinpoint(vec2 pos)
 	{
 		return this->pinpoint(pos, [](Frame& frame) { return frame.opaque(); });
 	}
 
-	Widget* Widget::pinpoint(vec2 pos, const FrameFilter& filter)
+	Widget Widget::pinpoint(vec2 pos, const FrameFilter& filter)
 	{
 		return two::pinpoint(*this, pos, filter);
 	}

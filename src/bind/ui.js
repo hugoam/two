@@ -1055,7 +1055,9 @@ WidgetData.prototype["__destroy"] = WidgetData.prototype.__destroy = function() 
     _two_WidgetData__destroy(this.__ptr);
 };
 // Widget
-function Widget() { throw "cannot construct a Widget, no constructor in IDL" }
+function Widget() {
+    this.__ptr = _two_Widget__construct_0(); getCache(Widget)[this.__ptr] = this;
+};
 Widget.prototype = Object.create(WrapperObject.prototype);
 Widget.prototype.constructor = Widget;
 Widget.prototype.__class = Widget;

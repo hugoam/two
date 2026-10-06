@@ -7,7 +7,7 @@ import two.gfx.gltf;
 
 using namespace two;
 
-void debug_normals(Gnode& parent, Mesh& mesh, const mat4& transform, float length = 1.f)
+void debug_normals(Gnode parent, Mesh& mesh, const mat4& transform, float length = 1.f)
 {
 	MeshAdapter source = mesh.m_cache.read();
 
@@ -19,25 +19,25 @@ void debug_normals(Gnode& parent, Mesh& mesh, const mat4& transform, float lengt
 	}
 }
 
-void ex_07_gltf(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_07_gltf(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 	static ImporterGltf gltf_importer(app.m_gfx);
 
 	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
 
-	Gnode& scene = viewer->m_scene.begin();
+	Gnode scene = viewer->m_scene.begin();
 
 	gfx::direct_light_node(scene, sun_rotation(c_pi4, c_pi4));
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 	
-	Gnode& model_node = gfx::node(scene);
+	Gnode model_node = gfx::node(scene);
 	gfx::model(model_node, "DamagedHelmet");
 	
 	//Model& model = *app.m_gfx.models().file("DamagedHelmet");
 	//debug_normals(scene, *model.m_meshes[0], model.m_items[0].m_transform, 0.2f);
 	
-	//if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	//if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 	//	edit_viewer_filters(*dock, *viewer);
 }
 

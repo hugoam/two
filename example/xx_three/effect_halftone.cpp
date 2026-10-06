@@ -412,13 +412,13 @@ EX(xx_effect_halftone)
 	}
 	
 #if UI
-	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::sheet(key(), *dock);
+		Widget sheet = ui::sheet(key(), *dock);
 
 		vec3 rotate = halftone.m_rotate / (c_pi / 180.f);
 
-		Widget& controls = ui::stack(key(), sheet);
+		Widget controls = ui::stack(key(), sheet);
 
 		ui::dropdown_field(key(), controls, "shape", { "None", "Dot", "Ellipse", "Line", "Square" }, (uint32_t&)halftone.m_shape);
 

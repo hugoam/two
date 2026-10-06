@@ -202,7 +202,7 @@ namespace two
 
 namespace two
 {
-	void debug_draw_light_clusters(Gnode& parent, Viewport& viewport, Camera& camera)
+	void debug_draw_light_clusters(Gnode parent, Viewport& viewport, Camera& camera)
 	{
 		if(!viewport.m_clustered) return;
 		Froxelizer& clusters = *viewport.m_clusters;
@@ -242,7 +242,7 @@ namespace two
 		}
 	}
 
-	void debug_draw_light_slices(Gnode& parent, Light& light, bool frustums, bool bounds)
+	void debug_draw_light_slices(Gnode parent, Light& light, bool frustums, bool bounds)
 	{
 		uint32_t index = 0; UNUSED(light);// light.m_index];
 
@@ -254,9 +254,9 @@ namespace two
 
 		CSMShadow& shadow = block_shadow.m_csm_shadows[index];
 
-		auto draw = [](Gnode& parent, const Shape& shape, const Symbol& symbol)
+		auto draw = [](Gnode parent, const Shape& shape, const Symbol& symbol)
 		{
-			Gnode& self = gfx::node(parent);
+			Gnode self = gfx::node(parent);
 			gfx::draw(self, shape, symbol);
 		};
 

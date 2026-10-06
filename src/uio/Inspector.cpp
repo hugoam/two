@@ -6,8 +6,6 @@ module;
 #include <infra/Cpp20.h>
 module two.uio;
 
-//#define EDIT_MEMBER_REF
-
 namespace two
 {
 	vector<EditSpec> g_edit_specs = vector<EditSpec>(c_max_types);
@@ -30,51 +28,46 @@ namespace two
 		Ref object = {};
 	};
 
-	bool member_edit(Widget& parent, Ref object, Member& member, EditorHint hint = EditorHint::Inline)
+	bool member_edit(Widget parent, Ref object, Member& member, EditorHint hint = EditorHint::Inline)
 	{
-#ifdef EDIT_MEMBER_REF
-		Ref value = member.cast_get(object);
-		bool changed = any_edit(parent, value, member.is_link() | member.is_pointer(), hint);
-#else
-		//Var value = member.safe_get(object);
-		Var value = Var(member.get(object));
+		// the value refers to the member, or holds the copy a getter returns: it's set back if it changed, which also re-points a pointer member
+		Var value; member.cast_get(object, value);
 		bool changed = any_edit(parent, value.m_ref, member.is_link() | member.is_pointer(), hint);
 
 		if(changed && member.is_mutable() && !member.is_component())
 			member.cast_set(object, value);
-#endif
-		
+
 		return changed;
 	}
 
-	bool member_edit_row(Widget& parent, Ref object, Member& member)
+	bool member_edit_row(Widget parent, Ref object, Member& member)
 	{
-		Widget& self = ui::table_row(key(), parent);
+		Widget self = ui::table_row(key(), parent);
 		ui::label(key(), self, member.m_name);
 		return member_edit(self, object, member);
 	}
 
-	bool member_edit_toggle(Widget& parent, Ref object, Member& member)
+	bool member_edit_toggle(Widget parent, Ref object, Member& member)
 	{
-		Widget& self = ui::row(key(), parent);
+		Widget self = ui::row(key(), parent);
 		if(ui::modal_button(key(), self, self, "Edit", 1))
 		{
-			Widget& modal = ui::modal(key(), self.parent_modal());
+			Widget modal = ui::modal(key(), self.parent_modal());
 			return member_edit(modal, object, member, EditorHint::Table);
 		}
 		return false;
 	}
 
-	bool member_edit_embed(Widget& parent, Ref object, Member& member)
+	bool member_edit_embed(Widget parent, Ref object, Member& member)
 	{
 		return member_edit(parent, object, member, EditorHint::Rows);
 	}
 
-	bool member_edit_nested(Widget& parent, Ref object, Member& member)
+	bool member_edit_nested(Widget parent, Ref object, Member& member)
 	{
-		//Widget& row = ui::table_row(key(), parent);
-		Widget& row = ui::table_separator(key(), parent);
-		Widget* body = ui::tree_node(key(), row, member.m_name, false, true).body;
+		//Widget row = ui::table_row(key(), parent);
+		Widget row = ui::table_separator(key(), parent);
+		Widget body = ui::tree_node(key(), row, member.m_name, false, true).body;
 		if(body)
 			return member_edit(*body, object, member, EditorHint::Rows);
 		return false;
@@ -91,7 +84,7 @@ namespace two
 		return g_edit_specs[member.m_type->m_id].m_nest_mode[mode];
 	}
 
-	bool object_edit_rows(Widget& parent, Widget& table, Ref object)
+	bool object_edit_rows(Widget parent, Widget table, Ref object)
 	{
 		UNUSED(parent);
 		bool changed = false;
@@ -118,12 +111,12 @@ namespace two
 		return changed;
 	}
 
-	bool object_edit_rows(Widget& parent, Ref object)
+	bool object_edit_rows(Widget parent, Ref object)
 	{
 		return object_edit_rows(parent, parent, object);
 	}
 
-	bool object_edit_inrow(Widget& row, Ref object)
+	bool object_edit_inrow(Widget row, Ref object)
 	{
 		bool changed = false;
 
@@ -149,43 +142,43 @@ namespace two
 		return changed;
 	}
 
-	bool object_edit_inline(Widget& parent, Ref object)
+	bool object_edit_inline(Widget parent, Ref object)
 	{
-		Widget& row = ui::widget(key(), parent, styles().wrap_button);
+		Widget row = ui::widget(key(), parent, styles().wrap_button);
 		return object_edit_inrow(row, object);
 	}
 
-	Widget& object_edit_inline_item(Widget& parent, Ref object)
+	Widget object_edit_inline_item(Widget parent, Ref object)
 	{
-		Widget& row = ui::table_row(key(), parent);
+		Widget row = ui::table_row(key(), parent);
 		object_edit_inrow(row, object);
 		return row;
 	}
 
-	bool object_edit_columns(Widget& parent, Ref object)
+	bool object_edit_columns(Widget parent, Ref object)
 	{
 		static float columns[2] = { 0.33f, 0.67f };
-		Widget& self = ui::columns(key(), parent, { columns, 2 });
+		Widget self = ui::columns(key(), parent, { columns, 2 });
 		return object_edit_rows(parent, self, object);
 	}
 
-	bool object_edit_table(Widget& parent, Ref object)
+	bool object_edit_table(Widget parent, Ref object)
 	{
 		static cstring columns[2] = { "field", "value" };
 		static float spans[2] = { 0.4f, 0.6f };
-		Widget& self = ui::table(key(), parent, { columns, 2 }, { spans, 2 });
+		Widget self = ui::table(key(), parent, { columns, 2 }, { spans, 2 });
 		return object_edit_rows(parent, self, object);
 	}
 
-	bool object_edit_expandbox(Widget& parent, Ref object)
+	bool object_edit_expandbox(Widget parent, Ref object)
 	{
-		Widget* body = ui::expandbox(key(), parent, object.m_type->m_name, true).body;
+		Widget body = ui::expandbox(key(), parent, object.m_type->m_name, true).body;
 		if(body)
 			return object_edit_columns(*body, object);
 		return false;
 	}
 
-	bool object_edit(Widget& parent, Ref object, EditorHint hint)
+	bool object_edit(Widget parent, Ref object, EditorHint hint)
 	{
 		if(hint == EditorHint::Table)
 			return object_edit_columns(parent, object);
@@ -195,21 +188,21 @@ namespace two
 			return object_edit_inline(parent, object);
 	}
 
-	bool entity_edit(Widget& parent, Entity entity, EditorHint hint)
+	bool entity_edit(Widget parent, Entity entity, EditorHint hint)
 	{
 		UNUSED(hint);
 		bool changed = false;
 
 		static cstring columns[2] = { "field", "value" };
 		static float spans[2] = { 0.4f, 0.6f };
-		Widget& self = ui::table(key(), parent, { columns, 2 }, { spans, 2 });
+		Widget self = ui::table(key(), parent, { columns, 2 }, { spans, 2 });
 
 		EntityStream& stream = s_ecs[entity.m_ecs]->stream(entity.m_stream);
 		uint32_t index = stream.m_handles[entity.m_handle];
 		for(auto& buffer : stream.m_buffers)
 		{
-			Widget& row = ui::table_separator(key(), self);
-			Widget* body = ui::tree_node(key(), row, buffer->m_type->m_name, false, true).body;
+			Widget row = ui::table_separator(key(), self);
+			Widget body = ui::tree_node(key(), row, buffer->m_type->m_name, false, true).body;
 			if(body)
 				changed |= object_edit_columns(*body, buffer->get(index));
 		}
@@ -217,13 +210,13 @@ namespace two
 		return changed;
 	}
 
-	bool inspector(Widget& parent, Entity entity)
+	bool inspector(Widget parent, Entity entity)
 	{
 		Section self = section(key(), parent, "Entity Inspector", true);
 		return entity_edit(self.body, entity);
 	}
 
-	bool inspector(Widget& parent, Ref object)
+	bool inspector(Widget parent, Ref object)
 	{
 		Section self = section(key(), parent, "Inspector", true);
 		if(object.m_type->is<EntityRef>())
@@ -232,7 +225,7 @@ namespace two
 			return object_edit_columns(self.body, object);
 	}
 
-	bool inspector(Widget& parent)
+	bool inspector(Widget parent)
 	{
 		Section self = section(key(), parent, "Inspector", true);
 		EditState& state = self.self.state<EditState>();
@@ -241,16 +234,16 @@ namespace two
 		return false;
 	}
 
-	void multi_object_edit(Widget& parent, Type& type, vector<Ref> objects)
+	void multi_object_edit(Widget parent, Type& type, vector<Ref> objects)
 	{
 		ScrollSheet scroll_sheet = ui::scroll_sheet(key(), parent);
-		Widget& table = ui::table(key(), scroll_sheet.body, cls(type).m_field_names, {});
+		Widget table = ui::table(key(), scroll_sheet.body, cls(type).m_field_names, {});
 
 		for(Ref object : objects)
 			object_edit_inline(table, object);
 	}
 
-	void multi_inspector(Widget& parent, Type& type, vector<Var>& objects, size_t& selected)
+	void multi_inspector(Widget parent, Type& type, vector<Var>& objects, size_t& selected)
 	{
 		enum Modes { CREATE = 1 << 0, TYPE_INFO = 1 << 1 };
 
@@ -267,19 +260,19 @@ namespace two
 
 		if(ui::modal_button(key(), self, *self.toolbar, "Create", CREATE))
 		{
-			Widget& modal = ui::auto_modal(key(), self, CREATE);
+			Widget modal = ui::auto_modal(key(), self, CREATE);
 			bool done = object_creator(modal, type);
 			UNUSED(done);
 		}
 
-		Widget& board = ui::board(key(), self.body);
+		Widget board = ui::board(key(), self.body);
 
 		ScrollSheet scroll_sheet = ui::scroll_sheet(key(), board);
-		Widget& table = ui::table(key(), scroll_sheet.body, cls(type).m_field_names, {});
+		Widget table = ui::table(key(), scroll_sheet.body, cls(type).m_field_names, {});
 
 		for(size_t i = 0; i < objects.size(); ++i)
 		{
-			Widget& row = object_edit_inline_item(table, objects[i]);
+			Widget row = object_edit_inline_item(table, objects[i]);
 			row.set_state(SELECTED, selected == i);
 			if(row.activated())
 				selected = i;

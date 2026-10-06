@@ -66,15 +66,15 @@ namespace two
 		WidgetHandle m_screen = nullptr;
     };
 
-	TWO_TOOL_EXPORT void brush_preview(Widget& parent, Brush& brush);
-	TWO_TOOL_EXPORT void brush_options(Widget& parent, Brush& brush);
-	TWO_TOOL_EXPORT void current_brush_edit(Widget& parent, EditContext& context);
+	TWO_TOOL_EXPORT void brush_preview(Widget parent, Brush& brush);
+	TWO_TOOL_EXPORT void brush_options(Widget parent, Brush& brush);
+	TWO_TOOL_EXPORT void current_brush_edit(Widget parent, EditContext& context);
 
-	TWO_TOOL_EXPORT void object_editor(Widget& parent, const Selection& selection);
+	TWO_TOOL_EXPORT void object_editor(Widget parent, const Selection& selection);
 
-	TWO_TOOL_EXPORT void tools_transform(Widget& toolbar, EditContext& context);
-	TWO_TOOL_EXPORT void edit_transform(Widget& parent, EditContext& context);
-	TWO_TOOL_EXPORT void edit_tools(Widget& screen, DockerHandle docker, EditContext& context);
-	TWO_TOOL_EXPORT void edit_tools(Widget& screen, EditContext& context);
-	TWO_TOOL_EXPORT void edit_context(Widget& parent, EditContext& context, bool tools = false);
+	TWO_TOOL_EXPORT void tools_transform(Widget toolbar, EditContext& context);
+	TWO_TOOL_EXPORT void edit_transform(Widget parent, EditContext& context);
+	TWO_TOOL_EXPORT void edit_tools(Widget screen, DockerHandle docker, EditContext& context);
+	TWO_TOOL_EXPORT void edit_tools(Widget screen, EditContext& context);
+	TWO_TOOL_EXPORT void edit_context(Widget parent, EditContext& context, bool tools = false);
 }

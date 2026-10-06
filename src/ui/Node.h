@@ -6,7 +6,7 @@
 
 #include <ui/Forward.h>
 #include <ui/Style/Style.h>
-#include <ui/Widget.h>
+#include <ui/WidgetStruct.h>
 #include <ui/NodeStruct.h>
 
 namespace two
@@ -57,9 +57,9 @@ namespace ui
 	export_ TWO_UI_EXPORT Node& node(Canvas& parent, span<cstring> title, vec2& position, int order = 0, Ref identity = {});
 	export_ TWO_UI_EXPORT func_ Node& node(Canvas& parent, cstring title, vec2& position, int order = 0, Ref identity = {});
 
-	export_ TWO_UI_EXPORT func_ Widget& node_cable(NodeKey id, Canvas& canvas, NodePlug& plug_out, NodePlug& plug_in);
+	export_ TWO_UI_EXPORT func_ Widget node_cable(NodeKey id, Canvas& canvas, NodePlug& plug_out, NodePlug& plug_in);
 
-	export_ TWO_UI_EXPORT func_ CanvasHandle canvas(NodeKey id, Widget& parent, size_t num_nodes = 0);
+	export_ TWO_UI_EXPORT func_ CanvasHandle canvas(NodeKey id, Widget parent, size_t num_nodes = 0);
 	export_ TWO_UI_EXPORT NodeConnection canvas_connect(Canvas& canvas);
 	export_ TWO_UI_EXPORT void canvas_autolayout(Canvas& canvas);
 }

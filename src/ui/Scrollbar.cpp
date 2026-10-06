@@ -17,21 +17,21 @@ namespace ui
 		return content_size - visible_size > 0.f;
 	}
 
-	void scroll_to(Widget& content, Axis dim, float offset)
+	void scroll_to(Widget content, Axis dim, float offset)
 	{
 		content.set_position(dim, -offset);
 		//content.layer().setForceRedraw();
 	}
 
-	bool scroller(NodeKey id, Widget& parent, float& cursor, float overflow, float visible_size, Axis dim)
+	bool scroller(NodeKey id, Widget parent, float& cursor, float overflow, float visible_size, Axis dim)
 	{
 		return slider(id, parent, scrollbar_styles().scroller, cursor, SliderMetrics{ 0.f, overflow, 1.f, visible_size },
 					  dim, true, false, &scrollbar_styles().scroller_knob);
 	}
 
-	Widget& scrollbar(NodeKey id, Widget& parent, Widget& frame, Widget& content, Axis dim, v2<uint> grid_index)
+	Widget scrollbar(NodeKey id, Widget parent, Widget frame, Widget content, Axis dim, v2<uint> grid_index)
 	{
-		Widget& self = widget(id, parent, styles().row, false, dim, grid_index);
+		Widget self = widget(id, parent, styles().row, false, dim, grid_index);
 
 		float visible_size = frame.frame().m_size[dim];
 		float content_size = content.frame().m_size[dim] * content.frame().m_scale;
@@ -40,18 +40,18 @@ namespace ui
 		if(overflow <= 0.f)
 			return self;
 
-		Widget& scrollbar = widget(key(), self, scrollbar_styles().scrollbar, false, dim);
+		Widget scrollbar = widget(key(), self, scrollbar_styles().scrollbar, false, dim);
 
 		float cursor = -content.frame().m_position[dim];
 		if(cursor > 0.f && content_size - cursor < visible_size)
 			cursor = max(content_size - visible_size, 0.f);
 
-		Widget& rewind = button(key(), scrollbar, dim == Axis::Y ? scrollbar_styles().scroll_up
+		Widget rewind = button(key(), scrollbar, dim == Axis::Y ? scrollbar_styles().scroll_up
 														  : scrollbar_styles().scroll_left);
 
 		scroller(key(), scrollbar, cursor, overflow, visible_size, dim);
 
-		Widget& forward = button(key(), scrollbar, dim == Axis::Y ? scrollbar_styles().scroll_down
+		Widget forward = button(key(), scrollbar, dim == Axis::Y ? scrollbar_styles().scroll_down
 														   : scrollbar_styles().scroll_right);
 
 		if(rewind.activated())

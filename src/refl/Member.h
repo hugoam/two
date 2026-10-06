@@ -9,7 +9,8 @@
 
 namespace two
 {
-	using MemberGet = void*(*)(void*);
+	// a getter sets result to the address of what it returns, or assigns the value it returns to the storage result points to, like a function returning
+	using MemberGet = void(*)(void*, void*&);
 
 	export_ class refl_ TWO_REFL_EXPORT Static
 	{
@@ -60,12 +61,21 @@ namespace two
 		bool is_component() const { return (m_flags & Component) != 0; }
 		bool is_link() const { return (m_flags & Link) != 0; }
 		bool is_value() const { return (m_flags & Value) != 0; }
+		// the getter returns a value, not a reference: it needs storage for it
+		bool is_value_getter() const { return m_get && (m_flags & Link) == 0; }
 
 		inline Ref ref(Ref object) const { return Ref((void*)((char*)object.m_value + m_offset), *m_type); }
 
+		// the member, or what its getter returns a reference to: a getter returning a value needs get(object, result)
 		inline Ref get(Ref object) const
 		{
-			if(m_get) return Ref(m_get(object.m_value), *m_type);
+			if(m_get)
+			{
+				assert(!this->is_value_getter());
+				void* result = nullptr;
+				m_get(object.m_value, result);
+				return Ref(result, *m_type);
+			}
 			Ref ref = this->ref(object);
 			if(this->is_pointer())
 				return Ref(*(void**)ref.m_value, *m_type);
@@ -96,7 +106,11 @@ namespace two
 		}
 
 		inline Ref cast(Ref object) const;
+		// any member: a reference to it, or to what its getter returns, or the value its getter returns, held by result
+		void get(Ref object, Var& result) const;
+
 		inline Ref cast_get(Ref object) const;
+		inline void cast_get(Ref object, Var& result) const;
 		//inline Var safe_get(Ref object) const;
 		inline void cast_set(Ref object, Ref value) const;
 	};

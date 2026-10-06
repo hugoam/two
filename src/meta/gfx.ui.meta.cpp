@@ -10,8 +10,8 @@ void two_OrbitController_set_eye(void* object, span<void*> args, void*& result) 
 void two_OrbitController_set_target(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::OrbitController*>(object)).set_target(*static_cast<two::vec3*>(args[0])); }
 void two_ViewerHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::ViewerHandle(); }
 void two_ViewerHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::ViewerHandle((*static_cast<two::ViewerHandle*>(other))); }
-void* two_ViewerHandle__get_self(void* object) { return &(*static_cast<two::ViewerHandle*>(object)).self(); }
-void* two_ViewerHandle__get_viewer(void* object) { return &(*static_cast<two::ViewerHandle*>(object)).viewer(); }
+void two_ViewerHandle__get_self(void* object, void*& result) { (*static_cast<two::Widget*>(result)) = (*static_cast<two::ViewerHandle*>(object)).self(); }
+void two_ViewerHandle__get_viewer(void* object, void*& result) { result = &(*static_cast<two::ViewerHandle*>(object)).viewer(); }
 void two_SceneViewerHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::SceneViewerHandle(); }
 void two_SceneViewerHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::SceneViewerHandle((*static_cast<two::SceneViewerHandle*>(other))); }
 void two_ui_viewer_0(span<void*> args, void*& result) { (*static_cast<two::ViewerHandle*>(result)) = two::ui::viewer(*static_cast<two::NodeKey*>(args[0]), *static_cast<two::Widget*>(args[1]), *static_cast<two::Scene*>(args[2])); }
@@ -227,7 +227,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, SIZE_MAX, type<two::Widget>(), "self", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_ViewerHandle__get_self },
+			{ t, SIZE_MAX, type<two::Widget>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_ViewerHandle__get_self },
 			{ t, SIZE_MAX, type<two::Viewer>(), "viewer", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_ViewerHandle__get_viewer }
 		};
 		// methods
@@ -272,12 +272,12 @@ namespace two
 		m.m_types.push_back(&type<two::SceneViewerHandle>());
 		m.m_types.push_back(&type<two::ui::OrbitMode>());
 		{
-			static Function f = { &namspc({ "two", "ui" }), "viewer", funcptr<two::ViewerHandle(*)(two::NodeKey, two::Widget&, two::Scene&)>(two::ui::viewer), two_ui_viewer_0, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "scene", type<two::Scene>(), Param::Reference } }, { &type<two::ViewerHandle>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "viewer", funcptr<two::ViewerHandle(*)(two::NodeKey, two::Widget, two::Scene&)>(two::ui::viewer), two_ui_viewer_0, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "scene", type<two::Scene>(), Param::Reference } }, { &type<two::ViewerHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static two::vec2 size_default = vec2(0.f);
-			static Function f = { &namspc({ "two", "ui" }), "scene_viewer", funcptr<two::SceneViewerHandle(*)(two::NodeKey, two::Widget&, const two::vec2&)>(two::ui::scene_viewer), two_ui_scene_viewer_1, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(), Param::Reference }, { "size", type<two::vec2>(), Param::Default, &size_default } }, { &type<two::SceneViewerHandle>(), QualType::None } };
+			static Function f = { &namspc({ "two", "ui" }), "scene_viewer", funcptr<two::SceneViewerHandle(*)(two::NodeKey, two::Widget, const two::vec2&)>(two::ui::scene_viewer), two_ui_scene_viewer_1, { { "id", type<two::NodeKey>(),  }, { "parent", type<two::Widget>(),  }, { "size", type<two::vec2>(), Param::Default, &size_default } }, { &type<two::SceneViewerHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{

@@ -39,20 +39,20 @@ static VisualScript& create_script()
 	return script;
 }
 
-void ex_16_visual_script(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_16_visual_script(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 	UNUSED(app);
 	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
 
-	Gnode& scene = viewer->m_scene->begin();
+	Gnode scene = viewer->m_scene->begin();
 
 	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::None);
 
 	static VisualScript& script = create_script();
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", carray<uint16_t, 1>{ 1U }))
 		visual_script_edit(*dock, script);
 
 	static size_t field_size = 10U;
@@ -61,8 +61,8 @@ void ex_16_visual_script(Shell& app, Widget& parent, DockbarHandle dockbar)
 	std::vector<Var> args = { Ref(&noise_field) };
 	script(args);
 
-	Gnode& filled_node = gfx::node(scene);
-	Gnode& empty_node = gfx::node(scene);
+	Gnode filled_node = gfx::node(scene);
+	Gnode empty_node = gfx::node(scene);
 
 	std::vector<vec3> filled_positions;
 	std::vector<vec3> empty_positions;

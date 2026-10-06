@@ -8,7 +8,7 @@ module two.gfx.ui;
 
 namespace two
 {
-	SpaceViewport::SpaceViewport(Widget& self, Scene& scene)
+	SpaceViewport::SpaceViewport(Widget self, Scene& scene)
 		: Viewer(self, scene)
 	{}
 }

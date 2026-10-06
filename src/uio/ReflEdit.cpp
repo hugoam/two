@@ -48,9 +48,9 @@ namespace two
 		meta_styles().number.m_skin.m_text_colour		= rgba(palette[size_t(CodePalette::Number)]);
 	}
 
-	void meta_type(Widget& parent, Meta& meta)
+	void meta_type(Widget parent, Meta& meta)
 	{
-		Widget& row = ui::widget(key(), parent, meta_styles().element);
+		Widget row = ui::widget(key(), parent, meta_styles().element);
 		ui::item(key(), row, meta_styles().syntax, to_string(meta.m_type_class).c_str());
 		if(!meta.m_namespace->is_root())
 		{
@@ -59,31 +59,31 @@ namespace two
 		}
 		ui::item(key(), row, meta_styles().type, meta.m_name);
 
-		Widget& size = ui::widget(key(), parent, meta_styles().element);
+		Widget size = ui::widget(key(), parent, meta_styles().element);
 		ui::item(key(), size, meta_styles().type, "size");
 		ui::item(key(), size, meta_styles().number, to_string(meta.m_size).c_str());
 	}
 
-	void meta_description(Widget& parent, Meta& meta)
+	void meta_description(Widget parent, Meta& meta)
 	{
 		static float columns[2] = { 0.2f, 0.8f };
-		Widget& self = ui::columns(key(), parent, { columns, 2 });
+		Widget self = ui::columns(key(), parent, { columns, 2 });
 		ui::field_label(key(), self, "name", meta.m_name);
 		ui::field_label(key(), self, "namespace", meta.m_namespace->m_name);
 		ui::enum_field<TypeClass>(key(), self, "type class", meta.m_type_class);
 		ui::field<size_t>(key(), self, "size", meta.m_size);
 	}
 
-	void meta_description(Widget& parent, Type& type)
+	void meta_description(Widget parent, Type& type)
 	{
 		return meta_description(parent, meta(type));
 	}
 
-	void meta_callable(Widget& parent, Callable& callable, bool skip_first = false, bool returns = true)
+	void meta_callable(Widget parent, Callable& callable, bool skip_first = false, bool returns = true)
 	{
-		Widget& sheet = ui::widget(key(), parent, styles().sheet, &callable);
+		Widget sheet = ui::widget(key(), parent, styles().sheet, &callable);
 
-		Widget& row = ui::widget(key(), sheet, meta_styles().element);
+		Widget row = ui::widget(key(), sheet, meta_styles().element);
 		//ui::item(key(), row, meta_styles().syntax, "Function");
 		if(returns)
 		{
@@ -103,19 +103,19 @@ namespace two
 		ui::item(key(), row, meta_styles().syntax, ")");
 	}
 
-	void meta_function(Widget& parent, Function& function)
+	void meta_function(Widget parent, Function& function)
 	{
 		return meta_callable(parent, function);
 	}
 
-	void meta_method(Widget& parent, Method& method)
+	void meta_method(Widget parent, Method& method)
 	{
 		return meta_callable(parent, method, true);
 	}
 
-	void meta_constructors(Widget& parent, Class& cls)
+	void meta_constructors(Widget parent, Class& cls)
 	{
-		Widget& self = ui::widget(key(), parent, meta_styles().frame);
+		Widget self = ui::widget(key(), parent, meta_styles().frame);
 
 		for(DefaultConstructor& constructor : cls.m_default_constructors)
 			meta_callable(self, constructor, true, false);
@@ -123,52 +123,52 @@ namespace two
 			meta_callable(self, constructor, true, false);
 	}
 
-	void meta_methods(Widget& parent, Class& cls)
+	void meta_methods(Widget parent, Class& cls)
 	{
-		Widget& self = ui::widget(key(), parent, meta_styles().frame);
+		Widget self = ui::widget(key(), parent, meta_styles().frame);
 
 		for(Method& method : cls.m_methods)
 			meta_method(self, method);
 	}
 
-	void meta_fields(Widget& parent, Class& cls)
+	void meta_fields(Widget parent, Class& cls)
 	{
-		Widget& self = ui::widget(key(), parent, meta_styles().frame);
-		Widget& table = self;
-		//Widget& table = ui::columns(key(), self, { 0.3f, 0.7f });
+		Widget self = ui::widget(key(), parent, meta_styles().frame);
+		Widget table = self;
+		//Widget table = ui::columns(key(), self, { 0.3f, 0.7f });
 
 		for(Member& member : cls.m_members)
 		{
-			Widget& row = ui::widget(key(), table, meta_styles().element);
+			Widget row = ui::widget(key(), table, meta_styles().element);
 			ui::item(key(), row, meta_styles().type, member.m_type->m_name);
 			ui::item(key(), row, meta_styles().field, member.m_name);
 		}
 	}
 
-	void meta_synopsis(Widget& parent, Function& function)
+	void meta_synopsis(Widget parent, Function& function)
 	{
 		return meta_function(parent, function);
 	}
 
-	void meta_synopsis(Widget& parent, Method& method)
+	void meta_synopsis(Widget parent, Method& method)
 	{
 		return meta_method(parent, method);
 	}
 
-	void meta_enum(Widget& parent, Enum& enu)
+	void meta_enum(Widget parent, Enum& enu)
 	{
-		Widget& self = ui::widget(key(), parent, meta_styles().frame);
+		Widget self = ui::widget(key(), parent, meta_styles().frame);
 		
 		for(size_t i = 0; i < enu.m_names.size(); ++i)
 		{
-			Widget& row = ui::widget(key(), self, meta_styles().element);
+			Widget row = ui::widget(key(), self, meta_styles().element);
 			ui::item(key(), row, meta_styles().identifier, enu.m_names[i]);
 			ui::item(key(), row, meta_styles().syntax, "=");
 			ui::item(key(), row, meta_styles().number, to_string(enu.m_values[i]).c_str());
 		}
 	}
 
-	void meta_class(Widget& parent, Class& cls)
+	void meta_class(Widget parent, Class& cls)
 	{
 		//meta_description(parent, type);
 		if(!cls.m_default_constructors.empty() || !cls.m_constructors.empty())
@@ -188,11 +188,11 @@ namespace two
 		}
 	}
 
-	void meta_synopsis(Widget& parent, Type& type)
+	void meta_synopsis(Widget parent, Type& type)
 	{
-		Widget& self = ui::widget(key(), parent, meta_styles().frame, &type);
+		Widget self = ui::widget(key(), parent, meta_styles().frame, &type);
 
-		Widget& row = ui::widget(key(), self, meta_styles().element);
+		Widget row = ui::widget(key(), self, meta_styles().element);
 		ui::item(key(), row, meta_styles().syntax, to_string(meta(type).m_type_class).c_str());
 		ui::item(key(), row, meta_styles().type, type.m_name);
 		if(g_enu[type.m_id])
@@ -201,9 +201,9 @@ namespace two
 			meta_class(self, cls(type));
 	}
 
-	bool type_browser(Widget& parent, Type*& selected)
+	bool type_browser(Widget parent, Type*& selected)
 	{
-		Widget& list = ui::scroll_sheet(key(), parent).body;
+		Widget list = ui::scroll_sheet(key(), parent).body;
 
 		for(Module* m : system().m_modules)
 			for(Type* type : m->m_types)
@@ -225,15 +225,15 @@ namespace two
 		Type* m_type = nullptr;
 	};
 
-	void class_edit(Widget& parent, Class& cls)
+	void class_edit(Widget parent, Class& cls)
 	{
-		Widget& self = ui::widget(key(), parent, meta_styles().frame);
+		Widget self = ui::widget(key(), parent, meta_styles().frame);
 
 		meta_type(self, meta(*cls.m_type));
 		meta_class(self, cls);
 	}
 
-	void meta_edit(Widget& parent, Type& type)
+	void meta_edit(Widget parent, Type& type)
 	{
 		enum Modes { Browse = 1 << 0 };
 
@@ -251,49 +251,49 @@ namespace two
 		class_edit(self.body, cls(*state.m_type));
 	}
 
-	void meta_browser(Widget& parent, Module& m)
+	void meta_browser(Widget parent, Module& m)
 	{
 		UNUSED(parent); UNUSED(m);
 	}
 
-	void meta_browser(Widget& parent)
+	void meta_browser(Widget parent)
 	{
 		enum Mode : uint32_t { Basetypes = 0, Enums, Classes, Functions };
 
 		static Ref selected = {};
 
-		//Widget& self = ui::dockspace(key(), parent);
-		Widget& self = ui::board(key(), parent);
+		//Widget self = ui::dockspace(key(), parent);
+		Widget self = ui::board(key(), parent);
 
-		Widget& left = ui::layout_span(key(), self, 0.3f);
-		Widget& right = ui::layout_span(key(), self, 0.7f);
+		Widget left = ui::layout_span(key(), self, 0.3f);
+		Widget right = ui::layout_span(key(), self, 0.7f);
 
-		Widget& table = ui::columns(key(), left, { 0.3f, 0.7f });
+		Widget table = ui::columns(key(), left, { 0.3f, 0.7f });
 
 		static Mode mode = Classes;
 		ui::dropdown_field(key(), table, "Browse:", { "Basetypes", "Enums", "Classes", "Functions" }, (uint32_t&) mode);
 
 		static map<Module*, bool> modules;
 
-		Widget& row = ui::row(key(), table);
+		Widget row = ui::row(key(), table);
 		ui::label(key(), row, "Modules");
 		ui::Dropdown drop = ui::dropdown(key(), row, ui::dropdown_styles().dropdown_input, "...", ui::PopupFlags::AutoModal);
 		if(drop.body)
 		{
 			for(Module* m : System::instance().m_modules)
 			{
-				Widget& droprow = ui::row(key(), *drop.body);
+				Widget droprow = ui::row(key(), *drop.body);
 				ui::checkbox(key(), droprow, modules[m]);
 				ui::label(key(), droprow, m->m_name);
 			}
 		}
 
-		Widget& sheet = ui::widget(key(), left, styles().sheet, (void*) mode);
-		Widget& meta_list = ui::scroll_sheet(key(), sheet).body;
+		Widget sheet = ui::widget(key(), left, styles().sheet, (void*) mode);
+		Widget meta_list = ui::scroll_sheet(key(), sheet).body;
 
-		auto choice = [](Widget& parent, Ref object, cstring name, Ref& selected) -> Widget&
+		auto choice = [](Widget parent, Ref object, cstring name, Ref& selected) -> Widget
 		{
-			Widget& element = ui::element(key(), parent, object);
+			Widget element = ui::element(key(), parent, object);
 			ui::select_logic(element, object, selected);
 			return ui::multi_item(key(), element, { name });
 		};
@@ -316,7 +316,7 @@ namespace two
 				}
 			}
 
-		Widget& info = ui::widget(key(), right, meta_styles().sheet, (void*)mode);
+		Widget info = ui::widget(key(), right, meta_styles().sheet, (void*)mode);
 		if(Type* type = try_val<Type>(selected))
 		{
 			//if(is_basetype(*type))
@@ -330,12 +330,12 @@ namespace two
 			meta_function(info, *function);
 	}
 
-	void type_browser(Widget& parent)
+	void type_browser(Widget parent)
 	{
 		static Type* selected = nullptr;
 
-		Widget& self = ui::board(key(), parent);
-		Widget& list = ui::scroll_sheet(key(), self).body;
+		Widget self = ui::board(key(), parent);
+		Widget list = ui::scroll_sheet(key(), self).body;
 
 		for(Module* m : system().m_modules)
 			for(Type* type : m->m_types)

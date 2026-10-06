@@ -13,10 +13,10 @@ namespace two
 	// a sheet scrolled in its scroll zone, by its scrollbars: the content goes in the body
 	export_ struct ScrollSheet
 	{
-		Widget& self;
-		Widget& scroll_zone;
-		Widget& body;
-		operator Widget&() const { return self; }
+		Widget self;
+		Widget scroll_zone;
+		Widget body;
+		operator Widget() const { return self; }
 	};
 
 namespace ui
@@ -24,10 +24,10 @@ namespace ui
 	// a sequence of elements selected in the selection: the elements go in the body
 	export_ struct Sequence
 	{
-		Widget& self;
-		Widget& body;
+		Widget self;
+		Widget body;
 		vector<Ref>* selection = nullptr;
-		operator Widget&() const { return self; }
+		operator Widget() const { return self; }
 	};
 }
 
@@ -41,29 +41,29 @@ namespace ui
 	// a tabber, with the headers of its tabs in the head: the active tab goes in the body
 	export_ struct Tabber
 	{
-		Widget& self;
-		Widget& head;
-		Widget& body;
+		Widget self;
+		Widget head;
+		Widget body;
 		TabberState& state;
-		operator Widget&() const { return self; }
+		operator Widget() const { return self; }
 	};
 
 	// a box opened and closed by its header: the body is there when it's open
 	export_ struct Expandbox
 	{
-		Widget& self;
-		Widget& header;
-		Widget* body;
-		operator Widget&() const { return self; }
+		Widget self;
+		Widget header;
+		Widget body;
+		operator Widget() const { return self; }
 	};
 
 	// a node of a tree opened and closed by its header: the body is there when it's open, the node has children
 	export_ struct TreeNode
 	{
-		Widget& self;
-		Widget& header;
-		Widget* body;
-		operator Widget&() const { return self; }
+		Widget self;
+		Widget header;
+		Widget body;
+		operator Widget() const { return self; }
 	};
 
 	// the weights of the columns of a table

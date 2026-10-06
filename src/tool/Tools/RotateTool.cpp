@@ -39,9 +39,9 @@ namespace two
 		m_current = &*m_gizmos.front();
 	}
 
-	Item& rotate_gizmo(Gnode& parent, Axis axis, Colour colour, float ring_radius, uint32_t flags = 0U)
+	Item& rotate_gizmo(Gnode parent, Axis axis, Colour colour, float ring_radius, uint32_t flags = 0U)
 	{
-		Gnode& node = gfx::transform(parent, vec3(0.f), ZeroQuat);
+		Gnode node = gfx::transform(parent, vec3(0.f), ZeroQuat);
 		return gfx::shape(node, Torus(1.f, ring_radius, axis), Symbol(colour, Colour::None, true, true), ItemFlag::Render | flags);
 	}
 
@@ -52,8 +52,8 @@ namespace two
 
 		virtual vec3 grab_point(ViewerHandle viewer, const vec2& pos) { UNUSED(pos); return gizmo_grab_planar(viewer, m_tool.m_transform, m_axis) - m_tool.m_transform.m_position; };
 
-		virtual Item* draw_handle(Gnode& parent) { return &rotate_gizmo(parent, m_axis, Colour::Invisible, 0.05f, ItemFlag::Ui); };
-		virtual void draw_gizmo(Gnode& parent, bool active) { rotate_gizmo(parent, m_axis, gizmo_colour(m_hue, active), 0.01f); };
+		virtual Item* draw_handle(Gnode parent) { return &rotate_gizmo(parent, m_axis, Colour::Invisible, 0.05f, ItemFlag::Ui); };
+		virtual void draw_gizmo(Gnode parent, bool active) { rotate_gizmo(parent, m_axis, gizmo_colour(m_hue, active), 0.01f); };
 	};
 
 	unique<Gizmo> RotateTool::rotation_gizmo(Axis axis, float hue)

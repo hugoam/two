@@ -49,13 +49,13 @@ static string fragment =
 	"}\n"
 	;
 
-void ex_09_live_shader(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_09_live_shader(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 	UNUSED(app);
 	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
 
-	Gnode& scene = viewer->m_scene.begin();
+	Gnode scene = viewer->m_scene.begin();
 
 	static Program program = { "custom_program" };
 	program.set_source(ShaderType::Fragment, fragment);
@@ -67,7 +67,7 @@ void ex_09_live_shader(Shell& app, Widget& parent, DockbarHandle dockbar)
 
 	gfx::manual_job(scene, PassType::Solid, draw_quad);
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
 		Section edit = section(key(), *dock, "Shader Editor");
 		

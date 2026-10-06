@@ -13,7 +13,7 @@ using namespace two;
 // This is a port of imgui_demo.cpp and of the examples main.cpp of dear imgui (https://github.com/ocornut/imgui) to two.ui
 // It maps 1:1 to the original, section by section, and line by line where possible:
 // - ImGui::Xxx() calls map to ui::xxx(key(), parent, ...) calls, with the parent widget passed explicitly
-// - Begin/End pairs map to the body of the widget they return: if(Widget* body = ui::xxx(...).body) { ... }
+// - Begin/End pairs map to the body of the widget they return: if(Widget body = ui::xxx(...).body) { ... }
 // - SameLine() maps to declaring the items on the same line in a ui::row()
 // - The sections using features two.ui doesn't have yet are kept as is from the original under #if 0, or commented out line by line
 // - The functions two.ui doesn't have yet are stubbed below, built from the existing widgets where possible
@@ -153,7 +153,7 @@ namespace ui
 
 	// Text(), TextColored(), TextDisabled(), TextWrapped(), LabelText(), SeparatorText(), TextLinkOpenURL()
 
-	Widget& textf(NodeKey id, Widget& parent, cstring fmt, ...)
+	Widget textf(NodeKey id, Widget parent, cstring fmt, ...)
 	{
 		char buf[1024];
 		va_list args;
@@ -163,7 +163,7 @@ namespace ui
 		return label(id, parent, buf);
 	}
 
-	Widget& text_colored(NodeKey id, Widget& parent, const Colour& colour, cstring text)
+	Widget text_colored(NodeKey id, Widget parent, const Colour& colour, cstring text)
 	{
 		// a style per colour, until widgets can override the colours of their style
 		static map<uint32_t, unique<Style>> colour_styles;
@@ -179,70 +179,70 @@ namespace ui
 		return item(id, parent, *style, text);
 	}
 
-	Widget& text_disabled(NodeKey id, Widget& parent, cstring text)
+	Widget text_disabled(NodeKey id, Widget parent, cstring text)
 	{
-		Widget& self = label(id, parent, text);
+		Widget self = label(id, parent, text);
 		self.enable_state(DISABLED);
 		return self;
 	}
 
-	Widget& text_wrapped(NodeKey id, Widget& parent, cstring text)
+	Widget text_wrapped(NodeKey id, Widget parent, cstring text)
 	{
 		return ui::text(id, parent, text);
 	}
 
-	Widget& label_text(NodeKey id, Widget& parent, cstring label, cstring value)
+	Widget label_text(NodeKey id, Widget parent, cstring label, cstring value)
 	{
-		Widget& self = row(id, parent);
+		Widget self = row(id, parent);
 		ui::label(key(), self, value);
 		ui::label(key(), self, label);
 		return self;
 	}
 
-	Widget& separator_text(NodeKey id, Widget& parent, cstring label)
+	Widget separator_text(NodeKey id, Widget parent, cstring label)
 	{
-		Widget& self = row(id, parent);
+		Widget self = row(id, parent);
 		if(label && label[0] != '\0')
 			ui::label(key(), self, label);
 		ui::separator(key(), self);
 		return self;
 	}
 
-	Widget& text_link(NodeKey id, Widget& parent, cstring label, cstring url = nullptr)
+	Widget text_link(NodeKey id, Widget parent, cstring label, cstring url = nullptr)
 	{
-		Widget& self = button(id, parent, styles().label, label);
+		Widget self = button(id, parent, styles().label, label);
 		tooltip(key(), self, url ? url : label);
 		return self;
 	}
 
 	// Spacing(), Dummy(), NewLine(), Indent()
 
-	Widget& spacing(NodeKey id, Widget& parent)
+	Widget spacing(NodeKey id, Widget parent)
 	{
 		return dummy(id, parent, vec2(0.f, 4.f));
 	}
 
 	// Button(), SmallButton(), ArrowButton(), Checkbox(), CheckboxFlags(), RadioButton()
 
-	Widget& small_button(NodeKey id, Widget& parent, cstring label)
+	Widget small_button(NodeKey id, Widget parent, cstring label)
 	{
 		return button(id, parent, label);
 	}
 
 	enum class Dir { Left, Right, Up, Down };
 
-	Widget& arrow_button(NodeKey id, Widget& parent, Dir dir)
+	Widget arrow_button(NodeKey id, Widget parent, Dir dir)
 	{
 		cstring arrows[] = { "<", ">", "^", "v" };
 		return button(id, parent, arrows[size_t(dir)]);
 	}
 
-	bool checkbox(NodeKey id, Widget& parent, cstring label, bool& value)
+	bool checkbox(NodeKey id, Widget parent, cstring label, bool& value)
 	{
 		return field<bool>(id, parent, label, value, true);
 	}
 
-	bool checkbox_flags(NodeKey id, Widget& parent, cstring label, int& flags, int flags_value)
+	bool checkbox_flags(NodeKey id, Widget parent, cstring label, int& flags, int flags_value)
 	{
 		bool on = (flags & flags_value) == flags_value;
 		if(field<bool>(id, parent, label, on, true))
@@ -256,12 +256,12 @@ namespace ui
 		return false;
 	}
 
-	bool radio_button(NodeKey id, Widget& parent, cstring label, bool active)
+	bool radio_button(NodeKey id, Widget parent, cstring label, bool active)
 	{
 		return radio_choice(id, parent, label, active).activated();
 	}
 
-	bool radio_button(NodeKey id, Widget& parent, cstring label, int& value, int index)
+	bool radio_button(NodeKey id, Widget parent, cstring label, int& value, int index)
 	{
 		if(radio_button(id, parent, label, value == index))
 		{
@@ -273,7 +273,7 @@ namespace ui
 
 	// Combo(), BeginCombo(), ListBox(), BeginListBox(), Selectable()
 
-	bool combo(NodeKey id, Widget& parent, cstring label, int& current, span<cstring> items)
+	bool combo(NodeKey id, Widget parent, cstring label, int& current, span<cstring> items)
 	{
 		uint32_t value = current < 0 ? UINT32_MAX : uint32_t(current);
 		const bool changed = dropdown_field(id, parent, label, items, value, true);
@@ -282,43 +282,43 @@ namespace ui
 		return changed;
 	}
 
-	Widget* begin_combo(NodeKey id, Widget& parent, cstring label, cstring preview)
+	Widget begin_combo(NodeKey id, Widget parent, cstring label, cstring preview)
 	{
-		Widget& self = row(id, parent);
+		Widget self = row(id, parent);
 		Dropdown dropdown = ui::dropdown(key(), self, dropdown_styles().dropdown_input, preview, PopupFlags::AutoModal);
 		ui::label(key(), self, label);
 		return dropdown.body;
 	}
 
-	Widget& selectable(NodeKey id, Widget& parent, cstring label, bool selected)
+	Widget selectable(NodeKey id, Widget parent, cstring label, bool selected)
 	{
-		Widget& self = button(id, parent, dropdown_styles().choice, label);
+		Widget self = button(id, parent, dropdown_styles().choice, label);
 		self.set_state(SELECTED, selected);
 		return self;
 	}
 
-	Widget& selectable(NodeKey id, Widget& parent, cstring label, bool* p_selected)
+	Widget selectable(NodeKey id, Widget parent, cstring label, bool* p_selected)
 	{
-		Widget& self = selectable(id, parent, label, bool(*p_selected));
+		Widget self = selectable(id, parent, label, bool(*p_selected));
 		if(self.activated())
 			*p_selected = !*p_selected;
 		return self;
 	}
 
-	Widget* begin_list_box(NodeKey id, Widget& parent, cstring label)
+	Widget begin_list_box(NodeKey id, Widget parent, cstring label)
 	{
-		Widget& self = row(id, parent);
+		Widget self = row(id, parent);
 		ScrollSheet list = select_list(key(), self);
 		if(label && label[0] != '#')
 			ui::label(key(), self, label);
-		return &list.body;
+		return list.body;
 	}
 
-	bool list_box(NodeKey id, Widget& parent, cstring label, int& current, span<cstring> items, int height_in_items = -1)
+	bool list_box(NodeKey id, Widget parent, cstring label, int& current, span<cstring> items, int height_in_items = -1)
 	{
 		UNUSED(height_in_items);
 		bool changed = false;
-		if(Widget* body = begin_list_box(id, parent, label))
+		if(Widget body = begin_list_box(id, parent, label))
 			for(int n = 0; n < int(items.size()); n++)
 				if(selectable(key(), *body, items[n], current == n).activated())
 				{
@@ -364,10 +364,10 @@ namespace ui
 		return "";
 	}
 
-	TextEditHandle input_text_edit(NodeKey id, Widget& parent, cstring label, string& text, ImGuiInputTextFlags flags = 0, InputTextCallback callback = nullptr, void* user_data = nullptr)
+	TextEditHandle input_text_edit(NodeKey id, Widget parent, cstring label, string& text, ImGuiInputTextFlags flags = 0, InputTextCallback callback = nullptr, void* user_data = nullptr)
 	{
 		UNUSED(callback); UNUSED(user_data);
-		Widget& self = row(id, parent);
+		Widget self = row(id, parent);
 		TextEditHandle edit = text_box(key(), self, styles().type_in, text, false, 1, allowed_chars(flags));
 		edit->m_read_only = (flags & ImGuiInputTextFlags_ReadOnly) != 0;
 		if(label && label[0] != '#')
@@ -375,19 +375,19 @@ namespace ui
 		return edit;
 	}
 
-	bool input_text(NodeKey id, Widget& parent, cstring label, string& text, ImGuiInputTextFlags flags = 0, InputTextCallback callback = nullptr, void* user_data = nullptr)
+	bool input_text(NodeKey id, Widget parent, cstring label, string& text, ImGuiInputTextFlags flags = 0, InputTextCallback callback = nullptr, void* user_data = nullptr)
 	{
 		TextEdit& edit = *input_text_edit(id, parent, label, text, flags, callback, user_data);
 		return (flags & ImGuiInputTextFlags_EnterReturnsTrue) ? edit.m_entered : edit.m_changed;
 	}
 
-	bool input_text_with_hint(NodeKey id, Widget& parent, cstring label, cstring hint, string& text, ImGuiInputTextFlags flags = 0)
+	bool input_text_with_hint(NodeKey id, Widget parent, cstring label, cstring hint, string& text, ImGuiInputTextFlags flags = 0)
 	{
 		UNUSED(hint);
 		return input_text(id, parent, label, text, flags);
 	}
 
-	bool input_text_multiline(NodeKey id, Widget& parent, cstring label, string& text, size_t lines = 16, ImGuiInputTextFlags flags = 0)
+	bool input_text_multiline(NodeKey id, Widget parent, cstring label, string& text, size_t lines = 16, ImGuiInputTextFlags flags = 0)
 	{
 		UNUSED(label);
 		TextEdit& edit = *text_edit(id, parent, text, lines);
@@ -395,25 +395,25 @@ namespace ui
 		return edit.m_changed;
 	}
 
-	bool input_int(NodeKey id, Widget& parent, cstring label, int& value, int step = 1)
+	bool input_int(NodeKey id, Widget parent, cstring label, int& value, int step = 1)
 	{
 		return field<int>(id, parent, label, value, { INT_MIN, INT_MAX, step }, true);
 	}
 
-	bool input_float(NodeKey id, Widget& parent, cstring label, float& value, float step = 0.f)
+	bool input_float(NodeKey id, Widget parent, cstring label, float& value, float step = 0.f)
 	{
 		return field<float>(id, parent, label, value, { -FLT_MAX, FLT_MAX, step > 0.f ? step : 0.01f }, true);
 	}
 
-	bool input_double(NodeKey id, Widget& parent, cstring label, double& value, double step = 0.0)
+	bool input_double(NodeKey id, Widget parent, cstring label, double& value, double step = 0.0)
 	{
-		return do_field(id, [&](Widget& self) { return number_input<double>(key(), self, value, { -DBL_MAX, DBL_MAX, step > 0.0 ? step : 0.01 }); }, parent, label, true);
+		return do_field(id, [&](Widget self) { return number_input<double>(key(), self, value, { -DBL_MAX, DBL_MAX, step > 0.0 ? step : 0.01 }); }, parent, label, true);
 	}
 
 	template <class T>
-	bool input_n(NodeKey id, Widget& parent, cstring label, T* values, int count, StatDef<T> def)
+	bool input_n(NodeKey id, Widget parent, cstring label, T* values, int count, StatDef<T> def)
 	{
-		Widget& self = row(id, parent);
+		Widget self = row(id, parent);
 		bool changed = false;
 		for(int i = 0; i < count; ++i)
 			changed |= number_input<T>(key(), self, values[i], def);
@@ -421,22 +421,22 @@ namespace ui
 		return changed;
 	}
 
-	bool input_float2(NodeKey id, Widget& parent, cstring label, float* v) { return input_n<float>(id, parent, label, v, 2, { -FLT_MAX, FLT_MAX, 0.01f }); }
-	bool input_float3(NodeKey id, Widget& parent, cstring label, float* v) { return input_n<float>(id, parent, label, v, 3, { -FLT_MAX, FLT_MAX, 0.01f }); }
-	bool input_float4(NodeKey id, Widget& parent, cstring label, float* v) { return input_n<float>(id, parent, label, v, 4, { -FLT_MAX, FLT_MAX, 0.01f }); }
-	bool input_int2(NodeKey id, Widget& parent, cstring label, int* v) { return input_n<int>(id, parent, label, v, 2, { INT_MIN, INT_MAX, 1 }); }
-	bool input_int3(NodeKey id, Widget& parent, cstring label, int* v) { return input_n<int>(id, parent, label, v, 3, { INT_MIN, INT_MAX, 1 }); }
-	bool input_int4(NodeKey id, Widget& parent, cstring label, int* v) { return input_n<int>(id, parent, label, v, 4, { INT_MIN, INT_MAX, 1 }); }
+	bool input_float2(NodeKey id, Widget parent, cstring label, float* v) { return input_n<float>(id, parent, label, v, 2, { -FLT_MAX, FLT_MAX, 0.01f }); }
+	bool input_float3(NodeKey id, Widget parent, cstring label, float* v) { return input_n<float>(id, parent, label, v, 3, { -FLT_MAX, FLT_MAX, 0.01f }); }
+	bool input_float4(NodeKey id, Widget parent, cstring label, float* v) { return input_n<float>(id, parent, label, v, 4, { -FLT_MAX, FLT_MAX, 0.01f }); }
+	bool input_int2(NodeKey id, Widget parent, cstring label, int* v) { return input_n<int>(id, parent, label, v, 2, { INT_MIN, INT_MAX, 1 }); }
+	bool input_int3(NodeKey id, Widget parent, cstring label, int* v) { return input_n<int>(id, parent, label, v, 3, { INT_MIN, INT_MAX, 1 }); }
+	bool input_int4(NodeKey id, Widget parent, cstring label, int* v) { return input_n<int>(id, parent, label, v, 4, { INT_MIN, INT_MAX, 1 }); }
 
 	// DragInt(), DragFloat(), DragFloat2/3/4(), DragInt2/3/4(), DragFloatRange2(), DragIntRange2()
 
-	bool drag_int(NodeKey id, Widget& parent, cstring label, int& value, float speed = 1.f, int min = 0, int max = 0)
+	bool drag_int(NodeKey id, Widget parent, cstring label, int& value, float speed = 1.f, int min = 0, int max = 0)
 	{
 		const bool clamp = min < max;
 		return drag_field<int>(id, parent, label, value, { clamp ? min : INT_MIN, clamp ? max : INT_MAX, IM_MAX(int(speed), 1) }, true);
 	}
 
-	bool drag_float(NodeKey id, Widget& parent, cstring label, float& value, float speed = 1.f, float min = 0.f, float max = 0.f)
+	bool drag_float(NodeKey id, Widget parent, cstring label, float& value, float speed = 1.f, float min = 0.f, float max = 0.f)
 	{
 		const bool clamp = min < max;
 		const bool changed = drag_field<float>(id, parent, label, value, { clamp ? min : -FLT_MAX, clamp ? max : FLT_MAX, speed }, true);
@@ -446,10 +446,10 @@ namespace ui
 	}
 
 	template <class T>
-	bool drag_n(NodeKey id, Widget& parent, cstring label, T* values, int count, float speed, T min, T max)
+	bool drag_n(NodeKey id, Widget parent, cstring label, T* values, int count, float speed, T min, T max)
 	{
 		const bool clamp = min < max;
-		Widget& self = row(id, parent);
+		Widget self = row(id, parent);
 		bool changed = false;
 		for(int i = 0; i < count; ++i)
 		{
@@ -461,14 +461,14 @@ namespace ui
 		return changed;
 	}
 
-	bool drag_float2(NodeKey id, Widget& parent, cstring label, float* v, float speed = 1.f, float min = 0.f, float max = 0.f) { return drag_n<float>(id, parent, label, v, 2, speed, min, max); }
-	bool drag_float3(NodeKey id, Widget& parent, cstring label, float* v, float speed = 1.f, float min = 0.f, float max = 0.f) { return drag_n<float>(id, parent, label, v, 3, speed, min, max); }
-	bool drag_float4(NodeKey id, Widget& parent, cstring label, float* v, float speed = 1.f, float min = 0.f, float max = 0.f) { return drag_n<float>(id, parent, label, v, 4, speed, min, max); }
-	bool drag_int2(NodeKey id, Widget& parent, cstring label, int* v, float speed = 1.f, int min = 0, int max = 0) { return drag_n<int>(id, parent, label, v, 2, speed, min, max); }
-	bool drag_int3(NodeKey id, Widget& parent, cstring label, int* v, float speed = 1.f, int min = 0, int max = 0) { return drag_n<int>(id, parent, label, v, 3, speed, min, max); }
-	bool drag_int4(NodeKey id, Widget& parent, cstring label, int* v, float speed = 1.f, int min = 0, int max = 0) { return drag_n<int>(id, parent, label, v, 4, speed, min, max); }
+	bool drag_float2(NodeKey id, Widget parent, cstring label, float* v, float speed = 1.f, float min = 0.f, float max = 0.f) { return drag_n<float>(id, parent, label, v, 2, speed, min, max); }
+	bool drag_float3(NodeKey id, Widget parent, cstring label, float* v, float speed = 1.f, float min = 0.f, float max = 0.f) { return drag_n<float>(id, parent, label, v, 3, speed, min, max); }
+	bool drag_float4(NodeKey id, Widget parent, cstring label, float* v, float speed = 1.f, float min = 0.f, float max = 0.f) { return drag_n<float>(id, parent, label, v, 4, speed, min, max); }
+	bool drag_int2(NodeKey id, Widget parent, cstring label, int* v, float speed = 1.f, int min = 0, int max = 0) { return drag_n<int>(id, parent, label, v, 2, speed, min, max); }
+	bool drag_int3(NodeKey id, Widget parent, cstring label, int* v, float speed = 1.f, int min = 0, int max = 0) { return drag_n<int>(id, parent, label, v, 3, speed, min, max); }
+	bool drag_int4(NodeKey id, Widget parent, cstring label, int* v, float speed = 1.f, int min = 0, int max = 0) { return drag_n<int>(id, parent, label, v, 4, speed, min, max); }
 
-	bool drag_float_range2(NodeKey id, Widget& parent, cstring label, float& begin, float& end, float speed = 1.f, float min = 0.f, float max = 0.f)
+	bool drag_float_range2(NodeKey id, Widget parent, cstring label, float& begin, float& end, float speed = 1.f, float min = 0.f, float max = 0.f)
 	{
 		float values[2] = { begin, end };
 		const bool changed = drag_n<float>(id, parent, label, values, 2, speed, min, max);
@@ -477,7 +477,7 @@ namespace ui
 		return changed;
 	}
 
-	bool drag_int_range2(NodeKey id, Widget& parent, cstring label, int& begin, int& end, float speed = 1.f, int min = 0, int max = 0)
+	bool drag_int_range2(NodeKey id, Widget parent, cstring label, int& begin, int& end, float speed = 1.f, int min = 0, int max = 0)
 	{
 		int values[2] = { begin, end };
 		const bool changed = drag_n<int>(id, parent, label, values, 2, speed, min, max);
@@ -488,17 +488,17 @@ namespace ui
 
 	// SliderInt(), SliderFloat(), SliderAngle(), SliderFloat2/3/4(), SliderInt2/3/4(), VSliderFloat(), VSliderInt()
 
-	bool slider_int(NodeKey id, Widget& parent, cstring label, int& value, int min, int max)
+	bool slider_int(NodeKey id, Widget parent, cstring label, int& value, int min, int max)
 	{
 		return slider_field<int>(id, parent, label, value, { min, max, 1 }, true);
 	}
 
-	bool slider_float(NodeKey id, Widget& parent, cstring label, float& value, float min, float max)
+	bool slider_float(NodeKey id, Widget parent, cstring label, float& value, float min, float max)
 	{
 		return slider_field<float>(id, parent, label, value, { min, max, (max - min) / 1000.f }, true);
 	}
 
-	bool slider_angle(NodeKey id, Widget& parent, cstring label, float& radians, float min_degrees = -360.f, float max_degrees = +360.f)
+	bool slider_angle(NodeKey id, Widget parent, cstring label, float& radians, float min_degrees = -360.f, float max_degrees = +360.f)
 	{
 		float degrees = radians * 360.f / (2.f * c_pi);
 		const bool changed = slider_field<float>(id, parent, label, degrees, { min_degrees, max_degrees, 1.f }, true);
@@ -507,9 +507,9 @@ namespace ui
 	}
 
 	template <class T>
-	bool slider_n(NodeKey id, Widget& parent, cstring label, T* values, int count, T min, T max)
+	bool slider_n(NodeKey id, Widget parent, cstring label, T* values, int count, T min, T max)
 	{
-		Widget& self = row(id, parent);
+		Widget self = row(id, parent);
 		bool changed = false;
 		for(int i = 0; i < count; ++i)
 			changed |= slider_input<T>(key(), self, values[i], { min, max, is_float<T> ? T((max - min) / 1000) : T(1) });
@@ -517,30 +517,30 @@ namespace ui
 		return changed;
 	}
 
-	bool slider_float2(NodeKey id, Widget& parent, cstring label, float* v, float min, float max) { return slider_n<float>(id, parent, label, v, 2, min, max); }
-	bool slider_float3(NodeKey id, Widget& parent, cstring label, float* v, float min, float max) { return slider_n<float>(id, parent, label, v, 3, min, max); }
-	bool slider_float4(NodeKey id, Widget& parent, cstring label, float* v, float min, float max) { return slider_n<float>(id, parent, label, v, 4, min, max); }
-	bool slider_int2(NodeKey id, Widget& parent, cstring label, int* v, int min, int max) { return slider_n<int>(id, parent, label, v, 2, min, max); }
-	bool slider_int3(NodeKey id, Widget& parent, cstring label, int* v, int min, int max) { return slider_n<int>(id, parent, label, v, 3, min, max); }
-	bool slider_int4(NodeKey id, Widget& parent, cstring label, int* v, int min, int max) { return slider_n<int>(id, parent, label, v, 4, min, max); }
+	bool slider_float2(NodeKey id, Widget parent, cstring label, float* v, float min, float max) { return slider_n<float>(id, parent, label, v, 2, min, max); }
+	bool slider_float3(NodeKey id, Widget parent, cstring label, float* v, float min, float max) { return slider_n<float>(id, parent, label, v, 3, min, max); }
+	bool slider_float4(NodeKey id, Widget parent, cstring label, float* v, float min, float max) { return slider_n<float>(id, parent, label, v, 4, min, max); }
+	bool slider_int2(NodeKey id, Widget parent, cstring label, int* v, int min, int max) { return slider_n<int>(id, parent, label, v, 2, min, max); }
+	bool slider_int3(NodeKey id, Widget parent, cstring label, int* v, int min, int max) { return slider_n<int>(id, parent, label, v, 3, min, max); }
+	bool slider_int4(NodeKey id, Widget parent, cstring label, int* v, int min, int max) { return slider_n<int>(id, parent, label, v, 4, min, max); }
 
-	Widget& v_slider_float(NodeKey id, Widget& parent, const vec2& size, float& value, float min, float max)
+	Widget v_slider_float(NodeKey id, Widget parent, const vec2& size, float& value, float min, float max)
 	{
-		Widget& self = dummy(id, parent, size);
+		Widget self = dummy(id, parent, size);
 		slider_input<float>(key(), self, value, { min, max, (max - min) / 1000.f }, Axis::Y);
 		return self;
 	}
 
-	Widget& v_slider_int(NodeKey id, Widget& parent, const vec2& size, int& value, int min, int max)
+	Widget v_slider_int(NodeKey id, Widget parent, const vec2& size, int& value, int min, int max)
 	{
-		Widget& self = dummy(id, parent, size);
+		Widget self = dummy(id, parent, size);
 		slider_input<int>(key(), self, value, { min, max, 1 }, Axis::Y);
 		return self;
 	}
 
 	// ColorEdit3(), ColorEdit4(), ColorButton(), ColorPicker3(), ColorPicker4()
 
-	bool color_edit(NodeKey id, Widget& parent, cstring label, float* col, bool alpha)
+	bool color_edit(NodeKey id, Widget parent, cstring label, float* col, bool alpha)
 	{
 		Colour colour = Colour(col[0], col[1], col[2], alpha ? col[3] : 1.f);
 		bool changed = false;
@@ -553,16 +553,16 @@ namespace ui
 		return changed;
 	}
 
-	bool color_edit3(NodeKey id, Widget& parent, cstring label, float* col) { return color_edit(id, parent, label, col, false); }
-	bool color_edit4(NodeKey id, Widget& parent, cstring label, float* col) { return color_edit(id, parent, label, col, true); }
+	bool color_edit3(NodeKey id, Widget parent, cstring label, float* col) { return color_edit(id, parent, label, col, false); }
+	bool color_edit4(NodeKey id, Widget parent, cstring label, float* col) { return color_edit(id, parent, label, col, true); }
 
-	Widget& color_button(NodeKey id, Widget& parent, cstring desc_id, const Colour& colour, const vec2& size = vec2(0.f))
+	Widget color_button(NodeKey id, Widget parent, cstring desc_id, const Colour& colour, const vec2& size = vec2(0.f))
 	{
 		UNUSED(desc_id); UNUSED(size);
 		return color_slab(id, parent, styles().color_toggle, colour);
 	}
 
-	bool color_picker(NodeKey id, Widget& parent, cstring label, float* col, bool alpha)
+	bool color_picker(NodeKey id, Widget parent, cstring label, float* col, bool alpha)
 	{
 		UNUSED(label);
 		Colour colour = Colour(col[0], col[1], col[2], alpha ? col[3] : 1.f);
@@ -572,12 +572,12 @@ namespace ui
 		return changed;
 	}
 
-	bool color_picker3(NodeKey id, Widget& parent, cstring label, float* col) { return color_picker(id, parent, label, col, false); }
-	bool color_picker4(NodeKey id, Widget& parent, cstring label, float* col) { return color_picker(id, parent, label, col, true); }
+	bool color_picker3(NodeKey id, Widget parent, cstring label, float* col) { return color_picker(id, parent, label, col, false); }
+	bool color_picker4(NodeKey id, Widget parent, cstring label, float* col) { return color_picker(id, parent, label, col, true); }
 
 	// PlotLines(), PlotHistogram(), ProgressBar()
 
-	Widget& plot(NodeKey id, Widget& parent, cstring label, vector<float> values, int offset, cstring overlay, float min, float max, vec2 size, bool histogram)
+	Widget plot(NodeKey id, Widget parent, cstring label, vector<float> values, int offset, cstring overlay, float min, float max, vec2 size, bool histogram)
 	{
 		if(min == FLT_MAX || max == FLT_MAX)
 		{
@@ -587,12 +587,12 @@ namespace ui
 			if(max == FLT_MAX) max = v_max;
 		}
 
-		Widget& self = row(id, parent);
-		Widget& graph = dummy(key(), self, vec2(size.x > 0.f ? size.x : 250.f, size.y > 0.f ? size.y : 20.f));
+		Widget self = row(id, parent);
+		Widget graph = dummy(key(), self, vec2(size.x > 0.f ? size.x : 250.f, size.y > 0.f ? size.y : 20.f));
 		const Colour colour = histogram ? Colour(0.90f, 0.70f, 0.00f, 1.00f) : Colour(0.61f, 0.61f, 0.61f, 1.00f);
 		const Colour background = Colour(0.16f, 0.29f, 0.48f, 0.54f);
 		const string text = overlay ? overlay : "";
-		graph.custom_draw() = [=](Widget& widget, const vec4& rect, Vg& vg)
+		graph.custom_draw() = [=](Widget widget, const vec4& rect, Vg& vg)
 		{
 			UNUSED(widget);
 			vg.draw_rect(rect, { background });
@@ -626,12 +626,12 @@ namespace ui
 		return self;
 	}
 
-	Widget& plot_lines(NodeKey id, Widget& parent, cstring label, span<float> values, int offset = 0, cstring overlay = nullptr, float min = FLT_MAX, float max = FLT_MAX, vec2 size = vec2(0.f))
+	Widget plot_lines(NodeKey id, Widget parent, cstring label, span<float> values, int offset = 0, cstring overlay = nullptr, float min = FLT_MAX, float max = FLT_MAX, vec2 size = vec2(0.f))
 	{
 		return plot(id, parent, label, to_vector(values), offset, overlay, min, max, size, false);
 	}
 
-	Widget& plot_histogram(NodeKey id, Widget& parent, cstring label, span<float> values, int offset = 0, cstring overlay = nullptr, float min = FLT_MAX, float max = FLT_MAX, vec2 size = vec2(0.f))
+	Widget plot_histogram(NodeKey id, Widget parent, cstring label, span<float> values, int offset = 0, cstring overlay = nullptr, float min = FLT_MAX, float max = FLT_MAX, vec2 size = vec2(0.f))
 	{
 		return plot(id, parent, label, to_vector(values), offset, overlay, min, max, size, true);
 	}
@@ -646,17 +646,17 @@ namespace ui
 		return values;
 	}
 
-	Widget& plot_lines(NodeKey id, Widget& parent, cstring label, ValuesGetter getter, void* data, int count, int offset = 0, cstring overlay = nullptr, float min = FLT_MAX, float max = FLT_MAX, vec2 size = vec2(0.f))
+	Widget plot_lines(NodeKey id, Widget parent, cstring label, ValuesGetter getter, void* data, int count, int offset = 0, cstring overlay = nullptr, float min = FLT_MAX, float max = FLT_MAX, vec2 size = vec2(0.f))
 	{
 		return plot(id, parent, label, plot_values(getter, data, count), offset, overlay, min, max, size, false);
 	}
 
-	Widget& plot_histogram(NodeKey id, Widget& parent, cstring label, ValuesGetter getter, void* data, int count, int offset = 0, cstring overlay = nullptr, float min = FLT_MAX, float max = FLT_MAX, vec2 size = vec2(0.f))
+	Widget plot_histogram(NodeKey id, Widget parent, cstring label, ValuesGetter getter, void* data, int count, int offset = 0, cstring overlay = nullptr, float min = FLT_MAX, float max = FLT_MAX, vec2 size = vec2(0.f))
 	{
 		return plot(id, parent, label, plot_values(getter, data, count), offset, overlay, min, max, size, true);
 	}
 
-	Widget& progress_bar(NodeKey id, Widget& parent, float fraction, const vec2& size = vec2(0.f), cstring overlay = nullptr)
+	Widget progress_bar(NodeKey id, Widget parent, float fraction, const vec2& size = vec2(0.f), cstring overlay = nullptr)
 	{
 		UNUSED(size); UNUSED(overlay);
 		// an indeterminate progress bar is passed a negative fraction
@@ -667,40 +667,40 @@ namespace ui
 
 	// SetItemTooltip(), BeginItemTooltip(), SetTooltip(), BeginTooltip()
 
-	void set_item_tooltip(NodeKey id, Widget& item, cstring text)
+	void set_item_tooltip(NodeKey id, Widget item, cstring text)
 	{
 		tooltip(id, item, text);
 	}
 
-	Widget* item_tooltip(NodeKey id, Widget& item)
+	Widget item_tooltip(NodeKey id, Widget item)
 	{
 		return hoverbox(id, item);
 	}
 
 	// a tooltip not attached to an item: it follows the mouse
-	Widget& begin_tooltip(NodeKey id, Widget& parent)
+	Widget begin_tooltip(NodeKey id, Widget parent)
 	{
 		Ui& ui = parent.ui();
-		Widget& self = widget(id, ui, styles().tooltip).layer();
+		Widget self = widget(id, ui, styles().tooltip).layer();
 		self.set_position(ui.m_mouse.m_pos + vec2(16.f));
 		return self;
 	}
 
-	Widget& set_tooltip(NodeKey id, Widget& parent, cstring text)
+	Widget set_tooltip(NodeKey id, Widget parent, cstring text)
 	{
-		Widget& self = begin_tooltip(id, parent);
+		Widget self = begin_tooltip(id, parent);
 		label(key(), self, text);
 		return self;
 	}
 
 	// CollapsingHeader(), TreeNode(), TreeNodeEx()
 
-	Widget* collapsing_header(NodeKey id, Widget& parent, cstring label, ImGuiTreeNodeFlags flags = 0)
+	Widget collapsing_header(NodeKey id, Widget parent, cstring label, ImGuiTreeNodeFlags flags = 0)
 	{
 		return expandbox(id, parent, label, (flags & ImGuiTreeNodeFlags_DefaultOpen) != 0).body;
 	}
 
-	TreeNode tree_node_ex(NodeKey id, Widget& parent, cstring label, ImGuiTreeNodeFlags flags = 0)
+	TreeNode tree_node_ex(NodeKey id, Widget parent, cstring label, ImGuiTreeNodeFlags flags = 0)
 	{
 		const bool leaf = (flags & ImGuiTreeNodeFlags_Leaf) != 0;
 		TreeNode self = tree_node(id, parent, label, leaf, (flags & ImGuiTreeNodeFlags_DefaultOpen) != 0);
@@ -710,14 +710,14 @@ namespace ui
 
 	// BeginMenu(), MenuItem()
 
-	Widget* begin_menu(NodeKey id, Widget& parent, cstring label, bool submenu = false)
+	Widget begin_menu(NodeKey id, Widget parent, cstring label, bool submenu = false)
 	{
 		return menu(id, parent, label, submenu).body;
 	}
 
-	bool menu_item(NodeKey id, Widget& parent, cstring label, cstring shortcut = nullptr, bool* p_selected = nullptr, bool enabled = true)
+	bool menu_item(NodeKey id, Widget parent, cstring label, cstring shortcut = nullptr, bool* p_selected = nullptr, bool enabled = true)
 	{
-		Widget& self = menu_option(id, parent, label, shortcut, p_selected ? *p_selected : false);
+		Widget self = menu_option(id, parent, label, shortcut, p_selected ? *p_selected : false);
 		self.set_state(DISABLED, !enabled);
 		if(self.activated() && enabled)
 		{
@@ -728,7 +728,7 @@ namespace ui
 		return false;
 	}
 
-	bool menu_item(NodeKey id, Widget& parent, cstring label, cstring shortcut, bool selected, bool enabled = true)
+	bool menu_item(NodeKey id, Widget parent, cstring label, cstring shortcut, bool selected, bool enabled = true)
 	{
 		bool value = selected;
 		return menu_item(id, parent, label, shortcut, &value, enabled);
@@ -736,11 +736,11 @@ namespace ui
 
 	// BeginPopup(), OpenPopup(): the popup is attached to the widget that opens it, its open state is stored in the caller
 
-	Widget* begin_popup(NodeKey id, Widget& parent, bool& open)
+	Widget begin_popup(NodeKey id, Widget parent, bool& open)
 	{
 		if(!open)
 			return nullptr;
-		Widget& self = popup(id, parent, PopupFlags::Modal);
+		Widget self = popup(id, parent, PopupFlags::Modal);
 		if(self.once())
 			self.set_position(parent.local_position(parent.ui().m_mouse.m_pos));
 		// clicking outside of the popup closes it
@@ -748,23 +748,23 @@ namespace ui
 			if(!self.frame().inside(event.m_relative))
 				self.set_open(false);
 		open = self.open();
-		return open ? &self : nullptr;
+		return open ? self : nullptr;
 	}
 
 	// BeginTable(), TableNextRow(), TableNextColumn(): a table of rows of cells
 
 	struct TableLayout
 	{
-		Widget& table;
+		Widget table;
 		int columns;
 		int column = 0;
-		Widget* line = nullptr;
+		Widget line = nullptr;
 
-		Widget& next_row() { line = &row(key(), table); column = 0; return *line; }
-		Widget& next_column() { if(!line || column == columns) next_row(); column++; return *line; }
+		Widget next_row() { line = row(key(), table); column = 0; return *line; }
+		Widget next_column() { if(!line || column == columns) next_row(); column++; return *line; }
 	};
 
-	TableLayout begin_table(NodeKey id, Widget& parent, int columns)
+	TableLayout begin_table(NodeKey id, Widget parent, int columns)
 	{
 		vector<float> weights(size_t(columns), 1.f);
 		return { ui::columns(id, parent, weights), columns };
@@ -775,14 +775,14 @@ namespace ui
 	// the parts of the window of begin(): they are null when the window is closed
 	struct BeginWindow
 	{
-		Widget* header = nullptr;
-		Widget* menu = nullptr;
-		Widget* body = nullptr;
+		Widget header = nullptr;
+		Widget menu = nullptr;
+		Widget body = nullptr;
 		explicit operator bool() const { return body != nullptr; }
 		BeginWindow* operator->() { return this; }
 	};
 
-	BeginWindow begin(NodeKey id, Widget& parent, cstring name, bool* p_open = nullptr, WindowState state = WindowState::Default, vec2 size = vec2(0.f))
+	BeginWindow begin(NodeKey id, Widget parent, cstring name, bool* p_open = nullptr, WindowState state = WindowState::Default, vec2 size = vec2(0.f))
 	{
 		if(p_open && !*p_open)
 			return {};
@@ -806,32 +806,32 @@ namespace ui
 
 // Forward Declarations
 struct ImGuiDemoWindowData;
-static void ShowExampleAppMainMenuBar(Widget& parent);
-static void ShowExampleAppAssetsBrowser(Widget& parent, bool* p_open);
-static void ShowExampleAppConsole(Widget& parent, bool* p_open);
-static void ShowExampleAppCustomRendering(Widget& parent, bool* p_open);
-static void ShowExampleAppDocuments(Widget& parent, bool* p_open);
-static void ShowExampleAppImageViewer(Widget& parent, bool* p_open);
-static void ShowExampleAppLog(Widget& parent, bool* p_open);
-static void ShowExampleAppLayout(Widget& parent, bool* p_open);
-static void ShowExampleAppPropertyEditor(Widget& parent, bool* p_open, ImGuiDemoWindowData* demo_data);
-static void ShowExampleAppSimpleOverlay(Widget& parent, bool* p_open);
-static void ShowExampleAppAutoResize(Widget& parent, bool* p_open);
-static void ShowExampleAppConstrainedResize(Widget& parent, bool* p_open);
-static void ShowExampleAppFullscreen(Widget& parent, bool* p_open);
-static void ShowExampleAppLongText(Widget& parent, bool* p_open);
-static void ShowExampleAppWindowTitles(Widget& parent, bool* p_open);
-static void ShowExampleMenuFile(Widget& parent);
+static void ShowExampleAppMainMenuBar(Widget parent);
+static void ShowExampleAppAssetsBrowser(Widget parent, bool* p_open);
+static void ShowExampleAppConsole(Widget parent, bool* p_open);
+static void ShowExampleAppCustomRendering(Widget parent, bool* p_open);
+static void ShowExampleAppDocuments(Widget parent, bool* p_open);
+static void ShowExampleAppImageViewer(Widget parent, bool* p_open);
+static void ShowExampleAppLog(Widget parent, bool* p_open);
+static void ShowExampleAppLayout(Widget parent, bool* p_open);
+static void ShowExampleAppPropertyEditor(Widget parent, bool* p_open, ImGuiDemoWindowData* demo_data);
+static void ShowExampleAppSimpleOverlay(Widget parent, bool* p_open);
+static void ShowExampleAppAutoResize(Widget parent, bool* p_open);
+static void ShowExampleAppConstrainedResize(Widget parent, bool* p_open);
+static void ShowExampleAppFullscreen(Widget parent, bool* p_open);
+static void ShowExampleAppLongText(Widget parent, bool* p_open);
+static void ShowExampleAppWindowTitles(Widget parent, bool* p_open);
+static void ShowExampleMenuFile(Widget parent);
 
 // We split the contents of the big ShowDemoWindow() function into smaller functions
 // (because the link time of very large functions tends to grow non-linearly)
-static void DemoWindowMenuBar(Widget& parent, ImGuiDemoWindowData* demo_data);
-static void DemoWindowWidgets(Widget& parent, ImGuiDemoWindowData* demo_data);
-static void DemoWindowLayout(Widget& parent);
-static void DemoWindowPopups(Widget& parent);
-static void DemoWindowTables(Widget& parent);
-static void DemoWindowColumns(Widget& parent);
-static void DemoWindowInputs(Widget& parent);
+static void DemoWindowMenuBar(Widget parent, ImGuiDemoWindowData* demo_data);
+static void DemoWindowWidgets(Widget parent, ImGuiDemoWindowData* demo_data);
+static void DemoWindowLayout(Widget parent);
+static void DemoWindowPopups(Widget parent);
+static void DemoWindowTables(Widget parent);
+static void DemoWindowColumns(Widget parent);
+static void DemoWindowInputs(Widget parent);
 
 // Helper tree functions used by Property Editor & Multi-Select demos
 struct ExampleTreeNode;
@@ -839,12 +839,12 @@ static ExampleTreeNode* ExampleTree_CreateNode(const char* name, int uid, Exampl
 static void             ExampleTree_DestroyNode(ExampleTreeNode* node);
 
 // The functions of the ImGui API the demo exposes, as in imgui.h
-void ShowDemoWindow(Widget& parent, bool* p_open);
-void ShowAboutWindow(Widget& parent, bool* p_open);
-void ShowStyleEditor(Widget& parent, ImguiTheme* ref = NULL);
-bool ShowStyleSelector(Widget& parent, const char* label);
-void ShowFontSelector(Widget& parent, const char* label);
-void ShowUserGuide(Widget& parent);
+void ShowDemoWindow(Widget parent, bool* p_open);
+void ShowAboutWindow(Widget parent, bool* p_open);
+void ShowStyleEditor(Widget parent, ImguiTheme* ref = NULL);
+bool ShowStyleSelector(Widget parent, const char* label);
+void ShowFontSelector(Widget parent, const char* label);
+void ShowUserGuide(Widget parent);
 
 //-----------------------------------------------------------------------------
 // [SECTION] Helpers
@@ -852,10 +852,10 @@ void ShowUserGuide(Widget& parent);
 
 // Helper to display a little (?) mark which shows a tooltip when hovered.
 // In your own code you may want to display an actual icon if you are using a merged icon fonts (see docs/FONTS.md)
-static void HelpMarker(Widget& parent, const char* desc)
+static void HelpMarker(Widget parent, const char* desc)
 {
-    Widget& marker = ui::text_disabled(key(), parent, "(?)");
-    if (Widget* tooltip = ui::item_tooltip(key(), marker))
+    Widget marker = ui::text_disabled(key(), parent, "(?)");
+    if (Widget tooltip = ui::item_tooltip(key(), marker))
     {
         //ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
         ui::text(key(), *tooltip, desc);
@@ -879,24 +879,24 @@ namespace ui
 		return buf;
 	}
 
-	Widget& text_colored(NodeKey id, Widget& parent, const Colour& colour, const string& text) { return text_colored(id, parent, colour, text.c_str()); }
-	Widget& text_wrapped(NodeKey id, Widget& parent, const string& text) { return ui::text(id, parent, text.c_str()); }
-	Widget& set_tooltip(NodeKey id, Widget& parent, const string& text) { return set_tooltip(id, parent, text.c_str()); }
-	TreeNode tree_node_ex(NodeKey id, Widget& parent, const string& label, ImGuiTreeNodeFlags flags = 0) { return tree_node_ex(id, parent, label.c_str(), flags); }
+	Widget text_colored(NodeKey id, Widget parent, const Colour& colour, const string& text) { return text_colored(id, parent, colour, text.c_str()); }
+	Widget text_wrapped(NodeKey id, Widget parent, const string& text) { return ui::text(id, parent, text.c_str()); }
+	Widget set_tooltip(NodeKey id, Widget parent, const string& text) { return set_tooltip(id, parent, text.c_str()); }
+	TreeNode tree_node_ex(NodeKey id, Widget parent, const string& label, ImGuiTreeNodeFlags flags = 0) { return tree_node_ex(id, parent, label.c_str(), flags); }
 
 	// Button() with a size
 
-	Widget& button(NodeKey id, Widget& parent, cstring label, const vec2& size)
+	Widget button(NodeKey id, Widget parent, cstring label, const vec2& size)
 	{
-		Widget& self = button(id, parent, label);
+		Widget self = button(id, parent, label);
 		if(size.x > 0.f || size.y > 0.f)
 			self.set_size(max(size, self.frame().m_size));
 		return self;
 	}
 
-	Widget& button(NodeKey id, Widget& parent, Style& style, cstring label, const vec2& size)
+	Widget button(NodeKey id, Widget parent, Style& style, cstring label, const vec2& size)
 	{
-		Widget& self = button(id, parent, style, label);
+		Widget self = button(id, parent, style, label);
 		if(size.x > 0.f || size.y > 0.f)
 			self.set_size(max(size, self.frame().m_size));
 		return self;
@@ -915,50 +915,50 @@ namespace ui
 
 	// InvisibleButton(), Image(), ImageButton()
 
-	Widget& invisible_button(NodeKey id, Widget& parent, cstring label, const vec2& size)
+	Widget invisible_button(NodeKey id, Widget parent, cstring label, const vec2& size)
 	{
 		UNUSED(label);
 		return dummy(id, parent, size);
 	}
 
 	// the texture of the font, the only texture the demo has access to
-	Image* font_atlas_texture(Widget& parent)
+	Image* font_atlas_texture(Widget parent)
 	{
 		return parent.ui_window().find_image("proggy");
 	}
 
-	Widget& image(NodeKey id, Widget& parent, Image* image, const vec2& size, const vec2& uv0 = vec2(0.f), const vec2& uv1 = vec2(1.f))
+	Widget image(NodeKey id, Widget parent, Image* image, const vec2& size, const vec2& uv0 = vec2(0.f), const vec2& uv1 = vec2(1.f))
 	{
 		UNUSED(uv0); UNUSED(uv1);
-		Widget& self = dummy(id, parent, size);
+		Widget self = dummy(id, parent, size);
 		if(image)
-			self.custom_draw() = [=](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); draw_image(vg, *image, rect); };
+			self.custom_draw() = [=](Widget widget, const vec4& rect, Vg& vg) { UNUSED(widget); draw_image(vg, *image, rect); };
 		return self;
 	}
 
-	Widget& image_button(NodeKey id, Widget& parent, Image* image, const vec2& size, const vec2& uv0 = vec2(0.f), const vec2& uv1 = vec2(1.f))
+	Widget image_button(NodeKey id, Widget parent, Image* image, const vec2& size, const vec2& uv0 = vec2(0.f), const vec2& uv1 = vec2(1.f))
 	{
-		Widget& self = button(id, parent, styles().button);
+		Widget self = button(id, parent, styles().button);
 		ui::image(key(), self, image, size, uv0, uv1);
 		return self;
 	}
 
 	// ShowFontAtlas()
-	void show_font_atlas(NodeKey id, Widget& parent)
+	void show_font_atlas(NodeKey id, Widget parent)
 	{
-		Widget& self = stack(id, parent);
+		Widget self = stack(id, parent);
 		label(key(), self, "Fonts: proggy");
 		// @todo: font atlas
 	}
 
 	// SameLine(offset, spacing): an offset or a spacing between the items of a line
 
-	Widget& same_line_spacing(NodeKey id, Widget& line, float spacing)
+	Widget same_line_spacing(NodeKey id, Widget line, float spacing)
 	{
 		return dummy(id, line, vec2(spacing, 0.f));
 	}
 
-	Widget& same_line_offset(NodeKey id, Widget& line, float offset)
+	Widget same_line_offset(NodeKey id, Widget line, float offset)
 	{
 		// @todo: position an item at an offset in a line
 		UNUSED(offset);
@@ -966,9 +966,9 @@ namespace ui
 	}
 
 	// a free layout area, where items are positioned with SetCursorScreenPos()
-	Widget& overlap(NodeKey id, Widget& parent, const vec2& size)
+	Widget overlap(NodeKey id, Widget parent, const vec2& size)
 	{
-		Widget& self = dummy(id, parent, size);
+		Widget self = dummy(id, parent, size);
 		return self;
 	}
 
@@ -1004,7 +1004,7 @@ namespace ui
 	}
 
 	// applies the style to the styles of two.ui, whenever it's edited
-	void update_imgui_style(Widget& parent)
+	void update_imgui_style(Widget parent)
 	{
 		static ImguiTheme applied = get_theme();
 		if(memcmp(&applied, &get_theme(), sizeof(ImguiTheme)) != 0)
@@ -1014,13 +1014,13 @@ namespace ui
 		}
 	}
 
-	void style_colors_dark(Widget& parent) { get_theme().colours = imgui_colours_dark(); apply_imgui_style(parent.ui_window()); }
-	void style_colors_light(Widget& parent) { get_theme().colours = imgui_colours_light(); apply_imgui_style(parent.ui_window()); }
-	void style_colors_classic(Widget& parent) { get_theme().colours = imgui_colours_classic(); apply_imgui_style(parent.ui_window()); }
-	void style_wonderland(Widget& parent) { get_theme() = { imgui_look_wonderland(), imgui_colours_wonderland() }; apply_imgui_style(parent.ui_window()); }
+	void style_colors_dark(Widget parent) { get_theme().colours = imgui_colours_dark(); apply_imgui_style(parent.ui_window()); }
+	void style_colors_light(Widget parent) { get_theme().colours = imgui_colours_light(); apply_imgui_style(parent.ui_window()); }
+	void style_colors_classic(Widget parent) { get_theme().colours = imgui_colours_classic(); apply_imgui_style(parent.ui_window()); }
+	void style_wonderland(Widget parent) { get_theme() = { imgui_look_wonderland(), imgui_colours_wonderland() }; apply_imgui_style(parent.ui_window()); }
 
 	// sets one of the two.ui styles
-	void set_style(Widget& parent, void(*style)(UiWindow&))
+	void set_style(Widget parent, void(*style)(UiWindow&))
 	{
 		UiWindow& ui_window = parent.ui_window();
 		ui_window.reset_styles();
@@ -1042,49 +1042,49 @@ namespace ui
 	float get_text_line_height_with_spacing() { return get_font_size() + get_look().ItemSpacing.y; }
 	float get_frame_height_with_spacing() { return get_font_size() + get_look().FramePadding.y * 2.f + get_look().ItemSpacing.y; }
 	vec2 calc_text_size(cstring text) { return vec2(float(strlen(text)) * get_font_size() * 0.5f, get_font_size()); } // @todo: measure with the font
-	vec2 get_content_region_avail(Widget& parent) { return parent.frame().m_size; }
-	float get_window_width(Widget& parent) { return parent.frame().m_size.x; }
+	vec2 get_content_region_avail(Widget parent) { return parent.frame().m_size; }
+	float get_window_width(Widget parent) { return parent.frame().m_size.x; }
 	int get_frame_count() { static int frame = 0; return frame++; }
 
 	// IsItemXXX(), GetItemRectXXX(): in two.ui an item is queried through the widget declaring it
 
-	bool is_item_hovered(Widget& item, ImGuiHoveredFlags flags = 0) { UNUSED(flags); return item.hovered(); }
-	bool is_item_active(Widget& item) { return item.pressed() || item.focused(); }
-	bool is_item_focused(Widget& item) { return item.focused(); }
-	bool is_item_clicked(Widget& item) { return item.activated(); }
+	bool is_item_hovered(Widget item, ImGuiHoveredFlags flags = 0) { UNUSED(flags); return item.hovered(); }
+	bool is_item_active(Widget item) { return item.pressed() || item.focused(); }
+	bool is_item_focused(Widget item) { return item.focused(); }
+	bool is_item_clicked(Widget item) { return item.activated(); }
 	bool is_item_toggled_open(TreeNode& node) { return node.header.activated(); }
-	vec2 get_item_rect_min(Widget& item) { return item.absolute_position(); }
-	vec2 get_item_rect_max(Widget& item) { return item.absolute_position() + item.frame().m_size; }
-	vec2 get_item_rect_size(Widget& item) { return item.frame().m_size; }
+	vec2 get_item_rect_min(Widget item) { return item.absolute_position(); }
+	vec2 get_item_rect_max(Widget item) { return item.absolute_position() + item.frame().m_size; }
+	vec2 get_item_rect_size(Widget item) { return item.frame().m_size; }
 
 	// IsWindowFocused(), IsWindowHovered(): in two.ui a window is queried through the widgets of the window
 
-	bool is_window(Widget& widget) { return widget.frame().d_style == &window_styles().window || widget.frame().d_style == &window_styles().dock_window; }
+	bool is_window(Widget widget) { return widget.frame().d_style == &window_styles().window || widget.frame().d_style == &window_styles().dock_window; }
 
-	Widget& get_current_window(Widget& widget)
+	Widget get_current_window(Widget widget)
 	{
-		Widget* parent = &widget;
+		Widget parent = widget;
 		while(parent->parent() && !is_window(*parent))
 			parent = parent->parent();
 		return *parent;
 	}
 
-	bool is_window_focused(Widget& window, ImGuiFocusedFlags flags = 0) { UNUSED(flags); return window.active(); }
-	bool is_window_hovered(Widget& window, ImGuiHoveredFlags flags = 0) { UNUSED(flags); return window.hovered(); }
+	bool is_window_focused(Widget window, ImGuiFocusedFlags flags = 0) { UNUSED(flags); return window.active(); }
+	bool is_window_hovered(Widget window, ImGuiHoveredFlags flags = 0) { UNUSED(flags); return window.hovered(); }
 
 	// IsMouseXXX(), GetMouseDragDelta(), GetMouseCursor(), SetMouseCursor()
 
 	bool is_mouse_pos_valid() { return true; }
 	bool is_mouse_down(int button) { return io().MouseDown[button]; }
-	bool is_mouse_double_clicked(Widget& item) { return bool(item.mouse_event(DeviceType::MouseLeft, EventType::DoubleStroked)); }
+	bool is_mouse_double_clicked(Widget item) { return bool(item.mouse_event(DeviceType::MouseLeft, EventType::DoubleStroked)); }
 
-	bool is_mouse_dragging(Widget& item, int button = 0, float threshold = -1.f)
+	bool is_mouse_dragging(Widget item, int button = 0, float threshold = -1.f)
 	{
 		UNUSED(button); UNUSED(threshold);
 		return bool(item.mouse_event(DeviceType::MouseLeft, EventType::Dragged, InputMod::Any, false));
 	}
 
-	vec2 get_mouse_drag_delta(Widget& item, int button = 0, float threshold = -1.f)
+	vec2 get_mouse_drag_delta(Widget item, int button = 0, float threshold = -1.f)
 	{
 		UNUSED(button); UNUSED(threshold);
 		if(MouseEvent event = item.mouse_event(DeviceType::MouseLeft, EventType::Dragged, InputMod::Any, false))
@@ -1092,28 +1092,28 @@ namespace ui
 		return vec2(0.f);
 	}
 
-	void reset_mouse_drag_delta(Widget& item) { UNUSED(item); }
+	void reset_mouse_drag_delta(Widget item) { UNUSED(item); }
 
-	ImGuiMouseCursor get_mouse_cursor(Widget& parent) { UNUSED(parent); return ImGuiMouseCursor_Arrow; }
-	void set_mouse_cursor(Widget& item, ImGuiMouseCursor cursor) { UNUSED(item); UNUSED(cursor); } // @todo: two.ui cursor styles
+	ImGuiMouseCursor get_mouse_cursor(Widget parent) { UNUSED(parent); return ImGuiMouseCursor_Arrow; }
+	void set_mouse_cursor(Widget item, ImGuiMouseCursor cursor) { UNUSED(item); UNUSED(cursor); } // @todo: two.ui cursor styles
 
 	// IsKeyDown(), GetKeyName(), Shortcut(), SetNextItemShortcut(), SetKeyboardFocusHere()
 
-	vector<Key> keys_down(Widget& parent) { UNUSED(parent); return {}; } // @todo: keyboard state
+	vector<Key> keys_down(Widget parent) { UNUSED(parent); return {}; } // @todo: keyboard state
 	cstring get_key_name(Key key) { UNUSED(key); return ""; }
 
-	bool shortcut(Widget& parent, InputMod modifiers, Key key, ImGuiInputFlags flags = 0)
+	bool shortcut(Widget parent, InputMod modifiers, Key key, ImGuiInputFlags flags = 0)
 	{
 		UNUSED(flags);
 		return bool(parent.key_stroke(key, modifiers));
 	}
 
-	void set_item_shortcut(Widget& item, InputMod modifiers, Key key, ImGuiInputFlags flags = 0)
+	void set_item_shortcut(Widget item, InputMod modifiers, Key key, ImGuiInputFlags flags = 0)
 	{
 		UNUSED(item); UNUSED(modifiers); UNUSED(key); UNUSED(flags);
 	}
 
-	void set_keyboard_focus_here(Widget& item) { item.take_focus(); }
+	void set_keyboard_focus_here(Widget item) { item.take_focus(); }
 
 	// Scrolling: GetScrollX/Y(), GetScrollMaxX/Y(), SetScrollX/Y(), SetScrollHereX/Y(), SetScrollFromPosX/Y()
 
@@ -1125,69 +1125,69 @@ namespace ui
 	void set_scroll_y(ScrollSheet& sheet, float scroll) { sheet.body.set_position(Axis::Y, -clamp(scroll, 0.f, get_scroll_max_y(sheet))); }
 	void set_scroll_from_pos_x(ScrollSheet& sheet, float pos, float ratio) { set_scroll_x(sheet, pos - sheet.scroll_zone.frame().m_size.x * ratio); }
 	void set_scroll_from_pos_y(ScrollSheet& sheet, float pos, float ratio) { set_scroll_y(sheet, pos - sheet.scroll_zone.frame().m_size.y * ratio); }
-	void set_scroll_here_x(ScrollSheet& sheet, Widget& item, float ratio) { set_scroll_from_pos_x(sheet, item.frame().m_position.x, ratio); }
-	void set_scroll_here_y(ScrollSheet& sheet, Widget& item, float ratio) { set_scroll_from_pos_y(sheet, item.frame().m_position.y, ratio); }
+	void set_scroll_here_x(ScrollSheet& sheet, Widget item, float ratio) { set_scroll_from_pos_x(sheet, item.frame().m_position.x, ratio); }
+	void set_scroll_here_y(ScrollSheet& sheet, Widget item, float ratio) { set_scroll_from_pos_y(sheet, item.frame().m_position.y, ratio); }
 
 	// BeginChild() returning the scroll sheet, to query and set its scrolling
 
-	ScrollSheet child(NodeKey id, Widget& parent, const vec2& size = vec2(0.f), bool borders = false, ImGuiWindowFlags flags = 0)
+	ScrollSheet child(NodeKey id, Widget parent, const vec2& size = vec2(0.f), bool borders = false, ImGuiWindowFlags flags = 0)
 	{
 		UNUSED(size); UNUSED(borders); UNUSED(flags);
 		return scroll_sheet(id, parent);
 	}
 
-	Widget* begin_child(NodeKey id, Widget& parent, const vec2& size = vec2(0.f), bool borders = false, ImGuiWindowFlags flags = 0)
+	Widget begin_child(NodeKey id, Widget parent, const vec2& size = vec2(0.f), bool borders = false, ImGuiWindowFlags flags = 0)
 	{
-		return &child(id, parent, size, borders, flags).body;
+		return child(id, parent, size, borders, flags).body;
 	}
 
 	// BeginTabItem() with a close button, TabItemButton()
 
-	Widget* tab_item(NodeKey id, Tabber& tabber, cstring name, bool* p_open = nullptr)
+	Widget tab_item(NodeKey id, Tabber& tabber, cstring name, bool* p_open = nullptr)
 	{
 		// @todo: closable tabs
 		UNUSED(p_open);
 		return tab(id, tabber, name);
 	}
 
-	Widget& tab_item_button(NodeKey id, Tabber& tabber, cstring name)
+	Widget tab_item_button(NodeKey id, Tabber& tabber, cstring name)
 	{
 		return button(id, tabber.head, tabber_styles().tab_button, name);
 	}
 
 	// BeginPopupContextItem(), BeginPopupContextWindow(), OpenPopupOnItemClick(), CloseCurrentPopup(), BeginPopupModal(), BeginMainMenuBar()
 
-	Widget* begin_popup_context_item(NodeKey id, Widget& item)
+	Widget begin_popup_context_item(NodeKey id, Widget item)
 	{
 		return context(id, item, 1 << 0);
 	}
 
-	Widget* begin_popup_context_window(NodeKey id, Widget& window)
+	Widget begin_popup_context_window(NodeKey id, Widget window)
 	{
 		return context(id, window, 1 << 1);
 	}
 
-	void open_popup_on_item_click(Widget& item, bool& open)
+	void open_popup_on_item_click(Widget item, bool& open)
 	{
 		if(item.mouse_event(DeviceType::MouseRight, EventType::Stroked))
 			open = true;
 	}
 
-	void close_current_popup(Widget& popup)
+	void close_current_popup(Widget popup)
 	{
 		popup.set_open(false);
 	}
 
-	Widget* begin_popup_modal(NodeKey id, Widget& parent, cstring name, bool& open)
+	Widget begin_popup_modal(NodeKey id, Widget parent, cstring name, bool& open)
 	{
 		if(!open)
 			return nullptr;
-		Widget& self = modal(id, parent.ui());
+		Widget self = modal(id, parent.ui());
 		title_header(key(), self, name);
-		return &self;
+		return self;
 	}
 
-	Widget& main_menu_bar(NodeKey id, Widget& parent)
+	Widget main_menu_bar(NodeKey id, Widget parent)
 	{
 		return menubar(id, parent.ui());
 	}
@@ -1203,49 +1203,49 @@ namespace ui
 		int DataSize = 0;
 	};
 
-	Widget* begin_drag_drop_source(NodeKey id, Widget& item)
+	Widget begin_drag_drop_source(NodeKey id, Widget item)
 	{
 		if(item.mouse_event(DeviceType::MouseLeft, EventType::Dragged, InputMod::Any, false))
-			return &begin_tooltip(id, item);
+			return begin_tooltip(id, item);
 		return nullptr;
 	}
 
-	void set_drag_drop_payload(Widget& item, cstring type, const void* data, size_t size) { UNUSED(item); UNUSED(type); UNUSED(data); UNUSED(size); }
-	bool begin_drag_drop_target(Widget& item) { UNUSED(item); return false; }
-	const Payload* accept_drag_drop_payload(Widget& item, cstring type) { UNUSED(item); UNUSED(type); return nullptr; }
+	void set_drag_drop_payload(Widget item, cstring type, const void* data, size_t size) { UNUSED(item); UNUSED(type); UNUSED(data); UNUSED(size); }
+	bool begin_drag_drop_target(Widget item) { UNUSED(item); return false; }
+	const Payload* accept_drag_drop_payload(Widget item, cstring type) { UNUSED(item); UNUSED(type); return nullptr; }
 
 	// InputScalar(), DragScalar(), SliderScalar(): for any number type
 
 	template <class T>
-	bool input_scalar(NodeKey id, Widget& parent, cstring label, T& value, const T* step = nullptr, cstring format = nullptr, ImGuiInputTextFlags flags = 0)
+	bool input_scalar(NodeKey id, Widget parent, cstring label, T& value, const T* step = nullptr, cstring format = nullptr, ImGuiInputTextFlags flags = 0)
 	{
 		UNUSED(format); UNUSED(flags);
-		return do_field(id, [&](Widget& self) { return number_input<T>(key(), self, value, { lowest<T>(), limits<T>::max(), step ? *step : T(1) }); }, parent, label, true);
+		return do_field(id, [&](Widget self) { return number_input<T>(key(), self, value, { lowest<T>(), limits<T>::max(), step ? *step : T(1) }); }, parent, label, true);
 	}
 
 	template <class T>
-	bool drag_scalar(NodeKey id, Widget& parent, cstring label, T& value, float speed, const T* min = nullptr, const T* max = nullptr, cstring format = nullptr, ImGuiSliderFlags flags = 0)
+	bool drag_scalar(NodeKey id, Widget parent, cstring label, T& value, float speed, const T* min = nullptr, const T* max = nullptr, cstring format = nullptr, ImGuiSliderFlags flags = 0)
 	{
 		UNUSED(speed); UNUSED(format); UNUSED(flags);
-		return do_field(id, [&](Widget& self) { return drag_input<T>(key(), self, value, { min ? *min : lowest<T>(), max ? *max : limits<T>::max(), T(1) }); }, parent, label, true);
+		return do_field(id, [&](Widget self) { return drag_input<T>(key(), self, value, { min ? *min : lowest<T>(), max ? *max : limits<T>::max(), T(1) }); }, parent, label, true);
 	}
 
 	template <class T>
-	bool slider_scalar(NodeKey id, Widget& parent, cstring label, T& value, const T* min, const T* max, cstring format = nullptr, ImGuiSliderFlags flags = 0)
+	bool slider_scalar(NodeKey id, Widget parent, cstring label, T& value, const T* min, const T* max, cstring format = nullptr, ImGuiSliderFlags flags = 0)
 	{
 		UNUSED(format); UNUSED(flags);
 		float v = float(value);
-		const bool changed = do_field(id, [&](Widget& self) { return slider_input<float>(key(), self, v, { float(*min), float(*max), (float(*max) - float(*min)) / 1000.f }); }, parent, label, true);
+		const bool changed = do_field(id, [&](Widget self) { return slider_input<float>(key(), self, v, { float(*min), float(*max), (float(*max) - float(*min)) / 1000.f }); }, parent, label, true);
 		if(changed)
 			value = T(v);
 		return changed;
 	}
 
 	// GetForegroundDrawList()->AddLine()
-	void foreground_line(NodeKey id, Widget& parent, const vec2& a, const vec2& b, const Colour& colour, float thickness)
+	void foreground_line(NodeKey id, Widget parent, const vec2& a, const vec2& b, const Colour& colour, float thickness)
 	{
-		Widget& self = widget(id, parent.ui(), styles().overlay).layer();
-		self.custom_draw() = [=](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); UNUSED(rect); vg.path_line(a, b); vg.stroke({ colour, thickness }); };
+		Widget self = widget(id, parent.ui(), styles().overlay).layer();
+		self.custom_draw() = [=](Widget widget, const vec4& rect, Vg& vg) { UNUSED(widget); UNUSED(rect); vg.path_line(a, b); vg.stroke({ colour, thickness }); };
 		self.mark_dirty(DIRTY_REDRAW);
 	}
 
@@ -1301,7 +1301,7 @@ struct ImGuiDemoWindowData
 // Demonstrate most Dear ImGui features (this is big function!)
 // You may execute this function to experiment with the UI and understand what it does.
 // You may then search for keywords in the code when you are interested by a specific feature.
-void ShowDemoWindow(Widget& parent, bool* p_open)
+void ShowDemoWindow(Widget parent, bool* p_open)
 {
     // Stored data
     static ImGuiDemoWindowData demo_data;
@@ -1377,7 +1377,7 @@ void ShowDemoWindow(Widget& parent, bool* p_open)
     }
 
     // The window contents are scrolled by a scroll sheet
-    Widget& body = no_scrollbar ? *window->body : ui::scroll_sheet(key(), *window->body).body;
+    Widget body = no_scrollbar ? *window->body : ui::scroll_sheet(key(), *window->body).body;
 
     // Most framed widgets share a common width settings. Remaining width is used for the label.
     // The width of the frame may be changed with PushItemWidth() or SetNextItemWidth().
@@ -1400,7 +1400,7 @@ void ShowDemoWindow(Widget& parent, bool* p_open)
     ui::textf(key(), body, "dear imgui says hello! (%s) (%d)", IMGUI_VERSION, IMGUI_VERSION_NUM);
     ui::spacing(key(), body);
 
-    if (Widget* help = ui::collapsing_header(key(), body, "Help"))
+    if (Widget help = ui::collapsing_header(key(), body, "Help"))
     {
         IMGUI_DEMO_MARKER("Help");
         ui::separator_text(key(), *help, "ABOUT THIS DEMO:");
@@ -1408,14 +1408,14 @@ void ShowDemoWindow(Widget& parent, bool* p_open)
         ui::bullet(key(), *help, "The \"Examples\" menu above leads to more demo contents.");
         ui::bullet(key(), *help, "The \"Tools\" menu above gives access to: About Box, Style Editor,\n"
                                  "and Metrics/Debugger (general purpose Dear ImGui debugging tool).");
-        { Widget& line = ui::row(key(), *help); ui::bullet(key(), line, "Web demo (w/ source code browser): ");
+        { Widget line = ui::row(key(), *help); ui::bullet(key(), line, "Web demo (w/ source code browser): ");
           ui::text_link(key(), line, "https://pthom.github.io/imgui_explorer"); }
 
         ui::separator_text(key(), *help, "PROGRAMMER GUIDE:");
         ui::bullet(key(), *help, "See the ShowDemoWindow() code in imgui_demo.cpp. <- you are here!");
         ui::bullet(key(), *help, "See comments in imgui.cpp.");
         ui::bullet(key(), *help, "See example applications in the examples/ folder.");
-        { Widget& line = ui::row(key(), *help); ui::bullet(key(), line, "Read the FAQ at ");
+        { Widget line = ui::row(key(), *help); ui::bullet(key(), line, "Read the FAQ at ");
           ui::text_link(key(), line, "https://www.dearimgui.com/faq/"); }
         ui::bullet(key(), *help, "Set 'io.ConfigFlags |= NavEnableKeyboard' for keyboard controls.");
         ui::bullet(key(), *help, "Set 'io.ConfigFlags |= NavEnableGamepad' for gamepad controls.");
@@ -1424,19 +1424,19 @@ void ShowDemoWindow(Widget& parent, bool* p_open)
         ShowUserGuide(*help);
     }
 
-    if (Widget* config = ui::collapsing_header(key(), body, "Configuration"))
+    if (Widget config = ui::collapsing_header(key(), body, "Configuration"))
     {
         ui::IO& io = ui::io();
 
-        if (Widget* n = ui::tree_node_ex(key(), *config, "Configuration##2").body)
+        if (Widget n = ui::tree_node_ex(key(), *config, "Configuration##2").body)
         {
             IMGUI_DEMO_MARKER("Configuration");
             ui::separator_text(key(), *n, "General");
-            { Widget& line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "io.ConfigFlags: NavEnableKeyboard",    io.ConfigFlags, ImGuiConfigFlags_NavEnableKeyboard);
+            { Widget line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "io.ConfigFlags: NavEnableKeyboard",    io.ConfigFlags, ImGuiConfigFlags_NavEnableKeyboard);
               HelpMarker(line, "Enable keyboard controls."); }
-            { Widget& line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "io.ConfigFlags: NavEnableGamepad",     io.ConfigFlags, ImGuiConfigFlags_NavEnableGamepad);
+            { Widget line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "io.ConfigFlags: NavEnableGamepad",     io.ConfigFlags, ImGuiConfigFlags_NavEnableGamepad);
               HelpMarker(line, "Enable gamepad controls. Require backend to set io.BackendFlags |= ImGuiBackendFlags_HasGamepad.\n\nRead instructions in imgui.cpp for details."); }
-            { Widget& line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "io.ConfigFlags: NoMouse",              io.ConfigFlags, ImGuiConfigFlags_NoMouse);
+            { Widget line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "io.ConfigFlags: NoMouse",              io.ConfigFlags, ImGuiConfigFlags_NoMouse);
               HelpMarker(line, "Instruct dear imgui to disable mouse inputs and interactions."); }
 
             // The "NoMouse" option can get us stuck with a disabled mouse! Let's provide an alternative way to fix it:
@@ -1452,47 +1452,47 @@ void ShowDemoWindow(Widget& parent, bool* p_open)
                     io.ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
             }
 
-            { Widget& line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "io.ConfigFlags: NoMouseCursorChange",  io.ConfigFlags, ImGuiConfigFlags_NoMouseCursorChange);
+            { Widget line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "io.ConfigFlags: NoMouseCursorChange",  io.ConfigFlags, ImGuiConfigFlags_NoMouseCursorChange);
               HelpMarker(line, "Instruct backend to not alter mouse cursor shape and visibility."); }
-            { Widget& line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "io.ConfigFlags: NoKeyboard", io.ConfigFlags, ImGuiConfigFlags_NoKeyboard);
+            { Widget line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "io.ConfigFlags: NoKeyboard", io.ConfigFlags, ImGuiConfigFlags_NoKeyboard);
               HelpMarker(line, "Instruct dear imgui to disable keyboard inputs and interactions."); }
 
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigInputTrickleEventQueue", io.ConfigInputTrickleEventQueue);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigInputTrickleEventQueue", io.ConfigInputTrickleEventQueue);
               HelpMarker(line, "Enable input queue trickling: some types of events submitted during the same frame (e.g. button down + up) will be spread over multiple frames, improving interactions with low framerates."); }
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.MouseDrawCursor", io.MouseDrawCursor);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.MouseDrawCursor", io.MouseDrawCursor);
               HelpMarker(line, "Instruct Dear ImGui to render a mouse cursor itself. Note that a mouse cursor rendered via your application GPU rendering path will feel more laggy than hardware cursor, but will be more in sync with your other visuals.\n\nSome desktop applications may use both kinds of cursors (e.g. enable software cursor only when resizing/dragging something)."); }
 
             ui::separator_text(key(), *n, "Keyboard/Gamepad Navigation");
             ui::checkbox(key(), *n, "io.ConfigNavSwapGamepadButtons", io.ConfigNavSwapGamepadButtons);
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigNavMoveSetMousePos", io.ConfigNavMoveSetMousePos);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigNavMoveSetMousePos", io.ConfigNavMoveSetMousePos);
               HelpMarker(line, "Directional/tabbing navigation teleports the mouse cursor. May be useful on TV/console systems where moving a virtual mouse is difficult"); }
             ui::checkbox(key(), *n, "io.ConfigNavCaptureKeyboard", io.ConfigNavCaptureKeyboard);
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigNavEscapeClearFocusItem", io.ConfigNavEscapeClearFocusItem);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigNavEscapeClearFocusItem", io.ConfigNavEscapeClearFocusItem);
               HelpMarker(line, "Pressing Escape clears focused item."); }
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigNavEscapeClearFocusWindow", io.ConfigNavEscapeClearFocusWindow);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigNavEscapeClearFocusWindow", io.ConfigNavEscapeClearFocusWindow);
               HelpMarker(line, "Pressing Escape clears focused window."); }
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigNavCursorVisibleAuto", io.ConfigNavCursorVisibleAuto);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigNavCursorVisibleAuto", io.ConfigNavCursorVisibleAuto);
               HelpMarker(line, "Using directional navigation key makes the cursor visible. Mouse click hides the cursor."); }
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigNavCursorVisibleAlways", io.ConfigNavCursorVisibleAlways);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigNavCursorVisibleAlways", io.ConfigNavCursorVisibleAlways);
               HelpMarker(line, "Navigation cursor is always visible."); }
 
             ui::separator_text(key(), *n, "Windows");
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigWindowsResizeFromEdges", io.ConfigWindowsResizeFromEdges);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigWindowsResizeFromEdges", io.ConfigWindowsResizeFromEdges);
               HelpMarker(line, "Enable resizing of windows from their edges and from the lower-left corner.\nThis requires ImGuiBackendFlags_HasMouseCursors for better mouse cursor feedback."); }
             ui::checkbox(key(), *n, "io.ConfigWindowsMoveFromTitleBarOnly", io.ConfigWindowsMoveFromTitleBarOnly);
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigWindowsCopyContentsWithCtrlC", io.ConfigWindowsCopyContentsWithCtrlC); // [EXPERIMENTAL]
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigWindowsCopyContentsWithCtrlC", io.ConfigWindowsCopyContentsWithCtrlC); // [EXPERIMENTAL]
               HelpMarker(line, "*EXPERIMENTAL* Ctrl+C copy the contents of focused window into the clipboard.\n\nExperimental because:\n- (1) has known issues with nested Begin/End pairs.\n- (2) text output quality varies.\n- (3) text output is in submission order rather than spatial order."); }
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigScrollbarScrollByPage", io.ConfigScrollbarScrollByPage);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigScrollbarScrollByPage", io.ConfigScrollbarScrollByPage);
               HelpMarker(line, "Enable scrolling page by page when clicking outside the scrollbar grab.\nWhen disabled, always scroll to clicked location.\nWhen enabled, Shift+Click scrolls to clicked location."); }
 
             ui::separator_text(key(), *n, "Widgets");
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigInputTextCursorBlink", io.ConfigInputTextCursorBlink);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigInputTextCursorBlink", io.ConfigInputTextCursorBlink);
               HelpMarker(line, "Enable blinking cursor (optional as some users consider it to be distracting)."); }
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigInputTextEnterKeepActive", io.ConfigInputTextEnterKeepActive);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigInputTextEnterKeepActive", io.ConfigInputTextEnterKeepActive);
               HelpMarker(line, "Pressing Enter will reactivate item and select all text (single-line only)."); }
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigDragClickToInputText", io.ConfigDragClickToInputText);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigDragClickToInputText", io.ConfigDragClickToInputText);
               HelpMarker(line, "Enable turning DragXXX widgets into text input with a simple mouse click-release (without moving)."); }
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigMacOSXBehaviors", io.ConfigMacOSXBehaviors);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigMacOSXBehaviors", io.ConfigMacOSXBehaviors);
               HelpMarker(line, "Swap Cmd<>Ctrl keys, enable various MacOS style behaviors."); }
             ui::label(key(), *n, "Also see Style->Rendering for rendering options.");
 
@@ -1502,7 +1502,7 @@ void ShowDemoWindow(Widget& parent, bool* p_open)
             // Also read: https://github.com/ocornut/imgui/wiki/Error-Handling
             ui::separator_text(key(), *n, "Error Handling");
 
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigErrorRecovery", io.ConfigErrorRecovery);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigErrorRecovery", io.ConfigErrorRecovery);
               HelpMarker(line,
                 "Options to configure how we handle recoverable errors.\n"
                 "- Error recovery is not perfect nor guaranteed! It is a feature to ease development.\n"
@@ -1518,25 +1518,25 @@ void ShowDemoWindow(Widget& parent, bool* p_open)
 
             // Also read: https://github.com/ocornut/imgui/wiki/Debug-Tools
             ui::separator_text(key(), *n, "Debug");
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigDebugIsDebuggerPresent", io.ConfigDebugIsDebuggerPresent);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigDebugIsDebuggerPresent", io.ConfigDebugIsDebuggerPresent);
               HelpMarker(line, "Enable various tools calling IM_DEBUG_BREAK().\n\nRequires a debugger being attached, otherwise IM_DEBUG_BREAK() options will appear to crash your application."); }
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigDebugHighlightIdConflicts", io.ConfigDebugHighlightIdConflicts);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigDebugHighlightIdConflicts", io.ConfigDebugHighlightIdConflicts);
               HelpMarker(line, "Highlight and show an error message when multiple items have conflicting identifiers."); }
             //ImGui::BeginDisabled();
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigDebugBeginReturnValueOnce", io.ConfigDebugBeginReturnValueOnce);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigDebugBeginReturnValueOnce", io.ConfigDebugBeginReturnValueOnce);
             //ImGui::EndDisabled();
               HelpMarker(line, "First calls to Begin()/BeginChild() will return false.\n\nTHIS OPTION IS DISABLED because it needs to be set at application boot-time to make sense. Showing the disabled option is a way to make this feature easier to discover."); }
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigDebugBeginReturnValueLoop", io.ConfigDebugBeginReturnValueLoop);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigDebugBeginReturnValueLoop", io.ConfigDebugBeginReturnValueLoop);
               HelpMarker(line, "Some calls to Begin()/BeginChild() will return false.\n\nWill cycle through window depths then repeat. Windows should be flickering while running."); }
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigDebugIgnoreFocusLoss", io.ConfigDebugIgnoreFocusLoss);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigDebugIgnoreFocusLoss", io.ConfigDebugIgnoreFocusLoss);
               HelpMarker(line, "Option to deactivate io.AddFocusEvent(false) handling. May facilitate interactions with a debugger when focus loss leads to clearing inputs data."); }
-            { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigDebugIniSettings", io.ConfigDebugIniSettings);
+            { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "io.ConfigDebugIniSettings", io.ConfigDebugIniSettings);
               HelpMarker(line, "Option to save .ini data with extra comments (particularly helpful for Docking, but makes saving slower)."); }
 
             ui::spacing(key(), *n);
         }
 
-        if (Widget* n = ui::tree_node_ex(key(), *config, "Backend Flags").body)
+        if (Widget n = ui::tree_node_ex(key(), *config, "Backend Flags").body)
         {
             IMGUI_DEMO_MARKER("Configuration/Backend Flags");
             HelpMarker(*n,
@@ -1555,16 +1555,16 @@ void ShowDemoWindow(Widget& parent, bool* p_open)
             ui::spacing(key(), *n);
         }
 
-        if (Widget* n = ui::tree_node_ex(key(), *config, "Style, Fonts").body)
+        if (Widget n = ui::tree_node_ex(key(), *config, "Style, Fonts").body)
         {
             IMGUI_DEMO_MARKER("Configuration/Style, Fonts");
-            Widget& line = ui::row(key(), *n);
+            Widget line = ui::row(key(), *n);
             ui::checkbox(key(), line, "Style Editor", demo_data.ShowStyleEditor);
             HelpMarker(line, "The same contents can be accessed in 'Tools->Style Editor' or by calling the ShowStyleEditor() function.");
             ui::spacing(key(), *n);
         }
 
-        if (Widget* n = ui::tree_node_ex(key(), *config, "Capture/Logging").body)
+        if (Widget n = ui::tree_node_ex(key(), *config, "Capture/Logging").body)
         {
             IMGUI_DEMO_MARKER("Configuration/Capture, Logging");
             HelpMarker(*n,
@@ -1584,7 +1584,7 @@ void ShowDemoWindow(Widget& parent, bool* p_open)
         }
     }
 
-    if (Widget* opts = ui::collapsing_header(key(), body, "Window options"))
+    if (Widget opts = ui::collapsing_header(key(), body, "Window options"))
     {
         IMGUI_DEMO_MARKER("Window options");
         ui::TableLayout table = ui::begin_table(key(), *opts, 3); // ImGui::BeginTable("split", 3)
@@ -1618,15 +1618,15 @@ void ShowDemoWindow(Widget& parent, bool* p_open)
 // [SECTION] DemoWindowMenuBar()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowMenuBar(Widget& menubar, ImGuiDemoWindowData* demo_data)
+static void DemoWindowMenuBar(Widget menubar, ImGuiDemoWindowData* demo_data)
 {
     {
-        if (Widget* menu = ui::begin_menu(key(), menubar, "Menu"))
+        if (Widget menu = ui::begin_menu(key(), menubar, "Menu"))
         {
             IMGUI_DEMO_MARKER("Menu/File");
             ShowExampleMenuFile(*menu);
         }
-        if (Widget* menu = ui::begin_menu(key(), menubar, "Examples"))
+        if (Widget menu = ui::begin_menu(key(), menubar, "Examples"))
         {
             IMGUI_DEMO_MARKER("Menu/Examples");
             ui::menu_item(key(), *menu, "Main menu bar", NULL, &demo_data->ShowMainMenuBar);
@@ -1650,13 +1650,13 @@ static void DemoWindowMenuBar(Widget& menubar, ImGuiDemoWindowData* demo_data)
             ui::menu_item(key(), *menu, "Manipulating window titles", NULL, &demo_data->ShowAppWindowTitles);
         }
         //if (ImGui::MenuItem("MenuItem")) {} // You can also use MenuItem() inside a menu bar!
-        if (Widget* menu = ui::begin_menu(key(), menubar, "Tools"))
+        if (Widget menu = ui::begin_menu(key(), menubar, "Tools"))
         {
             IMGUI_DEMO_MARKER("Menu/Tools");
             ui::IO& io = ui::io();
             const bool has_debug_tools = false;
             ui::menu_item(key(), *menu, "Metrics/Debugger", NULL, &demo_data->ShowMetrics, has_debug_tools);
-            if (Widget* submenu = ui::begin_menu(key(), *menu, "Debug Options", true))
+            if (Widget submenu = ui::begin_menu(key(), *menu, "Debug Options", true))
             {
                 //ImGui::BeginDisabled(!has_debug_tools);
                 ui::checkbox(key(), *submenu, "Highlight ID Conflicts", io.ConfigDebugHighlightIdConflicts);
@@ -1865,16 +1865,16 @@ static void ExampleImageViewer_DrawCanvas(ExampleImageViewerData* data, ImVec2 c
 // [SECTION] DemoWindowWidgetsBasic()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsBasic(Widget& parent)
+static void DemoWindowWidgetsBasic(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Basic").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Basic").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Basic");
         ui::separator_text(key(), *n, "General");
 
         IMGUI_DEMO_MARKER("Widgets/Basic/Button");
         static int clicked = 0;
-        Widget& line0 = ui::row(key(), *n);
+        Widget line0 = ui::row(key(), *n);
         if (ui::button(key(), line0, "Button").activated())
             clicked++;
         if (clicked & 1)
@@ -1889,7 +1889,7 @@ static void DemoWindowWidgetsBasic(Widget& parent)
 
         IMGUI_DEMO_MARKER("Widgets/Basic/RadioButton");
         static int e = 0;
-        Widget& line1 = ui::row(key(), *n);
+        Widget line1 = ui::row(key(), *n);
         ui::radio_button(key(), line1, "radio a", e, 0); //ImGui::SameLine();
         ui::radio_button(key(), line1, "radio b", e, 1); //ImGui::SameLine();
         ui::radio_button(key(), line1, "radio c", e, 2);
@@ -1899,7 +1899,7 @@ static void DemoWindowWidgetsBasic(Widget& parent)
 
         // Color buttons, demonstrate using PushID() to add unique identifier in the ID stack, and changing style.
         IMGUI_DEMO_MARKER("Widgets/Basic/Buttons (Colored)");
-        Widget& line2 = ui::row(key(), *n);
+        Widget line2 = ui::row(key(), *n);
         static Style colored[7];
         for (int i = 0; i < 7; i++)
         {
@@ -1923,7 +1923,7 @@ static void DemoWindowWidgetsBasic(Widget& parent)
         // (otherwise a Text+SameLine+Button sequence will have the text a little too high by default!)
         // See 'Demo->Layout->Text Baseline Alignment' for details.
         //ImGui::AlignTextToFramePadding();
-        Widget& line3 = ui::row(key(), *n);
+        Widget line3 = ui::row(key(), *n);
         ui::label(key(), line3, "Hold to repeat:");
         //ImGui::SameLine();
 
@@ -1939,7 +1939,7 @@ static void DemoWindowWidgetsBasic(Widget& parent)
         //ImGui::SameLine();
         ui::textf(key(), line3, "%d", counter);
 
-        Widget& tooltip_button = ui::button(key(), *n, "Tooltip");
+        Widget tooltip_button = ui::button(key(), *n, "Tooltip");
         ui::set_item_tooltip(key(), tooltip_button, "I am a tooltip");
 
         ui::label_text(key(), *n, "label", "Value");
@@ -1952,7 +1952,7 @@ static void DemoWindowWidgetsBasic(Widget& parent)
             // - Otherwise, see the 'Dear ImGui Demo->Widgets->Text Input->Resize Callback' for using ImGuiInputTextFlags_CallbackResize.
             IMGUI_DEMO_MARKER("Widgets/Basic/InputText");
             static string str0 = "Hello, world!";
-            Widget& line = ui::row(key(), *n);
+            Widget line = ui::row(key(), *n);
             ui::input_text(key(), line, "input text", str0);
             HelpMarker(line,
                 "USER:\n"
@@ -1981,7 +1981,7 @@ static void DemoWindowWidgetsBasic(Widget& parent)
             ui::input_double(key(), *n, "input double", d0, 0.01f); // 1.0f, "%.8f");
 
             static float f1 = 1.e10f;
-            Widget& line_scientific = ui::row(key(), *n);
+            Widget line_scientific = ui::row(key(), *n);
             ui::input_float(key(), line_scientific, "input scientific", f1, 0.0f); // 0.0f, "%e");
             HelpMarker(line_scientific,
                 "You can input value using the scientific notation,\n"
@@ -1996,7 +1996,7 @@ static void DemoWindowWidgetsBasic(Widget& parent)
         {
             IMGUI_DEMO_MARKER("Widgets/Basic/DragInt, DragFloat");
             static int i1 = 50, i2 = 42, i3 = 128;
-            Widget& line = ui::row(key(), *n);
+            Widget line = ui::row(key(), *n);
             ui::drag_int(key(), line, "drag int", i1, 1);
             HelpMarker(line,
                 "Click and drag to edit value.\n"
@@ -2016,7 +2016,7 @@ static void DemoWindowWidgetsBasic(Widget& parent)
         {
             IMGUI_DEMO_MARKER("Widgets/Basic/SliderInt, SliderFloat");
             static int i1 = 0;
-            Widget& line = ui::row(key(), *n);
+            Widget line = ui::row(key(), *n);
             ui::slider_int(key(), line, "slider int", i1, -1, 3);
             HelpMarker(line, "Ctrl+Click to input value.");
 
@@ -2036,7 +2036,7 @@ static void DemoWindowWidgetsBasic(Widget& parent)
             static int elem = Element_Fire;
             const char* elems_names[Element_COUNT] = { "Fire", "Earth", "Air", "Water" };
             const char* elem_name = (elem >= 0 && elem < Element_COUNT) ? elems_names[elem] : "Unknown";
-            Widget& line_enum = ui::row(key(), *n);
+            Widget line_enum = ui::row(key(), *n);
             ui::slider_int(key(), line_enum, "slider enum", elem, 0, Element_COUNT - 1); // elem_name); // Use ImGuiSliderFlags_NoInput flag to disable Ctrl+Click here.
             ui::label(key(), line_enum, elem_name);
             HelpMarker(line_enum, "Using the format string parameter to display a name instead of the underlying integer.");
@@ -2048,7 +2048,7 @@ static void DemoWindowWidgetsBasic(Widget& parent)
             IMGUI_DEMO_MARKER("Widgets/Basic/ColorEdit3, ColorEdit4");
             static float col1[3] = { 1.0f, 0.0f, 0.2f };
             static float col2[4] = { 0.4f, 0.7f, 0.0f, 0.5f };
-            Widget& line = ui::row(key(), *n);
+            Widget line = ui::row(key(), *n);
             ui::color_edit3(key(), line, "color 1", col1);
             HelpMarker(line,
                 "Click on the color square to open a color picker.\n"
@@ -2065,7 +2065,7 @@ static void DemoWindowWidgetsBasic(Widget& parent)
             IMGUI_DEMO_MARKER("Widgets/Basic/Combo");
             const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIIIIII", "JJJJ", "KKKKKKK" };
             static int item_current = 0;
-            Widget& line = ui::row(key(), *n);
+            Widget line = ui::row(key(), *n);
             ui::combo(key(), line, "combo", item_current, items);
             HelpMarker(line,
                 "Using the simplified one-liner Combo API here.\n"
@@ -2078,7 +2078,7 @@ static void DemoWindowWidgetsBasic(Widget& parent)
             IMGUI_DEMO_MARKER("Widgets/Basic/ListBox");
             const char* items[] = { "Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon" };
             static int item_current = 1;
-            Widget& line = ui::row(key(), *n);
+            Widget line = ui::row(key(), *n);
             ui::list_box(key(), line, "listbox", item_current, items, 4);
             HelpMarker(line,
                 "Using the simplified one-liner ListBox API here.\n"
@@ -2097,19 +2097,19 @@ static void DemoWindowWidgetsBasic(Widget& parent)
 // [SECTION] DemoWindowWidgetsBullets()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsBullets(Widget& parent)
+static void DemoWindowWidgetsBullets(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Bullets").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Bullets").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Bullets");
         ui::bullet(key(), *n, "Bullet point 1");
         ui::bullet(key(), *n, "Bullet point 2\nOn multiple lines");
-        if (Widget* t = ui::tree_node_ex(key(), *n, "Tree node").body)
+        if (Widget t = ui::tree_node_ex(key(), *n, "Tree node").body)
         {
             ui::bullet(key(), *t, "Another bullet point");
         }
-        { Widget& line = ui::row(key(), *n); ui::item(key(), line, styles().bullet); ui::label(key(), line, "Bullet point 3 (two calls)"); }
-        { Widget& line = ui::row(key(), *n); ui::item(key(), line, styles().bullet); ui::small_button(key(), line, "Button"); }
+        { Widget line = ui::row(key(), *n); ui::item(key(), line, styles().bullet); ui::label(key(), line, "Bullet point 3 (two calls)"); }
+        { Widget line = ui::row(key(), *n); ui::item(key(), line, styles().bullet); ui::small_button(key(), line, "Button"); }
     }
 }
 
@@ -2117,15 +2117,15 @@ static void DemoWindowWidgetsBullets(Widget& parent)
 // [SECTION] DemoWindowWidgetsCollapsingHeaders()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsCollapsingHeaders(Widget& parent)
+static void DemoWindowWidgetsCollapsingHeaders(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Collapsing Headers").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Collapsing Headers").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Collapsing Headers");
         static bool closable_group = true;
         ui::checkbox(key(), *n, "Show 2nd header", closable_group);
         Expandbox header = ui::expandbox(key(), *n, "Header", false); // ImGuiTreeNodeFlags_None
-        if (Widget* h = header.body)
+        if (Widget h = header.body)
         {
             ui::textf(key(), *h, "IsItemHovered: %d", header.header.hovered());
             for (int i = 0; i < 5; i++)
@@ -2135,7 +2135,7 @@ static void DemoWindowWidgetsCollapsingHeaders(Widget& parent)
         {
             // @todo: closable expandbox (CollapsingHeader with a bool* p_visible)
             Expandbox closable = ui::expandbox(key(), *n, "Header with a close button", false);
-            if (Widget* h = closable.body)
+            if (Widget h = closable.body)
             {
                 ui::textf(key(), *h, "IsItemHovered: %d", closable.header.hovered());
                 for (int i = 0; i < 5; i++)
@@ -2153,9 +2153,9 @@ static void DemoWindowWidgetsCollapsingHeaders(Widget& parent)
 // [SECTION] DemoWindowWidgetsColorAndPickers()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsColorAndPickers(Widget& parent)
+static void DemoWindowWidgetsColorAndPickers(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Color/Picker Widgets").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Color/Picker Widgets").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Color");
         static float color[4] = { 114.0f / 255.0f, 144.0f / 255.0f, 154.0f / 255.0f, 200.0f / 255.0f };
@@ -2166,14 +2166,14 @@ static void DemoWindowWidgetsColorAndPickers(Widget& parent)
         ui::checkbox_flags(key(), *n, "ImGuiColorEditFlags_AlphaOpaque", base_flags, ImGuiColorEditFlags_AlphaOpaque);
         ui::checkbox_flags(key(), *n, "ImGuiColorEditFlags_AlphaNoBg", base_flags, ImGuiColorEditFlags_AlphaNoBg);
         ui::checkbox_flags(key(), *n, "ImGuiColorEditFlags_AlphaPreviewHalf", base_flags, ImGuiColorEditFlags_AlphaPreviewHalf);
-        { Widget& line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiColorEditFlags_NoOptions", base_flags, ImGuiColorEditFlags_NoOptions); HelpMarker(line, "Right-click on the individual color widget to show options."); }
+        { Widget line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiColorEditFlags_NoOptions", base_flags, ImGuiColorEditFlags_NoOptions); HelpMarker(line, "Right-click on the individual color widget to show options."); }
         ui::checkbox_flags(key(), *n, "ImGuiColorEditFlags_NoDragDrop", base_flags, ImGuiColorEditFlags_NoDragDrop);
         ui::checkbox_flags(key(), *n, "ImGuiColorEditFlags_NoColorMarkers", base_flags, ImGuiColorEditFlags_NoColorMarkers);
-        { Widget& line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiColorEditFlags_HDR", base_flags, ImGuiColorEditFlags_HDR); HelpMarker(line, "Currently all this does is to lift the 0..1 limits on dragging widgets."); }
+        { Widget line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiColorEditFlags_HDR", base_flags, ImGuiColorEditFlags_HDR); HelpMarker(line, "Currently all this does is to lift the 0..1 limits on dragging widgets."); }
 
         IMGUI_DEMO_MARKER("Widgets/Color/ColorEdit");
         ui::separator_text(key(), *n, "Inline color editor");
-        { Widget& line = ui::row(key(), *n); ui::label(key(), line, "Color widget:");
+        { Widget line = ui::row(key(), *n); ui::label(key(), line, "Color widget:");
           HelpMarker(line,
             "Click on the color square to open a color picker.\n"
             "Ctrl+Click on individual component to input value.\n"); }
@@ -2188,7 +2188,7 @@ static void DemoWindowWidgetsColorAndPickers(Widget& parent)
         ui::color_edit4(key(), *n, "MyColor##2f", color); // ImGuiColorEditFlags_Float | base_flags);
 
         IMGUI_DEMO_MARKER("Widgets/Color/ColorButton (with Picker)");
-        { Widget& line = ui::row(key(), *n); ui::label(key(), line, "Color button with Picker:");
+        { Widget line = ui::row(key(), *n); ui::label(key(), line, "Color button with Picker:");
           HelpMarker(line,
             "With the ImGuiColorEditFlags_NoInputs flag you can hide all the slider/text inputs.\n"
             "With the ImGuiColorEditFlags_NoLabel flag you can pass a non-empty label which will only "
@@ -2213,8 +2213,8 @@ static void DemoWindowWidgetsColorAndPickers(Widget& parent)
 
         static Colour backup_color;
         static bool mypicker = false;
-        Widget& line_picker = ui::row(key(), *n);
-        Widget& color_button = ui::color_button(key(), line_picker, "MyColor##3b", Colour(color[0], color[1], color[2], color[3])); // base_flags);
+        Widget line_picker = ui::row(key(), *n);
+        Widget color_button = ui::color_button(key(), line_picker, "MyColor##3b", Colour(color[0], color[1], color[2], color[3])); // base_flags);
         bool open_popup = color_button.activated();
         //ImGui::SameLine(0, ImGui::GetStyle().ItemInnerSpacing.x);
         open_popup |= ui::button(key(), line_picker, "Palette").activated();
@@ -2223,15 +2223,15 @@ static void DemoWindowWidgetsColorAndPickers(Widget& parent)
             mypicker = true; // ImGui::OpenPopup("mypicker");
             backup_color = Colour(color[0], color[1], color[2], color[3]);
         }
-        if (Widget* popup = ui::begin_popup(key(), line_picker, mypicker))
+        if (Widget popup = ui::begin_popup(key(), line_picker, mypicker))
         {
             ui::label(key(), *popup, "MY CUSTOM COLOR PICKER WITH AN AMAZING PALETTE!");
             ui::separator(key(), *popup);
-            Widget& line = ui::row(key(), *popup);
+            Widget line = ui::row(key(), *popup);
             ui::color_picker4(key(), line, "##picker", color); // base_flags | ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoSmallPreview);
             //ImGui::SameLine();
 
-            Widget& group = ui::stack(key(), line); // ImGui::BeginGroup(); // Lock X position
+            Widget group = ui::stack(key(), line); // ImGui::BeginGroup(); // Lock X position
             ui::label(key(), group, "Current");
             ui::color_button(key(), group, "##current", Colour(color[0], color[1], color[2], color[3]), vec2(60, 40)); // ImGuiColorEditFlags_NoPicker | ImGuiColorEditFlags_AlphaPreviewHalf
             ui::label(key(), group, "Previous");
@@ -2239,12 +2239,12 @@ static void DemoWindowWidgetsColorAndPickers(Widget& parent)
                 { color[0] = backup_color.r; color[1] = backup_color.g; color[2] = backup_color.b; color[3] = backup_color.a; }
             ui::separator(key(), group);
             ui::label(key(), group, "Palette");
-            Widget* palette_line = nullptr;
+            Widget palette_line = nullptr;
             for (int p = 0; p < IM_COUNTOF(saved_palette); p++)
             {
                 //ImGui::PushID(p);
                 if ((p % 8) == 0)
-                    palette_line = &ui::row(key(), group); //ImGui::SameLine(0.0f, ImGui::GetStyle().ItemSpacing.y);
+                    palette_line = ui::row(key(), group); //ImGui::SameLine(0.0f, ImGui::GetStyle().ItemSpacing.y);
 
                 //ImGuiColorEditFlags palette_button_flags = ImGuiColorEditFlags_NoAlpha | ImGuiColorEditFlags_NoPicker | ImGuiColorEditFlags_NoTooltip;
                 if (ui::color_button(key(), *palette_line, "##palette", saved_palette[p], vec2(20, 20)).activated())
@@ -2284,7 +2284,7 @@ static void DemoWindowWidgetsColorAndPickers(Widget& parent)
         //ImGui::PushID("Color picker");
         ui::checkbox_flags(key(), *n, "ImGuiColorEditFlags_NoAlpha", color_picker_flags, ImGuiColorEditFlags_NoAlpha);
         ui::checkbox_flags(key(), *n, "ImGuiColorEditFlags_AlphaBar", color_picker_flags, ImGuiColorEditFlags_AlphaBar);
-        Widget& line_side = ui::row(key(), *n);
+        Widget line_side = ui::row(key(), *n);
         ui::checkbox_flags(key(), line_side, "ImGuiColorEditFlags_NoSidePreview", color_picker_flags, ImGuiColorEditFlags_NoSidePreview);
         if (color_picker_flags & ImGuiColorEditFlags_NoSidePreview)
         {
@@ -2298,10 +2298,10 @@ static void DemoWindowWidgetsColorAndPickers(Widget& parent)
         }
         ui::checkbox_flags(key(), *n, "ImGuiColorEditFlags_PickerNoRotate", color_picker_flags, ImGuiColorEditFlags_PickerNoRotate);
 
-        { Widget& line = ui::row(key(), *n); ui::combo(key(), line, "Picker Mode", picker_mode, { "Auto/Current", "ImGuiColorEditFlags_PickerHueBar", "ImGuiColorEditFlags_PickerHueWheel" });
+        { Widget line = ui::row(key(), *n); ui::combo(key(), line, "Picker Mode", picker_mode, { "Auto/Current", "ImGuiColorEditFlags_PickerHueBar", "ImGuiColorEditFlags_PickerHueWheel" });
           HelpMarker(line, "When not specified explicitly, user can right-click the picker to change mode."); }
 
-        { Widget& line = ui::row(key(), *n); ui::combo(key(), line, "Display Mode", display_mode, { "Auto/Current", "ImGuiColorEditFlags_NoInputs", "ImGuiColorEditFlags_DisplayRGB", "ImGuiColorEditFlags_DisplayHSV", "ImGuiColorEditFlags_DisplayHex" });
+        { Widget line = ui::row(key(), *n); ui::combo(key(), line, "Display Mode", display_mode, { "Auto/Current", "ImGuiColorEditFlags_NoInputs", "ImGuiColorEditFlags_DisplayRGB", "ImGuiColorEditFlags_DisplayHSV", "ImGuiColorEditFlags_DisplayHex" });
           HelpMarker(line,
             "ColorEdit defaults to displaying RGB inputs if you don't specify a display mode, "
             "but the user can change it with a right-click on those inputs.\n\nColorPicker defaults to displaying RGB+HSV+Hex "
@@ -2316,7 +2316,7 @@ static void DemoWindowWidgetsColorAndPickers(Widget& parent)
         if (display_mode == 4) flags |= ImGuiColorEditFlags_DisplayHex;
         ui::color_picker4(key(), *n, "MyColor##4", color); // flags, ref_color ? &ref_color_v.x : NULL);
 
-        { Widget& line = ui::row(key(), *n); ui::label(key(), line, "Set defaults in code:");
+        { Widget line = ui::row(key(), *n); ui::label(key(), line, "Set defaults in code:");
           HelpMarker(line,
             "io.ConfigColorEditFlags is designed to allow you to set boot-time default.\n"
             "We don't have Push/Pop functions because you can force options on a per-widget basis if needed, "
@@ -2332,7 +2332,7 @@ static void DemoWindowWidgetsColorAndPickers(Widget& parent)
         ui::label(key(), *n, "Both types:");
         //float w = (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.y) * 0.40f;
         //ImGui::SetNextItemWidth(w);
-        Widget& line_both = ui::row(key(), *n);
+        Widget line_both = ui::row(key(), *n);
         ui::color_picker3(key(), line_both, "##MyColor##5", color); // ImGuiColorEditFlags_PickerHueBar | ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoAlpha);
         //ImGui::SameLine();
         //ImGui::SetNextItemWidth(w);
@@ -2342,7 +2342,7 @@ static void DemoWindowWidgetsColorAndPickers(Widget& parent)
         // HSV encoded support (to avoid RGB<>HSV round trips and singularities when S==0 or V==0)
         static float color_hsv[4] = { 0.23f, 1.0f, 1.0f, 1.0f }; // Stored as HSV!
         ui::spacing(key(), *n);
-        { Widget& line = ui::row(key(), *n); ui::label(key(), line, "HSV encoded colors");
+        { Widget line = ui::row(key(), *n); ui::label(key(), line, "HSV encoded colors");
           HelpMarker(line,
             "By default, colors are given to ColorEdit and ColorPicker in RGB, but ImGuiColorEditFlags_InputHSV "
             "allows you to store colors as HSV and pass them to ColorEdit and ColorPicker as HSV. This comes with the "
@@ -2358,15 +2358,15 @@ static void DemoWindowWidgetsColorAndPickers(Widget& parent)
 // [SECTION] DemoWindowWidgetsComboBoxes()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsComboBoxes(Widget& parent)
+static void DemoWindowWidgetsComboBoxes(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Combo").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Combo").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Combo");
         // Combo Boxes are also called "Dropdown" in other systems
         // Expose flags as checkbox for the demo
         static ImGuiComboFlags flags = 0;
-        { Widget& line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiComboFlags_PopupAlignLeft", flags, ImGuiComboFlags_PopupAlignLeft);
+        { Widget line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiComboFlags_PopupAlignLeft", flags, ImGuiComboFlags_PopupAlignLeft);
           HelpMarker(line, "Only makes a difference if the popup is larger than the combo"); }
         if (ui::checkbox_flags(key(), *n, "ImGuiComboFlags_NoArrowButton", flags, ImGuiComboFlags_NoArrowButton))
             flags &= ~ImGuiComboFlags_NoPreview;     // Clear incompatible flags
@@ -2391,7 +2391,7 @@ static void DemoWindowWidgetsComboBoxes(Widget& parent)
 
         // Pass in the preview value visible before opening the combo (it could technically be different contents or not pulled from items[])
         const char* combo_preview_value = items[item_selected_idx];
-        if (Widget* combo = ui::begin_combo(key(), *n, "combo 1", combo_preview_value)) // flags))
+        if (Widget combo = ui::begin_combo(key(), *n, "combo 1", combo_preview_value)) // flags))
         {
             for (int i = 0; i < IM_COUNTOF(items); i++)
             {
@@ -2407,7 +2407,7 @@ static void DemoWindowWidgetsComboBoxes(Widget& parent)
 
         // Show case embedding a filter using a simple trick: displaying the filter inside combo contents.
         // See https://github.com/ocornut/imgui/issues/718 for advanced/esoteric alternatives.
-        if (Widget* combo = ui::begin_combo(key(), *n, "combo 2 (w/ filter)", combo_preview_value)) // flags))
+        if (Widget combo = ui::begin_combo(key(), *n, "combo 2 (w/ filter)", combo_preview_value)) // flags))
         {
             static string filter;
             //if (ImGui::IsWindowAppearing())
@@ -2452,9 +2452,9 @@ static void DemoWindowWidgetsComboBoxes(Widget& parent)
 // [SECTION] DemoWindowWidgetsDataTypes()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsDataTypes(Widget& parent)
+static void DemoWindowWidgetsDataTypes(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Data Types").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Data Types").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Data Types");
         // DragScalar/InputScalar/SliderScalar functions allow various data types
@@ -2501,7 +2501,7 @@ static void DemoWindowWidgetsDataTypes(Widget& parent)
         static bool drag_clamp = false;
         IMGUI_DEMO_MARKER("Widgets/Data Types/Drags");
         ui::separator_text(key(), *n, "Drags");
-        { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "Clamp integers to 0..50", drag_clamp);
+        { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "Clamp integers to 0..50", drag_clamp);
           HelpMarker(line,
             "As with every widget in dear imgui, we never modify values unless there is a user interaction.\n"
             "You can override the clamping limits by using Ctrl+Click to input a value."); }
@@ -2580,12 +2580,12 @@ static void DemoWindowWidgetsDataTypes(Widget& parent)
 // [SECTION] DemoWindowWidgetsDisableBlocks()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsDisableBlocks(Widget& parent, ImGuiDemoWindowData* demo_data)
+static void DemoWindowWidgetsDisableBlocks(Widget parent, ImGuiDemoWindowData* demo_data)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Disable Blocks").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Disable Blocks").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Disable Blocks");
-        Widget& line = ui::row(key(), *n);
+        Widget line = ui::row(key(), *n);
         ui::checkbox(key(), line, "Disable entire section above", demo_data->DisableSections);
         HelpMarker(line, "Demonstrate using BeginDisabled()/EndDisabled() across other sections.");
     }
@@ -2595,12 +2595,12 @@ static void DemoWindowWidgetsDisableBlocks(Widget& parent, ImGuiDemoWindowData* 
 // [SECTION] DemoWindowWidgetsDragAndDrop()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsDragAndDrop(Widget& parent)
+static void DemoWindowWidgetsDragAndDrop(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Drag and Drop").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Drag and Drop").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Drag and drop");
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Drag and drop in standard widgets").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Drag and drop in standard widgets").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Drag and drop/Standard widgets");
             // ColorEdit widgets automatically act as drag source and drag target.
@@ -2614,7 +2614,7 @@ static void DemoWindowWidgetsDragAndDrop(Widget& parent)
             ui::color_edit4(key(), *n0, "color 2", col2);
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Drag and drop to copy/swap items").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Drag and drop to copy/swap items").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Drag and drop/Copy-swap items");
             enum Mode
@@ -2624,7 +2624,7 @@ static void DemoWindowWidgetsDragAndDrop(Widget& parent)
                 Mode_Swap
             };
             static int mode = 0;
-            Widget& line = ui::row(key(), *n0);
+            Widget line = ui::row(key(), *n0);
             if (ui::radio_button(key(), line, "Copy", mode == Mode_Copy)) { mode = Mode_Copy; } //ImGui::SameLine();
             if (ui::radio_button(key(), line, "Move", mode == Mode_Move)) { mode = Mode_Move; } //ImGui::SameLine();
             if (ui::radio_button(key(), line, "Swap", mode == Mode_Swap)) { mode = Mode_Swap; }
@@ -2634,16 +2634,16 @@ static void DemoWindowWidgetsDragAndDrop(Widget& parent)
                 "Brianna", "Barry", "Bernard",
                 "Bibi", "Blaine", "Bryn"
             };
-            Widget* names_line = nullptr;
+            Widget names_line = nullptr;
             for (int i = 0; i < IM_COUNTOF(names); i++)
             {
                 //ImGui::PushID(i);
                 if ((i % 3) == 0)
-                    names_line = &ui::row(key(), *n0); //ImGui::SameLine();
-                Widget& button = ui::button(key(i), *names_line, names[i]); // ImVec2(60, 60));
+                    names_line = ui::row(key(), *n0); //ImGui::SameLine();
+                Widget button = ui::button(key(i), *names_line, names[i]); // ImVec2(60, 60));
 
                 // Our buttons are both drag sources and drag targets here!
-                if (Widget* source = ui::begin_drag_drop_source(key(), button)) // ImGuiDragDropFlags_None
+                if (Widget source = ui::begin_drag_drop_source(key(), button)) // ImGuiDragDropFlags_None
                 {
                     // Set payload to carry the index of our item (could be anything)
                     ui::set_drag_drop_payload(button, "DND_DEMO_CELL", &i, sizeof(int));
@@ -2681,7 +2681,7 @@ static void DemoWindowWidgetsDragAndDrop(Widget& parent)
             }
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Drag to reorder items (simple)").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Drag to reorder items (simple)").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Drag and Drop/Drag to reorder items (simple)");
             // FIXME: there is temporary (usually single-frame) ID Conflict during reordering as a same item may be submitting twice.
@@ -2697,7 +2697,7 @@ static void DemoWindowWidgetsDragAndDrop(Widget& parent)
             for (int i = 0; i < IM_COUNTOF(item_names); i++)
             {
                 const char* item = item_names[i];
-                Widget& selectable = ui::selectable(key(), *n0, item, false);
+                Widget selectable = ui::selectable(key(), *n0, item, false);
 
                 if (ui::is_item_active(selectable) && !ui::is_item_hovered(selectable))
                 {
@@ -2714,13 +2714,13 @@ static void DemoWindowWidgetsDragAndDrop(Widget& parent)
             //ImGui::PopItemFlag();
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Tooltip at target location").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Tooltip at target location").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Drag and Drop/Tooltip at target location");
             for (int i = 0; i < 2; i++)
             {
                 // Drop targets
-                Widget& button = ui::button(key(), *n0, i ? "drop here##1" : "drop here##0");
+                Widget button = ui::button(key(), *n0, i ? "drop here##1" : "drop here##0");
                 if (ui::begin_drag_drop_target(button))
                 {
                     //ImGuiDragDropFlags drop_target_flags = ImGuiDragDropFlags_AcceptBeforeDelivery | ImGuiDragDropFlags_AcceptNoPreviewTooltip;
@@ -2746,27 +2746,27 @@ static void DemoWindowWidgetsDragAndDrop(Widget& parent)
 // [SECTION] DemoWindowWidgetsDragsAndSliders()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsDragsAndSliders(Widget& parent)
+static void DemoWindowWidgetsDragsAndSliders(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Drag/Slider Flags").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Drag/Slider Flags").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Drag and Slider Flags");
         // Demonstrate using advanced flags for DragXXX and SliderXXX functions. Note that the flags are the same!
         static ImGuiSliderFlags flags = ImGuiSliderFlags_None;
         ui::checkbox_flags(key(), *n, "ImGuiSliderFlags_AlwaysClamp", flags, ImGuiSliderFlags_AlwaysClamp);
-        { Widget& line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiSliderFlags_ClampOnInput", flags, ImGuiSliderFlags_ClampOnInput);
+        { Widget line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiSliderFlags_ClampOnInput", flags, ImGuiSliderFlags_ClampOnInput);
           HelpMarker(line, "Clamp value to min/max bounds when input manually with Ctrl+Click. By default Ctrl+Click allows going out of bounds."); }
-        { Widget& line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiSliderFlags_ClampZeroRange", flags, ImGuiSliderFlags_ClampZeroRange);
+        { Widget line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiSliderFlags_ClampZeroRange", flags, ImGuiSliderFlags_ClampZeroRange);
           HelpMarker(line, "Clamp even if min==max==0.0f. Otherwise DragXXX functions don't clamp."); }
-        { Widget& line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiSliderFlags_Logarithmic", flags, ImGuiSliderFlags_Logarithmic);
+        { Widget line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiSliderFlags_Logarithmic", flags, ImGuiSliderFlags_Logarithmic);
           HelpMarker(line, "Enable logarithmic editing (more precision for small values)."); }
-        { Widget& line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiSliderFlags_NoRoundToFormat", flags, ImGuiSliderFlags_NoRoundToFormat);
+        { Widget line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiSliderFlags_NoRoundToFormat", flags, ImGuiSliderFlags_NoRoundToFormat);
           HelpMarker(line, "Disable rounding underlying value to match precision of the format string (e.g. %.3f values are rounded to those 3 digits)."); }
-        { Widget& line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiSliderFlags_NoInput", flags, ImGuiSliderFlags_NoInput);
+        { Widget line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiSliderFlags_NoInput", flags, ImGuiSliderFlags_NoInput);
           HelpMarker(line, "Disable Ctrl+Click or Enter key allowing to input text directly into the widget."); }
-        { Widget& line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiSliderFlags_NoSpeedTweaks", flags, ImGuiSliderFlags_NoSpeedTweaks);
+        { Widget line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiSliderFlags_NoSpeedTweaks", flags, ImGuiSliderFlags_NoSpeedTweaks);
           HelpMarker(line, "Disable keyboard modifiers altering tweak speed. Useful if you want to alter tweak speed yourself based on your own logic."); }
-        { Widget& line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiSliderFlags_WrapAround", flags, ImGuiSliderFlags_WrapAround);
+        { Widget line = ui::row(key(), *n); ui::checkbox_flags(key(), line, "ImGuiSliderFlags_WrapAround", flags, ImGuiSliderFlags_WrapAround);
           HelpMarker(line, "Enable wrapping around from max to min and from min to max (only supported by DragXXX() functions)"); }
         ui::checkbox_flags(key(), *n, "ImGuiSliderFlags_ColorMarkers", flags, ImGuiSliderFlags_ColorMarkers);
 
@@ -2800,9 +2800,9 @@ static void DemoWindowWidgetsDragsAndSliders(Widget& parent)
 // [SECTION] DemoWindowWidgetsFonts()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsFonts(Widget& parent)
+static void DemoWindowWidgetsFonts(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Fonts").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Fonts").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Fonts");
         ui::show_font_atlas(key(), *n); // ImGui::ShowFontAtlas(ImGui::GetIO().Fonts);
@@ -2814,9 +2814,9 @@ static void DemoWindowWidgetsFonts(Widget& parent)
 // [SECTION] DemoWindowWidgetsImages()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsImages(Widget& parent)
+static void DemoWindowWidgetsImages(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Images").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Images").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Images");
         ui::text_wrapped(key(), *n,
@@ -2864,7 +2864,7 @@ static void DemoWindowWidgetsImages(Widget& parent)
         ui::separator_text(key(), *n, "Textured Buttons");
         ui::text_wrapped(key(), *n, "And now some textured buttons..");
         static int pressed_count = 0;
-        Widget& line = ui::row(key(), *n);
+        Widget line = ui::row(key(), *n);
         for (int i = 0; i < 8; i++)
         {
             // UV coordinates are often (0.0f, 0.0f) and (1.0f, 1.0f) to display an entire textures.
@@ -2894,9 +2894,9 @@ static void DemoWindowWidgetsImages(Widget& parent)
 // [SECTION] DemoWindowWidgetsListBoxes()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsListBoxes(Widget& parent)
+static void DemoWindowWidgetsListBoxes(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "List Boxes").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "List Boxes").body)
     {
         IMGUI_DEMO_MARKER("Widgets/List Boxes");
         // BeginListBox() is essentially a thin wrapper to using BeginChild()/EndChild()
@@ -2914,13 +2914,13 @@ static void DemoWindowWidgetsListBoxes(Widget& parent)
         int item_highlighted_idx = -1; // Here we store our highlighted data as an index.
         ui::checkbox(key(), *n, "Highlight hovered item in second listbox", item_highlight);
 
-        Widget& line = ui::row(key(), *n);
-        if (Widget* list = ui::begin_list_box(key(), line, "listbox 1"))
+        Widget line = ui::row(key(), *n);
+        if (Widget list = ui::begin_list_box(key(), line, "listbox 1"))
         {
             for (int i = 0; i < IM_COUNTOF(items); i++)
             {
                 const bool is_selected = (item_selected_idx == i);
-                Widget& selectable = ui::selectable(key(), *list, items[i], is_selected);
+                Widget selectable = ui::selectable(key(), *list, items[i], is_selected);
                 if (selectable.activated())
                     item_selected_idx = i;
 
@@ -2936,13 +2936,13 @@ static void DemoWindowWidgetsListBoxes(Widget& parent)
 
         // Custom size: use all width, 5 items tall
         ui::label(key(), *n, "Full-width:");
-        if (Widget* list = ui::begin_list_box(key(), *n, "##listbox 2")) // ImVec2(-FLT_MIN, 5 * ImGui::GetTextLineHeightWithSpacing())))
+        if (Widget list = ui::begin_list_box(key(), *n, "##listbox 2")) // ImVec2(-FLT_MIN, 5 * ImGui::GetTextLineHeightWithSpacing())))
         {
             for (int i = 0; i < IM_COUNTOF(items); i++)
             {
                 const bool is_selected = (item_selected_idx == i);
                 //ImGuiSelectableFlags flags = (item_highlighted_idx == i) ? ImGuiSelectableFlags_Highlight : 0;
-                Widget& selectable = ui::selectable(key(), *list, items[i], is_selected);
+                Widget selectable = ui::selectable(key(), *list, items[i], is_selected);
                 selectable.set_state(HOVERED, item_highlighted_idx == i);
                 if (selectable.activated())
                     item_selected_idx = i;
@@ -2959,9 +2959,9 @@ static void DemoWindowWidgetsListBoxes(Widget& parent)
 // [SECTION] DemoWindowWidgetsLiveEdit()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsLiveEdit(Widget& parent, ImGuiDemoWindowData* demo_data)
+static void DemoWindowWidgetsLiveEdit(Widget parent, ImGuiDemoWindowData* demo_data)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Live Edit Flags").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Live Edit Flags").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Live Edit Flags");
 
@@ -2972,7 +2972,7 @@ static void DemoWindowWidgetsLiveEdit(Widget& parent, ImGuiDemoWindowData* demo_
             demo_data->LiveEditFlags = ui::get_item_flags();
 
         ui::begin_disabled(demo_data->LiveEditOverride == false);
-        Widget& indent = ui::indent(key(), *n); // ImGui::Indent();
+        Widget indent = ui::indent(key(), *n); // ImGui::Indent();
         ui::checkbox_flags(key(), indent, "ImGuiItemFlags_LiveEditOnInputText", demo_data->LiveEditFlags, ImGuiItemFlags_LiveEditOnInputText);
         ui::checkbox_flags(key(), indent, "ImGuiItemFlags_LiveEditOnInputScalar", demo_data->LiveEditFlags, ImGuiItemFlags_LiveEditOnInputScalar);
         //ImGui::Unindent();
@@ -2995,9 +2995,9 @@ static void DemoWindowWidgetsLiveEdit(Widget& parent, ImGuiDemoWindowData* demo_
 // [SECTION] DemoWindowWidgetsMixedValues()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsMixedValues(Widget& parent)
+static void DemoWindowWidgetsMixedValues(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Mixed Values").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Mixed Values").body)
     {
         // This is designed for advanced property editors which are generally reusable and data-driven.
         HelpMarker(*n, "Using ImGuiItemFlags_MixedValue.");
@@ -3037,7 +3037,7 @@ static void DemoWindowWidgetsMixedValues(Widget& parent)
         ui::checkbox(key(), *n, "Checkbox Off", b_off);
         ui::push_item_flag(ImGuiItemFlags_MixedValue, true);
         ui::checkbox(key(), *n, "Checkbox Mixed", b_off);
-        Widget& line = ui::row(key(), *n);
+        Widget line = ui::row(key(), *n);
         ui::radio_button(key(), line, "RadioButton Mixed", true);
         //ImGui::SameLine();
         ui::radio_button(key(), line, "RadioButton Mixed##2", true); // Showing 2 radio buttons makes the example more clear
@@ -3053,9 +3053,9 @@ static void DemoWindowWidgetsMixedValues(Widget& parent)
 // [SECTION] DemoWindowWidgetsMultiComponents()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsMultiComponents(Widget& parent)
+static void DemoWindowWidgetsMultiComponents(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Multi-component Widgets").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Multi-component Widgets").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Multi-component Widgets");
         static float vec4f[4] = { 0.10f, 0.20f, 0.30f, 0.44f };
@@ -3101,12 +3101,12 @@ static void DemoWindowWidgetsMultiComponents(Widget& parent)
 // [SECTION] DemoWindowWidgetsPlotting()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsPlotting(Widget& parent)
+static void DemoWindowWidgetsPlotting(Widget parent)
 {
     // Plot/Graph widgets are not very good.
 // Consider using a third-party library such as ImPlot: https://github.com/epezent/implot
 // (see others https://github.com/ocornut/imgui/wiki/Useful-Extensions)
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Plotting").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Plotting").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Plotting");
         ui::label(key(), *n, "Need better plotting and graphing? Consider using ImPlot:");
@@ -3161,7 +3161,7 @@ static void DemoWindowWidgetsPlotting(Widget& parent)
         };
         static int func_type = 0, display_count = 70;
         ui::separator_text(key(), *n, "Functions");
-        Widget& line = ui::row(key(), *n);
+        Widget line = ui::row(key(), *n);
         //ImGui::SetNextItemWidth(ImGui::GetFontSize() * 8);
         ui::combo(key(), line, "func", func_type, { "Sin", "Saw" });
         //ImGui::SameLine();
@@ -3176,9 +3176,9 @@ static void DemoWindowWidgetsPlotting(Widget& parent)
 // [SECTION] DemoWindowWidgetsProgressBars()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsProgressBars(Widget& parent)
+static void DemoWindowWidgetsProgressBars(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Progress Bars").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Progress Bars").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Progress Bars");
         // Animate a simple progress bar
@@ -3191,7 +3191,7 @@ static void DemoWindowWidgetsProgressBars(Widget& parent)
 
         // Typically we would use ImVec2(-1.0f,0.0f) or ImVec2(-FLT_MIN,0.0f) to use all available width,
         // or ImVec2(width,0.0f) for a specified width. ImVec2(0.0f,0.0f) uses ItemWidth.
-        Widget& line0 = ui::row(key(), *n);
+        Widget line0 = ui::row(key(), *n);
         ui::progress_bar(key(), line0, progress, vec2(0.0f, 0.0f));
         //ImGui::SameLine(0.0f, ImGui::GetStyle().ItemInnerSpacing.x);
         ui::label(key(), line0, "Progress Bar");
@@ -3202,7 +3202,7 @@ static void DemoWindowWidgetsProgressBars(Widget& parent)
 
         // Pass an animated negative value, e.g. -1.0f * (float)ImGui::GetTime() is the recommended value.
         // Adjust the factor if you want to adjust the animation speed.
-        Widget& line1 = ui::row(key(), *n);
+        Widget line1 = ui::row(key(), *n);
         ui::progress_bar(key(), line1, -1.0f * (float)ui::io().Time, vec2(0.0f, 0.0f), "Searching..");
         //ImGui::SameLine(0.0f, ImGui::GetStyle().ItemInnerSpacing.x);
         ui::label(key(), line1, "Indeterminate");
@@ -3213,9 +3213,9 @@ static void DemoWindowWidgetsProgressBars(Widget& parent)
 // [SECTION] DemoWindowWidgetsQueryingStatuses()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsQueryingStatuses(Widget& parent)
+static void DemoWindowWidgetsQueryingStatuses(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Querying Item Status (Edited/Active/Hovered etc.)").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Querying Item Status (Edited/Active/Hovered etc.)").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Querying Item Status (Edited,Active,Hovered etc.)");
         // Select an item type
@@ -3229,12 +3229,12 @@ static void DemoWindowWidgetsQueryingStatuses(Widget& parent)
         static bool item_mixedvalue = false;
         static bool liveedit_flags_override = false;
         static ImGuiItemFlags liveedit_flags = 0;
-        { Widget& line = ui::row(key(), *n); ui::combo(key(), line, "Item Type", item_type, item_names); // IM_COUNTOF(item_names));
+        { Widget line = ui::row(key(), *n); ui::combo(key(), line, "Item Type", item_type, item_names); // IM_COUNTOF(item_names));
           //ImGui::SameLine();
           HelpMarker(line, "Testing how various types of items are interacting with the IsItemXXX functions. Note that the bool return value of most ImGui function is generally equivalent to calling ImGui::IsItemHovered()."); }
         ui::checkbox(key(), *n, "Item Disabled", item_disabled);
         ui::checkbox(key(), *n, "Item MixedValue", item_mixedvalue);
-        Widget& line_liveedit = ui::row(key(), *n);
+        Widget line_liveedit = ui::row(key(), *n);
         ui::checkbox(key(), line_liveedit, "Override LiveEdit:", liveedit_flags_override);
         //ImGui::SameLine();
         if (!liveedit_flags_override)
@@ -3255,7 +3255,7 @@ static void DemoWindowWidgetsQueryingStatuses(Widget& parent)
         // Submit selected items so we can query their status in the code following it.
         // In two.ui, the items are queried through the widget returned by the call declaring them
         bool ret = false;
-        Widget* item = nullptr;
+        Widget item = nullptr;
         static bool b = false;
         static float col4f[4] = { 1.0f, 0.5, 0.0f, 1.0f };
         static string str = "";
@@ -3263,10 +3263,10 @@ static void DemoWindowWidgetsQueryingStatuses(Widget& parent)
             ui::begin_disabled(true);
         if (item_mixedvalue)
             ui::push_item_flag(ImGuiItemFlags_MixedValue, true);
-        Widget& items = ui::stack(key(), *n);
-        if (item_type == 0) { item = &ui::label(key(), items, "ITEM: Text"); }                                                // Testing text items with no identifier/interaction
-        if (item_type == 1) { item = &ui::button(key(), items, "ITEM: Button"); ret = item->activated(); }                    // Testing button
-        if (item_type == 2) { ui::push_item_flag(ImGuiItemFlags_ButtonRepeat, true); item = &ui::button(key(), items, "ITEM: Button"); ret = item->activated(); ui::pop_item_flag(); } // Testing button (with repeater)
+        Widget items = ui::stack(key(), *n);
+        if (item_type == 0) { item = ui::label(key(), items, "ITEM: Text"); }                                                // Testing text items with no identifier/interaction
+        if (item_type == 1) { item = ui::button(key(), items, "ITEM: Button"); ret = item->activated(); }                    // Testing button
+        if (item_type == 2) { ui::push_item_flag(ImGuiItemFlags_ButtonRepeat, true); item = ui::button(key(), items, "ITEM: Button"); ret = item->activated(); ui::pop_item_flag(); } // Testing button (with repeater)
         if (item_type == 3) { ret = ui::checkbox(key(), items, "ITEM: Checkbox", b); }                                        // Testing checkbox
         if (item_type == 4) { ret = ui::slider_float(key(), items, "ITEM: SliderFloat", col4f[0], 0.0f, 1.0f); }             // Testing basic item
         if (item_type == 5) { ret = ui::input_text(key(), items, "ITEM: InputText", str); }                                  // Testing input text (which handles tabbing)
@@ -3274,14 +3274,14 @@ static void DemoWindowWidgetsQueryingStatuses(Widget& parent)
         if (item_type == 7) { ret = ui::input_float(key(), items, "ITEM: InputFloat", col4f[0], 1.0f); }                     // Testing +/- buttons on scalar input
         if (item_type == 8) { ret = ui::input_float3(key(), items, "ITEM: InputFloat3", col4f); }                            // Testing multi-component items (IsItemXXX flags are reported merged)
         if (item_type == 9) { ret = ui::color_edit4(key(), items, "ITEM: ColorEdit4", col4f); }                              // Testing multi-component items (IsItemXXX flags are reported merged)
-        if (item_type == 10) { item = &ui::selectable(key(), items, "ITEM: Selectable", false); ret = item->activated(); }    // Testing selectable item
+        if (item_type == 10) { item = ui::selectable(key(), items, "ITEM: Selectable", false); ret = item->activated(); }    // Testing selectable item
         if (item_type == 11) { ret = ui::menu_item(key(), items, "ITEM: MenuItem"); }                                        // Testing menu item (they use ImGuiButtonFlags_PressedOnRelease button policy)
-        if (item_type == 12) { TreeNode node = ui::tree_node_ex(key(), items, "ITEM: TreeNode"); item = &node.header; ret = node.body != nullptr; } // Testing tree node
-        if (item_type == 13) { TreeNode node = ui::tree_node_ex(key(), items, "ITEM: TreeNode w/ ImGuiTreeNodeFlags_OpenOnDoubleClick", ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_NoTreePushOnOpen); item = &node.header; ret = node.body != nullptr; } // Testing tree node with ImGuiButtonFlags_PressedOnDoubleClick button policy.
+        if (item_type == 12) { TreeNode node = ui::tree_node_ex(key(), items, "ITEM: TreeNode"); item = node.header; ret = node.body != nullptr; } // Testing tree node
+        if (item_type == 13) { TreeNode node = ui::tree_node_ex(key(), items, "ITEM: TreeNode w/ ImGuiTreeNodeFlags_OpenOnDoubleClick", ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_NoTreePushOnOpen); item = node.header; ret = node.body != nullptr; } // Testing tree node with ImGuiButtonFlags_PressedOnDoubleClick button policy.
         if (item_type == 14) { const char* combo_items[] = { "Apple", "Banana", "Cherry", "Kiwi" }; static int current = 1; ret = ui::combo(key(), items, "ITEM: Combo", current, combo_items); }
         if (item_type == 15) { const char* list_items[] = { "Apple", "Banana", "Cherry", "Kiwi" }; static int current = 1; ret = ui::list_box(key(), items, "ITEM: ListBox", current, list_items, IM_COUNTOF(list_items)); }
         if (!item)
-            item = &items.child(0);
+            item = items.child(0);
 
         bool hovered_delay_none = ui::is_item_hovered(*item);
         bool hovered_delay_stationary = ui::is_item_hovered(*item, ImGuiHoveredFlags_Stationary);
@@ -3357,23 +3357,23 @@ static void DemoWindowWidgetsQueryingStatuses(Widget& parent)
             ui::end_disabled();
 
         static string buf = "";
-        Widget& line = ui::row(key(), *n);
+        Widget line = ui::row(key(), *n);
         ui::input_text(key(), line, "unused", buf); // ImGuiInputTextFlags_ReadOnly);
         //ImGui::SameLine();
         HelpMarker(line, "This widget is only here to be able to tab-out of the widgets above and see e.g. Deactivated() status.");
     }
 
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Querying Window Status (Focused/Hovered etc.)").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Querying Window Status (Focused/Hovered etc.)").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Querying Window Status (Focused,Hovered etc.)");
         static bool embed_all_inside_a_child_window = false;
         ui::checkbox(key(), *n, "Embed everything inside a child window for testing _RootWindow flag.", embed_all_inside_a_child_window);
-        Widget* body = n;
+        Widget body = n;
         if (embed_all_inside_a_child_window)
             body = ui::begin_child(key(), *n, vec2(0, 13.f * 20.0f), true); // ImGuiChildFlags_Borders
 
         // In two.ui, the window status is queried through the widgets of the window
-        Widget& window = ui::get_current_window(*body);
+        Widget window = ui::get_current_window(*body);
 
         // Testing IsWindowFocused() function with its various flags.
         ui::bullet(key(), *body, ui::format(
@@ -3421,7 +3421,7 @@ static void DemoWindowWidgetsQueryingStatuses(Widget& parent)
             ui::is_window_hovered(window, ImGuiHoveredFlags_AnyWindow),
             ui::is_window_hovered(window, ImGuiHoveredFlags_Stationary)));
 
-        if (Widget* child = ui::begin_child(key(), *body, vec2(0, 50), true)) // ImGuiChildFlags_Borders
+        if (Widget child = ui::begin_child(key(), *body, vec2(0, 50), true)) // ImGuiChildFlags_Borders
             ui::label(key(), *child, "This is another child window for testing the _ChildWindows flag.");
 
         // Calling IsItemHovered() after begin returns the hovered status of the title bar.
@@ -3432,7 +3432,7 @@ static void DemoWindowWidgetsQueryingStatuses(Widget& parent)
         {
             if (auto test = ui::begin(key(), n->ui(), "Title bar Hovered/Active tests", &test_window))
             {
-                if (Widget* popup = ui::begin_popup_context_item(key(), *test->header)) // <-- This is using IsItemHovered()
+                if (Widget popup = ui::begin_popup_context_item(key(), *test->header)) // <-- This is using IsItemHovered()
                 {
                     if (ui::menu_item(key(), *popup, "Close")) { test_window = false; }
                 }
@@ -3449,10 +3449,10 @@ static void DemoWindowWidgetsQueryingStatuses(Widget& parent)
 // [SECTION] DemoWindowWidgetsSelectables()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsSelectables(Widget& parent)
+static void DemoWindowWidgetsSelectables(Widget parent)
 {
     //ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Selectables").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Selectables").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Selectables");
         // Selectable() has 2 overloads:
@@ -3462,29 +3462,29 @@ static void DemoWindowWidgetsSelectables(Widget& parent)
         // The earlier is more flexible, as in real application your selection may be stored in many different ways
         // and not necessarily inside a bool value (e.g. in flags within objects, as an external list, etc).
         IMGUI_DEMO_MARKER("Widgets/Selectables/Basic");
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Basic").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Basic").body)
         {
             static bool selection[5] = { false, true, false, false };
             ui::selectable(key(), *n0, "1. I am selectable", &selection[0]);
             ui::selectable(key(), *n0, "2. I am selectable", &selection[1]);
             ui::selectable(key(), *n0, "3. I am selectable", &selection[2]);
-            Widget& double_clickable = ui::selectable(key(), *n0, "4. I am double clickable", selection[3] != 0); // ImGuiSelectableFlags_AllowDoubleClick
+            Widget double_clickable = ui::selectable(key(), *n0, "4. I am double clickable", selection[3] != 0); // ImGuiSelectableFlags_AllowDoubleClick
             if (double_clickable.activated())
                 if (ui::is_mouse_double_clicked(double_clickable))
                     selection[3] = !selection[3];
         }
 
         IMGUI_DEMO_MARKER("Widgets/Selectables/Rendering more items on the same line");
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Multiple items on the same line").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Multiple items on the same line").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Selectables/Multiple items on the same line");
             // - Using SetNextItemAllowOverlap()
             // - Using the Selectable() override that takes "bool* p_selected" parameter, the bool value is toggled automatically.
             {
                 static bool selected[3] = {};
-                { Widget& line = ui::row(key(), *n0); /*ImGui::SetNextItemAllowOverlap();*/ ui::selectable(key(), line, "main.c", &selected[0]); /*ImGui::SameLine();*/ ui::small_button(key(), line, "Link 1"); }
-                { Widget& line = ui::row(key(), *n0); /*ImGui::SetNextItemAllowOverlap();*/ ui::selectable(key(), line, "hello.cpp", &selected[1]); /*ImGui::SameLine();*/ ui::small_button(key(), line, "Link 2"); }
-                { Widget& line = ui::row(key(), *n0); /*ImGui::SetNextItemAllowOverlap();*/ ui::selectable(key(), line, "hello.h", &selected[2]); /*ImGui::SameLine();*/ ui::small_button(key(), line, "Link 3"); }
+                { Widget line = ui::row(key(), *n0); /*ImGui::SetNextItemAllowOverlap();*/ ui::selectable(key(), line, "main.c", &selected[0]); /*ImGui::SameLine();*/ ui::small_button(key(), line, "Link 1"); }
+                { Widget line = ui::row(key(), *n0); /*ImGui::SetNextItemAllowOverlap();*/ ui::selectable(key(), line, "hello.cpp", &selected[1]); /*ImGui::SameLine();*/ ui::small_button(key(), line, "Link 2"); }
+                { Widget line = ui::row(key(), *n0); /*ImGui::SetNextItemAllowOverlap();*/ ui::selectable(key(), line, "hello.h", &selected[2]); /*ImGui::SameLine();*/ ui::small_button(key(), line, "Link 3"); }
             }
 
             // (2)
@@ -3500,11 +3500,11 @@ static void DemoWindowWidgetsSelectables(Widget& parent)
                 {
                     //ImGui::PushID(i);
                     //ImGui::AlignTextToFramePadding();
-                    Widget& selectable = ui::selectable(key(), *n0, "", selected_n == i); // ImGuiSelectableFlags_AllowOverlap
+                    Widget selectable = ui::selectable(key(), *n0, "", selected_n == i); // ImGuiSelectableFlags_AllowOverlap
                     if (selectable.activated())
                         selected_n = i;
                     //ImGui::SameLine(0, 0);
-                    Widget& line = ui::row(key(), selectable);
+                    Widget line = ui::row(key(), selectable);
                     ui::checkbox(key(), line, checked[i]);
                     //ImGui::SameLine();
                     Colour color((i & 1) ? 1.0f : 0.2f, (i & 2) ? 1.0f : 0.2f, 0.2f, 1.0f);
@@ -3516,7 +3516,7 @@ static void DemoWindowWidgetsSelectables(Widget& parent)
             }
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "In Tables").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "In Tables").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Selectables/In Tables");
             static bool selected[10] = {};
@@ -3545,7 +3545,7 @@ static void DemoWindowWidgetsSelectables(Widget& parent)
             }
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Grid").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Grid").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Selectables/Grid");
             static char selected[4][4] = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
@@ -3559,7 +3559,7 @@ static void DemoWindowWidgetsSelectables(Widget& parent)
             //const float size = ImGui::CalcTextSize("Sailor").x;
             for (int y = 0; y < 4; y++)
             {
-                Widget& line = ui::row(key(), *n0);
+                Widget line = ui::row(key(), *n0);
                 for (int x = 0; x < 4; x++)
                 {
                     //if (x > 0)
@@ -3581,7 +3581,7 @@ static void DemoWindowWidgetsSelectables(Widget& parent)
             if (winning_state)
                 ui::pop_style_var();
         }
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Alignment").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Alignment").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Selectables/Alignment");
             HelpMarker(*n0,
@@ -3593,7 +3593,7 @@ static void DemoWindowWidgetsSelectables(Widget& parent)
             //const float size = ImGui::CalcTextSize("(1.0,1.0)").x;
             for (int y = 0; y < 3; y++)
             {
-                Widget& line = ui::row(key(), *n0);
+                Widget line = ui::row(key(), *n0);
                 for (int x = 0; x < 3; x++)
                 {
                     vec2 alignment = vec2((float)x / 2.0f, (float)y / 2.0f);
@@ -3844,20 +3844,20 @@ struct ExampleDualListBox
 };
 #endif
 
-static void DemoWindowWidgetsSelectionAndMultiSelect(Widget& parent, ImGuiDemoWindowData* demo_data)
+static void DemoWindowWidgetsSelectionAndMultiSelect(Widget parent, ImGuiDemoWindowData* demo_data)
 {
     UNUSED(demo_data);
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Selection State & Multi-Select").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Selection State & Multi-Select").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Selection State & Multi-Select");
         HelpMarker(*n, "Selections can be built using Selectable(), TreeNode() or other widgets. Selection state is owned by application code/data.");
 
-        { Widget& line = ui::row(key(), *n); ui::bullet(key(), line, "Wiki page:");
+        { Widget line = ui::row(key(), *n); ui::bullet(key(), line, "Wiki page:");
           //ImGui::SameLine();
           ui::text_link(key(), line, "imgui/wiki/Multi-Select", "https://github.com/ocornut/imgui/wiki/Multi-Select"); }
 
         // Without any fancy API: manage single-selection yourself.
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Single-Select").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Single-Select").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Selection State/Single-Select");
             static int selected = -1;
@@ -3872,7 +3872,7 @@ static void DemoWindowWidgetsSelectionAndMultiSelect(Widget& parent, ImGuiDemoWi
 
         // Demonstrate implementation a most-basic form of multi-selection manually
         // This doesn't support the Shift modifier which requires BeginMultiSelect()!
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Multi-Select (manual/simplified, without BeginMultiSelect)").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Multi-Select (manual/simplified, without BeginMultiSelect)").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Selection State/Multi-Select (manual/simplified, without BeginMultiSelect)");
             HelpMarker(*n0, "Hold Ctrl and Click to select multiple items.");
@@ -4584,7 +4584,7 @@ static void DemoWindowWidgetsSelectionAndMultiSelect(Widget& parent, ImGuiDemoWi
 // [SECTION] DemoWindowWidgetsTabs()
 //-----------------------------------------------------------------------------
 
-static void EditTabBarFittingPolicyFlags(Widget& parent, ImGuiTabBarFlags* p_flags)
+static void EditTabBarFittingPolicyFlags(Widget parent, ImGuiTabBarFlags* p_flags)
 {
     if ((*p_flags & ImGuiTabBarFlags_FittingPolicyMask_) == 0)
         *p_flags |= ImGuiTabBarFlags_FittingPolicyDefault_;
@@ -4596,26 +4596,26 @@ static void EditTabBarFittingPolicyFlags(Widget& parent, ImGuiTabBarFlags* p_fla
         *p_flags &= ~(ImGuiTabBarFlags_FittingPolicyMask_ ^ ImGuiTabBarFlags_FittingPolicyScroll);
 }
 
-static void DemoWindowWidgetsTabs(Widget& parent)
+static void DemoWindowWidgetsTabs(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Tabs").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Tabs").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Tabs");
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Basic").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Basic").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Tabs/Basic");
             //ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
             Tabber tab_bar = ui::tabber(key(), *n0); // ImGui::BeginTabBar("MyTabBar", tab_bar_flags)
             {
-                if (Widget* tab = ui::tab(key(), tab_bar, "Avocado"))
+                if (Widget tab = ui::tab(key(), tab_bar, "Avocado"))
                 {
                     ui::label(key(), *tab, "This is the Avocado tab!\nblah blah blah blah blah");
                 }
-                if (Widget* tab = ui::tab(key(), tab_bar, "Broccoli"))
+                if (Widget tab = ui::tab(key(), tab_bar, "Broccoli"))
                 {
                     ui::label(key(), *tab, "This is the Broccoli tab!\nblah blah blah blah blah");
                 }
-                if (Widget* tab = ui::tab(key(), tab_bar, "Cucumber"))
+                if (Widget tab = ui::tab(key(), tab_bar, "Cucumber"))
                 {
                     ui::label(key(), *tab, "This is the Cucumber tab!\nblah blah blah blah blah");
                 }
@@ -4623,7 +4623,7 @@ static void DemoWindowWidgetsTabs(Widget& parent)
             ui::separator(key(), *n0);
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Advanced & Close Button").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Advanced & Close Button").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Tabs/Advanced & Close Button");
             // Expose a couple of the available flags. In most cases you may just call BeginTabBar() with no flags (0).
@@ -4637,7 +4637,7 @@ static void DemoWindowWidgetsTabs(Widget& parent)
 
             // Tab Bar
             //ImGui::AlignTextToFramePadding();
-            Widget& line = ui::row(key(), *n0);
+            Widget line = ui::row(key(), *n0);
             ui::label(key(), line, "Opened:");
             const char* names[4] = { "Artichoke", "Beetroot", "Celery", "Daikon" };
             static bool opened[4] = { true, true, true, true }; // Persistent user state
@@ -4653,7 +4653,7 @@ static void DemoWindowWidgetsTabs(Widget& parent)
             {
                 for (int i = 0; i < IM_COUNTOF(opened); i++)
                     if (opened[i])
-                        if (Widget* tab = ui::tab_item(key(i), tab_bar, names[i], &opened[i])) // ImGuiTabItemFlags_None
+                        if (Widget tab = ui::tab_item(key(i), tab_bar, names[i], &opened[i])) // ImGuiTabItemFlags_None
                         {
                             ui::textf(key(), *tab, "This is the %s tab!", names[i]);
                             if (i & 1)
@@ -4663,7 +4663,7 @@ static void DemoWindowWidgetsTabs(Widget& parent)
             ui::separator(key(), *n0);
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "TabItemButton & Leading/Trailing flags").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "TabItemButton & Leading/Trailing flags").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Tabs/TabItemButton & Leading-Trailing flags");
             static vector<int> active_tabs;
@@ -4692,10 +4692,10 @@ static void DemoWindowWidgetsTabs(Widget& parent)
                 static bool help_menu = false;
                 if (show_leading_button)
                 {
-                    Widget& button = ui::tab_item_button(key(), tab_bar, "?"); // ImGuiTabItemFlags_Leading | ImGuiTabItemFlags_NoTooltip
+                    Widget button = ui::tab_item_button(key(), tab_bar, "?"); // ImGuiTabItemFlags_Leading | ImGuiTabItemFlags_NoTooltip
                     if (button.activated())
                         help_menu = true; // ImGui::OpenPopup("MyHelpMenu");
-                    if (Widget* popup = ui::begin_popup(key(), button, help_menu))
+                    if (Widget popup = ui::begin_popup(key(), button, help_menu))
                     {
                         ui::selectable(key(), *popup, "Hello!", false);
                     }
@@ -4721,7 +4721,7 @@ static void DemoWindowWidgetsTabs(Widget& parent)
                     bool open = true;
                     char name[16];
                     snprintf(name, IM_COUNTOF(name), "%04d", active_tabs[i]);
-                    if (Widget* tab = ui::tab_item(key(active_tabs[i]), tab_bar, name, &open)) // ImGuiTabItemFlags_None
+                    if (Widget tab = ui::tab_item(key(active_tabs[i]), tab_bar, name, &open)) // ImGuiTabItemFlags_None
                     {
                         ui::textf(key(), *tab, "This is the %s tab!", name);
                     }
@@ -4741,23 +4741,23 @@ static void DemoWindowWidgetsTabs(Widget& parent)
 // [SECTION] DemoWindowWidgetsText()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsText(Widget& parent)
+static void DemoWindowWidgetsText(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Text").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Text").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Text");
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Colorful Text").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Colorful Text").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Text/Colored Text");
             // Using shortcut. You can use PushStyleColor()/PopStyleColor() for more flexibility.
             ui::text_colored(key(), *n0, Colour(1.0f, 0.0f, 1.0f, 1.0f), "Pink");
             ui::text_colored(key(), *n0, Colour(1.0f, 1.0f, 0.0f, 1.0f), "Yellow");
-            Widget& line = ui::row(key(), *n0);
+            Widget line = ui::row(key(), *n0);
             ui::text_disabled(key(), line, "Disabled");
             HelpMarker(line, "The TextDisabled color is stored in ImGuiStyle.");
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Font Size").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Font Size").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Text/Font Size");
             ImguiLook& style = ui::get_look();
@@ -4792,7 +4792,7 @@ static void DemoWindowWidgetsText(Widget& parent)
             }
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Word Wrapping").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Word Wrapping").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Text/Word Wrapping");
             // Using shortcut. You can use PushTextWrapPos()/PopTextWrapPos() for more flexibility.
@@ -4824,7 +4824,7 @@ static void DemoWindowWidgetsText(Widget& parent)
             }
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "UTF-8 Text").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "UTF-8 Text").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Text/UTF-8 Text");
             // UTF-8 test with Japanese characters
@@ -4854,9 +4854,9 @@ static void DemoWindowWidgetsText(Widget& parent)
 // [SECTION] DemoWindowWidgetsTextFilter()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsTextFilter(Widget& parent)
+static void DemoWindowWidgetsTextFilter(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Text Filter").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Text Filter").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Text Filter");
         // Helper class to easy setup a text filter.
@@ -4872,7 +4872,7 @@ static void DemoWindowWidgetsTextFilter(Widget& parent)
             "  -xxx       hide lines containing \"xxx\"");
         //ImGui::SetNextItemWidth(-FLT_MIN);
         ui::input_text_with_hint(key(), *n, "##Filter", "Filter (incl -excl)", filter);
-        if (Widget* child = ui::begin_child(key(), *n, vec2(-FLT_MIN, 13.f * 15))) // ImGuiChildFlags_FrameStyle
+        if (Widget child = ui::begin_child(key(), *n, vec2(-FLT_MIN, 13.f * 15))) // ImGuiChildFlags_FrameStyle
         {
             const char* lines[] = { "aaa1.c", "bbb1.c", "ccc1.c", "aaa2.cpp", "bbb2.cpp", "ccc2.cpp", "abc.h", "hello, world" };
             for (const char* item : lines)
@@ -4889,14 +4889,14 @@ static void DemoWindowWidgetsTextFilter(Widget& parent)
 // [SECTION] DemoWindowWidgetsTextInput()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsTextInput(Widget& parent)
+static void DemoWindowWidgetsTextInput(Widget parent)
 {
     // To wire InputText() with std::string or any other custom string type,
     // see the "Text Input > Resize Callback" section of this demo, and the misc/cpp/imgui_stdlib.h file.
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Text Input").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Text Input").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Text Input");
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Multi-line Text Input").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Multi-line Text Input").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Text Input/Multi-line Text Input");
             // WE ARE USING A FIXED-SIZE BUFFER FOR SIMPLICITY HERE.
@@ -4918,15 +4918,15 @@ static void DemoWindowWidgetsTextInput(Widget& parent)
             static ImGuiInputTextFlags flags = ImGuiInputTextFlags_AllowTabInput;
             HelpMarker(*n0, "You can use the ImGuiInputTextFlags_CallbackResize facility if you need to wire InputTextMultiline() to a dynamic string type. See misc/cpp/imgui_stdlib.h for an example. (This is not demonstrated in imgui_demo.cpp because we don't want to include <string> in here)");
             ui::checkbox_flags(key(), *n0, "ImGuiInputTextFlags_ReadOnly", flags, ImGuiInputTextFlags_ReadOnly);
-            { Widget& line = ui::row(key(), *n0); ui::checkbox_flags(key(), line, "ImGuiInputTextFlags_WordWrap", flags, ImGuiInputTextFlags_WordWrap);
+            { Widget line = ui::row(key(), *n0); ui::checkbox_flags(key(), line, "ImGuiInputTextFlags_WordWrap", flags, ImGuiInputTextFlags_WordWrap);
               HelpMarker(line, "Feature is currently in Beta. Please read comments in imgui.h"); }
-            { Widget& line = ui::row(key(), *n0); ui::checkbox_flags(key(), line, "ImGuiInputTextFlags_AllowTabInput", flags, ImGuiInputTextFlags_AllowTabInput);
+            { Widget line = ui::row(key(), *n0); ui::checkbox_flags(key(), line, "ImGuiInputTextFlags_AllowTabInput", flags, ImGuiInputTextFlags_AllowTabInput);
               HelpMarker(line, "When _AllowTabInput is set, passing through the widget with Tabbing doesn't automatically activate it, in order to also cycling through subsequent widgets."); }
             ui::checkbox_flags(key(), *n0, "ImGuiInputTextFlags_CtrlEnterForNewLine", flags, ImGuiInputTextFlags_CtrlEnterForNewLine);
             ui::input_text_multiline(key(), *n0, "##source", text, 16, flags); // ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 16)
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Filtered Text Input").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Filtered Text Input").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Text Input/Filtered Text Input");
             struct TextFilters
@@ -4957,17 +4957,17 @@ static void DemoWindowWidgetsTextInput(Widget& parent)
             static string buf7 = ""; ui::input_text(key(), *n0, "\"imgui\"", buf7, ImGuiInputTextFlags_CallbackCharFilter, TextFilters::FilterImGuiLetters); // Use CharFilter callback to disable some characters.
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Password Input").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Password Input").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Text Input/Password input");
             static string password = "password123";
-            { Widget& line = ui::row(key(), *n0); ui::input_text(key(), line, "password", password, ImGuiInputTextFlags_Password);
+            { Widget line = ui::row(key(), *n0); ui::input_text(key(), line, "password", password, ImGuiInputTextFlags_Password);
               HelpMarker(line, "Display all characters as '*'.\nDisable clipboard cut and copy.\nDisable logging.\n"); }
             ui::input_text_with_hint(key(), *n0, "password (w/ hint)", "<password>", password, ImGuiInputTextFlags_Password);
             ui::input_text(key(), *n0, "password (clear)", password);
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Completion, History, Edit Callbacks").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Completion, History, Edit Callbacks").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Text Input/Completion, History, Edit Callbacks");
             struct Funcs
@@ -5008,26 +5008,26 @@ static void DemoWindowWidgetsTextInput(Widget& parent)
                 }
             };
             static string buf1;
-            { Widget& line = ui::row(key(), *n0); ui::input_text(key(), line, "Completion", buf1, ImGuiInputTextFlags_CallbackCompletion, Funcs::MyCallback);
+            { Widget line = ui::row(key(), *n0); ui::input_text(key(), line, "Completion", buf1, ImGuiInputTextFlags_CallbackCompletion, Funcs::MyCallback);
               HelpMarker(line,
                 "Here we append \"..\" each time Tab is pressed. "
                 "See 'Examples>Console' for a more meaningful demonstration of using this callback."); }
 
             static string buf2;
-            { Widget& line = ui::row(key(), *n0); ui::input_text(key(), line, "History", buf2, ImGuiInputTextFlags_CallbackHistory, Funcs::MyCallback);
+            { Widget line = ui::row(key(), *n0); ui::input_text(key(), line, "History", buf2, ImGuiInputTextFlags_CallbackHistory, Funcs::MyCallback);
               HelpMarker(line,
                 "Here we replace and select text each time Up/Down are pressed. "
                 "See 'Examples>Console' for a more meaningful demonstration of using this callback."); }
 
             static string buf3;
             static int edit_count = 0;
-            { Widget& line = ui::row(key(), *n0); ui::input_text(key(), line, "Edit", buf3, ImGuiInputTextFlags_CallbackEdit, Funcs::MyCallback, (void*)&edit_count);
+            { Widget line = ui::row(key(), *n0); ui::input_text(key(), line, "Edit", buf3, ImGuiInputTextFlags_CallbackEdit, Funcs::MyCallback, (void*)&edit_count);
               HelpMarker(line,
                 "Here we toggle the casing of the first character on every edit + count edits.");
               ui::textf(key(), line, "(%d)", edit_count); }
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Resize Callback").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Resize Callback").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Text Input/Resize Callback");
             // To wire InputText() with std::string or any other custom string type,
@@ -5049,7 +5049,7 @@ static void DemoWindowWidgetsTextInput(Widget& parent)
             ui::textf(key(), *n0, "Data: %p\nSize: %d\nCapacity: %d", (void*)my_str.data(), int(my_str.size()), int(my_str.capacity()));
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Eliding, Alignment").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Eliding, Alignment").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Text Input/Eliding, Alignment");
             static string buf1 = "/path/to/some/folder/with/long/filename.cpp";
@@ -5058,7 +5058,7 @@ static void DemoWindowWidgetsTextInput(Widget& parent)
             ui::input_text(key(), *n0, "Path", buf1, flags);
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Miscellaneous").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Miscellaneous").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Text Input/Miscellaneous");
             static string buf1;
@@ -5075,9 +5075,9 @@ static void DemoWindowWidgetsTextInput(Widget& parent)
 // [SECTION] DemoWindowWidgetsTooltips()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsTooltips(Widget& parent)
+static void DemoWindowWidgetsTooltips(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Tooltips").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Tooltips").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Tooltips");
         // Tooltips are windows following the mouse. They do not take focus away.
@@ -5096,11 +5096,11 @@ static void DemoWindowWidgetsTooltips(Widget& parent)
 
         //ImVec2 sz = ImVec2(-FLT_MIN, 0.0f);
 
-        Widget& basic = ui::button(key(), *n, "Basic"); // sz
+        Widget basic = ui::button(key(), *n, "Basic"); // sz
         ui::set_item_tooltip(key(), basic, "I am a tooltip");
 
-        Widget& fancy = ui::button(key(), *n, "Fancy"); // sz
-        if (Widget* tooltip = ui::item_tooltip(key(), fancy))
+        Widget fancy = ui::button(key(), *n, "Fancy"); // sz
+        if (Widget tooltip = ui::item_tooltip(key(), fancy))
         {
             ui::label(key(), *tooltip, "I am a fancy tooltip");
             static float arr[] = { 0.6f, 0.1f, 1.0f, 0.5f, 0.92f, 0.1f, 0.2f };
@@ -5113,7 +5113,7 @@ static void DemoWindowWidgetsTooltips(Widget& parent)
         // Showcase NOT relying on a IsItemHovered() to emit a tooltip.
         // Here the tooltip is always emitted when 'always_on == true'.
         static int always_on = 0;
-        Widget& line = ui::row(key(), *n);
+        Widget line = ui::row(key(), *n);
         ui::radio_button(key(), line, "Off", always_on, 0);
         //ImGui::SameLine();
         ui::radio_button(key(), line, "Always On (Simple)", always_on, 1);
@@ -5123,7 +5123,7 @@ static void DemoWindowWidgetsTooltips(Widget& parent)
             ui::set_tooltip(key(), *n, "I am following you around.");
         else if (always_on == 2)
         {
-            Widget& tooltip = ui::begin_tooltip(key(), *n);
+            Widget tooltip = ui::begin_tooltip(key(), *n);
             ui::progress_bar(key(), tooltip, sinf((float)ui::io().Time) * 0.5f + 0.5f, vec2(13.f * 25, 0.0f));
         }
 
@@ -5138,30 +5138,30 @@ static void DemoWindowWidgetsTooltips(Widget& parent)
         // Passing ImGuiHoveredFlags_ForTooltip to IsItemHovered() will pull ImGuiHoveredFlags flags values from
         // 'style.HoverFlagsForTooltipMouse' or 'style.HoverFlagsForTooltipNav' depending on whether mouse or keyboard/gamepad is being used.
         // With default settings, ImGuiHoveredFlags_ForTooltip is equivalent to ImGuiHoveredFlags_DelayShort + ImGuiHoveredFlags_Stationary.
-        Widget& manual = ui::button(key(), *n, "Manual"); // sz
+        Widget manual = ui::button(key(), *n, "Manual"); // sz
         if (ui::is_item_hovered(manual, ImGuiHoveredFlags_ForTooltip))
             ui::set_tooltip(key(), manual, "I am a manually emitted tooltip.");
 
-        Widget& delay_none = ui::button(key(), *n, "DelayNone"); // sz
+        Widget delay_none = ui::button(key(), *n, "DelayNone"); // sz
         if (ui::is_item_hovered(delay_none, ImGuiHoveredFlags_DelayNone))
             ui::set_tooltip(key(), delay_none, "I am a tooltip with no delay.");
 
-        Widget& delay_short = ui::button(key(), *n, "DelayShort"); // sz
+        Widget delay_short = ui::button(key(), *n, "DelayShort"); // sz
         if (ui::is_item_hovered(delay_short, ImGuiHoveredFlags_DelayShort | ImGuiHoveredFlags_NoSharedDelay))
             ui::set_tooltip(key(), delay_short, ui::format("I am a tooltip with a short delay (%0.2f sec).", ui::get_look().HoverDelayShort));
 
-        Widget& delay_long = ui::button(key(), *n, "DelayLong"); // sz
+        Widget delay_long = ui::button(key(), *n, "DelayLong"); // sz
         if (ui::is_item_hovered(delay_long, ImGuiHoveredFlags_DelayNormal | ImGuiHoveredFlags_NoSharedDelay))
             ui::set_tooltip(key(), delay_long, ui::format("I am a tooltip with a long delay (%0.2f sec).", ui::get_look().HoverDelayNormal));
 
-        Widget& stationary = ui::button(key(), *n, "Stationary"); // sz
+        Widget stationary = ui::button(key(), *n, "Stationary"); // sz
         if (ui::is_item_hovered(stationary, ImGuiHoveredFlags_Stationary))
             ui::set_tooltip(key(), stationary, "I am a tooltip requiring mouse to be stationary before activating.");
 
         // Using ImGuiHoveredFlags_ForTooltip will pull flags from 'style.HoverFlagsForTooltipMouse' or 'style.HoverFlagsForTooltipNav',
         // which default value include the ImGuiHoveredFlags_AllowWhenDisabled flag.
         ui::begin_disabled();
-        Widget& disabled = ui::button(key(), *n, "Disabled item"); // sz
+        Widget disabled = ui::button(key(), *n, "Disabled item"); // sz
         disabled.enable_state(DISABLED);
         if (ui::is_item_hovered(disabled, ImGuiHoveredFlags_ForTooltip))
             ui::set_tooltip(key(), disabled, "I am a tooltip for a disabled item.");
@@ -5173,13 +5173,13 @@ static void DemoWindowWidgetsTooltips(Widget& parent)
 // [SECTION] DemoWindowWidgetsTreeNodes()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsTreeNodes(Widget& parent)
+static void DemoWindowWidgetsTreeNodes(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Tree Nodes").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Tree Nodes").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Tree Nodes");
         // See see "Examples -> Property Editor" (ShowExampleAppPropertyEditor() function) for a fancier, data-driven tree.
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Basic Trees").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Basic Trees").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Tree Nodes/Basic Trees");
             for (int i = 0; i < 5; i++)
@@ -5194,9 +5194,9 @@ static void DemoWindowWidgetsTreeNodes(Widget& parent)
                 // An alternative to using 'PushID() + TreeNode("", ...)' to generate a unique ID is to use 'TreeNode((void*)(intptr_t)i, ...)',
                 // aka generate a dummy pointer-sized value to be hashed. The demo below uses that technique. Both are fine.
                 //ImGui::PushID(i);
-                if (Widget* child = ui::tree_node_ex(key(i), *n0, ui::format("Child %d", i), flags).body)
+                if (Widget child = ui::tree_node_ex(key(i), *n0, ui::format("Child %d", i), flags).body)
                 {
-                    Widget& line = ui::row(key(), *child);
+                    Widget line = ui::row(key(), *child);
                     ui::label(key(), line, "blah blah");
                     //ImGui::SameLine();
                     if (ui::small_button(key(), line, "button").activated()) {}
@@ -5205,7 +5205,7 @@ static void DemoWindowWidgetsTreeNodes(Widget& parent)
             }
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Hierarchy Lines").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Hierarchy Lines").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Tree Nodes/Hierarchy Lines");
             static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_DrawLinesFull | ImGuiTreeNodeFlags_DefaultOpen;
@@ -5214,13 +5214,13 @@ static void DemoWindowWidgetsTreeNodes(Widget& parent)
             ui::checkbox_flags(key(), *n0, "ImGuiTreeNodeFlags_DrawLinesFull", base_flags, ImGuiTreeNodeFlags_DrawLinesFull);
             ui::checkbox_flags(key(), *n0, "ImGuiTreeNodeFlags_DrawLinesToNodes", base_flags, ImGuiTreeNodeFlags_DrawLinesToNodes);
 
-            if (Widget* tree = ui::tree_node_ex(key(), *n0, "Parent", base_flags).body)
+            if (Widget tree = ui::tree_node_ex(key(), *n0, "Parent", base_flags).body)
             {
-                if (Widget* child = ui::tree_node_ex(key(), *tree, "Child 1", base_flags).body)
+                if (Widget child = ui::tree_node_ex(key(), *tree, "Child 1", base_flags).body)
                 {
                     ui::button(key(), *child, "Button for Child 1");
                 }
-                if (Widget* child = ui::tree_node_ex(key(), *tree, "Child 2", base_flags).body)
+                if (Widget child = ui::tree_node_ex(key(), *tree, "Child 2", base_flags).body)
                 {
                     ui::button(key(), *child, "Button for Child 2");
                 }
@@ -5229,7 +5229,7 @@ static void DemoWindowWidgetsTreeNodes(Widget& parent)
             }
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Clipping Large Trees").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Clipping Large Trees").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Tree Nodes/Clipping Large Trees");
             ui::text_wrapped(key(), *n0,
@@ -5238,7 +5238,7 @@ static void DemoWindowWidgetsTreeNodes(Widget& parent)
                 "- Discuss in #3823");
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Selectable Nodes").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Selectable Nodes").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Tree Nodes/Selectable Nodes");
             HelpMarker(*n0,
@@ -5266,7 +5266,7 @@ static void DemoWindowWidgetsTreeNodes(Widget& parent)
                 TreeNode node = ui::tree_node_ex(key(node_n), *n0, ui::format("Selectable Node %d", node_n), flags);
                 if (ui::is_item_clicked(node.header) && !ui::is_item_toggled_open(node))
                     node_clicked_idx = node_n;
-                if (Widget* body = node.body)
+                if (Widget body = node.body)
                 {
                     ui::bullet(key(), *body, "<Node contents here>");
                 }
@@ -5281,7 +5281,7 @@ static void DemoWindowWidgetsTreeNodes(Widget& parent)
             }
         }
 
-        if (Widget* n0 = ui::tree_node_ex(key(), *n, "Advanced").body)
+        if (Widget n0 = ui::tree_node_ex(key(), *n, "Advanced").body)
         {
             IMGUI_DEMO_MARKER("Widgets/Tree Nodes/Advanced");
             static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
@@ -5289,12 +5289,12 @@ static void DemoWindowWidgetsTreeNodes(Widget& parent)
             static bool use_drag_and_drop = false;
             ui::checkbox_flags(key(), *n0, "ImGuiTreeNodeFlags_OpenOnArrow", base_flags, ImGuiTreeNodeFlags_OpenOnArrow);
             ui::checkbox_flags(key(), *n0, "ImGuiTreeNodeFlags_OpenOnDoubleClick", base_flags, ImGuiTreeNodeFlags_OpenOnDoubleClick);
-            { Widget& line = ui::row(key(), *n0); ui::checkbox_flags(key(), line, "ImGuiTreeNodeFlags_SpanAvailWidth", base_flags, ImGuiTreeNodeFlags_SpanAvailWidth); HelpMarker(line, "Extend hit area to all available width instead of allowing more items to be laid out after the node."); }
+            { Widget line = ui::row(key(), *n0); ui::checkbox_flags(key(), line, "ImGuiTreeNodeFlags_SpanAvailWidth", base_flags, ImGuiTreeNodeFlags_SpanAvailWidth); HelpMarker(line, "Extend hit area to all available width instead of allowing more items to be laid out after the node."); }
             ui::checkbox_flags(key(), *n0, "ImGuiTreeNodeFlags_SpanFullWidth", base_flags, ImGuiTreeNodeFlags_SpanFullWidth);
-            { Widget& line = ui::row(key(), *n0); ui::checkbox_flags(key(), line, "ImGuiTreeNodeFlags_SpanLabelWidth", base_flags, ImGuiTreeNodeFlags_SpanLabelWidth); HelpMarker(line, "Reduce hit area to the text label and a bit of margin."); }
-            { Widget& line = ui::row(key(), *n0); ui::checkbox_flags(key(), line, "ImGuiTreeNodeFlags_SpanAllColumns", base_flags, ImGuiTreeNodeFlags_SpanAllColumns); HelpMarker(line, "For use in Tables only."); }
+            { Widget line = ui::row(key(), *n0); ui::checkbox_flags(key(), line, "ImGuiTreeNodeFlags_SpanLabelWidth", base_flags, ImGuiTreeNodeFlags_SpanLabelWidth); HelpMarker(line, "Reduce hit area to the text label and a bit of margin."); }
+            { Widget line = ui::row(key(), *n0); ui::checkbox_flags(key(), line, "ImGuiTreeNodeFlags_SpanAllColumns", base_flags, ImGuiTreeNodeFlags_SpanAllColumns); HelpMarker(line, "For use in Tables only."); }
             ui::checkbox_flags(key(), *n0, "ImGuiTreeNodeFlags_AllowOverlap", base_flags, ImGuiTreeNodeFlags_AllowOverlap);
-            { Widget& line = ui::row(key(), *n0); ui::checkbox_flags(key(), line, "ImGuiTreeNodeFlags_Framed", base_flags, ImGuiTreeNodeFlags_Framed); HelpMarker(line, "Draw frame with background (e.g. for CollapsingHeader)"); }
+            { Widget line = ui::row(key(), *n0); ui::checkbox_flags(key(), line, "ImGuiTreeNodeFlags_Framed", base_flags, ImGuiTreeNodeFlags_Framed); HelpMarker(line, "Draw frame with background (e.g. for CollapsingHeader)"); }
             ui::checkbox_flags(key(), *n0, "ImGuiTreeNodeFlags_FramePadding", base_flags, ImGuiTreeNodeFlags_FramePadding);
             ui::checkbox_flags(key(), *n0, "ImGuiTreeNodeFlags_NavLeftJumpsToParent", base_flags, ImGuiTreeNodeFlags_NavLeftJumpsToParent);
 
@@ -5316,7 +5316,7 @@ static void DemoWindowWidgetsTreeNodes(Widget& parent)
                     // Items 0..2 are Tree Node
                     TreeNode node = ui::tree_node_ex(key(node_n), *n0, ui::format("Selectable Node %d", node_n), node_flags);
                     if (use_drag_and_drop)
-                        if (Widget* source = ui::begin_drag_drop_source(key(), node.header))
+                        if (Widget source = ui::begin_drag_drop_source(key(), node.header))
                         {
                             ui::set_drag_drop_payload(node.header, "MY_TREENODE_PAYLOAD_TYPE", NULL, 0);
                             ui::label(key(), *source, "This is a drag and drop source");
@@ -5327,9 +5327,9 @@ static void DemoWindowWidgetsTreeNodes(Widget& parent)
                         //ImGui::SameLine();
                         if (ui::small_button(key(), node.header, "button").activated()) {}
                     }
-                    if (Widget* body = node.body)
+                    if (Widget body = node.body)
                     {
-                        Widget& line = ui::row(key(), *body);
+                        Widget line = ui::row(key(), *body);
                         ui::bullet(key(), line, "Blah blah\nBlah Blah");
                         //ImGui::SameLine();
                         ui::small_button(key(), line, "Button");
@@ -5343,7 +5343,7 @@ static void DemoWindowWidgetsTreeNodes(Widget& parent)
                     node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen; // ImGuiTreeNodeFlags_Bullet
                     TreeNode node = ui::tree_node_ex(key(node_n), *n0, ui::format("Selectable Leaf %d", node_n), node_flags);
                     if (use_drag_and_drop)
-                        if (Widget* source = ui::begin_drag_drop_source(key(), node.header))
+                        if (Widget source = ui::begin_drag_drop_source(key(), node.header))
                         {
                             ui::set_drag_drop_payload(node.header, "MY_TREENODE_PAYLOAD_TYPE", NULL, 0);
                             ui::label(key(), *source, "This is a drag and drop source");
@@ -5360,15 +5360,15 @@ static void DemoWindowWidgetsTreeNodes(Widget& parent)
 // [SECTION] DemoWindowWidgetsVerticalSliders()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgetsVerticalSliders(Widget& parent)
+static void DemoWindowWidgetsVerticalSliders(Widget parent)
 {
-    if (Widget* n = ui::tree_node_ex(key(), parent, "Vertical Sliders").body)
+    if (Widget n = ui::tree_node_ex(key(), parent, "Vertical Sliders").body)
     {
         IMGUI_DEMO_MARKER("Widgets/Vertical Sliders");
         const float spacing = 4;
         ui::push_style_var(ImGuiStyleVar_ItemSpacing, vec2(spacing, spacing));
 
-        Widget& line = ui::row(key(), *n);
+        Widget line = ui::row(key(), *n);
         static int int_value = 0;
         ui::v_slider_int(key(), line, vec2(18, 160), int_value, 0, 5);
         //ImGui::SameLine();
@@ -5384,7 +5384,7 @@ static void DemoWindowWidgetsVerticalSliders(Widget& parent)
             //ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::HSV(i / 7.0f, 0.6f, 0.5f));
             //ImGui::PushStyleColor(ImGuiCol_FrameBgActive, (ImVec4)ImColor::HSV(i / 7.0f, 0.7f, 0.5f));
             //ImGui::PushStyleColor(ImGuiCol_SliderGrab, (ImVec4)ImColor::HSV(i / 7.0f, 0.9f, 0.9f));
-            Widget& slider = ui::v_slider_float(key(i), line, vec2(18, 160), values[i], 0.0f, 1.0f); // "");
+            Widget slider = ui::v_slider_float(key(i), line, vec2(18, 160), values[i], 0.0f, 1.0f); // "");
             if (ui::is_item_active(slider) || ui::is_item_hovered(slider))
                 ui::set_tooltip(key(), slider, ui::format("%.3f", values[i]));
             //ImGui::PopStyleColor(4);
@@ -5400,11 +5400,11 @@ static void DemoWindowWidgetsVerticalSliders(Widget& parent)
         for (int nx = 0; nx < 4; nx++)
         {
             //if (nx > 0) ImGui::SameLine();
-            Widget& group = ui::stack(key(nx), line); // ImGui::BeginGroup();
+            Widget group = ui::stack(key(nx), line); // ImGui::BeginGroup();
             for (int ny = 0; ny < rows; ny++)
             {
                 //ImGui::PushID(nx * rows + ny);
-                Widget& slider = ui::v_slider_float(key(ny), group, small_slider_size, values2[nx], 0.0f, 1.0f); // "");
+                Widget slider = ui::v_slider_float(key(ny), group, small_slider_size, values2[nx], 0.0f, 1.0f); // "");
                 if (ui::is_item_active(slider) || ui::is_item_hovered(slider))
                     ui::set_tooltip(key(), slider, ui::format("%.3f", values2[nx]));
                 //ImGui::PopID();
@@ -5433,10 +5433,10 @@ static void DemoWindowWidgetsVerticalSliders(Widget& parent)
 // [SECTION] DemoWindowWidgets()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowWidgets(Widget& parent, ImGuiDemoWindowData* demo_data)
+static void DemoWindowWidgets(Widget parent, ImGuiDemoWindowData* demo_data)
 {
     //ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-    Widget* body = ui::collapsing_header(key(), parent, "Widgets");
+    Widget body = ui::collapsing_header(key(), parent, "Widgets");
     if (!body)
         return;
     // IMGUI_DEMO_MARKER("Widgets");
@@ -5498,13 +5498,13 @@ static void DemoWindowWidgets(Widget& parent, ImGuiDemoWindowData* demo_data)
 // [SECTION] DemoWindowLayout()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowLayout(Widget& parent)
+static void DemoWindowLayout(Widget parent)
 {
-    Widget* body = ui::collapsing_header(key(), parent, "Layout & Scrolling");
+    Widget body = ui::collapsing_header(key(), parent, "Layout & Scrolling");
     if (!body)
         return;
 
-    if (Widget* n = ui::tree_node_ex(key(), *body, "Child windows").body)
+    if (Widget n = ui::tree_node_ex(key(), *body, "Child windows").body)
     {
         IMGUI_DEMO_MARKER("Layout/Child windows");
         ui::separator_text(key(), *n, "Child windows");
@@ -5515,13 +5515,13 @@ static void DemoWindowLayout(Widget& parent)
         ui::checkbox(key(), *n, "Disable Mouse Wheel", disable_mouse_wheel);
         ui::checkbox(key(), *n, "Disable Menu", disable_menu);
 
-        Widget& line = ui::row(key(), *n);
+        Widget line = ui::row(key(), *n);
         // Child 1: no border, enable horizontal scrollbar
         {
             ImGuiWindowFlags window_flags = ImGuiWindowFlags_HorizontalScrollbar;
             if (disable_mouse_wheel)
                 window_flags |= ImGuiWindowFlags_NoScrollWithMouse;
-            if (Widget* child = ui::begin_child(key(), line, vec2(ui::get_content_region_avail(line).x * 0.5f, 260), false, window_flags))
+            if (Widget child = ui::begin_child(key(), line, vec2(ui::get_content_region_avail(line).x * 0.5f, 260), false, window_flags))
                 for (int i = 0; i < 100; i++)
                     ui::textf(key(), *child, "%04d: scrollable region", i);
         }
@@ -5536,12 +5536,12 @@ static void DemoWindowLayout(Widget& parent)
             if (!disable_menu)
                 window_flags |= ImGuiWindowFlags_MenuBar;
             ui::push_style_var(ImGuiStyleVar_ChildRounding, 5.0f);
-            if (Widget* child = ui::begin_child(key(), line, vec2(0, 260), true, window_flags))
+            if (Widget child = ui::begin_child(key(), line, vec2(0, 260), true, window_flags))
             {
                 if (!disable_menu)
                 {
-                    Widget& menubar = ui::menubar(key(), *child);
-                    if (Widget* menu = ui::begin_menu(key(), menubar, "Menu"))
+                    Widget menubar = ui::menubar(key(), *child);
+                    if (Widget menu = ui::begin_menu(key(), menubar, "Menu"))
                     {
                         ShowExampleMenuFile(*menu);
                     }
@@ -5567,7 +5567,7 @@ static void DemoWindowLayout(Widget& parent)
             //    ImGui::SetNextWindowSize(ImVec2(-FLT_MIN, 200.0f));
 
             //ImGui::PushStyleColor(ImGuiCol_ChildBg, ImGui::GetStyleColorVec4(ImGuiCol_FrameBg));
-            if (Widget* child = ui::begin_child(key(), *n, vec2(-FLT_MIN, 17.f * 8), true)) // ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeY
+            if (Widget child = ui::begin_child(key(), *n, vec2(-FLT_MIN, 17.f * 8), true)) // ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeY
                 for (int i = 0; i < 10; i++)
                     ui::textf(key(), *child, "Line %04d", i);
             //ImGui::PopStyleColor();
@@ -5584,7 +5584,7 @@ static void DemoWindowLayout(Widget& parent)
             ui::drag_int(key(), *n, "Max Height (in Lines)", max_height_in_lines, 0.2f);
 
             //ImGui::SetNextWindowSizeConstraints(ImVec2(0.0f, ImGui::GetTextLineHeightWithSpacing() * 1), ImVec2(FLT_MAX, ImGui::GetTextLineHeightWithSpacing() * max_height_in_lines));
-            if (Widget* child = ui::begin_child(key(), *n, vec2(-FLT_MIN, 0.0f), true)) // ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeY
+            if (Widget child = ui::begin_child(key(), *n, vec2(-FLT_MIN, 0.0f), true)) // ImGuiChildFlags_Borders | ImGuiChildFlags_AutoResizeY
                 for (int i = 0; i < draw_lines; i++)
                     ui::textf(key(), *child, "Line %04d", i);
         }
@@ -5609,7 +5609,7 @@ static void DemoWindowLayout(Widget& parent)
             ui::checkbox_flags(key(), *n, "ImGuiChildFlags_AlwaysUseWindowPadding", child_flags, ImGuiChildFlags_AlwaysUseWindowPadding);
             ui::checkbox_flags(key(), *n, "ImGuiChildFlags_ResizeX", child_flags, ImGuiChildFlags_ResizeX);
             ui::checkbox_flags(key(), *n, "ImGuiChildFlags_ResizeY", child_flags, ImGuiChildFlags_ResizeY);
-            { Widget& flags_line = ui::row(key(), *n); ui::checkbox_flags(key(), flags_line, "ImGuiChildFlags_FrameStyle", child_flags, ImGuiChildFlags_FrameStyle);
+            { Widget flags_line = ui::row(key(), *n); ui::checkbox_flags(key(), flags_line, "ImGuiChildFlags_FrameStyle", child_flags, ImGuiChildFlags_FrameStyle);
               HelpMarker(flags_line, "Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding."); }
             if (child_flags & ImGuiChildFlags_FrameStyle)
                 override_bg_color = false;
@@ -5617,7 +5617,7 @@ static void DemoWindowLayout(Widget& parent)
             //ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (float)offset_x);
             //if (override_bg_color)
             //    ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(255, 0, 0, 100));
-            Widget* child = ui::begin_child(key(), *n, vec2(200, 100), (child_flags & ImGuiChildFlags_Borders) != 0); // child_flags, ImGuiWindowFlags_None);
+            Widget child = ui::begin_child(key(), *n, vec2(200, 100), (child_flags & ImGuiChildFlags_Borders) != 0); // child_flags, ImGuiWindowFlags_None);
             //if (override_bg_color)
             //    ImGui::PopStyleColor();
 
@@ -5631,7 +5631,7 @@ static void DemoWindowLayout(Widget& parent)
         }
     }
 
-    if (Widget* n = ui::tree_node_ex(key(), *body, "Widgets Width").body)
+    if (Widget n = ui::tree_node_ex(key(), *body, "Widgets Width").body)
     {
         IMGUI_DEMO_MARKER("Layout/Widgets Width");
         static float f = 0.0f;
@@ -5643,46 +5643,46 @@ static void DemoWindowLayout(Widget& parent)
         // In real code use you'll probably want to choose width values that are proportional to your font size
         // e.g. Using '20.0f * GetFontSize()' as width instead of '200.0f', etc.
 
-        { Widget& line = ui::row(key(), *n); ui::label(key(), line, "SetNextItemWidth/PushItemWidth(100)");
+        { Widget line = ui::row(key(), *n); ui::label(key(), line, "SetNextItemWidth/PushItemWidth(100)");
           HelpMarker(line, "Fixed width."); }
         ui::push_item_width(100);
         ui::drag_float(key(), *n, "float##1b", f);
         if (show_indented_items)
         {
-            Widget& indent = ui::indent(key(), *n);
+            Widget indent = ui::indent(key(), *n);
             ui::drag_float(key(), indent, "float (indented)##1b", f);
         }
         ui::pop_item_width();
 
-        { Widget& line = ui::row(key(), *n); ui::label(key(), line, "SetNextItemWidth/PushItemWidth(-100)");
+        { Widget line = ui::row(key(), *n); ui::label(key(), line, "SetNextItemWidth/PushItemWidth(-100)");
           HelpMarker(line, "Align to right edge minus 100"); }
         ui::push_item_width(-100);
         ui::drag_float(key(), *n, "float##2a", f);
         if (show_indented_items)
         {
-            Widget& indent = ui::indent(key(), *n);
+            Widget indent = ui::indent(key(), *n);
             ui::drag_float(key(), indent, "float (indented)##2b", f);
         }
         ui::pop_item_width();
 
-        { Widget& line = ui::row(key(), *n); ui::label(key(), line, "SetNextItemWidth/PushItemWidth(GetContentRegionAvail().x * 0.5f)");
+        { Widget line = ui::row(key(), *n); ui::label(key(), line, "SetNextItemWidth/PushItemWidth(GetContentRegionAvail().x * 0.5f)");
           HelpMarker(line, "Half of available width.\n(~ right-cursor_pos)\n(works within a column set)"); }
         ui::push_item_width(ui::get_content_region_avail(*n).x * 0.5f);
         ui::drag_float(key(), *n, "float##3a", f);
         if (show_indented_items)
         {
-            Widget& indent = ui::indent(key(), *n);
+            Widget indent = ui::indent(key(), *n);
             ui::drag_float(key(), indent, "float (indented)##3b", f);
         }
         ui::pop_item_width();
 
-        { Widget& line = ui::row(key(), *n); ui::label(key(), line, "SetNextItemWidth/PushItemWidth(-GetContentRegionAvail().x * 0.5f)");
+        { Widget line = ui::row(key(), *n); ui::label(key(), line, "SetNextItemWidth/PushItemWidth(-GetContentRegionAvail().x * 0.5f)");
           HelpMarker(line, "Align to right edge minus half"); }
         ui::push_item_width(-ui::get_content_region_avail(*n).x * 0.5f);
         ui::drag_float(key(), *n, "float##4a", f);
         if (show_indented_items)
         {
-            Widget& indent = ui::indent(key(), *n);
+            Widget indent = ui::indent(key(), *n);
             ui::drag_float(key(), indent, "float (indented)##4b", f);
         }
         ui::pop_item_width();
@@ -5692,64 +5692,64 @@ static void DemoWindowLayout(Widget& parent)
         ui::drag_float(key(), *n, "float##5a", f);
         if (show_indented_items)
         {
-            Widget& indent = ui::indent(key(), *n);
+            Widget indent = ui::indent(key(), *n);
             ui::drag_float(key(), indent, "float (indented)##5b", f);
         }
         ui::pop_item_width();
 
         // Demonstrate using PushItemWidth to surround three items.
         // Calling SetNextItemWidth() before each of them would have the same effect.
-        { Widget& line = ui::row(key(), *n); ui::label(key(), line, "SetNextItemWidth/PushItemWidth(-FLT_MIN)");
+        { Widget line = ui::row(key(), *n); ui::label(key(), line, "SetNextItemWidth/PushItemWidth(-FLT_MIN)");
           HelpMarker(line, "Align to right edge"); }
         ui::push_item_width(-FLT_MIN);
         ui::drag_float(key(), *n, "##float6a", f);
         if (show_indented_items)
         {
-            Widget& indent = ui::indent(key(), *n);
+            Widget indent = ui::indent(key(), *n);
             ui::drag_float(key(), indent, "float (indented)##6b", f);
         }
         ui::pop_item_width();
     }
 
-    if (Widget* n = ui::tree_node_ex(key(), *body, "Basic Horizontal Layout").body)
+    if (Widget n = ui::tree_node_ex(key(), *body, "Basic Horizontal Layout").body)
     {
         IMGUI_DEMO_MARKER("Layout/Basic Horizontal Layout");
         ui::text_wrapped(key(), *n, "(Use ImGui::SameLine() to keep adding items to the right of the preceding item)");
 
         // Text
         IMGUI_DEMO_MARKER("Layout/Basic Horizontal Layout/SameLine");
-        { Widget& line = ui::row(key(), *n); ui::label(key(), line, "Two items: Hello"); //ImGui::SameLine();
+        { Widget line = ui::row(key(), *n); ui::label(key(), line, "Two items: Hello"); //ImGui::SameLine();
           ui::text_colored(key(), line, Colour(1, 1, 0, 1), "Sailor"); }
 
         // Adjust spacing
-        { Widget& line = ui::row(key(), *n); ui::label(key(), line, "More spacing: Hello"); ui::same_line_spacing(key(), line, 20); //ImGui::SameLine(0, 20);
+        { Widget line = ui::row(key(), *n); ui::label(key(), line, "More spacing: Hello"); ui::same_line_spacing(key(), line, 20); //ImGui::SameLine(0, 20);
           ui::text_colored(key(), line, Colour(1, 1, 0, 1), "Sailor"); }
 
         // Button
         //ImGui::AlignTextToFramePadding();
-        { Widget& line = ui::row(key(), *n); ui::label(key(), line, "Normal buttons"); //ImGui::SameLine();
+        { Widget line = ui::row(key(), *n); ui::label(key(), line, "Normal buttons"); //ImGui::SameLine();
           ui::button(key(), line, "Banana"); //ImGui::SameLine();
           ui::button(key(), line, "Apple"); //ImGui::SameLine();
           ui::button(key(), line, "Corniflower"); }
 
         // Button
-        { Widget& line = ui::row(key(), *n); ui::label(key(), line, "Small buttons"); //ImGui::SameLine();
+        { Widget line = ui::row(key(), *n); ui::label(key(), line, "Small buttons"); //ImGui::SameLine();
           ui::small_button(key(), line, "Like this one"); //ImGui::SameLine();
           ui::label(key(), line, "can fit within a text block."); }
 
         // Aligned to arbitrary position. Easy/cheap column.
         IMGUI_DEMO_MARKER("Layout/Basic Horizontal Layout/SameLine (with offset)");
-        { Widget& line = ui::row(key(), *n); ui::label(key(), line, "Aligned");
+        { Widget line = ui::row(key(), *n); ui::label(key(), line, "Aligned");
           ui::same_line_offset(key(), line, 150); ui::label(key(), line, "x=150");
           ui::same_line_offset(key(), line, 300); ui::label(key(), line, "x=300"); }
-        { Widget& line = ui::row(key(), *n); ui::label(key(), line, "Aligned");
+        { Widget line = ui::row(key(), *n); ui::label(key(), line, "Aligned");
           ui::same_line_offset(key(), line, 150); ui::small_button(key(), line, "x=150");
           ui::same_line_offset(key(), line, 300); ui::small_button(key(), line, "x=300"); }
 
         // Checkbox
         IMGUI_DEMO_MARKER("Layout/Basic Horizontal Layout/SameLine (more)");
         static bool c1 = false, c2 = false, c3 = false, c4 = false;
-        { Widget& line = ui::row(key(), *n); ui::checkbox(key(), line, "My", c1); //ImGui::SameLine();
+        { Widget line = ui::row(key(), *n); ui::checkbox(key(), line, "My", c1); //ImGui::SameLine();
           ui::checkbox(key(), line, "Tailor", c2); //ImGui::SameLine();
           ui::checkbox(key(), line, "Is", c3); //ImGui::SameLine();
           ui::checkbox(key(), line, "Rich", c4); }
@@ -5759,14 +5759,14 @@ static void DemoWindowLayout(Widget& parent)
         ui::push_item_width(ui::calc_text_size("AAAAAAA").x);
         const char* items[] = { "AAAA", "BBBB", "CCCC", "DDDD" };
         static int item = -1;
-        { Widget& line = ui::row(key(), *n); ui::combo(key(), line, "Combo", item, items); //ImGui::SameLine();
+        { Widget line = ui::row(key(), *n); ui::combo(key(), line, "Combo", item, items); //ImGui::SameLine();
           ui::slider_float(key(), line, "X", f0, 0.0f, 5.0f); //ImGui::SameLine();
           ui::slider_float(key(), line, "Y", f1, 0.0f, 5.0f); //ImGui::SameLine();
           ui::slider_float(key(), line, "Z", f2, 0.0f, 5.0f); }
 
         ui::label(key(), *n, "Lists:");
         static int selection[4] = { 0, 1, 2, 3 };
-        Widget& lists = ui::row(key(), *n);
+        Widget lists = ui::row(key(), *n);
         for (int i = 0; i < 4; i++)
         {
             //if (i > 0) ImGui::SameLine();
@@ -5780,7 +5780,7 @@ static void DemoWindowLayout(Widget& parent)
         // Dummy
         IMGUI_DEMO_MARKER("Layout/Basic Horizontal Layout/Dummy");
         vec2 button_sz(40, 40);
-        { Widget& line = ui::row(key(), *n); ui::button(key(), line, "A", button_sz); //ImGui::SameLine();
+        { Widget line = ui::row(key(), *n); ui::button(key(), line, "A", button_sz); //ImGui::SameLine();
           ui::dummy(key(), line, button_sz); //ImGui::SameLine();
           ui::button(key(), line, "B", button_sz); }
 
@@ -5791,7 +5791,7 @@ static void DemoWindowLayout(Widget& parent)
         ImguiLook& style = ui::get_look();
         int buttons_count = 20;
         float window_visible_x2 = ui::get_content_region_avail(*n).x;
-        Widget* wrap_line = &ui::row(key(), *n);
+        Widget wrap_line = ui::row(key(), *n);
         float last_button_x2 = 0.f;
         for (int i = 0; i < buttons_count; i++)
         {
@@ -5801,29 +5801,29 @@ static void DemoWindowLayout(Widget& parent)
             float next_button_x2 = last_button_x2 + style.ItemSpacing.x + button_sz.x; // Expected position if next button was on same line
             if (i + 1 < buttons_count && next_button_x2 >= window_visible_x2)
             {
-                wrap_line = &ui::row(key(i), *n); //ImGui::SameLine();
+                wrap_line = ui::row(key(i), *n); //ImGui::SameLine();
                 last_button_x2 = 0.f;
             }
             //ImGui::PopID();
         }
     }
 
-    if (Widget* n = ui::tree_node_ex(key(), *body, "Groups").body)
+    if (Widget n = ui::tree_node_ex(key(), *body, "Groups").body)
     {
         IMGUI_DEMO_MARKER("Layout/Groups");
         HelpMarker(*n,
             "BeginGroup() basically locks the horizontal position for new line. "
             "EndGroup() bundles the whole group so that you can use \"item\" functions such as "
             "IsItemHovered()/IsItemActive() or SameLine() etc. on the whole group.");
-        Widget& line = ui::row(key(), *n);
-        Widget& group0 = ui::stack(key(), line); // ImGui::BeginGroup();
+        Widget line = ui::row(key(), *n);
+        Widget group0 = ui::stack(key(), line); // ImGui::BeginGroup();
         {
-            Widget& group1 = ui::row(key(), group0); // ImGui::BeginGroup();
+            Widget group1 = ui::row(key(), group0); // ImGui::BeginGroup();
             ui::button(key(), group1, "AAA");
             //ImGui::SameLine();
             ui::button(key(), group1, "BBB");
             //ImGui::SameLine();
-            Widget& group2 = ui::stack(key(), group1); // ImGui::BeginGroup();
+            Widget group2 = ui::stack(key(), group1); // ImGui::BeginGroup();
             ui::button(key(), group2, "CCC");
             ui::button(key(), group2, "DDD");
             //ImGui::EndGroup();
@@ -5837,7 +5837,7 @@ static void DemoWindowLayout(Widget& parent)
         static float values[5] = { 0.5f, 0.20f, 0.80f, 0.60f, 0.25f };
         ui::plot_histogram(key(), group0, "##values", values, 0, NULL, 0.0f, 1.0f, size);
 
-        Widget& actions = ui::row(key(), group0);
+        Widget actions = ui::row(key(), group0);
         ui::button(key(), actions, "ACTION", vec2((size.x - ui::get_look().ItemSpacing.x) * 0.5f, size.y));
         //ImGui::SameLine();
         ui::button(key(), actions, "REACTION", vec2((size.x - ui::get_look().ItemSpacing.x) * 0.5f, size.y));
@@ -5847,24 +5847,24 @@ static void DemoWindowLayout(Widget& parent)
         ui::button(key(), line, "LEVERAGE\nBUZZWORD", size);
         //ImGui::SameLine();
 
-        if (Widget* list = ui::begin_list_box(key(), line, "List")) // size
+        if (Widget list = ui::begin_list_box(key(), line, "List")) // size
         {
             ui::selectable(key(), *list, "Selected", true);
             ui::selectable(key(), *list, "Not Selected", false);
         }
     }
 
-    if (Widget* n = ui::tree_node_ex(key(), *body, "Text Baseline Alignment").body)
+    if (Widget n = ui::tree_node_ex(key(), *body, "Text Baseline Alignment").body)
     {
         IMGUI_DEMO_MARKER("Layout/Text Baseline Alignment");
         {
-            { Widget& line = ui::row(key(), *n); ui::bullet(key(), line, "Text baseline:");
+            { Widget line = ui::row(key(), *n); ui::bullet(key(), line, "Text baseline:");
               HelpMarker(line,
                 "This is testing the vertical alignment that gets applied on text to keep it aligned with widgets. "
                 "Lines only composed of text or \"small\" widgets use less vertical space than lines with framed widgets."); }
-            Widget& indent = ui::indent(key(), *n); // ImGui::Indent();
+            Widget indent = ui::indent(key(), *n); // ImGui::Indent();
 
-            { Widget& line = ui::row(key(), indent); ui::label(key(), line, "KO Blahblah"); //ImGui::SameLine();
+            { Widget line = ui::row(key(), indent); ui::label(key(), line, "KO Blahblah"); //ImGui::SameLine();
               ui::button(key(), line, "Some framed item"); //ImGui::SameLine();
               HelpMarker(line, "Baseline of button will look misaligned with text.."); }
 
@@ -5872,18 +5872,18 @@ static void DemoWindowLayout(Widget& parent)
             // (because we don't know what's coming after the Text() statement, we need to move the text baseline
             // down by FramePadding.y ahead of time)
             //ImGui::AlignTextToFramePadding();
-            { Widget& line = ui::row(key(), indent); ui::label(key(), line, "OK Blahblah"); //ImGui::SameLine();
+            { Widget line = ui::row(key(), indent); ui::label(key(), line, "OK Blahblah"); //ImGui::SameLine();
               ui::button(key(), line, "Some framed item##2"); //ImGui::SameLine();
               HelpMarker(line, "We call AlignTextToFramePadding() to vertically align the text baseline by +FramePadding.y"); }
 
             // SmallButton() uses the same vertical padding as Text
-            { Widget& line = ui::row(key(), indent); ui::button(key(), line, "TEST##1"); //ImGui::SameLine();
+            { Widget line = ui::row(key(), indent); ui::button(key(), line, "TEST##1"); //ImGui::SameLine();
               ui::label(key(), line, "TEST"); //ImGui::SameLine();
               ui::small_button(key(), line, "TEST##2"); }
 
             // If your line starts with text, call AlignTextToFramePadding() to align text to upcoming widgets.
             //ImGui::AlignTextToFramePadding();
-            { Widget& line = ui::row(key(), indent); ui::label(key(), line, "Text aligned to framed item"); //ImGui::SameLine();
+            { Widget line = ui::row(key(), indent); ui::label(key(), line, "Text aligned to framed item"); //ImGui::SameLine();
               ui::button(key(), line, "Item##1"); //ImGui::SameLine();
               ui::label(key(), line, "Item"); //ImGui::SameLine();
               ui::small_button(key(), line, "Item##2"); //ImGui::SameLine();
@@ -5896,21 +5896,21 @@ static void DemoWindowLayout(Widget& parent)
 
         {
             ui::bullet(key(), *n, "Multi-line text:");
-            Widget& indent = ui::indent(key(), *n); // ImGui::Indent();
-            { Widget& line = ui::row(key(), indent); ui::label(key(), line, "One\nTwo\nThree"); //ImGui::SameLine();
+            Widget indent = ui::indent(key(), *n); // ImGui::Indent();
+            { Widget line = ui::row(key(), indent); ui::label(key(), line, "One\nTwo\nThree"); //ImGui::SameLine();
               ui::label(key(), line, "Hello\nWorld"); //ImGui::SameLine();
               ui::label(key(), line, "Banana"); }
 
-            { Widget& line = ui::row(key(), indent); ui::label(key(), line, "Banana"); //ImGui::SameLine();
+            { Widget line = ui::row(key(), indent); ui::label(key(), line, "Banana"); //ImGui::SameLine();
               ui::label(key(), line, "Hello\nWorld"); //ImGui::SameLine();
               ui::label(key(), line, "One\nTwo\nThree"); }
 
-            { Widget& line = ui::row(key(), indent); ui::button(key(), line, "HOP##1"); //ImGui::SameLine();
+            { Widget line = ui::row(key(), indent); ui::button(key(), line, "HOP##1"); //ImGui::SameLine();
               ui::label(key(), line, "Banana"); //ImGui::SameLine();
               ui::label(key(), line, "Hello\nWorld"); //ImGui::SameLine();
               ui::label(key(), line, "Banana"); }
 
-            { Widget& line = ui::row(key(), indent); ui::button(key(), line, "HOP##2"); //ImGui::SameLine();
+            { Widget line = ui::row(key(), indent); ui::button(key(), line, "HOP##2"); //ImGui::SameLine();
               ui::label(key(), line, "Hello\nWorld"); //ImGui::SameLine();
               ui::label(key(), line, "Banana"); }
             //ImGui::Unindent();
@@ -5920,10 +5920,10 @@ static void DemoWindowLayout(Widget& parent)
 
         {
             ui::bullet(key(), *n, "Misc items:");
-            Widget& indent = ui::indent(key(), *n); // ImGui::Indent();
+            Widget indent = ui::indent(key(), *n); // ImGui::Indent();
 
             // SmallButton() sets FramePadding to zero. Text baseline is aligned to match baseline of previous Button.
-            { Widget& line = ui::row(key(), indent); ui::button(key(), line, "80x80", vec2(80, 80));
+            { Widget line = ui::row(key(), indent); ui::button(key(), line, "80x80", vec2(80, 80));
               //ImGui::SameLine();
               ui::button(key(), line, "50x50", vec2(50, 50));
               //ImGui::SameLine();
@@ -5934,9 +5934,9 @@ static void DemoWindowLayout(Widget& parent)
             // Tree
             // (here the node appears after a button and has odd intent, so we use ImGuiTreeNodeFlags_DrawLinesNone to disable hierarchy outline)
             //const float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
-            { Widget& line = ui::row(key(), indent); ui::button(key(), line, "Button##1"); // Will make line higher
+            { Widget line = ui::row(key(), indent); ui::button(key(), line, "Button##1"); // Will make line higher
               //ImGui::SameLine(0.0f, spacing);
-              if (Widget* node = ui::tree_node_ex(key(), line, "Node##1", ImGuiTreeNodeFlags_DrawLinesNone).body)
+              if (Widget node = ui::tree_node_ex(key(), line, "Node##1", ImGuiTreeNodeFlags_DrawLinesNone).body)
               {
                   // Placeholder tree data
                   for (int i = 0; i < 6; i++)
@@ -5944,7 +5944,7 @@ static void DemoWindowLayout(Widget& parent)
               } }
 
             //const float padding = (float)(int)(ImGui::GetFontSize() * 1.20f); // Large padding
-            { Widget& line = ui::row(key(), indent);
+            { Widget line = ui::row(key(), indent);
               //ImGui::PushStyleVarY(ImGuiStyleVar_FramePadding, padding);
               ui::button(key(), line, "Button##2");
               //ImGui::PopStyleVar();
@@ -5960,7 +5960,7 @@ static void DemoWindowLayout(Widget& parent)
             TreeNode node3 = ui::tree_node_ex(key(), indent, "Node##3");
             //ImGui::SameLine(0.0f, spacing);
             ui::button(key(), node3.header, "Button##3");
-            if (Widget* node = node3.body)
+            if (Widget node = node3.body)
             {
                 // Placeholder tree data
                 for (int i = 0; i < 6; i++)
@@ -5968,19 +5968,19 @@ static void DemoWindowLayout(Widget& parent)
             }
 
             // Bullet
-            { Widget& line = ui::row(key(), indent); ui::button(key(), line, "Button##4");
+            { Widget line = ui::row(key(), indent); ui::button(key(), line, "Button##4");
               //ImGui::SameLine(0.0f, spacing);
               ui::bullet(key(), line, "Bullet text"); }
 
             //ImGui::AlignTextToFramePadding();
-            { Widget& line = ui::row(key(), indent); ui::bullet(key(), line, "Node");
+            { Widget line = ui::row(key(), indent); ui::bullet(key(), line, "Node");
               //ImGui::SameLine(0.0f, spacing);
               ui::button(key(), line, "Button##5"); }
             //ImGui::Unindent();
         }
     }
 
-    if (Widget* n = ui::tree_node_ex(key(), *body, "Scrolling").body)
+    if (Widget n = ui::tree_node_ex(key(), *body, "Scrolling").body)
     {
         IMGUI_DEMO_MARKER("Layout/Scrolling/Vertical");
         // Vertical scroll functions
@@ -5995,17 +5995,17 @@ static void DemoWindowLayout(Widget& parent)
         ui::checkbox(key(), *n, "Decoration", enable_extra_decorations);
 
         ui::push_item_width(ui::get_font_size() * 10);
-        Widget& line0 = ui::row(key(), *n);
+        Widget line0 = ui::row(key(), *n);
         enable_track |= ui::drag_int(key(), line0, "##item", track_item, 0.25f, 0, 99); // "Item = %d");
         //ImGui::SameLine();
         ui::checkbox(key(), line0, "Track", enable_track);
 
-        Widget& line1 = ui::row(key(), *n);
+        Widget line1 = ui::row(key(), *n);
         bool scroll_to_off = ui::drag_float(key(), line1, "##off", scroll_to_off_px, 1.00f, 0, FLT_MAX); // "+%.0f px");
         //ImGui::SameLine();
         scroll_to_off |= ui::button(key(), line1, "Scroll Offset").activated();
 
-        Widget& line2 = ui::row(key(), *n);
+        Widget line2 = ui::row(key(), *n);
         bool scroll_to_pos = ui::drag_float(key(), line2, "##pos", scroll_to_pos_px, 1.00f, -10, FLT_MAX); // "X/Y = %.0f px");
         //ImGui::SameLine();
         scroll_to_pos |= ui::button(key(), line2, "Scroll To Pos").activated();
@@ -6019,11 +6019,11 @@ static void DemoWindowLayout(Widget& parent)
         if (child_w < 1.0f)
             child_w = 1.0f;
         //ImGui::PushID("##VerticalScrolling");
-        Widget& vertical = ui::row(key(), *n);
+        Widget vertical = ui::row(key(), *n);
         for (int i = 0; i < 5; i++)
         {
             //if (i > 0) ImGui::SameLine();
-            Widget& group = ui::stack(key(i), vertical); // ImGui::BeginGroup();
+            Widget group = ui::stack(key(i), vertical); // ImGui::BeginGroup();
             const char* names[] = { "Top", "25%", "Center", "75%", "Bottom" };
             ui::label(key(), group, names[i]);
 
@@ -6031,7 +6031,7 @@ static void DemoWindowLayout(Widget& parent)
             ScrollSheet child = ui::child(key(), group, vec2(child_w, 200.0f), true, child_flags); // ImGuiChildFlags_Borders
             if (enable_extra_decorations)
             {
-                Widget& menubar = ui::menubar(key(), child.body);
+                Widget menubar = ui::menubar(key(), child.body);
                 ui::label(key(), menubar, "abc");
             }
             if (scroll_to_off)
@@ -6043,7 +6043,7 @@ static void DemoWindowLayout(Widget& parent)
                 {
                     if (enable_track && item == track_item)
                     {
-                        Widget& tracked = ui::text_colored(key(), child.body, Colour(1, 1, 0, 1), ui::format("Item %d", item));
+                        Widget tracked = ui::text_colored(key(), child.body, Colour(1, 1, 0, 1), ui::format("Item %d", item));
                         ui::set_scroll_here_y(child, tracked, i * 0.25f); // 0.0f:top, 0.5f:center, 1.0f:bottom
                     }
                     else
@@ -6072,21 +6072,21 @@ static void DemoWindowLayout(Widget& parent)
         {
             float child_height = ui::get_text_line_height() + style.ScrollbarSize + style.WindowPadding.y * 2.0f;
             ImGuiWindowFlags child_flags = ImGuiWindowFlags_HorizontalScrollbar | (enable_extra_decorations ? ImGuiWindowFlags_AlwaysVerticalScrollbar : 0);
-            Widget& line = ui::row(key(i), *n);
+            Widget line = ui::row(key(i), *n);
             ScrollSheet child = ui::child(key(), line, vec2(-100, child_height), true, child_flags); // ImGuiChildFlags_Borders
             if (scroll_to_off)
                 ui::set_scroll_x(child, scroll_to_off_px);
             if (scroll_to_pos)
                 ui::set_scroll_from_pos_x(child, scroll_to_pos_px, i * 0.25f); // ImGui::GetCursorStartPos().x + scroll_to_pos_px
             {
-                Widget& items_line = ui::row(key(), child.body);
+                Widget items_line = ui::row(key(), child.body);
                 for (int item = 0; item < 100; item++)
                 {
                     //if (item > 0)
                     //    ImGui::SameLine();
                     if (enable_track && item == track_item)
                     {
-                        Widget& tracked = ui::text_colored(key(), items_line, Colour(1, 1, 0, 1), ui::format("Item %d", item));
+                        Widget tracked = ui::text_colored(key(), items_line, Colour(1, 1, 0, 1), ui::format("Item %d", item));
                         ui::set_scroll_here_x(child, tracked, i * 0.25f); // 0.0f:left, 0.5f:center, 1.0f:right
                     }
                     else
@@ -6122,7 +6122,7 @@ static void DemoWindowLayout(Widget& parent)
             // If you want to create your own time line for a real application you may be better off manipulating
             // the cursor position yourself, aka using SetCursorPos/SetCursorScreenPos to position the widgets
             // yourself. You may also want to use the lower-level ImDrawList API.
-            Widget& buttons = ui::row(key(line), scrolling.body);
+            Widget buttons = ui::row(key(line), scrolling.body);
             const int num_buttons = 10 + ((line & 1) ? line * 9 : line * 3);
             const float base_w = ui::get_font_size() * 3;
             for (int i = 0; i < num_buttons; i++)
@@ -6146,13 +6146,13 @@ static void DemoWindowLayout(Widget& parent)
         float scroll_max_x = ui::get_scroll_max_x(scrolling);
         ui::pop_style_var(2);
         float scroll_x_delta = 0.0f;
-        Widget& scroll_line = ui::row(key(), *n);
-        Widget& scroll_left = ui::small_button(key(), scroll_line, "<<");
+        Widget scroll_line = ui::row(key(), *n);
+        Widget scroll_left = ui::small_button(key(), scroll_line, "<<");
         if (ui::is_item_active(scroll_left))
             scroll_x_delta = -ui::io().DeltaTime * 1000.0f;
         //ImGui::SameLine();
         ui::label(key(), scroll_line, "Scroll from code"); //ImGui::SameLine();
-        Widget& scroll_right = ui::small_button(key(), scroll_line, ">>");
+        Widget scroll_right = ui::small_button(key(), scroll_line, ">>");
         if (ui::is_item_active(scroll_right))
             scroll_x_delta = +ui::io().DeltaTime * 1000.0f;
         //ImGui::SameLine();
@@ -6184,7 +6184,7 @@ static void DemoWindowLayout(Widget& parent)
             if (auto window = ui::begin(key(), n->ui(), "Horizontal contents size demo window", &show_horizontal_contents_size_demo_window)) // show_h_scrollbar ? ImGuiWindowFlags_HorizontalScrollbar : 0
             {
                 ScrollSheet sheet = ui::scroll_sheet(key(), *window->body);
-                Widget& w = sheet.body;
+                Widget w = sheet.body;
                 IMGUI_DEMO_MARKER("Layout/Scrolling/Horizontal contents size demo window");
                 ui::push_style_var(ImGuiStyleVar_ItemSpacing, vec2(2, 0));
                 ui::push_style_var(ImGuiStyleVar_FramePadding, vec2(2, 0));
@@ -6199,7 +6199,7 @@ static void DemoWindowLayout(Widget& parent)
                 ui::checkbox(key(), w, "Tab bar", show_tab_bar);          // Will use contents size
                 ui::checkbox(key(), w, "Child", show_child);              // Will grow and use contents size
                 ui::checkbox(key(), w, "Explicit content size", explicit_content_size);
-                Widget& line = ui::row(key(), w);
+                Widget line = ui::row(key(), w);
                 ui::textf(key(), line, "Scroll %.1f/%.1f %.1f/%.1f", ui::get_scroll_x(sheet), ui::get_scroll_max_x(sheet), ui::get_scroll_y(sheet), ui::get_scroll_max_y(sheet));
                 if (explicit_content_size)
                 {
@@ -6220,9 +6220,9 @@ static void DemoWindowLayout(Widget& parent)
                 if (show_tree_nodes)
                 {
                     //bool open = true;
-                    if (Widget* node = ui::tree_node_ex(key(), w, "this is a tree node").body)
+                    if (Widget node = ui::tree_node_ex(key(), w, "this is a tree node").body)
                     {
-                        if (Widget* node2 = ui::tree_node_ex(key(), *node, "another one of those tree node...").body)
+                        if (Widget node2 = ui::tree_node_ex(key(), *node, "another one of those tree node...").body)
                         {
                             ui::label(key(), *node2, "Some tree contents");
                         }
@@ -6240,7 +6240,7 @@ static void DemoWindowLayout(Widget& parent)
                         ui::TableLayout table = ui::begin_table(key(), w, 4); // ImGuiTableFlags_Borders
                         for (int i = 0; i < 4; i++)
                         {
-                            Widget& cell = table.next_column();
+                            Widget cell = table.next_column();
                             ui::textf(key(), cell, "Width %.2f", ui::get_content_region_avail(cell).x);
                         }
                     }
@@ -6249,7 +6249,7 @@ static void DemoWindowLayout(Widget& parent)
                         ui::TableLayout columns = ui::begin_table(key(), w, 4); // ImGui::Columns(4);
                         for (int i = 0; i < 4; i++)
                         {
-                            Widget& cell = columns.next_column();
+                            Widget cell = columns.next_column();
                             ui::textf(key(), cell, "Width %.2f", ui::get_content_region_avail(cell).x); // ImGui::GetColumnWidth()
                             //ImGui::NextColumn();
                         }
@@ -6272,7 +6272,7 @@ static void DemoWindowLayout(Widget& parent)
         }
     }
 
-    if (Widget* n = ui::tree_node_ex(key(), *body, "Text Clipping").body)
+    if (Widget n = ui::tree_node_ex(key(), *body, "Text Clipping").body)
     {
         IMGUI_DEMO_MARKER("Layout/Text Clipping");
         static vec2 size(100.0f, 100.0f);
@@ -6291,14 +6291,14 @@ static void DemoWindowLayout(Widget& parent)
             "Will alter only this specific ImDrawList::AddText() rendering.\n"
             "This is often used internally to avoid altering the clipping rectangle and minimize draw calls.");
 
-        Widget& line = ui::row(key(), *n);
+        Widget line = ui::row(key(), *n);
         for (int i = 0; i < 3; i++)
         {
             //if (i > 0)
             //    ImGui::SameLine();
 
             //ImGui::PushID(i);
-            Widget& canvas = ui::invisible_button(key(i), line, "##canvas", size);
+            Widget canvas = ui::invisible_button(key(i), line, "##canvas", size);
             if (ui::is_item_active(canvas) && ui::is_mouse_dragging(canvas))
             {
                 offset.x += ui::get_mouse_drag_delta(canvas).x;
@@ -6312,7 +6312,7 @@ static void DemoWindowLayout(Widget& parent)
             const char* text_str = "Line 1 hello\nLine 2 clip me!";
             const vec2 text_pos = offset;
             // In two.ui, the custom rendering of a widget is done in its custom draw function, with the Vg API, in the space of the widget
-            canvas.custom_draw() = [=](Widget& widget, const vec4& rect, Vg& vg)
+            canvas.custom_draw() = [=](Widget widget, const vec4& rect, Vg& vg)
             {
                 UNUSED(widget);
                 switch (i)
@@ -6336,7 +6336,7 @@ static void DemoWindowLayout(Widget& parent)
         }
     }
 
-    if (Widget* n = ui::tree_node_ex(key(), *body, "Overlap Mode").body)
+    if (Widget n = ui::tree_node_ex(key(), *body, "Overlap Mode").body)
     {
         IMGUI_DEMO_MARKER("Layout/Overlap Mode");
         static bool enable_allow_overlap = true;
@@ -6348,7 +6348,7 @@ static void DemoWindowLayout(Widget& parent)
         ui::checkbox(key(), *n, "Enable AllowOverlap", enable_allow_overlap);
 
         // In two.ui, items are positioned freely in a free layout (e.g a screen)
-        Widget& overlap = ui::overlap(key(), *n, vec2(130.f, 130.f));
+        Widget overlap = ui::overlap(key(), *n, vec2(130.f, 130.f));
         vec2 button1_pos = vec2(0.f); // ImGui::GetCursorScreenPos();
         vec2 button2_pos = vec2(button1_pos.x + 50.0f, button1_pos.y + 50.0f);
         //if (enable_allow_overlap)
@@ -6362,7 +6362,7 @@ static void DemoWindowLayout(Widget& parent)
         // for using SetNextItemAllowOverlap(). For demo purpose we use SetNextItemAllowOverlap() here.)
         //if (enable_allow_overlap)
         //    ImGui::SetNextItemAllowOverlap();
-        Widget& selectable = ui::selectable(key(), *n, "Some Selectable", false);
+        Widget selectable = ui::selectable(key(), *n, "Some Selectable", false);
         //ImGui::SameLine();
         ui::small_button(key(), selectable, "++");
     }
@@ -6372,9 +6372,9 @@ static void DemoWindowLayout(Widget& parent)
 // [SECTION] DemoWindowPopups()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowPopups(Widget& parent)
+static void DemoWindowPopups(Widget parent)
 {
-    Widget* body = ui::collapsing_header(key(), parent, "Popups & Modal windows");
+    Widget body = ui::collapsing_header(key(), parent, "Popups & Modal windows");
     if (!body)
         return;
 
@@ -6398,7 +6398,7 @@ static void DemoWindowPopups(Widget& parent)
 
     // In two.ui, the visibility state of a popup is held by the programmer, as for regular windows: OpenPopup() maps to setting a bool
 
-    if (Widget* n = ui::tree_node_ex(key(), *body, "Popups").body)
+    if (Widget n = ui::tree_node_ex(key(), *body, "Popups").body)
     {
         IMGUI_DEMO_MARKER("Popups/Popups");
         ui::text_wrapped(key(), *n,
@@ -6412,12 +6412,12 @@ static void DemoWindowPopups(Widget& parent)
         // Simple selection popup (if you want to show the current selection inside the Button itself,
         // you may want to build a string using the "###" operator to preserve a constant ID with a variable label)
         static bool my_select_popup = false;
-        Widget& line = ui::row(key(), *n);
+        Widget line = ui::row(key(), *n);
         if (ui::button(key(), line, "Select..").activated())
             my_select_popup = true; // ImGui::OpenPopup("my_select_popup");
         //ImGui::SameLine();
         ui::label(key(), line, selected_fish == -1 ? "<None>" : names[selected_fish]);
-        if (Widget* popup = ui::begin_popup(key(), line, my_select_popup))
+        if (Widget popup = ui::begin_popup(key(), line, my_select_popup))
         {
             ui::separator_text(key(), *popup, "Aquarium");
             for (int i = 0; i < IM_COUNTOF(names); i++)
@@ -6430,38 +6430,38 @@ static void DemoWindowPopups(Widget& parent)
 
         // Showing a menu with toggles
         static bool my_toggle_popup = false;
-        Widget& toggle = ui::button(key(), *n, "Toggle..");
+        Widget toggle = ui::button(key(), *n, "Toggle..");
         if (toggle.activated())
             my_toggle_popup = true; // ImGui::OpenPopup("my_toggle_popup");
-        if (Widget* popup = ui::begin_popup(key(), toggle, my_toggle_popup))
+        if (Widget popup = ui::begin_popup(key(), toggle, my_toggle_popup))
         {
             for (int i = 0; i < IM_COUNTOF(names); i++)
                 ui::menu_item(key(), *popup, names[i], "", &toggles[i]);
-            if (Widget* menu = ui::begin_menu(key(), *popup, "Sub-menu", true))
+            if (Widget menu = ui::begin_menu(key(), *popup, "Sub-menu", true))
             {
                 ui::menu_item(key(), *menu, "Click me");
             }
 
             ui::separator(key(), *popup);
-            Widget& tooltip_here = ui::label(key(), *popup, "Tooltip here");
+            Widget tooltip_here = ui::label(key(), *popup, "Tooltip here");
             ui::set_item_tooltip(key(), tooltip_here, "I am a tooltip over a popup");
 
             static bool another_popup = false;
-            Widget& stacked = ui::button(key(), *popup, "Stacked Popup");
+            Widget stacked = ui::button(key(), *popup, "Stacked Popup");
             if (stacked.activated())
                 another_popup = true; // ImGui::OpenPopup("another popup");
-            if (Widget* another = ui::begin_popup(key(), stacked, another_popup))
+            if (Widget another = ui::begin_popup(key(), stacked, another_popup))
             {
                 for (int i = 0; i < IM_COUNTOF(names); i++)
                     ui::menu_item(key(), *another, names[i], "", &toggles[i]);
-                if (Widget* menu = ui::begin_menu(key(), *another, "Sub-menu", true))
+                if (Widget menu = ui::begin_menu(key(), *another, "Sub-menu", true))
                 {
                     ui::menu_item(key(), *menu, "Click me");
                     static bool last_popup = false;
-                    Widget& stacked_last = ui::button(key(), *menu, "Stacked Popup");
+                    Widget stacked_last = ui::button(key(), *menu, "Stacked Popup");
                     if (stacked_last.activated())
                         last_popup = true; // ImGui::OpenPopup("another popup");
-                    if (Widget* last = ui::begin_popup(key(), stacked_last, last_popup))
+                    if (Widget last = ui::begin_popup(key(), stacked_last, last_popup))
                     {
                         ui::label(key(), *last, "I am the last one here.");
                     }
@@ -6471,18 +6471,18 @@ static void DemoWindowPopups(Widget& parent)
 
         // Call the more complete ShowExampleMenuFile which we use in various places of this demo
         static bool my_file_popup = false;
-        Widget& with_menu = ui::button(key(), *n, "With a menu..");
+        Widget with_menu = ui::button(key(), *n, "With a menu..");
         if (with_menu.activated())
             my_file_popup = true; // ImGui::OpenPopup("my_file_popup");
-        if (Widget* popup = ui::begin_popup(key(), with_menu, my_file_popup)) // ImGuiWindowFlags_MenuBar
+        if (Widget popup = ui::begin_popup(key(), with_menu, my_file_popup)) // ImGuiWindowFlags_MenuBar
         {
-            Widget& menubar = ui::menubar(key(), *popup);
+            Widget menubar = ui::menubar(key(), *popup);
             {
-                if (Widget* menu = ui::begin_menu(key(), menubar, "File"))
+                if (Widget menu = ui::begin_menu(key(), menubar, "File"))
                 {
                     ShowExampleMenuFile(*menu);
                 }
-                if (Widget* menu = ui::begin_menu(key(), menubar, "Edit"))
+                if (Widget menu = ui::begin_menu(key(), menubar, "Edit"))
                 {
                     ui::menu_item(key(), *menu, "Dummy");
                 }
@@ -6492,7 +6492,7 @@ static void DemoWindowPopups(Widget& parent)
         }
     }
 
-    if (Widget* n = ui::tree_node_ex(key(), *body, "Context menus").body)
+    if (Widget n = ui::tree_node_ex(key(), *body, "Context menus").body)
     {
         IMGUI_DEMO_MARKER("Popups/Context menus");
         HelpMarker(*n, "\"Context\" functions are simple helpers to associate a Popup to a given Item or Window identifier.");
@@ -6514,10 +6514,10 @@ static void DemoWindowPopups(Widget& parent)
             static int selected = -1;
             for (int i = 0; i < 5; i++)
             {
-                Widget& selectable = ui::selectable(key(), *n, names[i], selected == i);
+                Widget selectable = ui::selectable(key(), *n, names[i], selected == i);
                 if (selectable.activated())
                     selected = i;
-                if (Widget* popup = ui::begin_popup_context_item(key(), selectable)) // <-- use last item id as popup id
+                if (Widget popup = ui::begin_popup_context_item(key(), selectable)) // <-- use last item id as popup id
                 {
                     selected = i;
                     ui::textf(key(), *popup, "This is a popup for \"%s\"!", names[i]);
@@ -6535,9 +6535,9 @@ static void DemoWindowPopups(Widget& parent)
             HelpMarker(*n, "Text() elements don't have stable identifiers so we need to provide one.");
             static float value = 0.5f;
             static bool my_popup = false;
-            Widget& text1 = ui::textf(key(), *n, "Value = %.3f <-- (1) right-click this text", value);
+            Widget text1 = ui::textf(key(), *n, "Value = %.3f <-- (1) right-click this text", value);
             ui::open_popup_on_item_click(text1, my_popup); // ImGui::BeginPopupContextItem("my popup")
-            if (Widget* popup = ui::begin_popup(key(), text1, my_popup))
+            if (Widget popup = ui::begin_popup(key(), text1, my_popup))
             {
                 if (ui::selectable(key(), *popup, "Set to zero", false).activated()) value = 0.0f;
                 if (ui::selectable(key(), *popup, "Set to PI", false).activated()) value = 3.1415f;
@@ -6548,7 +6548,7 @@ static void DemoWindowPopups(Widget& parent)
             // We can also use OpenPopupOnItemClick() to toggle the visibility of a given popup.
             // Here we make it that right-clicking this other text element opens the same popup as above.
             // The popup itself will be submitted by the code above.
-            Widget& text2 = ui::label(key(), *n, "(2) Or right-click this text");
+            Widget text2 = ui::label(key(), *n, "(2) Or right-click this text");
             ui::open_popup_on_item_click(text2, my_popup); // ImGuiPopupFlags_MouseButtonRight
 
             // Back to square one: manually open the same popup.
@@ -6565,9 +6565,9 @@ static void DemoWindowPopups(Widget& parent)
             static string name = "Label1";
             char buf[64];
             sprintf(buf, "Button: %s", name.c_str()); // ### operator override ID ignoring the preceding label
-            Widget& line = ui::row(key(), *n);
-            Widget& button = ui::button(key(), line, buf);
-            if (Widget* popup = ui::begin_popup_context_item(key(), button))
+            Widget line = ui::row(key(), *n);
+            Widget button = ui::button(key(), line, buf);
+            if (Widget popup = ui::begin_popup_context_item(key(), button))
             {
                 ui::label(key(), *popup, "Edit name:");
                 ui::input_text(key(), *popup, "##edit", name);
@@ -6579,7 +6579,7 @@ static void DemoWindowPopups(Widget& parent)
         }
     }
 
-    if (Widget* n = ui::tree_node_ex(key(), *body, "Modals").body)
+    if (Widget n = ui::tree_node_ex(key(), *body, "Modals").body)
     {
         IMGUI_DEMO_MARKER("Popups/Modals");
         ui::text_wrapped(key(), *n, "Modal windows are like popups but the user cannot close them by clicking outside.");
@@ -6592,7 +6592,7 @@ static void DemoWindowPopups(Widget& parent)
         //ImVec2 center = ImGui::GetMainViewport()->GetCenter();
         //ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 
-        if (Widget* modal = ui::begin_popup_modal(key(), *n, "Delete?", delete_popup)) // NULL, ImGuiWindowFlags_AlwaysAutoResize
+        if (Widget modal = ui::begin_popup_modal(key(), *n, "Delete?", delete_popup)) // NULL, ImGuiWindowFlags_AlwaysAutoResize
         {
             ui::label(key(), *modal, "All those beautiful files will be deleted.\nThis operation cannot be undone!");
             ui::separator(key(), *modal);
@@ -6605,7 +6605,7 @@ static void DemoWindowPopups(Widget& parent)
             ui::checkbox(key(), *modal, "Don't ask me next time", dont_ask_me_next_time);
             ui::pop_style_var();
 
-            Widget& line = ui::row(key(), *modal);
+            Widget line = ui::row(key(), *modal);
             if (ui::button(key(), line, "OK", vec2(120, 0)).activated()) { delete_popup = false; } // ImGui::CloseCurrentPopup();
             //ImGui::SetItemDefaultFocus();
             //ImGui::SameLine();
@@ -6615,11 +6615,11 @@ static void DemoWindowPopups(Widget& parent)
         static bool stacked_1 = false;
         if (ui::button(key(), *n, "Stacked modals..").activated())
             stacked_1 = true; // ImGui::OpenPopup("Stacked 1");
-        if (Widget* modal = ui::begin_popup_modal(key(), *n, "Stacked 1", stacked_1)) // NULL, ImGuiWindowFlags_MenuBar
+        if (Widget modal = ui::begin_popup_modal(key(), *n, "Stacked 1", stacked_1)) // NULL, ImGuiWindowFlags_MenuBar
         {
-            Widget& menubar = ui::menubar(key(), *modal);
+            Widget menubar = ui::menubar(key(), *modal);
             {
-                if (Widget* menu = ui::begin_menu(key(), menubar, "File"))
+                if (Widget menu = ui::begin_menu(key(), menubar, "File"))
                 {
                     if (ui::menu_item(key(), *menu, "Some menu item")) {}
                 }
@@ -6640,7 +6640,7 @@ static void DemoWindowPopups(Widget& parent)
             // will close the popup. Note that the visibility state of popups is owned by imgui, so the input value
             // of the bool actually doesn't matter here.
             //bool unused_open = true;
-            if (Widget* modal2 = ui::begin_popup_modal(key(), *modal, "Stacked 2", stacked_2))
+            if (Widget modal2 = ui::begin_popup_modal(key(), *modal, "Stacked 2", stacked_2))
             {
                 ui::label(key(), *modal2, "Hello from Stacked The Second!");
                 ui::color_edit4(key(), *modal2, "Color", color); // Allow opening another nested popup
@@ -6653,14 +6653,14 @@ static void DemoWindowPopups(Widget& parent)
         }
     }
 
-    if (Widget* n = ui::tree_node_ex(key(), *body, "Menus inside a regular window").body)
+    if (Widget n = ui::tree_node_ex(key(), *body, "Menus inside a regular window").body)
     {
         IMGUI_DEMO_MARKER("Popups/Menus inside a regular window");
         ui::text_wrapped(key(), *n, "Below we are testing adding menu items to a regular window. It's rather unusual but should work!");
         ui::separator(key(), *n);
 
         ui::menu_item(key(), *n, "Menu item", "Ctrl+M");
-        if (Widget* menu = ui::begin_menu(key(), *n, "Menu inside a regular window"))
+        if (Widget menu = ui::begin_menu(key(), *n, "Menu inside a regular window"))
         {
             ShowExampleMenuFile(*menu);
         }
@@ -8951,10 +8951,10 @@ static void DemoWindowColumns()
 //-----------------------------------------------------------------------------
 #endif
 
-static void DemoWindowTables(Widget& parent)
+static void DemoWindowTables(Widget parent)
 {
     //ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-    Widget* body = ui::collapsing_header(key(), parent, "Tables & Columns");
+    Widget body = ui::collapsing_header(key(), parent, "Tables & Columns");
     if (!body)
         return;
 
@@ -8963,7 +8963,7 @@ static void DemoWindowTables(Widget& parent)
     DemoWindowColumns(*body);
 }
 
-static void DemoWindowColumns(Widget& parent)
+static void DemoWindowColumns(Widget parent)
 {
     UNUSED(parent);
 }
@@ -8972,9 +8972,9 @@ static void DemoWindowColumns(Widget& parent)
 // [SECTION] DemoWindowInputs()
 //-----------------------------------------------------------------------------
 
-static void DemoWindowInputs(Widget& parent)
+static void DemoWindowInputs(Widget parent)
 {
-    if (Widget* body = ui::collapsing_header(key(), parent, "Inputs & Focus"))
+    if (Widget body = ui::collapsing_header(key(), parent, "Inputs & Focus"))
     {
         ui::IO& io = ui::io();
 
@@ -8986,7 +8986,7 @@ static void DemoWindowInputs(Widget& parent)
             "This is a simplified view. See more detailed input state:\n"
             "- in 'Tools->Metrics/Debugger->Inputs'.\n"
             "- in 'Tools->Debug Log->IO'.");
-        if (Widget* n = inputs.body)
+        if (Widget n = inputs.body)
         {
             IMGUI_DEMO_MARKER("Inputs & Focus/Inputs");
             if (ui::is_mouse_pos_valid())
@@ -8994,11 +8994,11 @@ static void DemoWindowInputs(Widget& parent)
             else
                 ui::label(key(), *n, "Mouse pos: <INVALID>");
             ui::textf(key(), *n, "Mouse delta: (%g, %g)", io.MouseDelta.x, io.MouseDelta.y);
-            Widget& line0 = ui::row(key(), *n);
+            Widget line0 = ui::row(key(), *n);
             ui::label(key(), line0, "Mouse down:");
             for (int i = 0; i < IM_COUNTOF(io.MouseDown); i++) if (ui::is_mouse_down(i)) { /*ImGui::SameLine();*/ ui::textf(key(i), line0, "b%d (%.02f secs)", i, io.MouseDownDuration[i]); }
             ui::textf(key(), *n, "Mouse wheel: %.1f", io.MouseWheel);
-            Widget& line1 = ui::row(key(), *n);
+            Widget line1 = ui::row(key(), *n);
             ui::label(key(), line1, "Mouse clicked count:");
             for (int i = 0; i < IM_COUNTOF(io.MouseDown); i++) if (io.MouseClickedCount[i] > 0) { /*ImGui::SameLine();*/ ui::textf(key(i), line1, "b%d: %d", i, io.MouseClickedCount[i]); }
 
@@ -9006,10 +9006,10 @@ static void DemoWindowInputs(Widget& parent)
             // displaying the data for old/new backends.
             // User code should never have to go through such hoops!
             // You can generally iterate between ImGuiKey_NamedKey_BEGIN and ImGuiKey_NamedKey_END.
-            Widget& line2 = ui::row(key(), *n);
+            Widget line2 = ui::row(key(), *n);
             ui::label(key(), line2, "Keys down:");         for (Key key_down : ui::keys_down(*n)) { /*ImGui::SameLine();*/ ui::textf(key(uint64_t(key_down)), line2, "\"%s\" %d", ui::get_key_name(key_down), int(key_down)); }
             ui::textf(key(), *n, "Keys mods: %s%s%s%s", io.KeyCtrl ? "CTRL " : "", io.KeyShift ? "SHIFT " : "", io.KeyAlt ? "ALT " : "", io.KeySuper ? "SUPER " : "");
-            Widget& line3 = ui::row(key(), *n);
+            Widget line3 = ui::row(key(), *n);
             ui::label(key(), line3, "Chars queue:");       for (int i = 0; i < int(io.InputQueueCharacters.size()); i++) { char c = io.InputQueueCharacters[i]; /*ImGui::SameLine();*/ ui::textf(key(i), line3, "\'%c\' (0x%04X)", (c > ' ') ? (char)c : '?', c); } // FIXME: We should convert 'c' to UTF-8 here but the functions are not public.
         }
 
@@ -9024,7 +9024,7 @@ static void DemoWindowInputs(Widget& parent)
             "The most typical case is: when hovering a window, Dear ImGui set io.WantCaptureMouse to true, "
             "and underlying application should ignore mouse inputs (in practice there are many and more subtle "
             "rules leading to how those flags are set).");
-        if (Widget* n = outputs.body)
+        if (Widget n = outputs.body)
         {
             IMGUI_DEMO_MARKER("Inputs & Focus/Outputs");
             ui::textf(key(), *n, "io.WantCaptureMouse: %d", io.WantCaptureMouse);
@@ -9035,7 +9035,7 @@ static void DemoWindowInputs(Widget& parent)
             ui::textf(key(), *n, "io.NavActive: %d, io.NavVisible: %d", io.NavActive, io.NavVisible);
 
             IMGUI_DEMO_MARKER("Inputs & Focus/Outputs/WantCapture override");
-            if (Widget* n0 = ui::tree_node_ex(key(), *n, "WantCapture override").body)
+            if (Widget n0 = ui::tree_node_ex(key(), *n, "WantCapture override").body)
             {
                 HelpMarker(*n0,
                     "Hovering the colored canvas will override io.WantCaptureXXX fields.\n"
@@ -9045,11 +9045,11 @@ static void DemoWindowInputs(Widget& parent)
                 static int capture_override_keyboard = -1;
                 const char* capture_override_desc[] = { "None", "Set to false", "Set to true" };
                 //ImGui::SetNextItemWidth(ImGui::GetFontSize() * 15);
-                { Widget& line = ui::row(key(), *n0); ui::slider_int(key(), line, "SetNextFrameWantCaptureMouse() on hover", capture_override_mouse, -1, +1); ui::label(key(), line, capture_override_desc[capture_override_mouse + 1]); } // ImGuiSliderFlags_AlwaysClamp
+                { Widget line = ui::row(key(), *n0); ui::slider_int(key(), line, "SetNextFrameWantCaptureMouse() on hover", capture_override_mouse, -1, +1); ui::label(key(), line, capture_override_desc[capture_override_mouse + 1]); } // ImGuiSliderFlags_AlwaysClamp
                 //ImGui::SetNextItemWidth(ImGui::GetFontSize() * 15);
-                { Widget& line = ui::row(key(), *n0); ui::slider_int(key(), line, "SetNextFrameWantCaptureKeyboard() on hover", capture_override_keyboard, -1, +1); ui::label(key(), line, capture_override_desc[capture_override_keyboard + 1]); } // ImGuiSliderFlags_AlwaysClamp
+                { Widget line = ui::row(key(), *n0); ui::slider_int(key(), line, "SetNextFrameWantCaptureKeyboard() on hover", capture_override_keyboard, -1, +1); ui::label(key(), line, capture_override_desc[capture_override_keyboard + 1]); } // ImGuiSliderFlags_AlwaysClamp
 
-                Widget& panel = ui::color_button(key(), *n0, "##panel", Colour(0.7f, 0.1f, 0.7f, 1.0f), vec2(128.0f, 96.0f)); // ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoDragDrop // Dummy item
+                Widget panel = ui::color_button(key(), *n0, "##panel", Colour(0.7f, 0.1f, 0.7f, 1.0f), vec2(128.0f, 96.0f)); // ImGuiColorEditFlags_NoTooltip | ImGuiColorEditFlags_NoDragDrop // Dummy item
                 if (ui::is_item_hovered(panel) && capture_override_mouse != -1)
                     io.WantCaptureMouse = capture_override_mouse == 1; // ImGui::SetNextFrameWantCaptureMouse(capture_override_mouse == 1);
                 if (ui::is_item_hovered(panel) && capture_override_keyboard != -1)
@@ -9067,7 +9067,7 @@ static void DemoWindowInputs(Widget& parent)
         // - If you call Shortcut() WITHOUT any routing option, it uses ImGuiInputFlags_RouteFocused.
         // TL;DR: Most uses will simply be:
         // - Shortcut(ImGuiMod_Ctrl | ImGuiKey_A); // Use ImGuiInputFlags_RouteFocused policy.
-        if (Widget* n = ui::tree_node_ex(key(), *body, "Shortcuts").body)
+        if (Widget n = ui::tree_node_ex(key(), *body, "Shortcuts").body)
         {
             IMGUI_DEMO_MARKER("Inputs & Focus/Shortcuts");
             static ImGuiInputFlags route_options = ImGuiInputFlags_Repeat;
@@ -9076,7 +9076,7 @@ static void DemoWindowInputs(Widget& parent)
             ui::radio_button(key(), *n, "ImGuiInputFlags_RouteActive", route_type, ImGuiInputFlags_RouteActive);
             ui::radio_button(key(), *n, "ImGuiInputFlags_RouteFocused (default)", route_type, ImGuiInputFlags_RouteFocused);
             {
-                Widget& indent = ui::indent(key(), *n); // ImGui::Indent();
+                Widget indent = ui::indent(key(), *n); // ImGui::Indent();
                 ui::begin_disabled(route_type != ImGuiInputFlags_RouteFocused);
                 ui::checkbox_flags(key(), indent, "ImGuiInputFlags_RouteOverActive##0", route_options, ImGuiInputFlags_RouteOverActive);
                 ui::end_disabled();
@@ -9084,7 +9084,7 @@ static void DemoWindowInputs(Widget& parent)
             }
             ui::radio_button(key(), *n, "ImGuiInputFlags_RouteGlobal", route_type, ImGuiInputFlags_RouteGlobal);
             {
-                Widget& indent = ui::indent(key(), *n); // ImGui::Indent();
+                Widget indent = ui::indent(key(), *n); // ImGui::Indent();
                 ui::begin_disabled(route_type != ImGuiInputFlags_RouteGlobal);
                 ui::checkbox_flags(key(), indent, "ImGuiInputFlags_RouteOverFocused", route_options, ImGuiInputFlags_RouteOverFocused);
                 ui::checkbox_flags(key(), indent, "ImGuiInputFlags_RouteOverActive", route_options, ImGuiInputFlags_RouteOverActive);
@@ -9099,7 +9099,7 @@ static void DemoWindowInputs(Widget& parent)
 
             ui::separator_text(key(), *n, "Using SetNextItemShortcut()");
             ui::label(key(), *n, "Ctrl+S");
-            Widget& save = ui::button(key(), *n, "Save");
+            Widget save = ui::button(key(), *n, "Save");
             ui::set_item_shortcut(save, InputMod::Ctrl, Key::S, flags | ImGuiInputFlags_Tooltip);
             ui::label(key(), *n, "Alt+F");
             static float f = 0.5f;
@@ -9110,12 +9110,12 @@ static void DemoWindowInputs(Widget& parent)
             //const ImGuiKeyChord key_chord = ImGuiMod_Ctrl | ImGuiKey_A;
 
             ui::label(key(), *n, "Ctrl+A");
-            Widget& window = ui::get_current_window(*n);
+            Widget window = ui::get_current_window(*n);
             ui::textf(key(), *n, "IsWindowFocused: %d, Shortcut: %s", ui::is_window_focused(window), ui::shortcut(*n, InputMod::Ctrl, Key::A, flags) ? "PRESSED" : "...");
 
             //ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(1.0f, 0.0f, 1.0f, 0.1f));
 
-            if (Widget* window_a = ui::begin_child(key(), *n, vec2(-FLT_MIN, line_height * 14), true))
+            if (Widget window_a = ui::begin_child(key(), *n, vec2(-FLT_MIN, line_height * 14), true))
             {
                 ui::label(key(), *window_a, "Press Ctrl+A and see who receives it!");
                 ui::separator(key(), *window_a);
@@ -9134,14 +9134,14 @@ static void DemoWindowInputs(Widget& parent)
                 //ImGui::Text("IsWindowFocused: %d, Shortcut: %s", ImGui::IsWindowFocused(), ImGui::Shortcut(key_chord, flags, item_id) ? "PRESSED" : "...");
 
                 // 3: Dummy child is not claiming the route: focusing them shouldn't steal route away from WindowA
-                if (Widget* child_d = ui::begin_child(key(), *window_a, vec2(-FLT_MIN, line_height * 4), true))
+                if (Widget child_d = ui::begin_child(key(), *window_a, vec2(-FLT_MIN, line_height * 4), true))
                 {
                     ui::label(key(), *child_d, "(in ChildD: not using same Shortcut)");
                     ui::textf(key(), *child_d, "IsWindowFocused: %d", ui::is_window_focused(window));
                 }
 
                 // 4: Child window polling for Ctrl+A. It is deeper than WindowA and gets priority when focused.
-                if (Widget* child_e = ui::begin_child(key(), *window_a, vec2(-FLT_MIN, line_height * 4), true))
+                if (Widget child_e = ui::begin_child(key(), *window_a, vec2(-FLT_MIN, line_height * 4), true))
                 {
                     ui::label(key(), *child_e, "(in ChildE: using same Shortcut)");
                     ui::textf(key(), *child_e, "IsWindowFocused: %d, Shortcut: %s", ui::is_window_focused(window), ui::shortcut(*child_e, InputMod::Ctrl, Key::A, flags) ? "PRESSED" : "...");
@@ -9149,10 +9149,10 @@ static void DemoWindowInputs(Widget& parent)
 
                 // 5: In a popup
                 static bool popup_f = false;
-                Widget& open_popup = ui::button(key(), *window_a, "Open Popup");
+                Widget open_popup = ui::button(key(), *window_a, "Open Popup");
                 if (open_popup.activated())
                     popup_f = true; // ImGui::OpenPopup("PopupF");
-                if (Widget* popup = ui::begin_popup(key(), open_popup, popup_f))
+                if (Widget popup = ui::begin_popup(key(), open_popup, popup_f))
                 {
                     ui::label(key(), *popup, "(in PopupF)");
                     ui::textf(key(), *popup, "IsWindowFocused: %d, Shortcut: %s", ui::is_window_focused(window), ui::shortcut(*popup, InputMod::Ctrl, Key::A, flags) ? "PRESSED" : "...");
@@ -9165,7 +9165,7 @@ static void DemoWindowInputs(Widget& parent)
         }
 
         // Display mouse cursors
-        if (Widget* n = ui::tree_node_ex(key(), *body, "Mouse Cursors").body)
+        if (Widget n = ui::tree_node_ex(key(), *body, "Mouse Cursors").body)
         {
             IMGUI_DEMO_MARKER("Inputs & Focus/Mouse Cursors");
             const char* mouse_cursors_names[] = { "Arrow", "TextInput", "ResizeAll", "ResizeNS", "ResizeEW", "ResizeNESW", "ResizeNWSE", "Hand", "Wait", "Progress", "NotAllowed" };
@@ -9178,7 +9178,7 @@ static void DemoWindowInputs(Widget& parent)
             ui::checkbox_flags(key(), *n, "io.BackendFlags: HasMouseCursors", io.BackendFlags, ImGuiBackendFlags_HasMouseCursors);
             ui::end_disabled();
 
-            { Widget& line = ui::row(key(), *n); ui::label(key(), line, "Hover to see mouse cursors:");
+            { Widget line = ui::row(key(), *n); ui::label(key(), line, "Hover to see mouse cursors:");
               HelpMarker(line,
                 "Your application can render a different mouse cursor based on what ImGui::GetMouseCursor() returns. "
                 "If software cursor rendering (io.MouseDrawCursor) is set ImGui will draw the right cursor for you, "
@@ -9187,14 +9187,14 @@ static void DemoWindowInputs(Widget& parent)
             {
                 char label[32];
                 sprintf(label, "Mouse cursor %d: %s", i, mouse_cursors_names[i]);
-                Widget& line = ui::row(key(i), *n);
-                ui::item(key(), line, styles().bullet); Widget& selectable = ui::selectable(key(), line, label, false);
+                Widget line = ui::row(key(i), *n);
+                ui::item(key(), line, styles().bullet); Widget selectable = ui::selectable(key(), line, label, false);
                 if (ui::is_item_hovered(selectable))
                     ui::set_mouse_cursor(selectable, i);
             }
         }
 
-        if (Widget* n = ui::tree_node_ex(key(), *body, "Tabbing").body)
+        if (Widget n = ui::tree_node_ex(key(), *body, "Tabbing").body)
         {
             IMGUI_DEMO_MARKER("Inputs & Focus/Tabbing");
             ui::label(key(), *n, "Use Tab/Shift+Tab to cycle through keyboard editable fields.");
@@ -9203,16 +9203,16 @@ static void DemoWindowInputs(Widget& parent)
             ui::input_text(key(), *n, "2", buf);
             ui::input_text(key(), *n, "3", buf);
             ui::push_item_flag(ImGuiItemFlags_NoTabStop, true);
-            { Widget& line = ui::row(key(), *n); ui::input_text(key(), line, "4 (tab skip)", buf);
+            { Widget line = ui::row(key(), *n); ui::input_text(key(), line, "4 (tab skip)", buf);
               HelpMarker(line, "Item won't be cycled through when using TAB or Shift+Tab."); }
             ui::pop_item_flag();
             ui::input_text(key(), *n, "5", buf);
         }
 
-        if (Widget* n = ui::tree_node_ex(key(), *body, "Focus from code").body)
+        if (Widget n = ui::tree_node_ex(key(), *body, "Focus from code").body)
         {
             IMGUI_DEMO_MARKER("Inputs & Focus/Focus from code");
-            Widget& line = ui::row(key(), *n);
+            Widget line = ui::row(key(), *n);
             bool focus_1 = ui::button(key(), line, "Focus on 1").activated(); //ImGui::SameLine();
             bool focus_2 = ui::button(key(), line, "Focus on 2").activated(); //ImGui::SameLine();
             bool focus_3 = ui::button(key(), line, "Focus on 3").activated();
@@ -9228,7 +9228,7 @@ static void DemoWindowInputs(Widget& parent)
             if (ui::is_item_active(input2.self())) has_focus = 2;
 
             ui::push_item_flag(ImGuiItemFlags_NoTabStop, true);
-            Widget& line3 = ui::row(key(), *n);
+            Widget line3 = ui::row(key(), *n);
             TextEditHandle input3 = ui::input_text_edit(key(), line3, "3 (tab skip)", buf);
             if (focus_3) ui::set_keyboard_focus_here(input3.self());
             if (ui::is_item_active(input3.self())) has_focus = 3;
@@ -9243,7 +9243,7 @@ static void DemoWindowInputs(Widget& parent)
             // Use >= 0 parameter to SetKeyboardFocusHere() to focus an upcoming item
             static float f3[3] = { 0.0f, 0.0f, 0.0f };
             int focus_ahead = -1;
-            Widget& line_xyz = ui::row(key(), *n);
+            Widget line_xyz = ui::row(key(), *n);
             if (ui::button(key(), line_xyz, "Focus on X").activated()) { focus_ahead = 0; } //ImGui::SameLine();
             if (ui::button(key(), line_xyz, "Focus on Y").activated()) { focus_ahead = 1; } //ImGui::SameLine();
             if (ui::button(key(), line_xyz, "Focus on Z").activated()) { focus_ahead = 2; }
@@ -9254,7 +9254,7 @@ static void DemoWindowInputs(Widget& parent)
             ui::text_wrapped(key(), *n, "NB: Cursor & selection are preserved when refocusing last used item in code.");
         }
 
-        if (Widget* n = ui::tree_node_ex(key(), *body, "Dragging").body)
+        if (Widget n = ui::tree_node_ex(key(), *body, "Dragging").body)
         {
             IMGUI_DEMO_MARKER("Inputs & Focus/Dragging");
             ui::text_wrapped(key(), *n, "You can use ImGui::GetMouseDragDelta(0) to query for the dragged amount on any widget.");
@@ -9266,7 +9266,7 @@ static void DemoWindowInputs(Widget& parent)
                 ui::textf(key(button), *n, "  w/ large threshold: %d,", ui::is_mouse_dragging(*n, button, 20.0f));
             }
 
-            Widget& drag_me = ui::button(key(), *n, "Drag Me");
+            Widget drag_me = ui::button(key(), *n, "Drag Me");
             if (ui::is_item_active(drag_me))
                 ui::foreground_line(key(), *n, io.MouseClickedPos[0], io.MousePos, Colour(0.26f, 0.59f, 0.98f, 0.40f), 4.0f); // Draw a line between the button and the mouse cursor
 
@@ -9289,18 +9289,18 @@ static void DemoWindowInputs(Widget& parent)
 // Access from Dear ImGui Demo -> Tools -> About
 //-----------------------------------------------------------------------------
 
-void ShowAboutWindow(Widget& parent, bool* p_open)
+void ShowAboutWindow(Widget parent, bool* p_open)
 {
     auto window = ui::begin(key(), parent, "About Dear ImGui", p_open); // ImGuiWindowFlags_AlwaysAutoResize
     if (!window)
     {
         return;
     }
-    Widget& body = *window->body;
+    Widget body = *window->body;
     IMGUI_DEMO_MARKER("Tools/About Dear ImGui");
     ui::textf(key(), body, "Dear ImGui %s (%d)", IMGUI_VERSION, IMGUI_VERSION_NUM);
 
-    Widget& links = ui::row(key(), body);
+    Widget links = ui::row(key(), body);
     ui::text_link(key(), links, "Homepage", "https://github.com/ocornut/imgui");
     //ImGui::SameLine();
     ui::text_link(key(), links, "FAQ", "https://github.com/ocornut/imgui/blob/master/docs/FAQ.md");
@@ -9328,7 +9328,7 @@ void ShowAboutWindow(Widget& parent, bool* p_open)
 
         bool copy_to_clipboard = ui::button(key(), body, "Copy to clipboard").activated();
         vec2 child_size = vec2(0, ui::get_text_line_height_with_spacing() * 18);
-        Widget& child = *ui::begin_child(key(), body, child_size); // ImGuiChildFlags_FrameStyle
+        Widget child = *ui::begin_child(key(), body, child_size); // ImGuiChildFlags_FrameStyle
         string log;
         auto text = [&](NodeKey id, const string& line) { ui::text(id, child, line); log += line + "\n"; };
         if (copy_to_clipboard)
@@ -9449,7 +9449,7 @@ void ShowAboutWindow(Widget& parent, bool* p_open)
 //-----------------------------------------------------------------------------
 
 // Demo helper function to select among default colors. See ShowStyleEditor() for more advanced options.
-bool ShowStyleSelector(Widget& parent, const char* label)
+bool ShowStyleSelector(Widget parent, const char* label)
 {
     // FIXME: This is a bit tricky to get right as style are functions, they don't register a name nor the fact that one is active.
     // So we keep track of last active one among our limited selection.
@@ -9457,7 +9457,7 @@ bool ShowStyleSelector(Widget& parent, const char* label)
     // The two.ui styles are listed after the dear imgui ones, and the dear imgui v1.70 ones, kept for reference
     const char* style_names[] = { "Dark", "Light", "Classic", "Dark (v1.70)", "Light (v1.70)", "Classic (v1.70)", "Minimal", "Vector", "Blendish (Light)", "Blendish (Dark)", "Wonderland" };
     bool ret = false;
-    if (Widget* combo = ui::begin_combo(key(), parent, label, (style_idx >= 0 && style_idx < IM_COUNTOF(style_names)) ? style_names[style_idx] : ""))
+    if (Widget combo = ui::begin_combo(key(), parent, label, (style_idx >= 0 && style_idx < IM_COUNTOF(style_names)) ? style_names[style_idx] : ""))
     {
         for (int n = 0; n < IM_COUNTOF(style_names); n++)
         {
@@ -9496,7 +9496,7 @@ static const char* GetTreeLinesFlagsName(ImGuiTreeNodeFlags flags)
 }
 
 // We omit the ImGui:: prefix in this function, as we don't expect user to be copy and pasting this code.
-void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
+void ShowStyleEditor(Widget parent, ImguiTheme* ref)
 {
     using namespace ui;
 
@@ -9527,7 +9527,7 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
         if ((io().BackendFlags & ImGuiBackendFlags_RendererHasTextures) == 0)
         {
             bullet(key(), parent, "Warning: Font scaling will NOT be smooth, because\nImGuiBackendFlags_RendererHasTextures is not set!");
-            Widget& line = row(key(), parent);
+            Widget line = row(key(), parent);
             bullet(key(), line, "For instructions, see:");
             //SameLine();
             text_link(key(), line, "docs/BACKENDS.md", "https://github.com/ocornut/imgui/blob/master/docs/BACKENDS.md");
@@ -9536,7 +9536,7 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
         if (ShowStyleSelector(parent, "Colors##Selector"))
             ref_saved_style = style;
         ShowFontSelector(parent, "Fonts##Selector");
-        Widget& font_line = row(key(), parent);
+        Widget font_line = row(key(), parent);
         if (drag_float(key(), font_line, "FontSizeBase", style.look.FontSizeBase, 0.20f, 5.0f, 100.0f)) // "%.0f"
             {} //style._NextFrameFontSizeBase = style.FontSizeBase; // FIXME: Temporary hack until we finish remaining work.
         /*SameLine(0.0f, 0.0f);*/ textf(key(), font_line, " (out %.2f)", get_font_size());
@@ -9549,7 +9549,7 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
         // Simplified Settings (expose floating-pointer border sizes as boolean representing 0.0f or 1.0f)
         if (slider_float(key(), parent, "FrameRounding", style.look.FrameRounding, 0.0f, 12.0f)) // "%.0f"
             style.look.GrabRounding = style.look.FrameRounding; // Make GrabRounding always the same value as FrameRounding
-        Widget& borders = row(key(), parent);
+        Widget borders = row(key(), parent);
         { bool border = (style.look.WindowBorderSize > 0.0f); if (checkbox(key(), borders, "WindowBorder", border)) { style.look.WindowBorderSize = border ? default_border_size : 0.0f; } }
         //SameLine();
         { bool border = (style.look.FrameBorderSize > 0.0f);  if (checkbox(key(), borders, "FrameBorder", border)) { style.look.FrameBorderSize = border ? default_border_size : 0.0f; } }
@@ -9558,7 +9558,7 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
     }
 
     // Save/Revert button
-    Widget& save_revert = row(key(), parent);
+    Widget save_revert = row(key(), parent);
     if (button(key(), save_revert, "Save Ref").activated())
         *ref = ref_saved_style = style;
     //SameLine();
@@ -9572,9 +9572,9 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
     separator_text(key(), parent, "Details");
     Tabber tab_bar = tabber(key(), parent); // BeginTabBar("##tabs", ImGuiTabBarFlags_None)
     {
-        if (Widget* tab_sizes = tab(key(), tab_bar, "Sizes"))
+        if (Widget tab_sizes = tab(key(), tab_bar, "Sizes"))
         {
-            Widget& t = *tab_sizes;
+            Widget t = *tab_sizes;
             ImguiLook& look = style.look;
             separator_text(key(), t, "Main");
             slider_float2(key(), t, "WindowPadding", (float*)&look.WindowPadding, 0.0f, 20.0f); // "%.0f"
@@ -9608,7 +9608,7 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
             separator_text(key(), t, "Tabs");
             slider_float(key(), t, "TabBorderSize", look.TabBorderSize, 0.0f, max_border_size); // "%.0f"
             slider_float(key(), t, "TabBarBorderSize", look.TabBarBorderSize, 0.0f, max_border_size); // "%.0f"
-            { Widget& line = row(key(), t); slider_float(key(), line, "TabBarOverlineSize", look.TabBarOverlineSize, 0.0f, IM_MAX(3.0f, max_border_size)); // "%.0f"
+            { Widget line = row(key(), t); slider_float(key(), line, "TabBarOverlineSize", look.TabBarOverlineSize, 0.0f, IM_MAX(3.0f, max_border_size)); // "%.0f"
               /*SameLine();*/ HelpMarker(line, "Overline is only drawn over the selected tab when ImGuiTabBarFlags_DrawSelectedOverline is set."); }
             drag_float(key(), t, "TabMinWidthBase", look.TabMinWidthBase, 0.5f, 1.0f, 500.0f); // "%.0f"
             drag_float(key(), t, "TabMinWidthShrink", look.TabMinWidthShrink, 0.5f, 1.0f, 500.0f); // "%0.f"
@@ -9622,8 +9622,8 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
             slider_float2(key(), t, "TableAngledHeadersTextAlign", (float*)&look.TableAngledHeadersTextAlign, 0.0f, 1.0f); // "%.2f"
 
             separator_text(key(), t, "Trees");
-            Widget& tree_lines = row(key(), t);
-            Widget* combo_open = begin_combo(key(), tree_lines, "TreeLinesFlags", GetTreeLinesFlagsName(look.TreeLinesFlags));
+            Widget tree_lines = row(key(), t);
+            Widget combo_open = begin_combo(key(), tree_lines, "TreeLinesFlags", GetTreeLinesFlagsName(look.TreeLinesFlags));
             //SameLine();
             HelpMarker(tree_lines, "[Experimental] Tree lines may not work in all situations (e.g. using a clipper) and may incurs slight traversal overhead.\n\nImGuiTreeNodeFlags_DrawLinesFull is faster than ImGuiTreeNodeFlags_DrawLinesToNode.");
             if (combo_open)
@@ -9646,9 +9646,9 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
             separator_text(key(), t, "Widgets");
             slider_float(key(), t, "ColorMarkerSize", look.ColorMarkerSize, 0.0f, 8.0f); // "%.0f"
             combo(key(), t, "ColorButtonPosition", look.ColorButtonPosition, { "Left", "Right" });
-            { Widget& line = row(key(), t); slider_float2(key(), line, "ButtonTextAlign", (float*)&look.ButtonTextAlign, 0.0f, 1.0f); // "%.2f"
+            { Widget line = row(key(), t); slider_float2(key(), line, "ButtonTextAlign", (float*)&look.ButtonTextAlign, 0.0f, 1.0f); // "%.2f"
               /*SameLine();*/ HelpMarker(line, "Alignment applies when a button is larger than its text content."); }
-            { Widget& line = row(key(), t); slider_float2(key(), line, "SelectableTextAlign", (float*)&look.SelectableTextAlign, 0.0f, 1.0f); // "%.2f"
+            { Widget line = row(key(), t); slider_float2(key(), line, "SelectableTextAlign", (float*)&look.SelectableTextAlign, 0.0f, 1.0f); // "%.2f"
               /*SameLine();*/ HelpMarker(line, "Alignment applies when a selectable is larger than its text content."); }
             slider_float(key(), t, "SeparatorSize", look.SeparatorSize, 0.0f, 10.0f); // "%.0f"
             slider_float(key(), t, "SeparatorTextBorderSize", look.SeparatorTextBorderSize, 0.0f, 10.0f); // "%.0f"
@@ -9660,7 +9660,7 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
 
             separator_text(key(), t, "Tooltips");
             for (int n = 0; n < 2; n++)
-                if (Widget* node = tree_node_ex(key(n), t, n == 0 ? "HoverFlagsForTooltipMouse" : "HoverFlagsForTooltipNav").body)
+                if (Widget node = tree_node_ex(key(n), t, n == 0 ? "HoverFlagsForTooltipMouse" : "HoverFlagsForTooltipNav").body)
                 {
                     ImGuiHoveredFlags* p = (n == 0) ? &look.HoverFlagsForTooltipMouse : &look.HoverFlagsForTooltipNav;
                     checkbox_flags(key(), *node, "ImGuiHoveredFlags_DelayNone", *p, ImGuiHoveredFlags_DelayNone);
@@ -9671,16 +9671,16 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
                 }
 
             separator_text(key(), t, "Misc");
-            { Widget& line = row(key(), t); slider_float2(key(), line, "DisplayWindowPadding", (float*)&look.DisplayWindowPadding, 0.0f, 30.0f); /*SameLine();*/ HelpMarker(line, "Apply to regular windows: amount which we enforce to keep visible when moving near edges of your screen."); } // "%.0f"
-            { Widget& line = row(key(), t); slider_float2(key(), line, "DisplaySafeAreaPadding", (float*)&look.DisplaySafeAreaPadding, 0.0f, 30.0f); /*SameLine();*/ HelpMarker(line, "Apply to every windows, menus, popups, tooltips: amount where we avoid displaying contents. Adjust if you cannot see the edges of your screen (e.g. on a TV where scaling has not been configured)."); } // "%.0f"
+            { Widget line = row(key(), t); slider_float2(key(), line, "DisplayWindowPadding", (float*)&look.DisplayWindowPadding, 0.0f, 30.0f); /*SameLine();*/ HelpMarker(line, "Apply to regular windows: amount which we enforce to keep visible when moving near edges of your screen."); } // "%.0f"
+            { Widget line = row(key(), t); slider_float2(key(), line, "DisplaySafeAreaPadding", (float*)&look.DisplaySafeAreaPadding, 0.0f, 30.0f); /*SameLine();*/ HelpMarker(line, "Apply to every windows, menus, popups, tooltips: amount where we avoid displaying contents. Adjust if you cannot see the edges of your screen (e.g. on a TV where scaling has not been configured)."); } // "%.0f"
         }
 
-        if (Widget* tab_colors = tab(key(), tab_bar, "Colors"))
+        if (Widget tab_colors = tab(key(), tab_bar, "Colors"))
         {
-            Widget& t = *tab_colors;
+            Widget t = *tab_colors;
             static int output_dest = 0;
             static bool output_only_modified = true;
-            Widget& export_line = row(key(), t);
+            Widget export_line = row(key(), t);
             if (button(key(), export_line, "Export").activated())
             {
                 string log;
@@ -9702,7 +9702,7 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
             /*SameLine();*/ checkbox(key(), export_line, "Only Modified Colors", output_only_modified);
 
             static ImGuiColorEditFlags alpha_flags = 0;
-            Widget& alpha_line = row(key(), t);
+            Widget alpha_line = row(key(), t);
             if (radio_button(key(), alpha_line, "Opaque", alpha_flags == ImGuiColorEditFlags_AlphaOpaque))       { alpha_flags = ImGuiColorEditFlags_AlphaOpaque; } //SameLine();
             if (radio_button(key(), alpha_line, "Alpha",  alpha_flags == ImGuiColorEditFlags_None))              { alpha_flags = ImGuiColorEditFlags_None; } //SameLine();
             if (radio_button(key(), alpha_line, "Both",   alpha_flags == ImGuiColorEditFlags_AlphaPreviewHalf))  { alpha_flags = ImGuiColorEditFlags_AlphaPreviewHalf; } //SameLine();
@@ -9716,7 +9716,7 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
             input_text_with_hint(key(), t, "##FilterColors", "Filter Colors (incl -excl)", filter);
 
             //SetNextWindowSizeConstraints(ImVec2(0.0f, GetTextLineHeightWithSpacing() * 10), ImVec2(FLT_MAX, FLT_MAX));
-            Widget& colors_child = *begin_child(key(), t, vec2(0, 0), true); // ImGuiChildFlags_Borders | ImGuiChildFlags_NavFlattened, ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_AlwaysHorizontalScrollbar
+            Widget colors_child = *begin_child(key(), t, vec2(0, 0), true); // ImGuiChildFlags_Borders | ImGuiChildFlags_NavFlattened, ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_AlwaysHorizontalScrollbar
             push_item_width(get_font_size() * -12);
             for (int i = 0; i < ImGuiCol_COUNT; i++)
             {
@@ -9724,7 +9724,7 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
                 if (!ui::filter(filter, name))
                     continue;
                 //PushID(i);
-                Widget& line = row(key(i), colors_child);
+                Widget line = row(key(i), colors_child);
                 //if (Button("?"))
                 //    DebugFlashStyleColor((ImGuiCol)i);
                 //SetItemTooltip("Flash given color to identify places where it is used.");
@@ -9745,7 +9745,7 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
             pop_item_width();
         }
 
-        if (Widget* tab_fonts = tab(key(), tab_bar, "Fonts"))
+        if (Widget tab_fonts = tab(key(), tab_bar, "Fonts"))
         {
             show_font_atlas(key(), *tab_fonts); // ShowFontAtlas(atlas);
 
@@ -9769,15 +9769,15 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
             */
         }
 
-        if (Widget* tab_rendering = tab(key(), tab_bar, "Rendering"))
+        if (Widget tab_rendering = tab(key(), tab_bar, "Rendering"))
         {
-            Widget& t = *tab_rendering;
+            Widget t = *tab_rendering;
             ImguiLook& look = style.look;
-            { Widget& line = row(key(), t); checkbox(key(), line, "Anti-aliased lines", look.AntiAliasedLines);
+            { Widget line = row(key(), t); checkbox(key(), line, "Anti-aliased lines", look.AntiAliasedLines);
               //SameLine();
               HelpMarker(line, "When disabling anti-aliasing lines, you'll probably want to disable borders in your style as well."); }
 
-            { Widget& line = row(key(), t); checkbox(key(), line, "Anti-aliased lines use texture", look.AntiAliasedLinesUseTex);
+            { Widget line = row(key(), t); checkbox(key(), line, "Anti-aliased lines use texture", look.AntiAliasedLinesUseTex);
               //SameLine();
               HelpMarker(line, "Faster lines using texture data. Require backend to render with bilinear filtering (not point/nearest filtering)."); }
 
@@ -9788,17 +9788,17 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
                 look.CurveTessellationMaxError = 0.10f;
 
             // When editing the "Circle Segment Max Error" value, draw a preview of its effect on auto-tessellated circles.
-            Widget& circle_line = row(key(), t);
+            Widget circle_line = row(key(), t);
             drag_float(key(), circle_line, "Circle Tessellation Max Error", look.CircleTessellationMaxError , 0.005f, 0.10f, 5.0f); // "%.2f", ImGuiSliderFlags_AlwaysClamp
             const bool show_samples = is_item_active(circle_line);
             //if (show_samples)
             //    SetNextWindowPos(GetCursorScreenPos());
             if (show_samples)
             {
-                Widget& tooltip = begin_tooltip(key(), t);
+                Widget tooltip = begin_tooltip(key(), t);
                 label(key(), tooltip, "(R = radius, N = approx number of segments)");
                 spacing(key(), tooltip);
-                Widget& circles = row(key(), tooltip);
+                Widget circles = row(key(), tooltip);
                 const float min_widget_width = calc_text_size("R: MMM\nN: MMM").x;
                 for (int n = 0; n < 8; n++)
                 {
@@ -9806,7 +9806,7 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
                     const float RAD_MAX = 70.0f;
                     const float rad = RAD_MIN + (RAD_MAX - RAD_MIN) * (float)n / (8.0f - 1.0f);
 
-                    Widget& group = stack(key(n), circles); // BeginGroup();
+                    Widget group = stack(key(n), circles); // BeginGroup();
 
                     // N is not always exact here due to how PathArcTo() function work internally
                     textf(key(), group, "R: %.f\nN: %d", rad, 0); // draw_list->_CalcCircleAutoSegmentCount(rad)
@@ -9815,9 +9815,9 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
                     const float offset_x     = floorf(canvas_width * 0.5f);
                     const float offset_y     = floorf(RAD_MAX);
 
-                    Widget& canvas = dummy(key(), group, vec2(canvas_width, RAD_MAX * 2));
+                    Widget canvas = dummy(key(), group, vec2(canvas_width, RAD_MAX * 2));
                     const Colour text_colour = style.colours[ImGuiCol_Text];
-                    canvas.custom_draw() = [=](Widget& widget, const vec4& rect, Vg& vg)
+                    canvas.custom_draw() = [=](Widget widget, const vec4& rect, Vg& vg)
                     {
                         UNUSED(widget);
                         vg.path_circle(rect.pos + vec2(offset_x, offset_y), rad);
@@ -9838,7 +9838,7 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
             HelpMarker(circle_line, "When drawing circle primitives with \"num_segments == 0\" tessellation will be calculated automatically.");
 
             drag_float(key(), t, "Global Alpha", look.Alpha, 0.005f, 0.20f, 1.0f); // "%.2f" // Not exposing zero here so user doesn't "lose" the UI (zero alpha clips all widgets). But application code could have a toggle to switch between zero and non-zero.
-            { Widget& line = row(key(), t); drag_float(key(), line, "Disabled Alpha", look.DisabledAlpha, 0.005f, 0.0f, 1.0f); /*SameLine();*/ HelpMarker(line, "Additional alpha multiplier for disabled items (multiply over current value of Alpha)."); } // "%.2f"
+            { Widget line = row(key(), t); drag_float(key(), line, "Disabled Alpha", look.DisabledAlpha, 0.005f, 0.0f, 1.0f); /*SameLine();*/ HelpMarker(line, "Additional alpha multiplier for disabled items (multiply over current value of Alpha)."); } // "%.2f"
             pop_item_width();
         }
     }
@@ -9848,7 +9848,7 @@ void ShowStyleEditor(Widget& parent, ImguiTheme* ref)
     update_imgui_style(parent);
 }
 
-void ShowFontSelector(Widget& parent, const char* label)
+void ShowFontSelector(Widget parent, const char* label)
 {
     // two.ui has a single font for now
     ui::label_text(key(), parent, label, "proggy");
@@ -9859,7 +9859,7 @@ void ShowFontSelector(Widget& parent, const char* label)
 //-----------------------------------------------------------------------------
 
 // We omit the ImGui:: prefix in this function, as we don't expect user to be copy and pasting this code.
-void ShowUserGuide(Widget& parent)
+void ShowUserGuide(Widget parent)
 {
     using namespace ui;
 
@@ -9875,7 +9875,7 @@ void ShowUserGuide(Widget& parent)
         bullet(key(), parent, "Ctrl+Mouse Wheel to zoom window contents.");
     bullet(key(), parent, "While inputting text:\n");
     {
-        Widget& i = indent(key(), parent); // Indent();
+        Widget i = indent(key(), parent); // Indent();
         bullet(key(), i, "Ctrl+Left/Right to word jump.");
         bullet(key(), i, "Ctrl+A or double-click to select all.");
         bullet(key(), i, "Ctrl+X/C/V to use clipboard cut/copy/paste.");
@@ -9885,7 +9885,7 @@ void ShowUserGuide(Widget& parent)
     }
     bullet(key(), parent, "With Keyboard controls enabled:");
     {
-        Widget& i = indent(key(), parent); // Indent();
+        Widget i = indent(key(), parent); // Indent();
         bullet(key(), i, "Arrow keys or Home/End/PageUp/PageDown to navigate.");
         bullet(key(), i, "Space to activate a widget.");
         bullet(key(), i, "Return to input text into a widget.");
@@ -9896,7 +9896,7 @@ void ShowUserGuide(Widget& parent)
     }
     bullet(key(), parent, "With Gamepad controls enabled:");
     {
-        Widget& i = indent(key(), parent); // Indent();
+        Widget i = indent(key(), parent); // Indent();
         bullet(key(), i, "D-Pad: Navigate / Tweak / Resize (in Windowing mode).");
         bullet(key(), i, format("%s Face button: Activate / Open / Toggle. Hold: activate with text input.", io.ConfigNavSwapGamepadButtons ? "East" : "South"));
         bullet(key(), i, format("%s Face button: Cancel / Close / Exit.", io.ConfigNavSwapGamepadButtons ? "South" : "East"));
@@ -9918,16 +9918,16 @@ void ShowUserGuide(Widget& parent)
 // Note the difference between BeginMainMenuBar() and BeginMenuBar():
 // - BeginMenuBar() = menu-bar inside current window (which needs the ImGuiWindowFlags_MenuBar flag!)
 // - BeginMainMenuBar() = helper to create menu-bar-sized window at the top of the main viewport + call BeginMenuBar() into it.
-static void ShowExampleAppMainMenuBar(Widget& parent)
+static void ShowExampleAppMainMenuBar(Widget parent)
 {
-    Widget& menubar = ui::main_menu_bar(key(), parent); // ImGui::BeginMainMenuBar()
+    Widget menubar = ui::main_menu_bar(key(), parent); // ImGui::BeginMainMenuBar()
     {
-        if (Widget* menu = ui::begin_menu(key(), menubar, "File"))
+        if (Widget menu = ui::begin_menu(key(), menubar, "File"))
         {
             IMGUI_DEMO_MARKER("Menu/File");
             ShowExampleMenuFile(*menu);
         }
-        if (Widget* menu = ui::begin_menu(key(), menubar, "Edit"))
+        if (Widget menu = ui::begin_menu(key(), menubar, "Edit"))
         {
             IMGUI_DEMO_MARKER("Menu/Edit");
             if (ui::menu_item(key(), *menu, "Undo", "Ctrl+Z")) {}
@@ -9942,22 +9942,22 @@ static void ShowExampleAppMainMenuBar(Widget& parent)
 
 // Note that shortcuts are currently provided for display only
 // (future version will add explicit flags to BeginMenu() to request processing shortcuts)
-static void ShowExampleMenuFile(Widget& parent)
+static void ShowExampleMenuFile(Widget parent)
 {
     IMGUI_DEMO_MARKER("Examples/Menu");
     ui::menu_item(key(), parent, "(demo menu)", NULL, false, false);
     if (ui::menu_item(key(), parent, "New")) {}
     if (ui::menu_item(key(), parent, "Open", "Ctrl+O")) {}
-    if (Widget* menu = ui::begin_menu(key(), parent, "Open Recent", true))
+    if (Widget menu = ui::begin_menu(key(), parent, "Open Recent", true))
     {
         ui::menu_item(key(), *menu, "fish_hat.c");
         ui::menu_item(key(), *menu, "fish_hat.inl");
         ui::menu_item(key(), *menu, "fish_hat.h");
-        if (Widget* more = ui::begin_menu(key(), *menu, "More..", true))
+        if (Widget more = ui::begin_menu(key(), *menu, "More..", true))
         {
             ui::menu_item(key(), *more, "Hello");
             ui::menu_item(key(), *more, "Sailor");
-            if (Widget* recurse = ui::begin_menu(key(), *more, "Recurse..", true))
+            if (Widget recurse = ui::begin_menu(key(), *more, "Recurse..", true))
             {
                 ShowExampleMenuFile(*recurse);
             }
@@ -9967,12 +9967,12 @@ static void ShowExampleMenuFile(Widget& parent)
     if (ui::menu_item(key(), parent, "Save As..")) {}
 
     ui::separator(key(), parent);
-    if (Widget* menu = ui::begin_menu(key(), parent, "Options", true))
+    if (Widget menu = ui::begin_menu(key(), parent, "Options", true))
     {
         IMGUI_DEMO_MARKER("Examples/Menu/Options");
         static bool enabled = true;
         ui::menu_item(key(), *menu, "Enabled", "", &enabled);
-        if (Widget* child = ui::begin_child(key(), *menu, vec2(0, ui::get_text_line_height_with_spacing() * 5.0f), true)) // ImGuiChildFlags_Borders
+        if (Widget child = ui::begin_child(key(), *menu, vec2(0, ui::get_text_line_height_with_spacing() * 5.0f), true)) // ImGuiChildFlags_Borders
             for (int i = 0; i < 10; i++)
                 ui::textf(key(), *child, "Scrolling Text %d", i);
         static float f = 0.5f;
@@ -9990,14 +9990,14 @@ static void ShowExampleMenuFile(Widget& parent)
         ui::checkbox(key(), *menu, "SomeOption", b);
     }
 
-    if (Widget* menu = ui::begin_menu(key(), parent, "Colors", true))
+    if (Widget menu = ui::begin_menu(key(), parent, "Colors", true))
     {
         IMGUI_DEMO_MARKER("Examples/Menu/Colors");
         float sz = ui::get_text_line_height();
         for (int i = 0; i < ImGuiCol_COUNT; i++)
         {
             const char* name = ui::get_style_color_name((ImGuiCol)i);
-            Widget& line = ui::row(key(i), *menu);
+            Widget line = ui::row(key(i), *menu);
             //ImVec2 p = ImGui::GetCursorScreenPos();
             //ImGui::GetWindowDrawList()->AddRectFilled(p, ImVec2(p.x + sz, p.y + sz), ImGui::GetColorU32((ImGuiCol)i));
             ui::color_button(key(), line, name, ui::get_theme().colours[i], vec2(sz, sz)); // ImGui::Dummy(ImVec2(sz, sz));
@@ -10017,7 +10017,7 @@ static void ShowExampleMenuFile(Widget& parent)
     //    ImGui::EndMenu();
     //}
 
-    if (Widget* menu = ui::begin_menu(key(), parent, "Disabled", true)) // Disabled
+    if (Widget menu = ui::begin_menu(key(), parent, "Disabled", true)) // Disabled
     {
         menu->enable_state(DISABLED); // IM_ASSERT(0);
     }
@@ -10085,20 +10085,20 @@ struct ExampleAppConsole
         Items.push_back(buf);
     }
 
-    void    Draw(Widget& parent, const char* title, bool* p_open)
+    void    Draw(Widget parent, const char* title, bool* p_open)
     {
         auto window = ui::begin(key(), parent, title, p_open, WindowState::Default, vec2(520, 600));
         if (!window)
         {
             return;
         }
-        Widget& body = *window->body;
+        Widget body = *window->body;
         IMGUI_DEMO_MARKER("Examples/Console");
 
         // As a specific feature guaranteed by the library, after calling Begin() the last Item represent the title bar.
         // So e.g. IsItemHovered() will return true when hovering the title bar.
         // Here we create a context menu only available from the title bar.
-        if (Widget* popup = ui::begin_popup_context_item(key(), *window->header))
+        if (Widget popup = ui::begin_popup_context_item(key(), *window->header))
         {
             if (ui::menu_item(key(), *popup, "Close Console"))
                 *p_open = false;
@@ -10111,7 +10111,7 @@ struct ExampleAppConsole
 
         // TODO: display items starting from the bottom
 
-        Widget& buttons = ui::row(key(), body);
+        Widget buttons = ui::row(key(), body);
         if (ui::small_button(key(), buttons, "Add Debug Text").activated())  { AddLog("%d some text", int(Items.size())); AddLog("some more text"); AddLog("display very important message here!"); }
         //ImGui::SameLine();
         if (ui::small_button(key(), buttons, "Add Debug Error").activated()) { AddLog("[error] something went wrong"); }
@@ -10124,15 +10124,15 @@ struct ExampleAppConsole
         ui::separator(key(), body);
 
         // Options, Filter
-        Widget& options_line = ui::row(key(), body);
-        Widget& options = ui::button(key(), options_line, "Options");
+        Widget options_line = ui::row(key(), body);
+        Widget options = ui::button(key(), options_line, "Options");
         ui::set_item_shortcut(options, InputMod::Ctrl, Key::O, ImGuiInputFlags_Tooltip);
         if (options.activated())
             OptionsPopup = true; // ImGui::OpenPopup("Options");
         //ImGui::SameLine();
 
         // Options menu
-        if (Widget* popup = ui::begin_popup(key(), options, OptionsPopup))
+        if (Widget popup = ui::begin_popup(key(), options, OptionsPopup))
         {
             ui::checkbox(key(), *popup, "Auto-scroll", AutoScroll);
         }
@@ -10147,8 +10147,8 @@ struct ExampleAppConsole
         const float footer_height_to_reserve = style.SeparatorSize + style.ItemSpacing.y + ui::get_frame_height_with_spacing();
         ScrollSheet scrolling = ui::child(key(), body, vec2(0, -footer_height_to_reserve), false, ImGuiWindowFlags_HorizontalScrollbar); // ImGuiChildFlags_NavFlattened
         {
-            Widget& region = scrolling.body;
-            if (Widget* popup = ui::begin_popup_context_window(key(), scrolling))
+            Widget region = scrolling.body;
+            if (Widget popup = ui::begin_popup_context_window(key(), scrolling))
             {
                 if (ui::selectable(key(), *popup, "Clear", false).activated()) ClearLog();
             }
@@ -10380,7 +10380,7 @@ struct ExampleAppConsole
     }
 };
 
-static void ShowExampleAppConsole(Widget& parent, bool* p_open)
+static void ShowExampleAppConsole(Widget parent, bool* p_open)
 {
     static ExampleAppConsole console;
     console.Draw(parent, "Example: Console", p_open);
@@ -10390,7 +10390,7 @@ static void ShowExampleAppConsole(Widget& parent, bool* p_open)
 // [SECTION] Example App: Image Viewer / ShowExampleAppImageViewer()
 //-----------------------------------------------------------------------------
 
-static void ShowExampleAppImageViewer(Widget& parent, bool* p_open)
+static void ShowExampleAppImageViewer(Widget parent, bool* p_open)
 {
     Image* tex_ref = ui::font_atlas_texture(parent); // We don't have access to other textures in this demo!
     int tex_w = tex_ref ? int(tex_ref->d_size.x) : 0;
@@ -10451,23 +10451,23 @@ struct ExampleAppLog
                 LineOffsets.push_back(old_size + 1);
     }
 
-    void    Draw(Widget& parent, const char* title, bool* p_open = NULL)
+    void    Draw(Widget parent, const char* title, bool* p_open = NULL)
     {
         auto window = ui::begin(key(), parent, title, p_open);
         if (!window)
         {
             return;
         }
-        Widget& body = *window->body;
+        Widget body = *window->body;
 
         // Main window
-        Widget& line = ui::row(key(), body);
-        Widget& options = ui::button(key(), line, "Options");
+        Widget line = ui::row(key(), body);
+        Widget options = ui::button(key(), line, "Options");
         if (options.activated())
             OptionsPopup = true; // ImGui::OpenPopup("Options");
 
         // Options menu
-        if (Widget* popup = ui::begin_popup(key(), options, OptionsPopup))
+        if (Widget popup = ui::begin_popup(key(), options, OptionsPopup))
         {
             ui::checkbox(key(), *popup, "Auto-scroll", AutoScroll);
         }
@@ -10484,7 +10484,7 @@ struct ExampleAppLog
 
         ScrollSheet scrolling = ui::child(key(), body, vec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar); // ImGuiChildFlags_None
         {
-            Widget& region = scrolling.body;
+            Widget region = scrolling.body;
             if (clear)
                 Clear();
             if (copy)
@@ -10542,7 +10542,7 @@ struct ExampleAppLog
 };
 
 // Demonstrate creating a simple log window with basic filtering.
-static void ShowExampleAppLog(Widget& parent, bool* p_open)
+static void ShowExampleAppLog(Widget parent, bool* p_open)
 {
     static ExampleAppLog log;
 
@@ -10578,24 +10578,24 @@ static void ShowExampleAppLog(Widget& parent, bool* p_open)
 //-----------------------------------------------------------------------------
 
 // Demonstrate create a window with multiple child windows.
-static void ShowExampleAppLayout(Widget& parent, bool* p_open)
+static void ShowExampleAppLayout(Widget parent, bool* p_open)
 {
     if (auto window = ui::begin(key(), parent, "Example: Simple layout", p_open, WindowState(uint32_t(WindowState::Default) | uint32_t(WindowState::Menu)), vec2(500, 440)))
     {
         IMGUI_DEMO_MARKER("Examples/Simple layout");
         if (window->menu)
         {
-            if (Widget* menu = ui::begin_menu(key(), *window->menu, "File"))
+            if (Widget menu = ui::begin_menu(key(), *window->menu, "File"))
             {
                 if (ui::menu_item(key(), *menu, "Close", "Ctrl+W")) { *p_open = false; }
             }
         }
 
-        Widget& line = ui::row(key(), *window->body);
+        Widget line = ui::row(key(), *window->body);
         // Left
         static int selected = 0;
         {
-            Widget& left = *ui::begin_child(key(), line, vec2(150, 0), true); // ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX
+            Widget left = *ui::begin_child(key(), line, vec2(150, 0), true); // ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX
             for (int i = 0; i < 100; i++)
             {
                 char label[128];
@@ -10608,22 +10608,22 @@ static void ShowExampleAppLayout(Widget& parent, bool* p_open)
 
         // Right
         {
-            Widget& group = ui::stack(key(), line); // ImGui::BeginGroup();
-            Widget& item_view = *ui::begin_child(key(), group, vec2(0, -ui::get_frame_height_with_spacing())); // Leave room for 1 line below us
+            Widget group = ui::stack(key(), line); // ImGui::BeginGroup();
+            Widget item_view = *ui::begin_child(key(), group, vec2(0, -ui::get_frame_height_with_spacing())); // Leave room for 1 line below us
             ui::textf(key(), item_view, "MyObject: %d", selected);
             ui::separator(key(), item_view);
             Tabber tab_bar = ui::tabber(key(), item_view); // ImGui::BeginTabBar("##Tabs", ImGuiTabBarFlags_None)
             {
-                if (Widget* tab = ui::tab(key(), tab_bar, "Description"))
+                if (Widget tab = ui::tab(key(), tab_bar, "Description"))
                 {
                     ui::text_wrapped(key(), *tab, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ");
                 }
-                if (Widget* tab = ui::tab(key(), tab_bar, "Details"))
+                if (Widget tab = ui::tab(key(), tab_bar, "Details"))
                 {
                     ui::label(key(), *tab, "ID: 0123456789");
                 }
             }
-            Widget& buttons = ui::row(key(), group);
+            Widget buttons = ui::row(key(), group);
             if (ui::button(key(), buttons, "Revert").activated()) {}
             //ImGui::SameLine();
             if (ui::button(key(), buttons, "Save").activated()) {}
@@ -10638,16 +10638,16 @@ static void ShowExampleAppLayout(Widget& parent, bool* p_open)
 //-----------------------------------------------------------------------------
 // @todo: port the remaining example apps
 
-static void ShowExampleAppPropertyEditor(Widget& parent, bool* p_open, ImGuiDemoWindowData* demo_data) { UNUSED(parent); UNUSED(p_open); UNUSED(demo_data); }
-static void ShowExampleAppLongText(Widget& parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
-static void ShowExampleAppAutoResize(Widget& parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
-static void ShowExampleAppConstrainedResize(Widget& parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
-static void ShowExampleAppSimpleOverlay(Widget& parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
-static void ShowExampleAppFullscreen(Widget& parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
-static void ShowExampleAppWindowTitles(Widget& parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
-static void ShowExampleAppCustomRendering(Widget& parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
-static void ShowExampleAppDocuments(Widget& parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
-static void ShowExampleAppAssetsBrowser(Widget& parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
+static void ShowExampleAppPropertyEditor(Widget parent, bool* p_open, ImGuiDemoWindowData* demo_data) { UNUSED(parent); UNUSED(p_open); UNUSED(demo_data); }
+static void ShowExampleAppLongText(Widget parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
+static void ShowExampleAppAutoResize(Widget parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
+static void ShowExampleAppConstrainedResize(Widget parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
+static void ShowExampleAppSimpleOverlay(Widget parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
+static void ShowExampleAppFullscreen(Widget parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
+static void ShowExampleAppWindowTitles(Widget parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
+static void ShowExampleAppCustomRendering(Widget parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
+static void ShowExampleAppDocuments(Widget parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
+static void ShowExampleAppAssetsBrowser(Widget parent, bool* p_open) { UNUSED(parent); UNUSED(p_open); }
 
 // End of Demo code
 
@@ -10661,7 +10661,7 @@ void switchUiTheme(UiWindow& ui_window, const string& name)
     UNUSED(ui_window); UNUSED(name);
 }
 
-void example_ui(Widget& root_sheet)
+void example_ui(Widget root_sheet)
 {
     ui::update_io(root_sheet.ui());
     ui::IO& io = ui::io();
@@ -10672,8 +10672,8 @@ void example_ui(Widget& root_sheet)
     static Colour clear_color = Colour(0.45f, 0.55f, 0.60f, 1.00f);
 
     // The background, cleared to clear_color
-    Widget& background = ui::board(key(), root_sheet);
-    background.custom_draw() = [](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); vg.draw_rect(rect, { clear_color }); };
+    Widget background = ui::board(key(), root_sheet);
+    background.custom_draw() = [](Widget widget, const vec4& rect, Vg& vg) { UNUSED(widget); vg.draw_rect(rect, { clear_color }); };
     background.mark_dirty(DIRTY_REDRAW);
 
     // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
@@ -10687,7 +10687,7 @@ void example_ui(Widget& root_sheet)
 
         if (auto window = ui::begin(key(), root_sheet, "Hello, world!"))   // Create a window called "Hello, world!" and append into it.
         {
-            Widget& body = *window->body;
+            Widget body = *window->body;
             ui::label(key(), body, "This is some useful text.");                // Display some text (you can use a format strings too)
             ui::checkbox(key(), body, "Demo Window", show_demo_window);         // Edit bools storing our window open/close state
             ui::checkbox(key(), body, "Another Window", show_another_window);
@@ -10695,7 +10695,7 @@ void example_ui(Widget& root_sheet)
             ui::slider_float(key(), body, "float", f, 0.0f, 1.0f);              // Edit 1 float using a slider from 0.0f to 1.0f
             ui::color_edit3(key(), body, "clear color", &clear_color.r);        // Edit 3 floats representing a color
 
-            Widget& line = ui::row(key(), body);
+            Widget line = ui::row(key(), body);
             if (ui::button(key(), line, "Button").activated())                 // Buttons return true when clicked (most widgets return true when edited/activated)
                 counter++;
             //ImGui::SameLine();

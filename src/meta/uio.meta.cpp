@@ -77,53 +77,53 @@ namespace two
 		m.m_types.push_back(&type<two::EditorHint>());
 		m.m_types.push_back(&type<two::ScriptEditor>());
 		{
-			static Function f = { &namspc({ "two" }), "object_edit_inline", funcptr<bool(*)(two::Widget&, two::Ref)>(two::object_edit_inline), two_object_edit_inline_0, { { "parent", type<two::Widget>(), Param::Reference }, { "object", type<two::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two" }), "object_edit_inline", funcptr<bool(*)(two::Widget, two::Ref)>(two::object_edit_inline), two_object_edit_inline_0, { { "parent", type<two::Widget>(),  }, { "object", type<two::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "object_edit_rows", funcptr<bool(*)(two::Widget&, two::Ref)>(two::object_edit_rows), two_object_edit_rows_1, { { "parent", type<two::Widget>(), Param::Reference }, { "object", type<two::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two" }), "object_edit_rows", funcptr<bool(*)(two::Widget, two::Ref)>(two::object_edit_rows), two_object_edit_rows_1, { { "parent", type<two::Widget>(),  }, { "object", type<two::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "object_edit_columns", funcptr<bool(*)(two::Widget&, two::Ref)>(two::object_edit_columns), two_object_edit_columns_2, { { "parent", type<two::Widget>(), Param::Reference }, { "object", type<two::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two" }), "object_edit_columns", funcptr<bool(*)(two::Widget, two::Ref)>(two::object_edit_columns), two_object_edit_columns_2, { { "parent", type<two::Widget>(),  }, { "object", type<two::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "object_edit_table", funcptr<bool(*)(two::Widget&, two::Ref)>(two::object_edit_table), two_object_edit_table_3, { { "parent", type<two::Widget>(), Param::Reference }, { "object", type<two::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two" }), "object_edit_table", funcptr<bool(*)(two::Widget, two::Ref)>(two::object_edit_table), two_object_edit_table_3, { { "parent", type<two::Widget>(),  }, { "object", type<two::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "object_edit_expandbox", funcptr<bool(*)(two::Widget&, two::Ref)>(two::object_edit_expandbox), two_object_edit_expandbox_4, { { "parent", type<two::Widget>(), Param::Reference }, { "object", type<two::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
-			m.m_functions.push_back(&f);
-		}
-		{
-			static two::EditorHint hint_default = EditorHint::Table;
-			static Function f = { &namspc({ "two" }), "object_edit", funcptr<bool(*)(two::Widget&, two::Ref, two::EditorHint)>(two::object_edit), two_object_edit_5, { { "parent", type<two::Widget>(), Param::Reference }, { "object", type<two::Ref>(), Param::Nullable }, { "hint", type<two::EditorHint>(), Param::Default, &hint_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two" }), "object_edit_expandbox", funcptr<bool(*)(two::Widget, two::Ref)>(two::object_edit_expandbox), two_object_edit_expandbox_4, { { "parent", type<two::Widget>(),  }, { "object", type<two::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static two::EditorHint hint_default = EditorHint::Table;
-			static Function f = { &namspc({ "two" }), "entity_edit", funcptr<bool(*)(two::Widget&, two::Entity, two::EditorHint)>(two::entity_edit), two_entity_edit_6, { { "parent", type<two::Widget>(), Param::Reference }, { "entity", type<two::Entity>(),  }, { "hint", type<two::EditorHint>(), Param::Default, &hint_default } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two" }), "object_edit", funcptr<bool(*)(two::Widget, two::Ref, two::EditorHint)>(two::object_edit), two_object_edit_5, { { "parent", type<two::Widget>(),  }, { "object", type<two::Ref>(), Param::Nullable }, { "hint", type<two::EditorHint>(), Param::Default, &hint_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "inspector", funcptr<bool(*)(two::Widget&, two::Ref)>(two::inspector), two_inspector_7, { { "parent", type<two::Widget>(), Param::Reference }, { "object", type<two::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
+			static two::EditorHint hint_default = EditorHint::Table;
+			static Function f = { &namspc({ "two" }), "entity_edit", funcptr<bool(*)(two::Widget, two::Entity, two::EditorHint)>(two::entity_edit), two_entity_edit_6, { { "parent", type<two::Widget>(),  }, { "entity", type<two::Entity>(),  }, { "hint", type<two::EditorHint>(), Param::Default, &hint_default } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "inspector", funcptr<bool(*)(two::Widget&, two::Entity)>(two::inspector), two_inspector_8, { { "parent", type<two::Widget>(), Param::Reference }, { "entity", type<two::Entity>(),  } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two" }), "inspector", funcptr<bool(*)(two::Widget, two::Ref)>(two::inspector), two_inspector_7, { { "parent", type<two::Widget>(),  }, { "object", type<two::Ref>(), Param::Nullable } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "inspector", funcptr<bool(*)(two::Widget&)>(two::inspector), two_inspector_9, { { "parent", type<two::Widget>(), Param::Reference } }, { &type<bool>(), QualType::None } };
+			static Function f = { &namspc({ "two" }), "inspector", funcptr<bool(*)(two::Widget, two::Entity)>(two::inspector), two_inspector_8, { { "parent", type<two::Widget>(),  }, { "entity", type<two::Entity>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "multi_inspector", funcptr<void(*)(two::Widget&, two::Type&, stl::vector<two::Var>&, size_t&)>(two::multi_inspector), two_multi_inspector_10, { { "parent", type<two::Widget>(), Param::Reference }, { "type", type<two::Type>(), Param::Reference }, { "objects", type<stl::vector<two::Var>>(), Param::Reference }, { "selected", type<size_t>(), Param::Reference } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "inspector", funcptr<bool(*)(two::Widget)>(two::inspector), two_inspector_9, { { "parent", type<two::Widget>(),  } }, { &type<bool>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "multi_object_edit", funcptr<void(*)(two::Widget&, two::Type&, stl::vector<two::Ref>)>(two::multi_object_edit), two_multi_object_edit_11, { { "parent", type<two::Widget>(), Param::Reference }, { "type", type<two::Type>(), Param::Reference }, { "objects", type<stl::vector<two::Ref>>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "multi_inspector", funcptr<void(*)(two::Widget, two::Type&, stl::vector<two::Var>&, size_t&)>(two::multi_inspector), two_multi_inspector_10, { { "parent", type<two::Widget>(),  }, { "type", type<two::Type>(), Param::Reference }, { "objects", type<stl::vector<two::Var>>(), Param::Reference }, { "selected", type<size_t>(), Param::Reference } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "two" }), "multi_object_edit", funcptr<void(*)(two::Widget, two::Type&, stl::vector<two::Ref>)>(two::multi_object_edit), two_multi_object_edit_11, { { "parent", type<two::Widget>(),  }, { "type", type<two::Type>(), Param::Reference }, { "objects", type<stl::vector<two::Ref>>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

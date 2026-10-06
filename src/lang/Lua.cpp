@@ -505,7 +505,7 @@ namespace two
 	{
 		const Member& member = val<Member>(userdata(state, -1));
 		Ref object = userdata(state, object_index);
-		Ref value = member.cast_get(object);
+		Var value; member.cast_get(object, value);
 		return push_value(state, value).release();
 	}
 

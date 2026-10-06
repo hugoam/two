@@ -41,22 +41,22 @@ namespace two
 		m_current = &*m_gizmos.front();
 	}
 
-	Item& scale_1d_gizmo(Gnode& parent, Axis axis, Colour colour, uint32_t flags = 0U)
+	Item& scale_1d_gizmo(Gnode parent, Axis axis, Colour colour, uint32_t flags = 0U)
 	{
-		Gnode& node = gfx::transform(parent, to_vec3(axis), ZeroQuat);
+		Gnode node = gfx::transform(parent, to_vec3(axis), ZeroQuat);
 		//return gfx::shape(node, Quad(0.2f, c_tangents[uint(axis)], c_binormals[uint(axis)]), Symbol(colour, Colour::None, true), flags);
 		return gfx::shape(node, Cube(0.05f), Symbol(colour, Colour::None, true), flags);
 	}
 
-	Item& scale_2d_gizmo(Gnode& parent, Axis axis, Colour colour, uint32_t flags = 0U)
+	Item& scale_2d_gizmo(Gnode parent, Axis axis, Colour colour, uint32_t flags = 0U)
 	{
-		Gnode& node = gfx::transform(parent, 0.5f * to_vec3(axis), ZeroQuat);
+		Gnode node = gfx::transform(parent, 0.5f * to_vec3(axis), ZeroQuat);
 		return gfx::shape(node, Quad(0.2f, c_tangents[axis], c_binormals[axis]), Symbol(colour, Colour::None, true, true), flags);
 	}
 
-	Item& scale_3d_gizmo(Gnode& parent, Colour colour, uint32_t flags = 0U)
+	Item& scale_3d_gizmo(Gnode parent, Colour colour, uint32_t flags = 0U)
 	{
-		Gnode& node = gfx::transform(parent, vec3(0.f), ZeroQuat);
+		Gnode node = gfx::transform(parent, vec3(0.f), ZeroQuat);
 		return gfx::shape(node, Cube(0.1f), Symbol(colour, Colour::None, true), flags);
 	}
 
@@ -67,8 +67,8 @@ namespace two
 
 		virtual vec3 grab_point(ViewerHandle viewer, const vec2& pos) { UNUSED(pos); return inverse(m_tool.m_transform.m_rotation) * gizmo_grab_linear(viewer, m_tool.m_transform, m_axis); };
 
-		virtual Item* draw_handle(Gnode& parent) { return &scale_1d_gizmo(parent, m_axis, Colour::Invisible, ItemFlag::Ui); };
-		virtual void draw_gizmo(Gnode& parent, bool active) { scale_1d_gizmo(parent, m_axis, gizmo_colour(m_hue, active)); };
+		virtual Item* draw_handle(Gnode parent) { return &scale_1d_gizmo(parent, m_axis, Colour::Invisible, ItemFlag::Ui); };
+		virtual void draw_gizmo(Gnode parent, bool active) { scale_1d_gizmo(parent, m_axis, gizmo_colour(m_hue, active)); };
 	};
 
 	class ScalePlanarGizmo : public TransformGizmo
@@ -78,8 +78,8 @@ namespace two
 
 		virtual vec3 grab_point(ViewerHandle viewer, const vec2& pos) { UNUSED(pos); return inverse(m_tool.m_transform.m_rotation) * gizmo_grab_planar(viewer, m_tool.m_transform, m_axis); };
 
-		virtual Item* draw_handle(Gnode& parent) { return &scale_2d_gizmo(parent, m_axis, Colour::Invisible, ItemFlag::Ui); };
-		virtual void draw_gizmo(Gnode& parent, bool active) { scale_2d_gizmo(parent, m_axis, gizmo_colour(m_hue, active)); };
+		virtual Item* draw_handle(Gnode parent) { return &scale_2d_gizmo(parent, m_axis, Colour::Invisible, ItemFlag::Ui); };
+		virtual void draw_gizmo(Gnode parent, bool active) { scale_2d_gizmo(parent, m_axis, gizmo_colour(m_hue, active)); };
 	};
 
 	class ScaleUniformGizmo : public TransformGizmo
@@ -93,8 +93,8 @@ namespace two
 			return fabs(delta.x) > fabs(delta.y) ? vec3(delta.x) : vec3(delta.y);
 		};
 
-		virtual Item* draw_handle(Gnode& parent) { return &scale_3d_gizmo(parent, Colour::Invisible, ItemFlag::Ui); };
-		virtual void draw_gizmo(Gnode& parent, bool active) { scale_3d_gizmo(parent, active ? Colour::White : Colour::AlphaWhite); };
+		virtual Item* draw_handle(Gnode parent) { return &scale_3d_gizmo(parent, Colour::Invisible, ItemFlag::Ui); };
+		virtual void draw_gizmo(Gnode parent, bool active) { scale_3d_gizmo(parent, active ? Colour::White : Colour::AlphaWhite); };
 	};
 
 	unique<Gizmo> ScaleTool::linear_gizmo(Axis axis, float hue)

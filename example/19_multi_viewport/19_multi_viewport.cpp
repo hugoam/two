@@ -6,7 +6,7 @@ import two.frame;
 
 using namespace two;
 
-size_t viewport_mode(Widget& parent)
+size_t viewport_mode(Widget parent)
 {
 	vector<size_t> num_viewer_vals = { 1, 2, 4 };
 
@@ -17,7 +17,7 @@ size_t viewport_mode(Widget& parent)
 	return num_viewer_vals[choice];
 }
 
-void ex_19_multi_viewport(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_19_multi_viewport(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 	static float time = 0.f;
 	time += 0.01f;
@@ -25,12 +25,12 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, DockbarHandle dockbar)
 	bool multiple_scene = false;
 
 	static size_t num_viewers = 2;
-	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 		num_viewers = viewport_mode(*dock);
 
-	Widget& layout = ui::layout(key(), parent);
-	Widget& first_split = ui::board(key(), layout);
-	Widget* second_split = num_viewers > 2 ? &ui::board(key(), layout) : nullptr;
+	Widget layout = ui::layout(key(), parent);
+	Widget first_split = ui::board(key(), layout);
+	Widget second_split = num_viewers > 2 ? ui::board(key(), layout) : nullptr;
 
 	vector<ViewerHandle> viewers = {};
 
@@ -55,7 +55,7 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, DockbarHandle dockbar)
 
 	for(ViewerHandle viewer : multiple_scene ? viewers : slice(span<ViewerHandle>(viewers), 0, 1))
 	{
-		Gnode& scene = viewer->m_scene->begin();
+		Gnode scene = viewer->m_scene->begin();
 
 		for(size_t x = 0; x < 11; ++x)
 			for(size_t y = 0; y < 11; ++y)
@@ -68,7 +68,7 @@ void ex_19_multi_viewport(Shell& app, Widget& parent, DockbarHandle dockbar)
 				float g = ncosf(time);
 				Colour color = { r, g, b };
 
-				Gnode& gnode = gfx::node(scene, pos, quat(angles), vec3(1.f));
+				Gnode gnode = gfx::node(scene, pos, quat(angles), vec3(1.f));
 				gfx::shape(gnode, Cube(), Symbol(color, Colour::None));
 			}
 	}

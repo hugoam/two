@@ -10,13 +10,13 @@ namespace two
 {
 namespace ui
 {
-	template bool slider_input(NodeKey id, Widget& parent, int& value, StatDef<int> def, Axis dim);
-	template bool slider_input(NodeKey id, Widget& parent, float& value, StatDef<float> def, Axis dim);
+	template bool slider_input(NodeKey id, Widget parent, int& value, StatDef<int> def, Axis dim);
+	template bool slider_input(NodeKey id, Widget parent, float& value, StatDef<float> def, Axis dim);
 
-	template bool number_input(NodeKey id, Widget& parent, int& value, StatDef<int> def);
-	template bool number_input(NodeKey id, Widget& parent, float& value, StatDef<float> def);
+	template bool number_input(NodeKey id, Widget parent, int& value, StatDef<int> def);
+	template bool number_input(NodeKey id, Widget parent, float& value, StatDef<float> def);
 
-	bool drag_float(NodeKey id, Widget& parent, float& value, float step)
+	bool drag_float(NodeKey id, Widget parent, float& value, float step)
 	{
 		string text = truncate_number(to_string(value));
 		TextEditHandle edit = type_in(id, parent, text, 0, "1234567890.");
@@ -35,9 +35,9 @@ namespace ui
 		return false;
 	}
 
-	bool flag_input(NodeKey id, Widget& parent, uint32_t& value, uint8_t shift)
+	bool flag_input(NodeKey id, Widget parent, uint32_t& value, uint8_t shift)
 	{
-		Widget& self = widget(id, parent, styles().input_bool);
+		Widget self = widget(id, parent, styles().input_bool);
 		bool enabled = (value & (1 << shift)) != 0;
 		bool changed = checkbox(key(), self, enabled).activated();
 		if(enabled)
@@ -47,71 +47,71 @@ namespace ui
 		return changed;
 	}
 
-	bool float2_input(NodeKey id, Widget& parent, span<cstring> labels, span<float> vals, StatDef<float> def)
+	bool float2_input(NodeKey id, Widget parent, span<cstring> labels, span<float> vals, StatDef<float> def)
 	{
 		UNUSED(labels); // @todo
-		Widget& self = ui::row(id, parent);
+		Widget self = ui::row(id, parent);
 		bool changed = false;
 		for(size_t i = 0; i < 2; ++i)
 			changed |= ui::number_input<float>(key(), self, vals[i], def);
 		return changed;
 	}
 
-	bool float3_input(NodeKey id, Widget& parent, span<cstring> labels, span<float> vals, StatDef<float> def)
+	bool float3_input(NodeKey id, Widget parent, span<cstring> labels, span<float> vals, StatDef<float> def)
 	{
 		UNUSED(labels); // @todo
-		Widget& self = ui::row(id, parent);
+		Widget self = ui::row(id, parent);
 		bool changed = false;
 		for(size_t i = 0; i < 3; ++i)
 			changed |= ui::number_input<float>(key(), self, vals[i], def);
 		return changed;
 	}
 
-	bool float4_input(NodeKey id, Widget& parent, span<cstring> labels, span<float> vals, StatDef<float> def)
+	bool float4_input(NodeKey id, Widget parent, span<cstring> labels, span<float> vals, StatDef<float> def)
 	{
 		UNUSED(labels); // @todo
-		Widget& self = ui::row(id, parent);
+		Widget self = ui::row(id, parent);
 		bool changed = false;
 		for(size_t i = 0; i < 4; ++i)
 			changed |= ui::number_input<float>(key(), self, vals[i], def);
 		return changed;
 	}
 
-	bool float2_slider(NodeKey id, Widget& parent, cstring label, span<cstring> labels, span<float> vals, StatDef<float> def)
+	bool float2_slider(NodeKey id, Widget parent, cstring label, span<cstring> labels, span<float> vals, StatDef<float> def)
 	{
-		Widget& self = ui::row(id, parent);
+		Widget self = ui::row(id, parent);
 		bool changed = ui::float2_input(key(), self, labels, vals, def);
 		ui::label(key(), self, label);
 		return changed;
 	}
 
-	bool float3_slider(NodeKey id, Widget& parent, cstring label, span<cstring> labels, span<float> vals, StatDef<float> def)
+	bool float3_slider(NodeKey id, Widget parent, cstring label, span<cstring> labels, span<float> vals, StatDef<float> def)
 	{
-		Widget& self = ui::row(id, parent);
+		Widget self = ui::row(id, parent);
 		bool changed = ui::float3_input(key(), self, labels, vals, def);
 		ui::label(key(), self, label);
 		return changed;
 	}
 
-	bool float4_slider(NodeKey id, Widget& parent, cstring label, span<cstring> labels, span<float> vals, StatDef<float> def)
+	bool float4_slider(NodeKey id, Widget parent, cstring label, span<cstring> labels, span<float> vals, StatDef<float> def)
 	{
-		Widget& self = ui::row(id, parent);
+		Widget self = ui::row(id, parent);
 		bool changed = ui::float4_input(key(), self, labels, vals, def);
 		ui::label(key(), self, label);
 		return changed;
 	}
 
-	bool vec2_edit(NodeKey id, Widget& parent, vec2& vec)
+	bool vec2_edit(NodeKey id, Widget parent, vec2& vec)
 	{
 		return float2_input(id, parent, {}, vec.f);
 	}
 
-	bool vec3_edit(NodeKey id, Widget& parent, vec3& vec)
+	bool vec3_edit(NodeKey id, Widget parent, vec3& vec)
 	{
 		return float3_input(id, parent, {}, vec.f);
 	}
 
-	bool quat_edit(NodeKey id, Widget& parent, quat& quat)
+	bool quat_edit(NodeKey id, Widget parent, quat& quat)
 	{
 		return float4_input(id, parent, {}, quat.f, { 0.f, 1.f, 0.01f });
 	}
@@ -129,7 +129,7 @@ namespace ui
 		vg.draw_color_triangle(center, r0, hue, s, l);
 	}
 
-	bool inside_color_wheel(Widget& self, const MouseEvent& event)
+	bool inside_color_wheel(Widget self, const MouseEvent& event)
 	{
 		const vec2 center = self.frame().m_size * 0.5f;
 		const float r1 = center.x - color_wheel_padding;
@@ -138,7 +138,7 @@ namespace ui
 		return dist <= r1 && dist >= r0;
 	}
 
-	void drag_color_wheel(Widget& self, ColourHSL& hsla, const MouseEvent& event)
+	void drag_color_wheel(Widget self, ColourHSL& hsla, const MouseEvent& event)
 	{
 		const vec2 coord = { event.m_relative.x, self.frame().m_size.y - event.m_relative.y };
 		const vec2 center = self.frame().m_size * 0.5f;
@@ -147,10 +147,10 @@ namespace ui
 		hsla.h = angle / c_2pi;
 	}
 
-	bool color_wheel(NodeKey id, Widget& parent, ColourHSL& hsla)
+	bool color_wheel(NodeKey id, Widget parent, ColourHSL& hsla)
 	{
-		Widget& self = widget(id, parent, styles().color_wheel);
-		self.custom_draw() = [=](Widget& widget, const vec4& rect, Vg& vg)
+		Widget self = widget(id, parent, styles().color_wheel);
+		self.custom_draw() = [=](Widget widget, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect);
 			draw_color_wheel(vg, widget.frame().m_size, hsla.h, hsla.s, hsla.l);
@@ -173,10 +173,10 @@ namespace ui
 		return changed;
 	}
 
-	bool color_edit_hsl(NodeKey id, Widget& parent, const Colour& colour, ColourHSL& hsla)
+	bool color_edit_hsl(NodeKey id, Widget parent, const Colour& colour, ColourHSL& hsla)
 	{
 		static cstring columns[2] = { "field", "value" };
-		Widget& self = table(id, parent, { columns, 2 }, {}); // , { 0.3f, 0.7f }
+		Widget self = table(id, parent, { columns, 2 }, {}); // , { 0.3f, 0.7f }
 		color_display_field(key(), self, "color", colour);
 
 		bool changed = false;
@@ -188,9 +188,9 @@ namespace ui
 		return changed;
 	}
 
-	bool color_edit_simple(NodeKey id, Widget& parent, Colour& value)
+	bool color_edit_simple(NodeKey id, Widget parent, Colour& value)
 	{
-		Widget& self = widget(id, parent, styles().input_color);
+		Widget self = widget(id, parent, styles().input_color);
 		color_slab(key(), self, styles().color_slab, value);
 
 		bool changed = false;
@@ -202,10 +202,10 @@ namespace ui
 		return changed;
 	}
 
-	bool color_edit(NodeKey id, Widget& parent, Colour& value)
+	bool color_edit(NodeKey id, Widget parent, Colour& value)
 	{
 		ColourHSL hsla = to_hsla(value);
-		Widget& self = stack(id, parent);
+		Widget self = stack(id, parent);
 		bool changed = false;
 		changed |= color_wheel(key(), self, hsla);
 		changed |= color_edit_hsl(key(), self, value, hsla);
@@ -213,17 +213,17 @@ namespace ui
 		return changed;
 	}
 
-	bool color_popup(NodeKey id, Widget& parent, Colour& value, bool& open)
+	bool color_popup(NodeKey id, Widget parent, Colour& value, bool& open)
 	{
-		Widget& self = popup(id, parent, styles().color_popup, PopupFlags(size_t(PopupFlags::Clamp) | size_t(PopupFlags::AutoModal)));
+		Widget self = popup(id, parent, styles().color_popup, PopupFlags(size_t(PopupFlags::Clamp) | size_t(PopupFlags::AutoModal)));
 		open &= self.open();
 		return color_edit(key(), self, value);
 	}
 
-	Widget& color_slab(NodeKey id, Widget& parent, Style& style, const Colour& value)
+	Widget color_slab(NodeKey id, Widget parent, Style& style, const Colour& value)
 	{
-		Widget& self = button(id, parent, style);//styles().color_slab);
-		self.custom_draw() = [value](Widget& widget, const vec4& rect, Vg& vg)
+		Widget self = button(id, parent, style);//styles().color_slab);
+		self.custom_draw() = [value](Widget widget, const vec4& rect, Vg& vg)
 		{
 			UNUSED(rect);
 			vg.draw_rect({ vec2(0.f), widget.frame().m_size }, value, widget.frame().d_inkstyle->m_corner_radius);
@@ -231,14 +231,14 @@ namespace ui
 		return self;
 	}
 
-	Widget& color_display(NodeKey id, Widget& parent, const Colour& value)
+	Widget color_display(NodeKey id, Widget parent, const Colour& value)
 	{
 		return color_slab(id, parent, styles().color_display, value);
 	}
 
-	bool color_toggle_edit(NodeKey id, Widget& parent, Colour& value)
+	bool color_toggle_edit(NodeKey id, Widget parent, Colour& value)
 	{
-		Widget& self = color_slab(id, parent, styles().color_toggle, value);
+		Widget self = color_slab(id, parent, styles().color_toggle, value);
 		if(self.activated())
 			self.set_open(!self.open());
 		if(!self.open())
@@ -308,18 +308,18 @@ namespace
 		}
 	}
 
-	bool curve_graph(NodeKey id, Widget& parent, span<float> values, span<float> points)
+	bool curve_graph(NodeKey id, Widget parent, span<float> values, span<float> points)
 	{
 		const float lowest = 0.f;
 		const float highest = 1.f;
 
-		Widget& self = widget(id, parent, styles().curve_graph);
+		Widget self = widget(id, parent, styles().curve_graph);
 		Curve curve = { self.frame().content_rect().size, lowest, highest, values, points };
 		
 		static size_t hovered = SIZE_MAX;
 		static size_t dragged = SIZE_MAX;
 
-		if(self.ui().m_hovered == &self)
+		if(self.ui().m_hovered == self)
 			hovered = curve.point_at(self.local_position(self.ui().m_mouse.m_pos));
 
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Pressed))
@@ -335,7 +335,7 @@ namespace
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseLeft, EventType::Released))
 			dragged = SIZE_MAX;
 
-		self.custom_draw() = [=](Widget& widget, const vec4& rect, Vg& vg)
+		self.custom_draw() = [=](Widget widget, const vec4& rect, Vg& vg)
 		{
 			UNUSED(widget); UNUSED(rect);
 			Curve curve = { rect.size, 0.f, 1.f, values, points };
@@ -347,14 +347,14 @@ namespace
 		return false;
 	}
 
-	bool curve_edit(NodeKey id, Widget& parent, span<float> values, span<float> points)
+	bool curve_edit(NodeKey id, Widget parent, span<float> values, span<float> points)
 	{
-		Widget& self = widget(id, parent, styles().curve_input);
+		Widget self = widget(id, parent, styles().curve_input);
 		curve_graph(key(), self, values, points);
 		return false;
 	}
 
-	bool curve_edit(NodeKey id, Widget& parent, span<Colour> values, span<float> points)
+	bool curve_edit(NodeKey id, Widget parent, span<Colour> values, span<float> points)
 	{
 		UNUSED(id); UNUSED(parent); UNUSED(values); UNUSED(points);
 		return false;

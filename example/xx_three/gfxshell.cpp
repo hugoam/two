@@ -203,7 +203,7 @@ namespace two
 	}
 
 #if 0
-	SceneViewer::SceneViewer(Widget* parent, void* identity)
+	SceneViewer::SceneViewer(Widget parent, void* identity)
 		: GfxViewer(parent, identity, m_scene)
 		, m_scene(as<GfxWindow>(parent->ui_window().m_context).m_gfx)
 	{}

@@ -360,7 +360,7 @@ namespace two
 		info("wren -> get member %s\n", member.m_name);
 #endif
 		Ref object = read_ref(vm, 1);
-		Ref value = member.cast_get(object);
+		Var value; member.cast_get(object, value);
 		push_value(vm, 0, value);
 	}
 

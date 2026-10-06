@@ -63,7 +63,7 @@ namespace two
 
 		virtual void activate();
 		virtual void update(const vec3& position);
-		virtual void paint(Gnode& parent);
+		virtual void paint(Gnode parent);
 	};
 
 	export_ class refl_ TWO_TOOL_EXPORT CircleBrush : public Brush
@@ -77,7 +77,7 @@ namespace two
 
 		virtual void activate();
 		virtual void update(const vec3& position);
-		virtual void paint(Gnode& parent);
+		virtual void paint(Gnode parent);
 
 		void clearStroke(const vec3& center);
 
@@ -101,7 +101,7 @@ namespace two
 		
 		virtual void activate();
 		virtual void update(const vec3& position);
-		virtual void paint(Gnode& parent);
+		virtual void paint(Gnode parent);
 
 	protected:
 		Script& m_script;

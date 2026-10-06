@@ -42,12 +42,13 @@ namespace two
 
 	string get_string(Member& member, Ref value)
 	{
+		Var result; member.get(value, result);
 		if(member.m_type->is<cstring>())
-			return val<cstring>(member.get(value));
+			return val<cstring>(result);
 		else if(member.m_type->is<string>())
-			return val<string>(member.get(value));
+			return val<string>(result);
 		else
-			return to_string(member.get(value));
+			return to_string(result);
 	}
 
 	Meta::Meta(Type& type, Namespace* location, cstring name, size_t size, TypeClass type_class, bool is_array)

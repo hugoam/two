@@ -769,6 +769,9 @@ extern "C" {
 	two::Type* DECL two_Widget__type() {
 		return &two::type<two::Widget>();
 	}
+	two::Widget* DECL two_Widget__construct_0() {
+		return new two::Widget();
+	}
 	bool DECL two_Widget_focused_0(two::Widget* self) {
 		return self->focused();
 	}
@@ -803,7 +806,8 @@ extern "C" {
 		return &self->ui();
 	}
 	two::Widget* DECL two_Widget_parent_modal_0(two::Widget* self) {
-		return &self->parent_modal();
+		static two::Widget temp;
+		return (temp = self->parent_modal(), &temp);
 	}
 	void DECL two_Widget_clear_0(two::Widget* self) {
 		self->clear();
@@ -891,7 +895,8 @@ extern "C" {
 		return new two::WidgetHandle();
 	}
 	two::Widget* DECL two_WidgetHandle__get_widget(two::WidgetHandle* self) {
-		return &self->widget();
+		static two::Widget temp;
+		return (temp = self->widget(), &temp);
 	}
 	void DECL two_WidgetHandle__destroy(two::WidgetHandle* self) {
 		delete self;
@@ -948,7 +953,8 @@ extern "C" {
 		return new two::TextEditHandle();
 	}
 	two::Widget* DECL two_TextEditHandle__get_self(two::TextEditHandle* self) {
-		return &self->self();
+		static two::Widget temp;
+		return (temp = self->self(), &temp);
 	}
 	two::TextEdit* DECL two_TextEditHandle__get_edit(two::TextEditHandle* self) {
 		return &self->edit();
@@ -971,7 +977,8 @@ extern "C" {
 		return new two::NodePlugHandle();
 	}
 	two::Widget* DECL two_NodePlugHandle__get_self(two::NodePlugHandle* self) {
-		return &self->self();
+		static two::Widget temp;
+		return (temp = self->self(), &temp);
 	}
 	two::NodePlug* DECL two_NodePlugHandle__get_plug(two::NodePlugHandle* self) {
 		return &self->plug();
@@ -990,16 +997,20 @@ extern "C" {
 		self->m_order = value;
 	}
 	two::Widget* DECL two_Node__get_header(two::Node* self) {
-		return &self->header();
+		static two::Widget temp;
+		return (temp = self->header(), &temp);
 	}
 	two::Widget* DECL two_Node__get_inputs(two::Node* self) {
-		return &self->inputs();
+		static two::Widget temp;
+		return (temp = self->inputs(), &temp);
 	}
 	two::Widget* DECL two_Node__get_outputs(two::Node* self) {
-		return &self->outputs();
+		static two::Widget temp;
+		return (temp = self->outputs(), &temp);
 	}
 	two::Widget* DECL two_Node__get_body(two::Node* self) {
-		return &self->body();
+		static two::Widget temp;
+		return (temp = self->body(), &temp);
 	}
 	void DECL two_Node__destroy(two::Node* self) {
 		delete self;
@@ -1029,7 +1040,8 @@ extern "C" {
 		return new two::CanvasHandle();
 	}
 	two::Widget* DECL two_CanvasHandle__get_self(two::CanvasHandle* self) {
-		return &self->self();
+		static two::Widget temp;
+		return (temp = self->self(), &temp);
 	}
 	two::Canvas* DECL two_CanvasHandle__get_canvas(two::CanvasHandle* self) {
 		return &self->canvas();
@@ -1138,7 +1150,8 @@ extern "C" {
 		return new two::DockerHandle();
 	}
 	two::Widget* DECL two_DockerHandle__get_self(two::DockerHandle* self) {
-		return &self->self();
+		static two::Widget temp;
+		return (temp = self->self(), &temp);
 	}
 	two::Docker* DECL two_DockerHandle__get_docker(two::DockerHandle* self) {
 		return &self->docker();
@@ -1199,7 +1212,8 @@ extern "C" {
 		return &two::type<two::Ui>();
 	}
 	two::Widget* DECL two_Ui_begin_0(two::Ui* self) {
-		return &self->begin();
+		static two::Widget temp;
+		return (temp = self->begin(), &temp);
 	}
 	void DECL two_Ui_reset_styles_0(two::Ui* self) {
 		self->reset_styles();
@@ -1235,82 +1249,108 @@ extern "C" {
 		two::style_imgui_classic(*ui_window);
 	}
 	two::Widget* DECL two_ui_widget_3(two::NodeKey* id, two::Widget* parent, two::Style* style) {
-		return &two::ui::widget(*id, *parent, *style);
+		static two::Widget temp;
+		return (temp = two::ui::widget(*id, *parent, *style), &temp);
 	}
 	two::Widget* DECL two_ui_widget_4(two::NodeKey* id, two::Widget* parent, two::Style* style, bool open) {
-		return &two::ui::widget(*id, *parent, *style, open);
+		static two::Widget temp;
+		return (temp = two::ui::widget(*id, *parent, *style, open), &temp);
 	}
 	two::Widget* DECL two_ui_widget_5(two::NodeKey* id, two::Widget* parent, two::Style* style, bool open, two::Axis length) {
-		return &two::ui::widget(*id, *parent, *style, open, length);
+		static two::Widget temp;
+		return (temp = two::ui::widget(*id, *parent, *style, open, length), &temp);
 	}
 	two::Widget* DECL two_ui_widget_6(two::NodeKey* id, two::Widget* parent, two::Style* style, bool open, two::Axis length, two::v2<uint>* index) {
-		return &two::ui::widget(*id, *parent, *style, open, length, *index);
+		static two::Widget temp;
+		return (temp = two::ui::widget(*id, *parent, *style, open, length, *index), &temp);
 	}
 	two::Widget* DECL two_ui_item_3(two::NodeKey* id, two::Widget* parent, two::Style* style) {
-		return &two::ui::item(*id, *parent, *style);
+		static two::Widget temp;
+		return (temp = two::ui::item(*id, *parent, *style), &temp);
 	}
 	two::Widget* DECL two_ui_item_4(two::NodeKey* id, two::Widget* parent, two::Style* style, const char* content) {
-		return &two::ui::item(*id, *parent, *style, content);
+		static two::Widget temp;
+		return (temp = two::ui::item(*id, *parent, *style, content), &temp);
 	}
 	two::Widget* DECL two_ui_multi_item_4(two::NodeKey* id, two::Widget* parent, two::Style* style, const char** elements, int elements_size) {
-		return &two::ui::multi_item(*id, *parent, *style, { (const char**)elements, elements_size / (sizeof(const char*) / sizeof(const char*)) });
+		static two::Widget temp;
+		return (temp = two::ui::multi_item(*id, *parent, *style, { (const char**)elements, elements_size / (sizeof(const char*) / sizeof(const char*)) }), &temp);
 	}
 	two::Widget* DECL two_ui_multi_item_5(two::NodeKey* id, two::Widget* parent, two::Style* style, const char** elements, int elements_size, two::Style* element_style) {
-		return &two::ui::multi_item(*id, *parent, *style, { (const char**)elements, elements_size / (sizeof(const char*) / sizeof(const char*)) }, element_style);
+		static two::Widget temp;
+		return (temp = two::ui::multi_item(*id, *parent, *style, { (const char**)elements, elements_size / (sizeof(const char*) / sizeof(const char*)) }, element_style), &temp);
 	}
 	two::Widget* DECL two_ui_spanner_5(two::NodeKey* id, two::Widget* parent, two::Style* style, two::Axis dim, float span) {
-		return &two::ui::spanner(*id, *parent, *style, dim, span);
+		static two::Widget temp;
+		return (temp = two::ui::spanner(*id, *parent, *style, dim, span), &temp);
 	}
 	two::Widget* DECL two_ui_spacer_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::spacer(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::spacer(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_separator_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::separator(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::separator(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_icon_3(two::NodeKey* id, two::Widget* parent, const char* image) {
-		return &two::ui::icon(*id, *parent, image);
+		static two::Widget temp;
+		return (temp = two::ui::icon(*id, *parent, image), &temp);
 	}
 	two::Widget* DECL two_ui_label_3(two::NodeKey* id, two::Widget* parent, const char* label) {
-		return &two::ui::label(*id, *parent, label);
+		static two::Widget temp;
+		return (temp = two::ui::label(*id, *parent, label), &temp);
 	}
 	two::Widget* DECL two_ui_title_3(two::NodeKey* id, two::Widget* parent, const char* label) {
-		return &two::ui::title(*id, *parent, label);
+		static two::Widget temp;
+		return (temp = two::ui::title(*id, *parent, label), &temp);
 	}
 	two::Widget* DECL two_ui_message_3(two::NodeKey* id, two::Widget* parent, const char* label) {
-		return &two::ui::message(*id, *parent, label);
+		static two::Widget temp;
+		return (temp = two::ui::message(*id, *parent, label), &temp);
 	}
 	two::Widget* DECL two_ui_text_3(two::NodeKey* id, two::Widget* parent, const char* label) {
-		return &two::ui::text(*id, *parent, label);
+		static two::Widget temp;
+		return (temp = two::ui::text(*id, *parent, label), &temp);
 	}
 	two::Widget* DECL two_ui_bullet_3(two::NodeKey* id, two::Widget* parent, const char* label) {
-		return &two::ui::bullet(*id, *parent, label);
+		static two::Widget temp;
+		return (temp = two::ui::bullet(*id, *parent, label), &temp);
 	}
 	two::Widget* DECL two_ui_selectable_4(two::NodeKey* id, two::Widget* parent, const char* label, bool selected) {
-		return &two::ui::selectable(*id, *parent, label, selected);
+		static two::Widget temp;
+		return (temp = two::ui::selectable(*id, *parent, label, selected), &temp);
 	}
 	two::Widget* DECL two_ui_button_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::button(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::button(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_button_3(two::NodeKey* id, two::Widget* parent, const char* content) {
-		return &two::ui::button(*id, *parent, content);
+		static two::Widget temp;
+		return (temp = two::ui::button(*id, *parent, content), &temp);
 	}
 	two::Widget* DECL two_ui_toggle_3(two::NodeKey* id, two::Widget* parent, bool on) {
-		return &two::ui::toggle(*id, *parent, on);
+		static two::Widget temp;
+		return (temp = two::ui::toggle(*id, *parent, on), &temp);
 	}
 	two::Widget* DECL two_ui_toggle_4(two::NodeKey* id, two::Widget* parent, bool on, const char* content) {
-		return &two::ui::toggle(*id, *parent, on, content);
+		static two::Widget temp;
+		return (temp = two::ui::toggle(*id, *parent, on, content), &temp);
 	}
 	two::Widget* DECL two_ui_multi_button_3(two::NodeKey* id, two::Widget* parent, const char** elements, int elements_size) {
-		return &two::ui::multi_button(*id, *parent, { (const char**)elements, elements_size / (sizeof(const char*) / sizeof(const char*)) });
+		static two::Widget temp;
+		return (temp = two::ui::multi_button(*id, *parent, { (const char**)elements, elements_size / (sizeof(const char*) / sizeof(const char*)) }), &temp);
 	}
 	two::Widget* DECL two_ui_multi_button_4(two::NodeKey* id, two::Widget* parent, const char** elements, int elements_size, two::Style* element_style) {
-		return &two::ui::multi_button(*id, *parent, { (const char**)elements, elements_size / (sizeof(const char*) / sizeof(const char*)) }, element_style);
+		static two::Widget temp;
+		return (temp = two::ui::multi_button(*id, *parent, { (const char**)elements, elements_size / (sizeof(const char*) / sizeof(const char*)) }, element_style), &temp);
 	}
 	two::Widget* DECL two_ui_multi_toggle_4(two::NodeKey* id, two::Widget* parent, bool on, const char** elements, int elements_size) {
-		return &two::ui::multi_toggle(*id, *parent, on, { (const char**)elements, elements_size / (sizeof(const char*) / sizeof(const char*)) });
+		static two::Widget temp;
+		return (temp = two::ui::multi_toggle(*id, *parent, on, { (const char**)elements, elements_size / (sizeof(const char*) / sizeof(const char*)) }), &temp);
 	}
 	two::Widget* DECL two_ui_multi_toggle_5(two::NodeKey* id, two::Widget* parent, bool on, const char** elements, int elements_size, two::Style* element_style) {
-		return &two::ui::multi_toggle(*id, *parent, on, { (const char**)elements, elements_size / (sizeof(const char*) / sizeof(const char*)) }, element_style);
+		static two::Widget temp;
+		return (temp = two::ui::multi_toggle(*id, *parent, on, { (const char**)elements, elements_size / (sizeof(const char*) / sizeof(const char*)) }, element_style), &temp);
 	}
 	bool DECL two_ui_modal_button_5(two::NodeKey* id, two::Widget* screen, two::Widget* parent, const char* content, uint32_t mode) {
 		return two::ui::modal_button(*id, *screen, *parent, content, mode);
@@ -1319,25 +1359,32 @@ extern "C" {
 		return two::ui::modal_multi_button(*id, *screen, *parent, { (const char**)elements, elements_size / (sizeof(const char*) / sizeof(const char*)) }, mode);
 	}
 	two::Widget* DECL two_ui_checkbox_3(two::NodeKey* id, two::Widget* parent, bool on) {
-		return &two::ui::checkbox(*id, *parent, on);
+		static two::Widget temp;
+		return (temp = two::ui::checkbox(*id, *parent, on), &temp);
 	}
 	two::Widget* DECL two_ui_fill_bar_3(two::NodeKey* id, two::Widget* parent, float percentage) {
-		return &two::ui::fill_bar(*id, *parent, percentage);
+		static two::Widget temp;
+		return (temp = two::ui::fill_bar(*id, *parent, percentage), &temp);
 	}
 	two::Widget* DECL two_ui_fill_bar_4(two::NodeKey* id, two::Widget* parent, float percentage, two::Axis dim) {
-		return &two::ui::fill_bar(*id, *parent, percentage, dim);
+		static two::Widget temp;
+		return (temp = two::ui::fill_bar(*id, *parent, percentage, dim), &temp);
 	}
 	two::Widget* DECL two_ui_image256_4(two::NodeKey* id, two::Widget* parent, const char* name, const two::Image256* source) {
-		return &two::ui::image256(*id, *parent, name, *source);
+		static two::Widget temp;
+		return (temp = two::ui::image256(*id, *parent, name, *source), &temp);
 	}
 	two::Widget* DECL two_ui_image256_5(two::NodeKey* id, two::Widget* parent, const char* name, const two::Image256* source, const two::vec2* size) {
-		return &two::ui::image256(*id, *parent, name, *source, *size);
+		static two::Widget temp;
+		return (temp = two::ui::image256(*id, *parent, name, *source, *size), &temp);
 	}
 	two::Widget* DECL two_ui_radio_choice_4(two::NodeKey* id, two::Widget* parent, const char* label, bool active) {
-		return &two::ui::radio_choice(*id, *parent, label, active);
+		static two::Widget temp;
+		return (temp = two::ui::radio_choice(*id, *parent, label, active), &temp);
 	}
 	two::Widget* DECL two_ui_radio_button_5(two::NodeKey* id, two::Widget* parent, const char* label, uint32_t value, uint32_t index) {
-		return &two::ui::radio_button(*id, *parent, label, value, index);
+		static two::Widget temp;
+		return (temp = two::ui::radio_button(*id, *parent, label, value, index), &temp);
 	}
 	bool DECL two_ui_radio_switch_4(two::NodeKey* id, two::Widget* parent, const char** labels, int labels_size, uint32_t value) {
 		return two::ui::radio_switch(*id, *parent, { (const char**)labels, labels_size / (sizeof(const char*) / sizeof(const char*)) }, value);
@@ -1358,121 +1405,160 @@ extern "C" {
 		return two::ui::typedown_input(*id, *parent, { (const char**)choices, choices_size / (sizeof(const char*) / sizeof(const char*)) }, value);
 	}
 	two::Widget* DECL two_ui_menu_choice_3(two::NodeKey* id, two::Widget* parent, const char* content) {
-		return &two::ui::menu_choice(*id, *parent, content);
+		static two::Widget temp;
+		return (temp = two::ui::menu_choice(*id, *parent, content), &temp);
 	}
 	two::Widget* DECL two_ui_menu_choice_4(two::NodeKey* id, two::Widget* parent, const char* content, const char* shortcut) {
-		return &two::ui::menu_choice(*id, *parent, content, shortcut);
+		static two::Widget temp;
+		return (temp = two::ui::menu_choice(*id, *parent, content, shortcut), &temp);
 	}
 	two::Widget* DECL two_ui_menu_option_5(two::NodeKey* id, two::Widget* parent, const char* content, const char* shortcut, bool enabled) {
-		return &two::ui::menu_option(*id, *parent, content, shortcut, enabled);
+		static two::Widget temp;
+		return (temp = two::ui::menu_option(*id, *parent, content, shortcut, enabled), &temp);
 	}
 	two::Widget* DECL two_ui_menubar_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::menubar(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::menubar(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_toolbutton_3(two::NodeKey* id, two::Widget* parent, const char* icon) {
-		return &two::ui::toolbutton(*id, *parent, icon);
+		static two::Widget temp;
+		return (temp = two::ui::toolbutton(*id, *parent, icon), &temp);
 	}
 	two::Widget* DECL two_ui_tooldock_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::tooldock(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::tooldock(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_toolbar_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::toolbar(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::toolbar(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_toolbar_3(two::NodeKey* id, two::Widget* parent, bool wrap) {
-		return &two::ui::toolbar(*id, *parent, wrap);
+		static two::Widget temp;
+		return (temp = two::ui::toolbar(*id, *parent, wrap), &temp);
 	}
 	two::Widget* DECL two_ui_columns_3(two::NodeKey* id, two::Widget* parent, float* weights, int weights_size) {
-		return &two::ui::columns(*id, *parent, { (float*)weights, weights_size / (sizeof(float) / sizeof(float)) });
+		static two::Widget temp;
+		return (temp = two::ui::columns(*id, *parent, { (float*)weights, weights_size / (sizeof(float) / sizeof(float)) }), &temp);
 	}
 	two::Widget* DECL two_ui_table_4(two::NodeKey* id, two::Widget* parent, const char** columns, int columns_size, float* weights, int weights_size) {
-		return &two::ui::table(*id, *parent, { (const char**)columns, columns_size / (sizeof(const char*) / sizeof(const char*)) }, { (float*)weights, weights_size / (sizeof(float) / sizeof(float)) });
+		static two::Widget temp;
+		return (temp = two::ui::table(*id, *parent, { (const char**)columns, columns_size / (sizeof(const char*) / sizeof(const char*)) }, { (float*)weights, weights_size / (sizeof(float) / sizeof(float)) }), &temp);
 	}
 	two::Widget* DECL two_ui_table_row_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::table_row(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::table_row(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_table_separator_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::table_separator(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::table_separator(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_tree_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::tree(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::tree(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_row_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::row(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::row(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_header_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::header(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::header(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_div_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::div(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::div(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_stack_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::stack(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::stack(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_sheet_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::sheet(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::sheet(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_board_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::board(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::board(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_layout_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::layout(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::layout(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_indent_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::indent(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::indent(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_screen_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::screen(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::screen(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_decal_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::decal(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::decal(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_overlay_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::overlay(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::overlay(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_title_header_3(two::NodeKey* id, two::Widget* parent, const char* title) {
-		return &two::ui::title_header(*id, *parent, title);
+		static two::Widget temp;
+		return (temp = two::ui::title_header(*id, *parent, title), &temp);
 	}
 	two::Widget* DECL two_ui_dummy_3(two::NodeKey* id, two::Widget* parent, const two::vec2* size) {
-		return &two::ui::dummy(*id, *parent, *size);
+		static two::Widget temp;
+		return (temp = two::ui::dummy(*id, *parent, *size), &temp);
 	}
 	two::Widget* DECL two_ui_popup_3(two::NodeKey* id, two::Widget* parent, two::ui::PopupFlags flags) {
-		return &two::ui::popup(*id, *parent, flags);
+		static two::Widget temp;
+		return (temp = two::ui::popup(*id, *parent, flags), &temp);
 	}
 	two::Widget* DECL two_ui_popup_at_3(two::NodeKey* id, two::Widget* parent, const two::vec2* position) {
-		return &two::ui::popup_at(*id, *parent, *position);
+		static two::Widget temp;
+		return (temp = two::ui::popup_at(*id, *parent, *position), &temp);
 	}
 	two::Widget* DECL two_ui_popup_at_4(two::NodeKey* id, two::Widget* parent, const two::vec2* position, two::ui::PopupFlags flags) {
-		return &two::ui::popup_at(*id, *parent, *position, flags);
+		static two::Widget temp;
+		return (temp = two::ui::popup_at(*id, *parent, *position, flags), &temp);
 	}
 	two::Widget* DECL two_ui_modal_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::modal(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::modal(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_auto_modal_3(two::NodeKey* id, two::Widget* parent, uint32_t mode) {
-		return &two::ui::auto_modal(*id, *parent, mode);
+		static two::Widget temp;
+		return (temp = two::ui::auto_modal(*id, *parent, mode), &temp);
 	}
 	two::Widget* DECL two_ui_context_3(two::NodeKey* id, two::Widget* parent, uint32_t mode) {
-		return two::ui::context(*id, *parent, mode);
+		static two::Widget temp;
+		return (temp = two::ui::context(*id, *parent, mode), &temp);
 	}
 	two::Widget* DECL two_ui_context_4(two::NodeKey* id, two::Widget* parent, uint32_t mode, two::ui::PopupFlags flags) {
-		return two::ui::context(*id, *parent, mode, flags);
+		static two::Widget temp;
+		return (temp = two::ui::context(*id, *parent, mode, flags), &temp);
 	}
 	two::Widget* DECL two_ui_hoverbox_2(two::NodeKey* id, two::Widget* parent) {
-		return two::ui::hoverbox(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::hoverbox(*id, *parent), &temp);
 	}
 	two::Widget* DECL two_ui_hoverbox_3(two::NodeKey* id, two::Widget* parent, float delay) {
-		return two::ui::hoverbox(*id, *parent, delay);
+		static two::Widget temp;
+		return (temp = two::ui::hoverbox(*id, *parent, delay), &temp);
 	}
 	two::Widget* DECL two_ui_cursor_4(two::NodeKey* id, two::Widget* parent, const two::vec2* position, two::Widget* hovered) {
-		return &two::ui::cursor(*id, *parent, *position, *hovered);
+		static two::Widget temp;
+		return (temp = two::ui::cursor(*id, *parent, *position, *hovered), &temp);
 	}
 	two::Widget* DECL two_ui_cursor_5(two::NodeKey* id, two::Widget* parent, const two::vec2* position, two::Widget* hovered, bool locked) {
-		return &two::ui::cursor(*id, *parent, *position, *hovered, locked);
+		static two::Widget temp;
+		return (temp = two::ui::cursor(*id, *parent, *position, *hovered, locked), &temp);
 	}
 	two::Widget* DECL two_ui_rectangle_3(two::NodeKey* id, two::Widget* parent, const two::vec4* rect) {
-		return &two::ui::rectangle(*id, *parent, *rect);
+		static two::Widget temp;
+		return (temp = two::ui::rectangle(*id, *parent, *rect), &temp);
 	}
 	two::Widget* DECL two_ui_viewport_3(two::NodeKey* id, two::Widget* parent, const two::vec4* rect) {
-		return &two::ui::viewport(*id, *parent, *rect);
+		static two::Widget temp;
+		return (temp = two::ui::viewport(*id, *parent, *rect), &temp);
 	}
 	two::DockspaceHandle* DECL two_ui_dockspace_3(two::NodeKey* id, two::Widget* parent, two::Docksystem* docksystem) {
 		static two::DockspaceHandle temp;
@@ -1483,7 +1569,8 @@ extern "C" {
 		return (temp = two::ui::dockbar(*id, *parent, *docksystem), &temp);
 	}
 	two::Widget* DECL two_ui_dockitem_3(two::Widget* parent, two::Docksystem* docksystem, const char* name) {
-		return two::ui::dockitem(*parent, *docksystem, name);
+		static two::Widget temp;
+		return (temp = two::ui::dockitem(*parent, *docksystem, name), &temp);
 	}
 	bool DECL two_ui_drag_float_3(two::NodeKey* id, two::Widget* parent, float value) {
 		return two::ui::drag_float(*id, *parent, value);
@@ -1519,7 +1606,8 @@ extern "C" {
 		return two::ui::quat_edit(*id, *parent, *quat);
 	}
 	two::Widget* DECL two_ui_color_display_3(two::NodeKey* id, two::Widget* parent, const two::Colour* value) {
-		return &two::ui::color_display(*id, *parent, *value);
+		static two::Widget temp;
+		return (temp = two::ui::color_display(*id, *parent, *value), &temp);
 	}
 	bool DECL two_ui_color_edit_3(two::NodeKey* id, two::Widget* parent, two::Colour* value) {
 		return two::ui::color_edit(*id, *parent, *value);
@@ -1658,7 +1746,8 @@ extern "C" {
 		return &two::ui::node(*parent, title, *position, order, { identity, *identity_type });
 	}
 	two::Widget* DECL two_ui_node_cable_4(two::NodeKey* id, two::Canvas* canvas, two::NodePlug* plug_out, two::NodePlug* plug_in) {
-		return &two::ui::node_cable(*id, *canvas, *plug_out, *plug_in);
+		static two::Widget temp;
+		return (temp = two::ui::node_cable(*id, *canvas, *plug_out, *plug_in), &temp);
 	}
 	two::CanvasHandle* DECL two_ui_canvas_2(two::NodeKey* id, two::Widget* parent) {
 		static two::CanvasHandle temp;
@@ -1669,28 +1758,35 @@ extern "C" {
 		return (temp = two::ui::canvas(*id, *parent, num_nodes), &temp);
 	}
 	two::Widget* DECL two_ui_scrollable_2(two::NodeKey* id, two::Widget* parent) {
-		return &two::ui::scrollable(*id, *parent);
+		static two::Widget temp;
+		return (temp = two::ui::scrollable(*id, *parent), &temp);
 	}
 	bool DECL two_ui_select_logic_3(two::Widget* element, void* object, two::Type* object_type, void* selection, two::Type* selection_type) {
 		return two::ui::select_logic(*element, { object, *object_type }, { selection, *selection_type });
 	}
 	two::Widget* DECL two_ui_element_3(two::NodeKey* id, two::Widget* parent, void* object, two::Type* object_type) {
-		return &two::ui::element(*id, *parent, { object, *object_type });
+		static two::Widget temp;
+		return (temp = two::ui::element(*id, *parent, { object, *object_type }), &temp);
 	}
 	two::Widget* DECL two_ui_dir_item_3(two::NodeKey* id, two::Widget* parent, const char* name) {
-		return &two::ui::dir_item(*id, *parent, name);
+		static two::Widget temp;
+		return (temp = two::ui::dir_item(*id, *parent, name), &temp);
 	}
 	two::Widget* DECL two_ui_file_item_3(two::NodeKey* id, two::Widget* parent, const char* name) {
-		return &two::ui::file_item(*id, *parent, name);
+		static two::Widget temp;
+		return (temp = two::ui::file_item(*id, *parent, name), &temp);
 	}
 	two::Widget* DECL two_ui_dir_node_5(two::NodeKey* id, two::Widget* parent, const char* path, const char* name, bool collapsed) {
-		return &two::ui::dir_node(*id, *parent, path, name, collapsed);
+		static two::Widget temp;
+		return (temp = two::ui::dir_node(*id, *parent, path, name, collapsed), &temp);
 	}
 	two::Widget* DECL two_ui_file_node_3(two::NodeKey* id, two::Widget* parent, const char* name) {
-		return &two::ui::file_node(*id, *parent, name);
+		static two::Widget temp;
+		return (temp = two::ui::file_node(*id, *parent, name), &temp);
 	}
 	two::Widget* DECL two_ui_file_tree_3(two::NodeKey* id, two::Widget* parent, const char* path) {
-		return &two::ui::file_tree(*id, *parent, path);
+		static two::Widget temp;
+		return (temp = two::ui::file_tree(*id, *parent, path), &temp);
 	}
 	// FlowAxis
 	two::FlowAxis DECL two_FlowAxis_Reading() {

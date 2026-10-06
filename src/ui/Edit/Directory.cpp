@@ -10,24 +10,24 @@ namespace two
 {
 namespace ui
 {
-	Widget& dir_item(NodeKey id, Widget& parent, const string& name)
+	Widget dir_item(NodeKey id, Widget parent, const string& name)
 	{
 		return multi_button(id, parent, file_styles().dir, { "(folder_20)" , name.c_str() });
 	}
 
-	Widget& file_item(NodeKey id, Widget& parent, const string& name)
+	Widget file_item(NodeKey id, Widget parent, const string& name)
 	{
 		return multi_button(id, parent, file_styles().file, { "(file_20)" , name.c_str() });
 	}
 
-	Widget& file_list(NodeKey id, Widget& parent, string& path)
+	Widget file_list(NodeKey id, Widget parent, string& path)
 	{
-		Widget& self = widget(id, parent, styles().wedge);//file_styles().directory);
+		Widget self = widget(id, parent, styles().wedge);//file_styles().directory);
 
 		auto on_dir = [&](const string& dir)
 		{
 			if(dir == ".") return;
-			Widget& item = dir_item(key(), self, dir.c_str());
+			Widget item = dir_item(key(), self, dir.c_str());
 			if(item.activated())
 			{
 				if(dir == "..")
@@ -47,14 +47,14 @@ namespace ui
 		return self;
 	}
 
-	Widget& file_browser(NodeKey id, Widget& parent, string& path)
+	Widget file_browser(NodeKey id, Widget parent, string& path)
 	{
-		Widget& self = widget(id, parent, styles().wedge);// styles().file_browser);
+		Widget self = widget(id, parent, styles().wedge);// styles().file_browser);
 		file_list(key(), self, path);
 		return self;
 	}
 
-	Widget& dir_node(NodeKey id, Widget& parent, const string& path, const string& name, bool open)
+	Widget dir_node(NodeKey id, Widget parent, const string& path, const string& name, bool open)
 	{
 		cstring elements[] = { "(folder_20)", name.c_str() };
 		TreeNode self = tree_node(id, parent, elements, false, open);
@@ -75,15 +75,15 @@ namespace ui
 		return self;
 	}
 
-	Widget& file_node(NodeKey id, Widget& parent, const string& name)
+	Widget file_node(NodeKey id, Widget parent, const string& name)
 	{
-		Widget& self = tree_node(id, parent, { "(file_20)", name.c_str() }, true, false);
+		Widget self = tree_node(id, parent, { "(file_20)", name.c_str() }, true, false);
 		return self;
 	}
 	
-	Widget& file_tree(NodeKey id, Widget& parent, const string& path)
+	Widget file_tree(NodeKey id, Widget parent, const string& path)
 	{
-		Widget& self = tree(id, parent);
+		Widget self = tree(id, parent);
 		dir_node(key(), self, path, path, false);
 		return self;
 	}

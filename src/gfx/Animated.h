@@ -59,7 +59,7 @@ namespace two
 		constr_ Mime();
 
 		// adds this mime, moved into the object of a new child of a node of a graph
-		meth_ Mime& add(Gnode& parent);
+		meth_ Mime& add(Gnode parent);
 		~Mime();
 
 		Rig m_rig;

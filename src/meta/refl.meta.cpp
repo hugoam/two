@@ -45,9 +45,9 @@ void two_Operator__copy_construct(void* ref, void* other) { new(stl::placeholder
 void two_Call__default_construct(void* ref) { new(stl::placeholder(), ref) two::Call(); }
 void two_Call__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Call((*static_cast<two::Call*>(other))); }
 void two_Call__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Call( *static_cast<two::Callable*>(args[0]), *static_cast<stl::vector<two::Var>*>(args[1]) ); }
-void* two_Call__get_result(void* object) { return &(*static_cast<two::Call*>(object)).result(); }
-void* two_Creator__get_type(void* object) { return &(*static_cast<two::Creator*>(object)).m_type; }
-void* two_Creator__get_injector(void* object) { return &(*static_cast<two::Creator*>(object)).injector(); }
+void two_Call__get_result(void* object, void*& result) { result = &(*static_cast<two::Call*>(object)).result(); }
+void two_Creator__get_type(void* object, void*& result) { result = &(*static_cast<two::Creator*>(object)).m_type; }
+void two_Creator__get_injector(void* object, void*& result) { result = &(*static_cast<two::Creator*>(object)).injector(); }
 void two_Alias__default_construct(void* ref) { new(stl::placeholder(), ref) two::Alias(); }
 void two_Alias__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Alias((*static_cast<two::Alias*>(other))); }
 void two_system_0(span<void*> args, void*& result) { UNUSED(args); result = &two::system(); }

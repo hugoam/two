@@ -24,9 +24,9 @@ namespace two
 	export_ struct refl_ struct_ TWO_UI_EXPORT DockerHandle : public WidgetHandle
 	{
 		DockerHandle() {}
-		explicit DockerHandle(Widget& self) : WidgetHandle(self) {}
+		explicit DockerHandle(Widget self) : WidgetHandle(self) {}
 
-		attr_ inline Widget& self() const { return this->widget(); }
+		attr_ inline Widget self() const { return this->widget(); }
 		attr_ inline Docker& docker() const { return *this->find_docker(); }
 
 		// the docker in the state of the widget, if the widget and its state are still there
@@ -55,9 +55,9 @@ namespace two
 		Docker(Docksystem& docksystem);
 		~Docker();
 
-		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) = 0;
+		virtual Widget docksection(Dock& dock, cstring name, NodeKey id) = 0;
 
-		virtual void dock(Widget& self, cstring name, const vec2& pos) = 0;
+		virtual void dock(Widget self, cstring name, const vec2& pos) = 0;
 
 		Dock& dock_split(Dock& target, bool after);
 		Dock& dock_insert(Dock& target, bool after);
@@ -66,7 +66,7 @@ namespace two
 
 		void dock_create(cstring name, span<uint16_t> dockid, float span);
 		void undock(Dock& dock, cstring name);
-		virtual void apply_pending(Widget& self);
+		virtual void apply_pending(Widget self);
 
 		Dock& add_dock(vector<uint16_t> dockid, float span = 0.f);
 
@@ -95,13 +95,13 @@ namespace two
 		struct DockedWindow { WidgetHandle window; Dock* dock; };
 		vector<DockedWindow> m_docked;
 
-		DockedWindow* pinpoint_dock(Widget& self, const vec2& pos);
+		DockedWindow* pinpoint_dock(Widget self, const vec2& pos);
 
-		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) final;
+		virtual Widget docksection(Dock& dock, cstring name, NodeKey id) final;
 
-		virtual void dock(Widget& self, cstring name, const vec2& pos) final;
+		virtual void dock(Widget self, cstring name, const vec2& pos) final;
 
-		void dock(cstring name, Dock& target, Widget& window, const vec2& pos);
+		void dock(cstring name, Dock& target, Widget window, const vec2& pos);
 
 		WidgetHandle m_mainline;
 	};
@@ -114,10 +114,10 @@ namespace two
 		WidgetHandle m_togglebar;
 		WidgetHandle m_dockzone;
 
-		virtual Widget* docksection(Dock& dock, cstring name, NodeKey id) final;
+		virtual Widget docksection(Dock& dock, cstring name, NodeKey id) final;
 
-		virtual void dock(Widget& self, cstring name, const vec2& pos) final;
-		virtual void apply_pending(Widget& self) final;
+		virtual void dock(Widget self, cstring name, const vec2& pos) final;
+		virtual void apply_pending(Widget self) final;
 
 		float width = 300.f;
 		size_t m_current_tab = SIZE_MAX;
@@ -126,7 +126,7 @@ namespace two
 	export_ struct refl_ struct_ DockspaceHandle : public DockerHandle
 	{
 		DockspaceHandle() {}
-		explicit DockspaceHandle(Widget& self) : DockerHandle(self) {}
+		explicit DockspaceHandle(Widget self) : DockerHandle(self) {}
 
 		Dockspace* operator->() const { return static_cast<Dockspace*>(&this->docker()); }
 		Dockspace& operator*() const { return static_cast<Dockspace&>(this->docker()); }
@@ -135,7 +135,7 @@ namespace two
 	export_ struct refl_ struct_ DockbarHandle : public DockerHandle
 	{
 		DockbarHandle() {}
-		explicit DockbarHandle(Widget& self) : DockerHandle(self) {}
+		explicit DockbarHandle(Widget self) : DockerHandle(self) {}
 
 		Dockbar* operator->() const { return static_cast<Dockbar*>(&this->docker()); }
 		Dockbar& operator*() const { return static_cast<Dockbar&>(this->docker()); }

@@ -114,12 +114,12 @@ EX(xx_shadow_point)
 	}
 
 #if IMMEDIATE
-	auto light_source = [&](Gnode& parent, Colour color, vec3 pos, quat rot) -> Gnode&
+	auto light_source = [&](Gnode parent, Colour color, vec3 pos, quat rot) -> Gnode
 	{
 		float intensity = 1.5f;
 		float range = 20.f;
 
-		Gnode& node = gfx::node(parent, pos, rot);
+		Gnode node = gfx::node(parent, pos, rot);
 
 		Item& inner = gfx::shape(node, Sphere(0.3f), Symbol::plain(color * intensity));
 		Item& outer = gfx::shape(node, Sphere(2.0f), Symbol::plain(Colour::White), 0U, spheremat);
@@ -152,8 +152,8 @@ EX(xx_shadow_point)
 	// quat rot = quat(vec3(0.f, c_pi2 + c_pi4, c_pi2 + c_pi4));
 
 #if IMMEDIATE
-	Gnode& light0 = light_source(scene, rgb(0x0088ff), pos(time), rot(time));
-	Gnode& light1 = light_source(scene, rgb(0xff8888), pos(time + c_pi), rot(time + c_pi));
+	Gnode light0 = light_source(scene, rgb(0x0088ff), pos(time), rot(time));
+	Gnode light1 = light_source(scene, rgb(0xff8888), pos(time + c_pi), rot(time + c_pi));
 #else
 	lights[0]->apply(pos(time), rot(time));
 	lights[1]->apply(pos(time + 10000.f), rot(time + 10000.f));
@@ -161,7 +161,7 @@ EX(xx_shadow_point)
 
 #if IMMEDIATE
 	Box box = Cube(vec3(15.f));
-	Gnode& node = gfx::node(scene);// , y3 * 10.f);
+	Gnode node = gfx::node(scene);// , y3 * 10.f);
 	gfx::shape(node, box, Symbol::plain(Colour::White), 0U, cubemat);
 
 	gfx::shape(scene, Cylinder(x3, 0.1f, 1.f, Axis::X), Symbol::plain(Colour::Red));

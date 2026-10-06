@@ -126,20 +126,20 @@ namespace
 			"========== Build completed at 01:31 and took 03.249 seconds ==========\n";
 	};
 
-	void titlebar(Widget& parent, Ide& ide)
+	void titlebar(Widget parent, Ide& ide)
 	{
-		Widget& menubar = ui::menubar(key(), parent);
+		Widget menubar = ui::menubar(key(), parent);
 
 		ui::icon(key(), menubar, "(vs/visual_studio)");
 
-		if(Widget* menu = ui::menu(key(), menubar, "File").body)
+		if(Widget menu = ui::menu(key(), menubar, "File").body)
 		{
-			if(Widget* submenu = ui::menu(key(), *menu, "New", true).body)
+			if(Widget submenu = ui::menu(key(), *menu, "New", true).body)
 			{
 				ui::menu_choice(key(), *submenu, "Project...", "Ctrl+Shift+N");
 				ui::menu_choice(key(), *submenu, "File...", "Ctrl+N");
 			}
-			if(Widget* submenu = ui::menu(key(), *menu, "Open", true).body)
+			if(Widget submenu = ui::menu(key(), *menu, "Open", true).body)
 			{
 				ui::menu_choice(key(), *submenu, "Project/Solution...", "Ctrl+Shift+O");
 				ui::menu_choice(key(), *submenu, "Folder...", "Ctrl+Shift+Alt+O");
@@ -151,14 +151,14 @@ namespace
 			ui::menu_choice(key(), *menu, "Exit", "Alt+F4");
 		}
 
-		if(Widget* menu = ui::menu(key(), menubar, "Edit").body)
+		if(Widget menu = ui::menu(key(), menubar, "Edit").body)
 		{
 			ui::menu_choice(key(), *menu, "Undo", "Ctrl+Z");
 			ui::menu_choice(key(), *menu, "Redo", "Ctrl+Y");
 			ui::menu_choice(key(), *menu, "Cut", "Ctrl+X");
 			ui::menu_choice(key(), *menu, "Copy", "Ctrl+C");
 			ui::menu_choice(key(), *menu, "Paste", "Ctrl+V");
-			if(Widget* submenu = ui::menu(key(), *menu, "Find and Replace", true).body)
+			if(Widget submenu = ui::menu(key(), *menu, "Find and Replace", true).body)
 			{
 				ui::menu_choice(key(), *submenu, "Quick Find", "Ctrl+F");
 				ui::menu_choice(key(), *submenu, "Quick Replace", "Ctrl+H");
@@ -167,7 +167,7 @@ namespace
 			ui::menu_choice(key(), *menu, "Go To All", "Ctrl+T");
 		}
 
-		if(Widget* menu = ui::menu(key(), menubar, "View").body)
+		if(Widget menu = ui::menu(key(), menubar, "View").body)
 		{
 			ui::menu_choice(key(), *menu, "Solution Explorer", "Ctrl+Alt+L");
 			ui::menu_choice(key(), *menu, "Git Changes", "Ctrl+0, Ctrl+G");
@@ -179,7 +179,7 @@ namespace
 		ui::menu(key(), menubar, "Git");
 		ui::menu(key(), menubar, "Project");
 
-		if(Widget* menu = ui::menu(key(), menubar, "Build").body)
+		if(Widget menu = ui::menu(key(), menubar, "Build").body)
 		{
 			ui::menu_choice(key(), *menu, "Build Solution", "Ctrl+Shift+B");
 			ui::menu_choice(key(), *menu, "Rebuild Solution");
@@ -187,7 +187,7 @@ namespace
 			ui::menu_choice(key(), *menu, "Build two_ui", "Ctrl+B");
 		}
 
-		if(Widget* menu = ui::menu(key(), menubar, "Debug").body)
+		if(Widget menu = ui::menu(key(), menubar, "Debug").body)
 		{
 			ui::menu_choice(key(), *menu, "Start Debugging", "F5");
 			ui::menu_choice(key(), *menu, "Start Without Debugging", "Ctrl+F5");
@@ -200,7 +200,7 @@ namespace
 		ui::menu(key(), menubar, "Extensions");
 		ui::menu(key(), menubar, "Window");
 
-		if(Widget* menu = ui::menu(key(), menubar, "Help").body)
+		if(Widget menu = ui::menu(key(), menubar, "Help").body)
 			ui::menu_choice(key(), *menu, "About two");
 
 		ui::type_in(key(), menubar, ide.m_search);
@@ -212,25 +212,25 @@ namespace
 		ui::toolbutton(key(), menubar, "(vs/close)");
 	}
 
-	void toolbars(Widget& parent, Ide& ide)
+	void toolbars(Widget parent, Ide& ide)
 	{
-		Widget& tools = ui::tooldock(key(), parent);
+		Widget tools = ui::tooldock(key(), parent);
 
-		Widget& navigation = ui::toolbar(key(), tools, true);
+		Widget navigation = ui::toolbar(key(), tools, true);
 		ui::toolbutton(key(), navigation, "(vs/backwards)");
 		ui::toolbutton(key(), navigation, "(vs/forwards)");
 
-		Widget& files = ui::toolbar(key(), tools, true);
+		Widget files = ui::toolbar(key(), tools, true);
 		ui::toolbutton(key(), files, "(vs/new_item)");
 		ui::toolbutton(key(), files, "(vs/open_file)");
 		ui::toolbutton(key(), files, "(vs/save)");
 		ui::toolbutton(key(), files, "(vs/save_all)");
 
-		Widget& edit = ui::toolbar(key(), tools, true);
+		Widget edit = ui::toolbar(key(), tools, true);
 		ui::toolbutton(key(), edit, "(vs/undo)");
 		ui::toolbutton(key(), edit, "(vs/redo)");
 
-		Widget& build = ui::toolbar(key(), tools, true);
+		Widget build = ui::toolbar(key(), tools, true);
 		static cstring configurations[] = { "Debug", "Release" };
 		static cstring platforms[] = { "x64", "x86", "ARM64" };
 		static cstring arguments[] = { "No command-line arg", "--test", "--verbose" };
@@ -238,7 +238,7 @@ namespace
 		ui::dropdown_input(key(), build, platforms, ide.m_platform);
 		ui::dropdown_input(key(), build, arguments, ide.m_arguments);
 
-		Widget& debug = ui::toolbar(key(), tools, true);
+		Widget debug = ui::toolbar(key(), tools, true);
 		static cstring debuggers[] = { "Local Windows Debugger", "Remote Windows Debugger", "Web Browser" };
 		static cstring scopes[] = { "Auto", "Current Document", "Entire Solution" };
 		ui::toolbutton(key(), debug, "(vs/run)");
@@ -246,13 +246,13 @@ namespace
 		ui::toolbutton(key(), debug, "(vs/run_outline)");
 		ui::dropdown_input(key(), debug, scopes, ide.m_scope);
 
-		Widget& misc = ui::toolbar(key(), tools, true);
+		Widget misc = ui::toolbar(key(), tools, true);
 		ui::toolbutton(key(), misc, "(vs/attach)");
 		ui::toolbutton(key(), misc, "(vs/bookmark)");
 		ui::toolbutton(key(), misc, "(vs/comment)");
 	}
 
-	void file_node(Widget& parent, Ide& ide, FileNode& node, bool open = false)
+	void file_node(Widget parent, Ide& ide, FileNode& node, bool open = false)
 	{
 		cstring elements[] = { node.image(), node.name.c_str() };
 		TreeNode self = ui::tree_node(key(&node), parent, elements, !node.folder, open);
@@ -269,9 +269,9 @@ namespace
 		}
 	}
 
-	void solution_explorer(Widget& parent, Ide& ide)
+	void solution_explorer(Widget parent, Ide& ide)
 	{
-		Widget& toolbar = ui::toolbar(key(), parent);
+		Widget toolbar = ui::toolbar(key(), parent);
 		ui::toolbutton(key(), toolbar, "(vs/home)");
 		ui::toolbutton(key(), toolbar, "(vs/sync)");
 		ui::toolbutton(key(), toolbar, "(vs/refresh)");
@@ -279,16 +279,16 @@ namespace
 		ui::toolbutton(key(), toolbar, "(vs/show_all_files)");
 		ui::toolbutton(key(), toolbar, "(vs/settings)");
 
-		Widget& search = ui::row(key(), parent);
+		Widget search = ui::row(key(), parent);
 		ui::type_in(key(), search, ide.m_explorer_search);
 		ui::icon(key(), search, "(vs/search)");
 
-		Widget& sheet = ui::scroll_sheet(key(), parent).body;
-		Widget& tree = ui::tree(key(), sheet);
+		Widget sheet = ui::scroll_sheet(key(), parent).body;
+		Widget tree = ui::tree(key(), sheet);
 		file_node(tree, ide, ide.m_solution, true);
 	}
 
-	void properties(Widget& parent, Ide& ide)
+	void properties(Widget parent, Ide& ide)
 	{
 		Document& document = *ide.m_documents[2];
 
@@ -296,8 +296,8 @@ namespace
 		static uint32_t category = 0;
 		ui::dropdown_input(key(), parent, categories, category);
 
-		Widget& sheet = ui::scroll_sheet(key(), parent).body;
-		Widget& table = ui::table(key(), sheet, { "Property", "Value" }, { 0.4f, 0.6f });
+		Widget sheet = ui::scroll_sheet(key(), parent).body;
+		Widget table = ui::table(key(), sheet, { "Property", "Value" }, { 0.4f, 0.6f });
 
 		static string name = document.name;
 		static string path = document.path;
@@ -313,28 +313,28 @@ namespace
 		ui::field<bool>(key(), table, "Content", content);
 	}
 
-	void git_changes(Widget& parent, Ide& ide)
+	void git_changes(Widget parent, Ide& ide)
 	{
-		Widget& header = ui::row(key(), parent);
+		Widget header = ui::row(key(), parent);
 		ui::label(key(), header, "Git Changes - two");
 		ui::spacer(key(), header);
 		ui::toolbutton(key(), header, "(vs/settings)");
 
-		Widget& branch = ui::row(key(), parent);
+		Widget branch = ui::row(key(), parent);
 		ui::icon(key(), branch, "(vs/branch)");
 		ui::label(key(), branch, "fix/reflection-runtime");
 
 		ui::type_in(key(), parent, ide.m_commit_message, 3);
 
-		Widget& actions = ui::row(key(), parent);
+		Widget actions = ui::row(key(), parent);
 		ui::button(key(), actions, "Commit All");
 		ui::spacer(key(), actions);
 		ui::toolbutton(key(), actions, "(vs/find_previous)");
 		ui::toolbutton(key(), actions, "(vs/sync)");
 
-		Widget& sheet = ui::scroll_sheet(key(), parent).body;
-		Widget& tree = ui::tree(key(), sheet);
-		if(Widget* changes = ui::tree_node(key(), tree, "Changes (6)").body)
+		Widget sheet = ui::scroll_sheet(key(), parent).body;
+		Widget tree = ui::tree(key(), sheet);
+		if(Widget changes = ui::tree_node(key(), tree, "Changes (6)").body)
 		{
 			static cstring files[] = { "Frame.cpp  M", "Frame.h  M", "LayoutTree.cpp  A", "LayoutTree.h  A", "Solver.cpp  M", "WidgetStruct.cpp  M" };
 			for(size_t i = 0; i < size(files); ++i)
@@ -345,11 +345,11 @@ namespace
 		}
 	}
 
-	void document_view(Widget& parent, Document& document)
+	void document_view(Widget parent, Document& document)
 	{
 		document.load();
 
-		Widget& navigation = ui::row(key(), parent);
+		Widget navigation = ui::row(key(), parent);
 		static cstring projects[] = { "two_ui" };
 		static cstring scopes[] = { "two::RowSolver", "two::FrameSolver", "two::LineSolver" };
 		static cstring symbols[] = { "position(FrameSolver & frame, Axis dim)", "resize(FrameSolver & frame, Axis dim)", "measure(FrameSolver & frame, Axis dim)" };
@@ -361,7 +361,7 @@ namespace
 		TextEdit& edit = *ui::code_edit(key(), parent, document.text);
 		edit.m_language = &LanguageCpp();
 
-		Widget& status = ui::row(key(), parent);
+		Widget status = ui::row(key(), parent);
 		static cstring zooms[] = { "50 %", "70 %", "80 %", "90 %", "100 %", "125 %", "150 %", "200 %" };
 		ui::dropdown_input(key(), status, zooms, document.zoom);
 		ui::icon(key(), status, "(vs/status_ok)");
@@ -378,9 +378,9 @@ namespace
 		ui::label(key(), status, "UTF-8");
 	}
 
-	void output(Widget& parent, Ide& ide)
+	void output(Widget parent, Ide& ide)
 	{
-		Widget& header = ui::row(key(), parent);
+		Widget header = ui::row(key(), parent);
 		static cstring sources[] = { "Build", "Debug", "Git", "Source Control - Git", "Tests" };
 		ui::label(key(), header, "Show output from:");
 		ui::dropdown_input(key(), header, sources, ide.m_output_source);
@@ -392,12 +392,12 @@ namespace
 		ui::text_edit(key(), parent, ide.m_output);
 	}
 
-	void find_symbol_results(Widget& parent)
+	void find_symbol_results(Widget parent)
 	{
 		ui::label(key(), parent, "Find all \"RowSolver\" - 6 matches");
-		Widget& sheet = ui::scroll_sheet(key(), parent).body;
-		Widget& tree = ui::tree(key(), sheet);
-		if(Widget* definitions = ui::tree_node(key(), tree, "two::RowSolver").body)
+		Widget sheet = ui::scroll_sheet(key(), parent).body;
+		Widget tree = ui::tree(key(), sheet);
+		if(Widget definitions = ui::tree_node(key(), tree, "two::RowSolver").body)
 		{
 			static cstring results[] = {
 				"Solver.h(115): class RowSolver : public FrameSolver",
@@ -415,29 +415,29 @@ namespace
 		}
 	}
 
-	void diagnostic_tools(Widget& parent)
+	void diagnostic_tools(Widget parent)
 	{
 		ui::label(key(), parent, "Diagnostics session: 0 seconds");
 
-		if(Widget* events = ui::expandbox(key(), parent, "Events").body)
+		if(Widget events = ui::expandbox(key(), parent, "Events").body)
 			ui::label(key(), *events, "No events");
 
-		if(Widget* memory = ui::expandbox(key(), parent, "Process Memory (MB)").body)
+		if(Widget memory = ui::expandbox(key(), parent, "Process Memory (MB)").body)
 		{
 			ui::fill_bar(key(), *memory, 0.35f);
 			ui::label(key(), *memory, "412 MB");
 		}
 
-		if(Widget* cpu = ui::expandbox(key(), parent, "CPU (% of all processors)").body)
+		if(Widget cpu = ui::expandbox(key(), parent, "CPU (% of all processors)").body)
 		{
 			ui::fill_bar(key(), *cpu, 0.12f);
 			ui::label(key(), *cpu, "12 %");
 		}
 	}
 
-	void statusbar(Widget& parent)
+	void statusbar(Widget parent)
 	{
-		Widget& status = ui::row(key(), parent);
+		Widget status = ui::row(key(), parent);
 		ui::icon(key(), status, "(vs/status_ok)");
 		ui::label(key(), status, "Ready");
 		ui::spacer(key(), status);
@@ -450,37 +450,37 @@ namespace
 	}
 }
 
-void example_ide(Widget& ui)
+void example_ide(Widget ui)
 {
 	static Ide ide;
 
 	titlebar(ui, ide);
 	toolbars(ui, ide);
 
-	Widget& board = ui::board(key(), ui);
+	Widget board = ui::board(key(), ui);
 
 	DockspaceHandle dockspace = ui::dockspace(key(), board, ide.m_docksystem);
 	DockbarHandle dockbar = ui::dockbar(key(), board, ide.m_docksystem);
 
 	// left column: the panels stacked as tabs
-	if(Widget* dock = ui::dockitem(dockspace, "Solution Explorer", { 0U, 0U }, 0.2f))
+	if(Widget dock = ui::dockitem(dockspace, "Solution Explorer", { 0U, 0U }, 0.2f))
 		solution_explorer(*dock, ide);
-	if(Widget* dock = ui::dockitem(dockspace, "Properties", { 0U, 0U }))
+	if(Widget dock = ui::dockitem(dockspace, "Properties", { 0U, 0U }))
 		properties(*dock, ide);
-	if(Widget* dock = ui::dockitem(dockspace, "Git Changes", { 0U, 0U }))
+	if(Widget dock = ui::dockitem(dockspace, "Git Changes", { 0U, 0U }))
 		git_changes(*dock, ide);
 
 	// right column: the documents above, the output below
 	for(unique<Document>& document : ide.m_documents)
-		if(Widget* dock = ui::dockitem(dockspace, document->name.c_str(), { 0U, 1U, 0U }, 0.7f))
+		if(Widget dock = ui::dockitem(dockspace, document->name.c_str(), { 0U, 1U, 0U }, 0.7f))
 			document_view(*dock, *document);
 
-	if(Widget* dock = ui::dockitem(dockspace, "Output", { 0U, 1U, 1U }, 0.3f))
+	if(Widget dock = ui::dockitem(dockspace, "Output", { 0U, 1U, 1U }, 0.3f))
 		output(*dock, ide);
-	if(Widget* dock = ui::dockitem(dockspace, "Find Symbol Results", { 0U, 1U, 1U }))
+	if(Widget dock = ui::dockitem(dockspace, "Find Symbol Results", { 0U, 1U, 1U }))
 		find_symbol_results(*dock);
 
-	if(Widget* dock = ui::dockitem(dockbar, "Diagnostic Tools", { 0U }))
+	if(Widget dock = ui::dockitem(dockbar, "Diagnostic Tools", { 0U }))
 		diagnostic_tools(*dock);
 
 	statusbar(ui);

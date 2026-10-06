@@ -22,9 +22,9 @@ namespace two
 		else return "(" + string(type(object).m_name) + ")";
 	}
 
-	void object_context(Widget& parent, Ref object, uint32_t mode)
+	void object_context(Widget parent, Ref object, uint32_t mode)
 	{
-		Widget& self = ui::popup(key(), parent, ui::PopupFlags::AutoModal);
+		Widget self = ui::popup(key(), parent, ui::PopupFlags::AutoModal);
 		if(!self.open())
 			parent.data().m_switch &= ~mode;
 
@@ -38,14 +38,14 @@ namespace two
 		}
 	}
 
-	Widget& object_item(Widget& parent, Ref object)
+	Widget object_item(Widget parent, Ref object)
 	{
 		if(DispatchItem::me().check(object))
 			return DispatchItem::me().dispatch(object, parent);
 
 		enum Modes { Context = (1 << 0) };
 
-		Widget& self = ui::element(key(), parent, object);
+		Widget self = ui::element(key(), parent, object);
 		ui::multi_item(key(), self, { object_icon(object).c_str(), object_name(object).c_str() });
 
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
@@ -56,20 +56,20 @@ namespace two
 		return self;
 	}
 
-	Widget& object_button(Widget& parent, Ref object)
+	Widget object_button(Widget parent, Ref object)
 	{
 		return object_item(parent, object);
 	}
 
-	bool object_item(Widget& parent, Ref object, Ref& selection)
+	bool object_item(Widget parent, Ref object, Ref& selection)
 	{
-		Widget& self = object_item(parent, object);
+		Widget self = object_item(parent, object);
 		return ui::select_logic(self, object, selection);
 	}
 
-	bool object_item(Widget& parent, Ref object, vector<Ref>& selection)
+	bool object_item(Widget parent, Ref object, vector<Ref>& selection)
 	{
-		Widget& self = object_item(parent, object);
+		Widget self = object_item(parent, object);
 		return ui::multiselect_logic(self, object, selection);
 	}
 }

@@ -547,21 +547,21 @@ EX(xx_shader_ocean)
 	updateSun();
 
 #if UI
-	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::sheet(key(), *dock);
+		Widget sheet = ui::sheet(key(), *dock);
 
-		auto panel = [&](const string& name) -> Widget&
+		auto panel = [&](const string& name) -> Widget
 		{
-			Widget& s = ui::expandbox(key(), sheet, name.c_str());
+			Widget s = ui::expandbox(key(), sheet, name.c_str());
 			return ui::columns(key(), s, { 0.3f, 0.7f });
 		};
 
-		Widget& a = panel("Sky");
+		Widget a = panel("Sky");
 		ui::slider_field(key(), a, "inclination", params.inclination,  { 0.f, 0.5f, 0.0001f });
 		ui::slider_field(key(), a, "azimuth",     params.azimuth,      { 0.f, 1.f,  0.0001f });
 	
-		Widget& b = panel("Water");
+		Widget b = panel("Water");
 		ui::slider_field(key(), b, "distortion", water.distortionScale,	{ 0.f, 8.f, 0.1f });
 		ui::slider_field(key(), b, "size",		 water.size,			{ 0.1f, 10.f, 0.1f });
 		ui::slider_field(key(), b, "alpha",		 water.alpha,			{ 0.9f, 1.f, 0.001f });

@@ -6,4 +6,4 @@
 
 using namespace two;
 
-void ex_14_live_gfx_visual(Shell& app, Widget& parent, DockbarHandle dockbar);
+void ex_14_live_gfx_visual(Shell& app, Widget parent, DockbarHandle dockbar);

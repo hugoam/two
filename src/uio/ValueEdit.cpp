@@ -9,9 +9,9 @@ module two.uio;
 namespace two
 {
 	template <class T>
-	bool range_edit(NodeKey id, Widget& parent, Range<T>& value)
+	bool range_edit(NodeKey id, Widget parent, Range<T>& value)
 	{
-		Widget& self = ui::row(id, parent);
+		Widget self = ui::row(id, parent);
 		static const StatDef<T> def = { T(0), T(100), T(1) };
 		bool changed = false;
 		changed |= ui::slider_field<T>(key(), self, "min", value.m_min, def);
@@ -20,7 +20,7 @@ namespace two
 	}
 
 	template <class T>
-	bool curve_edit(Widget& parent, vector<T>& keys)
+	bool curve_edit(Widget parent, vector<T>& keys)
 	{
 		bool changed = false;
 		for(T& value : keys)
@@ -39,7 +39,7 @@ namespace two
 	}
 
 	template <>
-	bool curve_edit(Widget& parent, vector<float>& keys)
+	bool curve_edit(Widget parent, vector<float>& keys)
 	{
 		enum Modes { EDIT_CURVE = 1 << 0 };
 
@@ -54,9 +54,9 @@ namespace two
 	}
 
 	template <class T>
-	bool value_track_edit(NodeKey id, Widget& parent, ValueTrack<T>& track)
+	bool value_track_edit(NodeKey id, Widget parent, ValueTrack<T>& track)
 	{
-		Widget& self = ui::row(id, parent);
+		Widget self = ui::row(id, parent);
 		static cstring modes[4] = { "Constant", "ConstantRandom", "Curve", "CurveRandom" };
 
 		bool changed = false;
@@ -79,14 +79,14 @@ namespace two
 		return changed;
 	}
 
-	template <class T, bool(*Input)(NodeKey, Widget&, T&)>
-	bool value_input(T& value, Widget& parent) { return Input(key(&type<T>()), parent, value); }
+	template <class T, bool(*Input)(NodeKey, Widget, T&)>
+	bool value_input(T& value, Widget parent) { return Input(key(&type<T>()), parent, value); }
 
-	template <class T, bool(*Input)(NodeKey, Widget&, T&, StatDef<T>)>
-	bool stat_value_input(T& value, Widget& parent) { return Input(key(&type<T>()), parent, value, { limits<T>::min(), limits<T>::max(), T(1) }); }
+	template <class T, bool(*Input)(NodeKey, Widget, T&, StatDef<T>)>
+	bool stat_value_input(T& value, Widget parent) { return Input(key(&type<T>()), parent, value, { limits<T>::min(), limits<T>::max(), T(1) }); }
 
-	template <class T, bool(*Input)(NodeKey, Widget&, T&, StatDef<T>), int decimal>
-	bool stat_value_input(T& value, Widget& parent) { return Input(key(&type<T>()), parent, value, { limits<T>::min(), limits<T>::max(), T(1) / T(decimal) }); }
+	template <class T, bool(*Input)(NodeKey, Widget, T&, StatDef<T>), int decimal>
+	bool stat_value_input(T& value, Widget parent) { return Input(key(&type<T>()), parent, value, { limits<T>::min(), limits<T>::max(), T(1) / T(decimal) }); }
 
 	DispatchInput::DispatchInput()
 	{
@@ -118,7 +118,7 @@ namespace two
 		//dispatch_branch<Image256>([](Image256& image, Wedge& parent) -> object<Widget> { return oconstruct<Figure>(Widget::Input{ &parent }, image); });
 	}
 
-	bool type_selector(Widget& parent, uint32_t& type, span<Type*> types)
+	bool type_selector(Widget parent, uint32_t& type, span<Type*> types)
 	{
 		vector<cstring> type_names;
 		for(size_t i = 0; i < types.size(); ++i)
@@ -127,7 +127,7 @@ namespace two
 		return ui::dropdown_input(key(), parent, type_names, type);
 	}
 
-	bool value_edit(Widget& parent, Ref& value)
+	bool value_edit(Widget parent, Ref& value)
 	{
 		// @kludge ? fix all value == Ref() in the code
 		if(!(value == Ref()) && DispatchInput::me.check(value))
@@ -135,14 +135,14 @@ namespace two
 		return false;
 	}
 
-	bool none_edit(Widget& parent, Ref& value)
+	bool none_edit(Widget parent, Ref& value)
 	{
 		UNUSED(value);
 		ui::label(key(), parent, "None");
 		return false;
 	}
 
-	bool enum_edit(Widget& parent, Ref& value)
+	bool enum_edit(Widget parent, Ref& value)
 	{
 		Enum& e = enu(value);
 		uint32_t index = e.index(value);
@@ -155,14 +155,14 @@ namespace two
 		return false;
 	}
 
-	bool object_link_edit(Widget& parent, Ref& value)
+	bool object_link_edit(Widget parent, Ref& value)
 	{
-		Widget& self = ui::row(key(), parent);
+		Widget self = ui::row(key(), parent);
 		object_button(self, value);
 		return object_selector_modal(self, self, value);
 	}
 
-	bool sequence_element_edit(Widget& parent, Ref seq, Ref& value)
+	bool sequence_element_edit(Widget parent, Ref seq, Ref& value)
 	{
 		object_item(parent, value);
 		if(ui::button(key(), parent, "remove").activated())
@@ -170,11 +170,11 @@ namespace two
 		return false;
 	}
 
-	bool sequence_edit(Widget& parent, Ref& value, EditorHint hint)
+	bool sequence_edit(Widget parent, Ref& value, EditorHint hint)
 	{
 		enum Modes { Add = 1 << 0 };
 
-		Widget& self = hint == EditorHint::Inline ? ui::row(key(), parent)
+		Widget self = hint == EditorHint::Inline ? ui::row(key(), parent)
 												  : ui::sheet(key(), parent);
 		bool changed = false;
 		iter(value).iterate(value, [&](Ref element) { changed |= value_edit(self, element); });
@@ -200,7 +200,7 @@ namespace two
 		return changed;
 	}
 
-	bool any_edit(Widget& parent, Ref& value, bool link, EditorHint hint)
+	bool any_edit(Widget parent, Ref& value, bool link, EditorHint hint)
 	{
 		//if(is_struct(*value.m_type) && !nullable && !value)
 		//	return object_creator(parent, *value.m_type);
@@ -225,16 +225,16 @@ namespace two
 			return object_edit(parent, value, hint);
 	}
 
-	bool field_edit(Widget& parent, cstring name, Ref& value, bool nullable)
+	bool field_edit(Widget parent, cstring name, Ref& value, bool nullable)
 	{
-		Widget& self = ui::row(key(), parent);
+		Widget self = ui::row(key(), parent);
 		ui::label(key(), self, name);
 		return any_edit(self, value, nullable);
 	}
 
-	bool modal_edit(Widget& parent, uint32_t mode, cstring name, Ref& value, bool nullable, bool confirm)
+	bool modal_edit(Widget parent, uint32_t mode, cstring name, Ref& value, bool nullable, bool confirm)
 	{
-		Widget& self = ui::modal(key(), parent.parent_modal());
+		Widget self = ui::modal(key(), parent.parent_modal());
 		bool changed = field_edit(self, name, value, nullable);
 		bool done = confirm ? ui::button(key(), self, "Done").activated() || !self.open()
 							: changed || !self.open();

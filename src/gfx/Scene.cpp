@@ -14,7 +14,7 @@ namespace two
 		: m_gfx(gfx)
 		, m_immediate(oconstruct<ImmediateDraw>(gfx.fetch_material("immediate", "solid")))
 		, m_pass_jobs(oconstruct<PassJobs>())
-		, m_graph(*this)
+		, m_graph(*this, 0)
 		, m_attach(this->add_array<Node3*>())
 	{
 		m_attach[0] = &m_root_node;
@@ -42,7 +42,7 @@ namespace two
 		}
 	}
 
-	Gnode& Scene::begin()
+	Gnode Scene::begin()
 	{
 		this->update();
 		m_immediate->begin();

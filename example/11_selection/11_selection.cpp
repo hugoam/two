@@ -15,13 +15,13 @@ vec4 abs_rect(const vec2& start, const vec2& size)
 	return{ position, abs(size) };
 }
 
-void ex_11_selection(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_11_selection(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 	UNUSED(app); UNUSED(dockbar);
 	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
 
-	Gnode& scene = viewer->m_scene.begin();
+	Gnode scene = viewer->m_scene.begin();
 
 	Material& material = milky_white(app.m_gfx);
 

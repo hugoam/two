@@ -37,7 +37,7 @@ namespace two
 		gen_model({ symbol, &quad, PLAIN }, m_model);
 	}
 
-	SpaceSheet::SpaceSheet(Widget& parent, SpaceViewport& viewport)
+	SpaceSheet::SpaceSheet(Widget parent, SpaceViewport& viewport)
 		: Ui(parent.ui_window()) // , { Input{ &parent }, &type<SpaceSheet>() }
 		, m_viewer(viewport)
 		, m_size_ratio(0.01f)

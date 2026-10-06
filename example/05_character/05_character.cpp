@@ -33,9 +33,9 @@ public:
 	vector<State> m_states;
 };
 
-Mime& paint_human(Gnode& parent, Human& human, bool high_lod)
+Mime& paint_human(Gnode parent, Human& human, bool high_lod)
 {
-	Gnode& self = gfx::node(parent, human.m_position, human.m_rotation);
+	Gnode self = gfx::node(parent, human.m_position, human.m_rotation);
 	gfx::shape(self, Circle(0.35f), Symbol::wire(Colour::White), ItemFlag::Default | ItemFlag::Selectable);
 	Item* item = gfx::model(self, high_lod ? "human" : "human00", ItemFlag::Default | ItemFlag::Selectable);
 	Mime& animated = gfx::animated(self, *item);
@@ -50,7 +50,7 @@ struct KeyMove
 	float action_speed;
 };
 
-void human_control_key(Widget& widget, Human& human, vec3& speed, const KeyMove& move)
+void human_control_key(Widget widget, Human& human, vec3& speed, const KeyMove& move)
 {
 	if(widget.key_event(move.key, EventType::Pressed))
 	{
@@ -64,7 +64,7 @@ void human_control_key(Widget& widget, Human& human, vec3& speed, const KeyMove&
 	}
 }
 
-static void human_velocity_controller(Widget& widget, Human& human)
+static void human_velocity_controller(Widget widget, Human& human)
 {
 	bool shift = widget.ui().m_keyboard.m_shift;
 
@@ -100,7 +100,7 @@ void human_controller_3rdperson(ViewerHandle viewer, Human& human)
 	human_velocity_controller(viewer.self(), human);
 }
 
-void ex_05_character(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_05_character(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 	static ImporterGltf gltf_importer(app.m_gfx);
 
@@ -108,7 +108,7 @@ void ex_05_character(Shell& app, Widget& parent, DockbarHandle dockbar)
 	OrbitController& orbit = ui::orbit_controller(viewer);
 	viewer.self().take_focus();
 
-	Gnode& scene = viewer->m_scene.begin();
+	Gnode scene = viewer->m_scene.begin();
 
 	Material& material = milky_white(app.m_gfx);
 
@@ -172,7 +172,7 @@ void ex_05_character(Shell& app, Widget& parent, DockbarHandle dockbar)
 		selected->m_rotation = rotate(selected->m_rotation, timestep * angular_speed, selected->m_angular_velocity / angular_speed);
 	}
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
 		anim_editor = true;
 		animation_edit(*dock, *animated);

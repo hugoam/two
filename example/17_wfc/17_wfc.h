@@ -6,4 +6,4 @@
 
 using namespace two;
 
-void ex_17_wfc(Shell& app, Widget& parent, DockbarHandle dockbar);
+void ex_17_wfc(Shell& app, Widget parent, DockbarHandle dockbar);

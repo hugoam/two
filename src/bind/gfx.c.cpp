@@ -3263,6 +3263,9 @@ extern "C" {
 	two::Type* DECL two_Gnode__type() {
 		return &two::type<two::Gnode>();
 	}
+	two::Gnode* DECL two_Gnode__construct_0() {
+		return new two::Gnode();
+	}
 	void DECL two_Gnode__destroy(two::Gnode* self) {
 		delete self;
 	}
@@ -3882,7 +3885,8 @@ extern "C" {
 		return new two::Scene(*gfx);
 	}
 	two::Gnode* DECL two_Scene_begin_0(two::Scene* self) {
-		return &self->begin();
+		static two::Gnode temp;
+		return (temp = self->begin(), &temp);
 	}
 	void DECL two_Scene_update_0(two::Scene* self) {
 		self->update();
@@ -3898,6 +3902,9 @@ extern "C" {
 	}
 	two::Gnode* DECL two_Scene__get_graph(two::Scene* self) {
 		return &self->m_graph;
+	}
+	void DECL two_Scene__set_graph(two::Scene* self, two::Gnode* value) {
+		self->m_graph = *value;
 	}
 	two::Zone* DECL two_Scene__get_env(two::Scene* self) {
 		return &self->m_env;
@@ -3992,16 +3999,20 @@ extern "C" {
 		two::gfx::setup_pipeline_minimal(*gfx);
 	}
 	two::Gnode* DECL two_gfx_node_1(two::Gnode* parent) {
-		return &two::gfx::node(*parent);
+		static two::Gnode temp;
+		return (temp = two::gfx::node(*parent), &temp);
 	}
 	two::Gnode* DECL two_gfx_node_2(two::Gnode* parent, const two::vec3* position) {
-		return &two::gfx::node(*parent, *position);
+		static two::Gnode temp;
+		return (temp = two::gfx::node(*parent, *position), &temp);
 	}
 	two::Gnode* DECL two_gfx_node_3(two::Gnode* parent, const two::vec3* position, const two::quat* rotation) {
-		return &two::gfx::node(*parent, *position, *rotation);
+		static two::Gnode temp;
+		return (temp = two::gfx::node(*parent, *position, *rotation), &temp);
 	}
 	two::Gnode* DECL two_gfx_node_4(two::Gnode* parent, const two::vec3* position, const two::quat* rotation, const two::vec3* scale) {
-		return &two::gfx::node(*parent, *position, *rotation, *scale);
+		static two::Gnode temp;
+		return (temp = two::gfx::node(*parent, *position, *rotation, *scale), &temp);
 	}
 	two::Item* DECL two_gfx_shape_3(two::Gnode* parent, const two::Shape* shape, const two::Symbol* symbol) {
 		return &two::gfx::shape(*parent, *shape, *symbol);

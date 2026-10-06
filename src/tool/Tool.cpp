@@ -106,9 +106,9 @@ namespace two
 		return false;
 	}
 
-	void TransformTool::paint(Gnode& parent)
+	void TransformTool::paint(Gnode parent)
 	{
-		Gnode& self = gfx::node(parent, m_transform);
+		Gnode self = gfx::node(parent, m_transform);
 
 		for(auto& gizmo : m_gizmos)
 		{
@@ -117,10 +117,10 @@ namespace two
 		}
 
 #ifdef TWO_DEBUG_TRANSFORM_POINTS
-		Gnode& start = gfx::node(parent, m_grab_start);
+		Gnode start = gfx::node(parent, m_grab_start);
 		gfx::shape(start, Sphere(0.1f), Symbol(Colour::Pink, Colour::None, true));
 
-		Gnode& end = gfx::node(parent, m_grab_end);
+		Gnode end = gfx::node(parent, m_grab_end);
 		gfx::shape(end, Sphere(0.1f), Symbol(Colour::Pink, Colour::None, true));
 #endif
 	}
@@ -130,7 +130,7 @@ namespace two
 
 	void TransformTool::process(ViewerHandle viewer, span<Ref> targets)
 	{
-		Widget& screen = viewer.self();//= ui::overlay(key(), viewer.self());
+		Widget screen = viewer.self();//= ui::overlay(key(), viewer.self());
 
 		this->refresh();
 

@@ -8,10 +8,10 @@
 
 namespace two
 {
-	export_ TWO_UIO_EXPORT void ui_debug_modal(Widget& parent, Widget& target);
-	export_ TWO_UIO_EXPORT void ui_debug_layout(Widget& parent, Widget& target);
-	export_ TWO_UIO_EXPORT void ui_debug(Widget& parent, Widget& target);
+	export_ TWO_UIO_EXPORT void ui_debug_modal(Widget parent, Widget target);
+	export_ TWO_UIO_EXPORT void ui_debug_layout(Widget parent, Widget target);
+	export_ TWO_UIO_EXPORT void ui_debug(Widget parent, Widget target);
 
-	export_ TWO_UIO_EXPORT void ui_edit(Widget& parent, Sequence& selection);
-	export_ TWO_UIO_EXPORT void ui_editor(Widget& parent);
+	export_ TWO_UIO_EXPORT void ui_edit(Widget parent, Sequence& selection);
+	export_ TWO_UIO_EXPORT void ui_editor(Widget parent);
 }

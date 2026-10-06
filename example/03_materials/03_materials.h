@@ -15,4 +15,4 @@ Material& paving_stones_11(GfxSystem& gfx);
 Material& rocks_01(GfxSystem& gfx);
 Material& wood_floor_05(GfxSystem& gfx);
 
-void ex_03_materials(Shell& app, Widget& parent, DockbarHandle dockbar);
+void ex_03_materials(Shell& app, Widget parent, DockbarHandle dockbar);

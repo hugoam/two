@@ -6,4 +6,4 @@
 
 using namespace two;
 
-void ex_12_ui(Shell& app, Widget& parent, DockbarHandle dockbar);
+void ex_12_ui(Shell& app, Widget parent, DockbarHandle dockbar);

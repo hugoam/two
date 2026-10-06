@@ -9,7 +9,7 @@ module two.gfx.edit;
 namespace two
 {
 #if 0
-	TreeNode prefab_node(Widget& parent, PrefabNode* parent_node, PrefabNode& node, PrefabNode*& selected)
+	TreeNode prefab_node(Widget parent, PrefabNode* parent_node, PrefabNode& node, PrefabNode*& selected)
 	{
 		TreeNode self = ui::tree_node(key(), parent, to_string(var(node.m_prefab_type)).c_str());
 
@@ -37,13 +37,13 @@ namespace two
 		return self;
 	}
 
-	void prefab_structure(Widget& parent, PrefabNode& node, PrefabNode*& selected)
+	void prefab_structure(Widget parent, PrefabNode& node, PrefabNode*& selected)
 	{
 		Section self = section(key(), parent, "Prefab Graph");
 		prefab_node(self.body, nullptr, node, selected);
 	}
 
-	Widget& prefab_inspector(Widget& parent, PrefabNode& node)
+	Widget prefab_inspector(Widget parent, PrefabNode& node)
 	{
 		Section self = section(key(), parent, "Prefab Inspector");
 
@@ -51,9 +51,9 @@ namespace two
 		static vector<Function*> functions = { nullptr, &function(gfx::item), &function(gfx::model), &function(gfx::shape), &function(&gfx::particles), &function(gfx::light) };
 
 		static cstring columns[2] = { "field", "value" };
-		Widget& table = ui::table(key(), self.body, { columns, 2 }, {});
+		Widget table = ui::table(key(), self.body, { columns, 2 }, {});
 
-		Widget& row = ui::row(key(), table);
+		Widget row = ui::row(key(), table);
 		ui::label(key(), row, "type");
 		if(ui::dropdown_input(key(), row, { types, 6 }, (uint32_t&)node.m_prefab_type))
 			node.m_call = { *functions[size_t(node.m_prefab_type)] };
@@ -65,10 +65,10 @@ namespace two
 		return self;
 	}
 
-	void prefab_edit(Widget& parent, GfxSystem& gfx, PrefabNode& node, PrefabNode*& selected)
+	void prefab_edit(Widget parent, GfxSystem& gfx, PrefabNode& node, PrefabNode*& selected)
 	{
 		UNUSED(gfx);
-		Widget& self = ui::sheet(key(), parent);
+		Widget self = ui::sheet(key(), parent);
 
 		prefab_structure(self, node, selected);
 

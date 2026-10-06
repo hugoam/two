@@ -250,11 +250,11 @@ EX(xx_effect_dof)
 	}
 
 #if UI
-	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::sheet(key(), *dock);
+		Widget sheet = ui::sheet(key(), *dock);
 
-		Widget& controls = ui::stack(key(), sheet);
+		Widget controls = ui::stack(key(), sheet);
 		ui::slider_field(key(), controls, "focus",    bokeh.focus,    { 10.f, 3000.f, 10.f });
 		ui::slider_field(key(), controls, "aperture", bokeh.aperture, { 0.f, 10.f, 0.1f });
 		ui::slider_field(key(), controls, "maxblur",  bokeh.maxblur,  { 0.f, 3.f, 0.025f });

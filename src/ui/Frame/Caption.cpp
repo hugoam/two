@@ -92,7 +92,7 @@ namespace two
 		return { inkstyle.m_text_font.c_str(), inkstyle.m_text_colour, inkstyle.m_text_size, inkstyle.m_align, inkstyle.m_text_break, inkstyle.m_text_wrap };
 	}
 
-	void Text::update_style(Widget& widget)
+	void Text::update_style(Widget widget)
 	{
 		m_text_paint = style_text_paint(*widget.frame().d_inkstyle);
 	}
@@ -103,7 +103,7 @@ namespace two
 		//d_frame.mark_dirty(DIRTY_LAYOUT);
 	}
 
-	void Text::set_text(Widget& widget, const string& text)
+	void Text::set_text(Widget widget, const string& text)
 	{
 		if(m_text == text) return;
 		m_text = text;
@@ -135,7 +135,7 @@ namespace two
 		return result;
 	}
 
-	void Text::break_text_rows(Widget& widget)
+	void Text::break_text_rows(Widget widget)
 	{
 		const vec2 padded_size = floor(widget.frame().m_size - rect_sum(widget.frame().d_inkstyle->m_padding));
 

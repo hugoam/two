@@ -196,17 +196,17 @@ EX(xx_material_translucent)
 	}
 
 #if UI
-	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
-		Widget& sheet = ui::sheet(key(), *dock);
+		Widget sheet = ui::sheet(key(), *dock);
 
-		auto panel = [&](const string& name) -> Widget&
+		auto panel = [&](const string& name) -> Widget
 		{
-			Widget& s = ui::expandbox(key(), sheet, name.c_str());
+			Widget s = ui::expandbox(key(), sheet, name.c_str());
 			return ui::columns(key(), s, { 0.3f, 0.7f });
 		};
 
-		Widget& a = panel("Thickness Control");
+		Widget a = panel("Thickness Control");
 
 		ui::slider_field(key(), a, "distortion",  thickness.m_distortion,  { 0.01f, 1.f, 0.01f });
 		ui::slider_field(key(), a, "ambient",     thickness.m_ambient,     { 0.01f, 5.f, 0.05f });

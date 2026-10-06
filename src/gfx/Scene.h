@@ -117,7 +117,7 @@ namespace two
 		// the top-level node of the graph whose objects the scene renders: the root of the graph
 		uint32_t m_render_tree = 0;
 
-		meth_ Gnode& begin();
+		meth_ Gnode begin();
 		meth_ void update();
 
 		// visits the objects of a type of the scene's tree

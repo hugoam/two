@@ -29,7 +29,7 @@ using namespace mud;
 
 struct Example
 {
-	std::function<void(Shell&, Widget&, DockbarHandle)> m_func;
+	std::function<void(Shell&, Widget, DockbarHandle)> m_func;
 	cstring m_name;
 	bool m_with_tab;
 };
@@ -62,7 +62,7 @@ static Example examples[] = {
 	{ ex_20_meta,				"20_meta",				true  },
 };
 
-void example_select(Shell& app, Widget& parent, DockbarHandle dockbar)
+void example_select(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 	UNUSED(app);
 	static std::vector<cstring> example_names = []() { std::vector<cstring> names; for(Example ex : examples) names.push_back(ex.m_name); return names; }();
@@ -81,7 +81,7 @@ void pump(Shell& app)
 {
 	edit_context(app.m_ui->begin(), app.m_editor);
 
-	if(Widget* dock = ui::dockitem(app.m_editor.m_dockbar, "Options", carray<uint16_t, 1>{ 0U }))
+	if(Widget dock = ui::dockitem(app.m_editor.m_dockbar, "Options", carray<uint16_t, 1>{ 0U }))
 		example_select(app, *dock, app.m_editor.m_dockbar);
 	
 	if(current_example)

@@ -22,14 +22,14 @@ namespace two
 		virtual ~ViewerController() {}
 
 		// the controller drives the viewer from the input of a widget: the one of the viewer, or one covering it
-		virtual void process(Widget& input, Viewer& viewer) = 0;
+		virtual void process(Widget input, Viewer& viewer) = 0;
 	};
 
 	// a viewer of a scene, kept in the state of its widget
 	export_ class refl_ TWO_GFX_UI_EXPORT Viewer : public NodeState
 	{
 	public:
-		Viewer(Widget& self, Scene& scene);
+		Viewer(Widget self, Scene& scene);
 		~Viewer();
 
 		attr_ Scene* m_scene;
@@ -51,10 +51,10 @@ namespace two
 		void render(Render& render);
 		void blit(Vg& vg);
 
-		void resize(Widget& self);
-		vec4 query_rect(Widget& self);
+		void resize(Widget self);
+		vec4 query_rect(Widget self);
 
-		Ray mouse_ray(Widget& self);
+		Ray mouse_ray(Widget self);
 		Ray mouse_ray(const vec2& pos);
 
 		Picker& picker(size_t index);
@@ -63,7 +63,7 @@ namespace two
 	export_ class refl_ TWO_GFX_UI_EXPORT SceneViewer : public Viewer
 	{
 	public:
-		SceneViewer(Widget& self);
+		SceneViewer(Widget self);
 
 		Scene m_scene;
 	};
@@ -81,7 +81,7 @@ namespace two
 		attr_ float m_pitch = 0.f;
 		attr_ float m_distance = 1.f;
 
-		virtual void process(Widget& input, Viewer& viewer);
+		virtual void process(Widget input, Viewer& viewer);
 
 		meth_ void set_eye(const quat& rotation);
 		meth_ void set_target(const vec3& position);
@@ -155,10 +155,10 @@ namespace two
 
 		void reset(vec3& eye, vec3& target, vec3& up);
 
-		virtual void process(Widget& input, Viewer& viewer) override;
+		virtual void process(Widget input, Viewer& viewer) override;
 
-		void update(Widget& widget, vec3& eye, vec3& target, vec3& up);
-		void update(Widget& input, const vec2& size, vec3& eye, vec3& target, vec3& up);
+		void update(Widget widget, vec3& eye, vec3& target, vec3& up);
+		void update(Widget input, const vec2& size, vec3& eye, vec3& target, vec3& up);
 	};
 
 	// This set of controls performs orbiting, dollying (zooming), and panning.
@@ -231,10 +231,10 @@ namespace two
 		// Mouse buttons
 		//this.mouseButtons = { LEFT: THREE.MOUSE.LEFT, MIDDLE: THREE.MOUSE.MIDDLE, RIGHT: THREE.MOUSE.RIGHT };
 
-		virtual void process(Widget& input, Viewer& viewer) override;
+		virtual void process(Widget input, Viewer& viewer) override;
 
-		void update(Widget& widget, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat);
-		void update(Widget& input, const vec2& size, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat);
+		void update(Widget widget, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat);
+		void update(Widget input, const vec2& size, float fov, vec3& eye, vec3& target, vec3& up, mat4& mat);
 
 	private:
 		enum class State { None = -1, Rotate = 0, Dolly = 1, Pan = 2, TouchRotate = 3, TouchDollyPan = 4 };
@@ -276,9 +276,9 @@ namespace two
 	export_ struct refl_ struct_ TWO_GFX_UI_EXPORT ViewerHandle : public WidgetHandle
 	{
 		ViewerHandle() {}
-		explicit ViewerHandle(Widget& self) : WidgetHandle(self) {}
+		explicit ViewerHandle(Widget self) : WidgetHandle(self) {}
 
-		attr_ inline Widget& self() const { return this->widget(); }
+		attr_ inline Widget self() const { return this->widget(); }
 		attr_ inline Viewer& viewer() const { return *this->find_viewer(); }
 
 		// the viewer in the state of the widget, if the widget is still there
@@ -291,7 +291,7 @@ namespace two
 	export_ struct refl_ struct_ SceneViewerHandle : public ViewerHandle
 	{
 		SceneViewerHandle() {}
-		explicit SceneViewerHandle(Widget& self) : ViewerHandle(self) {}
+		explicit SceneViewerHandle(Widget self) : ViewerHandle(self) {}
 
 		SceneViewer* operator->() const { return static_cast<SceneViewer*>(&this->viewer()); }
 		SceneViewer& operator*() const { return static_cast<SceneViewer&>(this->viewer()); }
@@ -299,11 +299,11 @@ namespace two
 
 namespace ui
 {
-	export_ TWO_GFX_UI_EXPORT func_ ViewerHandle viewer(NodeKey id, Widget& parent, Scene& scene);
-	export_ TWO_GFX_UI_EXPORT func_ SceneViewerHandle scene_viewer(NodeKey id, Widget& parent, const vec2& size = vec2(0.f));
+	export_ TWO_GFX_UI_EXPORT func_ ViewerHandle viewer(NodeKey id, Widget parent, Scene& scene);
+	export_ TWO_GFX_UI_EXPORT func_ SceneViewerHandle scene_viewer(NodeKey id, Widget parent, const vec2& size = vec2(0.f));
 
-	export_ TWO_GFX_UI_EXPORT void viewport_picker(Viewer& viewer, Widget& widget, vector<Ref>& selection);
-	export_ TWO_GFX_UI_EXPORT Viewer& scene_viewport(NodeKey id, Widget& parent, Scene& scene, Camera& camera, vector<Ref>& selection);
+	export_ TWO_GFX_UI_EXPORT void viewport_picker(Viewer& viewer, Widget widget, vector<Ref>& selection);
+	export_ TWO_GFX_UI_EXPORT Viewer& scene_viewport(NodeKey id, Widget parent, Scene& scene, Camera& camera, vector<Ref>& selection);
 
 	enum class refl_ OrbitMode
 	{

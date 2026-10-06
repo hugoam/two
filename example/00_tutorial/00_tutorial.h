@@ -38,4 +38,4 @@ public:
 func_ void foo(int arg);
 func_ void bar(MyObject& object);
 
-void ex_00_tutorial_pump(Shell& app, Widget& parent, DockbarHandle dockbar);
+void ex_00_tutorial_pump(Shell& app, Widget parent, DockbarHandle dockbar);

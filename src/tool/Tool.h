@@ -87,7 +87,7 @@ namespace two
 	public:
 		SpatialTool(ToolContext& context, cstring name, Type& type);
 
-		virtual void paint(Gnode& parent) = 0;
+		virtual void paint(Gnode parent) = 0;
 
 		virtual void process(ViewerHandle viewer, span<Ref> selection) = 0;
 	};
@@ -96,8 +96,8 @@ namespace two
 	{
 	public:
 		virtual ~Gizmo() {}
-		virtual Item* draw_handle(Gnode&) = 0;
-		virtual void draw_gizmo(Gnode&, bool) = 0;
+		virtual Item* draw_handle(Gnode) = 0;
+		virtual void draw_gizmo(Gnode, bool) = 0;
 		virtual vec3 grab_point(ViewerHandle, const vec2&) = 0;
 
 		Item* m_handle = nullptr;
@@ -135,7 +135,7 @@ namespace two
 
 		void refresh();
 
-		virtual void paint(Gnode& parent) override;
+		virtual void paint(Gnode parent) override;
 
 		virtual void process(ViewerHandle viewer, span<Ref> selection) override;
 

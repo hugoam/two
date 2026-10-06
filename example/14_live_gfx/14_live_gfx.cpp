@@ -91,13 +91,13 @@ WrenInterpreter& create_wren()
 	return wren;
 }
 
-void ex_14_live_gfx(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_14_live_gfx(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 	UNUSED(app);
 	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
 
-	Gnode& scene = viewer->m_scene.begin();
+	Gnode scene = viewer->m_scene.begin();
 
 	static LuaInterpreter& lua = create_lua();
 	//static WrenInterpreter& wren = create_wren();
@@ -108,7 +108,7 @@ void ex_14_live_gfx(Shell& app, Widget& parent, DockbarHandle dockbar)
 	//static Language language = Language::Wren;
 	static Language language = Language::Lua;
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 	{
 		if(language == Language::Lua)
 			script_edit(*dock, lua_script);

@@ -10,7 +10,7 @@ namespace two
 {
 	//static uint32_t s_light_index = 0;
 
-	Light& Light::add(Gnode& parent)
+	Light& Light::add(Gnode parent)
 	{
 		return parent.suba().state<Light>(move(*this));
 	}

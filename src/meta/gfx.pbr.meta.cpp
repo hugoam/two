@@ -12,7 +12,7 @@ void two_CubeTarget_side(void* object, span<void*> args, void*& result) { result
 void two_CubeCamera__default_construct(void* ref) { new(stl::placeholder(), ref) two::CubeCamera(); }
 void two_CubeCamera__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::CubeCamera( *static_cast<two::Scene*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<uint32_t*>(args[3]) ); }
 void two_CubeCamera_render(void* object, span<void*> args, void*& result) { (*static_cast<two::Render*>(result)) = (*static_cast<two::CubeCamera*>(object)).render(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1]), *static_cast<two::SignedAxis*>(args[2])); }
-void* two_ReflectionProbe__get_node(void* object) { return &(*static_cast<two::ReflectionProbe*>(object)).m_node; }
+void two_ReflectionProbe__get_node(void* object, void*& result) { result = &(*static_cast<two::ReflectionProbe*>(object)).m_node; }
 void two_LightShadow__default_construct(void* ref) { new(stl::placeholder(), ref) two::LightShadow(); }
 void two_LightShadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::LightShadow((*static_cast<two::LightShadow*>(other))); }
 void two_CSMSlice__default_construct(void* ref) { new(stl::placeholder(), ref) two::CSMSlice(); }
@@ -760,13 +760,13 @@ namespace two
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "gfx" }), "gi_probe", funcptr<two::GIProbe&(*)(two::Gnode&, uint16_t, const two::vec3&)>(two::gfx::gi_probe), two_gfx_gi_probe_21, { { "parent", type<two::Gnode>(), Param::Reference }, { "subdiv", type<uint16_t>(),  }, { "extents", type<two::vec3>(),  } }, { &type<two::GIProbe>(), QualType::None } };
+			static Function f = { &namspc({ "two", "gfx" }), "gi_probe", funcptr<two::GIProbe&(*)(two::Gnode, uint16_t, const two::vec3&)>(two::gfx::gi_probe), two_gfx_gi_probe_21, { { "parent", type<two::Gnode>(),  }, { "subdiv", type<uint16_t>(),  }, { "extents", type<two::vec3>(),  } }, { &type<two::GIProbe>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float density_default = 8.f;
 			static stl::string save_path_default = "";
-			static Function f = { &namspc({ "two", "gfx" }), "lightmap", funcptr<two::LightmapAtlas&(*)(two::Gnode&, uint32_t, float, const stl::string&)>(two::gfx::lightmap), two_gfx_lightmap_22, { { "parent", type<two::Gnode>(), Param::Reference }, { "resolution", type<uint32_t>(),  }, { "density", type<float>(), Param::Default, &density_default }, { "save_path", type<stl::string>(), Param::Default, &save_path_default } }, { &type<two::LightmapAtlas>(), QualType::None } };
+			static Function f = { &namspc({ "two", "gfx" }), "lightmap", funcptr<two::LightmapAtlas&(*)(two::Gnode, uint32_t, float, const stl::string&)>(two::gfx::lightmap), two_gfx_lightmap_22, { { "parent", type<two::Gnode>(),  }, { "resolution", type<uint32_t>(),  }, { "density", type<float>(), Param::Default, &density_default }, { "save_path", type<stl::string>(), Param::Default, &save_path_default } }, { &type<two::LightmapAtlas>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{

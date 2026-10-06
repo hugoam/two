@@ -8,8 +8,8 @@ void two_ToolState__to_string(void* val, string& str) { str = g_enu[type<two::To
 void two_ToolState__to_value(const string& str, void* val) { (*static_cast<two::ToolState*>(val)) = two::ToolState(g_enu[type<two::ToolState>().m_id]->value(str.c_str())); }
 void two_ToolContext__default_construct(void* ref) { new(stl::placeholder(), ref) two::ToolContext(); }
 void two_ToolContext__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::ToolContext((*static_cast<two::ToolContext*>(other))); }
-void* two_Tool__get_type(void* object) { return &(*static_cast<two::Tool*>(object)).m_type; }
-void* two_Tool__get_context(void* object) { return &(*static_cast<two::Tool*>(object)).m_context; }
+void two_Tool__get_type(void* object, void*& result) { result = &(*static_cast<two::Tool*>(object)).m_type; }
+void two_Tool__get_context(void* object, void*& result) { result = &(*static_cast<two::Tool*>(object)).m_context; }
 void two_PlaceBrush__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::PlaceBrush( *static_cast<two::ToolContext*>(args[0]) ); }
 void two_CircleBrush__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::CircleBrush( *static_cast<two::ToolContext*>(args[0]) ); }
 void two_ScriptedBrush__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ScriptedBrush( *static_cast<two::ToolContext*>(args[0]), *static_cast<two::Script*>(args[1]) ); }

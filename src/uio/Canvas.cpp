@@ -36,7 +36,7 @@ namespace two
 		return filter.empty() || name.find(filter) != string::npos;
 	}
 
-	void script_canvas_insert(Canvas& canvas, Widget& parent, VisualScript& script)
+	void script_canvas_insert(Canvas& canvas, Widget parent, VisualScript& script)
 	{
 		static string filter = "";
 		ui::type_in(key(), parent, filter);
@@ -49,9 +49,9 @@ namespace two
 			script.m_processes.back()->m_position[1] = position.y;
 		};
 
-		Widget& board = ui::widget(key(), parent, styles().sheet, false, Axis::X);
+		Widget board = ui::widget(key(), parent, styles().sheet, false, Axis::X);
 
-		Widget& functions = ui::sheet(key(), board);
+		Widget functions = ui::sheet(key(), board);
 		ui::label(key(), functions, "Functions");
 
 		for(Module* m : System::instance().m_modules)
@@ -66,7 +66,7 @@ namespace two
 					}
 		}
 
-		Widget& values = ui::sheet(key(), board);
+		Widget values = ui::sheet(key(), board);
 		ui::label(key(), values, "Values");
 
 		for(Module* m : System::instance().m_modules)
@@ -82,7 +82,7 @@ namespace two
 						}
 		}
 
-		Widget& types = ui::sheet(key(), board);
+		Widget types = ui::sheet(key(), board);
 		ui::label(key(), types, "Objects");
 
 		for(Module* m : System::instance().m_modules)
@@ -127,14 +127,14 @@ namespace two
 
 		NodePlugHandle plug = ui::node_plug(key(), node, valve.m_name.c_str(), icon.c_str(), colour, input, enabled, !valve.m_pipes.empty());
 		
-		if(Widget* tooltip = ui::tooltip(key(), plug.self(), plug.self().frame()))
+		if(Widget tooltip = ui::tooltip(key(), plug.self(), plug.self().frame()))
 		{
 			string info = valve.error_info() + valve.param_info();
 			ui::label(key(), *tooltip, info.c_str());
 		}
 	}
 
-	void process_tweakers(Widget& parent, Process& process)
+	void process_tweakers(Widget parent, Process& process)
 	{
 		for(Valve* output : process.m_outputs)
 			if(output->m_edit)
@@ -145,7 +145,7 @@ namespace two
 			}
 	}
 
-	void process_display(Widget& parent, ProcessDisplay& process)
+	void process_display(Widget parent, ProcessDisplay& process)
 	{
 		process.m_input_value.m_stream.visit(true, [&](StreamBranch& branch) {
 			Ref value = branch.m_value;
@@ -177,7 +177,7 @@ namespace two
 			destroy = true;
 
 #if 0
-		if(Widget* context = ui::context(key(), node, (1 << 0), ui::PopupModal))
+		if(Widget context = ui::context(key(), node, (1 << 0), ui::PopupModal))
 		{
 
 		}
@@ -215,7 +215,7 @@ namespace two
 		else if(valve.m_kind == FLOW_VALVE_OUT || true)
 			return node.m_outputs->child(0).state<NodePlug>();
 
-		//Widget& plug = input ? node.m_inputs->child(valve.m_index) : node.m_outputs->child(valve.m_index);
+		//Widget plug = input ? node.m_inputs->child(valve.m_index) : node.m_outputs->child(valve.m_index);
 		//return plug;
 	}
 
@@ -225,13 +225,13 @@ namespace two
 		//canvas.autoLayout();
 	}
 
-	Canvas& script_canvas(Widget& parent, VisualScript& script)
+	Canvas& script_canvas(Widget parent, VisualScript& script)
 	{
 		enum Modes { Insert = 1 << 0 };
 
 		CanvasHandle canvas = ui::canvas(key(), parent, script.m_processes.size());
 
-		if(Widget* popup = ui::context(key(), *canvas->m_scroll_plan, Insert, ui::PopupFlags::Modal))
+		if(Widget popup = ui::context(key(), *canvas->m_scroll_plan, Insert, ui::PopupFlags::Modal))
 			script_canvas_insert(*canvas, *popup, script);
 
 		Process* destroy = nullptr;
@@ -265,7 +265,7 @@ namespace two
 		return *canvas;
 	}
 
-	Section visual_script_edit(Widget& parent, VisualScript& script)
+	Section visual_script_edit(Widget parent, VisualScript& script)
 	{
 		Section self = section(key(), parent, script.m_name.c_str());
 

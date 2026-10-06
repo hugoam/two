@@ -123,14 +123,14 @@ static TextScript create_script(LuaInterpreter& interpreter)
 	return script;
 }
 
-void ex_13_live_ui(Shell& app, Widget& parent, DockbarHandle dockbar)
+void ex_13_live_ui(Shell& app, Widget parent, DockbarHandle dockbar)
 {
 #if NATIVE
-	Widget& ui = parent;
-	Widget& b = ui::board(key(), ui);
-	Widget& d1 = ui::div(key(), b);
+	Widget ui = parent;
+	Widget b = ui::board(key(), ui);
+	Widget d1 = ui::div(key(), b);
 		
-	Widget& r = ui::row(key(), d1);
+	Widget r = ui::row(key(), d1);
 	ui::button(key(), r, "(arrow_right)");
 	ui::button(key(), r, "(arrow_left)");
 	ui::button(key(), r, "(arrow_down)");
@@ -141,7 +141,7 @@ void ex_13_live_ui(Shell& app, Widget& parent, DockbarHandle dockbar)
 	Colour col = Colour::Pink;
 	ui::color_edit(key(), d1, col);
 		
-	Widget& d2 = ui::layout(key(), b);
+	Widget d2 = ui::layout(key(), b);
 		
 	vec2 viewer_size = vec2(200, 170);
 	vector<SceneViewer*> viewers = {};
@@ -188,12 +188,12 @@ void ex_13_live_ui(Shell& app, Widget& parent, DockbarHandle dockbar)
 
 	for(size_t i = 0; i < viewers.size(); ++i)
 	{
-		Gnode& scene = viewers[i]->m_scene.begin();
+		Gnode scene = viewers[i]->m_scene.begin();
 
-		Gnode& cn1 = gfx::node(scene, vec3(0.f), quat(rotation), vec3(1.f));
+		Gnode cn1 = gfx::node(scene, vec3(0.f), quat(rotation), vec3(1.f));
 		gfx::shape(cn1, Cube(), Symbol::plain(colours[i]));
 
-		Gnode& cn2 = gfx::node(scene, vec3(0.f), quat(rotation), vec3(2.f));
+		Gnode cn2 = gfx::node(scene, vec3(0.f), quat(rotation), vec3(2.f));
 		gfx::shape(cn2, Cube(), Symbol::wire(colours[i]));
 	}
 	
@@ -205,7 +205,7 @@ void ex_13_live_ui(Shell& app, Widget& parent, DockbarHandle dockbar)
 
 	call();
 
-	if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 		script_edit(*dock, script);
 #endif
 }

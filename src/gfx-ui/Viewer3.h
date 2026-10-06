@@ -12,6 +12,6 @@ namespace two
 	export_ class TWO_GFX_UI_EXPORT SpaceViewport : public Viewer
 	{
 	public:
-		SpaceViewport(Widget& self, Scene& scene);
+		SpaceViewport(Widget self, Scene& scene);
 	};
 }

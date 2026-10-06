@@ -10,8 +10,8 @@ void two_Entt__default_construct(void* ref) { new(stl::placeholder(), ref) two::
 void two_Entt__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Entt((*static_cast<two::Entt*>(other))); }
 void two_Complex__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Complex( *static_cast<uint32_t*>(args[0]), *static_cast<two::Type*>(args[1]) ); }
 void two_Complex__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Complex( *static_cast<uint32_t*>(args[0]), *static_cast<two::Type*>(args[1]), *static_cast<stl::span<two::Ref>*>(args[2]) ); }
-void* two_Complex__get_type(void* object) { return &(*static_cast<two::Complex*>(object)).m_type; }
-void* two_Complex__get_prototype(void* object) { return &(*static_cast<two::Complex*>(object)).m_prototype; }
+void two_Complex__get_type(void* object, void*& result) { result = &(*static_cast<two::Complex*>(object)).m_type; }
+void two_Complex__get_prototype(void* object, void*& result) { result = &(*static_cast<two::Complex*>(object)).m_prototype; }
 void two_Complex_setup(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Complex*>(object)).setup(*static_cast<stl::span<two::Ref>*>(args[0])); }
 void two_Complex_add_part(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Complex*>(object)).add_part(*static_cast<two::Ref*>(args[0])); }
 void two_Complex_has_part(void* object, span<void*> args, void*& result) { (*static_cast<bool*>(result)) = (*static_cast<two::Complex*>(object)).has_part(*static_cast<two::Type*>(args[0])); }

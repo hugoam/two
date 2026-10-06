@@ -8,20 +8,20 @@ import two.gfx.pbr;
 
 using namespace two;
 
-void ex_10_post_process(Shell& app, Widget& parent, DockbarHandle dockbar)//, DockbarHandle dockbar)
+void ex_10_post_process(Shell& app, Widget parent, DockbarHandle dockbar)//, DockbarHandle dockbar)
 {
 	UNUSED(app);
 	SceneViewerHandle viewer = ui::scene_viewer(key(), parent);
 	ui::orbit_controller(viewer);
 
-	//if(Widget* dock = ui::dockitem(dockbar, "Game", { 1U }))
+	//if(Widget dock = ui::dockitem(dockbar, "Game", { 1U }))
 	//	edit_viewer_filters(*dock, *viewer);
 
-	Gnode& scene = viewer->m_scene.begin();
+	Gnode scene = viewer->m_scene.begin();
 
 	Material& material = milky_white(app.m_gfx);
 
-	Gnode& ground_node = gfx::node(scene, vec3(0.f, -5.f, 0.f));
+	Gnode ground_node = gfx::node(scene, vec3(0.f, -5.f, 0.f));
 	gfx::shape(ground_node, Rect(vec2(-50.f), vec2(100.f)), Symbol(), 0U, &material);
 
 	gfx::direct_light_node(scene);

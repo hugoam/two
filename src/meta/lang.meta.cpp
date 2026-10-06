@@ -6,12 +6,12 @@ using namespace two;
 
 void two_Language__to_string(void* val, string& str) { str = g_enu[type<two::Language>().m_id]->name(uint32_t((*static_cast<two::Language*>(val)))); }
 void two_Language__to_value(const string& str, void* val) { (*static_cast<two::Language*>(val)) = two::Language(g_enu[type<two::Language>().m_id]->value(str.c_str())); }
-void* two_Script__get_type(void* object) { return &(*static_cast<two::Script*>(object)).m_type; }
+void two_Script__get_type(void* object, void*& result) { result = &(*static_cast<two::Script*>(object)).m_type; }
 void two_ScriptError__default_construct(void* ref) { new(stl::placeholder(), ref) two::ScriptError(); }
 void two_ScriptError__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::ScriptError((*static_cast<two::ScriptError*>(other))); }
 void two_TextScript__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::TextScript( *static_cast<stl::string*>(args[0]), *static_cast<two::Language*>(args[1]), *static_cast<two::Signature*>(args[2]) ); }
 void two_ScriptClass__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ScriptClass( *static_cast<stl::string*>(args[0]), *static_cast<stl::span<two::Type*>*>(args[1]) ); }
-void* two_Process__get_type(void* object) { return &(*static_cast<two::Process*>(object)).m_type; }
+void two_Process__get_type(void* object, void*& result) { result = &(*static_cast<two::Process*>(object)).m_type; }
 void two_VisualScript__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::VisualScript( *static_cast<stl::string*>(args[0]), *static_cast<two::Signature*>(args[1]) ); }
 void two_ProcessValue__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ProcessValue( *static_cast<two::VisualScript*>(args[0]), *static_cast<two::Var*>(args[1]) ); }
 void two_ProcessCreate__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::ProcessCreate( *static_cast<two::VisualScript*>(args[0]), *static_cast<two::Type*>(args[1]), *static_cast<two::Constructor*>(args[2]) ); }

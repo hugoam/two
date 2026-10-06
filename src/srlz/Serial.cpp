@@ -320,7 +320,7 @@ namespace two
 				for(Member& member : cls(value).m_members)
 					if(&member != cls(value).m_type_member)
 					{
-						Var member_val = Var(member.get(value.m_ref));
+						Var member_val; member.get(value.m_ref, member_val);
 						pack(packer, member_val, json_members[member.m_index]);
 					}
 
@@ -333,7 +333,7 @@ namespace two
 				for(Member& member : cls(value).m_members)
 					if(&member != cls(value).m_type_member)
 					{
-						Var member_val = Var(member.get(value.m_ref));
+						Var member_val; member.get(value.m_ref, member_val);
 #ifdef NO_PACK_DEFAULT
 						if(memcmp(member_val.m_ref.m_value, member.m_default_value.m_value, meta(member_val).m_size) == 0)
 							continue;

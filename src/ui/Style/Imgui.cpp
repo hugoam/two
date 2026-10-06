@@ -235,7 +235,7 @@ namespace two
 		Style& dropdown_toggle = ui::dropdown_styles().toggle;
 
 		dropdown_toggle.m_layout.m_size = vec2(13.f + 6.f);
-		dropdown_toggle.m_skin.m_custom_draw = [](Widget& widget, const vec4& rect, Vg& vg)
+		dropdown_toggle.m_skin.m_custom_draw = [](Widget widget, const vec4& rect, Vg& vg)
 		{
 			draw_frame(vg, widget, rect);
 			render_arrow(vg, rect.pos + vec2(3.f), SignedAxis::MinusY, 13.f, 1.f, Colour(1.f));
@@ -243,7 +243,7 @@ namespace two
 		
 		for(Subskin& subskin : dropdown_toggle.m_skins)
 		{
-			subskin.skin.m_custom_draw = [](Widget& widget, const vec4& rect, Vg& vg)
+			subskin.skin.m_custom_draw = [](Widget widget, const vec4& rect, Vg& vg)
 			{
 				draw_frame(vg, widget, rect);
 				render_arrow(vg, rect.pos + vec2(3.f), SignedAxis::MinusY, 13.f, 1.f, Colour(1.f));
@@ -255,14 +255,14 @@ namespace two
 
 		select({ "ExpandboxToggle" })
 		.declare([&](Layout& l, InkStyle& i) {
-			i.m_custom_draw = [](Widget& widget, const vec4& rect, Vg& vg) {  UNUSED(widget); render_arrow(vg, rect.pos, SignedAxis::PlusX, 13.f, 1.f, Colour(1.f)); };
+			i.m_custom_draw = [](Widget widget, const vec4& rect, Vg& vg) {  UNUSED(widget); render_arrow(vg, rect.pos, SignedAxis::PlusX, 13.f, 1.f, Colour(1.f)); };
 			l.m_size = vec2(13.f);
 		})
 		.decline({ ACTIVE }, [&](InkStyle& i) {
-			i.m_custom_draw = [](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); render_arrow(vg, rect.pos, SignedAxis::MinusY, 13.f, 1.f, Colour(1.f)); };
+			i.m_custom_draw = [](Widget widget, const vec4& rect, Vg& vg) { UNUSED(widget); render_arrow(vg, rect.pos, SignedAxis::MinusY, 13.f, 1.f, Colour(1.f)); };
 		})
 		.decline({ DISABLED }, [&](InkStyle& i) {
-			i.m_custom_draw = [](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); UNUSED(rect); UNUSED(vg); };
+			i.m_custom_draw = [](Widget widget, const vec4& rect, Vg& vg) { UNUSED(widget); UNUSED(rect); UNUSED(vg); };
 		});
 		
 		select({ "TreeNodeNoToggle" })
@@ -272,14 +272,14 @@ namespace two
 
 		select({ "TreeNodeToggle" })
 		.declare([&](Layout& l, InkStyle& i) {
-			i.m_custom_draw = [](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); render_arrow(vg, rect.pos, SignedAxis::PlusX, 13.f, 0.7f, Colour(1.f)); };
+			i.m_custom_draw = [](Widget widget, const vec4& rect, Vg& vg) { UNUSED(widget); render_arrow(vg, rect.pos, SignedAxis::PlusX, 13.f, 0.7f, Colour(1.f)); };
 			l.m_size = vec2(13.f) * 0.7f;
 		})
 		.decline({ ACTIVE }, [&](InkStyle& i) {
-			i.m_custom_draw = [](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); render_arrow(vg, rect.pos, SignedAxis::MinusY, 13.f, 0.7f, Colour(1.f)); };
+			i.m_custom_draw = [](Widget widget, const vec4& rect, Vg& vg) { UNUSED(widget); render_arrow(vg, rect.pos, SignedAxis::MinusY, 13.f, 0.7f, Colour(1.f)); };
 		})
 		.decline({ DISABLED }, [&](InkStyle& i) {
-			i.m_custom_draw = [](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); UNUSED(rect); UNUSED(vg); };
+			i.m_custom_draw = [](Widget widget, const vec4& rect, Vg& vg) { UNUSED(widget); UNUSED(rect); UNUSED(vg); };
 		});
 #if 0
 		select({ "Element", "TreeNodeHeader" })
@@ -340,7 +340,7 @@ namespace two
 		static Colour Checkmark = style.CheckMark;
 		select({  "Checkmark" })
 		.declare([&](Layout& l, InkStyle& i) { UNUSED(l);
-			i.m_custom_draw = [](Widget& widget, const vec4& rect, Vg& vg) { UNUSED(widget); render_checkmark(vg, rect.pos + vec2(3.f), Checkmark, 13.f); };
+			i.m_custom_draw = [](Widget widget, const vec4& rect, Vg& vg) { UNUSED(widget); render_checkmark(vg, rect.pos + vec2(3.f), Checkmark, 13.f); };
 		});
 		
 		select({ "Menubar" })

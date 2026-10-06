@@ -29,7 +29,7 @@ namespace ui
 		vg.stroke(paint);
 	}
 
-	void draw_grid(Widget& widget, const vec4& rect, Vg& vg)
+	void draw_grid(Widget widget, const vec4& rect, Vg& vg)
 	{
 		UNUSED(rect);
 		static const Paint main_paint = Paint(Colour(0.162f), 1.f);
@@ -39,7 +39,7 @@ namespace ui
 		draw_grid(widget.frame(), 100.f, main_paint, vg);
 	}
 
-	void scroll_plan_drag(Widget& scroll_zone, Widget& scroll_plan, const MouseEvent& event)
+	void scroll_plan_drag(Widget scroll_zone, Widget scroll_plan, const MouseEvent& event)
 	{
 		const Frame& plan = scroll_plan.frame();
 		const vec2 position = plan.m_position + event.m_delta;
@@ -53,7 +53,7 @@ namespace ui
 		return scroll_plan_drag(scroll_sheet.scroll_zone, scroll_sheet.body, mouse_event);
 	}
 
-	void scroll_plan_zoom(Widget& scroll_zone, Widget& scroll_plan, const MouseEvent& mouse_event, bool clamped)
+	void scroll_plan_zoom(Widget scroll_zone, Widget scroll_plan, const MouseEvent& mouse_event, bool clamped)
 	{
 		const Frame& plan = scroll_plan.frame();
 		const float delta_scale = mouse_event.m_deltaZ > 0.f ? 1.2f : 0.8333f;
@@ -80,11 +80,11 @@ namespace ui
 		return scroll_plan_zoom(scroll_sheet.scroll_zone, scroll_sheet.body, mouse_event, clamped);
 	}
 
-	ScrollSheet scroll_sheet(NodeKey id, Widget& parent, Style& style, Style* surface_style)
+	ScrollSheet scroll_sheet(NodeKey id, Widget parent, Style& style, Style* surface_style)
 	{
-		Widget& self = widget(id, parent, style);
-		Widget& scroll_zone = widget(key(), self, styles().scroll_zone, false, Axis::None, { 0, 0 });
-		Widget& body = widget(key(), scroll_zone, surface_style ? *surface_style : styles().scroll_surface);
+		Widget self = widget(id, parent, style);
+		Widget scroll_zone = widget(key(), self, styles().scroll_zone, false, Axis::None, { 0, 0 });
+		Widget body = widget(key(), scroll_zone, surface_style ? *surface_style : styles().scroll_surface);
 
 		scrollbar(key(), self, scroll_zone, body, Axis::X, { 0, 1 });
 		scrollbar(key(), self, scroll_zone, body, Axis::Y, { 1, 0 });
@@ -101,7 +101,7 @@ namespace ui
 		return { self, scroll_zone, body };
 	}
 
-	ScrollSheet scroll_plan(NodeKey id, Widget& parent, Style& style)
+	ScrollSheet scroll_plan(NodeKey id, Widget parent, Style& style)
 	{
 		static const bool clamped = true;
 
@@ -115,7 +115,7 @@ namespace ui
 		return self;
 	}
 
-	void autofit_scroll_plan(Widget& plan, span<Widget*> elements)
+	void autofit_scroll_plan(Widget plan, span<Widget> elements)
 	{
 		if(elements.size() == 0)
 			return;
@@ -126,7 +126,7 @@ namespace ui
 		vec2 bounds_min = vec2(FLT_MAX);
 		vec2 bounds_max = vec2(FLT_MIN);
 
-		for(Widget* widget : elements)
+		for(Widget widget : elements)
 		{
 			bounds_min = min(widget->frame().m_position, bounds_min);
 			bounds_max = max(widget->frame().m_position + widget->frame().m_size, bounds_max);
@@ -137,7 +137,7 @@ namespace ui
 		const vec2 remainder = mod(offset, vec2(100.f));
 		offset = offset - remainder;
 
-		for(Widget* widget : elements)
+		for(Widget widget : elements)
 			widget->set_position(widget->frame().m_position + offset);
 
 		plan.set_position(scroll_plan.m_position - offset * scroll_plan.m_scale);
@@ -146,7 +146,7 @@ namespace ui
 		scroll_plan.m_size = bounds;
 	}
 
-	Widget& scrollable(NodeKey id, Widget& parent)
+	Widget scrollable(NodeKey id, Widget parent)
 	{
 		return scroll_sheet(id, parent).body;
 	}

@@ -6,7 +6,7 @@
 
 using namespace two;
 
-void ex_05_character(Shell& app, Widget& parent, DockbarHandle dockbar);
+void ex_05_character(Shell& app, Widget parent, DockbarHandle dockbar);
 
-//void paint_human(Gnode& parent, Human& human);
+//void paint_human(Gnode parent, Human& human);
 

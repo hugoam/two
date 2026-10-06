@@ -17,14 +17,15 @@ namespace two
 	extern template class PooledNode<Gnode>;
 #endif
 
-	export_ class refl_ TWO_GFX_EXPORT Gnode : public PooledNode<Gnode>
+	export_ class refl_ struct_ TWO_GFX_EXPORT Gnode : public PooledNode<Gnode>
 	{
 	public:
-		Gnode(PooledGraph<Gnode>& graph);
-		Gnode(Gnode* parent);
+		Gnode() {}
+		Gnode(nullptr_t) {}
+		Gnode(PooledGraph<Gnode>& graph, uint32_t index) : PooledNode(graph, index) {}
 
 		// the gfx nodes have no top nodes, they never change parent
-		void reparent(Gnode* old) { UNUSED(old); }
+		void reparent(Gnode old) { UNUSED(old); }
 		// a sound still playing in the node goes to the orphan sounds of the scene
 		void release();
 
@@ -42,5 +43,5 @@ namespace two
 		Sound* m_sound = nullptr;
 	};
 
-	export_ TWO_GFX_EXPORT void debug_tree(Gnode& node, size_t index = 0, size_t depth = 0);
+	export_ TWO_GFX_EXPORT void debug_tree(Gnode node, size_t index = 0, size_t depth = 0);
 }

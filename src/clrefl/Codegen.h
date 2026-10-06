@@ -368,15 +368,15 @@ namespace clgen
 	string getter_body(const CLType& c, const CLMember& m)
 	{
 		if(m.m_method)
-			return "return " + string(m.m_type.m_type->iscstring() ? "(void*)" : "") + string(!m.m_type.pointer() ? "&" : "") + cast(c, "object") + "." + m.m_member + "();";
+			return value_assign(m.m_type, "result", cast(c, "object") + "." + m.m_member + "()") + ";";
 		else //if(m.m_type.reference())
-			return "return &" + cast(c, "object") + "." + m.m_member + ";";
+			return "result = &" + cast(c, "object") + "." + m.m_member + ";";
 	}
 
 #if LAMBDAS
 	string getter_lambda(const CLType& c, const CLMember& m)
 	{
-		return "[](void* object) -> void* { " + getter_body(c, m) + " }";
+		return "[](void* object, void*& result) { " + getter_body(c, m) + " }";
 	}
 
 	string getter_func(const CLType& c, const CLMember& m)
@@ -386,7 +386,7 @@ namespace clgen
 #else
 	string getter_def(const CLType& c, const CLMember& m)
 	{
-		return "void* " + id(c, "_get_" + m.m_name) + "(void* object) { " + getter_body(c, m) + " }";
+		return "void " + id(c, "_get_" + m.m_name) + "(void* object, void*& result) { " + getter_body(c, m) + " }";
 	}
 
 	string getter_func(const CLType& c, const CLMember& m)

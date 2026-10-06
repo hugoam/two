@@ -137,7 +137,7 @@ EX(xx_cubemap_dynamic)
 	scene.m_env.m_radiance.m_texture = &texture;
 
 #if AXES
-	Gnode& root = scene.begin();
+	Gnode root = scene.begin();
 	gfx::shape(root, Cylinder(x3 * 30.f, 1.f, 30.f, Axis::X), Symbol::plain(Colour::Red));
 	gfx::shape(root, Cylinder(y3 * 30.f, 1.f, 30.f, Axis::Y), Symbol::plain(Colour::Green));
 	gfx::shape(root, Cylinder(z3 * 30.f, 1.f, 30.f, Axis::Z), Symbol::plain(Colour::Blue));

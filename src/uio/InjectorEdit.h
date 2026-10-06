@@ -8,10 +8,10 @@
 
 namespace two
 {
-	export_ TWO_UIO_EXPORT void meta_object_creator(Widget& parent);
-	export_ TWO_UIO_EXPORT void object_injector(Widget& parent, Injector& injector);
-	export_ TWO_UIO_EXPORT bool object_creator(Widget& parent, Creator& creator);
+	export_ TWO_UIO_EXPORT void meta_object_creator(Widget parent);
+	export_ TWO_UIO_EXPORT void object_injector(Widget parent, Injector& injector);
+	export_ TWO_UIO_EXPORT bool object_creator(Widget parent, Creator& creator);
 
-	export_ TWO_UIO_EXPORT bool object_switch_creator(Widget& parent, span<Type*> types);
-	export_ TWO_UIO_EXPORT bool object_creator(Widget& parent, Type& type);
+	export_ TWO_UIO_EXPORT bool object_switch_creator(Widget parent, span<Type*> types);
+	export_ TWO_UIO_EXPORT bool object_creator(Widget parent, Type& type);
 }

@@ -8,5 +8,5 @@
 
 namespace two
 {
-	TWO_GFX_EDIT_EXPORT void prefab_edit(Widget& parent, GfxSystem& gfx, PrefabNode& node, PrefabNode*& selected);
+	TWO_GFX_EDIT_EXPORT void prefab_edit(Widget parent, GfxSystem& gfx, PrefabNode& node, PrefabNode*& selected);
 }

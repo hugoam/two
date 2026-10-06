@@ -8,7 +8,7 @@
 
 namespace two
 {
-	export_ class TWO_UIO_EXPORT DispatchItem : public Dispatch<Widget&, Widget&>, public LazyGlobal<DispatchItem>
+	export_ class TWO_UIO_EXPORT DispatchItem : public Dispatch<Widget, Widget>, public LazyGlobal<DispatchItem>
 	{
 	public:
 		DispatchItem();

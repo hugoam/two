@@ -6,4 +6,4 @@
 
 using namespace two;
 
-void ex_08_sky(Shell& app, Widget& parent, DockbarHandle dockbar);
+void ex_08_sky(Shell& app, Widget parent, DockbarHandle dockbar);

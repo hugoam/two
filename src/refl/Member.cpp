@@ -29,4 +29,15 @@ namespace two
 
 	Member::~Member()
 	{}
+
+	void Member::get(Ref object, Var& result) const
+	{
+		if(this->is_value_getter())
+		{
+			result = two::meta(*m_type).m_empty_var;
+			m_get(object.m_value, result.m_ref.m_value);
+		}
+		else
+			result = this->get(object);
+	}
 }

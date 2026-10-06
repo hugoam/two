@@ -11,12 +11,12 @@ namespace two
 	// a section with a title, and a toolbar: the content goes in the body, scrolled
 	export_ struct Section
 	{
-		Widget& self;
-		Widget* toolbar;
-		Widget& body;
-		operator Widget&() const { return self; }
+		Widget self;
+		Widget toolbar;
+		Widget body;
+		operator Widget() const { return self; }
 	};
 
-	export_ TWO_UI_EXPORT Section section(NodeKey id, Widget& parent, const string& name, bool no_toolbar = false);
+	export_ TWO_UI_EXPORT Section section(NodeKey id, Widget parent, const string& name, bool no_toolbar = false);
 	export_ TWO_UI_EXPORT bool section_action(Section& parent, const string& name);
 }
