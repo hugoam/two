@@ -82,7 +82,7 @@ namespace two
 
 	}
 
-	template <class S, class F>
+	export_ template <class S, class F>
 	Job* split_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor, const S& splitter)
 	{
 		using Jobs = details::ParallelJob<S, F>;
@@ -90,7 +90,7 @@ namespace two
 		return js.job(parent, jobs);
 	}
 
-	template <class T, class S, class F>
+	export_ template <class T, class S, class F>
 	Job* split_jobs(JobSystem& js, Job* parent, T* data, uint32_t count, F functor, const S& splitter)
 	{
 		auto user = [data, f = move(functor)](JobSystem& js, Job* job, uint32_t start, uint32_t count)
@@ -103,32 +103,32 @@ namespace two
 		return js.job(parent, jobs);
 	}
 
-	template <class T, class S, class F>
+	export_ template <class T, class S, class F>
 	Job* split_jobs(JobSystem& js, Job* parent, span<T> slice, F functor, const S& splitter)
 	{
 		return split_jobs(js, parent, slice.data(), slice.size(), functor, splitter);
 	}
 
-	template <uint32_t Count, uint32_t MaxSplits = 12>
+	export_ template <uint32_t Count, uint32_t MaxSplits = 12>
 	class CountSplitter
 	{
 	public:
 		bool split(uint32_t splits, uint32_t count) const { return (splits < MaxSplits && count >= Count * 2); }
 	};
 
-	template <uint32_t Count, class F>
+	export_ template <uint32_t Count, class F>
 	Job* split_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor)
 	{
 		return split_jobs(js, parent, start, count, functor, CountSplitter<Count>());
 	}
 
-	template <uint32_t Count, class T, class F>
+	export_ template <uint32_t Count, class T, class F>
 	Job* split_jobs(JobSystem& js, Job* parent, span<T> slice, F functor)
 	{
 		return split_jobs(js, parent, slice.data(), slice.size(), functor, CountSplitter<Count>());
 	}
 
-	template <uint32_t Count, class F>
+	export_ template <uint32_t Count, class F>
 	Job* parallel_jobs(JobSystem& js, Job* parent, uint32_t start, uint32_t count, F functor)
 	{
 		auto user = [f = move(functor)](JobSystem& js, Job* job, uint32_t start, uint32_t count)
@@ -141,7 +141,7 @@ namespace two
 		return js.job<Jobs>(parent, jobs);
 	}
 
-	template <uint32_t Count, class T_Source, class T_Dest>
+	export_ template <uint32_t Count, class T_Source, class T_Dest>
 	void parallel_copy(JobSystem& js, Job* parent, T_Source& source, T_Dest& dest, uint32_t count)
 	{
 		auto copy = [&source, &dest](JobSystem& js, Job* job, uint32_t start, uint32_t count)
@@ -155,7 +155,7 @@ namespace two
 		js.complete(job);
 	}
 
-	template <uint32_t Count, class T_Value, class T_Dest>
+	export_ template <uint32_t Count, class T_Value, class T_Dest>
 	void parallel_set(JobSystem& js, Job* parent, T_Value value, T_Dest& dest, uint32_t count)
 	{
 		auto copy = [value, &dest](JobSystem& js, Job* job, uint32_t start, uint32_t count)

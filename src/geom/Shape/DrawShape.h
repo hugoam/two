@@ -22,21 +22,21 @@ namespace two
 		Dispatch<void, const ProcShape&, MeshAdapter&> m_draw_triangles;
 	};
 
-	template <class T_Shape>
+	export_ template <class T_Shape>
 	inline void decl_shape_lines(DispatchDrawProcShape& dispatch)
 	{
 		dispatch_branch<T_Shape>(dispatch.m_size_lines, +[](T_Shape& shape, const ProcShape& procshape) { return size_shape_lines(procshape, shape); });
 		dispatch_branch<T_Shape>(dispatch.m_draw_lines, +[](T_Shape& shape, const ProcShape& procshape, MeshAdapter& writer) { draw_shape_lines(procshape, shape, writer); });
 	}
 
-	template <class T_Shape>
+	export_ template <class T_Shape>
 	inline void decl_shape_triangles(DispatchDrawProcShape& dispatch)
 	{
 		dispatch_branch<T_Shape>(dispatch.m_size_triangles, +[](T_Shape& shape, const ProcShape& procshape) { return size_shape_triangles(procshape, shape); });
 		dispatch_branch<T_Shape>(dispatch.m_draw_triangles, +[](T_Shape& shape, const ProcShape& procshape, MeshAdapter& writer) { draw_shape_triangles(procshape, shape, writer); });
 	}
 
-	template <class T_Shape>
+	export_ template <class T_Shape>
 	inline void decl_shape(DispatchDrawProcShape& dispatch)
 	{
 		decl_shape_lines<T_Shape>(dispatch);

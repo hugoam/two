@@ -12,13 +12,13 @@ namespace two
 	export_ using std::index_sequence;
 	export_ using std::make_index_sequence;
 
-	template <size_t Num>
+	export_ template <size_t Num>
 	using index_tuple = make_index_sequence<Num>;
 
-	template <size_t i, class... Types>
+	export_ template <size_t i, class... Types>
 	decltype(auto) at(tuple<Types...>& tup) { return std::get<i>(tup); }
 
-	template <size_t i, class... Types>
+	export_ template <size_t i, class... Types>
 	decltype(auto) at(const tuple<Types...>& tup) { return std::get<i>(tup); }
 }
 #else

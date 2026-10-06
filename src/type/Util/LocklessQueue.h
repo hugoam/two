@@ -10,7 +10,7 @@ namespace two
 {
 	//! LocklessQueue template: as provid3ed by Lf3THn4D
 	//! Only 1 thread can push and 1 thread can pop it.
-	template <class T>
+	export_ template <class T>
 	class LocklessQueue
 	{
 	private:

@@ -7,6 +7,7 @@ export module two.ecs;
 export import two.infra;
 export import two.pool;
 export import two.type;
+export import two.jobs;
 
 #include <ecs/Api.h>
 

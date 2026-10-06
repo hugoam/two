@@ -4,3 +4,4 @@
 #include <ecs/Forward.h>
 #include <ecs/Types.h>
 #include <ecs/ECS.hpp>
+#include <ecs/Loop.hpp>

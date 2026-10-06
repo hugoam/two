@@ -357,7 +357,7 @@ two.jobs    = module("two", "jobs",     TWO_SRC_DIR,    "jobs",     two_jobs,   
 -- refl
 two.refl    = module("two", "refl",     TWO_SRC_DIR,    "refl",     two_module, nil,            true,       { two.infra, two.type, two.pool })
 -- ecs
-two.ecs     = module("two", "ecs",      TWO_SRC_DIR,    "ecs",      two_module, uses_two,       true,       { two.infra, two.pool, two.type })
+two.ecs     = module("two", "ecs",      TWO_SRC_DIR,    "ecs",      two_module, uses_two,       true,       { two.infra, two.pool, two.type, two.jobs })
 -- srlz
 two.srlz    = module("two", "srlz",     TWO_SRC_DIR,    "srlz",     two_srlz,   nil,            true,       { json11, two.infra, two.type, two.refl })
 -- math
@@ -411,7 +411,7 @@ two.tool    = module("two", "tool",     TWO_SRC_DIR,    "tool",     two_module, 
 -- wfc                                                      
 two.wfc.gfx = module("two", "wfc-gfx",  TWO_SRC_DIR,    "wfc-gfx",  two_module, nil,            true,       { json11, two.infra, two.tree, two.type, two.srlz, two.math, two.geom, two.wfc, two.ctx, two.ui, two.uio, two.gfx, two.gfx.ui })
 -- frame                                                    
-two.frame   = module("two", "frame",    TWO_SRC_DIR,    "frame",    two_module, nil,            true,       { two.gfx, two.gfx.ui, two.ctxbackend, two.uibackend })
+two.frame   = module("two", "frame",    TWO_SRC_DIR,    "frame",    two_module, nil,            true,       { two.ui, two.gfx, two.gfx.ui, two.ctxbackend, two.uibackend })
 
 if _OPTIONS["tools"] then
   two.clrefl = module("two", "clrefl",  TWO_SRC_DIR,    "clrefl",   two_clrefl, nil,            false,      { json11, two.infra })

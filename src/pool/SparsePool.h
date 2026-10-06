@@ -43,7 +43,7 @@ namespace two
 	export_ template <class T>
 	struct OwnedHandle;
 
-	template <class T>
+	export_ template <class T>
 	struct DestroyHandle
 	{
 		static void destroy(const OwnedHandle<T>& handle) { UNUSED(handle); }

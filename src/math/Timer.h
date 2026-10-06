@@ -8,9 +8,9 @@
 
 namespace two
 {
-	extern TWO_MATH_EXPORT const double c_tick_interval;
+	export_ extern TWO_MATH_EXPORT const double c_tick_interval;
 
-	inline size_t globalTick()
+	export_ inline size_t globalTick()
 	{
 		return size_t(clock() / c_tick_interval);
 	}

@@ -5,7 +5,7 @@
 
 namespace two
 {
-	template <class... Types, size_t... Is, class T_Function>
+	export_ template <class... Types, size_t... Is, class T_Function>
 	Job* for_components_impl(JobSystem& job_system, Job* parent, ECS& ecs, T_Function action, index_sequence<Is...>)
 	{
 		uint64_t prototype = ecs.prototype<Types...>();
@@ -33,7 +33,7 @@ namespace two
 		return job;
 	}
 
-	template <class... Types, class T_Function>
+	export_ template <class... Types, class T_Function>
 	Job* for_components(JobSystem& job_system, Job* parent, ECS& ecs, T_Function action)
 	{
 		return for_components_impl<Types...>(job_system, parent, ecs, action, index_tuple<sizeof...(Types)>());
