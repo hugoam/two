@@ -743,6 +743,28 @@ extern "C" {
 	void DECL two_Layer__destroy(two::Layer* self) {
 		delete self;
 	}
+	// WidgetData
+	two::Type* DECL two_WidgetData__type() {
+		return &two::type<two::WidgetData>();
+	}
+	two::WidgetData* DECL two_WidgetData__construct_0() {
+		return new two::WidgetData();
+	}
+	two::WidgetState DECL two_WidgetData__get_state(two::WidgetData* self) {
+		return self->m_state;
+	}
+	void DECL two_WidgetData__set_state(two::WidgetData* self, two::WidgetState value) {
+		self->m_state = value;
+	}
+	uint32_t DECL two_WidgetData__get_switch(two::WidgetData* self) {
+		return self->m_switch;
+	}
+	void DECL two_WidgetData__set_switch(two::WidgetData* self, uint32_t value) {
+		self->m_switch = value;
+	}
+	void DECL two_WidgetData__destroy(two::WidgetData* self) {
+		delete self;
+	}
 	// Widget
 	two::Type* DECL two_Widget__type() {
 		return &two::type<two::Widget>();
@@ -855,17 +877,8 @@ extern "C" {
 	two::Frame* DECL two_Widget__get_frame(two::Widget* self) {
 		return &self->frame();
 	}
-	two::WidgetState DECL two_Widget__get_state(two::Widget* self) {
-		return self->m_state;
-	}
-	void DECL two_Widget__set_state(two::Widget* self, two::WidgetState value) {
-		self->m_state = value;
-	}
-	uint32_t DECL two_Widget__get_switch(two::Widget* self) {
-		return self->m_switch;
-	}
-	void DECL two_Widget__set_switch(two::Widget* self, uint32_t value) {
-		self->m_switch = value;
+	two::WidgetData* DECL two_Widget__get_data(two::Widget* self) {
+		return &self->data();
 	}
 	void DECL two_Widget__destroy(two::Widget* self) {
 		delete self;

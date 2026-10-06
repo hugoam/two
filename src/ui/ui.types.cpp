@@ -39,6 +39,7 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::UiRect>() { static Type ty("UiRect", sizeof(two::UiRect)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Frame>() { static Type ty("Frame", type<two::UiRect>(), sizeof(two::Frame)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Layer>() { static Type ty("Layer", sizeof(two::Layer)); return ty; }
+    template <> TWO_UI_EXPORT Type& type<two::WidgetData>() { static Type ty("WidgetData", sizeof(two::WidgetData)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::Widget>() { static Type ty("Widget", sizeof(two::Widget)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::WidgetHandle>() { static Type ty("WidgetHandle", sizeof(two::WidgetHandle)); return ty; }
     template <> TWO_UI_EXPORT Type& type<two::TextCursor>() { static Type ty("TextCursor", sizeof(two::TextCursor)); return ty; }

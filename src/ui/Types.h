@@ -44,6 +44,7 @@ namespace two
     template <> TWO_UI_EXPORT Type& type<two::UiRect>();
     template <> TWO_UI_EXPORT Type& type<two::Frame>();
     template <> TWO_UI_EXPORT Type& type<two::Layer>();
+    template <> TWO_UI_EXPORT Type& type<two::WidgetData>();
     template <> TWO_UI_EXPORT Type& type<two::Widget>();
     template <> TWO_UI_EXPORT Type& type<two::WidgetHandle>();
     template <> TWO_UI_EXPORT Type& type<two::TextCursor>();

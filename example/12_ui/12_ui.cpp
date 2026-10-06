@@ -167,29 +167,29 @@ void ex_12_ui(Shell& app, Widget& parent, DockbarHandle dockbar)
 	static Item* selected = nullptr;
 	if(MouseEvent mouse_event = viewer.self().mouse_event(DeviceType::MouseRight, EventType::Stroked))
 	{
-		auto callback = [&](Item* item) { selected = item; umain.m_switch |= Context; };
+		auto callback = [&](Item* item) { selected = item; umain.data().m_switch |= Context; };
 		viewer->picker(0).pick_point(viewer->m_viewport, mouse_event.m_relative, callback, ItemFlag::Default | ItemFlag::Selectable);
 	}
 
 	UNUSED(selected);
 
-	if((umain.m_switch & Context) != 0)
+	if((umain.data().m_switch & Context) != 0)
 	{
 		Widget& popup = ui::popup(key(), viewer.self(), ui::PopupFlags::Modal);
 		if(ui::button(key(), popup, "character").activated())
-			umain.m_switch |= Character;
+			umain.data().m_switch |= Character;
 		if(ui::button(key(), popup, "inventory").activated())
-			umain.m_switch |= Inventory;
-		if((umain.m_switch & Character) != 0
-			|| (umain.m_switch & Inventory) != 0
+			umain.data().m_switch |= Inventory;
+		if((umain.data().m_switch & Character) != 0
+			|| (umain.data().m_switch & Inventory) != 0
 			|| !popup.open())
-			umain.m_switch &= ~(Context);
+			umain.data().m_switch &= ~(Context);
 	}
 
-	if((umain.m_switch & Character) != 0)
+	if((umain.data().m_switch & Character) != 0)
 		game::character_sheet(umain, character);
 
-	if((umain.m_switch & Inventory) != 0)
+	if((umain.data().m_switch & Inventory) != 0)
 		game::inventory_sheet(umain, character.m_inventory);
 }
 

@@ -26,7 +26,7 @@ namespace two
 	{
 		Widget& self = ui::popup(key(), parent, ui::PopupFlags::AutoModal);
 		if(!self.open())
-			parent.m_switch &= ~mode;
+			parent.data().m_switch &= ~mode;
 
 		//if(meta(object).m_type_class == TypeClass::Object)
 		//	object = val<Entity>(object);
@@ -49,8 +49,8 @@ namespace two
 		ui::multi_item(key(), self, { object_icon(object).c_str(), object_name(object).c_str() });
 
 		if(MouseEvent event = self.mouse_event(DeviceType::MouseRight, EventType::Stroked))
-			self.m_switch |= Context;
-		if((self.m_switch & Context) != 0)
+			self.data().m_switch |= Context;
+		if((self.data().m_switch & Context) != 0)
 			object_context(self, object, Context);
 
 		return self;

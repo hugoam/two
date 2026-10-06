@@ -69,7 +69,7 @@ namespace ui
 	{
 		Widget& self = ui::modal(id, parent.parent_modal());
 		if(!self.open())
-			parent.m_switch &= ~mode;
+			parent.data().m_switch &= ~mode;
 		return self;
 	}
 
@@ -77,16 +77,16 @@ namespace ui
 	{
 		Popup self = ui::modal(id, parent.parent_modal(), size);
 		if(!self.self.open())
-			parent.m_switch &= ~mode;
+			parent.data().m_switch &= ~mode;
 		return self;
 	}
 
 	Widget* context(NodeKey id, Widget& parent, uint32_t mode, PopupFlags flags)
 	{
 		if(MouseEvent event = parent.mouse_event(DeviceType::MouseRight, EventType::Stroked))
-			parent.m_switch |= mode;
+			parent.data().m_switch |= mode;
 
-		if((parent.m_switch & mode) != 0)
+		if((parent.data().m_switch & mode) != 0)
 		{
 			Widget& self = popup(id, parent, flags);
 
@@ -97,7 +97,7 @@ namespace ui
 				self.set_position(local);
 			}
 
-			parent.m_switch &= self.open() ? mode : 0;
+			parent.data().m_switch &= self.open() ? mode : 0;
 			return &self;
 		}
 

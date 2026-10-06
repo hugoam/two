@@ -202,7 +202,7 @@ namespace two
 			if(object_selector(modal.body, result))
 			{
 				editor.open(val<Script>(result));
-				self.self.m_switch &= ~Open;
+				self.self.data().m_switch &= ~Open;
 			}
 		}
 
@@ -211,7 +211,7 @@ namespace two
 			ui::Popup modal = ui::auto_modal(key(), self, Browse, { 600, 600 });
 			meta_browser(modal.body);
 			if(ui::button(key(), modal.body, "Close").activated())
-				self.self.m_switch &= ~Browse;
+				self.self.data().m_switch &= ~Browse;
 		}
 
 		Tabber tabber = ui::tabber(key(), self.body);

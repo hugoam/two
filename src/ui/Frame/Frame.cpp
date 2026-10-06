@@ -70,7 +70,7 @@ namespace two
 		Frame& frame = this->frame();
 		frame.d_layout = &frame.d_style->m_layout;
 
-		InkStyle& inkstyle = frame.d_style->state_skin(m_state);
+		InkStyle& inkstyle = frame.d_style->state_skin(data().m_state);
 		this->update_inkstyle(inkstyle, reset);
 
 		frame.m_opacity = frame.d_layout->m_opacity;

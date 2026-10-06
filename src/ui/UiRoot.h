@@ -53,6 +53,7 @@ namespace two
 		// the frames of the widgets, by node index: declared first, the root's frame is used from the constructor
 		TNodeArray<Frame>& m_frames;
 		TNodeArray<FrameCache>& m_caches;
+		TNodeArray<WidgetData>& m_data;
 
 		UiWindow& m_window;
 		Keyboard m_keyboard;
@@ -66,4 +67,5 @@ namespace two
 
 	inline Frame& Widget::frame() { return static_cast<Ui&>(*m_graph).m_frames[m_index]; }
 	inline FrameCache& Widget::cache() { return static_cast<Ui&>(*m_graph).m_caches[m_index]; }
+	inline WidgetData& Widget::data() { return static_cast<Ui&>(*m_graph).m_data[m_index]; }
 }

@@ -183,7 +183,7 @@ namespace two
 			if(meta(*iter(value).m_element_type).m_empty_var)
 			{
 				sequence(value).add(value, meta(*iter(value).m_element_type).m_empty_var);
-				self.m_switch &= ~Add;
+				self.data().m_switch &= ~Add;
 				changed |= true;
 			}
 			else
@@ -192,7 +192,7 @@ namespace two
 				if(object_selector(self, selected))
 				{
 					sequence(value).add(value, selected);
-					self.m_switch &= ~Add;
+					self.data().m_switch &= ~Add;
 					changed |= true;
 				}
 			}
@@ -239,7 +239,7 @@ namespace two
 		bool done = confirm ? ui::button(key(), self, "Done").activated() || !self.open()
 							: changed || !self.open();
 		if(done)
-			parent.m_switch &= ~mode;
+			parent.data().m_switch &= ~mode;
 		return done;
 	}
 }

@@ -87,7 +87,7 @@ namespace two
 			Widget& self = ui::scroll_sheet(key(), modal.body).body;
 			changed = object_selector(self, indexer(type(result)), result);
 			if(ui::button(key(), modal.body, "Done").activated())
-				screen.m_switch &= ~PICK;
+				screen.data().m_switch &= ~PICK;
 		}
 		return changed;
 	}

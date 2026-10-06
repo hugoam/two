@@ -201,8 +201,8 @@ namespace two
 
 	void Widget::toggle_state(WidgetState state)
 	{
-		m_state = static_cast<WidgetState>(m_state ^ state);
-		this->update_state(m_state);
+		data().m_state = static_cast<WidgetState>(data().m_state ^ state);
+		this->update_state(data().m_state);
 	}
 
 	Widget* Widget::pinpoint(vec2 pos)

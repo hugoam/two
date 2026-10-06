@@ -1024,6 +1024,36 @@ Module['Layer'] = Layer;
 Layer.prototype["__destroy"] = Layer.prototype.__destroy = function() {
     _two_Layer__destroy(this.__ptr);
 };
+// WidgetData
+function WidgetData() {
+    this.__ptr = _two_WidgetData__construct_0(); getCache(WidgetData)[this.__ptr] = this;
+};
+WidgetData.prototype = Object.create(WrapperObject.prototype);
+WidgetData.prototype.constructor = WidgetData;
+WidgetData.prototype.__class = WidgetData;
+WidgetData.__cache = {};
+Module['WidgetData'] = WidgetData;
+Object.defineProperty(WidgetData.prototype, "state", {
+    get: function() {
+        return _two_WidgetData__get_state(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('WidgetData.state: expected integer');
+        _two_WidgetData__set_state(this.__ptr, value);
+    }
+});
+Object.defineProperty(WidgetData.prototype, "switch", {
+    get: function() {
+        return _two_WidgetData__get_switch(this.__ptr);
+    },
+    set: function(value) {
+        if (typeof value !== 'number') throw Error('WidgetData.switch: expected integer');
+        _two_WidgetData__set_switch(this.__ptr, value);
+    }
+});
+WidgetData.prototype["__destroy"] = WidgetData.prototype.__destroy = function() {
+    _two_WidgetData__destroy(this.__ptr);
+};
 // Widget
 function Widget() { throw "cannot construct a Widget, no constructor in IDL" }
 Widget.prototype = Object.create(WrapperObject.prototype);
@@ -1136,24 +1166,10 @@ Object.defineProperty(Widget.prototype, "frame", {
     get: function() {
         return wrapPointer(_two_Widget__get_frame(this.__ptr), Frame);
     }});
-Object.defineProperty(Widget.prototype, "state", {
+Object.defineProperty(Widget.prototype, "data", {
     get: function() {
-        return _two_Widget__get_state(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('Widget.state: expected integer');
-        _two_Widget__set_state(this.__ptr, value);
-    }
-});
-Object.defineProperty(Widget.prototype, "switch", {
-    get: function() {
-        return _two_Widget__get_switch(this.__ptr);
-    },
-    set: function(value) {
-        if (typeof value !== 'number') throw Error('Widget.switch: expected integer');
-        _two_Widget__set_switch(this.__ptr, value);
-    }
-});
+        return wrapPointer(_two_Widget__get_data(this.__ptr), WidgetData);
+    }});
 Widget.prototype["__destroy"] = Widget.prototype.__destroy = function() {
     _two_Widget__destroy(this.__ptr);
 };
@@ -2188,6 +2204,7 @@ Module['ui']['file_tree'] = function(a0, a1, a2) {
         UiRect.prototype.__type = _two_UiRect__type();
         Frame.prototype.__type = _two_Frame__type();
         Layer.prototype.__type = _two_Layer__type();
+        WidgetData.prototype.__type = _two_WidgetData__type();
         Widget.prototype.__type = _two_Widget__type();
         WidgetHandle.prototype.__type = _two_WidgetHandle__type();
         TextCursor.prototype.__type = _two_TextCursor__type();

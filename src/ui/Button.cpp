@@ -157,15 +157,15 @@ namespace ui
 	bool modal_button(NodeKey id, Widget& screen, Widget& parent, cstring content, uint32_t mode)
 	{
 		if(button(id, parent, content).activated())
-			screen.m_switch |= mode;
-		return (screen.m_switch & mode) != 0;
+			screen.data().m_switch |= mode;
+		return (screen.data().m_switch & mode) != 0;
 	}
 
 	bool modal_multi_button(NodeKey id, Widget& screen, Widget& parent, span<cstring> elements, uint32_t mode)
 	{
 		if(multi_button(id, parent, elements).activated())
-			screen.m_switch |= mode;
-		return (screen.m_switch & mode) != 0;
+			screen.data().m_switch |= mode;
+		return (screen.data().m_switch & mode) != 0;
 	}
 
 	Widget& checkbox(NodeKey id, Widget& parent, bool& on)

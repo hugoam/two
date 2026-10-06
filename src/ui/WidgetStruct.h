@@ -28,6 +28,13 @@ namespace two
 		uint32_t m_mask = 0;
 	};
 
+	// the state of a widget, by node index next to its frame: its WidgetState flags, and its switch, bits it keeps for its user from one frame to the next
+	export_ struct refl_ TWO_UI_EXPORT WidgetData
+	{
+		attr_ WidgetState m_state = CREATED;
+		attr_ uint32_t m_switch = 0;
+	};
+
 #ifndef _MSC_VER
 	extern template class PooledNode<Widget>;
 #endif
@@ -44,15 +51,15 @@ namespace two
 		// the node is going away, its states are still there: it lets go of what refers to it
 		void release();
 
-		meth_ inline bool focused() { return (m_state & FOCUSED) != 0; }
-		meth_ inline bool hovered() { return (m_state & HOVERED) != 0; }
-		meth_ inline bool pressed() { return (m_state & PRESSED) != 0; }
-		meth_ inline bool activated() { return (m_state & ACTIVATED) != 0; }
-		meth_ inline bool active() { return (m_state & ACTIVE) != 0; }
-		meth_ inline bool selected() { return (m_state & SELECTED) != 0; }
-		meth_ inline bool modal() { return (m_state & FOCUSED) != 0; }
-		meth_ inline bool closed() { return (m_state & CLOSED) != 0; }
-		meth_ inline bool open() { return (m_state & OPEN) != 0; }
+		meth_ inline bool focused() { return (data().m_state & FOCUSED) != 0; }
+		meth_ inline bool hovered() { return (data().m_state & HOVERED) != 0; }
+		meth_ inline bool pressed() { return (data().m_state & PRESSED) != 0; }
+		meth_ inline bool activated() { return (data().m_state & ACTIVATED) != 0; }
+		meth_ inline bool active() { return (data().m_state & ACTIVE) != 0; }
+		meth_ inline bool selected() { return (data().m_state & SELECTED) != 0; }
+		meth_ inline bool modal() { return (data().m_state & FOCUSED) != 0; }
+		meth_ inline bool closed() { return (data().m_state & CLOSED) != 0; }
+		meth_ inline bool open() { return (data().m_state & OPEN) != 0; }
 
 		meth_ UiWindow& ui_window();
 		meth_ Ui& ui();
@@ -64,12 +71,12 @@ namespace two
 
 		meth_ void toggle_state(WidgetState state);
 
-		meth_ inline void disable_state(WidgetState state) { if(m_state & state) this->toggle_state(state); }
+		meth_ inline void disable_state(WidgetState state) { if(data().m_state & state) this->toggle_state(state); }
 		meth_ inline void set_state(WidgetState state, bool enabled) { enabled ? enable_state(state) : disable_state(state); }
-		meth_ inline void enable_state(WidgetState state) { if(!(m_state & state)) this->toggle_state(state); }
+		meth_ inline void enable_state(WidgetState state) { if(!(data().m_state & state)) this->toggle_state(state); }
 
 		// the open state is not skinned: it doesn't update the style
-		meth_ inline void set_open(bool open) { m_state = WidgetState(open ? (m_state | OPEN) : (m_state & ~OPEN)); }
+		meth_ inline void set_open(bool open) { data().m_state = WidgetState(open ? (data().m_state | OPEN) : (data().m_state & ~OPEN)); }
 
 		meth_ inline void clear_focus() { this->parent_modal().set_modal(nullptr, device_mask(DeviceType::Keyboard)); }
 		meth_ inline void take_focus() { if(!this->modal()) this->take_modal(device_mask(DeviceType::Keyboard)); }
@@ -97,13 +104,12 @@ namespace two
 		// the frame of the widget, its data by node index in the frames of the ui
 		attr_ inline Frame& frame();
 		inline FrameCache& cache();
-		attr_ WidgetState m_state = CREATED;
-		attr_ uint32_t m_switch = 0;
+		attr_ inline WidgetData& data();
 
 		// the custom drawing of the widget, created on first use
 		inline CustomRender::Draw& custom_draw() { return this->state<CustomRender>().m_draw; }
 
-		inline bool once() { if((m_state & CREATED) != 0) { disable_state(CREATED); return true; } return false; }
+		inline bool once() { if((data().m_state & CREATED) != 0) { disable_state(CREATED); return true; } return false; }
 		// a widget is initialized when it's declared the first time, right after the graph created its node: its parent is laid out again with it
 		inline Widget& init(Style& style, bool open = false, Axis length = Axis::None, v2<uint> index = { 0, 0 })
 		{

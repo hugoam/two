@@ -79,7 +79,10 @@ void two_Subskin__default_construct(void* ref) { new(stl::placeholder(), ref) tw
 void two_Subskin__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Subskin((*static_cast<two::Subskin*>(other))); }
 void two_UiRect__default_construct(void* ref) { new(stl::placeholder(), ref) two::UiRect(); }
 void two_UiRect__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::UiRect((*static_cast<two::UiRect*>(other))); }
+void two_WidgetData__default_construct(void* ref) { new(stl::placeholder(), ref) two::WidgetData(); }
+void two_WidgetData__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::WidgetData((*static_cast<two::WidgetData*>(other))); }
 void* two_Widget__get_frame(void* object) { return &(*static_cast<two::Widget*>(object)).frame(); }
+void* two_Widget__get_data(void* object) { return &(*static_cast<two::Widget*>(object)).data(); }
 void two_Widget_focused(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<two::Widget*>(object)).focused(); }
 void two_Widget_hovered(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<two::Widget*>(object)).hovered(); }
 void two_Widget_pressed(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<bool*>(result)) = (*static_cast<two::Widget*>(object)).pressed(); }
@@ -1000,14 +1003,39 @@ namespace two
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, {}, {}, {}, };
 	}
+	// two::WidgetData
+	{
+		Type& t = type<two::WidgetData>();
+		static Meta meta = { t, &namspc({ "two" }), "WidgetData", sizeof(two::WidgetData), TypeClass::Struct };
+		// bases
+		// defaults
+		static two::WidgetState state_default = CREATED;
+		static uint32_t switch_default = 0;
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_WidgetData__default_construct }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, two_WidgetData__copy_construct }
+		};
+		// constructors
+		// members
+		static Member members[] = {
+			{ t, offsetof(two::WidgetData, m_state), type<two::WidgetState>(), "state", &state_default, Member::Value, nullptr },
+			{ t, offsetof(two::WidgetData, m_switch), type<uint32_t>(), "switch", &switch_default, Member::Value, nullptr }
+		};
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::WidgetData());
+	}
 	// two::Widget
 	{
 		Type& t = type<two::Widget>();
 		static Meta meta = { t, &namspc({ "two" }), "Widget", sizeof(two::Widget), TypeClass::Object };
 		// bases
 		// defaults
-		static two::WidgetState state_default = CREATED;
-		static uint32_t switch_default = 0;
 		static two::InputMod key_event_0_modifier_default = InputMod::Any;
 		static two::InputMod key_stroke_0_modifier_default = InputMod::Any;
 		static two::InputMod char_stroke_0_modifier_default = InputMod::Any;
@@ -1019,8 +1047,7 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, SIZE_MAX, type<two::Frame>(), "frame", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Widget__get_frame },
-			{ t, offsetof(two::Widget, m_state), type<two::WidgetState>(), "state", &state_default, Member::Value, nullptr },
-			{ t, offsetof(two::Widget, m_switch), type<uint32_t>(), "switch", &switch_default, Member::Value, nullptr }
+			{ t, SIZE_MAX, type<two::WidgetData>(), "data", nullptr, Member::Flags(Member::Value|Member::NonMutable|Member::Link), two_Widget__get_data }
 		};
 		// methods
 		static Method methods[] = {
@@ -1643,6 +1670,7 @@ namespace two
 		m.m_types.push_back(&type<two::UiRect>());
 		m.m_types.push_back(&type<two::Frame>());
 		m.m_types.push_back(&type<two::Layer>());
+		m.m_types.push_back(&type<two::WidgetData>());
 		m.m_types.push_back(&type<two::Widget>());
 		m.m_types.push_back(&type<two::WidgetHandle>());
 		m.m_types.push_back(&type<two::TextCursor>());
