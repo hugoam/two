@@ -305,7 +305,7 @@ namespace two
 		const vec4 content_rect = { content_pos, content };
 
 		draw_background(vg, widget, rect, padded_rect, content_rect);
-		draw_content(vg, frame, rect, padded_rect, content_rect);
+		draw_content(vg, widget, rect, padded_rect, content_rect);
 
 		//vg.debug_rect(rect, Colour::Red);
 		//vg.debug_rect(padded_rect, Colour::Green);
@@ -426,25 +426,29 @@ namespace two
 		draw_image_stretch(vg, imageSkin.d_images[section], rect, ratio);
 	}
 
-	void draw_content(Vg& vg, const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)
+	void draw_content(Vg& vg, Widget& widget, const vec4& rect, const vec4& padded_rect, const vec4& content_rect)
 	{
 		UNUSED(rect);
 
-		if(frame.empty() || padded_rect.z <= 0.f || padded_rect.w <= 0.f)
+		if(!widget.has_content() || padded_rect.z <= 0.f || padded_rect.w <= 0.f)
 			return;
 
 		//this->clip(rect);
 
-		if(frame.icon())
-			draw_image(vg, *frame.icon(), content_rect);
+		const Frame& frame = widget.frame();
+		if(FrameContent* content = widget.find_state<FrameContent>())
+		{
+			if(content->m_icon)
+				draw_image(vg, *content->m_icon, content_rect);
 
-		if(frame.caption())
-			vg.draw_text(padded_rect.pos, frame.caption(), nullptr, text_paint(*frame.d_inkstyle));
+			if(!content->m_caption.empty())
+				vg.draw_text(padded_rect.pos, content->m_caption.c_str(), nullptr, text_paint(*frame.d_inkstyle));
+		}
 
-		if(frame.m_text)
+		if(Text* text = widget.find_state<Text>())
 		{
 			const vec2 padding = floor(frame.d_inkstyle->m_padding.pos);
-			draw_text(vg, padding, *frame.m_text);
+			draw_text(vg, padding, *text);
 		}
 	}
 

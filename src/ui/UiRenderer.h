@@ -107,7 +107,7 @@ namespace two
 	export_ TWO_UI_EXPORT float content_position(const Frame& frame, const vec2& content, const vec2& padded_pos, const vec2& padded_size, Axis dim);
 
 	export_ TWO_UI_EXPORT void draw_frame(Vg& vg, Widget& widget, const vec4& rect);
-	export_ TWO_UI_EXPORT void draw_content(Vg& vg, const Frame& frame, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
+	export_ TWO_UI_EXPORT void draw_content(Vg& vg, Widget& widget, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
 	export_ TWO_UI_EXPORT void draw_background(Vg& vg, Widget& widget, const vec4& rect, const vec4& padded_rect, const vec4& content_rect);
 	export_ TWO_UI_EXPORT void draw_rect(Vg& vg, const vec4& rect, const vec4& corners, const InkStyle& inkstyle);
 	export_ TWO_UI_EXPORT void draw_image(Vg& vg, const Image& image, const vec4& rect);

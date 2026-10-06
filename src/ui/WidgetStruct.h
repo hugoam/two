@@ -143,6 +143,10 @@ namespace two
 
 		void set_caption(cstring text);
 		void set_icon(Image* image);
+		void size_caption(const string& caption);
+
+		// whether the frame draws content of its own, which it's sized by: a caption, an icon or a text
+		bool has_content();
 
 		void set_size(Axis dim, float size);
 		void set_span(Axis dim, float span);

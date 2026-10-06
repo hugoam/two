@@ -26,19 +26,10 @@ namespace two
 	Frame::~Frame()
 	{}
 
-	bool Frame::empty() const
+	bool Widget::has_content()
 	{
-		return d_caption == "" && d_icon == nullptr && !m_text;
-	}
-
-	Image* Frame::icon() const
-	{
-		return d_icon;
-	}
-
-	cstring Frame::caption() const
-	{
-		return d_caption.c_str();
+		FrameContent* content = this->find_state<FrameContent>();
+		return (content && (!content->m_caption.empty() || content->m_icon)) || this->find_state<Text>();
 	}
 
 	void Widget::set_style(Style& style, Axis length, v2<uint> index)
@@ -103,38 +94,46 @@ namespace two
 		frame.d_inkstyle = &inkstyle;
 		this->mark_dirty(DIRTY_REDRAW);
 		this->set_icon(frame.d_inkstyle->m_image);
-		if(frame.d_caption != "")
-			frame.size_caption();
+		FrameContent* content = this->find_state<FrameContent>();
+		if(content && !content->m_caption.empty())
+			this->size_caption(content->m_caption);
 	}
 
-	void Frame::size_caption()
-	{
-		if(d_caption != "")
-		{
-			TextPaint paint = text_paint(*d_inkstyle);
-			m_content = s_vg->text_size(d_caption.c_str(), d_caption.size(), paint);
-		}
-		else
-			m_content = vec2(0.f);
-	}
-
-	void Widget::set_caption(cstring text)
+	void Widget::size_caption(const string& caption)
 	{
 		Frame& frame = this->frame();
-		if(frame.d_caption == text)
+		if(!caption.empty())
+		{
+			TextPaint paint = text_paint(*frame.d_inkstyle);
+			frame.m_content = Frame::s_vg->text_size(caption.c_str(), caption.size(), paint);
+		}
+		else
+			frame.m_content = vec2(0.f);
+	}
+
+	// the content is created with the first caption or icon
+	void Widget::set_caption(cstring text)
+	{
+		FrameContent* content = this->find_state<FrameContent>();
+		if(content ? content->m_caption == text : text[0] == '\0')
 			return;
-		frame.d_caption = text;
-		frame.m_size = vec2(0.f);
-		frame.size_caption();
+		if(!content)
+			content = &this->state<FrameContent>();
+		content->m_caption = text;
+		this->frame().m_size = vec2(0.f);
+		this->size_caption(content->m_caption);
 		this->mark_dirty(DIRTY_LAYOUT);
 	}
 
 	void Widget::set_icon(Image* image)
 	{
-		Frame& frame = this->frame();
-		if(frame.d_icon == image)
+		FrameContent* content = this->find_state<FrameContent>();
+		if((content ? content->m_icon : nullptr) == image)
 			return;
-		frame.d_icon = image;
+		if(!content)
+			content = &this->state<FrameContent>();
+		content->m_icon = image;
+		Frame& frame = this->frame();
 		frame.m_size = vec2(0.f);
 		frame.m_content = image ? vec2(image->d_size) : vec2(0.f);
 		this->mark_dirty(DIRTY_LAYOUT);

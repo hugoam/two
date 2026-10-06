@@ -71,7 +71,7 @@ namespace two
 		node.span = frame.m_span;
 
 		const vec2 pad = { node.pad(Axis::X), node.pad(Axis::Y) };
-		const vec2 own = frame.empty() ? frame.m_size - pad : frame.m_content + rect_sum(frame.d_inkstyle->m_padding);
+		const vec2 own = !widget.has_content() ? frame.m_size - pad : frame.m_content + rect_sum(frame.d_inkstyle->m_padding);
 		for(Axis dim : { Axis::X, Axis::Y })
 		{
 			node.content[dim] = node.sizing[dim] == Sizing::Fixed ? own[dim] : 0.f;
@@ -170,7 +170,8 @@ namespace two
 		};
 
 		const uint32_t first = uint32_t(m_nodes.size());
-		const span<float> columns = !frame.d_columns.empty() ? frame.d_columns : span<float>(layout.m_table_division);
+		TableState* table = m_nodes[index].widget->find_state<TableState>();
+		const span<float> columns = table && !table->m_weights.empty() ? span<float>(table->m_weights) : span<float>(layout.m_table_division);
 
 		if(!layout.m_grid_division.empty())
 		{

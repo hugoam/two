@@ -25,11 +25,10 @@ namespace ui
 		Widget& self = item(id, parent, styles().text);
 
 		// @todo optimize (doesn't need to be done on each call)
-		if(!self.frame().m_text)
-			self.frame().m_text = make_unique<Text>();
-		self.frame().m_text->m_text = label;
-		self.frame().m_text->update_style(self);
-		self.frame().m_text->break_text_rows(self);
+		Text& text = self.state<Text>();
+		text.m_text = label;
+		text.update_style(self);
+		text.break_text_rows(self);
 
 		return self;
 	}

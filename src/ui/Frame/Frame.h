@@ -26,15 +26,8 @@ namespace two
 		Frame();
 		~Frame();
 
-		bool empty() const;
-
 		inline bool opaque() const { return m_opacity == Opacity::Opaque; }
 		inline bool hollow() const { return m_opacity == Opacity::Hollow; }
-
-		Image* icon() const;
-		cstring caption() const;
-
-		void size_caption();
 
 		DirtyLayout clearDirty() { DirtyLayout dirty = d_dirty; d_dirty = CLEAN; return dirty; }
 		void set_dirty(DirtyLayout dirty) { if(dirty > d_dirty) d_dirty = dirty; }
@@ -55,7 +48,6 @@ namespace two
 		v2<uint> d_index = { 0, 0 };
 		Axis d_length_override = Axis::None;	// the flow axis given explicitly, overriding the one of the style
 		Axis d_length = Axis::None;				// the flow axis, as resolved by the last layout
-		span<float> d_columns;					// the weights of the columns, for a table
 
 		Opacity m_opacity = Opacity::Clear;
 
@@ -63,12 +55,14 @@ namespace two
 		Layout* d_layout = nullptr;
 		InkStyle* d_inkstyle = nullptr;
 
-	public:
-		string d_caption = "";
-		Image* d_icon = nullptr;
-
-		unique<Text> m_text;
-
 		static Vg* s_vg;
+	};
+
+	// the caption and the icon of a widget, which its frame draws and is sized by: a state of its node, only the widgets with a caption or an icon have one
+	// a widget showing a text has it as a state of its node too
+	export_ struct FrameContent
+	{
+		string m_caption;
+		Image* m_icon = nullptr;
 	};
 }
