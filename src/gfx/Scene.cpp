@@ -14,13 +14,17 @@ namespace two
 		: m_gfx(gfx)
 		, m_immediate(oconstruct<ImmediateDraw>(gfx.fetch_material("immediate", "solid")))
 		, m_pass_jobs(oconstruct<PassJobs>())
-		, m_graph(m_nodes, *this)
+		, m_graph(*this)
+		, m_attach(this->add_array<Node3*>())
 	{
+		m_attach[0] = &m_root_node;
 		m_particle_system = oconstruct<ParticleSystem>(gfx, *this);
 	}
 
 	Scene::~Scene()
-	{}
+	{
+		m_graph.clear();
+	}
 
 	void Scene::update()
 	{

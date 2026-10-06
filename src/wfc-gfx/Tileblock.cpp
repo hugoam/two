@@ -139,7 +139,7 @@ namespace two
 		{
 			float entropy = tileblock.m_tileset->m_num_tiles > 0 ? float(states) / float(tileblock.m_tileset->m_num_tiles) : 1.f;
 			Colour colour = Colour::AlphaGrey * entropy;
-			cubes[states] = &parent.m_scene->m_gfx.shape(Cube(0.5f), Symbol(colour), OUTLINE);
+			cubes[states] = &parent.scene().m_gfx.shape(Cube(0.5f), Symbol(colour), OUTLINE);
 		}
 		return *cubes[states];
 	}
@@ -165,7 +165,7 @@ namespace two
 
 		bool dirty = visu.m_updated < tileblock.m_wave_updated;
 
-		static Material& alpha_material = parent.m_scene->m_gfx.fetch_material("debug_alpha", "solid");
+		static Material& alpha_material = parent.scene().m_gfx.fetch_material("debug_alpha", "solid");
 
 		const uint32_t num_tiles = tileblock.m_tileset->m_num_tiles;
 		vector<Batch*> batches = vector<Batch*>(num_tiles + 1, nullptr);

@@ -219,7 +219,7 @@ namespace two
 		{
 			if(!clusters.count(i, 0) && !clusters.count(i, 1))
 			{
-				//gfx::draw(*parent.m_scene, transform, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(Colour(1.f, 0.02f)));
+				//gfx::draw(parent.scene(), transform, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(Colour(1.f, 0.02f)));
 				i++;
 				continue;
 			}
@@ -237,7 +237,7 @@ namespace two
 			else if(mode == LightCount)
 				colour = hsl(float(clusters.count(i)) / 32.f, 1.f, 0.5f);
 
-			gfx::draw(*parent.m_scene, transform, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(colour));
+			gfx::draw(parent.scene(), transform, Box({ &frustum.m_corners[0], 8 }), Symbol::wire(colour));
 			i++;
 		}
 	}
@@ -246,7 +246,7 @@ namespace two
 	{
 		uint32_t index = 0; UNUSED(light);// light.m_index];
 
-		GfxSystem& gfx = parent.m_scene->m_gfx;
+		GfxSystem& gfx = parent.scene().m_gfx;
 		BlockShadow& block_shadow = *gfx.m_renderer.block<BlockShadow>();
 
 		if(index >= block_shadow.m_shadows.size())

@@ -20,22 +20,26 @@ namespace two
 	export_ class refl_ TWO_GFX_EXPORT Gnode : public PooledNode<Gnode>
 	{
 	public:
-		Gnode(PooledGraph<Gnode>& graph, Scene& scene, SoundManager* sound_manager = nullptr);
+		Gnode(PooledGraph<Gnode>& graph);
 		Gnode(Gnode* parent);
-		~Gnode();
-		
-		void clear();
 
 		// the gfx nodes have no top nodes, they never change parent
 		void reparent(Gnode* old) { UNUSED(old); }
-		// nothing refers to a gfx node through the graph
-		void release() {}
+		// a sound still playing in the node goes to the orphan sounds of the scene
+		void release();
 
-		Scene* m_scene = nullptr;
-		Node3* m_attach = nullptr;
-		
+		Scene& scene();
+		SoundManager* sound_manager();
+
+		// the transform the objects of the node are attached to: its own, or the one of its parent
+		Node3& attach();
+		void set_attach(Node3& node);
+	};
+
+	// the sound played in a node, a state of the node
+	export_ struct NodeSound
+	{
 		Sound* m_sound = nullptr;
-		SoundManager* m_sound_manager = nullptr;
 	};
 
 	export_ TWO_GFX_EXPORT void debug_tree(Gnode& node, size_t index = 0, size_t depth = 0);

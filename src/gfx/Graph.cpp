@@ -11,25 +11,33 @@ namespace two
 {
 	template class PooledNode<Gnode>;
 
-	Gnode::Gnode(PooledGraph<Gnode>& graph, Scene& scene, SoundManager* sound_manager) : PooledNode(graph), m_scene(&scene), m_attach(&scene.m_root_node), m_sound_manager(sound_manager) { graph.m_root = this; }
-	Gnode::Gnode(Gnode* parent) : PooledNode(parent), m_scene(parent->m_scene), m_attach(parent->m_attach), m_sound_manager(parent->m_sound_manager) {}
+	Gnode::Gnode(PooledGraph<Gnode>& graph) : PooledNode(graph) { graph.m_root = this; }
+	Gnode::Gnode(Gnode* parent) : PooledNode(parent) {}
 
-	Gnode::~Gnode()
+	void Gnode::release()
 	{
-		this->clear();
-	}
-
-	void Gnode::clear()
-	{
-		PooledNode::clear();
-		
-		if(m_sound)
+		NodeSound* sound = this->find_state<NodeSound>();
+		if(sound && sound->m_sound)
 		{
-			m_scene->m_orphan_sounds.push_back(m_sound);
-			m_sound = nullptr;
+			this->scene().m_orphan_sounds.push_back(sound->m_sound);
+			sound->m_sound = nullptr;
 			error("sound goes out of graph but wasn't destroyed\n");
 		}
 	}
+
+	Scene& Gnode::scene() { return static_cast<Scene&>(*m_graph); }
+	SoundManager* Gnode::sound_manager() { return this->scene().m_sound_manager; }
+
+	// a node without a transform of its own takes the one of its parent, the first time it's asked: a gfx node never changes parent
+	Node3& Gnode::attach()
+	{
+		Node3*& attach = this->scene().m_attach[m_index];
+		if(!attach)
+			attach = &this->parent()->attach();
+		return *attach;
+	}
+
+	void Gnode::set_attach(Node3& node) { this->scene().m_attach[m_index] = &node; }
 
 	void debug_tree(Gnode& node, size_t index, size_t depth)
 	{
@@ -59,7 +67,7 @@ namespace gfx
 		//Gnode& self = parent.subi((void*)object.as_uint());
 		FoundState<Node3> node = self.find_or_create_state<Node3>();
 		if(node.created)
-			self.m_attach = &node.state;
+			self.set_attach(node.state);
 		node.state.m_transform = transform;
 		return self;
 	}
@@ -76,18 +84,18 @@ namespace gfx
 
 	Gnode& transform(Gnode& parent, const vec3& position, const quat& rotation, const vec3& scale)
 	{
-		return node(parent, parent.m_attach->m_transform * bxTRS(scale, rotation, position));
+		return node(parent, parent.attach().m_transform * bxTRS(scale, rotation, position));
 	}
 
 	Gnode& transform(Gnode& parent, const vec3& position, const quat& rotation)
 	{
-		return node(parent, parent.m_attach->m_transform * bxTRS(vec3(1.f), rotation, position));
+		return node(parent, parent.attach().m_transform * bxTRS(vec3(1.f), rotation, position));
 	}
 
 	Item& item(Gnode& parent, const Model& model, uint32_t flags, Material* material)
 	{
 		Gnode& self = parent.suba();
-		FoundState<Item> item = self.find_or_create_state<Item>(*self.m_attach, model, flags, material);
+		FoundState<Item> item = self.find_or_create_state<Item>(self.attach(), model, flags, material);
 		bool update = item.created || (flags & ItemFlag::NoUpdate) == 0;
 		item.state.m_model = const_cast<Model*>(&model);
 		item.state.m_material = material;
@@ -125,7 +133,7 @@ namespace gfx
 		for(const Prefab::Elem& elem : prefab.m_items)
 		{
 			const Node3& n = prefab.m_nodes[elem.node];
-			mat4 tr = transform ? parent.m_attach->m_transform * n.m_transform
+			mat4 tr = transform ? parent.attach().m_transform * n.m_transform
 								: n.m_transform;
 			Gnode& no = node(self, tr);
 			Item& it = item(no, *elem.item.m_model, elem.item.m_flags | flags, material);
@@ -139,7 +147,7 @@ namespace gfx
 	Item& shape_item(Gnode& parent, Model& model, const Symbol& symbol, uint32_t flags, Material* material, DrawMode draw_mode)
 	{
 		Item& self = item(parent, model, flags, material);
-		self.m_material = material ? material : &parent.m_scene->m_gfx.symbol_material(symbol, draw_mode);
+		self.m_material = material ? material : &parent.scene().m_gfx.symbol_material(symbol, draw_mode);
 		return self;
 	}
 
@@ -148,9 +156,9 @@ namespace gfx
 		Item* item = nullptr;
 		static Symbol white = { Colour::White, Colour::White };
 		if(symbol.fill())
-			item = &shape_item(parent, parent.m_scene->m_gfx.shape(shape, white, PLAIN), symbol, flags, material, PLAIN);
+			item = &shape_item(parent, parent.scene().m_gfx.shape(shape, white, PLAIN), symbol, flags, material, PLAIN);
 		if(symbol.outline())
-			item = &shape_item(parent, parent.m_scene->m_gfx.shape(shape, white, OUTLINE), symbol, flags, material, OUTLINE);
+			item = &shape_item(parent, parent.scene().m_gfx.shape(shape, white, OUTLINE), symbol, flags, material, OUTLINE);
 		return *item;
 	}
 
@@ -165,7 +173,7 @@ namespace gfx
 
 	void draw(Gnode& parent, const Shape& shape, const Symbol& symbol, uint32_t flags)
 	{
-		draw(*parent.m_scene, parent.m_attach->m_transform, shape, symbol, flags);
+		draw(parent.scene(), parent.attach().m_transform, shape, symbol, flags);
 	}
 
 	Item& sprite(Gnode& parent, const Image256& image, const vec2& size, uint32_t flags, Material* material)
@@ -175,7 +183,7 @@ namespace gfx
 
 	Item* model(Gnode& parent, const string& name, uint32_t flags, Material* material)
 	{
-		Model* model = parent.m_scene->m_gfx.models().file(name.c_str());
+		Model* model = parent.scene().m_gfx.models().file(name.c_str());
 		if(model)
 			return &item(parent, *model, flags, material);
 		return nullptr;
@@ -194,17 +202,17 @@ namespace gfx
 	{
 		UNUSED(flags);
 		Gnode& self = parent.suba();
-		Flare& particles = self.state<Flare>(self.m_attach, Sphere(1.f), 1024);
+		Flare& particles = self.state<Flare>(&self.attach(), Sphere(1.f), 1024);
 		as<Flow>(particles) = emitter;
-		particles.m_node = self.m_attach;
-		particles.m_sprite = &parent.m_scene->m_particle_system->m_block.m_sprites->find_sprite(emitter.m_sprite_name.c_str());
+		particles.m_node = &self.attach();
+		particles.m_sprite = &parent.scene().m_particle_system->m_block.m_sprites->find_sprite(emitter.m_sprite_name.c_str());
 		return particles;
 	}
 
 	Light& light(Gnode& parent, LightType light_type, bool shadows, Colour colour, float range, float attenuation)
 	{
 		Gnode& self = parent.suba();
-		Light& light = self.state<Light>(*self.m_attach, light_type, shadows);
+		Light& light = self.state<Light>(self.attach(), light_type, shadows);
 		light.m_type = light_type;
 		light.m_colour = colour;
 		light.m_range = range;
@@ -243,8 +251,8 @@ namespace gfx
 
 	void radiance(Gnode& parent, const string& file, BackgroundMode background)
 	{
-		Texture& texture = *parent.m_scene->m_gfx.textures().file(file.c_str());
-		Zone& env = parent.m_scene->m_env;
+		Texture& texture = *parent.scene().m_gfx.textures().file(file.c_str());
+		Zone& env = parent.scene().m_env;
 		env.m_radiance.m_texture = &texture;
 		env.m_radiance.m_energy = 0.3f;
 		if(background == BackgroundMode::Panorama)
@@ -254,13 +262,13 @@ namespace gfx
 
 	void custom_sky(Gnode& parent, CustomSky renderer)
 	{
-		parent.m_scene->m_env.m_background.m_custom_function = renderer;
-		parent.m_scene->m_env.m_background.m_mode = BackgroundMode::Custom;
+		parent.scene().m_env.m_background.m_custom_function = renderer;
+		parent.scene().m_env.m_background.m_mode = BackgroundMode::Custom;
 	}
 
 	void manual_job(Gnode& parent, PassType pass, ManualJob job)
 	{
-		parent.m_scene->m_pass_jobs->m_jobs[pass].push_back(job);
+		parent.scene().m_pass_jobs->m_jobs[pass].push_back(job);
 	}
 
 	Material& solid_material(GfxSystem& gfx, const string& name, const Colour& colour)

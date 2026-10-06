@@ -90,7 +90,8 @@ namespace two
 
 	class Shot;
 
-	export_ class refl_ TWO_GFX_EXPORT Scene
+	// the scene is the graph of its nodes, the root of which is m_graph
+	export_ class refl_ TWO_GFX_EXPORT Scene : public PooledGraph<Gnode>
 	{
 	public:
 		constr_ Scene(GfxSystem& gfx);
@@ -103,22 +104,25 @@ namespace two
 		object<PassJobs> m_pass_jobs;
 
 		attr_ uint32_t m_index;
-		// declared before the graph: the objects of the nodes refer to it, and are destroyed with the nodes
+		// the objects of the nodes refer to it: the nodes are cleared before it's destroyed
 		attr_ Node3 m_root_node;
-		PooledGraph<Gnode> m_nodes;
 		attr_ Gnode m_graph;
+
+		SoundManager* m_sound_manager = nullptr;
+		// the transform each node's objects are attached to, by node index: null until a node without one of its own is asked for it
+		TNodeArray<Node3*>& m_attach;
 		attr_ Zone m_env;
 		attr_ Ref m_user;
 
 		// the top-level node of the graph whose objects the scene renders: the root of the graph
-		uint32_t m_tree = 0;
+		uint32_t m_render_tree = 0;
 
 		meth_ Gnode& begin();
 		meth_ void update();
 
 		// visits the objects of a type of the scene's tree
 		template <class T, class T_Func>
-		inline void iterate(T_Func func) { m_nodes.template store<T>().iterate(m_tree, func); }
+		inline void iterate(T_Func func) { this->template store<T>().iterate(m_render_tree, func); }
 
 		void debug_items(Render& render);
 

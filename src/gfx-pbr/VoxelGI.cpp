@@ -19,7 +19,7 @@ namespace gfx
 	GIProbe& gi_probe(Gnode& parent, uint16_t subdiv, const vec3& extents)
 	{
 		Gnode& self = parent.suba();
-		GIProbe& gi_probe = self.state<GIProbe>(*self.m_attach);
+		GIProbe& gi_probe = self.state<GIProbe>(self.attach());
 		if(subdiv != gi_probe.m_subdiv || extents != gi_probe.m_extents)
 			gi_probe.resize(subdiv, extents);
 		return gi_probe;

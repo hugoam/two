@@ -109,7 +109,7 @@ namespace two
 	{
 		Gnode& self = parent.suba();
 		Node3& node = self.state<Node3>(move(*this));
-		self.m_attach = &node;
+		self.set_attach(node);
 		return node;
 	}
 

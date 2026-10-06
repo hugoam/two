@@ -151,7 +151,7 @@ void material_spheres(Gnode& parent, span<Material*> materials)
 
 void roughness_spheres(Gnode& parent)
 {
-	GfxSystem& gfx = parent.m_scene->m_gfx;
+	GfxSystem& gfx = parent.scene().m_gfx;
 
 	static vector<Material*> dielectric = create_roughness_dielectric_materials(gfx);
 	static vector<Material*> metallic = create_roughness_metallic_materials(gfx);
@@ -188,7 +188,7 @@ void ex_03_materials(Shell& app, Widget& parent, DockbarHandle dockbar)
 	gfx::direct_light_node(scene);
 	gfx::radiance(scene, "radiance/tiber_1_1k.hdr", BackgroundMode::Radiance);
 
-	GfxSystem& gfx = scene.m_scene->m_gfx;
+	GfxSystem& gfx = scene.scene().m_gfx;
 	
 	//static vector<Material*> materials = { &milky_white(gfx), &mirror(gfx), &rocks_01(gfx), &fabric_08(gfx), &paving_stones_11(gfx), 
 	//											&wood_floor_05(gfx), &paving_stones_08(gfx) };
