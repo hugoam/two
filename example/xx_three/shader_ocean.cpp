@@ -111,8 +111,8 @@ struct WaterParams
 class Water : public WaterParams
 {
 public:
-	Node3* m_node;
-	Item* m_item;
+	Node3Handle m_node;
+	ItemHandle m_item;
 	
 	FrameBuffer m_fbo;
 
@@ -135,8 +135,8 @@ public:
 		});
 		m_material = &material;
 
-		m_node = &Node3().add(scene.m_graph);
-		m_item = &Item(*m_node, geometry, 0U, &material).add(scene.m_graph);
+		m_node = Node3().add(scene.m_graph);
+		m_item = Item(m_node, geometry, 0U, &material).add(scene.m_graph);
 		//THREE.Mesh.call(this, geometry);
 
 		m_fbo = { resolution, TextureFormat::RGBA8 };
@@ -397,8 +397,8 @@ public:
 
 		Model& geometry = gfx.shape(Cube(0.5f));
 
-		m_node = &Node3().add(scene.m_graph);
-		m_item = &Item(*m_node, geometry, 0U, &material).add(scene.m_graph);
+		m_node = Node3().add(scene.m_graph);
+		m_item = Item(m_node, geometry, 0U, &material).add(scene.m_graph);
 
 		this->update(material);
 	}
@@ -419,8 +419,8 @@ public:
 
 	Material* m_material;
 
-	Item* m_item;
-	Node3* m_node;
+	ItemHandle m_item;
+	Node3Handle m_node;
 };
 
 EX(xx_shader_ocean)
@@ -445,8 +445,8 @@ EX(xx_shader_ocean)
 	//controls.maxDistance = 200.0;
 	//camera.lookAt(controls.target);
 
-	static Node3* sphere = nullptr;
-	static Node3* sun = nullptr;
+	static Node3Handle sphere;
+	static Node3Handle sun;
 
 	static Water water;
 	static Sky sky;
@@ -466,9 +466,9 @@ EX(xx_shader_ocean)
 
 		// Sun
 
-		Node3& ln = Node3().add(scene.m_graph);
-		Light& l = Light(ln, LightType::Direct, false, rgb(0xffffff), 0.8f).add(scene.m_graph);
-		sun = &ln;
+		Node3Handle ln = Node3().add(scene.m_graph);
+		LightHandle l = Light(ln, LightType::Direct, false, rgb(0xffffff), 0.8f).add(scene.m_graph);
+		sun = ln;
 
 		// Probe
 #if PROBE
@@ -523,9 +523,9 @@ EX(xx_shader_ocean)
 			//envMap: cubeCamera.renderTarget.texture,
 		});
 
-		Node3& n = Node3().add(scene.m_graph);
-		Item& i = Item(n, ico, 0U, &material).add(scene.m_graph);
-		sphere = &n;
+		Node3Handle n = Node3().add(scene.m_graph);
+		ItemHandle i = Item(n, ico, 0U, &material).add(scene.m_graph);
+		sphere = n;
 		UNUSED(i);
 	}
 

@@ -26,15 +26,15 @@ namespace two
 	SoundManager* Gnode::sound_manager() { return this->scene().m_sound_manager; }
 
 	// a node without a transform of its own takes the one of its parent, the first time it's asked: a gfx node never changes parent
-	Node3& Gnode::attach()
+	Node3Handle Gnode::attach()
 	{
-		Node3*& attach = this->scene().m_attach[m_index];
-		if(!attach)
-			attach = &this->parent()->attach();
-		return *attach;
+		Node3Handle& attach = this->scene().m_attach[m_index];
+		if(attach.m_handle == 0)
+			attach = this->parent()->attach();
+		return attach;
 	}
 
-	void Gnode::set_attach(Node3& node) { this->scene().m_attach[m_index] = &node; }
+	void Gnode::set_attach(Node3Handle node) { this->scene().m_attach[m_index] = node; }
 
 	void debug_tree(Gnode node, size_t index, size_t depth)
 	{
@@ -64,7 +64,7 @@ namespace gfx
 		//Gnode self = parent.subi((void*)object.as_uint());
 		FoundState<Node3> node = self.find_or_create_state<Node3>();
 		if(node.created)
-			self.set_attach(node.state);
+			self.set_attach(Node3Handle(self));
 		node.state.m_transform = transform;
 		return Node3Handle(self);
 	}
@@ -81,12 +81,12 @@ namespace gfx
 
 	Node3Handle transform(Gnode parent, const vec3& position, const quat& rotation, const vec3& scale)
 	{
-		return node(parent, parent.attach().m_transform * bxTRS(scale, rotation, position));
+		return node(parent, parent.attach()->m_transform * bxTRS(scale, rotation, position));
 	}
 
 	Node3Handle transform(Gnode parent, const vec3& position, const quat& rotation)
 	{
-		return node(parent, parent.attach().m_transform * bxTRS(vec3(1.f), rotation, position));
+		return node(parent, parent.attach()->m_transform * bxTRS(vec3(1.f), rotation, position));
 	}
 
 	ItemHandle item(Gnode parent, const Model& model, uint32_t flags, Material* material)
@@ -106,18 +106,18 @@ namespace gfx
 	BatchHandle batch(Gnode parent, ItemHandle item, uint16_t stride)
 	{
 		Gnode self = parent.suba();
-		FoundState<Batch> batch = self.find_or_create_state<Batch>(*item, stride);
+		FoundState<Batch> batch = self.find_or_create_state<Batch>(item, stride);
 		if(batch.created)
-			item->m_batch = &batch.state;
+			item->m_batch = BatchHandle(self);
 		return BatchHandle(self);
 	}
 
 	BatchHandle instances(Gnode parent, ItemHandle item, span<mat4> transforms)
 	{
 		Gnode self = parent.suba();
-		FoundState<Batch> batch = self.find_or_create_state<Batch>(*item, uint16_t(sizeof(mat4)));
+		FoundState<Batch> batch = self.find_or_create_state<Batch>(item, uint16_t(sizeof(mat4)));
 		if(batch.created)
-			item->m_batch = &batch.state;
+			item->m_batch = BatchHandle(self);
 		batch.state.transforms(transforms);
 		batch.state.update_aabb(transforms);
 		return BatchHandle(self);
@@ -130,10 +130,10 @@ namespace gfx
 		for(const Prefab::Elem& elem : prefab.m_items)
 		{
 			const Node3& n = prefab.m_nodes[elem.node];
-			mat4 tr = transform ? parent.attach().m_transform * n.m_transform
+			mat4 tr = transform ? parent.attach()->m_transform * n.m_transform
 								: n.m_transform;
 			Node3Handle no = node(self, tr);
-			ItemHandle it = item(no, *elem.item.m_model, elem.item.m_flags | flags, material);
+			ItemHandle it = item(no, *elem.model, elem.flags | flags, material);
 			//it = prefab.m_items[i];
 			//shape(self, Cube(i.m_aabb.m_center, vec3(0.1f)), Symbol::wire(Colour::Red, true));
 			//shape(self, submodel->m_aabb, Symbol::wire(Colour::White));
@@ -170,7 +170,7 @@ namespace gfx
 
 	void draw(Gnode parent, const Shape& shape, const Symbol& symbol, uint32_t flags)
 	{
-		draw(parent.scene(), parent.attach().m_transform, shape, symbol, flags);
+		draw(parent.scene(), parent.attach()->m_transform, shape, symbol, flags);
 	}
 
 	ItemHandle sprite(Gnode parent, const Image256& image, const vec2& size, uint32_t flags, Material* material)
@@ -186,12 +186,18 @@ namespace gfx
 		return nullptr;
 	}
 
+	void animate(MimeHandle mime, ItemHandle item)
+	{
+		mime->add_rig(*item->m_model);
+		item->m_mime = mime;
+	}
+
 	MimeHandle animated(Gnode parent, ItemHandle item)
 	{
 		Gnode self = parent.suba();
 		FoundState<Mime> animated = self.find_or_create_state<Mime>();
 		if(animated.created)
-			animated.state.add_item(*item);
+			animate(MimeHandle(self), item);
 		return MimeHandle(self);
 	}
 
@@ -199,9 +205,9 @@ namespace gfx
 	{
 		UNUSED(flags);
 		Gnode self = parent.suba();
-		Flare& particles = self.state<Flare>(&self.attach(), Sphere(1.f), 1024);
+		Flare& particles = self.state<Flare>(self.attach(), Sphere(1.f), 1024);
 		as<Flow>(particles) = emitter;
-		particles.m_node = &self.attach();
+		particles.m_node = self.attach();
 		particles.m_sprite = &parent.scene().m_particle_system->m_block.m_sprites->find_sprite(emitter.m_sprite_name.c_str());
 		return FlareHandle(self);
 	}

@@ -251,9 +251,10 @@ namespace two
 	export_ struct TWO_GFX_EXPORT DrawElement
 	{
 		DrawElement() {}
-		DrawElement(Item& item, const Program& program, const ModelElem& model, const Material& material, const Skin* skin, uint64_t sort_key);
+		DrawElement(ItemIndex index, const Item& item, const Program& program, const ModelElem& model, const Material& material, const Skin* skin, uint64_t sort_key);
 
-		Item* m_item = nullptr;
+		ItemIndex m_item = {};
+		bool m_batched = false;
 		const ModelElem* m_elem = nullptr;
 		const Material* m_material = nullptr;
 		const Skin* m_skin = nullptr;
@@ -304,7 +305,7 @@ namespace two
 		void clear_draw_elements(Render& render, Pass& pass);
 		void gather_draw_elements(Render& render, Pass& pass);
 		void submit_draw_elements(bgfx::Encoder& encoder, Render& render, Pass& pass, Submit submit, size_t first, size_t count) const;
-		DrawElement draw_element(Item& item, const ModelElem& elem) const;
+		DrawElement draw_element(ItemIndex index, Item& item, const ModelElem& elem) const;
 
 		void submit(bgfx::Encoder& encoder, Render& render, Pass& pass, Submit submit, const DrawElement& element) const;
 

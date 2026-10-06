@@ -5,6 +5,7 @@
 #pragma once
 
 #include <gfx/Forward.h>
+#include <gfx/Handles.h>
 #include <gfx/Animation.h>
 #include <gfx/Skeleton.h>
 
@@ -59,13 +60,15 @@ namespace two
 		constr_ Mime();
 
 		// adds this mime, moved into the object of a new child of a node of a graph
-		meth_ Mime& add(Gnode parent);
+		meth_ MimeHandle add(Gnode parent);
 		~Mime();
 
 		Rig m_rig;
 
 		vector<AnimNode> m_nodes;
+		// the transforms the nodes of the rig animate: the bones of the rig, or the nodes added from a prefab
 		vector<Node3*> m_targets;
+		vector<Node3Handle> m_node_targets;
 
 		span<Animation*> m_anims;
 
@@ -85,8 +88,8 @@ namespace two
 		meth_ void advance(float time);
 		meth_ void next_animation();
 		
-		meth_ void add_item(Item& item);
-		meth_ void add_nodes(span<Node3*> nodes);
+		meth_ void add_rig(const Model& model);
+		meth_ void add_nodes(span<Node3Handle> nodes);
 
 		meth_ string playing() { return m_playing.empty() ? "" : m_playing.back().m_animation->m_name; }
 	};

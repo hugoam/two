@@ -64,8 +64,8 @@ EX(xx_geom_dynamic)
 #if INSTANCING
 	struct Point { vec3 pos; float pad; vec2 scale; float pad1; float pad2; Colour colour; };
 
-	static Batch* points_batch = nullptr;
-	static Batch* lines_batch = nullptr;
+	static BatchHandle points_batch;
+	static BatchHandle lines_batch;
 #endif
 
 	if(init)
@@ -115,12 +115,12 @@ EX(xx_geom_dynamic)
 		points_mesh->m_range = { 0U, num_particles };
 #endif
 
-		Node3& n = Node3().add(scene.m_graph);
-		Item& p = Item(n, points_model, 0U, &pointmat).add(scene.m_graph);
+		Node3Handle n = Node3().add(scene.m_graph);
+		ItemHandle p = Item(n, points_model, 0U, &pointmat).add(scene.m_graph);
 
 #if INSTANCING
-		points_batch = &Batch(p, sizeof(Point)).add(scene.m_graph);
-		p.m_batch = points_batch;
+		points_batch = Batch(p, sizeof(Point)).add(scene.m_graph);
+		p->m_batch = points_batch;
 #endif
 
 #if DYNAMIC
@@ -138,8 +138,8 @@ EX(xx_geom_dynamic)
 		lines_mesh = &mesh;
 #endif
 
-		Node3& n1 = Node3().add(scene.m_graph);
-		Item& lines = Item(n1, lines_model, ItemFlag::Default | ItemFlag::NoCull, &linemat).add(scene.m_graph);
+		Node3Handle n1 = Node3().add(scene.m_graph);
+		ItemHandle lines = Item(n1, lines_model, ItemFlag::Default | ItemFlag::NoCull, &linemat).add(scene.m_graph);
 		UNUSED(lines);
 	}
 

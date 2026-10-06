@@ -37,7 +37,7 @@ namespace two
 		: m_name(name)
 	{}
 
-	Flare::Flare(Node3* node, ShapeVar shape, uint32_t max_particles)
+	Flare::Flare(Node3Handle node, ShapeVar shape, uint32_t max_particles)
 		: m_node(node)
 		, m_max(max_particles)
 	{

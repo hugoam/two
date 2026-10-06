@@ -5,6 +5,7 @@
 #pragma once
 
 #include <gfx/Forward.h>
+#include <gfx/Handles.h>
 #include <gfx/Mesh.h>
 #include <gfx/Material.h>
 
@@ -26,14 +27,14 @@ namespace two
 	{
 	public:
 		constr_ Direct();
-		constr_ Direct(Item& item);
+		constr_ Direct(ItemHandle item);
 
 		//void begin();
 		//Mesh& batch(uint32_t vertex_format, uint32_t vertex_count, uint32_t index_count = 0);
 
 		//attr_ Mesh m_mesh;
 		//attr_ Model m_model;
-		attr_ Item* m_item = nullptr;
+		attr_ ItemHandle m_item;
 
 		//vector<Mesh> m_batches;
 	};

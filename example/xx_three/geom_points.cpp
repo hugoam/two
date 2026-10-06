@@ -22,9 +22,9 @@ EX(xx_geom_points)
 
 	static Program& program = app.m_gfx.programs().fetch("point");
 
-	static Node3* node = nullptr;
+	static Node3Handle node;
 
-	static Batch* batch = nullptr;
+	static BatchHandle batch;
 	struct Instance { vec3 position; float pad0; vec2 scale; float pad1; float pad2; Colour colour; };
 	static vector<Instance> instances = vector<Instance>(particles);
 
@@ -55,12 +55,12 @@ EX(xx_geom_points)
 
 		Model& model = *app.m_gfx.models().get("point");
 
-		Node3& n = Node3().add(scene.m_graph);
-		Item& it = Item(n, model, 0U, &material).add(scene.m_graph);
-		node = &n;
+		Node3Handle n = Node3().add(scene.m_graph);
+		ItemHandle it = Item(n, model, 0U, &material).add(scene.m_graph);
+		node = n;
 
-		batch = &Batch(it, sizeof(Instance)).add(scene.m_graph);
-		it.m_batch = batch;
+		batch = Batch(it, sizeof(Instance)).add(scene.m_graph);
+		it->m_batch = batch;
 
 		batch->cache({ (float*)instances.data(), instances.size() * sizeof(Instance) / sizeof(float) });
 	}

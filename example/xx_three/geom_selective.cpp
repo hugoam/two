@@ -58,7 +58,7 @@ EX(xx_geom_selective)
 	}
 
 	static Model* model = nullptr;
-	static Node3* node = nullptr;
+	static Node3Handle node;
 
 	if(init)
 	{
@@ -100,10 +100,10 @@ EX(xx_geom_selective)
 
 			model = &app.m_gfx.create_model_geo("selective", geometry, false); // , dynamic = true);
 
-			Node3& n = Node3().add(scene.m_graph);
-			Item& it = Item(n, *model, 0U, &material).add(scene.m_graph);
+			Node3Handle n = Node3().add(scene.m_graph);
+			ItemHandle it = Item(n, *model, 0U, &material).add(scene.m_graph);
 			UNUSED(it);
-			node = &n;
+			node = n;
 
 			//updateCount();
 		};

@@ -105,8 +105,8 @@ static string tiled_three_fragment =
 
 struct ExLight
 {
-	Node3* parent;
-	Node3* node;
+	Node3Handle parent;
+	Node3Handle node;
 	Colour color;
 	float radius = radius;
 	float decay = 1.f;
@@ -335,10 +335,10 @@ EX(xx_tiled_forward)
 			const vec3 position = vec3(sin(i * c_pi2) * radius, 0.f, cos(i * c_pi2) * radius);
 			const quat rotation = quat(vec3(0.f, i * c_pi2, 0.f));
 
-			Node3& n = Node3(position, rotation).add(scene.m_graph);
+			Node3Handle n = Node3(position, rotation).add(scene.m_graph);
 
-			Node3& m = Node3(n.m_transform * bxTRS(vec3(1.f), ZeroQuat, vec3(0.f, -37.f, 0.f))).add(scene.m_graph);
-			Item& it = Item(m, model, 0U, material).add(scene.m_graph);
+			Node3Handle m = Node3(n->m_transform * bxTRS(vec3(1.f), ZeroQuat, vec3(0.f, -37.f, 0.f))).add(scene.m_graph);
+			ItemHandle it = Item(m, model, 0U, material).add(scene.m_graph);
 			UNUSED(it);
 
 
@@ -354,15 +354,15 @@ EX(xx_tiled_forward)
 					m.m_program = &solid; m.m_solid.m_colour = color; m.m_alpha.m_alpha = 0.033f;
 				});
 
-				Node3& l = Node3().add(scene.m_graph);
-				Item& i0 = Item(l, sphere, 0U, &ml).add(scene.m_graph); // MaterialSolid(color)));
+				Node3Handle l = Node3().add(scene.m_graph);
+				ItemHandle i0 = Item(l, sphere, 0U, &ml).add(scene.m_graph); // MaterialSolid(color)));
 			
-				//Item& i1 = Item(l, big_sphere, 0U, &ma).add(scene.m_graph); // MaterialSolid(color), MaterialAlpha(0.033f));
+				//ItemHandle i1 = Item(l, big_sphere, 0U, &ma).add(scene.m_graph); // MaterialSolid(color), MaterialAlpha(0.033f));
 				//l.children[1].scale.set(6.66, 6.66, 6.66);
 
 				lights.push_back({
-					&n,
-					&l,
+					n,
+					l,
 					color,
 					radius,
 					1.f,

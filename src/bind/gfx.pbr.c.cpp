@@ -22,6 +22,40 @@ extern "C" {
 	void DECL two_BlockLight__destroy(two::BlockLight* self) {
 		delete self;
 	}
+	// GIProbeHandle
+	two::Type* DECL two_GIProbeHandle__type() {
+		return &two::type<two::GIProbeHandle>();
+	}
+	two::GIProbeHandle* DECL two_GIProbeHandle__construct_0() {
+		return new two::GIProbeHandle();
+	}
+	two::Gnode* DECL two_GIProbeHandle__get_self(two::GIProbeHandle* self) {
+		static two::Gnode temp;
+		return (temp = self->self(), &temp);
+	}
+	two::GIProbe* DECL two_GIProbeHandle__get_probe(two::GIProbeHandle* self) {
+		return &self->probe();
+	}
+	void DECL two_GIProbeHandle__destroy(two::GIProbeHandle* self) {
+		delete self;
+	}
+	// LightmapAtlasHandle
+	two::Type* DECL two_LightmapAtlasHandle__type() {
+		return &two::type<two::LightmapAtlasHandle>();
+	}
+	two::LightmapAtlasHandle* DECL two_LightmapAtlasHandle__construct_0() {
+		return new two::LightmapAtlasHandle();
+	}
+	two::Gnode* DECL two_LightmapAtlasHandle__get_self(two::LightmapAtlasHandle* self) {
+		static two::Gnode temp;
+		return (temp = self->self(), &temp);
+	}
+	two::LightmapAtlas* DECL two_LightmapAtlasHandle__get_atlas(two::LightmapAtlasHandle* self) {
+		return &self->atlas();
+	}
+	void DECL two_LightmapAtlasHandle__destroy(two::LightmapAtlasHandle* self) {
+		delete self;
+	}
 	// LightmapItem
 	two::Type* DECL two_LightmapItem__type() {
 		return &two::type<two::LightmapItem>();
@@ -129,8 +163,11 @@ extern "C" {
 	two::Type* DECL two_ReflectionProbe__type() {
 		return &two::type<two::ReflectionProbe>();
 	}
-	two::Node3* DECL two_ReflectionProbe__get_node(two::ReflectionProbe* self) {
+	two::Node3Handle* DECL two_ReflectionProbe__get_node(two::ReflectionProbe* self) {
 		return &self->m_node;
+	}
+	void DECL two_ReflectionProbe__set_node(two::ReflectionProbe* self, two::Node3Handle* value) {
+		self->m_node = *value;
 	}
 	bool DECL two_ReflectionProbe__get_visible(two::ReflectionProbe* self) {
 		return self->m_visible;
@@ -207,40 +244,6 @@ extern "C" {
 		return &two::type<two::BlockShadow>();
 	}
 	void DECL two_BlockShadow__destroy(two::BlockShadow* self) {
-		delete self;
-	}
-	// GIProbeHandle
-	two::Type* DECL two_GIProbeHandle__type() {
-		return &two::type<two::GIProbeHandle>();
-	}
-	two::GIProbeHandle* DECL two_GIProbeHandle__construct_0() {
-		return new two::GIProbeHandle();
-	}
-	two::Gnode* DECL two_GIProbeHandle__get_self(two::GIProbeHandle* self) {
-		static two::Gnode temp;
-		return (temp = self->self(), &temp);
-	}
-	two::GIProbe* DECL two_GIProbeHandle__get_probe(two::GIProbeHandle* self) {
-		return &self->probe();
-	}
-	void DECL two_GIProbeHandle__destroy(two::GIProbeHandle* self) {
-		delete self;
-	}
-	// LightmapAtlasHandle
-	two::Type* DECL two_LightmapAtlasHandle__type() {
-		return &two::type<two::LightmapAtlasHandle>();
-	}
-	two::LightmapAtlasHandle* DECL two_LightmapAtlasHandle__construct_0() {
-		return new two::LightmapAtlasHandle();
-	}
-	two::Gnode* DECL two_LightmapAtlasHandle__get_self(two::LightmapAtlasHandle* self) {
-		static two::Gnode temp;
-		return (temp = self->self(), &temp);
-	}
-	two::LightmapAtlas* DECL two_LightmapAtlasHandle__get_atlas(two::LightmapAtlasHandle* self) {
-		return &self->atlas();
-	}
-	void DECL two_LightmapAtlasHandle__destroy(two::LightmapAtlasHandle* self) {
 		delete self;
 	}
 	// GIProbe

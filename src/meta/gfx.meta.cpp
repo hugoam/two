@@ -112,11 +112,38 @@ void* stl_vector_two_AnimPlay__at(void* vec, size_t i) { return &(*static_cast<s
 void stl_vector_two_AnimPlay__push(void* vec) { (*static_cast<stl::vector<two::AnimPlay>*>(vec)).emplace_back(); }
 void stl_vector_two_AnimPlay__add(void* vec, void* value) { (*static_cast<stl::vector<two::AnimPlay>*>(vec)).push_back(*static_cast<two::AnimPlay*>(value)); }
 void stl_vector_two_AnimPlay__remove(void* vec, void* value) { vector_remove_any((*static_cast<stl::vector<two::AnimPlay>*>(vec)), *static_cast<two::AnimPlay*>(value)); }
+void two_GnodeHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::GnodeHandle(); }
+void two_GnodeHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::GnodeHandle((*static_cast<two::GnodeHandle*>(other))); }
+void two_GnodeHandle__get_gnode(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::GnodeHandle*>(object)).gnode(); }
+void two_Node3Handle__default_construct(void* ref) { new(stl::placeholder(), ref) two::Node3Handle(); }
+void two_Node3Handle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Node3Handle((*static_cast<two::Node3Handle*>(other))); }
+void two_Node3Handle__get_self(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::Node3Handle*>(object)).self(); }
+void two_Node3Handle__get_node(void* object, void*& result) { result = &(*static_cast<two::Node3Handle*>(object)).node(); }
+void two_ItemHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::ItemHandle(); }
+void two_ItemHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::ItemHandle((*static_cast<two::ItemHandle*>(other))); }
+void two_ItemHandle__get_self(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::ItemHandle*>(object)).self(); }
+void two_ItemHandle__get_item(void* object, void*& result) { result = &(*static_cast<two::ItemHandle*>(object)).item(); }
+void two_BatchHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::BatchHandle(); }
+void two_BatchHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::BatchHandle((*static_cast<two::BatchHandle*>(other))); }
+void two_BatchHandle__get_self(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::BatchHandle*>(object)).self(); }
+void two_BatchHandle__get_batch(void* object, void*& result) { result = &(*static_cast<two::BatchHandle*>(object)).batch(); }
+void two_LightHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::LightHandle(); }
+void two_LightHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::LightHandle((*static_cast<two::LightHandle*>(other))); }
+void two_LightHandle__get_self(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::LightHandle*>(object)).self(); }
+void two_LightHandle__get_light(void* object, void*& result) { result = &(*static_cast<two::LightHandle*>(object)).light(); }
+void two_MimeHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::MimeHandle(); }
+void two_MimeHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::MimeHandle((*static_cast<two::MimeHandle*>(other))); }
+void two_MimeHandle__get_self(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::MimeHandle*>(object)).self(); }
+void two_MimeHandle__get_mime(void* object, void*& result) { result = &(*static_cast<two::MimeHandle*>(object)).mime(); }
+void two_FlareHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::FlareHandle(); }
+void two_FlareHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::FlareHandle((*static_cast<two::FlareHandle*>(other))); }
+void two_FlareHandle__get_self(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::FlareHandle*>(object)).self(); }
+void two_FlareHandle__get_flare(void* object, void*& result) { result = &(*static_cast<two::FlareHandle*>(object)).flare(); }
 void two_Node3__default_construct(void* ref) { new(stl::placeholder(), ref) two::Node3(); }
 void two_Node3__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Node3( *static_cast<two::vec3*>(args[0]), *static_cast<two::quat*>(args[1]), *static_cast<two::vec3*>(args[2]) ); }
 void two_Node3_apply(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Node3*>(object)).apply(*static_cast<two::vec3*>(args[0]), *static_cast<two::quat*>(args[1]), *static_cast<two::vec3*>(args[2])); }
 void two_Node3_derive(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Node3*>(object)).derive(*static_cast<two::Node3*>(args[0]), *static_cast<two::vec3*>(args[1]), *static_cast<two::quat*>(args[2]), *static_cast<two::vec3*>(args[3])); }
-void two_Node3_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::Node3*>(object)).add(*static_cast<two::Gnode*>(args[0])); }
+void two_Node3_add(void* object, span<void*> args, void*& result) { (*static_cast<two::Node3Handle*>(result)) = (*static_cast<two::Node3*>(object)).add(*static_cast<two::Gnode*>(args[0])); }
 void two_Node3_position(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<two::vec3*>(result)) = (*static_cast<two::Node3*>(object)).position(); }
 void two_Node3_axis(void* object, span<void*> args, void*& result) { (*static_cast<two::vec3*>(result)) = (*static_cast<two::Node3*>(object)).axis(*static_cast<two::vec3*>(args[0])); }
 void two_Node3_direction(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<two::vec3*>(result)) = (*static_cast<two::Node3*>(object)).direction(); }
@@ -135,7 +162,7 @@ void two_AnimNode__copy_construct(void* ref, void* other) { new(stl::placeholder
 void two_AnimPlay__default_construct(void* ref) { new(stl::placeholder(), ref) two::AnimPlay(); }
 void two_AnimPlay__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::AnimPlay((*static_cast<two::AnimPlay*>(other))); }
 void two_Mime__default_construct(void* ref) { new(stl::placeholder(), ref) two::Mime(); }
-void two_Mime_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::Mime*>(object)).add(*static_cast<two::Gnode*>(args[0])); }
+void two_Mime_add(void* object, span<void*> args, void*& result) { (*static_cast<two::MimeHandle*>(result)) = (*static_cast<two::Mime*>(object)).add(*static_cast<two::Gnode*>(args[0])); }
 void two_Mime_start(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Mime*>(object)).start(*static_cast<stl::string*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<bool*>(args[4])); }
 void two_Mime_play(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Mime*>(object)).play(*static_cast<two::Animation*>(args[0]), *static_cast<bool*>(args[1]), *static_cast<float*>(args[2]), *static_cast<float*>(args[3]), *static_cast<bool*>(args[4])); }
 void two_Mime_seek(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Mime*>(object)).seek(*static_cast<float*>(args[0])); }
@@ -143,8 +170,8 @@ void two_Mime_pause(void* object, span<void*> args, void*& result) { UNUSED(resu
 void two_Mime_stop(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::Mime*>(object)).stop(); }
 void two_Mime_advance(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Mime*>(object)).advance(*static_cast<float*>(args[0])); }
 void two_Mime_next_animation(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::Mime*>(object)).next_animation(); }
-void two_Mime_add_item(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Mime*>(object)).add_item(*static_cast<two::Item*>(args[0])); }
-void two_Mime_add_nodes(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Mime*>(object)).add_nodes(*static_cast<stl::span<two::Node3*>*>(args[0])); }
+void two_Mime_add_rig(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Mime*>(object)).add_rig(*static_cast<two::Model*>(args[0])); }
+void two_Mime_add_nodes(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Mime*>(object)).add_nodes(*static_cast<stl::span<two::Node3Handle>*>(args[0])); }
 void two_Mime_playing(void* object, span<void*> args, void*& result) { UNUSED(args); (*static_cast<stl::string*>(result)) = (*static_cast<two::Mime*>(object)).playing(); }
 void two_FrustumSlice__default_construct(void* ref) { new(stl::placeholder(), ref) two::FrustumSlice(); }
 void two_FrustumSlice__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::FrustumSlice((*static_cast<two::FrustumSlice*>(other))); }
@@ -243,8 +270,8 @@ void two_Flare__default_construct(void* ref) { new(stl::placeholder(), ref) two:
 void two_Flare__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Flare((*static_cast<two::Flare*>(other))); }
 void two_Batch__default_construct(void* ref) { new(stl::placeholder(), ref) two::Batch(); }
 void two_Batch__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Batch((*static_cast<two::Batch*>(other))); }
-void two_Batch__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Batch( *static_cast<two::Item*>(args[0]), *static_cast<uint16_t*>(args[1]) ); }
-void two_Batch_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::Batch*>(object)).add(*static_cast<two::Gnode*>(args[0])); }
+void two_Batch__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Batch( *static_cast<two::ItemHandle*>(args[0]), *static_cast<uint16_t*>(args[1]) ); }
+void two_Batch_add(void* object, span<void*> args, void*& result) { (*static_cast<two::BatchHandle*>(result)) = (*static_cast<two::Batch*>(object)).add(*static_cast<two::Gnode*>(args[0])); }
 void two_Batch_update_aabb(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Batch*>(object)).update_aabb(*static_cast<stl::span<two::mat4>*>(args[0])); }
 void two_Batch_transforms(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Batch*>(object)).transforms(*static_cast<stl::span<two::mat4>*>(args[0])); }
 void two_Batch_begin(void* object, span<void*> args, void*& result) { (*static_cast<stl::span<float>*>(result)) = (*static_cast<two::Batch*>(object)).begin(*static_cast<uint32_t*>(args[0])); }
@@ -252,12 +279,12 @@ void two_Batch_commit(void* object, span<void*> args, void*& result) { UNUSED(re
 void two_Batch_cache(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Batch*>(object)).cache(*static_cast<stl::span<float>*>(args[0])); }
 void two_Batch_transform(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Batch*>(object)).transform(*static_cast<two::mat4*>(args[0])); }
 void two_Item__default_construct(void* ref) { new(stl::placeholder(), ref) two::Item(); }
-void two_Item__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Item( *static_cast<two::Node3*>(args[0]), *static_cast<two::Model*>(args[1]), *static_cast<uint32_t*>(args[2]), static_cast<two::Material*>(args[3]) ); }
-void two_Item_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::Item*>(object)).add(*static_cast<two::Gnode*>(args[0])); }
+void two_Item__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Item( *static_cast<two::Node3Handle*>(args[0]), *static_cast<two::Model*>(args[1]), *static_cast<uint32_t*>(args[2]), static_cast<two::Material*>(args[3]) ); }
+void two_Item_add(void* object, span<void*> args, void*& result) { (*static_cast<two::ItemHandle*>(result)) = (*static_cast<two::Item*>(object)).add(*static_cast<two::Gnode*>(args[0])); }
 void two_Item_update_aabb(void* object, span<void*> args, void*& result) { UNUSED(result); UNUSED(args); (*static_cast<two::Item*>(object)).update_aabb(); }
 void two_ImportConfig__default_construct(void* ref) { new(stl::placeholder(), ref) two::ImportConfig(); }
 void two_ImportConfig__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::ImportConfig((*static_cast<two::ImportConfig*>(other))); }
-void two_Prefab_add(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Prefab*>(object)).add(*static_cast<two::Gnode*>(args[0]), static_cast<two::Mime*>(args[1])); }
+void two_Prefab_add(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Prefab*>(object)).add(*static_cast<two::Gnode*>(args[0]), *static_cast<two::MimeHandle*>(args[1])); }
 void two_AssetStore_two_Texture_get(void* object, span<void*> args, void*& result) { result = (*static_cast<two::AssetStore<two::Texture>*>(object)).get(*static_cast<stl::string*>(args[0])); }
 void two_AssetStore_two_Texture_create(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::AssetStore<two::Texture>*>(object)).create(*static_cast<stl::string*>(args[0])); }
 void two_AssetStore_two_Texture_fetch(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::AssetStore<two::Texture>*>(object)).fetch(*static_cast<stl::string*>(args[0])); }
@@ -327,7 +354,7 @@ void two_Mesh_upload(void* object, span<void*> args, void*& result) { UNUSED(res
 void two_Mesh_cache(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::Mesh*>(object)).cache(*static_cast<two::GpuMesh*>(args[0])); }
 void two_Mesh_direct(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::Mesh*>(object)).direct(*static_cast<uint32_t*>(args[0]), *static_cast<uint32_t*>(args[1]), *static_cast<uint32_t*>(args[2])); }
 void two_Direct__default_construct(void* ref) { new(stl::placeholder(), ref) two::Direct(); }
-void two_Direct__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Direct( *static_cast<two::Item*>(args[0]) ); }
+void two_Direct__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Direct( *static_cast<two::ItemHandle*>(args[0]) ); }
 void two_Lines__default_construct(void* ref) { new(stl::placeholder(), ref) two::Lines(); }
 void two_Lines__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Lines( *static_cast<stl::vector<two::vec3>*>(args[0]) ); }
 void two_Lines__construct_1(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Lines( *static_cast<two::Curve3*>(args[0]), *static_cast<size_t*>(args[1]) ); }
@@ -354,35 +381,8 @@ void two_BlockCopy_debug_show_texture(void* object, span<void*> args, void*& res
 void two_BlockCopy_debug_show_texturep(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::BlockCopy*>(object)).debug_show_texturep(*static_cast<two::Render*>(args[0]), static_cast<two::Texture*>(args[1]), *static_cast<two::vec4*>(args[2]), *static_cast<int*>(args[3])); }
 void two_ClusteredFrustum__default_construct(void* ref) { new(stl::placeholder(), ref) two::ClusteredFrustum(); }
 void two_ClusteredFrustum__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::ClusteredFrustum((*static_cast<two::ClusteredFrustum*>(other))); }
-void two_Light__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Light( *static_cast<two::Node3*>(args[0]), *static_cast<two::LightType*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<two::Colour*>(args[3]), *static_cast<float*>(args[4]), *static_cast<float*>(args[5]) ); }
-void two_Light_add(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::Light*>(object)).add(*static_cast<two::Gnode*>(args[0])); }
-void two_GnodeHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::GnodeHandle(); }
-void two_GnodeHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::GnodeHandle((*static_cast<two::GnodeHandle*>(other))); }
-void two_GnodeHandle__get_gnode(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::GnodeHandle*>(object)).gnode(); }
-void two_Node3Handle__default_construct(void* ref) { new(stl::placeholder(), ref) two::Node3Handle(); }
-void two_Node3Handle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Node3Handle((*static_cast<two::Node3Handle*>(other))); }
-void two_Node3Handle__get_self(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::Node3Handle*>(object)).self(); }
-void two_Node3Handle__get_node(void* object, void*& result) { result = &(*static_cast<two::Node3Handle*>(object)).node(); }
-void two_ItemHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::ItemHandle(); }
-void two_ItemHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::ItemHandle((*static_cast<two::ItemHandle*>(other))); }
-void two_ItemHandle__get_self(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::ItemHandle*>(object)).self(); }
-void two_ItemHandle__get_item(void* object, void*& result) { result = &(*static_cast<two::ItemHandle*>(object)).item(); }
-void two_BatchHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::BatchHandle(); }
-void two_BatchHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::BatchHandle((*static_cast<two::BatchHandle*>(other))); }
-void two_BatchHandle__get_self(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::BatchHandle*>(object)).self(); }
-void two_BatchHandle__get_batch(void* object, void*& result) { result = &(*static_cast<two::BatchHandle*>(object)).batch(); }
-void two_LightHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::LightHandle(); }
-void two_LightHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::LightHandle((*static_cast<two::LightHandle*>(other))); }
-void two_LightHandle__get_self(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::LightHandle*>(object)).self(); }
-void two_LightHandle__get_light(void* object, void*& result) { result = &(*static_cast<two::LightHandle*>(object)).light(); }
-void two_MimeHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::MimeHandle(); }
-void two_MimeHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::MimeHandle((*static_cast<two::MimeHandle*>(other))); }
-void two_MimeHandle__get_self(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::MimeHandle*>(object)).self(); }
-void two_MimeHandle__get_mime(void* object, void*& result) { result = &(*static_cast<two::MimeHandle*>(object)).mime(); }
-void two_FlareHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::FlareHandle(); }
-void two_FlareHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::FlareHandle((*static_cast<two::FlareHandle*>(other))); }
-void two_FlareHandle__get_self(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::FlareHandle*>(object)).self(); }
-void two_FlareHandle__get_flare(void* object, void*& result) { result = &(*static_cast<two::FlareHandle*>(object)).flare(); }
+void two_Light__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::Light( *static_cast<two::Node3Handle*>(args[0]), *static_cast<two::LightType*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<two::Colour*>(args[3]), *static_cast<float*>(args[4]), *static_cast<float*>(args[5]) ); }
+void two_Light_add(void* object, span<void*> args, void*& result) { (*static_cast<two::LightHandle*>(result)) = (*static_cast<two::Light*>(object)).add(*static_cast<two::Gnode*>(args[0])); }
 void two_Gnode__default_construct(void* ref) { new(stl::placeholder(), ref) two::Gnode(); }
 void two_Gnode__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::Gnode((*static_cast<two::Gnode*>(other))); }
 void two_Viewport__default_construct(void* ref) { new(stl::placeholder(), ref) two::Viewport(); }
@@ -454,25 +454,26 @@ void two_gfx_batch_25(span<void*> args, void*& result) { (*static_cast<two::Batc
 void two_gfx_instances_26(span<void*> args, void*& result) { (*static_cast<two::BatchHandle*>(result)) = two::gfx::instances(*static_cast<two::Gnode*>(args[0]), *static_cast<two::ItemHandle*>(args[1]), *static_cast<stl::span<two::mat4>*>(args[2])); }
 void two_gfx_prefab_27(span<void*> args, void*& result) { UNUSED(result);  two::gfx::prefab(*static_cast<two::Gnode*>(args[0]), *static_cast<two::Prefab*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<uint32_t*>(args[3]), static_cast<two::Material*>(args[4])); }
 void two_gfx_model_28(span<void*> args, void*& result) { (*static_cast<two::ItemHandle*>(result)) = two::gfx::model(*static_cast<two::Gnode*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<uint32_t*>(args[2]), static_cast<two::Material*>(args[3])); }
-void two_gfx_animated_29(span<void*> args, void*& result) { (*static_cast<two::MimeHandle*>(result)) = two::gfx::animated(*static_cast<two::Gnode*>(args[0]), *static_cast<two::ItemHandle*>(args[1])); }
-void two_gfx_flows_30(span<void*> args, void*& result) { (*static_cast<two::FlareHandle*>(result)) = two::gfx::flows(*static_cast<two::Gnode*>(args[0]), *static_cast<two::Flow*>(args[1]), *static_cast<uint32_t*>(args[2])); }
-void two_gfx_light_31(span<void*> args, void*& result) { (*static_cast<two::LightHandle*>(result)) = two::gfx::light(*static_cast<two::Gnode*>(args[0]), *static_cast<two::LightType*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<two::Colour*>(args[3]), *static_cast<float*>(args[4]), *static_cast<float*>(args[5])); }
-void two_gfx_sun_light_32(span<void*> args, void*& result) { (*static_cast<two::LightHandle*>(result)) = two::gfx::sun_light(*static_cast<two::Gnode*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
-void two_gfx_radiance_33(span<void*> args, void*& result) { UNUSED(result);  two::gfx::radiance(*static_cast<two::Gnode*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<two::BackgroundMode*>(args[2])); }
-void two_gfx_direct_light_node_34(span<void*> args, void*& result) { (*static_cast<two::LightHandle*>(result)) = two::gfx::direct_light_node(*static_cast<two::Gnode*>(args[0]), *static_cast<two::vec3*>(args[1])); }
-void two_gfx_solid_material_35(span<void*> args, void*& result) { result = &two::gfx::solid_material(*static_cast<two::GfxSystem*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<two::Colour*>(args[2])); }
-void two_gfx_pbr_material_36(span<void*> args, void*& result) { result = &two::gfx::pbr_material(*static_cast<two::GfxSystem*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<two::Colour*>(args[2]), *static_cast<float*>(args[3]), *static_cast<float*>(args[4])); }
-void two_gfx_model_suzanne_37(span<void*> args, void*& result) { result = &two::gfx::model_suzanne(*static_cast<two::GfxSystem*>(args[0])); }
-void two_pass_clear_fbo_38(span<void*> args, void*& result) { UNUSED(result);  two::pass_clear_fbo(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1]), *static_cast<two::FrameBuffer*>(args[2]), *static_cast<two::Colour*>(args[3]), *static_cast<float*>(args[4])); }
-void two_pass_clear_39(span<void*> args, void*& result) { UNUSED(result);  two::pass_clear(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
-void two_pass_gclear_40(span<void*> args, void*& result) { UNUSED(result);  two::pass_gclear(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
-void two_pass_depth_41(span<void*> args, void*& result) { UNUSED(result);  two::pass_depth(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
-void two_pass_background_42(span<void*> args, void*& result) { UNUSED(result);  two::pass_background(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
-void two_pass_solid_43(span<void*> args, void*& result) { UNUSED(result);  two::pass_solid(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
-void two_pass_flip_44(span<void*> args, void*& result) { UNUSED(result);  two::pass_flip(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
-void two_render_minimal_45(span<void*> args, void*& result) { UNUSED(result);  two::render_minimal(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
-void two_render_solid_46(span<void*> args, void*& result) { UNUSED(result);  two::render_solid(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
-void two_render_clear_47(span<void*> args, void*& result) { UNUSED(result);  two::render_clear(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
+void two_gfx_animate_29(span<void*> args, void*& result) { UNUSED(result);  two::gfx::animate(*static_cast<two::MimeHandle*>(args[0]), *static_cast<two::ItemHandle*>(args[1])); }
+void two_gfx_animated_30(span<void*> args, void*& result) { (*static_cast<two::MimeHandle*>(result)) = two::gfx::animated(*static_cast<two::Gnode*>(args[0]), *static_cast<two::ItemHandle*>(args[1])); }
+void two_gfx_flows_31(span<void*> args, void*& result) { (*static_cast<two::FlareHandle*>(result)) = two::gfx::flows(*static_cast<two::Gnode*>(args[0]), *static_cast<two::Flow*>(args[1]), *static_cast<uint32_t*>(args[2])); }
+void two_gfx_light_32(span<void*> args, void*& result) { (*static_cast<two::LightHandle*>(result)) = two::gfx::light(*static_cast<two::Gnode*>(args[0]), *static_cast<two::LightType*>(args[1]), *static_cast<bool*>(args[2]), *static_cast<two::Colour*>(args[3]), *static_cast<float*>(args[4]), *static_cast<float*>(args[5])); }
+void two_gfx_sun_light_33(span<void*> args, void*& result) { (*static_cast<two::LightHandle*>(result)) = two::gfx::sun_light(*static_cast<two::Gnode*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2])); }
+void two_gfx_radiance_34(span<void*> args, void*& result) { UNUSED(result);  two::gfx::radiance(*static_cast<two::Gnode*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<two::BackgroundMode*>(args[2])); }
+void two_gfx_direct_light_node_35(span<void*> args, void*& result) { (*static_cast<two::LightHandle*>(result)) = two::gfx::direct_light_node(*static_cast<two::Gnode*>(args[0]), *static_cast<two::vec3*>(args[1])); }
+void two_gfx_solid_material_36(span<void*> args, void*& result) { result = &two::gfx::solid_material(*static_cast<two::GfxSystem*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<two::Colour*>(args[2])); }
+void two_gfx_pbr_material_37(span<void*> args, void*& result) { result = &two::gfx::pbr_material(*static_cast<two::GfxSystem*>(args[0]), *static_cast<stl::string*>(args[1]), *static_cast<two::Colour*>(args[2]), *static_cast<float*>(args[3]), *static_cast<float*>(args[4])); }
+void two_gfx_model_suzanne_38(span<void*> args, void*& result) { result = &two::gfx::model_suzanne(*static_cast<two::GfxSystem*>(args[0])); }
+void two_pass_clear_fbo_39(span<void*> args, void*& result) { UNUSED(result);  two::pass_clear_fbo(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1]), *static_cast<two::FrameBuffer*>(args[2]), *static_cast<two::Colour*>(args[3]), *static_cast<float*>(args[4])); }
+void two_pass_clear_40(span<void*> args, void*& result) { UNUSED(result);  two::pass_clear(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
+void two_pass_gclear_41(span<void*> args, void*& result) { UNUSED(result);  two::pass_gclear(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
+void two_pass_depth_42(span<void*> args, void*& result) { UNUSED(result);  two::pass_depth(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
+void two_pass_background_43(span<void*> args, void*& result) { UNUSED(result);  two::pass_background(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
+void two_pass_solid_44(span<void*> args, void*& result) { UNUSED(result);  two::pass_solid(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
+void two_pass_flip_45(span<void*> args, void*& result) { UNUSED(result);  two::pass_flip(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
+void two_render_minimal_46(span<void*> args, void*& result) { UNUSED(result);  two::render_minimal(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
+void two_render_solid_47(span<void*> args, void*& result) { UNUSED(result);  two::render_solid(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
+void two_render_clear_48(span<void*> args, void*& result) { UNUSED(result);  two::render_clear(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1])); }
 
 namespace two
 {
@@ -1020,6 +1021,192 @@ namespace two
 		g_sequence[t.m_id] = &sequence;
 	}
 	
+	// two::GnodeHandle
+	{
+		Type& t = type<two::GnodeHandle>();
+		static Meta meta = { t, &namspc({ "two" }), "GnodeHandle", sizeof(two::GnodeHandle), TypeClass::Struct };
+		// bases
+		// defaults
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_GnodeHandle__default_construct }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, two_GnodeHandle__copy_construct }
+		};
+		// constructors
+		// members
+		static Member members[] = {
+			{ t, SIZE_MAX, type<two::Gnode>(), "gnode", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_GnodeHandle__get_gnode }
+		};
+		// methods
+		// static members
+		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::GnodeHandle());
+	}
+	// two::Node3Handle
+	{
+		Type& t = type<two::Node3Handle>();
+		static Meta meta = { t, &namspc({ "two" }), "Node3Handle", sizeof(two::Node3Handle), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<two::GnodeHandle>() };
+		static size_t bases_offsets[] = { base_offset<two::Node3Handle, two::GnodeHandle>() };
+		// defaults
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_Node3Handle__default_construct }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, two_Node3Handle__copy_construct }
+		};
+		// constructors
+		// members
+		static Member members[] = {
+			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_Node3Handle__get_self },
+			{ t, SIZE_MAX, type<two::Node3>(), "node", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Node3Handle__get_node }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::Node3Handle());
+	}
+	// two::ItemHandle
+	{
+		Type& t = type<two::ItemHandle>();
+		static Meta meta = { t, &namspc({ "two" }), "ItemHandle", sizeof(two::ItemHandle), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<two::GnodeHandle>() };
+		static size_t bases_offsets[] = { base_offset<two::ItemHandle, two::GnodeHandle>() };
+		// defaults
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_ItemHandle__default_construct }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, two_ItemHandle__copy_construct }
+		};
+		// constructors
+		// members
+		static Member members[] = {
+			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_ItemHandle__get_self },
+			{ t, SIZE_MAX, type<two::Item>(), "item", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_ItemHandle__get_item }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::ItemHandle());
+	}
+	// two::BatchHandle
+	{
+		Type& t = type<two::BatchHandle>();
+		static Meta meta = { t, &namspc({ "two" }), "BatchHandle", sizeof(two::BatchHandle), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<two::GnodeHandle>() };
+		static size_t bases_offsets[] = { base_offset<two::BatchHandle, two::GnodeHandle>() };
+		// defaults
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_BatchHandle__default_construct }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, two_BatchHandle__copy_construct }
+		};
+		// constructors
+		// members
+		static Member members[] = {
+			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_BatchHandle__get_self },
+			{ t, SIZE_MAX, type<two::Batch>(), "batch", nullptr, Member::Flags(Member::Value|Member::NonMutable|Member::Link), two_BatchHandle__get_batch }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::BatchHandle());
+	}
+	// two::LightHandle
+	{
+		Type& t = type<two::LightHandle>();
+		static Meta meta = { t, &namspc({ "two" }), "LightHandle", sizeof(two::LightHandle), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<two::GnodeHandle>() };
+		static size_t bases_offsets[] = { base_offset<two::LightHandle, two::GnodeHandle>() };
+		// defaults
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_LightHandle__default_construct }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, two_LightHandle__copy_construct }
+		};
+		// constructors
+		// members
+		static Member members[] = {
+			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_LightHandle__get_self },
+			{ t, SIZE_MAX, type<two::Light>(), "light", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_LightHandle__get_light }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::LightHandle());
+	}
+	// two::MimeHandle
+	{
+		Type& t = type<two::MimeHandle>();
+		static Meta meta = { t, &namspc({ "two" }), "MimeHandle", sizeof(two::MimeHandle), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<two::GnodeHandle>() };
+		static size_t bases_offsets[] = { base_offset<two::MimeHandle, two::GnodeHandle>() };
+		// defaults
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_MimeHandle__default_construct }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, two_MimeHandle__copy_construct }
+		};
+		// constructors
+		// members
+		static Member members[] = {
+			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_MimeHandle__get_self },
+			{ t, SIZE_MAX, type<two::Mime>(), "mime", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_MimeHandle__get_mime }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::MimeHandle());
+	}
+	// two::FlareHandle
+	{
+		Type& t = type<two::FlareHandle>();
+		static Meta meta = { t, &namspc({ "two" }), "FlareHandle", sizeof(two::FlareHandle), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<two::GnodeHandle>() };
+		static size_t bases_offsets[] = { base_offset<two::FlareHandle, two::GnodeHandle>() };
+		// defaults
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_FlareHandle__default_construct }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, two_FlareHandle__copy_construct }
+		};
+		// constructors
+		// members
+		static Member members[] = {
+			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_FlareHandle__get_self },
+			{ t, SIZE_MAX, type<two::Flare>(), "flare", nullptr, Member::Flags(Member::Value|Member::NonMutable|Member::Link), two_FlareHandle__get_flare }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::FlareHandle());
+	}
 	// two::Node3
 	{
 		Type& t = type<two::Node3>();
@@ -1051,7 +1238,7 @@ namespace two
 		static Method methods[] = {
 			{ t, "apply", Address(), two_Node3_apply, { { "position", type<two::vec3>(),  }, { "rotation", type<two::quat>(), Param::Default, &apply_0_rotation_default }, { "scale", type<two::vec3>(), Param::Default, &apply_0_scale_default } }, g_qvoid },
 			{ t, "derive", Address(), two_Node3_derive, { { "parent", type<two::Node3>(),  }, { "position", type<two::vec3>(),  }, { "rotation", type<two::quat>(), Param::Default, &derive_0_rotation_default }, { "scale", type<two::vec3>(), Param::Default, &derive_0_scale_default } }, g_qvoid },
-			{ t, "add", Address(), two_Node3_add, { { "parent", type<two::Gnode>(),  } }, { &type<two::Node3>(), QualType::None } },
+			{ t, "add", Address(), two_Node3_add, { { "parent", type<two::Gnode>(),  } }, { &type<two::Node3Handle>(), QualType::None } },
 			{ t, "position", Address(), two_Node3_position, {}, { &type<two::vec3>(), QualType::None } },
 			{ t, "axis", Address(), two_Node3_axis, { { "dir", type<two::vec3>(),  } }, { &type<two::vec3>(), QualType::None } },
 			{ t, "direction", Address(), two_Node3_direction, {}, { &type<two::vec3>(), QualType::None } }
@@ -1326,7 +1513,7 @@ namespace two
 		};
 		// methods
 		static Method methods[] = {
-			{ t, "add", Address(), two_Mime_add, { { "parent", type<two::Gnode>(),  } }, { &type<two::Mime>(), QualType::None } },
+			{ t, "add", Address(), two_Mime_add, { { "parent", type<two::Gnode>(),  } }, { &type<two::MimeHandle>(), QualType::None } },
 			{ t, "start", Address(), two_Mime_start, { { "animation", type<stl::string>(),  }, { "loop", type<bool>(),  }, { "blend", type<float>(), Param::Default, &start_0_blend_default }, { "speed", type<float>(), Param::Default, &start_0_speed_default }, { "transient", type<bool>(), Param::Default, &start_0_transient_default } }, g_qvoid },
 			{ t, "play", Address(), two_Mime_play, { { "animation", type<two::Animation>(),  }, { "loop", type<bool>(),  }, { "blend", type<float>(), Param::Default, &play_0_blend_default }, { "speed", type<float>(), Param::Default, &play_0_speed_default }, { "transient", type<bool>(), Param::Default, &play_0_transient_default } }, g_qvoid },
 			{ t, "seek", Address(), two_Mime_seek, { { "time", type<float>(),  } }, g_qvoid },
@@ -1334,8 +1521,8 @@ namespace two
 			{ t, "stop", Address(), two_Mime_stop, {}, g_qvoid },
 			{ t, "advance", Address(), two_Mime_advance, { { "time", type<float>(),  } }, g_qvoid },
 			{ t, "next_animation", Address(), two_Mime_next_animation, {}, g_qvoid },
-			{ t, "add_item", Address(), two_Mime_add_item, { { "item", type<two::Item>(), Param::Reference } }, g_qvoid },
-			{ t, "add_nodes", Address(), two_Mime_add_nodes, { { "nodes", type<stl::span<two::Node3*>>(),  } }, g_qvoid },
+			{ t, "add_rig", Address(), two_Mime_add_rig, { { "model", type<two::Model>(),  } }, g_qvoid },
+			{ t, "add_nodes", Address(), two_Mime_add_nodes, { { "nodes", type<stl::span<two::Node3Handle>>(),  } }, g_qvoid },
 			{ t, "playing", Address(), two_Mime_playing, {}, { &type<stl::string>(), QualType::None } }
 		};
 		// static members
@@ -2445,7 +2632,6 @@ namespace two
 		static Type* bases[] = { &type<two::Flow>() };
 		static size_t bases_offsets[] = { base_offset<two::Flare, two::Flow>() };
 		// defaults
-		static two::Node3* node_default = nullptr;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Flare__default_construct }
@@ -2457,7 +2643,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Flare, m_node), type<two::Node3>(), "node", node_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
+			{ t, offsetof(two::Flare, m_node), type<two::Node3Handle>(), "node", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -2486,7 +2672,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Batch", sizeof(two::Batch), TypeClass::Struct };
 		// bases
 		// defaults
-		static two::Item* item_default = nullptr;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Batch__default_construct }
@@ -2497,16 +2682,16 @@ namespace two
 		};
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_Batch__construct_0, { { "item", type<two::Item>(), Param::Reference }, { "stride", type<uint16_t>(),  } } }
+			{ t, two_Batch__construct_0, { { "item", type<two::ItemHandle>(),  }, { "stride", type<uint16_t>(),  } } }
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Batch, m_item), type<two::Item>(), "item", item_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::Batch, m_item), type<two::ItemHandle>(), "item", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Batch, m_stride), type<uint16_t>(), "stride", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
-			{ t, "add", Address(), two_Batch_add, { { "parent", type<two::Gnode>(),  } }, { &type<two::Batch>(), QualType::None } },
+			{ t, "add", Address(), two_Batch_add, { { "parent", type<two::Gnode>(),  } }, { &type<two::BatchHandle>(), QualType::None } },
 			{ t, "update_aabb", Address(), two_Batch_update_aabb, { { "instances", type<stl::span<two::mat4>>(),  } }, g_qvoid },
 			{ t, "transforms", Address(), two_Batch_transforms, { { "instances", type<stl::span<two::mat4>>(),  } }, g_qvoid },
 			{ t, "begin", Address(), two_Batch_begin, { { "count", type<uint32_t>(),  } }, { &type<stl::span<float>>(), QualType::None } },
@@ -2524,15 +2709,12 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Item", sizeof(two::Item), TypeClass::Object };
 		// bases
 		// defaults
-		static two::Node3* node_default = nullptr;
 		static two::Model* model_default = nullptr;
 		static uint32_t flags_default = 0;
 		static two::Colour colour_default = Colour::White;
 		static two::Material* material_default = nullptr;
 		static bool visible_default = true;
 		static two::ItemShadow shadow_default = ItemShadow::Default;
-		static two::Rig* rig_default = nullptr;
-		static two::Batch* batch_default = nullptr;
 		static uint32_t construct_0_flags_default = 0;
 		static two::Material* construct_0_material_default = nullptr;
 		// default constructor
@@ -2542,24 +2724,24 @@ namespace two
 		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_Item__construct_0, { { "node", type<two::Node3>(), Param::Reference }, { "model", type<two::Model>(),  }, { "flags", type<uint32_t>(), Param::Default, &construct_0_flags_default }, { "material", type<two::Material>(), Param::Flags(Param::Nullable|Param::Default), (void*)construct_0_material_default } } }
+			{ t, two_Item__construct_0, { { "node", type<two::Node3Handle>(),  }, { "model", type<two::Model>(),  }, { "flags", type<uint32_t>(), Param::Default, &construct_0_flags_default }, { "material", type<two::Material>(), Param::Flags(Param::Nullable|Param::Default), (void*)construct_0_material_default } } }
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Item, m_node), type<two::Node3>(), "node", node_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::Item, m_node), type<two::Node3Handle>(), "node", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Item, m_model), type<two::Model>(), "model", model_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::Item, m_flags), type<uint32_t>(), "flags", &flags_default, Member::Value, nullptr },
 			{ t, offsetof(two::Item, m_colour), type<two::Colour>(), "colour", &colour_default, Member::Value, nullptr },
 			{ t, offsetof(two::Item, m_material), type<two::Material>(), "material", material_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
 			{ t, offsetof(two::Item, m_visible), type<bool>(), "visible", &visible_default, Member::Value, nullptr },
 			{ t, offsetof(two::Item, m_shadow), type<two::ItemShadow>(), "shadow", &shadow_default, Member::Value, nullptr },
-			{ t, offsetof(two::Item, m_rig), type<two::Rig>(), "rig", rig_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::Item, m_mime), type<two::MimeHandle>(), "mime", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Item, m_aabb), type<two::Aabb>(), "aabb", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::Item, m_batch), type<two::Batch>(), "batch", batch_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
+			{ t, offsetof(two::Item, m_batch), type<two::BatchHandle>(), "batch", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		static Method methods[] = {
-			{ t, "add", Address(), two_Item_add, { { "parent", type<two::Gnode>(),  } }, { &type<two::Item>(), QualType::None } },
+			{ t, "add", Address(), two_Item_add, { { "parent", type<two::Gnode>(),  } }, { &type<two::ItemHandle>(), QualType::None } },
 			{ t, "update_aabb", Address(), two_Item_update_aabb, {}, g_qvoid }
 		};
 		// static members
@@ -2646,7 +2828,7 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Prefab", sizeof(two::Prefab), TypeClass::Object };
 		// bases
 		// defaults
-		static two::Mime* add_0_mime_default = nullptr;
+		static two::MimeHandle add_0_mime_default = nullptr;
 		// default constructor
 		// copy constructor
 		// constructors
@@ -2656,7 +2838,7 @@ namespace two
 		};
 		// methods
 		static Method methods[] = {
-			{ t, "add", Address(), two_Prefab_add, { { "parent", type<two::Gnode>(),  }, { "mime", type<two::Mime>(), Param::Flags(Param::Nullable|Param::Default), (void*)add_0_mime_default } }, g_qvoid }
+			{ t, "add", Address(), two_Prefab_add, { { "parent", type<two::Gnode>(),  }, { "mime", type<two::MimeHandle>(), Param::Default, &add_0_mime_default } }, g_qvoid }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, {}, members, methods, {}, };
@@ -3039,7 +3221,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Direct", sizeof(two::Direct), TypeClass::Object };
 		// bases
 		// defaults
-		static two::Item* item_default = nullptr;
 		// default constructor
 		static DefaultConstructor default_constructor[] = {
 			{ t, two_Direct__default_construct }
@@ -3047,11 +3228,11 @@ namespace two
 		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_Direct__construct_0, { { "item", type<two::Item>(), Param::Reference } } }
+			{ t, two_Direct__construct_0, { { "item", type<two::ItemHandle>(),  } } }
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Direct, m_item), type<two::Item>(), "item", item_default, Member::Flags(Member::Pointer|Member::Link), nullptr }
+			{ t, offsetof(two::Direct, m_item), type<two::ItemHandle>(), "item", nullptr, Member::Value, nullptr }
 		};
 		// methods
 		// static members
@@ -3215,7 +3396,6 @@ namespace two
 		static Meta meta = { t, &namspc({ "two" }), "Light", sizeof(two::Light), TypeClass::Object };
 		// bases
 		// defaults
-		static two::Node3* node_default = nullptr;
 		static two::LightType type_default = LightType::Point;
 		static bool visible_default = true;
 		static two::Colour colour_default = Colour::White;
@@ -3243,11 +3423,11 @@ namespace two
 		// copy constructor
 		// constructors
 		static Constructor constructors[] = {
-			{ t, two_Light__construct_0, { { "node", type<two::Node3>(), Param::Reference }, { "type", type<two::LightType>(), Param::Default, &construct_0_type_default }, { "shadows", type<bool>(), Param::Default, &construct_0_shadows_default }, { "colour", type<two::Colour>(), Param::Default, &construct_0_colour_default }, { "energy", type<float>(), Param::Default, &construct_0_energy_default }, { "range", type<float>(), Param::Default, &construct_0_range_default } } }
+			{ t, two_Light__construct_0, { { "node", type<two::Node3Handle>(),  }, { "type", type<two::LightType>(), Param::Default, &construct_0_type_default }, { "shadows", type<bool>(), Param::Default, &construct_0_shadows_default }, { "colour", type<two::Colour>(), Param::Default, &construct_0_colour_default }, { "energy", type<float>(), Param::Default, &construct_0_energy_default }, { "range", type<float>(), Param::Default, &construct_0_range_default } } }
 		};
 		// members
 		static Member members[] = {
-			{ t, offsetof(two::Light, m_node), type<two::Node3>(), "node", node_default, Member::Flags(Member::Pointer|Member::Link), nullptr },
+			{ t, offsetof(two::Light, m_node), type<two::Node3Handle>(), "node", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Light, m_type), type<two::LightType>(), "type", &type_default, Member::Value, nullptr },
 			{ t, offsetof(two::Light, m_visible), type<bool>(), "visible", &visible_default, Member::Value, nullptr },
 			{ t, offsetof(two::Light, m_colour), type<two::Colour>(), "colour", &colour_default, Member::Value, nullptr },
@@ -3270,196 +3450,10 @@ namespace two
 		};
 		// methods
 		static Method methods[] = {
-			{ t, "add", Address(), two_Light_add, { { "parent", type<two::Gnode>(),  } }, { &type<two::Light>(), QualType::None } }
+			{ t, "add", Address(), two_Light_add, { { "parent", type<two::Gnode>(),  } }, { &type<two::LightHandle>(), QualType::None } }
 		};
 		// static members
 		static Class cls = { t, {}, {}, {}, {}, constructors, members, methods, {}, };
-	}
-	// two::GnodeHandle
-	{
-		Type& t = type<two::GnodeHandle>();
-		static Meta meta = { t, &namspc({ "two" }), "GnodeHandle", sizeof(two::GnodeHandle), TypeClass::Struct };
-		// bases
-		// defaults
-		// default constructor
-		static DefaultConstructor default_constructor[] = {
-			{ t, two_GnodeHandle__default_construct }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, two_GnodeHandle__copy_construct }
-		};
-		// constructors
-		// members
-		static Member members[] = {
-			{ t, SIZE_MAX, type<two::Gnode>(), "gnode", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_GnodeHandle__get_gnode }
-		};
-		// methods
-		// static members
-		static Class cls = { t, {}, {}, default_constructor, copy_constructor, {}, members, {}, {}, };
-		meta.m_empty_var = var(two::GnodeHandle());
-	}
-	// two::Node3Handle
-	{
-		Type& t = type<two::Node3Handle>();
-		static Meta meta = { t, &namspc({ "two" }), "Node3Handle", sizeof(two::Node3Handle), TypeClass::Struct };
-		// bases
-		static Type* bases[] = { &type<two::GnodeHandle>() };
-		static size_t bases_offsets[] = { base_offset<two::Node3Handle, two::GnodeHandle>() };
-		// defaults
-		// default constructor
-		static DefaultConstructor default_constructor[] = {
-			{ t, two_Node3Handle__default_construct }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, two_Node3Handle__copy_construct }
-		};
-		// constructors
-		// members
-		static Member members[] = {
-			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_Node3Handle__get_self },
-			{ t, SIZE_MAX, type<two::Node3>(), "node", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_Node3Handle__get_node }
-		};
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
-		meta.m_empty_var = var(two::Node3Handle());
-	}
-	// two::ItemHandle
-	{
-		Type& t = type<two::ItemHandle>();
-		static Meta meta = { t, &namspc({ "two" }), "ItemHandle", sizeof(two::ItemHandle), TypeClass::Struct };
-		// bases
-		static Type* bases[] = { &type<two::GnodeHandle>() };
-		static size_t bases_offsets[] = { base_offset<two::ItemHandle, two::GnodeHandle>() };
-		// defaults
-		// default constructor
-		static DefaultConstructor default_constructor[] = {
-			{ t, two_ItemHandle__default_construct }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, two_ItemHandle__copy_construct }
-		};
-		// constructors
-		// members
-		static Member members[] = {
-			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_ItemHandle__get_self },
-			{ t, SIZE_MAX, type<two::Item>(), "item", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_ItemHandle__get_item }
-		};
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
-		meta.m_empty_var = var(two::ItemHandle());
-	}
-	// two::BatchHandle
-	{
-		Type& t = type<two::BatchHandle>();
-		static Meta meta = { t, &namspc({ "two" }), "BatchHandle", sizeof(two::BatchHandle), TypeClass::Struct };
-		// bases
-		static Type* bases[] = { &type<two::GnodeHandle>() };
-		static size_t bases_offsets[] = { base_offset<two::BatchHandle, two::GnodeHandle>() };
-		// defaults
-		// default constructor
-		static DefaultConstructor default_constructor[] = {
-			{ t, two_BatchHandle__default_construct }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, two_BatchHandle__copy_construct }
-		};
-		// constructors
-		// members
-		static Member members[] = {
-			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_BatchHandle__get_self },
-			{ t, SIZE_MAX, type<two::Batch>(), "batch", nullptr, Member::Flags(Member::Value|Member::NonMutable|Member::Link), two_BatchHandle__get_batch }
-		};
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
-		meta.m_empty_var = var(two::BatchHandle());
-	}
-	// two::LightHandle
-	{
-		Type& t = type<two::LightHandle>();
-		static Meta meta = { t, &namspc({ "two" }), "LightHandle", sizeof(two::LightHandle), TypeClass::Struct };
-		// bases
-		static Type* bases[] = { &type<two::GnodeHandle>() };
-		static size_t bases_offsets[] = { base_offset<two::LightHandle, two::GnodeHandle>() };
-		// defaults
-		// default constructor
-		static DefaultConstructor default_constructor[] = {
-			{ t, two_LightHandle__default_construct }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, two_LightHandle__copy_construct }
-		};
-		// constructors
-		// members
-		static Member members[] = {
-			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_LightHandle__get_self },
-			{ t, SIZE_MAX, type<two::Light>(), "light", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_LightHandle__get_light }
-		};
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
-		meta.m_empty_var = var(two::LightHandle());
-	}
-	// two::MimeHandle
-	{
-		Type& t = type<two::MimeHandle>();
-		static Meta meta = { t, &namspc({ "two" }), "MimeHandle", sizeof(two::MimeHandle), TypeClass::Struct };
-		// bases
-		static Type* bases[] = { &type<two::GnodeHandle>() };
-		static size_t bases_offsets[] = { base_offset<two::MimeHandle, two::GnodeHandle>() };
-		// defaults
-		// default constructor
-		static DefaultConstructor default_constructor[] = {
-			{ t, two_MimeHandle__default_construct }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, two_MimeHandle__copy_construct }
-		};
-		// constructors
-		// members
-		static Member members[] = {
-			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_MimeHandle__get_self },
-			{ t, SIZE_MAX, type<two::Mime>(), "mime", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_MimeHandle__get_mime }
-		};
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
-		meta.m_empty_var = var(two::MimeHandle());
-	}
-	// two::FlareHandle
-	{
-		Type& t = type<two::FlareHandle>();
-		static Meta meta = { t, &namspc({ "two" }), "FlareHandle", sizeof(two::FlareHandle), TypeClass::Struct };
-		// bases
-		static Type* bases[] = { &type<two::GnodeHandle>() };
-		static size_t bases_offsets[] = { base_offset<two::FlareHandle, two::GnodeHandle>() };
-		// defaults
-		// default constructor
-		static DefaultConstructor default_constructor[] = {
-			{ t, two_FlareHandle__default_construct }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, two_FlareHandle__copy_construct }
-		};
-		// constructors
-		// members
-		static Member members[] = {
-			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_FlareHandle__get_self },
-			{ t, SIZE_MAX, type<two::Flare>(), "flare", nullptr, Member::Flags(Member::Value|Member::NonMutable|Member::Link), two_FlareHandle__get_flare }
-		};
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
-		meta.m_empty_var = var(two::FlareHandle());
 	}
 	// two::Gnode
 	{
@@ -3950,7 +3944,6 @@ namespace two
 		// members
 		static Member members[] = {
 			{ t, offsetof(two::Scene, m_index), type<uint32_t>(), "index", nullptr, Member::Value, nullptr },
-			{ t, offsetof(two::Scene, m_root_node), type<two::Node3>(), "root_node", nullptr, Member::NonMutable, nullptr },
 			{ t, offsetof(two::Scene, m_graph), type<two::Gnode>(), "graph", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Scene, m_env), type<two::Zone>(), "env", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::Scene, m_user), type<two::Ref>(), "user", nullptr, Member::Value, nullptr }
@@ -3996,6 +3989,13 @@ namespace two
 		m.m_types.push_back(&type<stl::vector<two::Material*>>());
 		m.m_types.push_back(&type<stl::vector<two::Animation*>>());
 		m.m_types.push_back(&type<stl::vector<two::AnimPlay>>());
+		m.m_types.push_back(&type<two::GnodeHandle>());
+		m.m_types.push_back(&type<two::Node3Handle>());
+		m.m_types.push_back(&type<two::ItemHandle>());
+		m.m_types.push_back(&type<two::BatchHandle>());
+		m.m_types.push_back(&type<two::LightHandle>());
+		m.m_types.push_back(&type<two::MimeHandle>());
+		m.m_types.push_back(&type<two::FlareHandle>());
 		m.m_types.push_back(&type<two::Node3>());
 		m.m_types.push_back(&type<two::AnimTarget>());
 		m.m_types.push_back(&type<two::Interpolation>());
@@ -4096,13 +4096,6 @@ namespace two
 		m.m_types.push_back(&type<two::LightType>());
 		m.m_types.push_back(&type<two::ShadowFlags>());
 		m.m_types.push_back(&type<two::Light>());
-		m.m_types.push_back(&type<two::GnodeHandle>());
-		m.m_types.push_back(&type<two::Node3Handle>());
-		m.m_types.push_back(&type<two::ItemHandle>());
-		m.m_types.push_back(&type<two::BatchHandle>());
-		m.m_types.push_back(&type<two::LightHandle>());
-		m.m_types.push_back(&type<two::MimeHandle>());
-		m.m_types.push_back(&type<two::FlareHandle>());
 		m.m_types.push_back(&type<two::Gnode>());
 		m.m_types.push_back(&type<two::Culler>());
 		m.m_types.push_back(&type<two::MSAA>());
@@ -4258,85 +4251,89 @@ namespace two
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "gfx" }), "animated", funcptr<two::MimeHandle(*)(two::Gnode, two::ItemHandle)>(two::gfx::animated), two_gfx_animated_29, { { "parent", type<two::Gnode>(),  }, { "item", type<two::ItemHandle>(),  } }, { &type<two::MimeHandle>(), QualType::None } };
+			static Function f = { &namspc({ "two", "gfx" }), "animate", funcptr<void(*)(two::MimeHandle, two::ItemHandle)>(two::gfx::animate), two_gfx_animate_29, { { "mime", type<two::MimeHandle>(),  }, { "item", type<two::ItemHandle>(),  } }, g_qvoid };
+			m.m_functions.push_back(&f);
+		}
+		{
+			static Function f = { &namspc({ "two", "gfx" }), "animated", funcptr<two::MimeHandle(*)(two::Gnode, two::ItemHandle)>(two::gfx::animated), two_gfx_animated_30, { { "parent", type<two::Gnode>(),  }, { "item", type<two::ItemHandle>(),  } }, { &type<two::MimeHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static uint32_t flags_default = 0;
-			static Function f = { &namspc({ "two", "gfx" }), "flows", funcptr<two::FlareHandle(*)(two::Gnode, const two::Flow&, uint32_t)>(two::gfx::flows), two_gfx_flows_30, { { "parent", type<two::Gnode>(),  }, { "emitter", type<two::Flow>(),  }, { "flags", type<uint32_t>(), Param::Default, &flags_default } }, { &type<two::FlareHandle>(), QualType::None } };
+			static Function f = { &namspc({ "two", "gfx" }), "flows", funcptr<two::FlareHandle(*)(two::Gnode, const two::Flow&, uint32_t)>(two::gfx::flows), two_gfx_flows_31, { { "parent", type<two::Gnode>(),  }, { "emitter", type<two::Flow>(),  }, { "flags", type<uint32_t>(), Param::Default, &flags_default } }, { &type<two::FlareHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float range_default = 0.f;
 			static float attenuation_default = 0.5f;
-			static Function f = { &namspc({ "two", "gfx" }), "light", funcptr<two::LightHandle(*)(two::Gnode, two::LightType, bool, two::Colour, float, float)>(two::gfx::light), two_gfx_light_31, { { "parent", type<two::Gnode>(),  }, { "type", type<two::LightType>(),  }, { "shadows", type<bool>(),  }, { "colour", type<two::Colour>(),  }, { "range", type<float>(), Param::Default, &range_default }, { "attenuation", type<float>(), Param::Default, &attenuation_default } }, { &type<two::LightHandle>(), QualType::None } };
+			static Function f = { &namspc({ "two", "gfx" }), "light", funcptr<two::LightHandle(*)(two::Gnode, two::LightType, bool, two::Colour, float, float)>(two::gfx::light), two_gfx_light_32, { { "parent", type<two::Gnode>(),  }, { "type", type<two::LightType>(),  }, { "shadows", type<bool>(),  }, { "colour", type<two::Colour>(),  }, { "range", type<float>(), Param::Default, &range_default }, { "attenuation", type<float>(), Param::Default, &attenuation_default } }, { &type<two::LightHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "gfx" }), "sun_light", funcptr<two::LightHandle(*)(two::Gnode, float, float)>(two::gfx::sun_light), two_gfx_sun_light_32, { { "parent", type<two::Gnode>(),  }, { "azimuth", type<float>(),  }, { "elevation", type<float>(),  } }, { &type<two::LightHandle>(), QualType::None } };
+			static Function f = { &namspc({ "two", "gfx" }), "sun_light", funcptr<two::LightHandle(*)(two::Gnode, float, float)>(two::gfx::sun_light), two_gfx_sun_light_33, { { "parent", type<two::Gnode>(),  }, { "azimuth", type<float>(),  }, { "elevation", type<float>(),  } }, { &type<two::LightHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "gfx" }), "radiance", funcptr<void(*)(two::Gnode, const stl::string&, two::BackgroundMode)>(two::gfx::radiance), two_gfx_radiance_33, { { "parent", type<two::Gnode>(),  }, { "texture", type<stl::string>(),  }, { "background", type<two::BackgroundMode>(),  } }, g_qvoid };
+			static Function f = { &namspc({ "two", "gfx" }), "radiance", funcptr<void(*)(two::Gnode, const stl::string&, two::BackgroundMode)>(two::gfx::radiance), two_gfx_radiance_34, { { "parent", type<two::Gnode>(),  }, { "texture", type<stl::string>(),  }, { "background", type<two::BackgroundMode>(),  } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "gfx" }), "direct_light_node", funcptr<two::LightHandle(*)(two::Gnode, const two::vec3&)>(two::gfx::direct_light_node), two_gfx_direct_light_node_34, { { "parent", type<two::Gnode>(),  }, { "direction", type<two::vec3>(),  } }, { &type<two::LightHandle>(), QualType::None } };
+			static Function f = { &namspc({ "two", "gfx" }), "direct_light_node", funcptr<two::LightHandle(*)(two::Gnode, const two::vec3&)>(two::gfx::direct_light_node), two_gfx_direct_light_node_35, { { "parent", type<two::Gnode>(),  }, { "direction", type<two::vec3>(),  } }, { &type<two::LightHandle>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "gfx" }), "solid_material", funcptr<two::Material&(*)(two::GfxSystem&, const stl::string&, const two::Colour&)>(two::gfx::solid_material), two_gfx_solid_material_35, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "name", type<stl::string>(),  }, { "colour", type<two::Colour>(),  } }, { &type<two::Material>(), QualType::None } };
+			static Function f = { &namspc({ "two", "gfx" }), "solid_material", funcptr<two::Material&(*)(two::GfxSystem&, const stl::string&, const two::Colour&)>(two::gfx::solid_material), two_gfx_solid_material_36, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "name", type<stl::string>(),  }, { "colour", type<two::Colour>(),  } }, { &type<two::Material>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float metallic_default = 0.f;
 			static float roughness_default = 1.f;
-			static Function f = { &namspc({ "two", "gfx" }), "pbr_material", funcptr<two::Material&(*)(two::GfxSystem&, const stl::string&, const two::Colour&, float, float)>(two::gfx::pbr_material), two_gfx_pbr_material_36, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "name", type<stl::string>(),  }, { "albedo", type<two::Colour>(),  }, { "metallic", type<float>(), Param::Default, &metallic_default }, { "roughness", type<float>(), Param::Default, &roughness_default } }, { &type<two::Material>(), QualType::None } };
+			static Function f = { &namspc({ "two", "gfx" }), "pbr_material", funcptr<two::Material&(*)(two::GfxSystem&, const stl::string&, const two::Colour&, float, float)>(two::gfx::pbr_material), two_gfx_pbr_material_37, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "name", type<stl::string>(),  }, { "albedo", type<two::Colour>(),  }, { "metallic", type<float>(), Param::Default, &metallic_default }, { "roughness", type<float>(), Param::Default, &roughness_default } }, { &type<two::Material>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two", "gfx" }), "model_suzanne", funcptr<two::Model&(*)(two::GfxSystem&)>(two::gfx::model_suzanne), two_gfx_model_suzanne_37, { { "gfx", type<two::GfxSystem>(), Param::Reference } }, { &type<two::Model>(), QualType::None } };
+			static Function f = { &namspc({ "two", "gfx" }), "model_suzanne", funcptr<two::Model&(*)(two::GfxSystem&)>(two::gfx::model_suzanne), two_gfx_model_suzanne_38, { { "gfx", type<two::GfxSystem>(), Param::Reference } }, { &type<two::Model>(), QualType::None } };
 			m.m_functions.push_back(&f);
 		}
 		{
 			static float depth_default = 1.f;
-			static Function f = { &namspc({ "two" }), "pass_clear_fbo", funcptr<void(*)(two::GfxSystem&, two::Render&, two::FrameBuffer&, const two::Colour&, float)>(two::pass_clear_fbo), two_pass_clear_fbo_38, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference }, { "fbo", type<two::FrameBuffer>(), Param::Reference }, { "colour", type<two::Colour>(),  }, { "depth", type<float>(), Param::Default, &depth_default } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_clear_fbo", funcptr<void(*)(two::GfxSystem&, two::Render&, two::FrameBuffer&, const two::Colour&, float)>(two::pass_clear_fbo), two_pass_clear_fbo_39, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference }, { "fbo", type<two::FrameBuffer>(), Param::Reference }, { "colour", type<two::Colour>(),  }, { "depth", type<float>(), Param::Default, &depth_default } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_clear", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_clear), two_pass_clear_39, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_clear", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_clear), two_pass_clear_40, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_gclear", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_gclear), two_pass_gclear_40, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_gclear", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_gclear), two_pass_gclear_41, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_depth", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_depth), two_pass_depth_41, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_depth", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_depth), two_pass_depth_42, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_background", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_background), two_pass_background_42, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_background", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_background), two_pass_background_43, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_solid", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_solid), two_pass_solid_43, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_solid", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_solid), two_pass_solid_44, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "pass_flip", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_flip), two_pass_flip_44, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "pass_flip", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::pass_flip), two_pass_flip_45, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "render_minimal", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_minimal), two_render_minimal_45, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "render_minimal", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_minimal), two_render_minimal_46, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "render_solid", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_solid), two_render_solid_46, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "render_solid", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_solid), two_render_solid_47, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 		{
-			static Function f = { &namspc({ "two" }), "render_clear", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_clear), two_render_clear_47, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
+			static Function f = { &namspc({ "two" }), "render_clear", funcptr<void(*)(two::GfxSystem&, two::Render&)>(two::render_clear), two_render_clear_48, { { "gfx", type<two::GfxSystem>(), Param::Reference }, { "render", type<two::Render>(), Param::Reference } }, g_qvoid };
 			m.m_functions.push_back(&f);
 		}
 	}

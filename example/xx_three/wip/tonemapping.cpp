@@ -45,7 +45,7 @@ EX(xx_tonemapping)
 	static Texture& hdrenv = *app.m_gfx.textures().file("pisaHDR.hdr.cube");
 
 	static Material* material = nullptr;
-	static Node3* mesh = nullptr;
+	static Node3Handle mesh;
 
 	if(init)
 	{
@@ -79,25 +79,25 @@ EX(xx_tonemapping)
 
 		Model& geometry = app.m_gfx.shape(TorusKnot(18.f, 8.f)); // new THREE.TorusKnotBufferGeometry(18, 8, 150, 20);
 
-		Node3& n = Node3().add(scene.m_graph);
+		Node3Handle n = Node3().add(scene.m_graph);
 		Item(n, geometry, 0U, &mat).add(scene.m_graph);
-		mesh = &n;
+		mesh = n;
 
 		Model& geomfloor = app.m_gfx.shape(Cube(100.f));
 
-		Node3& nfloor = Node3(vec3(0.f, 50.f, 0.f), quat(vec3(-c_pi2, 0.f, 0.f))).add(scene.m_graph);
+		Node3Handle nfloor = Node3(vec3(0.f, 50.f, 0.f), quat(vec3(-c_pi2, 0.f, 0.f))).add(scene.m_graph);
 		Item(n, geomfloor, 0U, &matfloor).add(scene.m_graph);
 
 		// Lights
 
 		//scene.add(new THREE.HemisphereLight(0x111111, 0x000000));
 
-		Node3& ln = Node3(vec3(50.f, 100.f, 50.f)).add(scene.m_graph);
-		Light& spot = Light(ln, LightType::Spot, true, rgb(0xffffff), 1.f, 300.f).add(scene.m_graph);
-		spot.m_spot_angle = c_pi / 7.f;
-		spot.m_attenuation = 2.f;
-		spot.m_spot_attenuation = 0.8f;
-		//spot.m_penumbra = 0.8;
+		Node3Handle ln = Node3(vec3(50.f, 100.f, 50.f)).add(scene.m_graph);
+		LightHandle spot = Light(ln, LightType::Spot, true, rgb(0xffffff), 1.f, 300.f).add(scene.m_graph);
+		spot->m_spot_angle = c_pi / 7.f;
+		spot->m_attenuation = 2.f;
+		spot->m_spot_attenuation = 0.8f;
+		//spot->m_penumbra = 0.8;
 
 		//composer = new THREE.EffectComposer(renderer);
 		//composer.setSize(window.innerWidth, window.innerHeight);

@@ -6,19 +6,6 @@ using namespace two;
 
 void two_TonemapMode__to_string(void* val, string& str) { str = g_enu[type<two::TonemapMode>().m_id]->name(uint32_t((*static_cast<two::TonemapMode*>(val)))); }
 void two_TonemapMode__to_value(const string& str, void* val) { (*static_cast<two::TonemapMode*>(val)) = two::TonemapMode(g_enu[type<two::TonemapMode>().m_id]->value(str.c_str())); }
-void two_CubeTarget__default_construct(void* ref) { new(stl::placeholder(), ref) two::CubeTarget(); }
-void two_CubeTarget_create(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::CubeTarget*>(object)).create(*static_cast<uint32_t*>(args[0])); }
-void two_CubeTarget_side(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::CubeTarget*>(object)).side(*static_cast<size_t*>(args[0])); }
-void two_CubeCamera__default_construct(void* ref) { new(stl::placeholder(), ref) two::CubeCamera(); }
-void two_CubeCamera__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::CubeCamera( *static_cast<two::Scene*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<uint32_t*>(args[3]) ); }
-void two_CubeCamera_render(void* object, span<void*> args, void*& result) { (*static_cast<two::Render*>(result)) = (*static_cast<two::CubeCamera*>(object)).render(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1]), *static_cast<two::SignedAxis*>(args[2])); }
-void two_ReflectionProbe__get_node(void* object, void*& result) { result = &(*static_cast<two::ReflectionProbe*>(object)).m_node; }
-void two_LightShadow__default_construct(void* ref) { new(stl::placeholder(), ref) two::LightShadow(); }
-void two_LightShadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::LightShadow((*static_cast<two::LightShadow*>(other))); }
-void two_CSMSlice__default_construct(void* ref) { new(stl::placeholder(), ref) two::CSMSlice(); }
-void two_CSMSlice__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::CSMSlice((*static_cast<two::CSMSlice*>(other))); }
-void two_CSMShadow__default_construct(void* ref) { new(stl::placeholder(), ref) two::CSMShadow(); }
-void two_CSMShadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::CSMShadow((*static_cast<two::CSMShadow*>(other))); }
 void two_GIProbeHandle__default_construct(void* ref) { new(stl::placeholder(), ref) two::GIProbeHandle(); }
 void two_GIProbeHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::GIProbeHandle((*static_cast<two::GIProbeHandle*>(other))); }
 void two_GIProbeHandle__get_self(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::GIProbeHandle*>(object)).self(); }
@@ -27,6 +14,18 @@ void two_LightmapAtlasHandle__default_construct(void* ref) { new(stl::placeholde
 void two_LightmapAtlasHandle__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::LightmapAtlasHandle((*static_cast<two::LightmapAtlasHandle*>(other))); }
 void two_LightmapAtlasHandle__get_self(void* object, void*& result) { (*static_cast<two::Gnode*>(result)) = (*static_cast<two::LightmapAtlasHandle*>(object)).self(); }
 void two_LightmapAtlasHandle__get_atlas(void* object, void*& result) { result = &(*static_cast<two::LightmapAtlasHandle*>(object)).atlas(); }
+void two_CubeTarget__default_construct(void* ref) { new(stl::placeholder(), ref) two::CubeTarget(); }
+void two_CubeTarget_create(void* object, span<void*> args, void*& result) { UNUSED(result); (*static_cast<two::CubeTarget*>(object)).create(*static_cast<uint32_t*>(args[0])); }
+void two_CubeTarget_side(void* object, span<void*> args, void*& result) { result = &(*static_cast<two::CubeTarget*>(object)).side(*static_cast<size_t*>(args[0])); }
+void two_CubeCamera__default_construct(void* ref) { new(stl::placeholder(), ref) two::CubeCamera(); }
+void two_CubeCamera__construct_0(void* ref, span<void*> args) { new(stl::placeholder(), ref) two::CubeCamera( *static_cast<two::Scene*>(args[0]), *static_cast<float*>(args[1]), *static_cast<float*>(args[2]), *static_cast<uint32_t*>(args[3]) ); }
+void two_CubeCamera_render(void* object, span<void*> args, void*& result) { (*static_cast<two::Render*>(result)) = (*static_cast<two::CubeCamera*>(object)).render(*static_cast<two::GfxSystem*>(args[0]), *static_cast<two::Render*>(args[1]), *static_cast<two::SignedAxis*>(args[2])); }
+void two_LightShadow__default_construct(void* ref) { new(stl::placeholder(), ref) two::LightShadow(); }
+void two_LightShadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::LightShadow((*static_cast<two::LightShadow*>(other))); }
+void two_CSMSlice__default_construct(void* ref) { new(stl::placeholder(), ref) two::CSMSlice(); }
+void two_CSMSlice__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::CSMSlice((*static_cast<two::CSMSlice*>(other))); }
+void two_CSMShadow__default_construct(void* ref) { new(stl::placeholder(), ref) two::CSMShadow(); }
+void two_CSMShadow__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::CSMShadow((*static_cast<two::CSMShadow*>(other))); }
 void two_DofParams__default_construct(void* ref) { new(stl::placeholder(), ref) two::DofParams(); }
 void two_DofParams__copy_construct(void* ref, void* other) { new(stl::placeholder(), ref) two::DofParams((*static_cast<two::DofParams*>(other))); }
 void two_DofBlur__default_construct(void* ref) { new(stl::placeholder(), ref) two::DofBlur(); }
@@ -103,6 +102,60 @@ namespace two
 		// methods
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
+	}
+	// two::GIProbeHandle
+	{
+		Type& t = type<two::GIProbeHandle>();
+		static Meta meta = { t, &namspc({ "two" }), "GIProbeHandle", sizeof(two::GIProbeHandle), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<two::GnodeHandle>() };
+		static size_t bases_offsets[] = { base_offset<two::GIProbeHandle, two::GnodeHandle>() };
+		// defaults
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_GIProbeHandle__default_construct }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, two_GIProbeHandle__copy_construct }
+		};
+		// constructors
+		// members
+		static Member members[] = {
+			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_GIProbeHandle__get_self },
+			{ t, SIZE_MAX, type<two::GIProbe>(), "probe", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_GIProbeHandle__get_probe }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::GIProbeHandle());
+	}
+	// two::LightmapAtlasHandle
+	{
+		Type& t = type<two::LightmapAtlasHandle>();
+		static Meta meta = { t, &namspc({ "two" }), "LightmapAtlasHandle", sizeof(two::LightmapAtlasHandle), TypeClass::Struct };
+		// bases
+		static Type* bases[] = { &type<two::GnodeHandle>() };
+		static size_t bases_offsets[] = { base_offset<two::LightmapAtlasHandle, two::GnodeHandle>() };
+		// defaults
+		// default constructor
+		static DefaultConstructor default_constructor[] = {
+			{ t, two_LightmapAtlasHandle__default_construct }
+		};
+		// copy constructor
+		static CopyConstructor copy_constructor[] = {
+			{ t, two_LightmapAtlasHandle__copy_construct }
+		};
+		// constructors
+		// members
+		static Member members[] = {
+			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_LightmapAtlasHandle__get_self },
+			{ t, SIZE_MAX, type<two::LightmapAtlas>(), "atlas", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_LightmapAtlasHandle__get_atlas }
+		};
+		// methods
+		// static members
+		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
+		meta.m_empty_var = var(two::LightmapAtlasHandle());
 	}
 	// two::LightmapItem
 	{
@@ -278,7 +331,7 @@ namespace two
 		// constructors
 		// members
 		static Member members[] = {
-			{ t, SIZE_MAX, type<two::Node3>(), "node", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_ReflectionProbe__get_node },
+			{ t, offsetof(two::ReflectionProbe, m_node), type<two::Node3Handle>(), "node", nullptr, Member::Value, nullptr },
 			{ t, offsetof(two::ReflectionProbe, m_visible), type<bool>(), "visible", &visible_default, Member::Value, nullptr },
 			{ t, offsetof(two::ReflectionProbe, m_intensity), type<float>(), "intensity", &intensity_default, Member::Value, nullptr },
 			{ t, offsetof(two::ReflectionProbe, m_extents), type<two::vec3>(), "extents", nullptr, Member::Value, nullptr },
@@ -385,60 +438,6 @@ namespace two
 		// methods
 		// static members
 		static Class cls = { t, bases, bases_offsets, {}, {}, {}, {}, {}, {}, };
-	}
-	// two::GIProbeHandle
-	{
-		Type& t = type<two::GIProbeHandle>();
-		static Meta meta = { t, &namspc({ "two" }), "GIProbeHandle", sizeof(two::GIProbeHandle), TypeClass::Struct };
-		// bases
-		static Type* bases[] = { &type<two::GnodeHandle>() };
-		static size_t bases_offsets[] = { base_offset<two::GIProbeHandle, two::GnodeHandle>() };
-		// defaults
-		// default constructor
-		static DefaultConstructor default_constructor[] = {
-			{ t, two_GIProbeHandle__default_construct }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, two_GIProbeHandle__copy_construct }
-		};
-		// constructors
-		// members
-		static Member members[] = {
-			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_GIProbeHandle__get_self },
-			{ t, SIZE_MAX, type<two::GIProbe>(), "probe", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_GIProbeHandle__get_probe }
-		};
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
-		meta.m_empty_var = var(two::GIProbeHandle());
-	}
-	// two::LightmapAtlasHandle
-	{
-		Type& t = type<two::LightmapAtlasHandle>();
-		static Meta meta = { t, &namspc({ "two" }), "LightmapAtlasHandle", sizeof(two::LightmapAtlasHandle), TypeClass::Struct };
-		// bases
-		static Type* bases[] = { &type<two::GnodeHandle>() };
-		static size_t bases_offsets[] = { base_offset<two::LightmapAtlasHandle, two::GnodeHandle>() };
-		// defaults
-		// default constructor
-		static DefaultConstructor default_constructor[] = {
-			{ t, two_LightmapAtlasHandle__default_construct }
-		};
-		// copy constructor
-		static CopyConstructor copy_constructor[] = {
-			{ t, two_LightmapAtlasHandle__copy_construct }
-		};
-		// constructors
-		// members
-		static Member members[] = {
-			{ t, SIZE_MAX, type<two::Gnode>(), "self", nullptr, Member::Flags(Member::Value|Member::NonMutable), two_LightmapAtlasHandle__get_self },
-			{ t, SIZE_MAX, type<two::LightmapAtlas>(), "atlas", nullptr, Member::Flags(Member::NonMutable|Member::Link), two_LightmapAtlasHandle__get_atlas }
-		};
-		// methods
-		// static members
-		static Class cls = { t, bases, bases_offsets, default_constructor, copy_constructor, {}, members, {}, {}, };
-		meta.m_empty_var = var(two::LightmapAtlasHandle());
 	}
 	// two::GIProbe
 	{
@@ -708,6 +707,8 @@ namespace two
 	
 	
 		m.m_types.push_back(&type<two::BlockLight>());
+		m.m_types.push_back(&type<two::GIProbeHandle>());
+		m.m_types.push_back(&type<two::LightmapAtlasHandle>());
 		m.m_types.push_back(&type<two::LightmapItem>());
 		m.m_types.push_back(&type<two::Lightmap>());
 		m.m_types.push_back(&type<two::LightmapAtlas>());
@@ -723,8 +724,6 @@ namespace two
 		m.m_types.push_back(&type<two::CSMSlice>());
 		m.m_types.push_back(&type<two::CSMShadow>());
 		m.m_types.push_back(&type<two::BlockShadow>());
-		m.m_types.push_back(&type<two::GIProbeHandle>());
-		m.m_types.push_back(&type<two::LightmapAtlasHandle>());
 		m.m_types.push_back(&type<two::GIProbe>());
 		m.m_types.push_back(&type<two::BlockGITrace>());
 		m.m_types.push_back(&type<two::BlockGIBake>());

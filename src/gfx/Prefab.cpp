@@ -35,14 +35,14 @@ namespace two
 		: m_name(name)
 	{}
 
-	void Prefab::add(Gnode parent, Mime* mime)
+	void Prefab::add(Gnode parent, MimeHandle mime)
 	{
-		vector<Node3*> nodes;
+		vector<Node3Handle> nodes;
 		for(const Node3& node : m_nodes)
-			nodes.push_back(&Node3(node).add(parent));
+			nodes.push_back(Node3(node).add(parent));
 
 		for(Elem& elem : m_items)
-			Item(*nodes[elem.node], *elem.item.m_model, elem.item.m_flags).add(parent);
+			Item(nodes[elem.node], *elem.model, elem.flags).add(parent);
 
 		if(mime)
 		{
@@ -66,7 +66,7 @@ namespace two
 	{
 		set<Model*> models;
 		for(Prefab::Elem& elem : prefab.m_items)
-			models.insert(elem.item.m_model);
+			models.insert(elem.model);
 
 		for(Model* model : models)
 		{

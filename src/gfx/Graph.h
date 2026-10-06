@@ -33,8 +33,8 @@ namespace two
 		SoundManager* sound_manager();
 
 		// the transform the objects of the node are attached to: its own, or the one of its parent
-		Node3& attach();
-		void set_attach(Node3& node);
+		Node3Handle attach();
+		void set_attach(Node3Handle node);
 	};
 
 	// the sound played in a node, a state of the node

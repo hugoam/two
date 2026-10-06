@@ -215,8 +215,8 @@ namespace two
 	GfxBlock::~GfxBlock()
 	{}
 
-	DrawElement::DrawElement(Item& item, const Program& program, const ModelElem& elem, const Material& material, const Skin* skin, uint64_t sort_key)
-		: m_item(&item), m_elem(&elem), m_material(&material), m_skin(skin)
+	DrawElement::DrawElement(ItemIndex index, const Item& item, const Program& program, const ModelElem& elem, const Material& material, const Skin* skin, uint64_t sort_key)
+		: m_item(index), m_batched(item.m_batch), m_elem(&elem), m_material(&material), m_skin(skin)
 		, m_sort_key(sort_key)
 	{
 		this->set_program(program);
@@ -224,7 +224,7 @@ namespace two
 
 	void DrawElement::set_program(const Program& program)
 	{
-		m_program = m_material->program(program, *m_item, *m_elem);
+		m_program = m_material->program(program, m_batched, *m_elem);
 	}
 
 	struct DrawPass
@@ -243,14 +243,15 @@ namespace two
 	void Renderer::element_options(Render& render, Pass& pass, DrawElement& element)
 	{
 		this->shader_options(render, pass, element.m_program);
+		Item& item = render.m_scene->store<Item>()[element.m_item];
 
 		element.m_program.set_option(0, VFLIP, render.m_vflip && bgfx::getCaps()->originBottomLeft);
 		element.m_program.set_option(0, MRT, render.m_is_mrt);
 
-		element.m_program.set_option(0, INSTANCING, element.m_item->m_batch != nullptr && element.m_item->m_batch->m_buffer.num > 0);
-		element.m_program.set_option(0, BILLBOARD, element.m_item->m_flags & ItemFlag::Billboard);
+		element.m_program.set_option(0, INSTANCING, item.m_batch && item.m_batch->m_buffer.num > 0);
+		element.m_program.set_option(0, BILLBOARD, item.m_flags & ItemFlag::Billboard);
 		element.m_program.set_option(0, SKELETON, element.m_skin != nullptr && element.m_skin->valid());
-		element.m_program.set_option(0, MORPHTARGET, element.m_item->m_rig && !element.m_item->m_rig->m_morphs.empty());
+		element.m_program.set_option(0, MORPHTARGET, item.m_mime && !item.m_mime->m_rig.m_morphs.empty());
 		element.m_program.set_option(0, QNORMALS, element.m_elem->m_mesh->m_qnormals);
 
 		Program& program = *const_cast<Program*>(element.m_program.m_program);
@@ -281,7 +282,7 @@ namespace two
 			return fallback;
 	}
 
-	DrawElement Renderer::draw_element(Item& item, const ModelElem& elem) const
+	DrawElement Renderer::draw_element(ItemIndex index, Item& item, const ModelElem& elem) const
 	{
 		static Material& fallback_material = m_gfx.debug_material();
 
@@ -291,12 +292,12 @@ namespace two
 		//if(mask_primitive(material.m_base.m_geometry_filter, elem.m_mesh->m_primitive))
 		//	continue;
 
-		const Skin* skin = (elem.m_skin > -1 && item.m_rig) ? &item.m_rig->m_skins[elem.m_skin] : nullptr;
+		const Skin* skin = (elem.m_skin > -1 && item.m_mime) ? &item.m_mime->m_rig.m_skins[elem.m_skin] : nullptr;
 
 		const uint64_t sort_key = uint64_t(material.m_index) << 0
 								| uint64_t(elem.m_mesh->m_index) << 16;
 
-		return { item, program, elem, material, skin, sort_key };
+		return { index, item, program, elem, material, skin, sort_key };
 	}
 
 	void Renderer::clear_draw_elements(Render& render, Pass& pass)
@@ -311,7 +312,7 @@ namespace two
 		for(ItemIndex index : render.m_shot->m_items)
 			for(const ModelElem& elem : items[index].m_model->m_items)
 			{
-				DrawElement element = this->draw_element(items[index], elem);
+				DrawElement element = this->draw_element(index, items[index], elem);
 				this->add_element(render, pass, element);
 			}
 	}
@@ -359,14 +360,15 @@ namespace two
 
 		uint64_t render_state = 0 | pass.m_bgfx_state | element.m_bgfx_state;
 		element.m_material->submit(*element.m_program.m_program, encoder, render_state, element.m_skin);
-		element.m_item->submit(encoder, render_state, *element.m_elem);
+		Item& item = render.m_scene->store<Item>()[element.m_item];
+		item.submit(encoder, render_state, *element.m_elem);
 
 #ifdef BGFX_UNIFORM_GROUP
 		encoder.setGroup(bgfx::UniformSet::Group, element.m_material->m_index);
 #endif
 		encoder.setState(render_state);
 
-		encoder.submit(pass.m_index, element.m_bgfx_program, depth_to_bits(element.m_item->m_depth));
+		encoder.submit(pass.m_index, element.m_bgfx_program, depth_to_bits(item.m_depth));
 
 		render.m_num_draw_calls += 1;
 		render.m_num_vertices += element.m_elem->m_mesh->m_vertex_count;
@@ -431,7 +433,7 @@ namespace two
 		for(ItemIndex index : render.m_shot->m_items)
 			for(const ModelElem& elem : items[index].m_model->m_items)
 			{
-				DrawElement element = this->draw_element(items[index], elem);
+				DrawElement element = this->draw_element(index, items[index], elem);
 				if(enqueue(m_gfx, render, pass, element))
 					this->add_element(render, pass, element);
 			}
@@ -447,7 +449,7 @@ namespace two
 		for(ItemIndex index : render.m_shot->m_items)
 			for(const ModelElem& elem : items[index].m_model->m_items)
 			{
-				DrawElement element = this->draw_element(items[index], elem);
+				DrawElement element = this->draw_element(index, items[index], elem);
 				if(enqueue(m_gfx, render, pass, element))
 				{
 					this->element_options(render, pass, element);

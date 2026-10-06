@@ -448,8 +448,8 @@ EX(xx_material_skin)
 	//ui::orbit_controls(viewer);
 	viewer->m_viewport.m_autorender = false;
 
-	static Node3* mesh = nullptr;
-	static Item* item = nullptr;
+	static Node3Handle mesh;
+	static ItemHandle item;
 	static vec3 rotation = vec3(0.f);
 
 	static Material* material = nullptr;
@@ -468,11 +468,11 @@ EX(xx_material_skin)
 
 		//scene.background = new THREE.Color(0x050505);
 
-		Node3& ln0 = Node3(vec3(0.f), look_dir(vec3(-1.f, -0.5f, -1.f))).add(scene.m_graph);
-		Light& l0 = Light(ln0, LightType::Direct, false, rgb(0xffeedd), 1.5f).add(scene.m_graph);
+		Node3Handle ln0 = Node3(vec3(0.f), look_dir(vec3(-1.f, -0.5f, -1.f))).add(scene.m_graph);
+		LightHandle l0 = Light(ln0, LightType::Direct, false, rgb(0xffeedd), 1.5f).add(scene.m_graph);
 
-		Node3& ln1 = Node3(vec3(0.f), look_dir(vec3(1.f, -0.5f, 1.f))).add(scene.m_graph);
-		Light& l1 = Light(ln1, LightType::Direct, false, rgb(0xddddff), 0.5f).add(scene.m_graph);
+		Node3Handle ln1 = Node3(vec3(0.f), look_dir(vec3(1.f, -0.5f, 1.f))).add(scene.m_graph);
+		LightHandle l1 = Light(ln1, LightType::Direct, false, rgb(0xddddff), 0.5f).add(scene.m_graph);
 
 		// MATERIALS
 
@@ -517,10 +517,10 @@ EX(xx_material_skin)
 
 		Model& model = *app.m_gfx.models().file("LeePerrySmith"); // .glb
 
-		Node3& n = Node3(vec3(0.f, -50.f, 0.f), ZeroQuat, vec3(100.f)).add(scene.m_graph);
-		Item& it = Item(n, model, 0U, material).add(scene.m_graph);
-		mesh = &n;
-		item = &it;
+		Node3Handle n = Node3(vec3(0.f, -50.f, 0.f), ZeroQuat, vec3(100.f)).add(scene.m_graph);
+		ItemHandle it = Item(n, model, 0U, material).add(scene.m_graph);
+		mesh = n;
+		item = it;
 
 		Texture& beckmann = render_beckmann(app.m_gfx, uvec2(512U));
 		material->m_user.m_tex4 = &beckmann;

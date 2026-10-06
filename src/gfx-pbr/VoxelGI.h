@@ -27,13 +27,13 @@ namespace gfx
 	export_ class refl_ TWO_GFX_PBR_EXPORT GIProbe
 	{
 	public:
-		GIProbe(Node3& node);
+		GIProbe(Node3Handle node);
 		~GIProbe();
 
 		void resize(uint16_t subdiv, const vec3& extents);
 		void lightmap(uint32_t size, float density, const string& save_path = "");
 
-		Node3& m_node;
+		Node3Handle m_node;
 
 		Texture m_raster = {};
 		Texture m_voxels_color = {};

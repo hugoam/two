@@ -411,8 +411,8 @@ EX(xx_effect_sao)
 	static GfxViewer viewer = GfxViewer(window, scene);
 #endif
 
-	static Node3* node = nullptr;
-	struct Node { vec3 p; vec3 a; vec3 s; Node3* node; };
+	static Node3Handle node;
+	struct Node { vec3 p; vec3 a; vec3 s; Node3Handle node; };
 	static vector<Node> nodes;
 
 	static SAO sao = {};
@@ -444,16 +444,16 @@ EX(xx_effect_sao)
 		sao.set_source(ShaderType::Vertex, sao_vertex);
 		sao.set_source(ShaderType::Fragment, sao_fragment);
 
-		Node3& group = Node3().add(scene.m_graph);
-		node = &group;
+		Node3Handle group = Node3().add(scene.m_graph);
+		node = group;
 
-		Node3& l0 = Node3(vec3(-70.f, -70.f, 70.f)).add(scene.m_graph);
+		Node3Handle l0 = Node3(vec3(-70.f, -70.f, 70.f)).add(scene.m_graph);
 		Light(l0, LightType::Point, false, rgb(0xddffdd), 0.8f, 0.f).add(scene.m_graph);
 
-		Node3& l1 = Node3(vec3(-70.f, 70.f, 70.f)).add(scene.m_graph);
+		Node3Handle l1 = Node3(vec3(-70.f, 70.f, 70.f)).add(scene.m_graph);
 		Light(l1, LightType::Point, false, rgb(0xffdddd), 0.8f, 0.f).add(scene.m_graph);
 
-		Node3& l2 = Node3(vec3(70.f, -70.f, 70.f)).add(scene.m_graph);
+		Node3Handle l2 = Node3(vec3(70.f, -70.f, 70.f)).add(scene.m_graph);
 		Light(l2, LightType::Point, false, rgb(0xddddff), 0.8f, 0.f).add(scene.m_graph);
 
 		scene.m_env.m_radiance.m_ambient = rgb(0xffffff) * 0.05f;
@@ -479,9 +479,9 @@ EX(xx_effect_sao)
 			const vec3 a = vec3(randf(), randf(), randf());
 			const vec3 s = vec3(randf()) * 0.2f + 0.05f;
 
-			Node3& n = Node3(p, quat(a), s).add(scene.m_graph);
+			Node3Handle n = Node3(p, quat(a), s).add(scene.m_graph);
 			Item(n, geometry, 0U, &material).add(scene.m_graph);
-			nodes.push_back({ p, a, s, &n });
+			nodes.push_back({ p, a, s, n });
 		}
 
 		app.m_gfx.set_renderer(Shading::Shaded, render);

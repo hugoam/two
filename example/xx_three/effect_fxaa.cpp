@@ -456,8 +456,8 @@ EX(xx_post_fxaa)
 		program.set_source(ShaderType::Fragment, fxaa_fragment);
 	}
 
-	static Node3* node = nullptr;
-	struct Node { vec3 p; vec3 a; vec3 s; Node3* node; };
+	static Node3Handle node;
+	struct Node { vec3 p; vec3 a; vec3 s; Node3Handle node; };
 	static vector<Node> nodes;
 
 	if(init)
@@ -474,11 +474,11 @@ EX(xx_post_fxaa)
 		env.m_skylight = { true, 1.f / c_pi, vec3(0.f, 1000.f, 0.f), vec3(0.f), rgb(0x444444), rgb(0xffffff) };
 
 		quat dir = look_dir(vec3(-3.f, 1.f, -1.f)); // -3000, 1000, -1000
-		Node3& n = Node3(vec3(0.f), dir).add(scene.m_graph);
+		Node3Handle n = Node3(vec3(0.f), dir).add(scene.m_graph);
 		Light(n, LightType::Direct, false, rgb(0xffffff), 0.8f).add(scene.m_graph);
 
-		Node3& group = Node3().add(scene.m_graph);
-		node = &group;
+		Node3Handle group = Node3().add(scene.m_graph);
+		node = group;
 
 		//Model& geometry = app.m_gfx.shape(Sphere(10.f));
 		Model& geometry = app.m_gfx.shape(Tetraedr(10.f));
@@ -498,9 +498,9 @@ EX(xx_post_fxaa)
 			vec3 a = vec3(randf(), randf(), randf()) * c_pi;
 			vec3 s = vec3(randf()) * 2.f + 1.f;
 
-			Node3& n = Node3(p, quat(a), s).add(scene.m_graph);
+			Node3Handle n = Node3(p, quat(a), s).add(scene.m_graph);
 			Item(n, geometry, 0U, &material).add(scene.m_graph);
-			nodes.push_back({ p, a, s, &n });
+			nodes.push_back({ p, a, s, n });
 		}
 
 		auto render = [](GfxSystem& gfx, Render& render)

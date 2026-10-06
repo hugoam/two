@@ -20,6 +20,122 @@
 
 extern "C" {
 	
+	// GnodeHandle
+	two::Type* DECL two_GnodeHandle__type() {
+		return &two::type<two::GnodeHandle>();
+	}
+	two::GnodeHandle* DECL two_GnodeHandle__construct_0() {
+		return new two::GnodeHandle();
+	}
+	two::Gnode* DECL two_GnodeHandle__get_gnode(two::GnodeHandle* self) {
+		static two::Gnode temp;
+		return (temp = self->gnode(), &temp);
+	}
+	void DECL two_GnodeHandle__destroy(two::GnodeHandle* self) {
+		delete self;
+	}
+	// Node3Handle
+	two::Type* DECL two_Node3Handle__type() {
+		return &two::type<two::Node3Handle>();
+	}
+	two::Node3Handle* DECL two_Node3Handle__construct_0() {
+		return new two::Node3Handle();
+	}
+	two::Gnode* DECL two_Node3Handle__get_self(two::Node3Handle* self) {
+		static two::Gnode temp;
+		return (temp = self->self(), &temp);
+	}
+	two::Node3* DECL two_Node3Handle__get_node(two::Node3Handle* self) {
+		return &self->node();
+	}
+	void DECL two_Node3Handle__destroy(two::Node3Handle* self) {
+		delete self;
+	}
+	// ItemHandle
+	two::Type* DECL two_ItemHandle__type() {
+		return &two::type<two::ItemHandle>();
+	}
+	two::ItemHandle* DECL two_ItemHandle__construct_0() {
+		return new two::ItemHandle();
+	}
+	two::Gnode* DECL two_ItemHandle__get_self(two::ItemHandle* self) {
+		static two::Gnode temp;
+		return (temp = self->self(), &temp);
+	}
+	two::Item* DECL two_ItemHandle__get_item(two::ItemHandle* self) {
+		return &self->item();
+	}
+	void DECL two_ItemHandle__destroy(two::ItemHandle* self) {
+		delete self;
+	}
+	// BatchHandle
+	two::Type* DECL two_BatchHandle__type() {
+		return &two::type<two::BatchHandle>();
+	}
+	two::BatchHandle* DECL two_BatchHandle__construct_0() {
+		return new two::BatchHandle();
+	}
+	two::Gnode* DECL two_BatchHandle__get_self(two::BatchHandle* self) {
+		static two::Gnode temp;
+		return (temp = self->self(), &temp);
+	}
+	two::Batch* DECL two_BatchHandle__get_batch(two::BatchHandle* self) {
+		return &self->batch();
+	}
+	void DECL two_BatchHandle__destroy(two::BatchHandle* self) {
+		delete self;
+	}
+	// LightHandle
+	two::Type* DECL two_LightHandle__type() {
+		return &two::type<two::LightHandle>();
+	}
+	two::LightHandle* DECL two_LightHandle__construct_0() {
+		return new two::LightHandle();
+	}
+	two::Gnode* DECL two_LightHandle__get_self(two::LightHandle* self) {
+		static two::Gnode temp;
+		return (temp = self->self(), &temp);
+	}
+	two::Light* DECL two_LightHandle__get_light(two::LightHandle* self) {
+		return &self->light();
+	}
+	void DECL two_LightHandle__destroy(two::LightHandle* self) {
+		delete self;
+	}
+	// MimeHandle
+	two::Type* DECL two_MimeHandle__type() {
+		return &two::type<two::MimeHandle>();
+	}
+	two::MimeHandle* DECL two_MimeHandle__construct_0() {
+		return new two::MimeHandle();
+	}
+	two::Gnode* DECL two_MimeHandle__get_self(two::MimeHandle* self) {
+		static two::Gnode temp;
+		return (temp = self->self(), &temp);
+	}
+	two::Mime* DECL two_MimeHandle__get_mime(two::MimeHandle* self) {
+		return &self->mime();
+	}
+	void DECL two_MimeHandle__destroy(two::MimeHandle* self) {
+		delete self;
+	}
+	// FlareHandle
+	two::Type* DECL two_FlareHandle__type() {
+		return &two::type<two::FlareHandle>();
+	}
+	two::FlareHandle* DECL two_FlareHandle__construct_0() {
+		return new two::FlareHandle();
+	}
+	two::Gnode* DECL two_FlareHandle__get_self(two::FlareHandle* self) {
+		static two::Gnode temp;
+		return (temp = self->self(), &temp);
+	}
+	two::Flare* DECL two_FlareHandle__get_flare(two::FlareHandle* self) {
+		return &self->flare();
+	}
+	void DECL two_FlareHandle__destroy(two::FlareHandle* self) {
+		delete self;
+	}
 	// Node3
 	two::Type* DECL two_Node3__type() {
 		return &two::type<two::Node3>();
@@ -54,8 +170,9 @@ extern "C" {
 	void DECL two_Node3_derive_4(two::Node3* self, const two::Node3* parent, const two::vec3* position, const two::quat* rotation, const two::vec3* scale) {
 		self->derive(*parent, *position, *rotation, *scale);
 	}
-	two::Node3* DECL two_Node3_add_1(two::Node3* self, two::Gnode* parent) {
-		return &self->add(*parent);
+	two::Node3Handle* DECL two_Node3_add_1(two::Node3* self, two::Gnode* parent) {
+		static two::Node3Handle temp;
+		return (temp = self->add(*parent), &temp);
 	}
 	two::vec3* DECL two_Node3_position_0(two::Node3* self) {
 		static two::vec3 temp;
@@ -424,8 +541,9 @@ extern "C" {
 	two::Mime* DECL two_Mime__construct_0() {
 		return new two::Mime();
 	}
-	two::Mime* DECL two_Mime_add_1(two::Mime* self, two::Gnode* parent) {
-		return &self->add(*parent);
+	two::MimeHandle* DECL two_Mime_add_1(two::Mime* self, two::Gnode* parent) {
+		static two::MimeHandle temp;
+		return (temp = self->add(*parent), &temp);
 	}
 	void DECL two_Mime_start_2(two::Mime* self, const char* animation, bool loop) {
 		self->start(animation, loop);
@@ -466,10 +584,10 @@ extern "C" {
 	void DECL two_Mime_next_animation_0(two::Mime* self) {
 		self->next_animation();
 	}
-	void DECL two_Mime_add_item_1(two::Mime* self, two::Item* item) {
-		self->add_item(*item);
+	void DECL two_Mime_add_rig_1(two::Mime* self, const two::Model* model) {
+		self->add_rig(*model);
 	}
-	void DECL two_Mime_add_nodes_1(two::Mime* self, stl::span<two::Node3*>* nodes) {
+	void DECL two_Mime_add_nodes_1(two::Mime* self, stl::span<two::Node3Handle>* nodes) {
 		self->add_nodes(*nodes);
 	}
 	const char* DECL two_Mime_playing_0(two::Mime* self) {
@@ -2095,11 +2213,11 @@ extern "C" {
 	two::Flare* DECL two_Flare__construct_0() {
 		return new two::Flare();
 	}
-	two::Node3* DECL two_Flare__get_node(two::Flare* self) {
-		return self->m_node;
+	two::Node3Handle* DECL two_Flare__get_node(two::Flare* self) {
+		return &self->m_node;
 	}
-	void DECL two_Flare__set_node(two::Flare* self, two::Node3* value) {
-		self->m_node = value;
+	void DECL two_Flare__set_node(two::Flare* self, two::Node3Handle* value) {
+		self->m_node = *value;
 	}
 	void DECL two_Flare__destroy(two::Flare* self) {
 		delete self;
@@ -2118,11 +2236,12 @@ extern "C" {
 	two::Batch* DECL two_Batch__construct_0() {
 		return new two::Batch();
 	}
-	two::Batch* DECL two_Batch__construct_2(two::Item* item, uint16_t stride) {
+	two::Batch* DECL two_Batch__construct_2(two::ItemHandle* item, uint16_t stride) {
 		return new two::Batch(*item, stride);
 	}
-	two::Batch* DECL two_Batch_add_1(two::Batch* self, two::Gnode* parent) {
-		return &self->add(*parent);
+	two::BatchHandle* DECL two_Batch_add_1(two::Batch* self, two::Gnode* parent) {
+		static two::BatchHandle temp;
+		return (temp = self->add(*parent), &temp);
 	}
 	void DECL two_Batch_update_aabb_1(two::Batch* self, float* instances, int instances_size) {
 		self->update_aabb({ (two::mat4*)instances, instances_size / (sizeof(two::mat4) / sizeof(float)) });
@@ -2142,11 +2261,11 @@ extern "C" {
 	void DECL two_Batch_transform_1(two::Batch* self, const two::mat4* m) {
 		self->transform(*m);
 	}
-	two::Item* DECL two_Batch__get_item(two::Batch* self) {
-		return self->m_item;
+	two::ItemHandle* DECL two_Batch__get_item(two::Batch* self) {
+		return &self->m_item;
 	}
-	void DECL two_Batch__set_item(two::Batch* self, two::Item* value) {
-		self->m_item = value;
+	void DECL two_Batch__set_item(two::Batch* self, two::ItemHandle* value) {
+		self->m_item = *value;
 	}
 	uint16_t DECL two_Batch__get_stride(two::Batch* self) {
 		return self->m_stride;
@@ -2164,26 +2283,27 @@ extern "C" {
 	two::Item* DECL two_Item__construct_0() {
 		return new two::Item();
 	}
-	two::Item* DECL two_Item__construct_2(two::Node3* node, const two::Model* model) {
+	two::Item* DECL two_Item__construct_2(two::Node3Handle* node, const two::Model* model) {
 		return new two::Item(*node, *model);
 	}
-	two::Item* DECL two_Item__construct_3(two::Node3* node, const two::Model* model, uint32_t flags) {
+	two::Item* DECL two_Item__construct_3(two::Node3Handle* node, const two::Model* model, uint32_t flags) {
 		return new two::Item(*node, *model, flags);
 	}
-	two::Item* DECL two_Item__construct_4(two::Node3* node, const two::Model* model, uint32_t flags, two::Material* material) {
+	two::Item* DECL two_Item__construct_4(two::Node3Handle* node, const two::Model* model, uint32_t flags, two::Material* material) {
 		return new two::Item(*node, *model, flags, material);
 	}
-	two::Item* DECL two_Item_add_1(two::Item* self, two::Gnode* parent) {
-		return &self->add(*parent);
+	two::ItemHandle* DECL two_Item_add_1(two::Item* self, two::Gnode* parent) {
+		static two::ItemHandle temp;
+		return (temp = self->add(*parent), &temp);
 	}
 	void DECL two_Item_update_aabb_0(two::Item* self) {
 		self->update_aabb();
 	}
-	two::Node3* DECL two_Item__get_node(two::Item* self) {
-		return self->m_node;
+	two::Node3Handle* DECL two_Item__get_node(two::Item* self) {
+		return &self->m_node;
 	}
-	void DECL two_Item__set_node(two::Item* self, two::Node3* value) {
-		self->m_node = value;
+	void DECL two_Item__set_node(two::Item* self, two::Node3Handle* value) {
+		self->m_node = *value;
 	}
 	two::Model* DECL two_Item__get_model(two::Item* self) {
 		return self->m_model;
@@ -2221,11 +2341,11 @@ extern "C" {
 	void DECL two_Item__set_shadow(two::Item* self, two::ItemShadow value) {
 		self->m_shadow = value;
 	}
-	two::Rig* DECL two_Item__get_rig(two::Item* self) {
-		return self->m_rig;
+	two::MimeHandle* DECL two_Item__get_mime(two::Item* self) {
+		return &self->m_mime;
 	}
-	void DECL two_Item__set_rig(two::Item* self, two::Rig* value) {
-		self->m_rig = value;
+	void DECL two_Item__set_mime(two::Item* self, two::MimeHandle* value) {
+		self->m_mime = *value;
 	}
 	two::Aabb* DECL two_Item__get_aabb(two::Item* self) {
 		return &self->m_aabb;
@@ -2233,11 +2353,11 @@ extern "C" {
 	void DECL two_Item__set_aabb(two::Item* self, two::Aabb* value) {
 		self->m_aabb = *value;
 	}
-	two::Batch* DECL two_Item__get_batch(two::Item* self) {
-		return self->m_batch;
+	two::BatchHandle* DECL two_Item__get_batch(two::Item* self) {
+		return &self->m_batch;
 	}
-	void DECL two_Item__set_batch(two::Item* self, two::Batch* value) {
-		self->m_batch = value;
+	void DECL two_Item__set_batch(two::Item* self, two::BatchHandle* value) {
+		self->m_batch = *value;
 	}
 	void DECL two_Item__destroy(two::Item* self) {
 		delete self;
@@ -2368,8 +2488,8 @@ extern "C" {
 	void DECL two_Prefab_add_1(two::Prefab* self, two::Gnode* parent) {
 		self->add(*parent);
 	}
-	void DECL two_Prefab_add_2(two::Prefab* self, two::Gnode* parent, two::Mime* mime) {
-		self->add(*parent, mime);
+	void DECL two_Prefab_add_2(two::Prefab* self, two::Gnode* parent, two::MimeHandle* mime) {
+		self->add(*parent, *mime);
 	}
 	const char* DECL two_Prefab__get_name(two::Prefab* self) {
 		return self->m_name.c_str();
@@ -2922,14 +3042,14 @@ extern "C" {
 	two::Direct* DECL two_Direct__construct_0() {
 		return new two::Direct();
 	}
-	two::Direct* DECL two_Direct__construct_1(two::Item* item) {
+	two::Direct* DECL two_Direct__construct_1(two::ItemHandle* item) {
 		return new two::Direct(*item);
 	}
-	two::Item* DECL two_Direct__get_item(two::Direct* self) {
-		return self->m_item;
+	two::ItemHandle* DECL two_Direct__get_item(two::Direct* self) {
+		return &self->m_item;
 	}
-	void DECL two_Direct__set_item(two::Direct* self, two::Item* value) {
-		self->m_item = value;
+	void DECL two_Direct__set_item(two::Direct* self, two::ItemHandle* value) {
+		self->m_item = *value;
 	}
 	void DECL two_Direct__destroy(two::Direct* self) {
 		delete self;
@@ -3115,32 +3235,33 @@ extern "C" {
 	two::Type* DECL two_Light__type() {
 		return &two::type<two::Light>();
 	}
-	two::Light* DECL two_Light__construct_1(two::Node3* node) {
+	two::Light* DECL two_Light__construct_1(two::Node3Handle* node) {
 		return new two::Light(*node);
 	}
-	two::Light* DECL two_Light__construct_2(two::Node3* node, two::LightType type) {
+	two::Light* DECL two_Light__construct_2(two::Node3Handle* node, two::LightType type) {
 		return new two::Light(*node, type);
 	}
-	two::Light* DECL two_Light__construct_3(two::Node3* node, two::LightType type, bool shadows) {
+	two::Light* DECL two_Light__construct_3(two::Node3Handle* node, two::LightType type, bool shadows) {
 		return new two::Light(*node, type, shadows);
 	}
-	two::Light* DECL two_Light__construct_4(two::Node3* node, two::LightType type, bool shadows, two::Colour* colour) {
+	two::Light* DECL two_Light__construct_4(two::Node3Handle* node, two::LightType type, bool shadows, two::Colour* colour) {
 		return new two::Light(*node, type, shadows, *colour);
 	}
-	two::Light* DECL two_Light__construct_5(two::Node3* node, two::LightType type, bool shadows, two::Colour* colour, float energy) {
+	two::Light* DECL two_Light__construct_5(two::Node3Handle* node, two::LightType type, bool shadows, two::Colour* colour, float energy) {
 		return new two::Light(*node, type, shadows, *colour, energy);
 	}
-	two::Light* DECL two_Light__construct_6(two::Node3* node, two::LightType type, bool shadows, two::Colour* colour, float energy, float range) {
+	two::Light* DECL two_Light__construct_6(two::Node3Handle* node, two::LightType type, bool shadows, two::Colour* colour, float energy, float range) {
 		return new two::Light(*node, type, shadows, *colour, energy, range);
 	}
-	two::Light* DECL two_Light_add_1(two::Light* self, two::Gnode* parent) {
-		return &self->add(*parent);
+	two::LightHandle* DECL two_Light_add_1(two::Light* self, two::Gnode* parent) {
+		static two::LightHandle temp;
+		return (temp = self->add(*parent), &temp);
 	}
-	two::Node3* DECL two_Light__get_node(two::Light* self) {
-		return self->m_node;
+	two::Node3Handle* DECL two_Light__get_node(two::Light* self) {
+		return &self->m_node;
 	}
-	void DECL two_Light__set_node(two::Light* self, two::Node3* value) {
-		self->m_node = value;
+	void DECL two_Light__set_node(two::Light* self, two::Node3Handle* value) {
+		self->m_node = *value;
 	}
 	two::LightType DECL two_Light__get_type(two::Light* self) {
 		return self->m_type;
@@ -3257,122 +3378,6 @@ extern "C" {
 		self->m_shadow_bias = value;
 	}
 	void DECL two_Light__destroy(two::Light* self) {
-		delete self;
-	}
-	// GnodeHandle
-	two::Type* DECL two_GnodeHandle__type() {
-		return &two::type<two::GnodeHandle>();
-	}
-	two::GnodeHandle* DECL two_GnodeHandle__construct_0() {
-		return new two::GnodeHandle();
-	}
-	two::Gnode* DECL two_GnodeHandle__get_gnode(two::GnodeHandle* self) {
-		static two::Gnode temp;
-		return (temp = self->gnode(), &temp);
-	}
-	void DECL two_GnodeHandle__destroy(two::GnodeHandle* self) {
-		delete self;
-	}
-	// Node3Handle
-	two::Type* DECL two_Node3Handle__type() {
-		return &two::type<two::Node3Handle>();
-	}
-	two::Node3Handle* DECL two_Node3Handle__construct_0() {
-		return new two::Node3Handle();
-	}
-	two::Gnode* DECL two_Node3Handle__get_self(two::Node3Handle* self) {
-		static two::Gnode temp;
-		return (temp = self->self(), &temp);
-	}
-	two::Node3* DECL two_Node3Handle__get_node(two::Node3Handle* self) {
-		return &self->node();
-	}
-	void DECL two_Node3Handle__destroy(two::Node3Handle* self) {
-		delete self;
-	}
-	// ItemHandle
-	two::Type* DECL two_ItemHandle__type() {
-		return &two::type<two::ItemHandle>();
-	}
-	two::ItemHandle* DECL two_ItemHandle__construct_0() {
-		return new two::ItemHandle();
-	}
-	two::Gnode* DECL two_ItemHandle__get_self(two::ItemHandle* self) {
-		static two::Gnode temp;
-		return (temp = self->self(), &temp);
-	}
-	two::Item* DECL two_ItemHandle__get_item(two::ItemHandle* self) {
-		return &self->item();
-	}
-	void DECL two_ItemHandle__destroy(two::ItemHandle* self) {
-		delete self;
-	}
-	// BatchHandle
-	two::Type* DECL two_BatchHandle__type() {
-		return &two::type<two::BatchHandle>();
-	}
-	two::BatchHandle* DECL two_BatchHandle__construct_0() {
-		return new two::BatchHandle();
-	}
-	two::Gnode* DECL two_BatchHandle__get_self(two::BatchHandle* self) {
-		static two::Gnode temp;
-		return (temp = self->self(), &temp);
-	}
-	two::Batch* DECL two_BatchHandle__get_batch(two::BatchHandle* self) {
-		return &self->batch();
-	}
-	void DECL two_BatchHandle__destroy(two::BatchHandle* self) {
-		delete self;
-	}
-	// LightHandle
-	two::Type* DECL two_LightHandle__type() {
-		return &two::type<two::LightHandle>();
-	}
-	two::LightHandle* DECL two_LightHandle__construct_0() {
-		return new two::LightHandle();
-	}
-	two::Gnode* DECL two_LightHandle__get_self(two::LightHandle* self) {
-		static two::Gnode temp;
-		return (temp = self->self(), &temp);
-	}
-	two::Light* DECL two_LightHandle__get_light(two::LightHandle* self) {
-		return &self->light();
-	}
-	void DECL two_LightHandle__destroy(two::LightHandle* self) {
-		delete self;
-	}
-	// MimeHandle
-	two::Type* DECL two_MimeHandle__type() {
-		return &two::type<two::MimeHandle>();
-	}
-	two::MimeHandle* DECL two_MimeHandle__construct_0() {
-		return new two::MimeHandle();
-	}
-	two::Gnode* DECL two_MimeHandle__get_self(two::MimeHandle* self) {
-		static two::Gnode temp;
-		return (temp = self->self(), &temp);
-	}
-	two::Mime* DECL two_MimeHandle__get_mime(two::MimeHandle* self) {
-		return &self->mime();
-	}
-	void DECL two_MimeHandle__destroy(two::MimeHandle* self) {
-		delete self;
-	}
-	// FlareHandle
-	two::Type* DECL two_FlareHandle__type() {
-		return &two::type<two::FlareHandle>();
-	}
-	two::FlareHandle* DECL two_FlareHandle__construct_0() {
-		return new two::FlareHandle();
-	}
-	two::Gnode* DECL two_FlareHandle__get_self(two::FlareHandle* self) {
-		static two::Gnode temp;
-		return (temp = self->self(), &temp);
-	}
-	two::Flare* DECL two_FlareHandle__get_flare(two::FlareHandle* self) {
-		return &self->flare();
-	}
-	void DECL two_FlareHandle__destroy(two::FlareHandle* self) {
 		delete self;
 	}
 	// Gnode
@@ -4013,9 +4018,6 @@ extern "C" {
 	void DECL two_Scene__set_index(two::Scene* self, uint32_t value) {
 		self->m_index = value;
 	}
-	two::Node3* DECL two_Scene__get_root_node(two::Scene* self) {
-		return &self->m_root_node;
-	}
 	two::Gnode* DECL two_Scene__get_graph(two::Scene* self) {
 		return &self->m_graph;
 	}
@@ -4207,6 +4209,9 @@ extern "C" {
 	two::ItemHandle* DECL two_gfx_model_4(two::Gnode* parent, const char* name, uint32_t flags, two::Material* material) {
 		static two::ItemHandle temp;
 		return (temp = two::gfx::model(*parent, name, flags, material), &temp);
+	}
+	void DECL two_gfx_animate_2(two::MimeHandle* mime, two::ItemHandle* item) {
+		two::gfx::animate(*mime, *item);
 	}
 	two::MimeHandle* DECL two_gfx_animated_2(two::Gnode* parent, two::ItemHandle* item) {
 		static two::MimeHandle temp;

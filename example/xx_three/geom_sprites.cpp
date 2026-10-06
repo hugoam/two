@@ -73,8 +73,8 @@ EX(xx_geom_sprites)
 	struct Instance { vec3 position; float distance; };
 	static vector<Instance> instances(particles);
 
-	static Node3* node = nullptr;
-	static Batch* batch = nullptr;
+	static Node3Handle node;
+	static BatchHandle batch;
 
 	if(init)
 	{
@@ -104,12 +104,12 @@ EX(xx_geom_sprites)
 			instances[i] = { vec3(randf(), randf(), randf()) * 2.f - 1.f };
 		}
 
-		Node3& n = Node3().add(scene.m_graph);
-		Item& it = Item(n, circle, 0U, &material).add(scene.m_graph);
-		node = &n;
+		Node3Handle n = Node3().add(scene.m_graph);
+		ItemHandle it = Item(n, circle, 0U, &material).add(scene.m_graph);
+		node = n;
 
-		batch = &Batch(it, sizeof(Instance)).add(scene.m_graph);
-		it.m_batch = batch;
+		batch = Batch(it, sizeof(Instance)).add(scene.m_graph);
+		it->m_batch = batch;
 
 		span<float> data = { &instances[0].position.x, instances.size() * sizeof(Instance) / sizeof(float) };
 		batch->cache(data);

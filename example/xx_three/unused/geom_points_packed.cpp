@@ -20,7 +20,7 @@ EX(xx_geom_points_packed)
 
 	static Program& program = app.m_gfx.programs().fetch("solid");
 
-	static Node3* node = nullptr;
+	static Node3Handle node;
 
 	if(init)
 	{
@@ -55,9 +55,9 @@ EX(xx_geom_points_packed)
 
 		Model& model = app.m_gfx.create_model_gpu("points", gpu_mesh);
 
-		Node3& n = Node3().add(scene.m_graph);
-		Item& it = Item(n, model, 0U, &material).add(scene.m_graph);
-		node = &n;
+		Node3Handle n = Node3().add(scene.m_graph);
+		ItemHandle it = Item(n, model, 0U, &material).add(scene.m_graph);
+		node = n;
 		UNUSED(it);
 	}
 

@@ -30,9 +30,9 @@ namespace two
 	export_ class refl_ TWO_GFX_PBR_EXPORT ReflectionProbe
 	{
 	public:
-		ReflectionProbe(Node3& node);
+		ReflectionProbe(Node3Handle node);
 
-		attr_ Node3& m_node;
+		attr_ Node3Handle m_node;
 
 		attr_ bool m_visible = true;
 		attr_ float m_intensity = 1.f;

@@ -15,9 +15,10 @@ namespace two
 		, m_immediate(oconstruct<ImmediateDraw>(gfx.fetch_material("immediate", "solid")))
 		, m_pass_jobs(oconstruct<PassJobs>())
 		, m_graph(*this, 0)
-		, m_attach(this->add_array<Node3*>())
+		, m_attach(this->add_array<Node3Handle>())
 	{
-		m_attach[0] = &m_root_node;
+		m_graph.state<Node3>();
+		m_attach[0] = Node3Handle(m_graph);
 		m_particle_system = oconstruct<ParticleSystem>(gfx, *this);
 	}
 

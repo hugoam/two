@@ -105,13 +105,11 @@ namespace two
 		object<PassJobs> m_pass_jobs;
 
 		attr_ uint32_t m_index;
-		// the objects of the nodes refer to it: the nodes are cleared before it's destroyed
-		attr_ Node3 m_root_node;
 		attr_ Gnode m_graph;
 
 		SoundManager* m_sound_manager = nullptr;
-		// the transform each node's objects are attached to, by node index: null until a node without one of its own is asked for it
-		TNodeArray<Node3*>& m_attach;
+		// the node of the transform each node's objects are attached to, by node index: null until a node without one of its own is asked for it
+		TNodeArray<Node3Handle>& m_attach;
 		attr_ Zone m_env;
 		attr_ Ref m_user;
 

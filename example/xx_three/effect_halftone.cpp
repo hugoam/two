@@ -347,8 +347,8 @@ EX(xx_effect_halftone)
 
 	static Halftone halftone;
 
-	static Node3* node = nullptr;
-	struct Node { vec3 p; vec3 a; Node3* node; };
+	static Node3Handle node;
+	struct Node { vec3 p; vec3 a; Node3Handle node; };
 	static vector<Node> nodes;
 	
 	static vec3 angles = vec3(0.f);
@@ -369,14 +369,14 @@ EX(xx_effect_halftone)
 		Model& quad = app.m_gfx.shape(Cube(vec3(100.f, 1.f, 100.f)));
 		Model& cube = app.m_gfx.shape(Cube(vec3(1.f)));
 
-		Node3& group = Node3().add(scene.m_graph);
-		node = &group;
+		Node3Handle group = Node3().add(scene.m_graph);
+		node = group;
 
-		Node3& ln = Node3(vec3(0.f, 2.f, 0.f)).add(scene.m_graph);
-		Light& l = Light(ln, LightType::Point, false, rgb(0xffffff), 1.f, 50.f).add(scene.m_graph); // 2
+		Node3Handle ln = Node3(vec3(0.f, 2.f, 0.f)).add(scene.m_graph);
+		LightHandle l = Light(ln, LightType::Point, false, rgb(0xffffff), 1.f, 50.f).add(scene.m_graph); // 2
 
-		Node3& fn = Node3(vec3(0.f, -10.f, 0.f)).add(scene.m_graph);
-		Item& g = Item(fn, quad).add(scene.m_graph);
+		Node3Handle fn = Node3(vec3(0.f, -10.f, 0.f)).add(scene.m_graph);
+		ItemHandle g = Item(fn, quad).add(scene.m_graph);
 		
 		Program& basic = app.m_gfx.programs().create("halftonebasic");
 		basic.set_pass(PassType::Opaque);
@@ -394,9 +394,9 @@ EX(xx_effect_halftone)
 			const vec3 p = vec3(randf(), randf(), randf()) * 16.f - 8.f;
 			const vec3 a = vec3(randf(), randf(), randf()) * c_2pi;
 
-			Node3& n = Node3(p, quat(a)).add(scene.m_graph);
-			Item& g = Item(n, cube, 0U, &mat).add(scene.m_graph);
-			nodes.push_back({ p, a, &n });
+			Node3Handle n = Node3(p, quat(a)).add(scene.m_graph);
+			ItemHandle g = Item(n, cube, 0U, &mat).add(scene.m_graph);
+			nodes.push_back({ p, a, n });
 		}
 
 		auto render = [](GfxSystem& gfx, Render& render)

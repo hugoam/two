@@ -206,7 +206,7 @@ EX(xx_effect_dof)
 					int x = 200 * (i - xgrid / 2);
 					int y = 200 * (j - ygrid / 2);
 					int z = 200 * (k - zgrid / 2);
-					Node3& n = Node3(vec3(ivec3(x, y, z)), ZeroQuat, vec3(60.f)).add(scene.m_graph);
+					Node3Handle n = Node3(vec3(ivec3(x, y, z)), ZeroQuat, vec3(60.f)).add(scene.m_graph);
 					Item(n, geometry, 0U, materials[count]).add(scene.m_graph);
 					count++;
 				}

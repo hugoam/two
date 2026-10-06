@@ -42,8 +42,8 @@ EX(xx_loader_gltf)
 		model.get_mesh(0).m_material->m_program = &three;
 		model.get_mesh(0).m_material->m_pbr.m_albedo.m_texture->reload(app.m_gfx, true);
 
-		Node3& n = Node3().add(scene.m_graph);
-		Item& i = Item(n, model).add(scene.m_graph);
+		Node3Handle n = Node3().add(scene.m_graph);
+		ItemHandle i = Item(n, model).add(scene.m_graph);
 		UNUSED(i);
 	}
 }

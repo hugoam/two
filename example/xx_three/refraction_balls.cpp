@@ -18,7 +18,7 @@ EX(xx_refraction_balls)
 	ControlNode& input = window;
 #endif
 
-	struct Node { vec3 p; vec3 s; Node3* node; };
+	struct Node { vec3 p; vec3 s; Node3Handle node; };
 	static vector<Node> spheres;
 
 	if(init)
@@ -52,10 +52,10 @@ EX(xx_refraction_balls)
 		{
 			vec3 p = vec3(randf(), randf(), randf()) * 10000.f - 5000.f;
 			vec3 s = vec3(randf()) * 3.f + 1.f;
-			Node3& n = Node3(p, ZeroQuat, s).add(scene.m_graph);
+			Node3Handle n = Node3(p, ZeroQuat, s).add(scene.m_graph);
 			Item(n, sphere, 0U, &material).add(scene.m_graph);
 
-			spheres.push_back({ p, s, &n });
+			spheres.push_back({ p, s, n });
 		}
 	}
 

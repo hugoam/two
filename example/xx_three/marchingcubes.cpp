@@ -402,9 +402,9 @@ EX(xx_marching_cubes)
 
 	static MarchingCubes cubes = { resolution };
 	static Mesh* mesh = nullptr;
-	static Item* item = nullptr;
-	static Node3* nlight = nullptr;
-	static Light* light = nullptr;
+	static ItemHandle item;
+	static Node3Handle nlight;
+	static LightHandle light;
 
 	if(init)
 	{
@@ -430,20 +430,20 @@ EX(xx_marching_cubes)
 
 		vec3 t = look_dir(-normalize(vec3(0.5f, 0.5f, 1.f))) * -z3;
 
-		Node3& l0 = Node3(vec3(0.f), look_dir(-vec3(0.5f, 0.5f, 1.f))).add(scene.m_graph);
-		Light& l = Light(l0, LightType::Direct, false, rgb(0xffffff)).add(scene.m_graph);
-		nlight = &l0;
-		light = &l;
+		Node3Handle l0 = Node3(vec3(0.f), look_dir(-vec3(0.5f, 0.5f, 1.f))).add(scene.m_graph);
+		LightHandle l = Light(l0, LightType::Direct, false, rgb(0xffffff)).add(scene.m_graph);
+		nlight = l0;
+		light = l;
 
-		Node3& l1 = Node3(vec3(0.f, 0.f, 100.f)).add(scene.m_graph);
+		Node3Handle l1 = Node3(vec3(0.f, 0.f, 100.f)).add(scene.m_graph);
 		Light(l1, LightType::Point, false, rgb(0xff3300), 1.f, 0.f).add(scene.m_graph);
 
 		materials = gen_materials(app.m_gfx, "marching");
 		current = &materials[7];
 
-		Node3& n = Node3(vec3(0.f), ZeroQuat, vec3(700.f)).add(scene.m_graph);
-		Item& it = Item(n, model, 0U, current->material).add(scene.m_graph);
-		item = &it;
+		Node3Handle n = Node3(vec3(0.f), ZeroQuat, vec3(700.f)).add(scene.m_graph);
+		ItemHandle it = Item(n, model, 0U, current->material).add(scene.m_graph);
+		item = it;
 	}
 
 #if UI
@@ -606,8 +606,8 @@ EX(xx_marching_cubes)
 
 	// lights
 
-	//light.position.set(effectController.lx, effectController.ly, effectController.lz);
-	//light.position.normalize();
+	//light->position.set(effectController.lx, effectController.ly, effectController.lz);
+	//light->position.normalize();
 	//
 	//pointLight.color.setHSL(effectController.lhue, effectController.lsaturation, effectController.llightness);
 }

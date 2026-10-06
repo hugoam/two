@@ -66,13 +66,13 @@ namespace two
 		{
 			Model& model = *item.model;
 			Node3& node = prefab.m_nodes[item.node];
-			prefab.m_items.push_back({ item.node, Item(node, model, ItemFlag::Default | flags) });
+			prefab.m_items.push_back({ item.node, &model, ItemFlag::Default | flags });
 
 			prefab.m_aabb.merge(transform_aabb(model.m_aabb, node.m_transform));
 
 			// special hack for occluders
 			if(model.m_items[0].m_mesh->m_material && model.m_items[0].m_mesh->m_material->m_name == "occluder")
-				prefab.m_items.back().item.m_flags = ItemFlag::Occluder;
+				prefab.m_items.back().flags = ItemFlag::Occluder;
 		}
 
 		for(Animation* anim : state.m_animations)

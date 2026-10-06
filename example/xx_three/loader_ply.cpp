@@ -45,9 +45,9 @@ EX(xx_loader_ply)
 		auto add_light = [&](vec3 d, Colour color, float intensity, bool shadows)
 		{
 			const quat r = look_dir(normalize(d));
-			Node3& n = Node3(vec3(0.f), r).add(scene.m_graph);
-			Light& l = Light(n, LightType::Direct, shadows, color, intensity).add(scene.m_graph);
-			//l.m_shadow_range = 4.f;
+			Node3Handle n = Node3(vec3(0.f), r).add(scene.m_graph);
+			LightHandle l = Light(n, LightType::Direct, shadows, color, intensity).add(scene.m_graph);
+			//l->m_shadow_range = 4.f;
 			//l.shadow.bias = -0.001;
 		};
 
@@ -63,7 +63,7 @@ EX(xx_loader_ply)
 		});
 
 		Model& ground = app.m_gfx.shape(Rect(vec2(0.f), vec2(40.f)));
-		Node3& n = Node3(vec3(0.f, -0.5f, 0.f)).add(scene.m_graph);
+		Node3Handle n = Node3(vec3(0.f, -0.5f, 0.f)).add(scene.m_graph);
 		Item(n, ground, 0, &groundmat).add(scene.m_graph);
 
 		Material& material = app.m_gfx.materials().create("ply", [&](Material& m) {
@@ -80,10 +80,10 @@ EX(xx_loader_ply)
 		Model& dolphin = *app.m_gfx.models().file("dolphins"); // .ply
 		Model& lucy = *app.m_gfx.models().file("Lucy100k"); // .ply
 			
-		Node3& n0 = Node3(vec3(-0.2f, 0.f, 0.3f), quat(vec3(-c_pi2, 0.f, 0.f)), vec3(0.001f)).add(scene.m_graph);
+		Node3Handle n0 = Node3(vec3(-0.2f, 0.f, 0.3f), quat(vec3(-c_pi2, 0.f, 0.f)), vec3(0.001f)).add(scene.m_graph);
 		Item(n0, dolphin, 0, &material).add(scene.m_graph);
 
-		Node3& n1 = Node3(vec3(-0.2f, -0.02f, -0.2f), quat(vec3(0.f)), vec3(0.0006f)).add(scene.m_graph);
+		Node3Handle n1 = Node3(vec3(-0.2f, -0.02f, -0.2f), quat(vec3(0.f)), vec3(0.0006f)).add(scene.m_graph);
 		Item(n1, lucy, 0, &material).add(scene.m_graph);
 	
 		// lights

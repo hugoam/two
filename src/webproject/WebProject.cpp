@@ -12,13 +12,13 @@ void web_project()
 	Scene scene(app.m_gfx);
 	GfxViewer viewer(window, scene);
 
-    Node3& ln = Node3().add(scene.m_graph);
-    Light& l = Light(ln, LightType::Point, false, rgb(0xffffff), 2.f, 0.f).add(scene.m_graph);
+    Node3Handle ln = Node3().add(scene.m_graph);
+    LightHandle l = Light(ln, LightType::Point, false, rgb(0xffffff), 2.f, 0.f).add(scene.m_graph);
     
     Model& model = *app.m_gfx.models().file("WaltHead");
 
-    Node3& n0 = Node3(vec3(0.f, -500.f, 0.f), ZeroQuat, vec3(15.f)).add(scene.m_graph);
-    Item& i = Item(n0, model, 0U, &material1).add(scene.m_graph);
+    Node3Handle n0 = Node3(vec3(0.f, -500.f, 0.f), ZeroQuat, vec3(15.f)).add(scene.m_graph);
+    ItemHandle i = Item(n0, model, 0U, &material1).add(scene.m_graph);
 
     while(true)
     {

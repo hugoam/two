@@ -155,7 +155,7 @@ EX(xx_effect_sobel)
 
 	Camera& camera = viewer->m_camera;
 
-	static Node3* light = nullptr;
+	static Node3Handle light;
 
 	static bool enabled = true;
 
@@ -183,15 +183,15 @@ EX(xx_effect_sobel)
 			m.m_phong.m_diffuse = rgb(0xffff00);
 		});
 
-		Node3& n = Node3().add(scene.m_graph);
+		Node3Handle n = Node3().add(scene.m_graph);
 		Item(n, geometry, 0U, &material).add(scene.m_graph);
 
 		scene.m_env.m_radiance.m_ambient = rgb(0xcccccc) * 0.4f;
 		
-		Node3& ln = Node3().add(scene.m_graph);
+		Node3Handle ln = Node3().add(scene.m_graph);
 		Light(ln, LightType::Point, false, rgb(0xffffff), 0.8f, 0.f).add(scene.m_graph);
 
-		light = &ln;
+		light = ln;
 
 		auto render = [](GfxSystem& gfx, Render& render)
 		{

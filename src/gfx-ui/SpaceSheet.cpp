@@ -17,14 +17,13 @@ namespace two
 		Material m_material;
 		Model m_model;
 		Node3 m_node;
-		Item m_item;
+		ItemHandle m_item;
 	};
 
 	SpaceQuad::SpaceQuad(Viewport& viewport, const uvec2& size, float scale)
 		: m_texture("SpaceSheetTexture")
 		, m_material("SpaceSheetMaterial")
 		, m_model("SpaceSheet")
-		, m_item(m_node, m_model, ItemFlag::Ui, &m_material)
 	{
 		m_texture.load_rgba(size, span<uint32_t>{});
 		m_material.m_program = viewport.m_scene->m_gfx.programs().file("debug");

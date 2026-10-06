@@ -45,7 +45,7 @@ namespace gfx
 		attr_ gpu_ vec4 cell_size;
 	};
 
-	GIProbe::GIProbe(Node3& node)
+	GIProbe::GIProbe(Node3Handle node)
 		: m_node(node)
 	{}
 

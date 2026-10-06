@@ -77,7 +77,7 @@ EX(xx_material_standard)
 
 		const vec3 position = vec3(-0.45f, 0.f, 0.f);
 		const vec3 angles = vec3(0.f, -c_pi2, 0.f);
-		Node3& n = Node3(position, quat(angles)).add(scene.m_graph);
+		Node3Handle n = Node3(position, quat(angles)).add(scene.m_graph);
 		Item(n, model, 0U, &material).add(scene.m_graph);
 	}
 }

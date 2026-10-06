@@ -32,7 +32,7 @@ EX(xx_lines_fat)
 
 #if !CACHE
 	static Lines lines;
-	static Batch* batch = nullptr;
+	static BatchHandle batch;
 #endif
 
 	if(init)
@@ -77,18 +77,18 @@ EX(xx_lines_fat)
 
 			const Model& model = app.m_gfx.models().fetch("line");
 
-			Node3& n = Node3().add(scene.m_graph);
-			Item& it = Item(n, model, 0U, material).add(scene.m_graph);
+			Node3Handle n = Node3().add(scene.m_graph);
+			ItemHandle it = Item(n, model, 0U, material).add(scene.m_graph);
 #if !CACHE
-			batch = &Batch(it, sizeof(Lines::Segment)).add(scene.m_graph);
-			it.m_batch = batch;
+			batch = Batch(it, sizeof(Lines::Segment)).add(scene.m_graph);
+			it->m_batch = batch;
 #else
-			Batch& batch = Batch(it, sizeof(Lines::Segment)).add(scene.m_graph);
-			it.m_batch = &batch;
+			BatchHandle batch = Batch(it, sizeof(Lines::Segment)).add(scene.m_graph);
+			it->m_batch = batch;
 #endif
 
 #if CACHE
-			batch.cache({ (float*)lines.m_segments.data(), lines.m_segments.size() * sizeof(Lines::Segment) / sizeof(float) });
+			batch->cache({ (float*)lines.m_segments.data(), lines.m_segments.size() * sizeof(Lines::Segment) / sizeof(float) });
 #endif
 #else
 			// regular line
@@ -100,8 +100,8 @@ EX(xx_lines_fat)
 			Model& model = app.m_gfx.create_model("lines");
 			lines.write(*model.m_items[0].m_mesh);
 
-			Node3& n = Node3().add(scene.m_graph);
-			Item& it = Item(n, model, 0U, material).add(scene.m_graph);
+			Node3Handle n = Node3().add(scene.m_graph);
+			ItemHandle it = Item(n, model, 0U, material).add(scene.m_graph);
 #endif
 
 	}

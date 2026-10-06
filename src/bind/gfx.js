@@ -1,5 +1,147 @@
 Module['stl'] = Module['stl'] || {};
 Module['gfx'] = Module['gfx'] || {};
+// GnodeHandle
+function GnodeHandle() {
+    this.__ptr = _two_GnodeHandle__construct_0(); getCache(GnodeHandle)[this.__ptr] = this;
+};
+GnodeHandle.prototype = Object.create(WrapperObject.prototype);
+GnodeHandle.prototype.constructor = GnodeHandle;
+GnodeHandle.prototype.__class = GnodeHandle;
+GnodeHandle.__cache = {};
+Module['GnodeHandle'] = GnodeHandle;
+Object.defineProperty(GnodeHandle.prototype, "gnode", {
+    get: function() {
+        return wrapPointer(_two_GnodeHandle__get_gnode(this.__ptr), Gnode);
+    }});
+GnodeHandle.prototype["__destroy"] = GnodeHandle.prototype.__destroy = function() {
+    _two_GnodeHandle__destroy(this.__ptr);
+};
+// Node3Handle
+function Node3Handle() {
+    this.__ptr = _two_Node3Handle__construct_0(); getCache(Node3Handle)[this.__ptr] = this;
+};
+Node3Handle.prototype = Object.create(GnodeHandle.prototype);
+Node3Handle.prototype.constructor = Node3Handle;
+Node3Handle.prototype.__class = Node3Handle;
+Node3Handle.__base = GnodeHandle;
+Node3Handle.__cache = {};
+Module['Node3Handle'] = Node3Handle;
+Object.defineProperty(Node3Handle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_Node3Handle__get_self(this.__ptr), Gnode);
+    }});
+Object.defineProperty(Node3Handle.prototype, "node", {
+    get: function() {
+        return wrapPointer(_two_Node3Handle__get_node(this.__ptr), Node3);
+    }});
+Node3Handle.prototype["__destroy"] = Node3Handle.prototype.__destroy = function() {
+    _two_Node3Handle__destroy(this.__ptr);
+};
+// ItemHandle
+function ItemHandle() {
+    this.__ptr = _two_ItemHandle__construct_0(); getCache(ItemHandle)[this.__ptr] = this;
+};
+ItemHandle.prototype = Object.create(GnodeHandle.prototype);
+ItemHandle.prototype.constructor = ItemHandle;
+ItemHandle.prototype.__class = ItemHandle;
+ItemHandle.__base = GnodeHandle;
+ItemHandle.__cache = {};
+Module['ItemHandle'] = ItemHandle;
+Object.defineProperty(ItemHandle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_ItemHandle__get_self(this.__ptr), Gnode);
+    }});
+Object.defineProperty(ItemHandle.prototype, "item", {
+    get: function() {
+        return wrapPointer(_two_ItemHandle__get_item(this.__ptr), Item);
+    }});
+ItemHandle.prototype["__destroy"] = ItemHandle.prototype.__destroy = function() {
+    _two_ItemHandle__destroy(this.__ptr);
+};
+// BatchHandle
+function BatchHandle() {
+    this.__ptr = _two_BatchHandle__construct_0(); getCache(BatchHandle)[this.__ptr] = this;
+};
+BatchHandle.prototype = Object.create(GnodeHandle.prototype);
+BatchHandle.prototype.constructor = BatchHandle;
+BatchHandle.prototype.__class = BatchHandle;
+BatchHandle.__base = GnodeHandle;
+BatchHandle.__cache = {};
+Module['BatchHandle'] = BatchHandle;
+Object.defineProperty(BatchHandle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_BatchHandle__get_self(this.__ptr), Gnode);
+    }});
+Object.defineProperty(BatchHandle.prototype, "batch", {
+    get: function() {
+        return wrapPointer(_two_BatchHandle__get_batch(this.__ptr), Batch);
+    }});
+BatchHandle.prototype["__destroy"] = BatchHandle.prototype.__destroy = function() {
+    _two_BatchHandle__destroy(this.__ptr);
+};
+// LightHandle
+function LightHandle() {
+    this.__ptr = _two_LightHandle__construct_0(); getCache(LightHandle)[this.__ptr] = this;
+};
+LightHandle.prototype = Object.create(GnodeHandle.prototype);
+LightHandle.prototype.constructor = LightHandle;
+LightHandle.prototype.__class = LightHandle;
+LightHandle.__base = GnodeHandle;
+LightHandle.__cache = {};
+Module['LightHandle'] = LightHandle;
+Object.defineProperty(LightHandle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_LightHandle__get_self(this.__ptr), Gnode);
+    }});
+Object.defineProperty(LightHandle.prototype, "light", {
+    get: function() {
+        return wrapPointer(_two_LightHandle__get_light(this.__ptr), Light);
+    }});
+LightHandle.prototype["__destroy"] = LightHandle.prototype.__destroy = function() {
+    _two_LightHandle__destroy(this.__ptr);
+};
+// MimeHandle
+function MimeHandle() {
+    this.__ptr = _two_MimeHandle__construct_0(); getCache(MimeHandle)[this.__ptr] = this;
+};
+MimeHandle.prototype = Object.create(GnodeHandle.prototype);
+MimeHandle.prototype.constructor = MimeHandle;
+MimeHandle.prototype.__class = MimeHandle;
+MimeHandle.__base = GnodeHandle;
+MimeHandle.__cache = {};
+Module['MimeHandle'] = MimeHandle;
+Object.defineProperty(MimeHandle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_MimeHandle__get_self(this.__ptr), Gnode);
+    }});
+Object.defineProperty(MimeHandle.prototype, "mime", {
+    get: function() {
+        return wrapPointer(_two_MimeHandle__get_mime(this.__ptr), Mime);
+    }});
+MimeHandle.prototype["__destroy"] = MimeHandle.prototype.__destroy = function() {
+    _two_MimeHandle__destroy(this.__ptr);
+};
+// FlareHandle
+function FlareHandle() {
+    this.__ptr = _two_FlareHandle__construct_0(); getCache(FlareHandle)[this.__ptr] = this;
+};
+FlareHandle.prototype = Object.create(GnodeHandle.prototype);
+FlareHandle.prototype.constructor = FlareHandle;
+FlareHandle.prototype.__class = FlareHandle;
+FlareHandle.__base = GnodeHandle;
+FlareHandle.__cache = {};
+Module['FlareHandle'] = FlareHandle;
+Object.defineProperty(FlareHandle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_FlareHandle__get_self(this.__ptr), Gnode);
+    }});
+Object.defineProperty(FlareHandle.prototype, "flare", {
+    get: function() {
+        return wrapPointer(_two_FlareHandle__get_flare(this.__ptr), Flare);
+    }});
+FlareHandle.prototype["__destroy"] = FlareHandle.prototype.__destroy = function() {
+    _two_FlareHandle__destroy(this.__ptr);
+};
 // Node3
 function Node3(a0, a1, a2) {
     if (a0 === undefined) {  }
@@ -34,7 +176,7 @@ Node3.prototype["derive"] = Node3.prototype.derive = function(a0, a1, a2, a3) {
 };
 Node3.prototype["add"] = Node3.prototype.add = function(a0) {
     if (!checkClass(a0, Gnode)) throw Error('add(0:parent): expected Gnode');
-    return wrapPointer(_two_Node3_add_1(this.__ptr, /*parent*/a0.__ptr), Node3);
+    return wrapPointer(_two_Node3_add_1(this.__ptr, /*parent*/a0.__ptr), Node3Handle);
 };
 Node3.prototype["position"] = Node3.prototype.position = function() {
     return wrapPointer(_two_Node3_position_0(this.__ptr), v3_float);
@@ -536,7 +678,7 @@ Mime.__cache = {};
 Module['Mime'] = Mime;
 Mime.prototype["add"] = Mime.prototype.add = function(a0) {
     if (!checkClass(a0, Gnode)) throw Error('add(0:parent): expected Gnode');
-    return wrapPointer(_two_Mime_add_1(this.__ptr, /*parent*/a0.__ptr), Mime);
+    return wrapPointer(_two_Mime_add_1(this.__ptr, /*parent*/a0.__ptr), MimeHandle);
 };
 Mime.prototype["start"] = Mime.prototype.start = function(a0, a1, a2, a3, a4) {
     ensureCache.prepare();
@@ -576,12 +718,12 @@ Mime.prototype["advance"] = Mime.prototype.advance = function(a0) {
 Mime.prototype["next_animation"] = Mime.prototype.next_animation = function() {
     _two_Mime_next_animation_0(this.__ptr);
 };
-Mime.prototype["add_item"] = Mime.prototype.add_item = function(a0) {
-    if (!checkClass(a0, Item)) throw Error('add_item(0:item): expected Item');
-    _two_Mime_add_item_1(this.__ptr, /*item*/a0.__ptr);
+Mime.prototype["add_rig"] = Mime.prototype.add_rig = function(a0) {
+    if (!checkClass(a0, Model)) throw Error('add_rig(0:model): expected Model');
+    _two_Mime_add_rig_1(this.__ptr, /*model*/a0.__ptr);
 };
 Mime.prototype["add_nodes"] = Mime.prototype.add_nodes = function(a0) {
-    if (!checkClass(a0, span_two_Node3_)) throw Error('add_nodes(0:nodes): expected span<two::Node3*>');
+    if (!checkClass(a0, span_two_Node3Handle)) throw Error('add_nodes(0:nodes): expected span<two::Node3Handle>');
     _two_Mime_add_nodes_1(this.__ptr, /*nodes*/a0.__ptr);
 };
 Mime.prototype["playing"] = Mime.prototype.playing = function() {
@@ -2869,10 +3011,10 @@ Flare.__cache = {};
 Module['Flare'] = Flare;
 Object.defineProperty(Flare.prototype, "node", {
     get: function() {
-        return wrapPointer(_two_Flare__get_node(this.__ptr), Node3);
+        return wrapPointer(_two_Flare__get_node(this.__ptr), Node3Handle);
     },
     set: function(value) {
-        if (!checkClass(value, Node3)) throw Error('Flare.node: expected Node3');
+        if (!checkClass(value, Node3Handle)) throw Error('Flare.node: expected Node3Handle');
         _two_Flare__set_node(this.__ptr, value.__ptr);
     }
 });
@@ -2893,7 +3035,7 @@ BlockParticles.prototype["__destroy"] = BlockParticles.prototype.__destroy = fun
 // Batch
 function Batch(a0, a1) {
     if (a0 === undefined) {  }
-    else { if (!checkClass(a0, Item)) throw Error('Batch(0:item): expected Item'); if (typeof a1 !== 'number') throw Error('Batch(1:stride): expected integer'); }
+    else { if (!checkClass(a0, ItemHandle)) throw Error('Batch(0:item): expected ItemHandle'); if (typeof a1 !== 'number') throw Error('Batch(1:stride): expected integer'); }
     if (a0 === undefined) { this.__ptr = _two_Batch__construct_0(); getCache(Batch)[this.__ptr] = this; }
     else { this.__ptr = _two_Batch__construct_2(/*item*/a0.__ptr, /*stride*/a1); getCache(Batch)[this.__ptr] = this; }
 };
@@ -2904,7 +3046,7 @@ Batch.__cache = {};
 Module['Batch'] = Batch;
 Batch.prototype["add"] = Batch.prototype.add = function(a0) {
     if (!checkClass(a0, Gnode)) throw Error('add(0:parent): expected Gnode');
-    return wrapPointer(_two_Batch_add_1(this.__ptr, /*parent*/a0.__ptr), Batch);
+    return wrapPointer(_two_Batch_add_1(this.__ptr, /*parent*/a0.__ptr), BatchHandle);
 };
 Batch.prototype["update_aabb"] = Batch.prototype.update_aabb = function(a0) {
     _two_Batch_update_aabb_1(this.__ptr, ensureFloat32(/*instances*/a0), /*instances*/a0.length);
@@ -2928,10 +3070,10 @@ Batch.prototype["transform"] = Batch.prototype.transform = function(a0) {
 };
 Object.defineProperty(Batch.prototype, "item", {
     get: function() {
-        return wrapPointer(_two_Batch__get_item(this.__ptr), Item);
+        return wrapPointer(_two_Batch__get_item(this.__ptr), ItemHandle);
     },
     set: function(value) {
-        if (!checkClass(value, Item)) throw Error('Batch.item: expected Item');
+        if (!checkClass(value, ItemHandle)) throw Error('Batch.item: expected ItemHandle');
         _two_Batch__set_item(this.__ptr, value.__ptr);
     }
 });
@@ -2950,9 +3092,9 @@ Batch.prototype["__destroy"] = Batch.prototype.__destroy = function() {
 // Item
 function Item(a0, a1, a2, a3) {
     if (a0 === undefined) {  }
-    else if (a2 === undefined) { if (!checkClass(a0, Node3)) throw Error('Item(0:node): expected Node3'); if (!checkClass(a1, Model)) throw Error('Item(1:model): expected Model'); }
-    else if (a3 === undefined) { if (!checkClass(a0, Node3)) throw Error('Item(0:node): expected Node3'); if (!checkClass(a1, Model)) throw Error('Item(1:model): expected Model'); if (typeof a2 !== 'number') throw Error('Item(2:flags): expected integer'); }
-    else { if (!checkClass(a0, Node3)) throw Error('Item(0:node): expected Node3'); if (!checkClass(a1, Model)) throw Error('Item(1:model): expected Model'); if (typeof a2 !== 'number') throw Error('Item(2:flags): expected integer'); if (!checkClass(a3, Material)) throw Error('Item(3:material): expected Material'); }
+    else if (a2 === undefined) { if (!checkClass(a0, Node3Handle)) throw Error('Item(0:node): expected Node3Handle'); if (!checkClass(a1, Model)) throw Error('Item(1:model): expected Model'); }
+    else if (a3 === undefined) { if (!checkClass(a0, Node3Handle)) throw Error('Item(0:node): expected Node3Handle'); if (!checkClass(a1, Model)) throw Error('Item(1:model): expected Model'); if (typeof a2 !== 'number') throw Error('Item(2:flags): expected integer'); }
+    else { if (!checkClass(a0, Node3Handle)) throw Error('Item(0:node): expected Node3Handle'); if (!checkClass(a1, Model)) throw Error('Item(1:model): expected Model'); if (typeof a2 !== 'number') throw Error('Item(2:flags): expected integer'); if (!checkClass(a3, Material)) throw Error('Item(3:material): expected Material'); }
     if (a0 === undefined) { this.__ptr = _two_Item__construct_0(); getCache(Item)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _two_Item__construct_2(/*node*/a0.__ptr, /*model*/a1.__ptr); getCache(Item)[this.__ptr] = this; }
     else if (a3 === undefined) { this.__ptr = _two_Item__construct_3(/*node*/a0.__ptr, /*model*/a1.__ptr, /*flags*/a2); getCache(Item)[this.__ptr] = this; }
@@ -2965,17 +3107,17 @@ Item.__cache = {};
 Module['Item'] = Item;
 Item.prototype["add"] = Item.prototype.add = function(a0) {
     if (!checkClass(a0, Gnode)) throw Error('add(0:parent): expected Gnode');
-    return wrapPointer(_two_Item_add_1(this.__ptr, /*parent*/a0.__ptr), Item);
+    return wrapPointer(_two_Item_add_1(this.__ptr, /*parent*/a0.__ptr), ItemHandle);
 };
 Item.prototype["update_aabb"] = Item.prototype.update_aabb = function() {
     _two_Item_update_aabb_0(this.__ptr);
 };
 Object.defineProperty(Item.prototype, "node", {
     get: function() {
-        return wrapPointer(_two_Item__get_node(this.__ptr), Node3);
+        return wrapPointer(_two_Item__get_node(this.__ptr), Node3Handle);
     },
     set: function(value) {
-        if (!checkClass(value, Node3)) throw Error('Item.node: expected Node3');
+        if (!checkClass(value, Node3Handle)) throw Error('Item.node: expected Node3Handle');
         _two_Item__set_node(this.__ptr, value.__ptr);
     }
 });
@@ -3033,13 +3175,13 @@ Object.defineProperty(Item.prototype, "shadow", {
         _two_Item__set_shadow(this.__ptr, value);
     }
 });
-Object.defineProperty(Item.prototype, "rig", {
+Object.defineProperty(Item.prototype, "mime", {
     get: function() {
-        return wrapPointer(_two_Item__get_rig(this.__ptr), Rig);
+        return wrapPointer(_two_Item__get_mime(this.__ptr), MimeHandle);
     },
     set: function(value) {
-        if (!checkClass(value, Rig)) throw Error('Item.rig: expected Rig');
-        _two_Item__set_rig(this.__ptr, value.__ptr);
+        if (!checkClass(value, MimeHandle)) throw Error('Item.mime: expected MimeHandle');
+        _two_Item__set_mime(this.__ptr, value.__ptr);
     }
 });
 Object.defineProperty(Item.prototype, "aabb", {
@@ -3053,10 +3195,10 @@ Object.defineProperty(Item.prototype, "aabb", {
 });
 Object.defineProperty(Item.prototype, "batch", {
     get: function() {
-        return wrapPointer(_two_Item__get_batch(this.__ptr), Batch);
+        return wrapPointer(_two_Item__get_batch(this.__ptr), BatchHandle);
     },
     set: function(value) {
-        if (!checkClass(value, Batch)) throw Error('Item.batch: expected Batch');
+        if (!checkClass(value, BatchHandle)) throw Error('Item.batch: expected BatchHandle');
         _two_Item__set_batch(this.__ptr, value.__ptr);
     }
 });
@@ -3247,7 +3389,7 @@ Prefab.__cache = {};
 Module['Prefab'] = Prefab;
 Prefab.prototype["add"] = Prefab.prototype.add = function(a0, a1) {
     if (a1 === undefined) { if (!checkClass(a0, Gnode)) throw Error('add(0:parent): expected Gnode'); }
-    else { if (!checkClass(a0, Gnode)) throw Error('add(0:parent): expected Gnode'); if (!checkClass(a1, Mime)) throw Error('add(1:mime): expected Mime'); }
+    else { if (!checkClass(a0, Gnode)) throw Error('add(0:parent): expected Gnode'); if (!checkClass(a1, MimeHandle)) throw Error('add(1:mime): expected MimeHandle'); }
     if (a1 === undefined) { _two_Prefab_add_1(this.__ptr, /*parent*/a0.__ptr); }
     else { _two_Prefab_add_2(this.__ptr, /*parent*/a0.__ptr, /*mime*/a1.__ptr); }
 };
@@ -4038,7 +4180,7 @@ Mesh.prototype["__destroy"] = Mesh.prototype.__destroy = function() {
 // Direct
 function Direct(a0) {
     if (a0 === undefined) {  }
-    else { if (!checkClass(a0, Item)) throw Error('Direct(0:item): expected Item'); }
+    else { if (!checkClass(a0, ItemHandle)) throw Error('Direct(0:item): expected ItemHandle'); }
     if (a0 === undefined) { this.__ptr = _two_Direct__construct_0(); getCache(Direct)[this.__ptr] = this; }
     else { this.__ptr = _two_Direct__construct_1(/*item*/a0.__ptr); getCache(Direct)[this.__ptr] = this; }
 };
@@ -4049,10 +4191,10 @@ Direct.__cache = {};
 Module['Direct'] = Direct;
 Object.defineProperty(Direct.prototype, "item", {
     get: function() {
-        return wrapPointer(_two_Direct__get_item(this.__ptr), Item);
+        return wrapPointer(_two_Direct__get_item(this.__ptr), ItemHandle);
     },
     set: function(value) {
-        if (!checkClass(value, Item)) throw Error('Direct.item: expected Item');
+        if (!checkClass(value, ItemHandle)) throw Error('Direct.item: expected ItemHandle');
         _two_Direct__set_item(this.__ptr, value.__ptr);
     }
 });
@@ -4258,12 +4400,12 @@ ClusteredFrustum.prototype["__destroy"] = ClusteredFrustum.prototype.__destroy =
 };
 // Light
 function Light(a0, a1, a2, a3, a4, a5) {
-    if (a1 === undefined) { if (!checkClass(a0, Node3)) throw Error('Light(0:node): expected Node3'); }
-    else if (a2 === undefined) { if (!checkClass(a0, Node3)) throw Error('Light(0:node): expected Node3'); if (typeof a1 !== 'number') throw Error('Light(1:type): expected integer'); }
-    else if (a3 === undefined) { if (!checkClass(a0, Node3)) throw Error('Light(0:node): expected Node3'); if (typeof a1 !== 'number') throw Error('Light(1:type): expected integer'); if (typeof a2 !== 'boolean') throw Error('Light(2:shadows): expected boolean'); }
-    else if (a4 === undefined) { if (!checkClass(a0, Node3)) throw Error('Light(0:node): expected Node3'); if (typeof a1 !== 'number') throw Error('Light(1:type): expected integer'); if (typeof a2 !== 'boolean') throw Error('Light(2:shadows): expected boolean'); if (!checkClass(a3, Colour)) throw Error('Light(3:colour): expected Colour'); }
-    else if (a5 === undefined) { if (!checkClass(a0, Node3)) throw Error('Light(0:node): expected Node3'); if (typeof a1 !== 'number') throw Error('Light(1:type): expected integer'); if (typeof a2 !== 'boolean') throw Error('Light(2:shadows): expected boolean'); if (!checkClass(a3, Colour)) throw Error('Light(3:colour): expected Colour'); if (typeof a4 !== 'number') throw Error('Light(4:energy): expected number'); }
-    else { if (!checkClass(a0, Node3)) throw Error('Light(0:node): expected Node3'); if (typeof a1 !== 'number') throw Error('Light(1:type): expected integer'); if (typeof a2 !== 'boolean') throw Error('Light(2:shadows): expected boolean'); if (!checkClass(a3, Colour)) throw Error('Light(3:colour): expected Colour'); if (typeof a4 !== 'number') throw Error('Light(4:energy): expected number'); if (typeof a5 !== 'number') throw Error('Light(5:range): expected number'); }
+    if (a1 === undefined) { if (!checkClass(a0, Node3Handle)) throw Error('Light(0:node): expected Node3Handle'); }
+    else if (a2 === undefined) { if (!checkClass(a0, Node3Handle)) throw Error('Light(0:node): expected Node3Handle'); if (typeof a1 !== 'number') throw Error('Light(1:type): expected integer'); }
+    else if (a3 === undefined) { if (!checkClass(a0, Node3Handle)) throw Error('Light(0:node): expected Node3Handle'); if (typeof a1 !== 'number') throw Error('Light(1:type): expected integer'); if (typeof a2 !== 'boolean') throw Error('Light(2:shadows): expected boolean'); }
+    else if (a4 === undefined) { if (!checkClass(a0, Node3Handle)) throw Error('Light(0:node): expected Node3Handle'); if (typeof a1 !== 'number') throw Error('Light(1:type): expected integer'); if (typeof a2 !== 'boolean') throw Error('Light(2:shadows): expected boolean'); if (!checkClass(a3, Colour)) throw Error('Light(3:colour): expected Colour'); }
+    else if (a5 === undefined) { if (!checkClass(a0, Node3Handle)) throw Error('Light(0:node): expected Node3Handle'); if (typeof a1 !== 'number') throw Error('Light(1:type): expected integer'); if (typeof a2 !== 'boolean') throw Error('Light(2:shadows): expected boolean'); if (!checkClass(a3, Colour)) throw Error('Light(3:colour): expected Colour'); if (typeof a4 !== 'number') throw Error('Light(4:energy): expected number'); }
+    else { if (!checkClass(a0, Node3Handle)) throw Error('Light(0:node): expected Node3Handle'); if (typeof a1 !== 'number') throw Error('Light(1:type): expected integer'); if (typeof a2 !== 'boolean') throw Error('Light(2:shadows): expected boolean'); if (!checkClass(a3, Colour)) throw Error('Light(3:colour): expected Colour'); if (typeof a4 !== 'number') throw Error('Light(4:energy): expected number'); if (typeof a5 !== 'number') throw Error('Light(5:range): expected number'); }
     if (a1 === undefined) { this.__ptr = _two_Light__construct_1(/*node*/a0.__ptr); getCache(Light)[this.__ptr] = this; }
     else if (a2 === undefined) { this.__ptr = _two_Light__construct_2(/*node*/a0.__ptr, /*type*/a1); getCache(Light)[this.__ptr] = this; }
     else if (a3 === undefined) { this.__ptr = _two_Light__construct_3(/*node*/a0.__ptr, /*type*/a1, /*shadows*/a2); getCache(Light)[this.__ptr] = this; }
@@ -4278,14 +4420,14 @@ Light.__cache = {};
 Module['Light'] = Light;
 Light.prototype["add"] = Light.prototype.add = function(a0) {
     if (!checkClass(a0, Gnode)) throw Error('add(0:parent): expected Gnode');
-    return wrapPointer(_two_Light_add_1(this.__ptr, /*parent*/a0.__ptr), Light);
+    return wrapPointer(_two_Light_add_1(this.__ptr, /*parent*/a0.__ptr), LightHandle);
 };
 Object.defineProperty(Light.prototype, "node", {
     get: function() {
-        return wrapPointer(_two_Light__get_node(this.__ptr), Node3);
+        return wrapPointer(_two_Light__get_node(this.__ptr), Node3Handle);
     },
     set: function(value) {
-        if (!checkClass(value, Node3)) throw Error('Light.node: expected Node3');
+        if (!checkClass(value, Node3Handle)) throw Error('Light.node: expected Node3Handle');
         _two_Light__set_node(this.__ptr, value.__ptr);
     }
 });
@@ -4462,148 +4604,6 @@ Object.defineProperty(Light.prototype, "shadow_bias", {
 });
 Light.prototype["__destroy"] = Light.prototype.__destroy = function() {
     _two_Light__destroy(this.__ptr);
-};
-// GnodeHandle
-function GnodeHandle() {
-    this.__ptr = _two_GnodeHandle__construct_0(); getCache(GnodeHandle)[this.__ptr] = this;
-};
-GnodeHandle.prototype = Object.create(WrapperObject.prototype);
-GnodeHandle.prototype.constructor = GnodeHandle;
-GnodeHandle.prototype.__class = GnodeHandle;
-GnodeHandle.__cache = {};
-Module['GnodeHandle'] = GnodeHandle;
-Object.defineProperty(GnodeHandle.prototype, "gnode", {
-    get: function() {
-        return wrapPointer(_two_GnodeHandle__get_gnode(this.__ptr), Gnode);
-    }});
-GnodeHandle.prototype["__destroy"] = GnodeHandle.prototype.__destroy = function() {
-    _two_GnodeHandle__destroy(this.__ptr);
-};
-// Node3Handle
-function Node3Handle() {
-    this.__ptr = _two_Node3Handle__construct_0(); getCache(Node3Handle)[this.__ptr] = this;
-};
-Node3Handle.prototype = Object.create(GnodeHandle.prototype);
-Node3Handle.prototype.constructor = Node3Handle;
-Node3Handle.prototype.__class = Node3Handle;
-Node3Handle.__base = GnodeHandle;
-Node3Handle.__cache = {};
-Module['Node3Handle'] = Node3Handle;
-Object.defineProperty(Node3Handle.prototype, "self", {
-    get: function() {
-        return wrapPointer(_two_Node3Handle__get_self(this.__ptr), Gnode);
-    }});
-Object.defineProperty(Node3Handle.prototype, "node", {
-    get: function() {
-        return wrapPointer(_two_Node3Handle__get_node(this.__ptr), Node3);
-    }});
-Node3Handle.prototype["__destroy"] = Node3Handle.prototype.__destroy = function() {
-    _two_Node3Handle__destroy(this.__ptr);
-};
-// ItemHandle
-function ItemHandle() {
-    this.__ptr = _two_ItemHandle__construct_0(); getCache(ItemHandle)[this.__ptr] = this;
-};
-ItemHandle.prototype = Object.create(GnodeHandle.prototype);
-ItemHandle.prototype.constructor = ItemHandle;
-ItemHandle.prototype.__class = ItemHandle;
-ItemHandle.__base = GnodeHandle;
-ItemHandle.__cache = {};
-Module['ItemHandle'] = ItemHandle;
-Object.defineProperty(ItemHandle.prototype, "self", {
-    get: function() {
-        return wrapPointer(_two_ItemHandle__get_self(this.__ptr), Gnode);
-    }});
-Object.defineProperty(ItemHandle.prototype, "item", {
-    get: function() {
-        return wrapPointer(_two_ItemHandle__get_item(this.__ptr), Item);
-    }});
-ItemHandle.prototype["__destroy"] = ItemHandle.prototype.__destroy = function() {
-    _two_ItemHandle__destroy(this.__ptr);
-};
-// BatchHandle
-function BatchHandle() {
-    this.__ptr = _two_BatchHandle__construct_0(); getCache(BatchHandle)[this.__ptr] = this;
-};
-BatchHandle.prototype = Object.create(GnodeHandle.prototype);
-BatchHandle.prototype.constructor = BatchHandle;
-BatchHandle.prototype.__class = BatchHandle;
-BatchHandle.__base = GnodeHandle;
-BatchHandle.__cache = {};
-Module['BatchHandle'] = BatchHandle;
-Object.defineProperty(BatchHandle.prototype, "self", {
-    get: function() {
-        return wrapPointer(_two_BatchHandle__get_self(this.__ptr), Gnode);
-    }});
-Object.defineProperty(BatchHandle.prototype, "batch", {
-    get: function() {
-        return wrapPointer(_two_BatchHandle__get_batch(this.__ptr), Batch);
-    }});
-BatchHandle.prototype["__destroy"] = BatchHandle.prototype.__destroy = function() {
-    _two_BatchHandle__destroy(this.__ptr);
-};
-// LightHandle
-function LightHandle() {
-    this.__ptr = _two_LightHandle__construct_0(); getCache(LightHandle)[this.__ptr] = this;
-};
-LightHandle.prototype = Object.create(GnodeHandle.prototype);
-LightHandle.prototype.constructor = LightHandle;
-LightHandle.prototype.__class = LightHandle;
-LightHandle.__base = GnodeHandle;
-LightHandle.__cache = {};
-Module['LightHandle'] = LightHandle;
-Object.defineProperty(LightHandle.prototype, "self", {
-    get: function() {
-        return wrapPointer(_two_LightHandle__get_self(this.__ptr), Gnode);
-    }});
-Object.defineProperty(LightHandle.prototype, "light", {
-    get: function() {
-        return wrapPointer(_two_LightHandle__get_light(this.__ptr), Light);
-    }});
-LightHandle.prototype["__destroy"] = LightHandle.prototype.__destroy = function() {
-    _two_LightHandle__destroy(this.__ptr);
-};
-// MimeHandle
-function MimeHandle() {
-    this.__ptr = _two_MimeHandle__construct_0(); getCache(MimeHandle)[this.__ptr] = this;
-};
-MimeHandle.prototype = Object.create(GnodeHandle.prototype);
-MimeHandle.prototype.constructor = MimeHandle;
-MimeHandle.prototype.__class = MimeHandle;
-MimeHandle.__base = GnodeHandle;
-MimeHandle.__cache = {};
-Module['MimeHandle'] = MimeHandle;
-Object.defineProperty(MimeHandle.prototype, "self", {
-    get: function() {
-        return wrapPointer(_two_MimeHandle__get_self(this.__ptr), Gnode);
-    }});
-Object.defineProperty(MimeHandle.prototype, "mime", {
-    get: function() {
-        return wrapPointer(_two_MimeHandle__get_mime(this.__ptr), Mime);
-    }});
-MimeHandle.prototype["__destroy"] = MimeHandle.prototype.__destroy = function() {
-    _two_MimeHandle__destroy(this.__ptr);
-};
-// FlareHandle
-function FlareHandle() {
-    this.__ptr = _two_FlareHandle__construct_0(); getCache(FlareHandle)[this.__ptr] = this;
-};
-FlareHandle.prototype = Object.create(GnodeHandle.prototype);
-FlareHandle.prototype.constructor = FlareHandle;
-FlareHandle.prototype.__class = FlareHandle;
-FlareHandle.__base = GnodeHandle;
-FlareHandle.__cache = {};
-Module['FlareHandle'] = FlareHandle;
-Object.defineProperty(FlareHandle.prototype, "self", {
-    get: function() {
-        return wrapPointer(_two_FlareHandle__get_self(this.__ptr), Gnode);
-    }});
-Object.defineProperty(FlareHandle.prototype, "flare", {
-    get: function() {
-        return wrapPointer(_two_FlareHandle__get_flare(this.__ptr), Flare);
-    }});
-FlareHandle.prototype["__destroy"] = FlareHandle.prototype.__destroy = function() {
-    _two_FlareHandle__destroy(this.__ptr);
 };
 // Gnode
 function Gnode() {
@@ -5479,10 +5479,6 @@ Object.defineProperty(Scene.prototype, "index", {
         _two_Scene__set_index(this.__ptr, value);
     }
 });
-Object.defineProperty(Scene.prototype, "root_node", {
-    get: function() {
-        return wrapPointer(_two_Scene__get_root_node(this.__ptr), Node3);
-    }});
 Object.defineProperty(Scene.prototype, "graph", {
     get: function() {
         return wrapPointer(_two_Scene__get_graph(this.__ptr), Gnode);
@@ -5656,6 +5652,10 @@ Module['gfx']['model'] = function(a0, a1, a2, a3) {
     else if (a3 === undefined) { return wrapPointer(_two_gfx_model_3(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*flags*/a2), ItemHandle); }
     else { return wrapPointer(_two_gfx_model_4(/*parent*/a0.__ptr, ensureString(/*name*/a1), /*flags*/a2, /*material*/a3.__ptr), ItemHandle); }
 };
+Module['gfx']['animate'] = function(a0, a1) {
+    if (!checkClass(a0, MimeHandle)) throw Error('animate(0:mime): expected MimeHandle'); if (!checkClass(a1, ItemHandle)) throw Error('animate(1:item): expected ItemHandle');
+    _two_gfx_animate_2(/*mime*/a0.__ptr, /*item*/a1.__ptr);
+};
 Module['gfx']['animated'] = function(a0, a1) {
     if (!checkClass(a0, Gnode)) throw Error('animated(0:parent): expected Gnode'); if (!checkClass(a1, ItemHandle)) throw Error('animated(1:item): expected ItemHandle');
     return wrapPointer(_two_gfx_animated_2(/*parent*/a0.__ptr, /*item*/a1.__ptr), MimeHandle);
@@ -5750,6 +5750,13 @@ Module['render_clear'] = function(a0, a1) {
 
 (function() {
     function setup() {
+        GnodeHandle.prototype.__type = _two_GnodeHandle__type();
+        Node3Handle.prototype.__type = _two_Node3Handle__type();
+        ItemHandle.prototype.__type = _two_ItemHandle__type();
+        BatchHandle.prototype.__type = _two_BatchHandle__type();
+        LightHandle.prototype.__type = _two_LightHandle__type();
+        MimeHandle.prototype.__type = _two_MimeHandle__type();
+        FlareHandle.prototype.__type = _two_FlareHandle__type();
         Node3.prototype.__type = _two_Node3__type();
         AnimTrack.prototype.__type = _two_AnimTrack__type();
         Animation.prototype.__type = _two_Animation__type();
@@ -5815,13 +5822,6 @@ Module['render_clear'] = function(a0, a1) {
         BlockCopy.prototype.__type = _two_BlockCopy__type();
         ClusteredFrustum.prototype.__type = _two_ClusteredFrustum__type();
         Light.prototype.__type = _two_Light__type();
-        GnodeHandle.prototype.__type = _two_GnodeHandle__type();
-        Node3Handle.prototype.__type = _two_Node3Handle__type();
-        ItemHandle.prototype.__type = _two_ItemHandle__type();
-        BatchHandle.prototype.__type = _two_BatchHandle__type();
-        LightHandle.prototype.__type = _two_LightHandle__type();
-        MimeHandle.prototype.__type = _two_MimeHandle__type();
-        FlareHandle.prototype.__type = _two_FlareHandle__type();
         Gnode.prototype.__type = _two_Gnode__type();
         Culler.prototype.__type = _two_Culler__type();
         Viewport.prototype.__type = _two_Viewport__type();

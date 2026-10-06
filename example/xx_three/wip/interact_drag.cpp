@@ -22,7 +22,7 @@ EX(xx_interact_drag)
 	controls.m_dynamicDampingFactor = 0.3f;
 #endif
 
-	static vector<Node3*> objects;
+	static vector<Node3Handle> objects;
 
 	if(init)
 	{
@@ -55,10 +55,10 @@ EX(xx_interact_drag)
 			vec3 s = vec3(randf(), randf(), randf()) * 2.f + 1.f;
 
 			Material& material = gfx::pbr_material(app.m_gfx, "drag" + to_string(i), rgb(randi<uint32_t>()));
-			Node3& n = Node3(p, quat(a), s).add(scene.m_graph);
+			Node3Handle n = Node3(p, quat(a), s).add(scene.m_graph);
 			Item(n, geometry, 0U, &material).add(scene.m_graph);
 
-			objects.push_back(&n);
+			objects.push_back(n);
 		}
 
 		//renderer.shadowMap.enabled = true;

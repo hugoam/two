@@ -158,8 +158,8 @@ EX(xx_effect)
 	ui::orbit_controls(viewer);
 #endif
 
-	static Node3* node = nullptr;
-	struct Node { vec3 p; quat r; vec3 s; Node3* node; };
+	static Node3Handle node;
+	struct Node { vec3 p; quat r; vec3 s; Node3Handle node; };
 	static vector<Node> nodes;
 
 	static RgbShift rgbshift;
@@ -196,8 +196,8 @@ EX(xx_effect)
 
 		scene.m_env.m_fog = { true, 1.f, rgb(0x000000), true, 1.f, 1000.f };
 
-		Node3& object = Node3().add(scene.m_graph);
-		node = &object;
+		Node3Handle object = Node3().add(scene.m_graph);
+		node = object;
 
 		Symbol symbol; symbol.m_subdiv = uvec2(4U);
 		Model& geometry = app.m_gfx.shape(Sphere(1.f), symbol);
@@ -217,13 +217,13 @@ EX(xx_effect)
 			const vec3 a = vec3(randf(), randf(), randf()) * 2.f;
 			const vec3 s = vec3(randf()) * 50.f;
 
-			Node3& n = Node3(p, quat(a), s).add(scene.m_graph);
+			Node3Handle n = Node3(p, quat(a), s).add(scene.m_graph);
 			Item(n, geometry, 0U, &material).add(scene.m_graph);
-			nodes.push_back({ p, quat(a), s, &n });
+			nodes.push_back({ p, quat(a), s, n });
 		}
 
-		Node3& ln = Node3(vec3(0.f), look_dir(vec3(-1.f))).add(scene.m_graph);
-		Light& l = Light(ln, LightType::Direct, false, rgb(0xffffff)).add(scene.m_graph);
+		Node3Handle ln = Node3(vec3(0.f), look_dir(vec3(-1.f))).add(scene.m_graph);
+		LightHandle l = Light(ln, LightType::Direct, false, rgb(0xffffff)).add(scene.m_graph);
 
 		app.m_gfx.set_renderer(Shading::Shaded, render);
 	}

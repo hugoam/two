@@ -5,6 +5,7 @@
 #pragma once
 
 #include <gfx/Forward.h>
+#include <gfx/Handles.h>
 
 namespace two
 {
@@ -28,12 +29,12 @@ namespace two
 	export_ class refl_ TWO_GFX_EXPORT Light
 	{
 	public:
-		constr_ Light(Node3& node, LightType type = LightType::Point, bool shadows = false, Colour colour = Colour::White, float energy = 1.f, float range = 1.f);
+		constr_ Light(Node3Handle node, LightType type = LightType::Point, bool shadows = false, Colour colour = Colour::White, float energy = 1.f, float range = 1.f);
 
 		// adds this light, moved into the object of a new child of a node of a graph
-		meth_ Light& add(Gnode parent);
+		meth_ LightHandle add(Gnode parent);
 
-		attr_ Node3* m_node = nullptr;
+		attr_ Node3Handle m_node;
 		attr_ LightType m_type = LightType::Point;
 		attr_ bool m_visible = true;
 		attr_ Colour m_colour = Colour::White;

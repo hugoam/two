@@ -47,8 +47,8 @@ EX(xx_lines_dashed)
 
 	static Program& program = app.m_gfx.programs().fetch("line");
 
-	static Node3* node0 = nullptr;
-	static Node3* node1 = nullptr;
+	static Node3Handle node0;
+	static Node3Handle node1;
 
 	if(init)
 	{
@@ -83,27 +83,27 @@ EX(xx_lines_dashed)
 		Material& mat0 = app.m_gfx.materials().create("line0");
 		dash_material(mat0, rgb(0xffffff), 1.f, 0.5f);
 
-		Node3& n0 = Node3().add(scene.m_graph);
+		Node3Handle n0 = Node3().add(scene.m_graph);
 		Item(n0, spline, 0U, &mat0).add(scene.m_graph);
 		//line.computeLineDistances();
-		node0 = &n0;
+		node0 = n0;
 
 		Model& cube = cube_model(app.m_gfx, 50.f);
 
 		Material& mat1 = app.m_gfx.materials().create("line1");
 		dash_material(mat1, rgb(0xffaa00), 3.f, 1.f);
 
-		Node3& n1 = Node3().add(scene.m_graph);
+		Node3Handle n1 = Node3().add(scene.m_graph);
 		Item(n1, cube, 0U, &mat1).add(scene.m_graph);
 		//lineSegments.computeLineDistances();
-		node1 = &n1;
+		node1 = n1;
 	}
 
 	const float time = app.m_gfx.m_time;
 
 	const vec3 angles = vec3(0.25f * time, 0.25f * time, 0.f);
 
-	for(Node3* node : { node0, node1 })
+	for(Node3Handle node : { node0, node1 })
 	{
 		node->apply(vec3(0.f), quat(angles));
 	}

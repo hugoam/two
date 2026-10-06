@@ -13,32 +13,33 @@ namespace two
 	Mime::Mime()
 	{}
 
-	Mime& Mime::add(Gnode parent)
+	MimeHandle Mime::add(Gnode parent)
 	{
-		return parent.suba().state<Mime>(move(*this));
+		Gnode self = parent.suba();
+		self.state<Mime>(move(*this));
+		return MimeHandle(self);
 	}
 
 	Mime::~Mime()
 	{}
 
-	void Mime::add_item(Item& item)
+	void Mime::add_rig(const Model& model)
 	{
-		m_rig = *item.m_model->m_rig;
-		item.m_rig = &m_rig;
+		m_rig = *model.m_rig;
 
+		m_node_targets.clear();
 		m_targets.clear();
 		for(Node3& bone : m_rig.m_skeleton.m_bones)
 			m_targets.push_back(&bone);
 		m_nodes.resize(m_rig.m_skeleton.m_bones.size());
 
-		m_anims = item.m_model->m_anims;
+		m_anims = model.m_anims;
 	}
 
-	void Mime::add_nodes(span<Node3*> nodes)
+	void Mime::add_nodes(span<Node3Handle> nodes)
 	{
 		m_targets.clear();
-		for(Node3* node : nodes)
-			m_targets.push_back(node);
+		m_node_targets.assign(nodes.begin(), nodes.end());
 		m_nodes.resize(nodes.size());
 	}
 
@@ -97,11 +98,12 @@ namespace two
 			node.m_transform = bxTRS(node.m_scale, node.m_rotation, node.m_position);
 		}
 
+		auto target = [&](size_t i) -> Node3& { return m_node_targets.empty() ? *m_targets[i] : *m_node_targets[i]; };
 		for(size_t i = 0; i < m_nodes.size(); ++i)
 		{
-			Node3& node = *m_targets[i];
+			Node3& node = target(i);
 			node.m_transform = node.m_parent != UINT32_MAX
-				? m_targets[node.m_parent]->m_transform * m_nodes[i].m_transform
+				? target(node.m_parent).m_transform * m_nodes[i].m_transform
 				: m_nodes[i].m_transform;
 		}
 

@@ -20,7 +20,7 @@ EX(xx_interact_geom)
 
 	static Program& pbr = *app.m_gfx.programs().file("pbr/pbr");
 
-	static Node3* node = nullptr;
+	static Node3Handle node;
 
 	if(init)
 	{
@@ -43,10 +43,10 @@ EX(xx_interact_geom)
 
 		//scene.add(new THREE.AmbientLight(0x444444));
 
-		Node3& l1 = Node3(vec3(0.f), facing(vec3(1.f, 1.f, 1.f))).add(scene.m_graph);
+		Node3Handle l1 = Node3(vec3(0.f), facing(vec3(1.f, 1.f, 1.f))).add(scene.m_graph);
 		Light(l1, LightType::Direct, false, rgb(0xffffff), 0.5f).add(scene.m_graph);
 
-		Node3& l2 = Node3(vec3(0.f), facing(vec3(0.f, -1.f, 0.f))).add(scene.m_graph);
+		Node3Handle l2 = Node3(vec3(0.f), facing(vec3(0.f, -1.f, 0.f))).add(scene.m_graph);
 		Light(l2, LightType::Direct, false, rgb(0xffffff), 1.5f).add(scene.m_graph);
 		
 		MeshPacker geometry;
@@ -80,9 +80,9 @@ EX(xx_interact_geom)
 
 		Model& model = app.m_gfx.create_model_geo("geometry", geometry);
 
-		Node3& n = Node3().add(scene.m_graph);
-		Item& it = Item(n, model, 0U, &material).add(scene.m_graph);
-		node = &n;
+		Node3Handle n = Node3().add(scene.m_graph);
+		ItemHandle it = Item(n, model, 0U, &material).add(scene.m_graph);
+		node = n;
 		UNUSED(it);
 
 		//raycaster = new THREE.Raycaster();
@@ -103,7 +103,7 @@ EX(xx_interact_geom)
 #if UI
 		if(MouseEvent event = viewer.self().mouse_event(DeviceType::Mouse, EventType::Moved))
 		{
-			//auto pick = [&](Item* item) { if(hovered) unhover(*hovered); hovered = item; if(hovered) hover(*hovered); };
+			//auto pick = [&](ItemHandle item) { if(hovered) unhover(*hovered); hovered = item; if(hovered) hover(*hovered); };
 			//viewer->picker(0).pick_point(viewer->m_viewport, event.m_relative, pick, ItemFlag::Selectable);
 		}
 #endif

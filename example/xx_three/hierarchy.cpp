@@ -20,8 +20,8 @@ EX(xx_hierarchy)
 
 	static Program& normal = app.m_gfx.programs().fetch("normal");
 
-	static Node3* group = nullptr;
-	struct Node { vec3 p; vec3 a; Node3* node; };
+	static Node3Handle group;
+	struct Node { vec3 p; vec3 a; Node3Handle node; };
 	static vector<Node> nodes;
 
 	if(init)
@@ -39,8 +39,8 @@ EX(xx_hierarchy)
 
 		Model& geometry = app.m_gfx.shape(Cube(50.f));
 
-		Node3& node = Node3().add(scene.m_graph);
-		group = &node;
+		Node3Handle node = Node3().add(scene.m_graph);
+		group = node;
 
 		nodes.clear();
 		for(size_t i = 0; i < 1000; i++)
@@ -48,9 +48,9 @@ EX(xx_hierarchy)
 			vec3 p = vec3(randf(), randf(), randf()) * 2000.f - 1000.f;
 			vec3 a = vec3(randf(), randf(), 0.f) * c_2pi;
 
-			Node3& n = Node3(p, quat(a)).add(scene.m_graph);
+			Node3Handle n = Node3(p, quat(a)).add(scene.m_graph);
 			Item(n, geometry, 0U, &material).add(scene.m_graph);
-			nodes.push_back({ p, a, &n });
+			nodes.push_back({ p, a, n });
 		}
 	}
 

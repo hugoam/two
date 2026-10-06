@@ -127,7 +127,7 @@ EX(xx_material_translucent)
 	static Phong phong;
 	static Subsurface thickness;
 
-	static Node3* node = nullptr;
+	static Node3Handle node;
 	static const vec3 scale = vec3(1.f);
 	//static const vec3 scale = vec3(0.01f);
 
@@ -144,15 +144,15 @@ EX(xx_material_translucent)
 
 		scene.m_env.m_radiance.m_ambient = rgb(0x888888);
 
-		Node3& dn = Node3(vec3(0.f), look_dir(normalize(vec3(0.f, -0.5f, -0.5f)))).add(scene.m_graph);
-		Light& dl = Light(dn, LightType::Direct, false, rgb(0xffffff), 0.03f).add(scene.m_graph);
+		Node3Handle dn = Node3(vec3(0.f), look_dir(normalize(vec3(0.f, -0.5f, -0.5f)))).add(scene.m_graph);
+		LightHandle dl = Light(dn, LightType::Direct, false, rgb(0xffffff), 0.03f).add(scene.m_graph);
 
-		Node3& pn0 = Node3(vec3(0.f, -50.f, 350.f)).add(scene.m_graph);
-		Light& pl0 = Light(pn0, LightType::Point, false, rgb(0x888888), 7.f, 300.f).add(scene.m_graph);
+		Node3Handle pn0 = Node3(vec3(0.f, -50.f, 350.f)).add(scene.m_graph);
+		LightHandle pl0 = Light(pn0, LightType::Point, false, rgb(0x888888), 7.f, 300.f).add(scene.m_graph);
 		Item(pn0, app.m_gfx.shape(Sphere(4.f)), 0U, &gfx::solid_material(app.m_gfx, "l0", rgb(0x888888))).add(scene.m_graph);
 
-		Node3& pn1 = Node3(vec3(-100.f, 20.f, -260.f)).add(scene.m_graph);
-		Light& pl1 = Light(pn1, LightType::Point, false, rgb(0x888800), 1.f, 500.f).add(scene.m_graph);
+		Node3Handle pn1 = Node3(vec3(-100.f, 20.f, -260.f)).add(scene.m_graph);
+		LightHandle pl1 = Light(pn1, LightType::Point, false, rgb(0x888800), 1.f, 500.f).add(scene.m_graph);
 		Item(pn1, app.m_gfx.shape(Sphere(4.f)), 0U, &gfx::solid_material(app.m_gfx, "l1", rgb(0x888800))).add(scene.m_graph);
 
 		Texture& white = *app.m_gfx.textures().file("white.jpg");
@@ -190,9 +190,9 @@ EX(xx_material_translucent)
 		Model& bunny = *app.m_gfx.models().file("bunny");
 		//Model& bunny = *app.m_gfx.models().file("stanford-bunny.fbx");
 
-		Node3& n = Node3(vec3(0.f, 0.f, 10.f), ZeroQuat, scale).add(scene.m_graph);
-		Item& it = Item(n, bunny, 0U, &material).add(scene.m_graph);
-		node = &n;
+		Node3Handle n = Node3(vec3(0.f, 0.f, 10.f), ZeroQuat, scale).add(scene.m_graph);
+		ItemHandle it = Item(n, bunny, 0U, &material).add(scene.m_graph);
+		node = n;
 	}
 
 #if UI

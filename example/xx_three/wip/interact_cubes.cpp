@@ -27,7 +27,7 @@ EX(xx_interact_cubes)
 
 		//scene.background = new THREE.Color(0xf0f0f0);
 
-		Light(scene.m_root_node, LightType::Direct, false).add(scene.m_graph);
+		Light(scene.m_graph.attach(), LightType::Direct, false).add(scene.m_graph);
 		//var light = new THREE.DirectionalLight(0xffffff, 1);
 		//light.position.set(1, 1, 1).normalize();
 		//scene.add(light);
@@ -45,8 +45,8 @@ EX(xx_interact_cubes)
 			const vec3 angles = vec3(randf(), randf(), randf()) * c_2pi;
 			const vec3 scale = vec3(randf(), randf(), randf()) + 0.5f;
 
-			Node3& n = Node3(pos, quat(angles), scale).add(scene.m_graph);
-			Item& it = Item(n, model, ItemFlag::Default | ItemFlag::Selectable, &material).add(scene.m_graph);
+			Node3Handle n = Node3(pos, quat(angles), scale).add(scene.m_graph);
+			ItemHandle it = Item(n, model, ItemFlag::Default | ItemFlag::Selectable, &material).add(scene.m_graph);
 			UNUSED(it);
 		}
 

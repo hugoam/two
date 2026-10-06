@@ -486,9 +486,9 @@ namespace two
 
 	void BlockLightmap::options(Render& render, const DrawElement& element, ProgramVersion& program) const
 	{
-		UNUSED(render); UNUSED(program);
+		UNUSED(program);
 
-		const Item& item = *element.m_item;
+		const Item& item = render.m_scene->store<Item>()[element.m_item];
 		const ModelElem& elem = *element.m_elem;
 		if(item.m_lightmaps.size() > 0)
 		{
@@ -509,14 +509,14 @@ namespace two
 
 	void BlockLightmap::submit(Render& render, const DrawElement& element, const Pass& pass) const
 	{
-		UNUSED(render);
+		const Item& item = render.m_scene->store<Item>()[element.m_item];
 
 		bgfx::Encoder& encoder = *pass.m_encoder;
 		auto& blockBase = GpuState<MaterialBase>::me;
 
-		if(element.m_item->m_lightmaps.size() > 0)
+		if(item.m_lightmaps.size() > 0)
 		{
-			LightmapItem& binding = *(LightmapItem*)element.m_item->m_lightmaps[element.m_elem->m_index];
+			LightmapItem& binding = *(LightmapItem*)item.m_lightmaps[element.m_elem->m_index];
 
 			encoder.setUniform(blockBase.u_uv1_scale_offset, &binding.m_uv_scale_offset);
 

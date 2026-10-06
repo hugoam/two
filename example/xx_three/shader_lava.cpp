@@ -189,7 +189,7 @@ EX(xx_shader_lava)
 	viewer.m_viewport.m_autorender = false;
 
 	static vec3 angles = vec3(0.3f, 0.f, 0.f);
-	static Node3* node = nullptr;
+	static Node3Handle node;
 	
 	static Program& program = app.m_gfx.programs().create("lava");
 	if(init)
@@ -224,8 +224,8 @@ EX(xx_shader_lava)
 
 		Model& model = app.m_gfx.shape(Torus(size, 0.3f));
 
-		node = &Node3(vec3(0.f), quat(angles)).add(scene.m_graph);
-		Item& it = Item(*node, model, 0U, &material).add(scene.m_graph);
+		node = Node3(vec3(0.f), quat(angles)).add(scene.m_graph);
+		ItemHandle it = Item(node, model, 0U, &material).add(scene.m_graph);
 
 		film_program(app.m_gfx);
 	}

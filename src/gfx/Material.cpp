@@ -553,12 +553,12 @@ namespace two
 		return version;
 	}
 
-	ProgramVersion Material::program(const Program& program, const Item& item, const ModelElem& elem) const
+	ProgramVersion Material::program(const Program& program, bool batched, const ModelElem& elem) const
 	{
 		ProgramVersion version = this->program(program);
 		
 		bool colours = (elem.m_mesh->m_vertex_format & VertexAttribute::Colour) != 0;
-		colours |= (item.m_batch != nullptr); // if instancing we assume we might have colors too
+		colours |= batched; // if instancing we assume we might have colors too
 
 		version.set_option(MaterialBase::s_block.m_index, VERTEX_COLOR, colours && m_base.m_shader_color == ShaderColor::Vertex);
 

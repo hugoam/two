@@ -31,9 +31,9 @@ EX(xx_cubemap_dynamic)
 
 	static Program& basic = app.m_gfx.programs().fetch("pbr/basic");
 
-	static Item* isphere = nullptr;
-	static Node3* cube = nullptr;
-	static Node3* torus = nullptr;
+	static ItemHandle isphere;
+	static Node3Handle cube;
+	static Node3Handle torus;
 
 	static unique<CubeCamera> cube0;
 	static unique<CubeCamera> cube1;
@@ -62,16 +62,16 @@ EX(xx_cubemap_dynamic)
 		});
 
 #if SPHERE
-		Node3& sphere = Node3().add(scene.m_graph);
-		//isphere = &Item(sphere, app.m_gfx.shape(Icosaedr(20.f))).add(scene.m_graph);
-		isphere = &Item(sphere, app.m_gfx.shape(Sphere(20.f)), 0U, &material).add(scene.m_graph);
+		Node3Handle sphere = Node3().add(scene.m_graph);
+		//isphere = Item(sphere, app.m_gfx.shape(Icosaedr(20.f))).add(scene.m_graph);
+		isphere = Item(sphere, app.m_gfx.shape(Sphere(20.f)), 0U, &material).add(scene.m_graph);
 #endif
 
-		cube = &Node3().add(scene.m_graph);
-		Item(*cube, app.m_gfx.shape(Cube(10.f)), 0U, &material).add(scene.m_graph);
+		cube = Node3().add(scene.m_graph);
+		Item(cube, app.m_gfx.shape(Cube(10.f)), 0U, &material).add(scene.m_graph);
 		
-		torus = &Node3().add(scene.m_graph);
-		Item(*torus, app.m_gfx.shape(TorusKnot(10.f, 5.f)), 0U, &material).add(scene.m_graph);
+		torus = Node3().add(scene.m_graph);
+		Item(torus, app.m_gfx.shape(TorusKnot(10.f, 5.f)), 0U, &material).add(scene.m_graph);
 	}
 
 	static vec2 presscoord = vec2(0.f);

@@ -113,13 +113,13 @@ EX(xx_perf_twosided)
 		env.m_radiance.m_filter = false;
 		env.m_radiance.m_ambient = rgb(0x050505);
 
-		Node3& l0 = Node3(vec3(4000.f, 0.f, 0.f)).add(scene.m_graph);
+		Node3Handle l0 = Node3(vec3(4000.f, 0.f, 0.f)).add(scene.m_graph);
 		Light(l0, LightType::Point, false, rgb(0x0011ff), 1.f, 5500.f).add(scene.m_graph);
 
-		Node3& l1 = Node3(vec3(-4000.f, 0.f, 0.f)).add(scene.m_graph);
+		Node3Handle l1 = Node3(vec3(-4000.f, 0.f, 0.f)).add(scene.m_graph);
 		Light(l1, LightType::Point, false, rgb(0xff1100), 1.f, 5500.f).add(scene.m_graph);
 
-		Node3& l2 = Node3(vec3(0.f)).add(scene.m_graph);
+		Node3Handle l2 = Node3(vec3(0.f)).add(scene.m_graph);
 		Light(l2, LightType::Point, false, rgb(0xffaa00), 2.f, 3000.f).add(scene.m_graph);
 		
 		Program& phong = *app.m_gfx.programs().file("pbr/phong");
@@ -155,7 +155,7 @@ EX(xx_perf_twosided)
 			vec3 s = vec3(randf()) * 50.f + 100.f;
 
 			constexpr uint32_t flags = 0U; // ItemFlag::Render | ItemFlag::NoCull | ItemFlag::LodAll;
-			Node3& n = Node3(p, quat(a), s).add(scene.m_graph);
+			Node3Handle n = Node3(p, quat(a), s).add(scene.m_graph);
 			Item(n, geometry, flags, &material).add(scene.m_graph);
 		}
 	}

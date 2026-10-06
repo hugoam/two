@@ -79,8 +79,8 @@ EX(xx_geom_instances)
 	struct Instance { vec3 offset; float pad = 0.f; Colour colour; vec4 rotation0; vec4 rotation1; };
 	static vector<Instance> instances(num_instances);
 
-	static Node3* node = nullptr;
-	static Batch* batch = nullptr;
+	static Node3Handle node;
+	static BatchHandle batch;
 
 	if(init)
 	{
@@ -118,12 +118,12 @@ EX(xx_geom_instances)
 
 		//geometry.maxInstancedCount = instances; // set so its initalized for dat.GUI, will be set in first draw otherwise
 		
-		Node3& n = Node3().add(scene.m_graph);
-		Item& it = Item(n, model, ItemFlag::Default | ItemFlag::NoCull, &material).add(scene.m_graph);
-		node = &n;
+		Node3Handle n = Node3().add(scene.m_graph);
+		ItemHandle it = Item(n, model, ItemFlag::Default | ItemFlag::NoCull, &material).add(scene.m_graph);
+		node = n;
 
-		batch = &Batch(it, sizeof(Instance)).add(scene.m_graph);
-		it.m_batch = batch;
+		batch = Batch(it, sizeof(Instance)).add(scene.m_graph);
+		it->m_batch = batch;
 
 		batch->cache({ (float*)instances.data(), instances.size() * sizeof(Instance) / sizeof(float) });
 	}

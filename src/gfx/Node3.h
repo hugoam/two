@@ -5,6 +5,7 @@
 #pragma once
 
 #include <gfx/Forward.h>
+#include <gfx/Handles.h>
 
 namespace two
 {
@@ -48,7 +49,7 @@ namespace two
 		meth_ void derive(const Node3& parent, const vec3& position, const quat& rotation = ZeroQuat, const vec3& scale = vec3(1.f));
 
 		// adds this node, moved into the object of a new child of a node of a graph: the nodes declared under it are attached to it
-		meth_ Node3& add(Gnode parent);
+		meth_ Node3Handle add(Gnode parent);
 
 		meth_ vec3 position() const;
 		meth_ vec3 axis(const vec3& dir) const;

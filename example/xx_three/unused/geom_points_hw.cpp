@@ -20,7 +20,7 @@ EX(xx_geom_points_hw)
 
 	static Program& program = app.m_gfx.programs().fetch("solid");
 
-	static Node3* node = nullptr;
+	static Node3Handle node;
 
 	if(init)
 	{
@@ -54,10 +54,10 @@ EX(xx_geom_points_hw)
 
 		Model& model = app.m_gfx.create_model_geo("points", geometry);
 
-		Node3& n = Node3().add(scene.m_graph);
-		Item& it = Item(n, model, 0U, &material).add(scene.m_graph);
+		Node3Handle n = Node3().add(scene.m_graph);
+		ItemHandle it = Item(n, model, 0U, &material).add(scene.m_graph);
 		UNUSED(it);
-		node = &n;
+		node = n;
 	}
 
 	const float time = app.m_gfx.m_time / 2.f;

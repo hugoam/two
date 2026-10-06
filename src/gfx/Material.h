@@ -385,7 +385,7 @@ namespace two
 
 		void state(uint64_t& bgfx_state) const;
 		ProgramVersion program(const Program& program) const;
-		ProgramVersion program(const Program& program, const Item& item, const ModelElem& elem) const;
+		ProgramVersion program(const Program& program, bool batched, const ModelElem& elem) const;
 
 		void submit(const Program& program, bgfx::Encoder& encoder, uint64_t& bgfx_state, const Skin* skin = nullptr) const;
 

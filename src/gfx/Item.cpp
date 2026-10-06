@@ -19,8 +19,8 @@ namespace two
 	}
 
 	Item::Item() {}
-	Item::Item(Node3& node, const Model& model, uint32_t flags, Material* material)
-		: m_node(&node)
+	Item::Item(Node3Handle node, const Model& model, uint32_t flags, Material* material)
+		: m_node(node)
 		, m_model(const_cast<Model*>(&model))
 		, m_flags(item_flags(flags))
 		, m_material(material)
@@ -28,26 +28,29 @@ namespace two
 		this->update_aabb();
 	}
 
-	Item& Item::add(Gnode parent)
+	ItemHandle Item::add(Gnode parent)
 	{
-		return parent.suba().state<Item>(move(*this));
+		Gnode self = parent.suba();
+		self.state<Item>(move(*this));
+		return ItemHandle(self);
 	}
 
 	void Item::update_aabb()
 	{
-		if(m_batch == nullptr)
+		if(!m_batch)
 			m_aabb = transform_aabb(m_model->m_aabb, m_node->m_transform);
 	}
 
 	void Item::submit(bgfx::Encoder& encoder, uint64_t& bgfx_state, const ModelElem& item) const
 	{
-		if(m_rig && m_rig->m_weights.size() > 0)
+		Rig* rig = m_mime ? &m_mime->m_rig : nullptr;
+		if(rig && rig->m_weights.size() > 0)
 		{
 			float weights[4] = {};
 
 			for(size_t i = 0; i < 4; ++i)
 			{
-				Rig::MorphWeight& w = m_rig->m_weights[i];
+				Rig::MorphWeight& w = rig->m_weights[i];
 				weights[i] = w.weight;
 				if(w.weight != 0.f)
 					item.m_mesh->submit_morph(encoder, i, w.index);
@@ -67,7 +70,7 @@ namespace two
 			encoder.setTransform(value_ptr(transform));
 		}
 
-		if(m_batch != nullptr)
+		if(m_batch)
 			m_batch->submit(encoder, item);
 	}
 
@@ -75,15 +78,17 @@ namespace two
 		: m_buffer{}
 	{}
 
-	Batch::Batch(Item& item, uint16_t stride)
-		: m_item(&item)
+	Batch::Batch(ItemHandle item, uint16_t stride)
+		: m_item(item)
 		, m_stride(stride)
 		, m_buffer{}
 	{}
 
-	Batch& Batch::add(Gnode parent)
+	BatchHandle Batch::add(Gnode parent)
 	{
-		return parent.suba().state<Batch>(move(*this));
+		Gnode self = parent.suba();
+		self.state<Batch>(move(*this));
+		return BatchHandle(self);
 	}
 
 	void Batch::submit(bgfx::Encoder& encoder, const ModelElem& item) // const

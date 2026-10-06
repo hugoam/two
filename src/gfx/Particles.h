@@ -5,6 +5,7 @@
 #pragma once
 
 #include <gfx/Forward.h>
+#include <gfx/Handles.h>
 #include <gfx/Material.h>
 #include <gfx/Renderer.h>
 
@@ -97,9 +98,9 @@ namespace two
 	export_ struct refl_ TWO_GFX_EXPORT Flare : public Flow
 	{
 	public:
-		Flare(Node3* node = nullptr, ShapeVar shape = {}, uint32_t max_particles = 1024);
+		Flare(Node3Handle node = nullptr, ShapeVar shape = {}, uint32_t max_particles = 1024);
 
-		attr_ Node3* m_node = nullptr;
+		attr_ Node3Handle m_node;
 
 		bool ended() { return m_time > m_duration; }
 

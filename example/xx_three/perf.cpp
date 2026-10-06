@@ -20,7 +20,7 @@ EX(xx_perf)
 
 	//scene.background = new THREE.Color(0xffffff);
 
-	struct Object { Node3* node; vec3 position; vec3 angles; vec3 scale; };
+	struct Object { Node3Handle node; vec3 position; vec3 angles; vec3 scale; };
 	static vector<Object> objects = {};
 
 	if(init)
@@ -45,11 +45,11 @@ EX(xx_perf)
 			vec3 angles = vec3(randf() * c_2pi, randf() * c_2pi, 0.f);
 			vec3 scale = vec3(randf() * 50 + 100);
 
-			Node3& n = Node3(position, quat(angles), scale).add(scene.m_graph);
-			Item& it = Item(n, suzanne, 0U, &material).add(scene.m_graph);
+			Node3Handle n = Node3(position, quat(angles), scale).add(scene.m_graph);
+			ItemHandle it = Item(n, suzanne, 0U, &material).add(scene.m_graph);
 			UNUSED(it);
 
-			objects.push_back({ &n, position, angles, scale });
+			objects.push_back({ n, position, angles, scale });
 		}
 	}
 

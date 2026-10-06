@@ -10,6 +10,48 @@ Module['BlockLight'] = BlockLight;
 BlockLight.prototype["__destroy"] = BlockLight.prototype.__destroy = function() {
     _two_BlockLight__destroy(this.__ptr);
 };
+// GIProbeHandle
+function GIProbeHandle() {
+    this.__ptr = _two_GIProbeHandle__construct_0(); getCache(GIProbeHandle)[this.__ptr] = this;
+};
+GIProbeHandle.prototype = Object.create(GnodeHandle.prototype);
+GIProbeHandle.prototype.constructor = GIProbeHandle;
+GIProbeHandle.prototype.__class = GIProbeHandle;
+GIProbeHandle.__base = GnodeHandle;
+GIProbeHandle.__cache = {};
+Module['GIProbeHandle'] = GIProbeHandle;
+Object.defineProperty(GIProbeHandle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_GIProbeHandle__get_self(this.__ptr), Gnode);
+    }});
+Object.defineProperty(GIProbeHandle.prototype, "probe", {
+    get: function() {
+        return wrapPointer(_two_GIProbeHandle__get_probe(this.__ptr), GIProbe);
+    }});
+GIProbeHandle.prototype["__destroy"] = GIProbeHandle.prototype.__destroy = function() {
+    _two_GIProbeHandle__destroy(this.__ptr);
+};
+// LightmapAtlasHandle
+function LightmapAtlasHandle() {
+    this.__ptr = _two_LightmapAtlasHandle__construct_0(); getCache(LightmapAtlasHandle)[this.__ptr] = this;
+};
+LightmapAtlasHandle.prototype = Object.create(GnodeHandle.prototype);
+LightmapAtlasHandle.prototype.constructor = LightmapAtlasHandle;
+LightmapAtlasHandle.prototype.__class = LightmapAtlasHandle;
+LightmapAtlasHandle.__base = GnodeHandle;
+LightmapAtlasHandle.__cache = {};
+Module['LightmapAtlasHandle'] = LightmapAtlasHandle;
+Object.defineProperty(LightmapAtlasHandle.prototype, "self", {
+    get: function() {
+        return wrapPointer(_two_LightmapAtlasHandle__get_self(this.__ptr), Gnode);
+    }});
+Object.defineProperty(LightmapAtlasHandle.prototype, "atlas", {
+    get: function() {
+        return wrapPointer(_two_LightmapAtlasHandle__get_atlas(this.__ptr), LightmapAtlas);
+    }});
+LightmapAtlasHandle.prototype["__destroy"] = LightmapAtlasHandle.prototype.__destroy = function() {
+    _two_LightmapAtlasHandle__destroy(this.__ptr);
+};
 // LightmapItem
 function LightmapItem() { throw "cannot construct a LightmapItem, no constructor in IDL" }
 LightmapItem.prototype = Object.create(WrapperObject.prototype);
@@ -162,8 +204,13 @@ ReflectionProbe.__cache = {};
 Module['ReflectionProbe'] = ReflectionProbe;
 Object.defineProperty(ReflectionProbe.prototype, "node", {
     get: function() {
-        return wrapPointer(_two_ReflectionProbe__get_node(this.__ptr), Node3);
-    }});
+        return wrapPointer(_two_ReflectionProbe__get_node(this.__ptr), Node3Handle);
+    },
+    set: function(value) {
+        if (!checkClass(value, Node3Handle)) throw Error('ReflectionProbe.node: expected Node3Handle');
+        _two_ReflectionProbe__set_node(this.__ptr, value.__ptr);
+    }
+});
 Object.defineProperty(ReflectionProbe.prototype, "visible", {
     get: function() {
         return !!(_two_ReflectionProbe__get_visible(this.__ptr));
@@ -270,48 +317,6 @@ BlockShadow.__cache = {};
 Module['BlockShadow'] = BlockShadow;
 BlockShadow.prototype["__destroy"] = BlockShadow.prototype.__destroy = function() {
     _two_BlockShadow__destroy(this.__ptr);
-};
-// GIProbeHandle
-function GIProbeHandle() {
-    this.__ptr = _two_GIProbeHandle__construct_0(); getCache(GIProbeHandle)[this.__ptr] = this;
-};
-GIProbeHandle.prototype = Object.create(GnodeHandle.prototype);
-GIProbeHandle.prototype.constructor = GIProbeHandle;
-GIProbeHandle.prototype.__class = GIProbeHandle;
-GIProbeHandle.__base = GnodeHandle;
-GIProbeHandle.__cache = {};
-Module['GIProbeHandle'] = GIProbeHandle;
-Object.defineProperty(GIProbeHandle.prototype, "self", {
-    get: function() {
-        return wrapPointer(_two_GIProbeHandle__get_self(this.__ptr), Gnode);
-    }});
-Object.defineProperty(GIProbeHandle.prototype, "probe", {
-    get: function() {
-        return wrapPointer(_two_GIProbeHandle__get_probe(this.__ptr), GIProbe);
-    }});
-GIProbeHandle.prototype["__destroy"] = GIProbeHandle.prototype.__destroy = function() {
-    _two_GIProbeHandle__destroy(this.__ptr);
-};
-// LightmapAtlasHandle
-function LightmapAtlasHandle() {
-    this.__ptr = _two_LightmapAtlasHandle__construct_0(); getCache(LightmapAtlasHandle)[this.__ptr] = this;
-};
-LightmapAtlasHandle.prototype = Object.create(GnodeHandle.prototype);
-LightmapAtlasHandle.prototype.constructor = LightmapAtlasHandle;
-LightmapAtlasHandle.prototype.__class = LightmapAtlasHandle;
-LightmapAtlasHandle.__base = GnodeHandle;
-LightmapAtlasHandle.__cache = {};
-Module['LightmapAtlasHandle'] = LightmapAtlasHandle;
-Object.defineProperty(LightmapAtlasHandle.prototype, "self", {
-    get: function() {
-        return wrapPointer(_two_LightmapAtlasHandle__get_self(this.__ptr), Gnode);
-    }});
-Object.defineProperty(LightmapAtlasHandle.prototype, "atlas", {
-    get: function() {
-        return wrapPointer(_two_LightmapAtlasHandle__get_atlas(this.__ptr), LightmapAtlas);
-    }});
-LightmapAtlasHandle.prototype["__destroy"] = LightmapAtlasHandle.prototype.__destroy = function() {
-    _two_LightmapAtlasHandle__destroy(this.__ptr);
 };
 // GIProbe
 function GIProbe() { throw "cannot construct a GIProbe, no constructor in IDL" }
@@ -771,6 +776,8 @@ Module['pass_tonemap'] = function(a0, a1, a2, a3) {
 (function() {
     function setup() {
         BlockLight.prototype.__type = _two_BlockLight__type();
+        GIProbeHandle.prototype.__type = _two_GIProbeHandle__type();
+        LightmapAtlasHandle.prototype.__type = _two_LightmapAtlasHandle__type();
         LightmapItem.prototype.__type = _two_LightmapItem__type();
         Lightmap.prototype.__type = _two_Lightmap__type();
         LightmapAtlas.prototype.__type = _two_LightmapAtlas__type();
@@ -786,8 +793,6 @@ Module['pass_tonemap'] = function(a0, a1, a2, a3) {
         CSMSlice.prototype.__type = _two_CSMSlice__type();
         CSMShadow.prototype.__type = _two_CSMShadow__type();
         BlockShadow.prototype.__type = _two_BlockShadow__type();
-        GIProbeHandle.prototype.__type = _two_GIProbeHandle__type();
-        LightmapAtlasHandle.prototype.__type = _two_LightmapAtlasHandle__type();
         GIProbe.prototype.__type = _two_GIProbe__type();
         BlockGITrace.prototype.__type = _two_BlockGITrace__type();
         BlockGIBake.prototype.__type = _two_BlockGIBake__type();

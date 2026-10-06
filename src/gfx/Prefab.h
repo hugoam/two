@@ -47,10 +47,10 @@ namespace two
 #endif
 
 		// adds copies of the nodes and the items of the prefab, as the objects of new children of a node of a graph, the nodes animated by the mime if given
-		meth_ void add(Gnode parent, Mime* mime = nullptr);
+		meth_ void add(Gnode parent, MimeHandle mime = nullptr);
 
 		vector<Node3> m_nodes;
-		struct Elem { uint32_t node; Item item; };
+		struct Elem { uint32_t node; Model* model; uint32_t flags; };
 		vector<Elem> m_items;
 
 		Aabb m_aabb;

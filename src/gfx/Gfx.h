@@ -35,6 +35,8 @@ namespace gfx
 	export_ TWO_GFX_EXPORT func_ BatchHandle instances(Gnode parent, ItemHandle item, span<mat4> transforms = {});
 	export_ TWO_GFX_EXPORT func_ void prefab(Gnode parent, const Prefab& prefab, bool transform = true, uint32_t flags = 0, Material* material = nullptr);
 	export_ TWO_GFX_EXPORT func_ ItemHandle model(Gnode parent, const string& name, uint32_t flags = 0, Material* material = nullptr);
+	// the mime animates the rig of the model of the item
+	export_ TWO_GFX_EXPORT func_ void animate(MimeHandle mime, ItemHandle item);
 	export_ TWO_GFX_EXPORT func_ MimeHandle animated(Gnode parent, ItemHandle item);
 	export_ TWO_GFX_EXPORT func_ FlareHandle flows(Gnode parent, const Flow& emitter, uint32_t flags = 0);
 	export_ TWO_GFX_EXPORT func_ LightHandle light(Gnode parent, LightType type, bool shadows, Colour colour, float range = 0.f, float attenuation = 0.5f);

@@ -20,7 +20,7 @@ EX(xx_refraction_mesh)
 
 	static ImporterPLY ply_importer(app.m_gfx);
 
-	static Node3* light = nullptr;
+	static Node3Handle light;
 
 	if(init)
 	{
@@ -40,10 +40,10 @@ EX(xx_refraction_mesh)
 
 		Model& sphere = app.m_gfx.shape(Sphere(100.f * 0.05f));
 
-		Node3& ln = Node3().add(scene.m_graph);
+		Node3Handle ln = Node3().add(scene.m_graph);
 		Light(ln, LightType::Point, false, rgb(0xffffff), 2.f, 0.f).add(scene.m_graph);
 		Item(ln, sphere, 0U, &gfx::solid_material(app.m_gfx, "light", rgb(0xffffff))).add(scene.m_graph);
-		light = &ln;
+		light = ln;
 
 		// material samples
 
@@ -68,13 +68,13 @@ EX(xx_refraction_mesh)
 
 		const float s = 1.5f;
 
-		Node3& n0 = Node3(vec3(0.f, 0.f, 0.f), ZeroQuat, vec3(s)).add(scene.m_graph);
+		Node3Handle n0 = Node3(vec3(0.f, 0.f, 0.f), ZeroQuat, vec3(s)).add(scene.m_graph);
 		Item(n0, model, 0U, &m1).add(scene.m_graph);
 
-		Node3& n1 = Node3(vec3(-1500.f, 0.f, 0.f), ZeroQuat, vec3(s)).add(scene.m_graph);
+		Node3Handle n1 = Node3(vec3(-1500.f, 0.f, 0.f), ZeroQuat, vec3(s)).add(scene.m_graph);
 		Item(n1, model, 0U, &m2).add(scene.m_graph);
 
-		Node3& n2 = Node3(vec3(1500.f, 0.f, 0.f), ZeroQuat, vec3(s)).add(scene.m_graph);
+		Node3Handle n2 = Node3(vec3(1500.f, 0.f, 0.f), ZeroQuat, vec3(s)).add(scene.m_graph);
 		Item(n2, model, 0U, &m3).add(scene.m_graph);
 	}
 

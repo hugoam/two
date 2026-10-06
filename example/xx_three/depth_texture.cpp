@@ -108,7 +108,7 @@ EX(xx_depth_texture)
 
 			const vec3 p = vec3(cos(r) * distscale, sin(r) * distscale, z * scale);
 			const vec3 a = vec3(randf(), randf(), randf());
-			Node3& n = Node3(p, quat(a)).add(scene.m_graph);
+			Node3Handle n = Node3(p, quat(a)).add(scene.m_graph);
 			Item(n, geometry, 0U, &material).add(scene.m_graph);
 		}
 	}

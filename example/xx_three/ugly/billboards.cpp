@@ -31,7 +31,7 @@ EX(xx_billboards)
 	constexpr size_t num = 10000;
 	//constexpr size_t num = 1;
 
-	static Batch* batch = nullptr;
+	static BatchHandle batch;
 	static Material* material = nullptr;
 
 	struct Instance { vec3 pos; float pad0; vec2 scale; float pad1; float pad2; };
@@ -60,11 +60,11 @@ EX(xx_billboards)
 			instances[i] = { pos, 0.f, scale, 0.f, 0.f };
 		}
 
-		Node3& n = Node3().add(scene.m_graph);
-		Item& it = Item(n, model, 0U, &mat).add(scene.m_graph);
+		Node3Handle n = Node3().add(scene.m_graph);
+		ItemHandle it = Item(n, model, 0U, &mat).add(scene.m_graph);
 
-		batch = &Batch(it, sizeof(Instance)).add(scene.m_graph);
-		it.m_batch = batch;
+		batch = Batch(it, sizeof(Instance)).add(scene.m_graph);
+		it->m_batch = batch;
 	}
 
 	//ui::slider_field(key(), viewer.self(), "sizeAttenuation", { material.sizeAttenuation, { 0.f, 1000.f, 1.f } })

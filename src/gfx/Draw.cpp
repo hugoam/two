@@ -188,8 +188,8 @@ namespace two
 	Direct::Direct()
 	{}
 
-	Direct::Direct(Item& item)
-		: m_item(&item)
+	Direct::Direct(ItemHandle item)
+		: m_item(item)
 		//, m_mesh("direct" + to_string(s_direct_index++))
 		//, m_model("direct" + to_string(s_direct_index++))
 	{}

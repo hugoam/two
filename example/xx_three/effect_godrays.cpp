@@ -362,7 +362,7 @@ EX(xx_effect_godrays)
 
 	static Godrays godrays = {};
 
-	static Node3* node = nullptr;
+	static Node3Handle node;
 
 	if(init)
 	{
@@ -399,13 +399,13 @@ EX(xx_effect_godrays)
 		Model& model = *app.m_gfx.models().file("tree"); // tree.obj
 		model.m_items[0].m_material = &material;
 
-		Node3& ntree = Node3(vec3(0.f, -150.f, -150.f), ZeroQuat, vec3(400.f)).add(scene.m_graph);
+		Node3Handle ntree = Node3(vec3(0.f, -150.f, -150.f), ZeroQuat, vec3(400.f)).add(scene.m_graph);
 		Item(ntree, model, 0U, &material).add(scene.m_graph);
 
 		Model& sphere = app.m_gfx.shape(Sphere(1.f));
-		Node3& nsphere = Node3(vec3(0.f), ZeroQuat, vec3(20.f)).add(scene.m_graph);
+		Node3Handle nsphere = Node3(vec3(0.f), ZeroQuat, vec3(20.f)).add(scene.m_graph);
 		Item(nsphere, sphere, 0U, &material).add(scene.m_graph);
-		node = &nsphere;
+		node = nsphere;
 
 		viewer->m_viewport.m_clear_colour = godrays.m_bg_colour;
 
